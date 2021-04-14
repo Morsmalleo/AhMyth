@@ -8,9 +8,13 @@
 3. ```npm install && npm audit fix```
 4. ```npm start```
 
-#### 2) Run the setup file in side the AhMyth-Server folder (RECOMENDED)
-1. ```cd AhMyth-Server```
+#### 2) Run the setup file inside the AhMyth-Server folder (RECOMENDED)
+The `setup.sh` file located inside `AhMyth-Android-RAT/AhMyth-Server` also 
+installs the correct openJDK version needed for AhMyth to work properly
+1. ```cd AhMyth-Android-RAT/AhMyth-Server```
 2. ```sudo ./setup.sh```
+3. ```update3-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
+4. ```npm start```
 
 ## Screenshots
 <p align="center">
