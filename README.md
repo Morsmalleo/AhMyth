@@ -9,7 +9,7 @@
 4. ```npm start```
 
 #### 2) Run the setup file inside the AhMyth-Server folder (RECOMENDED FOR KALI USERS)
-The `setup.sh` file located inside `AhMyth-Android-RAT/AhMyth-Server` also 
+The `setup.sh` file located inside `AhMyth/AhMyth-Server` also 
 installs the correct openJDK version needed for AhMyth to work properly
 1. ```cd AhMyth-Android-RAT/AhMyth-Server```
 2. ```chmod +x setup.sh```
