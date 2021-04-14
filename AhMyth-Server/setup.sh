@@ -10,22 +10,10 @@ sudo apt-get install npm nodejs
 sleep 1
 
 echo ""
-echo " |-------------------------------------------------------------------------------------------------------| "
-echo " | NOTE: OpenJDK 8 is required for AhMyth to work properly, it will be installed at the end of the setup | "
-echo " |-------------------------------------------------------------------------------------------------------| "
+echo " |----------------------------------------------------------------------------| "
+echo " | NOTE: OpenJDK 8 is required for AhMyth to work properly, installing it now | "
+echo " |----------------------------------------------------------------------------| "
 sleep 5
-
-echo " |-------------------------------| "
-echo " | Installing AhMyth-Android-RAT | "
-echo " |-------------------------------| "
-npm install 
-npm audit fix
-sleep 1
-
-echo " |---------------------------| "
-echo " | AhMyth has Been installed | "
-echo " |---------------------------| "
-sleep 1
 
 cp /etc/apt/sources.list /etc/apt/sources.list.backup # backup
 # Second backup created in case user stops the script after this point , then on next startup this script will
@@ -47,9 +35,25 @@ xterm -T " Reactivating your original repositories " -geometry 100x30 -e "rm -f 
 xterm -T " Removing emergency backup securly " -geometry 100x30 -e "rm -f /etc/apt/sources.list.stretch && rm -f /etc/apt/sources.list.backup"
 apt-get clean
 xterm -T " Updating Your Repo " -geometry 100x30 -e "apt-get update"
+sleep 1
+
 echo " |------------------------------| "
 echo " | openJDK 8 has Been installed | "
 echo " |------------------------------| "
+sleep 2
+
+echo " |-------------------------------| "
+echo " | Installing AhMyth-Android-RAT | "
+echo " |-------------------------------| "
+npm install 
+npm audit fix
+sleep 1
+
+echo " |---------------------------| "
+echo " | AhMyth has Been installed | "
+echo " |---------------------------| "
+sleep 1
+
 echo " |-------------------------------------------| "
 echo " | You may now run 'npm start' to run AhMyth | "
 echo " |-------------------------------------------| "
