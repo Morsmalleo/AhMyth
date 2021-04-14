@@ -12,9 +12,10 @@
 The `setup.sh` file located inside `AhMyth-Android-RAT/AhMyth-Server` also 
 installs the correct openJDK version needed for AhMyth to work properly
 1. ```cd AhMyth-Android-RAT/AhMyth-Server```
-2. ```sudo ./setup.sh```
-3. ```update-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
-4. ```npm start```
+2. ```chmod +x setup.sh'''
+3. ```sudo ./setup.sh```
+4. ```update-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
+5. ```npm start```
 
 ## Screenshots
 <p align="center">
