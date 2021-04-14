@@ -3,7 +3,7 @@
 ## Getting Started
 ### You have two options to install it
 #### 1) Git Clone the Repository and follow the instructions
-1. ```git clone https://github.com/AhMyth/AhMyth-Android-RAT.git```
+1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth-Android-RAT/AhMyth-Server```
 3. ```npm install && npm audit fix```
 4. ```npm start```
