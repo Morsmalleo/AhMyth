@@ -12,7 +12,7 @@ If your main software repo list is indeed locted inside `/etc/apt/sources.list.d
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```chmod +x AhMyth.sh```
-#### Edit line 50 of the `AhMtyh.sh` file where it reads `su -c "npm install && npm audit fix" kali` and replace where it `kali` with your linux's username
+#### Edit line 50 of the `AhMtyh.sh` file where it reads `su -c "npm install && npm audit fix" kali` and replace where it reads `kali` with your linux's username
 4. ```sudo ./AhMyth.sh```
 #### Once the installer file has finished, use update-alternatives to select and use openJDK 8
 5. ```update-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
