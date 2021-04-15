@@ -24,10 +24,10 @@ If your main software repo list is indeed locted inside `/etc/apt/sources.list.d
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-4. ```wget http://security.debian.org/debian-security/pool/updates/main/o/openjdk-8/openjdk-8-jdk_8u275-b01-1~deb9u1_amd64.deb```
-5. ```sudo dpkg -i openjdk-8-jdk_8u275-b01-1~deb9u1_amd64.deb```
+#### Install openjdk-8-jdk from the .deb file
+4. ```sudo dpkg -i openjdk-8-jdk.deb```
 #### Use update-alternatives to select and use openJDK 8
-6. ```update-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
-7. ```npm start```
+5. ```update-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
+6. ```npm start```
 --------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
