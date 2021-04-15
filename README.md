@@ -1,7 +1,7 @@
 # AhMyth Android Rat
---------------------
+----------------------
 ## Getting Started
---------------------
+----------------------
 #### Important information - PLEASE READ
 -----------------------------------------
 The `AhMyth.sh` file was written in the sense that the users main software repo list is located inside `/etc/apt/sources.list` and not at `/etc/apt/sources.list.d/sources.list`. 
