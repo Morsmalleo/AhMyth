@@ -2,7 +2,7 @@
 
 ## Getting Started
 ### You can install this two ways
-#### 1) Run the AhMyth installer shell script (`AhMyth.sh`) located inside `AhMyth/AhMyth-Server`
+#### 1. Run the AhMyth installer shell script (`AhMyth.sh`) located inside `AhMyth/AhMyth-Server`
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```chmod +x AhMyth.sh```
@@ -12,7 +12,7 @@
 #### Now you can run AhMyth
 6. ```npm start```
 
-#### 2) install it manually
+#### 2. install it manually
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
@@ -50,24 +50,5 @@ xterm -T " Removing emergency backup securly " -geometry 100x30 -e "rm -f /etc/a
 apt-get clean
 xterm -T " Updating Your Original Repositories " -geometry 100x30 -e "apt-get update"
 sleep 2`
-
-## Screenshots
-<p align="center">
-  <img src="http://i.imgur.com/HM3uXL6.png" width="600"/>
-</p>
-
----------------------------------------------------------------
-
-<p align="center">
-  <img src="http://i.imgur.com/nHTGGHi.png" width="600"/>
-</p>
-
----------------------------------------------------------------
-
-<p align="center">
-  <img src="http://i.imgur.com/XVXCHV9.png" width="600"/>
-</p>
-
-
----------------------------------------------------------------
+--------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
