@@ -3,10 +3,10 @@
 ## Getting Started
 ### You can install AhMyth in two ways
 
-#### 1. Run the `AhMyth.sh` file located inside `AhMyth/AhMyth-Server` to install AhMyth completely
+#### Important information - PLEASE READ
 
 The `AhMyth.sh` file was written in the sense that the users main software repo list is located inside `etc/apt/sources.list` and not at `/etc/apt/sources.list.d/sources.list`. 
-If your main software repo list is indeed locted inside `/etc/apt/sources.list.d/sources.list` or is located at `/etc/apt/` but has a different title `Example: /etc/apt/sources.list.buster`, then you can still run the script, it will just give a few errors because the file its trying to backup (i.e your main software repo list) isn't located in the directory its programmed to operate in or can't find it due to it having a different title, if this is the case, will need to comment out all software repo's in your main software repo list with a `#` at the start of everyline that reads `deb` & `deb-src`
+If your main software repo list is indeed locted inside `/etc/apt/sources.list.d/sources.list` or is located at `/etc/apt/` but has a different title `Example: /etc/apt/sources.list.buster`, then you can still run the script, it will just give a few errors because the file its trying to backup (i.e your main software repo list) isn't located in the directory its programmed to operate in or can't find it due to it having a different title, To make it easy so you can avoid problems while installing, you can just name your main software repo `sources.list` if its named anything else, `Example: Sources.list.buster would be renamed sources.list` and place it inside /etc/apt
 
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
