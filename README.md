@@ -24,7 +24,7 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 3. ```chmod +x AhMyth.sh```
 ###### line 50 of the `AhMtyh.sh` file will need to be edited for **Debian users**, just remove where it reads `kali` at the end of line 50 and replace it with your own username 
 4. ```sudo ./AhMyth.sh```
-##### Once the installer file has finished it will prompt you to change your java version
+###### Once the installer file has finished it will prompt you to change your java version
 5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
 6. ```npm start```
 
