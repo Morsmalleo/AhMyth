@@ -4,22 +4,10 @@
 ----------------------
 #### Important information - PLEASE READ
 -----------------------------------------
-### if your sources.list file is located at /etc/apt/
-If your `sources.list` file is located at `/etc/apt/` then just run the `AhMyth.sh` file located at `AhMyth/AhMyth-Server` 
-
-### If your sources.list file is located at /etc/apt/sources.list/
-If your `sources.list` file is located at `/etc/apt/sources.list.d/` then edit the `sources.list` file and comment out your original software repo's by marking them all with a `#` next to where it read `deb/deb-src`
-
-### If your sources.list file has a different title/name 
-If your `sources.list` file is located at `/etc/apt/` but has a different title/name (`Example: sources.list.buster`) then just rename it to `sources.list`, or move the file to `/etc/apt/sources.list.d` then edit the file and comment out all software repo's by marking them with a `#` next to where it reads `deb/deb-src`
-
-### If this is to much for you
-If these steps are to much for you, then you can install AhMyth normally with the following commands
-- `cd AhMyth/AhMyth-Server && npm install && npm audit fix`
-
-Then you can install openjdk-8-jdk from the .deb file located at `AhMyth/` with the following commands
-- `dpkg -i openjdk-8-jdk.deb`
-
+The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have been tested on Debian 10, Kali Linux & Parrot OS. Importat information below; 
+- If you are using Kali Linux or Debian, then just simply run the `AhMyth.sh` file, your **sources.list** file should be located in `/etc/apt/` by defualt on Kali Linux & Debian
+- If you are using Parrot OS, then run the **AhMyth-parrot.sh** file, your **parrot.list** file should be located in `/etc/apt/sources.list.d/` by default. Parrot OS does contain a **sources.list** file located in `/etc/apt/` but it is usually empty by default, so the `AhMyth-parrot.sh` script wont touch that file.
+- if you are using a Debian, or Kali, and your **sources.list** file is located in `/etc/apt/sources.list.d` then run the `AhMyth-2.sh` file
 ------------------------------------------------------
 ### You can install AhMyth in two ways
 --------------------------------------
