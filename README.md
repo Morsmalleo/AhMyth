@@ -16,27 +16,69 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 - electron 
 - electron packager (to build binaries for Windows/Mac/Linux)
 
-#### 1. Install AhMyth + AhMyth dependancies automatically
+## Kali & Debian installtion
+-----------------------------
+### Auto install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```chmod +x AhMyth.sh```
-#### Edit line 50 of the `AhMtyh.sh` file where it reads `su -c "npm install && npm audit fix" kali` and replace where it reads `kali` with your linux's username
+#### line 50 of the `AhMtyh.sh` file will need to be edited for **Debian users**, just remove where it reads `kali` at the end of line 50 and replace it with your own username 
 4. ```sudo ./AhMyth.sh```
 #### Once the installer file has finished it will prompt you to change your java version
 5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
-#### Now you can run AhMyth
 6. ```npm start```
 
-#### WARNING: DO NOT EXIT OR STOP THIS SCRIPT WHILE IT IS RUNNING BY ANY MEANS NECESSARY OR YOU WILL LOSE YOUR ORIGINAL `sources.list` FILE
-
-#### 2. install it manually
+### Manual Install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-#### Install openjdk-8-jdk from the .deb file
-4. ```sudo dpkg -i openjdk-8-jdk.deb```
-#### Use update-alternatives to select and use openJDK 8
-5. ```update-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
-6. ```npm start```
+4. ```cd .. && dpkg -i openjdk-8-jdk.deb```
+5. ```update-alternatives --config java``` - Select the corresponding number for Java 8
+6. ``` cd AhMyth/server && npm start```
+
+## Parrot OS installation
+--------------------------
+### Auto install
+1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
+2. ```cd AhMyth/AhMyth-Server```
+3. ```npm install && npm audit```
+#### line 50 of the `AhMtyh.sh` file will need to be edited, just remove where it reads `kali` at the end of line 50 and replace it with`user` or whatever your user name is 
+4. ```sudo ./AhMyth.sh```
+
+4. ```sudo ./AhMyth-parrot.sh```
+##### Once the installer file has finished it will prompt you to change your java version
+5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
+6.```npm start```
+
+### Manual Install
+1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
+2. ```cd AhMyth/AhMyth-Server```
+3. ```npm install && npm audit```
+4. ```cd .. && dpkg -i openjdk-8-jdk.deb```
+5. ```update-alternatives --config java``` - Select the corresponding number for Java 8
+6. ``` cd AhMyth/server && npm start```
+
+## Alternative Debian & Kali Installation
+------------------------------------------
+If you are using Debian or Kali, and your **sources.list** file is located inside of `/etc/apt/sources.list.d` then
+follow these steps
+
+### Auto install
+1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
+2. ```cd AhMyth/AhMyth-Server```
+3. ```npm install && npm audit```
+#### line 50 of the `AhMtyh.sh` file will need to be edited for **Debian users**, just remove where it reads `kali` at the end of line 50 and replace it with your own username 
+4. ```sudo ./AhMyth-2.sh```
+##### Once the installer file has finished it will prompt you to change your java version
+5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
+6.```npm start```
+
+### Manual Install
+1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
+2. ```cd AhMyth/AhMyth-Server```
+3. ```npm install && npm audit```
+4. ```cd .. && dpkg -i openjdk-8-jdk.deb```
+5. ```update-alternatives --config java``` - Select the corresponding number for Java 8
+6. ``` cd AhMyth/server && npm start```
 --------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
