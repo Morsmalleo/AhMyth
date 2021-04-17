@@ -4,7 +4,7 @@
 ----------------------
 #### Important information - PLEASE READ
 -----------------------------------------
-The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have been tested on Debian 10, Kali Linux & Parrot OS. Importat information below; 
+The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have been tested on Debian 10, Kali Linux & Parrot OS.
 - If you are using Kali Linux or Debian, then just simply run the `AhMyth.sh` file, your **sources.list** file should be located in `/etc/apt/` by defualt on Kali Linux & Debian
 - If you are using Parrot OS, then run the **AhMyth-parrot.sh** file, your **parrot.list** file should be located in `/etc/apt/sources.list.d/` by default. Parrot OS does contain a **sources.list** file located in `/etc/apt/` but it is usually empty by default, so the `AhMyth-parrot.sh` script wont touch that file.
 - if you are using a Debian, or Kali, and your **sources.list** file is located in `/etc/apt/sources.list.d` then run the `AhMyth-2.sh` file
