@@ -4,20 +4,38 @@
 ----------------------
 #### Important information - PLEASE READ
 -----------------------------------------
-The `AhMyth.sh` file was written in the sense that the users main software repo list is located inside `/etc/apt/sources.list` and not at `/etc/apt/sources.list.d/sources.list`. 
-If your main software repo list is indeed locted inside `/etc/apt/sources.list.d/sources.list` or is located at `/etc/apt/` but has a different title `Example: /etc/apt/sources.list.buster`, then you can still run the script, it will just give a few errors because the file it is trying to backup (i.e your main software repo list) isn't located in the directory its programmed to operate in or can't find it due to it having a different title. To make it easy so you can avoid problems while installing, you can just name your main software repo list as `sources.list` if its named anything else, `Example: "Sources.list.buster" would be renamed "sources.list"` and place it inside `/etc/apt`
+### if your sources.list file is located at /etc/apt/
+If your `sources.list` file is located at `/etc/apt/` then just run the `AhMyth.sh` file located at `AhMyth/AhMyth-Server` 
+
+### If your sources.list file is located at /etc/apt/sources.list/
+If your `sources.list` file is located at `/etc/apt/sources.list.d/` then edit the `sources.list` file and comment out your original software repo's by marking them all with a `#` next to where it read `deb/deb-src`
+
+### If your sources.list file has a different title/name 
+If your `sources.list` file is located at `/etc/apt/` but has a different title/name (`Example: sources.list.buster`) then just rename it to `sources.list`, or move the file to `/etc/apt/sources.list.d` then edit the file and comment out all software repo's by marking them with a `#` next to where it reads `deb/deb-src`
+
+### If this is to much for you
+If these steps are to much for you, then you can install AhMyth normally with the following commands
+- `cd AhMyth/AhMyth-Server && npm install && npm audit fix`
+
+Then you can install openjdk-8-jdk from the .deb file located at `AhMyth/` with the following commands
+- `dpkg -i openjdk-8-jdk.deb`
 
 ------------------------------------------------------
 ### You can install AhMyth in two ways
 --------------------------------------
+#### Prerequisits
+- openJDK-8-JDK from Debian Stretch
+- electron 
+- electron packager (to build binaries for Windows/Mac/Linux)
+
 #### 1. Install AhMyth + AhMyth dependancies automatically
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```chmod +x AhMyth.sh```
 #### Edit line 50 of the `AhMtyh.sh` file where it reads `su -c "npm install && npm audit fix" kali` and replace where it reads `kali` with your linux's username
 4. ```sudo ./AhMyth.sh```
-#### Once the installer file has finished, use update-alternatives to select and use openJDK 8
-5. ```update-alternatives --config java``` - Select the corresponding number for OpenJDK-8-JDK
+#### Once the installer file has finished it will prompt you to change your java version
+5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
 #### Now you can run AhMyth
 6. ```npm start```
 
