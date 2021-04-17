@@ -22,7 +22,7 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```chmod +x AhMyth.sh```
-#### line 50 of the `AhMtyh.sh` file will need to be edited for **Debian users**, just remove where it reads `kali` at the end of line 50 and replace it with your own username 
+line 50 of the `AhMtyh.sh` file will need to be edited for **Debian users**, just remove where it reads `kali` at the end of line 50 and replace it with your own username 
 4. ```sudo ./AhMyth.sh```
 #### Once the installer file has finished it will prompt you to change your java version
 5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
@@ -42,7 +42,7 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-#### line 50 of the `AhMtyh-parrot.sh` file might need to be edited, if your parrot username is not `user` then replace where it reads `user` at the end of line 50 with your own username
+line 50 of the `AhMtyh-parrot.sh` file might need to be edited, if your parrot username is not `user` then replace where it reads `user` at the end of line 50 with your own username
 4. ```sudo ./AhMyth-parrot.sh```
 ##### Once the installer file has finished it will prompt you to change your java version
 5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
@@ -65,7 +65,7 @@ follow these steps
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-#### line 50 of the `AhMtyh-2.sh` file will need to be edited for **Debian users**, just remove where it reads `kali` at the end of line 50 and replace it with your own username 
+line 50 of the `AhMtyh-2.sh` file will need to be edited for **Debian users**, just remove where it reads `kali` at the end of line 50 and replace it with your own username 
 4. ```sudo ./AhMyth-2.sh```
 ##### Once the installer file has finished it will prompt you to change your java version
 5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
