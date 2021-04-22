@@ -55,7 +55,7 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 3. ```npm install && npm audit```
 ###### Add this line to your parrot.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
 4. ```sudo apt update && sudo apt install openjdk-8-jdk openjdk-8-jre```
-5. ``` sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
+5. ```sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
 6. ```npm start```
 
 ## Alternative Debian & Kali Installation
