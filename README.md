@@ -32,9 +32,9 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-4. ```cd .. && dpkg -i openjdk-8-jdk.deb```
-5. ```update-alternatives --config java``` - Select the corresponding number for Java 8
-6. ``` cd AhMyth/server && npm start```
+###### Add this line to your sources.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `##
+4. ```update-alternatives --config java``` - Select the corresponding number for Java 8
+5. ``` cd AhMyth/server && npm start```
 
 ## Parrot OS installation
 --------------------------
@@ -52,9 +52,9 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-4. ```cd .. && dpkg -i openjdk-8-jdk.deb```
-5. ```update-alternatives --config java``` - Select the corresponding number for Java 8
-6. ``` cd AhMyth/server && npm start```
+###### Add this line to your parrot.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
+4. ```update-alternatives --config java``` - Select the corresponding number for Java 8
+5. ``` cd AhMyth/server && npm start```
 
 ## Alternative Debian & Kali Installation
 ------------------------------------------
@@ -75,8 +75,8 @@ follow these steps
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-4. ```cd .. && dpkg -i openjdk-8-jdk.deb```
-5. ```update-alternatives --config java``` - Select the corresponding number for Java 8
-6. ``` cd AhMyth/server && npm start```
+###### Add this line to your sources.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
+4. ```update-alternatives --config java``` - Select the corresponding number for Java 8
+5. ``` cd AhMyth/server && npm start```
 --------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
