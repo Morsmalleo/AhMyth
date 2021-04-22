@@ -33,8 +33,9 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
 ###### Add this line to your sources.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
-4. ```update-alternatives --config java``` - Select the corresponding number for Java 8
-5. ``` cd AhMyth/server && npm start```
+4. ```sudo apt update && sudo apt install openjdk-8-jdk openjdk-8-jre```
+5. ``` sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
+6. ```npm start```
 
 ## Parrot OS installation
 --------------------------
@@ -53,8 +54,9 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
 ###### Add this line to your parrot.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
-4. ```update-alternatives --config java``` - Select the corresponding number for Java 8
-5. ``` cd AhMyth/server && npm start```
+4. ```sudo apt update && sudo apt install openjdk-8-jdk openjdk-8-jre```
+5. ``` sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
+6. ```npm start```
 
 ## Alternative Debian & Kali Installation
 ------------------------------------------
@@ -76,7 +78,9 @@ follow these steps
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
 ###### Add this line to your sources.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
-4. ```update-alternatives --config java``` - Select the corresponding number for Java 8
-5. ``` cd AhMyth/server && npm start```
+4. ```sudo apt update && sudo apt install openjdk-8-jdk openjdk-8-jre```
+5. ``` sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
+6. ```npm start```
+
 --------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
