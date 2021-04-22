@@ -46,7 +46,7 @@ The shell scripts titled `AhMyth.sh`, `AhMyth-2.sh` & ` AhMyth-parrot.sh` have b
 ###### line 50 of the `AhMtyh-parrot.sh` file might need to be edited, if your parrot username is not `user` then replace where it reads `user` at the end of line 50 with your own username
 4. ```sudo ./AhMyth-parrot.sh```
 ###### Once the installer file has finished it will prompt you to change your java version
-5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
+5.  Select the corresponding number for OpenJDK-8-JDK
 6.```npm start```
 
 ### Manual Install
