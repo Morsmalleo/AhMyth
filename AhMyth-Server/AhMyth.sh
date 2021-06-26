@@ -54,5 +54,6 @@ echo " |---------------------------| "
 echo " | AhMyth has Been installed | "
 echo " |---------------------------| "
 sleep 2
+clear
 exit 0 
 fi
