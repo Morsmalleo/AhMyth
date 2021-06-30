@@ -23,7 +23,11 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-###### Add this line to your sources.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
+
+Add this line to your sources.list file 
+`deb http://deb.debian.org/debian stretch main contrib non-free` 
+and comment out any other repo with a `#`
+
 4. ```sudo apt update && sudo apt install openjdk-8-jdk openjdk-8-jre```
 5. ```sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
 6. ```npm start```
@@ -43,7 +47,11 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-###### Add this line to your parrot.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
+
+Add this line to your parrot.list file 
+`deb http://deb.debian.org/debian stretch main contrib non-free` 
+and comment out any other repo with a `#`
+
 4. ```sudo apt update && sudo apt install openjdk-8-jdk openjdk-8-jre```
 5. ```sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
 6. ```npm start```
@@ -66,7 +74,11 @@ follow these steps
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
-###### Add this line to your sources.list file `deb http://deb.debian.org/debian stretch main contrib non-free` and comment out any other repo with a `#`
+
+Add this line to your sources.list file 
+`deb http://deb.debian.org/debian stretch main contrib non-free` 
+and comment out any other repo with a `#`
+
 4. ```sudo apt update && sudo apt install openjdk-8-jdk openjdk-8-jre```
 5. ``` sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
 6. ```npm start```
