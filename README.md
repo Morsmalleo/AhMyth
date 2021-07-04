@@ -2,6 +2,7 @@
 ### Getting Started
 You can install AhMyth in two ways but first make sure you have all the prerequisites listed below
 
+---------------------------------------------------------------------------------------------------
 ## PREREQUISITES
 - npm
 - nodejs
