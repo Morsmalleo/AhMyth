@@ -12,7 +12,7 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 ----------------
 ### INSTALLATION
 ----------------
-### Kali & Debian installation
+### Kali Installation
 #### Auto install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
@@ -68,10 +68,7 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 6. ```npm start```
 ------------------
 
-### Alternative Debian & Kali Installation
-If you are using Debian or Kali, and your **sources.list** file is located inside of `/etc/apt/sources.list.d` then
-follow these steps
-
+### Debian Installation
 #### Auto install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
