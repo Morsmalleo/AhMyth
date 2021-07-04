@@ -83,15 +83,18 @@ chmod +x /usr/local/sbin/ahmyth
 chmod +x ahmyth
 which ahmyth >> "$log" 2>&1
 clear
-echo ""
-echo "Instalation completed, To execute AhMyth, type 'ahmyth' anywhere in your terminal"
+echo " |------------------------------------------------------------------------------------| "
+echo " | Installation completed, To execute AhMyth, type 'ahmyth' anywhere in your terminal | "
+echo " | -----------------------------------------------------------------------------------| "
 exit 0
 fi
 ;;
 
 n|no|No|NO)
 clear
-echo "AhMyth Has been installed, you can launch it by running 'npm start' inside 'AhMyth/AhMyth-Server'"
+echo " |---------------------------------------------------------------------------------------------------| "
+echo " | AhMyth Has been installed, you can launch it by running 'npm start' inside 'AhMyth/AhMyth-Server' | "
+echo " |---------------------------------------------------------------------------------------------------| "
 esac
 exit 0
 ;; 
