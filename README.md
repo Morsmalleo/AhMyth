@@ -3,6 +3,8 @@
 You can install AhMyth in two ways but first make sure you have all the prerequisites listed below
 
 ## PREREQUISITES
+- npm
+- nodejs
 - openJDK-8-JDK from Debian Stretch
 - electron 
 - electron packager (if you want to build binaries for Windows/Mac/Linux)
@@ -17,7 +19,9 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 4. ```sudo ./AhMyth.sh```
 ###### Once the installer file has finished it will prompt you to change your java version
 5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
-6. ```npm start```
+###### Once the installer file has finished installing everything, it will ask you if you want to create a system shortcut to be able to launch AhMyth from anywhere in the terminal or desktop.
+###### if you chose Yes for the system shortcut - type ```ahmyth``` anywhere in your terminal to launch AhMyth
+###### if you chose No for the system shortcut - type ```npm start``` inside the `AhMyth-Server` folder
 
 #### Manual Install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
@@ -39,9 +43,9 @@ and comment out any other repo with a `#`
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
 4. ```sudo ./AhMyth-parrot.sh```
-###### Once the installer file has finished it will prompt you to change your java version
-5.  Select the corresponding number for OpenJDK-8-JDK
-6.```npm start```
+###### Once the installer file has finished installing everything, it will ask you if you want to create a system shortcut to be able to launch AhMyth from anywhere in the terminal or desktop.
+###### if you chose Yes for the system shortcut - type ```ahmyth``` anywhere in your terminal to launch AhMyth
+###### if you chose No for the system shortcut - type ```npm start``` inside the `AhMyth-Server` folder
 
 #### Manual Install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
@@ -66,9 +70,10 @@ follow these steps
 2. ```cd AhMyth/AhMyth-Server```
 3. ```npm install && npm audit```
 4. ```sudo ./AhMyth-2.sh```
-###### Once the installer file has finished it will prompt you to change your java version
-5.  Select the corresponding number for OpenJDK-8-JDK - `Example: 2`
-6.```npm start```
+###### Once the installer file has finished installing everything, it will ask you if you want to create a system shortcut to be able to launch AhMyth from anywhere in the terminal or desktop.
+###### if you chose Yes for the system shortcut - type ```ahmyth``` anywhere in your terminal to launch AhMyth
+###### if you chose No for the system shortcut - type ```npm start``` inside the `AhMyth-Server` folder
+
 
 #### Manual Install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
