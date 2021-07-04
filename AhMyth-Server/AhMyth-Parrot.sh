@@ -55,6 +55,46 @@ echo " |---------------------------| "
 echo " | AhMyth has Been installed | "
 echo " |---------------------------| "
 sleep 2
+
 clear
-exit 0 
+echo "|----------|"
+echo "| OPTIONAL |"
+echo "|----------|"
+
+echo "Do you want to create a shortcut for AhMyth in your system"
+echo "so you can run AhMyth from anywhere in your terminal and desktop?"
+echo ""
+echo "$cyan" "Choose y/n : "
+read -r cho
+case "$cho" in
+
+y|Y|Yes|yes|YES)
+lnk=$?
+if [ "$lnk" ==  "0" ];then
+dir=`pwd` 
+scrp="cd $dir && npm start"
+rm -f /usr/local/sbin/ahmyth
+touch /usr/local/sbin/ahmyth
+echo "#!/bin/bash" > /usr/local/sbin/ahmyth
+echo "$scrp" >> /usr/local/sbin/ahmyth
+cp "$path/AhMyth/Config/AhMyth.desktop" /usr/share/applications/AhMyth.desktop
+cp "$path/AhMyth/AhMyth-Server/build/icons/64x64.png" /usr/share/icons/64x64.png
+chmod +x /usr/local/sbin/ahmyth
+chmod +x ahmyth
+which ahmyth >> "$log" 2>&1
+clear
+echo " |------------------------------------------------------------------------------------| "
+echo " | Installation completed, To execute AhMyth, type 'ahmyth' anywhere in your terminal | "
+echo " |------------------------------------------------------------------------------------| "
+exit 0
 fi
+;;
+
+n|no|No|NO)
+clear
+echo " |---------------------------------------------------------------------------------------------------| "
+echo " | AhMyth Has been installed, you can launch it by running 'npm start' inside 'AhMyth/AhMyth-Server' | "
+echo " |---------------------------------------------------------------------------------------------------| "
+esac
+exit 0
+;; 
