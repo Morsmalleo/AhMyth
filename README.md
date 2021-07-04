@@ -16,8 +16,8 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 #### Auto install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
-3. ```chmod +x AhMyth.sh``` 
-4. ```sudo ./AhMyth.sh```
+3. ```chmod +x AhMyth-Kali.sh``` 
+4. ```sudo ./AhMyth-Kali.sh```
 ###### Once the installer file has finished it will prompt you to change your java version
 5.  ```Select the corresponding number for OpenJDK-8-JDK``` - Example: `2`
 
@@ -44,8 +44,8 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 #### Auto install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
-3. ```npm install && npm audit```
-4. ```sudo ./AhMyth-parrot.sh```
+3. ```chmod +x AhMyth-Parrot.sh```
+4. ```sudo ./AhMyth-Parrot.sh```
 ###### Once the installer file has finished it will prompt you to change your java version
 5.  ```Select the corresponding number for OpenJDK-8-JDK``` - Example: `2`
 
@@ -75,8 +75,8 @@ follow these steps
 #### Auto install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
-3. ```npm install && npm audit```
-4. ```sudo ./AhMyth-2.sh```
+3. ```chmod +x AhMyth-Debian```
+4. ```sudo ./AhMyth-Debian.sh```
 ###### Once the installer file has finished it will prompt you to change your java version
 5.  ```Select the corresponding number for OpenJDK-8-JDK``` - Example: `2`
 
