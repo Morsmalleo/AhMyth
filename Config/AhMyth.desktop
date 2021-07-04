@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=AhMyth
+Comment=Advanced Android RAT
+Exec=npm start
+Icon=/home/kali/AhMyth/AhMyth-Server/build/icons/64x64.png
+Path=/home/kali/AhMyth/AhMyth-Server
+Terminal=false
+StartupNotify=false
