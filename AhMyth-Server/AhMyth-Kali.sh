@@ -77,15 +77,15 @@ rm -f /usr/local/sbin/ahmyth
 touch /usr/local/sbin/ahmyth
 echo "#!/bin/bash" > /usr/local/sbin/ahmyth
 echo "$scrp" >> /usr/local/sbin/ahmyth
-cp "$path/AhMyth/Config/AhMyth.desktop" /usr/share/applications/AhMyth.desktop
-cp "$path/AhMyth/AhMyth-Server/build/icons/64x64.png" /usr/share/icons/64x64.png
+cd .. && cp "Config/AhMyth.desktop" /usr/share/applications/AhMyth.desktop
+cp "AhMyth-Server/build/icons/64x64.png" /usr/share/icons/64x64.png
 chmod +x /usr/local/sbin/ahmyth
 chmod +x ahmyth
 which ahmyth >> "$log" 2>&1
 clear
 echo " |------------------------------------------------------------------------------------| "
 echo " | Installation completed, To execute AhMyth, type 'ahmyth' anywhere in your terminal | "
-echo " | -----------------------------------------------------------------------------------| "
+echo " |------------------------------------------------------------------------------------| "
 exit 0
 fi
 ;;
