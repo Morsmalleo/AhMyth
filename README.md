@@ -19,7 +19,7 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 3. ```chmod +x AhMyth-Kali.sh``` 
 4. ```sudo ./AhMyth-Kali.sh```
 ###### Once the installer file has finished it will prompt you to change your java version
-5.  ```Select the corresponding number for OpenJDK-8-JDK``` - Example: `2`
+5.  ```Select the corresponding number for Java 8 openjdk or Java 11 openjdk``` - Example: `0`
 
 ###### Once the installer file has finished installing everything, it will ask you if you want to create a system shortcut to be able to launch AhMyth from anywhere in the terminal or desktop.
 
@@ -47,7 +47,7 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 3. ```chmod +x AhMyth-Parrot.sh```
 4. ```sudo ./AhMyth-Parrot.sh```
 ###### Once the installer file has finished it will prompt you to change your java version
-5.  ```Select the corresponding number for OpenJDK-8-JDK``` - Example: `2`
+5.  ```Select the corresponding number for Java 8 openjdk or Java 11 openjdk``` - Example: `0`
 
 ###### Once the installer file has finished installing everything, it will ask you if you want to create a system shortcut to be able to launch AhMyth from anywhere in the terminal or desktop.
 
@@ -75,7 +75,7 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 3. ```chmod +x AhMyth-Debian```
 4. ```sudo ./AhMyth-Debian.sh```
 ###### Once the installer file has finished it will prompt you to change your java version
-5.  ```Select the corresponding number for OpenJDK-8-JDK``` - Example: `2`
+5.  ```Select the corresponding number for Java 8 openjdk or Java 11 openjdk``` - Example: `0`
 
 ###### Once the installer file has finished installing everything, it will ask you if you want to create a system shortcut to be able to launch AhMyth from anywhere in the terminal or desktop.
 
