@@ -6,8 +6,8 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 ## PREREQUISITES
 - npm
 - nodejs
-- openJDK-8-JDK from Debian Stretch
-- electron 
+- electron (To start the app)
+- Java 8 openjdk or Java 11 openjdk (To generate backdoor)
 - electron packager (if you want to build binaries for Windows/Mac/Linux)
 ----------------
 ### INSTALLATION
@@ -94,6 +94,24 @@ You can install AhMyth in two ways but first make sure you have all the prerequi
 4. ```sudo apt update && sudo apt install openjdk-8-jdk openjdk-8-jre```
 5. ``` sudo update-alternatives --config java``` - Select the corresponding number for openjdk-8-jdk `Example: 2`
 6. ```npm start```
+
+--------------------------------------------------------------------------
+
+### Windows 10 Installation
+#### Auto Install
+- COMING SOON!
+
+#### Manual Install
+#### Prerequisits
+- npm & nodejs for Windows 10 - https://nodejs.org/en/download/
+- Java 11.0.11 for Windows 10 - https://www.oracle.com/au/java/technologies/javase-jdk11-downloads.html
+- Git for Windows 10 - https://git-scm.com/downloads
+---------------------------------
+1. ```git clone https://github.com/Morsmalleo/AhMyth```
+###### Move the AhMyth folder to your Desktop to make everything easier
+3. ```cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server```
+4. ```npm install && npm audit```
+5. ```npm start``` or ```npx electron ./app --no-sandbox start```
 
 --------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
