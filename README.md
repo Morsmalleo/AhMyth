@@ -104,6 +104,3 @@
 
 --------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
-
-##### if you have any question in terms of errors or issues with this version of AhMyth please contact me on Twitter
-https://twitter.com/Morsmalleo
