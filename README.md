@@ -64,30 +64,6 @@
 7. ```npm start```
 ------------------
 
-### Debian Installation
-#### Auto install
-1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
-2. ```cd AhMyth/AhMyth-Server```
-3. ```chmod +x AhMyth-Kali.sh```
-4. ```sudo ./AhMyth-Kali.sh```
-###### Once the installer has installed AhMyth and its prerequisites, it will prompt you to change your java version
-5.  ```Select the corresponding number for Java 11 openjdk``` - Example: `0`
-
-###### Once the installer has installed AhMyth and its prerequisites, it will ask if you want to create a `system shortcut` to be able to launch AhMyth from anywhere in the terminal or desktop.
-- if you chose Yes for system shortcut - type ```ahmyth``` anywhere in your terminal to launch AhMyth
-- if you chose No for system shortcut - type ```npm start``` inside the `AhMyth-Server` folder
-
-#### Manual Install
-1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
-2. ```cd AhMyth/AhMyth-Server```
-3. ```npm install && npm audit```
-4. ```sudo apt install openjdk-11-jdk openjdk-11-jre```
-5. ```sudo update-alternatives --config java``` 
-6. ```Select the corresponding number for openjdk-11-jdk``` - **Example:** **`0`**
-7. ```npm start```
-
---------------------------------------------------------------------------
-
 ### Windows 10 Installation
 #### Auto Install
 - COMING SOON!
