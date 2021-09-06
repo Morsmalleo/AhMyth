@@ -66,7 +66,11 @@
 
 ### Windows 10 Installation
 #### Auto Install
-- COMING SOON!
+1. Navigate to the `Releases` section
+2. Click on Release version `1.0-beta.2`
+3. Click on the `AhMyth-Win64-Setup.exe`file, or the `AhMyth-Win32-Setup.exe`file, to download it 
+4. Once downloaded, drag it to your Desktop and then Double click the file, this will begin to install AhMyth for windows automatically
+5. Once AhMyth has been installed, you can start it by double clicking the desktop shortcut 
 
 #### Manual Install
 1. Install npm & nodejs for Windows 10 - https://nodejs.org/en/download/
