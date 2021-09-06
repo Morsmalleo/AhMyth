@@ -69,9 +69,9 @@
 - COMING SOON!
 
 #### Manual Install
-1. Install npm & nodejs for Windows 10 - **`https://nodejs.org/en/download/`**
-2. Install Java 11 for Windows 10 - **`https://www.oracle.com/au/java/technologies/javase-jdk11-downloads.html`**
-3. Install Git for Windows 10 - **`https://git-scm.com/downloads`**
+1. Install npm & nodejs for Windows 10 - https://nodejs.org/en/download/
+2. Install Java 11 for Windows 10 - https://www.oracle.com/au/java/technologies/javase-jdk11-downloads.html
+3. Install Git for Windows 10 - https://git-scm.com/downloads
 ###### Right-click on any empty space on the Desktop and select **`Git Bash Here`** then type the following commands below
 4. ```git clone https://github.com/Morsmalleo/AhMyth```
 5. ```cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server```
