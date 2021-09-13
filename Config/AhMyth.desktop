@@ -2,7 +2,7 @@
 Name=AhMyth 
 Comment=Advanced Android remote administration tool.
 Exec=ahmyth
-Icon=/usr/share/icons/64x64.ico
+Icon=/usr/share/icons/64x64.png
 Terminal=false
 Type=Application
 StartupNotify=false
