@@ -1,15 +1,15 @@
 # AhMyth Android Rat
 ### Getting Started
 ###### The Application uses two parts
-- the **`Server`** side - (Attacker)
-- the **`Client`** side - (Victim) 
+- the **`Server`** side
+- the **`Client`** side 
 
 ###### You can install AhMyth in 3 ways
 1. From Source
-2. Manually using **`npm`**
+2. Manually using **`npm`** or **`yarn`**
 3. Automatically using one of the **`AhMyth-X.sh`** installers
 
-###### Make sure you have all the prerequisites listed below installed before setup
+###### Make sure you have all the prerequisites listed below, installed before setup
 ### PREREQUISITES
 - npm & nodejs 
 - electron (To start the app)
@@ -27,7 +27,7 @@
 ###### Once the installer has installed AhMyth and its prerequisites, it will prompt you to change your java version
 5.  ```Select the corresponding number for Java 11 openjdk``` - Example: `0`
 
-###### Once the installer has installed AhMyth and its prerequisites, it will ask if you want to create a `system shortcut` to be able to launch AhMyth from anywhere in the terminal or desktop.
+###### Once you have changed your java version, it will ask if you want to create a `system shortcut` to be able to launch AhMyth from anywhere in the terminal or desktop.
 - if you chose Yes for system shortcut - type ```ahmyth``` anywhere in your terminal to launch AhMyth
 - if you chose No for system shortcut - type ```npm start``` inside the `AhMyth-Server` folder
 
@@ -50,7 +50,7 @@
 ###### Once the installer has installed AhMyth and its prerequisites, it will prompt you to change your java version
 5.  ```Select the corresponding number for Java 11 openjdk``` - Example: `0`
 
-###### Once the installer has installed AhMyth and its prerequisites, it will ask you if you want to create a `system shortcut` to be able to launch AhMyth from anywhere in the terminal or desktop.
+###### Once you have changed your java version, it will ask if you want to create a `system shortcut` to be able to launch AhMyth from anywhere in the terminal or desktop.
 - if you chose Yes for system shortcut - type ```ahmyth``` anywhere in your terminal to launch AhMyth
 - if you chose No for system shortcut - type ```npm start``` inside the `AhMyth-Server` folder
 
