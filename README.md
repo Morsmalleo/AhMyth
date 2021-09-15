@@ -52,7 +52,7 @@
 - npm & nodejs for Windows 10 - https://nodejs.org/en/download/
 - Install Java 11 for Windows 10 - https://www.oracle.com/au/java/technologies/javase-jdk11-downloads.html
 - Install Git for Windows 10 - https://git-scm.com/downloads
-##### Open Git Bash inside the directory you want to install AhMyth
+##### Open Git Bash and follow the steps below
 1. ```git clone https://github.com/Morsmalleo/AhMyth```
 2. ```cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server```
 3. ```npm install && npm audit```
