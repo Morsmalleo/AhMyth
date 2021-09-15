@@ -1,10 +1,8 @@
 [Desktop Entry]
-Version=1.0
-Type=Application
-Name=AhMyth
-Comment=Advanced Android RAT
-Exec=npm start
-Icon=AhMyth/AhMyth-Server/build/icons/64x64.png
-Path=AhMyth/AhMyth-Server
+Name=AhMyth 
+Comment=Advanced Android remote administration tool.
+Exec=ahmyth
+Icon=/usr/share/icons/64x64.png
 Terminal=false
+Type=Application
 StartupNotify=false
