@@ -55,7 +55,7 @@
 ##### Open Git Bash and follow the steps below
 1. ```git clone https://github.com/Morsmalleo/AhMyth```
 2. ```cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server```
-3. ```npm install && npm audit```
+3. ```npm install && npm audit fix```
 4. ```npm start```
 --------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
