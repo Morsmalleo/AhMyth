@@ -42,7 +42,7 @@
 ### Windows 10 Installation
 #### Auto Install
 1. Navigate to the `Releases` section - https://github.com/Morsmalleo/AhMyth/releases
-2. Click on the latest release version of AhMyth - currently `1.0-beat.3`
+2. Click on the latest release version of AhMyth - currently `1.0-beta.3`
 3. Click on the `AhMyth_Win64-Setup.exe` file, or the `AhMyth_Win32-Setup.exe` file, to download it 
 4. Once downloaded, double click the file and this will begin to install AhMyth for windows automatically
 5. Once AhMyth has been installed, you can start it by double clicking the desktop shortcut 
