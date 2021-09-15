@@ -48,14 +48,14 @@
 5. Once AhMyth has been installed, you can start it by double clicking the desktop shortcut 
 
 #### Manual Install
-1. Install npm & nodejs for Windows 10 - https://nodejs.org/en/download/
-2. Install Java 11 for Windows 10 - https://www.oracle.com/au/java/technologies/javase-jdk11-downloads.html
-3. Install Git for Windows 10 - https://git-scm.com/downloads
-###### Open git bash for Windows and navigate to where you want to install AhMyth
-4. ```git clone https://github.com/Morsmalleo/AhMyth```
-5. ```cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server```
-6. ```npm install && npm audit```
-7. ```npm start``` or ```npx electron ./app --no-sandbox start```
-
+##### Install the prerequisits for Windows
+- npm & nodejs for Windows 10 - https://nodejs.org/en/download/
+- Install Java 11 for Windows 10 - https://www.oracle.com/au/java/technologies/javase-jdk11-downloads.html
+- Install Git for Windows 10 - https://git-scm.com/downloads
+##### Open Git Bash inside the directory you want to install AhMyth
+1. ```git clone https://github.com/Morsmalleo/AhMyth```
+2. ```cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server```
+3. ```npm install && npm audit```
+4. ```npm start```
 --------------------------------------------------------------------------
 ##### This is not my work, I have only contributed to this wonderful tool.
