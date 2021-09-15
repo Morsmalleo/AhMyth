@@ -26,7 +26,8 @@
 4. ```sudo ./autoinstall```
 ###### Once the installer has installed AhMyth and its prerequisites, it will prompt you to change your java version
 5.  ```Select the corresponding number for Java 11 openjdk``` - Example: `0`
-6. type `ahmyth` anywhere inside your terminal to automatically launch AhMyth or you can launch AhMyth from your Applications menu
+6. type `ahmyth` anywhere inside your terminal to auto-launch AhMyth
+7. You can also launch AhMyth from your `Applications Menu`
 
 #### Manual Install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
