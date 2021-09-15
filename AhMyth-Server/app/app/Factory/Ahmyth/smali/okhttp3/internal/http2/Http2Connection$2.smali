@@ -24,12 +24,11 @@
 
 # direct methods
 .method varargs constructor <init>(Lokhttp3/internal/http2/Http2Connection;Ljava/lang/String;[Ljava/lang/Object;IJ)V
-    .locals 1
+    .locals 0
     .param p1, "this$0"    # Lokhttp3/internal/http2/Http2Connection;
     .param p2, "format"    # Ljava/lang/String;
     .param p3, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 319
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$2;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -47,7 +46,6 @@
 .method public execute()V
     .locals 4
 
-    .prologue
     .line 322
     :try_start_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$2;->this$0:Lokhttp3/internal/http2/Http2Connection;
@@ -62,13 +60,14 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 325
-    :goto_0
-    return-void
+    .line 324
+    goto :goto_0
 
     .line 323
     :catch_0
     move-exception v0
 
-    goto :goto_0
+    .line 325
+    :goto_0
+    return-void
 .end method

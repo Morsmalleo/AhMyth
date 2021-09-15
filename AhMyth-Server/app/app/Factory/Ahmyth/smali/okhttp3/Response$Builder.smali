@@ -44,7 +44,6 @@
 .method public constructor <init>()V
     .locals 1
 
-    .prologue
     .line 302
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -68,7 +67,6 @@
     .locals 2
     .param p1, "response"    # Lokhttp3/Response;
 
-    .prologue
     .line 306
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -149,13 +147,16 @@
     .locals 2
     .param p1, "response"    # Lokhttp3/Response;
 
-    .prologue
     .line 411
     iget-object v0, p1, Lokhttp3/Response;->body:Lokhttp3/ResponseBody;
 
-    if-eqz v0, :cond_0
+    if-nez v0, :cond_0
+
+    .line 414
+    return-void
 
     .line 412
+    :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
     const-string v1, "priorResponse.body != null"
@@ -163,10 +164,6 @@
     invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 414
-    :cond_0
-    return-void
 .end method
 
 .method private checkSupportResponse(Ljava/lang/String;Lokhttp3/Response;)V
@@ -174,106 +171,31 @@
     .param p1, "name"    # Ljava/lang/String;
     .param p2, "response"    # Lokhttp3/Response;
 
-    .prologue
     .line 393
     iget-object v0, p2, Lokhttp3/Response;->body:Lokhttp3/ResponseBody;
 
-    if-eqz v0, :cond_0
-
-    .line 394
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    new-instance v1, Ljava/lang/StringBuilder;
-
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, ".body != null"
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-nez v0, :cond_3
 
     .line 395
-    :cond_0
     iget-object v0, p2, Lokhttp3/Response;->networkResponse:Lokhttp3/Response;
 
-    if-eqz v0, :cond_1
-
-    .line 396
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    new-instance v1, Ljava/lang/StringBuilder;
-
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, ".networkResponse != null"
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-nez v0, :cond_2
 
     .line 397
-    :cond_1
     iget-object v0, p2, Lokhttp3/Response;->cacheResponse:Lokhttp3/Response;
 
-    if-eqz v0, :cond_2
-
-    .line 398
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    new-instance v1, Ljava/lang/StringBuilder;
-
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, ".cacheResponse != null"
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-nez v0, :cond_1
 
     .line 399
-    :cond_2
     iget-object v0, p2, Lokhttp3/Response;->priorResponse:Lokhttp3/Response;
 
-    if-eqz v0, :cond_3
+    if-nez v0, :cond_0
+
+    .line 402
+    return-void
 
     .line 400
+    :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -281,14 +203,32 @@
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
     invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v1
 
     const-string v2, ".priorResponse != null"
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
     move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 398
+    :cond_1
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v2, ".cacheResponse != null"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -298,9 +238,49 @@
 
     throw v0
 
-    .line 402
+    .line 396
+    :cond_2
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v2, ".networkResponse != null"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 394
     :cond_3
-    return-void
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v2, ".body != null"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 
@@ -310,7 +290,6 @@
     .param p1, "name"    # Ljava/lang/String;
     .param p2, "value"    # Ljava/lang/String;
 
-    .prologue
     .line 360
     iget-object v0, p0, Lokhttp3/Response$Builder;->headers:Lokhttp3/Headers$Builder;
 
@@ -324,7 +303,6 @@
     .locals 0
     .param p1, "body"    # Lokhttp3/ResponseBody;
 
-    .prologue
     .line 376
     iput-object p1, p0, Lokhttp3/Response$Builder;->body:Lokhttp3/ResponseBody;
 
@@ -335,40 +313,30 @@
 .method public build()Lokhttp3/Response;
     .locals 3
 
-    .prologue
     .line 427
     iget-object v0, p0, Lokhttp3/Response$Builder;->request:Lokhttp3/Request;
 
-    if-nez v0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalStateException;
-
-    const-string v1, "request == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz v0, :cond_2
 
     .line 428
-    :cond_0
     iget-object v0, p0, Lokhttp3/Response$Builder;->protocol:Lokhttp3/Protocol;
 
-    if-nez v0, :cond_1
-
-    new-instance v0, Ljava/lang/IllegalStateException;
-
-    const-string v1, "protocol == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz v0, :cond_1
 
     .line 429
-    :cond_1
     iget v0, p0, Lokhttp3/Response$Builder;->code:I
 
-    if-gez v0, :cond_2
+    if-ltz v0, :cond_0
 
+    .line 430
+    new-instance v0, Lokhttp3/Response;
+
+    invoke-direct {v0, p0}, Lokhttp3/Response;-><init>(Lokhttp3/Response$Builder;)V
+
+    return-object v0
+
+    .line 429
+    :cond_0
     new-instance v0, Ljava/lang/IllegalStateException;
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -379,13 +347,9 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v1
-
     iget v2, p0, Lokhttp3/Response$Builder;->code:I
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -395,20 +359,31 @@
 
     throw v0
 
-    .line 430
+    .line 428
+    :cond_1
+    new-instance v0, Ljava/lang/IllegalStateException;
+
+    const-string v1, "protocol == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 427
     :cond_2
-    new-instance v0, Lokhttp3/Response;
+    new-instance v0, Ljava/lang/IllegalStateException;
 
-    invoke-direct {v0, p0}, Lokhttp3/Response;-><init>(Lokhttp3/Response$Builder;)V
+    const-string v1, "request == null"
 
-    return-object v0
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public cacheResponse(Lokhttp3/Response;)Lokhttp3/Response$Builder;
     .locals 1
     .param p1, "cacheResponse"    # Lokhttp3/Response;
 
-    .prologue
     .line 387
     if-eqz p1, :cond_0
 
@@ -428,7 +403,6 @@
     .locals 0
     .param p1, "code"    # I
 
-    .prologue
     .line 332
     iput p1, p0, Lokhttp3/Response$Builder;->code:I
 
@@ -440,7 +414,6 @@
     .locals 0
     .param p1, "handshake"    # Lokhttp3/Handshake;
 
-    .prologue
     .line 342
     iput-object p1, p0, Lokhttp3/Response$Builder;->handshake:Lokhttp3/Handshake;
 
@@ -453,7 +426,6 @@
     .param p1, "name"    # Ljava/lang/String;
     .param p2, "value"    # Ljava/lang/String;
 
-    .prologue
     .line 351
     iget-object v0, p0, Lokhttp3/Response$Builder;->headers:Lokhttp3/Headers$Builder;
 
@@ -467,7 +439,6 @@
     .locals 1
     .param p1, "headers"    # Lokhttp3/Headers;
 
-    .prologue
     .line 371
     invoke-virtual {p1}, Lokhttp3/Headers;->newBuilder()Lokhttp3/Headers$Builder;
 
@@ -483,7 +454,6 @@
     .locals 0
     .param p1, "message"    # Ljava/lang/String;
 
-    .prologue
     .line 337
     iput-object p1, p0, Lokhttp3/Response$Builder;->message:Ljava/lang/String;
 
@@ -495,7 +465,6 @@
     .locals 1
     .param p1, "networkResponse"    # Lokhttp3/Response;
 
-    .prologue
     .line 381
     if-eqz p1, :cond_0
 
@@ -515,7 +484,6 @@
     .locals 0
     .param p1, "priorResponse"    # Lokhttp3/Response;
 
-    .prologue
     .line 405
     if-eqz p1, :cond_0
 
@@ -533,7 +501,6 @@
     .locals 0
     .param p1, "protocol"    # Lokhttp3/Protocol;
 
-    .prologue
     .line 327
     iput-object p1, p0, Lokhttp3/Response$Builder;->protocol:Lokhttp3/Protocol;
 
@@ -542,10 +509,9 @@
 .end method
 
 .method public receivedResponseAtMillis(J)Lokhttp3/Response$Builder;
-    .locals 1
+    .locals 0
     .param p1, "receivedResponseAtMillis"    # J
 
-    .prologue
     .line 422
     iput-wide p1, p0, Lokhttp3/Response$Builder;->receivedResponseAtMillis:J
 
@@ -557,7 +523,6 @@
     .locals 1
     .param p1, "name"    # Ljava/lang/String;
 
-    .prologue
     .line 365
     iget-object v0, p0, Lokhttp3/Response$Builder;->headers:Lokhttp3/Headers$Builder;
 
@@ -571,7 +536,6 @@
     .locals 0
     .param p1, "request"    # Lokhttp3/Request;
 
-    .prologue
     .line 322
     iput-object p1, p0, Lokhttp3/Response$Builder;->request:Lokhttp3/Request;
 
@@ -580,10 +544,9 @@
 .end method
 
 .method public sentRequestAtMillis(J)Lokhttp3/Response$Builder;
-    .locals 1
+    .locals 0
     .param p1, "sentRequestAtMillis"    # J
 
-    .prologue
     .line 417
     iput-wide p1, p0, Lokhttp3/Response$Builder;->sentRequestAtMillis:J
 

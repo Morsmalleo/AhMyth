@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .prologue
     .line 565
     iput-object p1, p0, Lio/socket/engineio/client/Socket$15;->this$0:Lio/socket/engineio/client/Socket;
 
@@ -44,7 +43,6 @@
 .method public run()V
     .locals 1
 
-    .prologue
     .line 568
     new-instance v0, Lio/socket/engineio/client/Socket$15$1;
 

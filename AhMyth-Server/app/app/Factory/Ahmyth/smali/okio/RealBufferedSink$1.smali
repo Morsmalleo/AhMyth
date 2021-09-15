@@ -23,7 +23,6 @@
     .locals 0
     .param p1, "this$0"    # Lokio/RealBufferedSink;
 
-    .prologue
     .line 183
     iput-object p1, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
@@ -42,7 +41,6 @@
         }
     .end annotation
 
-    .prologue
     .line 204
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
@@ -60,7 +58,6 @@
         }
     .end annotation
 
-    .prologue
     .line 198
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
@@ -81,7 +78,6 @@
 .method public toString()Ljava/lang/String;
     .locals 2
 
-    .prologue
     .line 208
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -91,13 +87,9 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
 
-    move-result-object v0
-
     const-string v1, ".outputStream()"
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
 
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -115,24 +107,14 @@
         }
     .end annotation
 
-    .prologue
     .line 185
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-boolean v0, v0, Lokio/RealBufferedSink;->closed:Z
 
-    if-eqz v0, :cond_0
-
-    new-instance v0, Ljava/io/IOException;
-
-    const-string v1, "closed"
-
-    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-nez v0, :cond_0
 
     .line 186
-    :cond_0
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-object v0, v0, Lokio/RealBufferedSink;->buffer:Lokio/Buffer;
@@ -148,6 +130,16 @@
 
     .line 188
     return-void
+
+    .line 185
+    :cond_0
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "closed"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public write([BII)V
@@ -161,24 +153,14 @@
         }
     .end annotation
 
-    .prologue
     .line 191
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-boolean v0, v0, Lokio/RealBufferedSink;->closed:Z
 
-    if-eqz v0, :cond_0
-
-    new-instance v0, Ljava/io/IOException;
-
-    const-string v1, "closed"
-
-    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-nez v0, :cond_0
 
     .line 192
-    :cond_0
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-object v0, v0, Lokio/RealBufferedSink;->buffer:Lokio/Buffer;
@@ -192,4 +174,14 @@
 
     .line 194
     return-void
+
+    .line 191
+    :cond_0
+    new-instance v0, Ljava/io/IOException;
+
+    const-string v1, "closed"
+
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method

@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/WebSocket;
 
-    .prologue
     .line 147
     iput-object p1, p0, Lio/socket/engineio/client/transports/WebSocket$3;->this$0:Lio/socket/engineio/client/transports/WebSocket;
 
@@ -44,7 +43,6 @@
 .method public run()V
     .locals 1
 
-    .prologue
     .line 152
     new-instance v0, Lio/socket/engineio/client/transports/WebSocket$3$1;
 

@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/WebSocket$3;
 
-    .prologue
     .line 152
     iput-object p1, p0, Lio/socket/engineio/client/transports/WebSocket$3$1;->this$1:Lio/socket/engineio/client/transports/WebSocket$3;
 
@@ -40,7 +39,6 @@
 .method public run()V
     .locals 3
 
-    .prologue
     .line 155
     iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$3$1;->this$1:Lio/socket/engineio/client/transports/WebSocket$3;
 
@@ -55,13 +53,13 @@
 
     iget-object v0, v0, Lio/socket/engineio/client/transports/WebSocket$3;->val$self:Lio/socket/engineio/client/transports/WebSocket;
 
-    const-string v1, "drain"
+    const/4 v1, 0x0
 
-    const/4 v2, 0x0
+    new-array v1, v1, [Ljava/lang/Object;
 
-    new-array v2, v2, [Ljava/lang/Object;
+    const-string v2, "drain"
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/transports/WebSocket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/transports/WebSocket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
     .line 157
     return-void

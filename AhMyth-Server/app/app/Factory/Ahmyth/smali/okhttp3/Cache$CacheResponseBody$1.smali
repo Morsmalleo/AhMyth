@@ -26,7 +26,6 @@
     .param p1, "this$0"    # Lokhttp3/Cache$CacheResponseBody;
     .param p2, "x0"    # Lokio/Source;
 
-    .prologue
     .line 749
     iput-object p1, p0, Lokhttp3/Cache$CacheResponseBody$1;->this$0:Lokhttp3/Cache$CacheResponseBody;
 
@@ -47,7 +46,6 @@
         }
     .end annotation
 
-    .prologue
     .line 751
     iget-object v0, p0, Lokhttp3/Cache$CacheResponseBody$1;->val$snapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 

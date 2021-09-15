@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/internal/ws/RealWebSocket;
 
-    .prologue
     .line 574
     iput-object p1, p0, Lokhttp3/internal/ws/RealWebSocket$CancelRunnable;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
@@ -40,7 +39,6 @@
 .method public run()V
     .locals 1
 
-    .prologue
     .line 576
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket$CancelRunnable;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 

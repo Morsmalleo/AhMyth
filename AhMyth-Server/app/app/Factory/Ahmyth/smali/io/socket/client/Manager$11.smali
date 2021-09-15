@@ -25,7 +25,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .prologue
     .line 544
     iput-object p1, p0, Lio/socket/client/Manager$11;->this$0:Lio/socket/client/Manager;
 
@@ -41,7 +40,6 @@
 .method public run()V
     .locals 1
 
-    .prologue
     .line 547
     new-instance v0, Lio/socket/client/Manager$11$1;
 

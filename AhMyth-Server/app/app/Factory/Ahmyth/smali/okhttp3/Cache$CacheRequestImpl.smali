@@ -34,7 +34,6 @@
     .locals 2
     .param p2, "editor"    # Lokhttp3/internal/cache/DiskLruCache$Editor;
 
-    .prologue
     .line 435
     iput-object p1, p0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
 
@@ -68,44 +67,41 @@
 
 # virtual methods
 .method public abort()V
-    .locals 3
+    .locals 4
 
-    .prologue
     .line 454
-    iget-object v1, p0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
+    iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
 
-    monitor-enter v1
+    monitor-enter v0
 
     .line 455
     :try_start_0
-    iget-boolean v0, p0, Lokhttp3/Cache$CacheRequestImpl;->done:Z
+    iget-boolean v1, p0, Lokhttp3/Cache$CacheRequestImpl;->done:Z
 
-    if-eqz v0, :cond_0
+    if-eqz v1, :cond_0
 
     .line 456
-    monitor-exit v1
+    monitor-exit v0
 
-    .line 466
-    :goto_0
     return-void
 
     .line 458
     :cond_0
-    const/4 v0, 0x1
+    const/4 v1, 0x1
 
-    iput-boolean v0, p0, Lokhttp3/Cache$CacheRequestImpl;->done:Z
+    iput-boolean v1, p0, Lokhttp3/Cache$CacheRequestImpl;->done:Z
 
     .line 459
-    iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
+    iget-object v2, p0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
 
-    iget v2, v0, Lokhttp3/Cache;->writeAbortCount:I
+    iget v3, v2, Lokhttp3/Cache;->writeAbortCount:I
 
-    add-int/lit8 v2, v2, 0x1
+    add-int/2addr v3, v1
 
-    iput v2, v0, Lokhttp3/Cache;->writeAbortCount:I
+    iput v3, v2, Lokhttp3/Cache;->writeAbortCount:I
 
     .line 460
-    monitor-exit v1
+    monitor-exit v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
@@ -122,30 +118,32 @@
     :try_end_1
     .catch Ljava/io/IOException; {:try_start_1 .. :try_end_1} :catch_0
 
+    .line 465
     goto :goto_0
 
     .line 464
     :catch_0
     move-exception v0
 
-    goto :goto_0
+    .line 466
+    :goto_0
+    return-void
 
     .line 460
     :catchall_0
-    move-exception v0
+    move-exception v1
 
     :try_start_2
-    monitor-exit v1
+    monitor-exit v0
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
 
-    throw v0
+    throw v1
 .end method
 
 .method public body()Lokio/Sink;
     .locals 1
 
-    .prologue
     .line 469
     iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->body:Lokio/Sink;
 

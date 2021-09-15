@@ -7,8 +7,7 @@
 .field private static final INSTANCES:Ljava/util/concurrent/ConcurrentMap;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/concurrent/ConcurrentMap",
-            "<",
+            "Ljava/util/concurrent/ConcurrentMap<",
             "Ljava/lang/String;",
             "Lokhttp3/CipherSuite;",
             ">;"
@@ -249,7 +248,6 @@
 .method static constructor <clinit>()V
     .locals 2
 
-    .prologue
     .line 38
     new-instance v0, Ljava/util/concurrent/ConcurrentHashMap;
 
@@ -1496,37 +1494,35 @@
     .locals 1
     .param p1, "javaName"    # Ljava/lang/String;
 
-    .prologue
     .line 385
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     .line 386
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
+
+    .line 389
+    iput-object p1, p0, Lokhttp3/CipherSuite;->javaName:Ljava/lang/String;
+
+    .line 390
+    return-void
 
     .line 387
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     invoke-direct {v0}, Ljava/lang/NullPointerException;-><init>()V
 
     throw v0
-
-    .line 389
-    :cond_0
-    iput-object p1, p0, Lokhttp3/CipherSuite;->javaName:Ljava/lang/String;
-
-    .line 390
-    return-void
 .end method
 
 .method public static forJavaName(Ljava/lang/String;)Lokhttp3/CipherSuite;
     .locals 4
     .param p0, "javaName"    # Ljava/lang/String;
 
-    .prologue
     .line 376
-    sget-object v3, Lokhttp3/CipherSuite;->INSTANCES:Ljava/util/concurrent/ConcurrentMap;
+    sget-object v0, Lokhttp3/CipherSuite;->INSTANCES:Ljava/util/concurrent/ConcurrentMap;
 
-    invoke-interface {v3, p0}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v0, p0}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v1
 
@@ -1534,7 +1530,7 @@
 
     .line 377
     .local v1, "result":Lokhttp3/CipherSuite;
-    if-nez v1, :cond_0
+    if-nez v1, :cond_1
 
     .line 378
     new-instance v2, Lokhttp3/CipherSuite;
@@ -1543,9 +1539,7 @@
 
     .line 379
     .local v2, "sample":Lokhttp3/CipherSuite;
-    sget-object v3, Lokhttp3/CipherSuite;->INSTANCES:Ljava/util/concurrent/ConcurrentMap;
-
-    invoke-interface {v3, p0, v2}, Ljava/util/concurrent/ConcurrentMap;->putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v0, p0, v2}, Ljava/util/concurrent/ConcurrentMap;->putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -1553,24 +1547,23 @@
 
     .line 380
     .local v0, "canonical":Lokhttp3/CipherSuite;
-    if-nez v0, :cond_1
+    if-nez v0, :cond_0
 
-    move-object v1, v2
+    move-object v3, v2
+
+    goto :goto_0
+
+    :cond_0
+    move-object v3, v0
+
+    :goto_0
+    move-object v1, v3
 
     .line 382
     .end local v0    # "canonical":Lokhttp3/CipherSuite;
     .end local v2    # "sample":Lokhttp3/CipherSuite;
-    :cond_0
-    :goto_0
-    return-object v1
-
-    .restart local v0    # "canonical":Lokhttp3/CipherSuite;
-    .restart local v2    # "sample":Lokhttp3/CipherSuite;
     :cond_1
-    move-object v1, v0
-
-    .line 380
-    goto :goto_0
+    return-object v1
 .end method
 
 .method private static of(Ljava/lang/String;I)Lokhttp3/CipherSuite;
@@ -1578,7 +1571,6 @@
     .param p0, "javaName"    # Ljava/lang/String;
     .param p1, "value"    # I
 
-    .prologue
     .line 398
     invoke-static {p0}, Lokhttp3/CipherSuite;->forJavaName(Ljava/lang/String;)Lokhttp3/CipherSuite;
 
@@ -1592,7 +1584,6 @@
 .method public javaName()Ljava/lang/String;
     .locals 1
 
-    .prologue
     .line 408
     iget-object v0, p0, Lokhttp3/CipherSuite;->javaName:Ljava/lang/String;
 
@@ -1602,7 +1593,6 @@
 .method public toString()Ljava/lang/String;
     .locals 1
 
-    .prologue
     .line 412
     iget-object v0, p0, Lokhttp3/CipherSuite;->javaName:Ljava/lang/String;
 

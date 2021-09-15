@@ -39,9 +39,6 @@
 .method static constructor <clinit>()V
     .locals 4
 
-    .prologue
-    const/4 v3, 0x4
-
     .line 15
     const-class v0, Lio/socket/parser/Parser;
 
@@ -56,54 +53,56 @@
     sput-object v0, Lio/socket/parser/Parser;->logger:Ljava/util/logging/Logger;
 
     .line 52
-    sput v3, Lio/socket/parser/Parser;->protocol:I
+    const/4 v0, 0x4
+
+    sput v0, Lio/socket/parser/Parser;->protocol:I
 
     .line 57
-    const/4 v0, 0x7
+    const/4 v1, 0x7
 
-    new-array v0, v0, [Ljava/lang/String;
+    new-array v1, v1, [Ljava/lang/String;
 
-    const/4 v1, 0x0
+    const/4 v2, 0x0
 
-    const-string v2, "CONNECT"
+    const-string v3, "CONNECT"
 
-    aput-object v2, v0, v1
+    aput-object v3, v1, v2
 
-    const/4 v1, 0x1
+    const/4 v2, 0x1
 
-    const-string v2, "DISCONNECT"
+    const-string v3, "DISCONNECT"
 
-    aput-object v2, v0, v1
+    aput-object v3, v1, v2
 
-    const/4 v1, 0x2
+    const/4 v2, 0x2
 
-    const-string v2, "EVENT"
+    const-string v3, "EVENT"
 
-    aput-object v2, v0, v1
+    aput-object v3, v1, v2
 
-    const/4 v1, 0x3
+    const/4 v2, 0x3
 
-    const-string v2, "ACK"
+    const-string v3, "ACK"
 
-    aput-object v2, v0, v1
+    aput-object v3, v1, v2
 
-    const-string v1, "ERROR"
+    const-string v2, "ERROR"
 
-    aput-object v1, v0, v3
+    aput-object v2, v1, v0
 
-    const/4 v1, 0x5
+    const/4 v0, 0x5
 
     const-string v2, "BINARY_EVENT"
 
-    aput-object v2, v0, v1
+    aput-object v2, v1, v0
 
-    const/4 v1, 0x6
+    const/4 v0, 0x6
 
     const-string v2, "BINARY_ACK"
 
-    aput-object v2, v0, v1
+    aput-object v2, v1, v0
 
-    sput-object v0, Lio/socket/parser/Parser;->types:[Ljava/lang/String;
+    sput-object v1, Lio/socket/parser/Parser;->types:[Ljava/lang/String;
 
     return-void
 .end method
@@ -111,7 +110,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 68
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -121,7 +119,6 @@
 .method static synthetic access$000()Ljava/util/logging/Logger;
     .locals 1
 
-    .prologue
     .line 13
     sget-object v0, Lio/socket/parser/Parser;->logger:Ljava/util/logging/Logger;
 
@@ -131,7 +128,6 @@
 .method static synthetic access$100()Lio/socket/parser/Packet;
     .locals 1
 
-    .prologue
     .line 13
     invoke-static {}, Lio/socket/parser/Parser;->error()Lio/socket/parser/Packet;
 
@@ -145,14 +141,12 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()",
-            "Lio/socket/parser/Packet",
-            "<",
+            "Lio/socket/parser/Packet<",
             "Ljava/lang/String;",
             ">;"
         }
     .end annotation
 
-    .prologue
     .line 71
     new-instance v0, Lio/socket/parser/Packet;
 

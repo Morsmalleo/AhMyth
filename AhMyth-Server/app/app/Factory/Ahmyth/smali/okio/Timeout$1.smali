@@ -18,7 +18,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 49
     invoke-direct {p0}, Lokio/Timeout;-><init>()V
 
@@ -31,7 +30,6 @@
     .locals 0
     .param p1, "deadlineNanoTime"    # J
 
-    .prologue
     .line 55
     return-object p0
 .end method
@@ -44,7 +42,6 @@
         }
     .end annotation
 
-    .prologue
     .line 59
     return-void
 .end method
@@ -54,7 +51,6 @@
     .param p1, "timeout"    # J
     .param p3, "unit"    # Ljava/util/concurrent/TimeUnit;
 
-    .prologue
     .line 51
     return-object p0
 .end method

@@ -15,7 +15,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 33
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -24,110 +23,102 @@
 .end method
 
 .method static recycle(Lokio/Segment;)V
-    .locals 8
+    .locals 10
     .param p0, "segment"    # Lokio/Segment;
-
-    .prologue
-    const-wide/16 v6, 0x2000
 
     .line 50
     iget-object v0, p0, Lokio/Segment;->next:Lokio/Segment;
 
-    if-nez v0, :cond_0
+    if-nez v0, :cond_2
 
     iget-object v0, p0, Lokio/Segment;->prev:Lokio/Segment;
 
-    if-eqz v0, :cond_1
-
-    :cond_0
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    invoke-direct {v0}, Ljava/lang/IllegalArgumentException;-><init>()V
-
-    throw v0
+    if-nez v0, :cond_2
 
     .line 51
-    :cond_1
     iget-boolean v0, p0, Lokio/Segment;->shared:Z
 
-    if-eqz v0, :cond_2
+    if-eqz v0, :cond_0
 
-    .line 59
-    :goto_0
     return-void
 
     .line 52
-    :cond_2
-    const-class v1, Lokio/SegmentPool;
+    :cond_0
+    const-class v0, Lokio/SegmentPool;
 
-    monitor-enter v1
+    monitor-enter v0
 
     .line 53
     :try_start_0
-    sget-wide v2, Lokio/SegmentPool;->byteCount:J
+    sget-wide v1, Lokio/SegmentPool;->byteCount:J
 
-    add-long/2addr v2, v6
+    const-wide/16 v3, 0x2000
 
-    const-wide/32 v4, 0x10000
+    add-long v5, v1, v3
 
-    cmp-long v0, v2, v4
+    const-wide/32 v7, 0x10000
 
-    if-lez v0, :cond_3
+    cmp-long v9, v5, v7
 
-    monitor-exit v1
+    if-lez v9, :cond_1
 
-    goto :goto_0
+    monitor-exit v0
 
-    .line 58
-    :catchall_0
-    move-exception v0
-
-    monitor-exit v1
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
-
-    throw v0
+    return-void
 
     .line 54
-    :cond_3
-    :try_start_1
-    sget-wide v2, Lokio/SegmentPool;->byteCount:J
+    :cond_1
+    add-long/2addr v1, v3
 
-    add-long/2addr v2, v6
-
-    sput-wide v2, Lokio/SegmentPool;->byteCount:J
+    sput-wide v1, Lokio/SegmentPool;->byteCount:J
 
     .line 55
-    sget-object v0, Lokio/SegmentPool;->next:Lokio/Segment;
+    sget-object v1, Lokio/SegmentPool;->next:Lokio/Segment;
 
-    iput-object v0, p0, Lokio/Segment;->next:Lokio/Segment;
+    iput-object v1, p0, Lokio/Segment;->next:Lokio/Segment;
 
     .line 56
-    const/4 v0, 0x0
+    const/4 v1, 0x0
 
-    iput v0, p0, Lokio/Segment;->limit:I
+    iput v1, p0, Lokio/Segment;->limit:I
 
-    iput v0, p0, Lokio/Segment;->pos:I
+    iput v1, p0, Lokio/Segment;->pos:I
 
     .line 57
     sput-object p0, Lokio/SegmentPool;->next:Lokio/Segment;
 
     .line 58
-    monitor-exit v1
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_0
+    monitor-exit v0
 
-    goto :goto_0
+    .line 59
+    return-void
+
+    .line 58
+    :catchall_0
+    move-exception v1
+
+    monitor-exit v0
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    throw v1
+
+    .line 50
+    :cond_2
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    invoke-direct {v0}, Ljava/lang/IllegalArgumentException;-><init>()V
+
+    throw v0
 .end method
 
 .method static take()Lokio/Segment;
-    .locals 8
+    .locals 6
 
-    .prologue
     .line 37
-    const-class v2, Lokio/SegmentPool;
+    const-class v0, Lokio/SegmentPool;
 
-    monitor-enter v2
+    monitor-enter v0
 
     .line 38
     :try_start_0
@@ -136,39 +127,37 @@
     if-eqz v1, :cond_0
 
     .line 39
-    sget-object v0, Lokio/SegmentPool;->next:Lokio/Segment;
+    nop
 
     .line 40
-    .local v0, "result":Lokio/Segment;
-    iget-object v1, v0, Lokio/Segment;->next:Lokio/Segment;
+    .local v1, "result":Lokio/Segment;
+    iget-object v2, v1, Lokio/Segment;->next:Lokio/Segment;
 
-    sput-object v1, Lokio/SegmentPool;->next:Lokio/Segment;
+    sput-object v2, Lokio/SegmentPool;->next:Lokio/Segment;
 
     .line 41
-    const/4 v1, 0x0
+    const/4 v2, 0x0
 
-    iput-object v1, v0, Lokio/Segment;->next:Lokio/Segment;
+    iput-object v2, v1, Lokio/Segment;->next:Lokio/Segment;
 
     .line 42
-    sget-wide v4, Lokio/SegmentPool;->byteCount:J
+    sget-wide v2, Lokio/SegmentPool;->byteCount:J
 
-    const-wide/16 v6, 0x2000
+    const-wide/16 v4, 0x2000
 
-    sub-long/2addr v4, v6
+    sub-long/2addr v2, v4
 
-    sput-wide v4, Lokio/SegmentPool;->byteCount:J
+    sput-wide v2, Lokio/SegmentPool;->byteCount:J
 
     .line 43
-    monitor-exit v2
+    monitor-exit v0
 
-    .line 46
-    .end local v0    # "result":Lokio/Segment;
-    :goto_0
-    return-object v0
+    return-object v1
 
     .line 45
+    .end local v1    # "result":Lokio/Segment;
     :cond_0
-    monitor-exit v2
+    monitor-exit v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
@@ -177,15 +166,14 @@
 
     invoke-direct {v0}, Lokio/Segment;-><init>()V
 
-    goto :goto_0
+    return-object v0
 
     .line 45
-    .restart local v0    # "result":Lokio/Segment;
     :catchall_0
     move-exception v1
 
     :try_start_1
-    monitor-exit v2
+    monitor-exit v0
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 

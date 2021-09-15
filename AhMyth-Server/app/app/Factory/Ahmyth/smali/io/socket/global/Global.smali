@@ -7,7 +7,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 10
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -18,18 +17,17 @@
     .locals 2
     .param p0, "str"    # Ljava/lang/String;
 
-    .prologue
     .line 28
     :try_start_0
-    const-string v1, "UTF-8"
+    const-string v0, "UTF-8"
 
-    invoke-static {p0, v1}, Ljava/net/URLDecoder;->decode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {p0, v0}, Ljava/net/URLDecoder;->decode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
     :try_end_0
     .catch Ljava/io/UnsupportedEncodingException; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result-object v1
-
-    return-object v1
+    return-object v0
 
     .line 29
     :catch_0
@@ -45,76 +43,75 @@
 .end method
 
 .method public static encodeURIComponent(Ljava/lang/String;)Ljava/lang/String;
-    .locals 4
+    .locals 3
     .param p0, "str"    # Ljava/lang/String;
 
-    .prologue
     .line 14
     :try_start_0
-    const-string v1, "UTF-8"
+    const-string v0, "UTF-8"
 
-    invoke-static {p0, v1}, Ljava/net/URLEncoder;->encode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    invoke-static {p0, v0}, Ljava/net/URLEncoder;->encode(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "+"
+    const-string v1, "+"
 
-    const-string v3, "%20"
+    const-string v2, "%20"
 
     .line 15
-    invoke-virtual {v1, v2, v3}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "%21"
+    const-string v1, "%21"
 
-    const-string v3, "!"
+    const-string v2, "!"
 
     .line 16
-    invoke-virtual {v1, v2, v3}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "%27"
+    const-string v1, "%27"
 
-    const-string v3, "\'"
+    const-string v2, "\'"
 
     .line 17
-    invoke-virtual {v1, v2, v3}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "%28"
+    const-string v1, "%28"
 
-    const-string v3, "("
+    const-string v2, "("
 
     .line 18
-    invoke-virtual {v1, v2, v3}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "%29"
+    const-string v1, "%29"
 
-    const-string v3, ")"
+    const-string v2, ")"
 
     .line 19
-    invoke-virtual {v1, v2, v3}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "%7E"
+    const-string v1, "%7E"
 
-    const-string v3, "~"
+    const-string v2, "~"
 
     .line 20
-    invoke-virtual {v1, v2, v3}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+
+    move-result-object v0
     :try_end_0
     .catch Ljava/io/UnsupportedEncodingException; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result-object v1
-
     .line 14
-    return-object v1
+    return-object v0
 
     .line 21
     :catch_0

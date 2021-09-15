@@ -28,8 +28,8 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Lio/socket/engineio/parser/Packet",
-            "<TT;>;II)Z"
+            "Lio/socket/engineio/parser/Packet<",
+            "TT;>;II)Z"
         }
     .end annotation
 .end method

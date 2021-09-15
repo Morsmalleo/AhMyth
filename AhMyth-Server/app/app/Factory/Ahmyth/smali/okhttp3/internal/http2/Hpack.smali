@@ -16,8 +16,7 @@
 .field static final NAME_TO_FIRST_INDEX:Ljava/util/Map;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/Map",
-            "<",
+            "Ljava/util/Map<",
             "Lokio/ByteString;",
             "Ljava/lang/Integer;",
             ">;"
@@ -40,743 +39,650 @@
 .method static constructor <clinit>()V
     .locals 5
 
-    .prologue
     .line 47
     const/16 v0, 0x3d
 
     new-array v0, v0, [Lokhttp3/internal/http2/Header;
 
-    const/4 v1, 0x0
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    sget-object v2, Lokhttp3/internal/http2/Header;->TARGET_AUTHORITY:Lokio/ByteString;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->TARGET_AUTHORITY:Lokio/ByteString;
+    const-string v3, ""
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    const/4 v2, 0x0
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/4 v1, 0x1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    sget-object v3, Lokhttp3/internal/http2/Header;->TARGET_METHOD:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->TARGET_METHOD:Lokio/ByteString;
 
     const-string v4, "GET"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/4 v2, 0x1
 
-    const/4 v1, 0x2
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->TARGET_METHOD:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->TARGET_METHOD:Lokio/ByteString;
 
     const-string v4, "POST"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/4 v2, 0x2
 
-    const/4 v1, 0x3
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->TARGET_PATH:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->TARGET_PATH:Lokio/ByteString;
 
     const-string v4, "/"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/4 v2, 0x3
 
-    const/4 v1, 0x4
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->TARGET_PATH:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->TARGET_PATH:Lokio/ByteString;
 
     const-string v4, "/index.html"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/4 v2, 0x4
 
-    const/4 v1, 0x5
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->TARGET_SCHEME:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->TARGET_SCHEME:Lokio/ByteString;
 
     const-string v4, "http"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/4 v2, 0x5
 
-    const/4 v1, 0x6
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->TARGET_SCHEME:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->TARGET_SCHEME:Lokio/ByteString;
 
     const-string v4, "https"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/4 v2, 0x6
 
-    const/4 v1, 0x7
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
 
     const-string v4, "200"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/4 v2, 0x7
 
-    const/16 v1, 0x8
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
 
     const-string v4, "204"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x8
 
-    const/16 v1, 0x9
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
 
     const-string v4, "206"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x9
 
-    const/16 v1, 0xa
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
 
     const-string v4, "304"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0xa
 
-    const/16 v1, 0xb
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
 
     const-string v4, "400"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0xb
 
-    const/16 v1, 0xc
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
 
     const-string v4, "404"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0xc
 
-    const/16 v1, 0xd
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    sget-object v3, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
+    sget-object v2, Lokhttp3/internal/http2/Header;->RESPONSE_STATUS:Lokio/ByteString;
 
     const-string v4, "500"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Lokio/ByteString;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0xd
 
-    const/16 v1, 0xe
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "accept-charset"
+    const-string v2, "accept-charset"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0xe
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0xf
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    const-string v3, "accept-encoding"
+    const-string v2, "accept-encoding"
 
     const-string v4, "gzip, deflate"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0xf
 
-    const/16 v1, 0x10
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "accept-language"
+    const-string v2, "accept-language"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0x10
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0x11
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const-string v2, "accept-ranges"
 
-    const-string v3, "accept-ranges"
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v4, ""
+    const/16 v2, 0x11
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    aput-object v1, v0, v2
 
-    aput-object v2, v0, v1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const/16 v1, 0x12
+    const-string v2, "accept"
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v3, "accept"
+    const/16 v2, 0x12
 
-    const-string v4, ""
+    aput-object v1, v0, v2
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    aput-object v2, v0, v1
+    const-string v2, "access-control-allow-origin"
 
-    const/16 v1, 0x13
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const/16 v2, 0x13
 
-    const-string v3, "access-control-allow-origin"
+    aput-object v1, v0, v2
 
-    const-string v4, ""
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v2, "age"
 
-    aput-object v2, v0, v1
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const/16 v1, 0x14
+    const/16 v2, 0x14
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    aput-object v1, v0, v2
 
-    const-string v3, "age"
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v4, ""
+    const-string v2, "allow"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x15
 
-    const/16 v1, 0x15
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "allow"
+    const-string v2, "authorization"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0x16
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0x16
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const-string v2, "cache-control"
 
-    const-string v3, "authorization"
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v4, ""
+    const/16 v2, 0x17
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    aput-object v1, v0, v2
 
-    aput-object v2, v0, v1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const/16 v1, 0x17
+    const-string v2, "content-disposition"
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v3, "cache-control"
+    const/16 v2, 0x18
 
-    const-string v4, ""
+    aput-object v1, v0, v2
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    aput-object v2, v0, v1
+    const-string v2, "content-encoding"
 
-    const/16 v1, 0x18
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const/16 v2, 0x19
 
-    const-string v3, "content-disposition"
+    aput-object v1, v0, v2
 
-    const-string v4, ""
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v2, "content-language"
 
-    aput-object v2, v0, v1
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const/16 v1, 0x19
+    const/16 v2, 0x1a
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    aput-object v1, v0, v2
 
-    const-string v3, "content-encoding"
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v4, ""
+    const-string v2, "content-length"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x1b
 
-    const/16 v1, 0x1a
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "content-language"
+    const-string v2, "content-location"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0x1c
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0x1b
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const-string v2, "content-range"
 
-    const-string v3, "content-length"
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v4, ""
+    const/16 v2, 0x1d
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    aput-object v1, v0, v2
 
-    aput-object v2, v0, v1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const/16 v1, 0x1c
+    const-string v2, "content-type"
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v3, "content-location"
+    const/16 v2, 0x1e
 
-    const-string v4, ""
+    aput-object v1, v0, v2
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    aput-object v2, v0, v1
+    const-string v2, "cookie"
 
-    const/16 v1, 0x1d
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const/16 v2, 0x1f
 
-    const-string v3, "content-range"
+    aput-object v1, v0, v2
 
-    const-string v4, ""
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v2, "date"
 
-    aput-object v2, v0, v1
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const/16 v1, 0x1e
+    const/16 v2, 0x20
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    aput-object v1, v0, v2
 
-    const-string v3, "content-type"
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v4, ""
+    const-string v2, "etag"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x21
 
-    const/16 v1, 0x1f
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "cookie"
+    const-string v2, "expect"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0x22
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0x20
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const-string v2, "expires"
 
-    const-string v3, "date"
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v4, ""
+    const/16 v2, 0x23
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    aput-object v1, v0, v2
 
-    aput-object v2, v0, v1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const/16 v1, 0x21
+    const-string v2, "from"
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v3, "etag"
+    const/16 v2, 0x24
 
-    const-string v4, ""
+    aput-object v1, v0, v2
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    aput-object v2, v0, v1
+    const-string v2, "host"
 
-    const/16 v1, 0x22
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const/16 v2, 0x25
 
-    const-string v3, "expect"
+    aput-object v1, v0, v2
 
-    const-string v4, ""
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v2, "if-match"
 
-    aput-object v2, v0, v1
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const/16 v1, 0x23
+    const/16 v2, 0x26
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    aput-object v1, v0, v2
 
-    const-string v3, "expires"
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v4, ""
+    const-string v2, "if-modified-since"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x27
 
-    const/16 v1, 0x24
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "from"
+    const-string v2, "if-none-match"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0x28
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0x25
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const-string v2, "if-range"
 
-    const-string v3, "host"
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v4, ""
+    const/16 v2, 0x29
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    aput-object v1, v0, v2
 
-    aput-object v2, v0, v1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const/16 v1, 0x26
+    const-string v2, "if-unmodified-since"
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v3, "if-match"
+    const/16 v2, 0x2a
 
-    const-string v4, ""
+    aput-object v1, v0, v2
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    aput-object v2, v0, v1
+    const-string v2, "last-modified"
 
-    const/16 v1, 0x27
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const/16 v2, 0x2b
 
-    const-string v3, "if-modified-since"
+    aput-object v1, v0, v2
 
-    const-string v4, ""
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v2, "link"
 
-    aput-object v2, v0, v1
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const/16 v1, 0x28
+    const/16 v2, 0x2c
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    aput-object v1, v0, v2
 
-    const-string v3, "if-none-match"
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v4, ""
+    const-string v2, "location"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x2d
 
-    const/16 v1, 0x29
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "if-range"
+    const-string v2, "max-forwards"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0x2e
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0x2a
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const-string v2, "proxy-authenticate"
 
-    const-string v3, "if-unmodified-since"
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v4, ""
+    const/16 v2, 0x2f
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    aput-object v1, v0, v2
 
-    aput-object v2, v0, v1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const/16 v1, 0x2b
+    const-string v2, "proxy-authorization"
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v3, "last-modified"
+    const/16 v2, 0x30
 
-    const-string v4, ""
+    aput-object v1, v0, v2
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    aput-object v2, v0, v1
+    const-string v2, "range"
 
-    const/16 v1, 0x2c
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const/16 v2, 0x31
 
-    const-string v3, "link"
+    aput-object v1, v0, v2
 
-    const-string v4, ""
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v2, "referer"
 
-    aput-object v2, v0, v1
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const/16 v1, 0x2d
+    const/16 v2, 0x32
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    aput-object v1, v0, v2
 
-    const-string v3, "location"
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v4, ""
+    const-string v2, "refresh"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x33
 
-    const/16 v1, 0x2e
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "max-forwards"
+    const-string v2, "retry-after"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0x34
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0x2f
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const-string v2, "server"
 
-    const-string v3, "proxy-authenticate"
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v4, ""
+    const/16 v2, 0x35
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    aput-object v1, v0, v2
 
-    aput-object v2, v0, v1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const/16 v1, 0x30
+    const-string v2, "set-cookie"
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v3, "proxy-authorization"
+    const/16 v2, 0x36
 
-    const-string v4, ""
+    aput-object v1, v0, v2
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    aput-object v2, v0, v1
+    const-string v2, "strict-transport-security"
 
-    const/16 v1, 0x31
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const/16 v2, 0x37
 
-    const-string v3, "range"
+    aput-object v1, v0, v2
 
-    const-string v4, ""
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v2, "transfer-encoding"
 
-    aput-object v2, v0, v1
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const/16 v1, 0x32
+    const/16 v2, 0x38
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    aput-object v1, v0, v2
 
-    const-string v3, "referer"
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v4, ""
+    const-string v2, "user-agent"
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    aput-object v2, v0, v1
+    const/16 v2, 0x39
 
-    const/16 v1, 0x33
+    aput-object v1, v0, v2
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const-string v3, "refresh"
+    const-string v2, "vary"
 
-    const-string v4, ""
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const/16 v2, 0x3a
 
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
-    const/16 v1, 0x34
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    const-string v2, "via"
 
-    const-string v3, "retry-after"
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v4, ""
+    const/16 v2, 0x3b
 
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    aput-object v1, v0, v2
 
-    aput-object v2, v0, v1
+    new-instance v1, Lokhttp3/internal/http2/Header;
 
-    const/16 v1, 0x35
+    const-string v2, "www-authenticate"
 
-    new-instance v2, Lokhttp3/internal/http2/Header;
+    invoke-direct {v1, v2, v3}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    const-string v3, "server"
+    const/16 v2, 0x3c
 
-    const-string v4, ""
-
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x36
-
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    const-string v3, "set-cookie"
-
-    const-string v4, ""
-
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x37
-
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    const-string v3, "strict-transport-security"
-
-    const-string v4, ""
-
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x38
-
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    const-string v3, "transfer-encoding"
-
-    const-string v4, ""
-
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x39
-
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    const-string v3, "user-agent"
-
-    const-string v4, ""
-
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x3a
-
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    const-string v3, "vary"
-
-    const-string v4, ""
-
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x3b
-
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    const-string v3, "via"
-
-    const-string v4, ""
-
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    aput-object v2, v0, v1
-
-    const/16 v1, 0x3c
-
-    new-instance v2, Lokhttp3/internal/http2/Header;
-
-    const-string v3, "www-authenticate"
-
-    const-string v4, ""
-
-    invoke-direct {v2, v3, v4}, Lokhttp3/internal/http2/Header;-><init>(Ljava/lang/String;Ljava/lang/String;)V
-
-    aput-object v2, v0, v1
+    aput-object v1, v0, v2
 
     sput-object v0, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
 
@@ -793,7 +699,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 111
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -810,35 +715,37 @@
         }
     .end annotation
 
-    .prologue
     .line 591
-    const/4 v1, 0x0
+    const/4 v0, 0x0
 
-    .local v1, "i":I
+    .local v0, "i":I
     invoke-virtual {p0}, Lokio/ByteString;->size()I
+
+    move-result v1
+
+    .local v1, "length":I
+    :goto_0
+    if-ge v0, v1, :cond_2
+
+    .line 592
+    invoke-virtual {p0, v0}, Lokio/ByteString;->getByte(I)B
 
     move-result v2
 
-    .local v2, "length":I
-    :goto_0
-    if-ge v1, v2, :cond_1
-
-    .line 592
-    invoke-virtual {p0, v1}, Lokio/ByteString;->getByte(I)B
-
-    move-result v0
-
     .line 593
-    .local v0, "c":B
+    .local v2, "c":B
     const/16 v3, 0x41
 
-    if-lt v0, v3, :cond_0
+    if-lt v2, v3, :cond_1
 
     const/16 v3, 0x5a
 
-    if-gt v0, v3, :cond_0
+    if-le v2, v3, :cond_0
+
+    goto :goto_1
 
     .line 594
+    :cond_0
     new-instance v3, Ljava/io/IOException;
 
     new-instance v4, Ljava/lang/StringBuilder;
@@ -849,15 +756,11 @@
 
     invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v4
-
     invoke-virtual {p0}, Lokio/ByteString;->utf8()Ljava/lang/String;
 
     move-result-object v5
 
     invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
 
     invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -868,14 +771,17 @@
     throw v3
 
     .line 591
-    :cond_0
-    add-int/lit8 v1, v1, 0x1
+    .end local v2    # "c":B
+    :cond_1
+    :goto_1
+    add-int/lit8 v0, v0, 0x1
 
     goto :goto_0
 
     .line 597
-    .end local v0    # "c":B
-    :cond_1
+    .end local v0    # "i":I
+    .end local v1    # "length":I
+    :cond_2
     return-object p0
 .end method
 
@@ -884,73 +790,68 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()",
-            "Ljava/util/Map",
-            "<",
+            "Ljava/util/Map<",
             "Lokio/ByteString;",
             "Ljava/lang/Integer;",
             ">;"
         }
     .end annotation
 
-    .prologue
     .line 352
-    new-instance v1, Ljava/util/LinkedHashMap;
+    new-instance v0, Ljava/util/LinkedHashMap;
 
-    sget-object v2, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
+    sget-object v1, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
 
-    array-length v2, v2
+    array-length v1, v1
 
-    invoke-direct {v1, v2}, Ljava/util/LinkedHashMap;-><init>(I)V
+    invoke-direct {v0, v1}, Ljava/util/LinkedHashMap;-><init>(I)V
 
     .line 353
-    .local v1, "result":Ljava/util/Map;, "Ljava/util/Map<Lokio/ByteString;Ljava/lang/Integer;>;"
-    const/4 v0, 0x0
+    .local v0, "result":Ljava/util/Map;, "Ljava/util/Map<Lokio/ByteString;Ljava/lang/Integer;>;"
+    const/4 v1, 0x0
 
-    .local v0, "i":I
+    .local v1, "i":I
     :goto_0
     sget-object v2, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
 
-    array-length v2, v2
+    array-length v3, v2
 
-    if-ge v0, v2, :cond_1
+    if-ge v1, v3, :cond_1
 
     .line 354
-    sget-object v2, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
+    aget-object v3, v2, v1
 
-    aget-object v2, v2, v0
+    iget-object v3, v3, Lokhttp3/internal/http2/Header;->name:Lokio/ByteString;
 
-    iget-object v2, v2, Lokhttp3/internal/http2/Header;->name:Lokio/ByteString;
+    invoke-interface {v0, v3}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
 
-    invoke-interface {v1, v2}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+    move-result v3
 
-    move-result v2
-
-    if-nez v2, :cond_0
+    if-nez v3, :cond_0
 
     .line 355
-    sget-object v2, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
-
-    aget-object v2, v2, v0
+    aget-object v2, v2, v1
 
     iget-object v2, v2, Lokhttp3/internal/http2/Header;->name:Lokio/ByteString;
 
-    invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+    invoke-static {v1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
     move-result-object v3
 
-    invoke-interface {v1, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v0, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
     .line 353
     :cond_0
-    add-int/lit8 v0, v0, 0x1
+    add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
 
     .line 358
+    .end local v1    # "i":I
     :cond_1
-    invoke-static {v1}, Ljava/util/Collections;->unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;
+    invoke-static {v0}, Ljava/util/Collections;->unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;
 
-    move-result-object v2
+    move-result-object v1
 
-    return-object v2
+    return-object v1
 .end method

@@ -30,7 +30,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .prologue
     .line 443
     iput-object p1, p0, Lio/socket/engineio/client/Socket$12;->this$0:Lio/socket/engineio/client/Socket;
 
@@ -46,77 +45,75 @@
 
 # virtual methods
 .method public varargs call([Ljava/lang/Object;)V
-    .locals 7
+    .locals 6
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
-    const/4 v6, 0x0
-
     .line 446
-    aget-object v0, p1, v6
+    const/4 v0, 0x0
 
-    check-cast v0, Lio/socket/engineio/client/Transport;
+    aget-object v1, p1, v0
+
+    check-cast v1, Lio/socket/engineio/client/Transport;
 
     .line 447
-    .local v0, "to":Lio/socket/engineio/client/Transport;
-    iget-object v1, p0, Lio/socket/engineio/client/Socket$12;->val$transport:[Lio/socket/engineio/client/Transport;
-
-    aget-object v1, v1, v6
-
-    if-eqz v1, :cond_0
-
-    iget-object v1, v0, Lio/socket/engineio/client/Transport;->name:Ljava/lang/String;
-
+    .local v1, "to":Lio/socket/engineio/client/Transport;
     iget-object v2, p0, Lio/socket/engineio/client/Socket$12;->val$transport:[Lio/socket/engineio/client/Transport;
 
-    aget-object v2, v2, v6
+    aget-object v2, v2, v0
 
-    iget-object v2, v2, Lio/socket/engineio/client/Transport;->name:Ljava/lang/String;
+    if-eqz v2, :cond_0
 
-    invoke-virtual {v1, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    iget-object v2, v1, Lio/socket/engineio/client/Transport;->name:Ljava/lang/String;
 
-    move-result v1
+    iget-object v3, p0, Lio/socket/engineio/client/Socket$12;->val$transport:[Lio/socket/engineio/client/Transport;
 
-    if-nez v1, :cond_0
+    aget-object v3, v3, v0
+
+    iget-object v3, v3, Lio/socket/engineio/client/Transport;->name:Ljava/lang/String;
+
+    invoke-virtual {v2, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_0
 
     .line 448
-    # getter for: Lio/socket/engineio/client/Socket;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
-    move-result-object v1
-
-    const-string v2, "\'%s\' works - aborting \'%s\'"
+    move-result-object v2
 
     const/4 v3, 0x2
 
     new-array v3, v3, [Ljava/lang/Object;
 
-    iget-object v4, v0, Lio/socket/engineio/client/Transport;->name:Ljava/lang/String;
+    iget-object v4, v1, Lio/socket/engineio/client/Transport;->name:Ljava/lang/String;
 
-    aput-object v4, v3, v6
+    aput-object v4, v3, v0
 
     const/4 v4, 0x1
 
     iget-object v5, p0, Lio/socket/engineio/client/Socket$12;->val$transport:[Lio/socket/engineio/client/Transport;
 
-    aget-object v5, v5, v6
+    aget-object v5, v5, v0
 
     iget-object v5, v5, Lio/socket/engineio/client/Transport;->name:Ljava/lang/String;
 
     aput-object v5, v3, v4
 
-    invoke-static {v2, v3}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    const-string v4, "\'%s\' works - aborting \'%s\'"
 
-    move-result-object v2
+    invoke-static {v4, v3}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
-    invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
     .line 449
-    iget-object v1, p0, Lio/socket/engineio/client/Socket$12;->val$freezeTransport:Lio/socket/emitter/Emitter$Listener;
+    iget-object v2, p0, Lio/socket/engineio/client/Socket$12;->val$freezeTransport:Lio/socket/emitter/Emitter$Listener;
 
-    new-array v2, v6, [Ljava/lang/Object;
+    new-array v0, v0, [Ljava/lang/Object;
 
-    invoke-interface {v1, v2}, Lio/socket/emitter/Emitter$Listener;->call([Ljava/lang/Object;)V
+    invoke-interface {v2, v0}, Lio/socket/emitter/Emitter$Listener;->call([Ljava/lang/Object;)V
 
     .line 451
     :cond_0

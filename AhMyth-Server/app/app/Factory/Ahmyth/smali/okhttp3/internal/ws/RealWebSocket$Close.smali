@@ -24,12 +24,11 @@
 
 # direct methods
 .method constructor <init>(ILokio/ByteString;J)V
-    .locals 1
+    .locals 0
     .param p1, "code"    # I
     .param p2, "reason"    # Lokio/ByteString;
     .param p3, "cancelAfterCloseMillis"    # J
 
-    .prologue
     .line 542
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 

@@ -15,8 +15,7 @@
 
 .annotation system Ldalvik/annotation/Signature;
     value = {
-        "Ljava/util/ArrayList",
-        "<",
+        "Ljava/util/ArrayList<",
         "Ljava/lang/Object;",
         ">;"
     }
@@ -32,30 +31,23 @@
     .locals 1
     .param p1, "this$1"    # Lio/socket/client/Socket$6;
 
-    .prologue
     .line 238
     iput-object p1, p0, Lio/socket/client/Socket$6$1;->this$1:Lio/socket/client/Socket$6;
 
     invoke-direct {p0}, Ljava/util/ArrayList;-><init>()V
 
     .line 239
-    iget-object v0, p0, Lio/socket/client/Socket$6$1;->this$1:Lio/socket/client/Socket$6;
-
-    iget-object v0, v0, Lio/socket/client/Socket$6;->val$event:Ljava/lang/String;
+    iget-object v0, p1, Lio/socket/client/Socket$6;->val$event:Ljava/lang/String;
 
     invoke-virtual {p0, v0}, Lio/socket/client/Socket$6$1;->add(Ljava/lang/Object;)Z
 
     .line 240
-    iget-object v0, p0, Lio/socket/client/Socket$6$1;->this$1:Lio/socket/client/Socket$6;
-
-    iget-object v0, v0, Lio/socket/client/Socket$6;->val$args:[Ljava/lang/Object;
+    iget-object v0, p1, Lio/socket/client/Socket$6;->val$args:[Ljava/lang/Object;
 
     if-eqz v0, :cond_0
 
     .line 241
-    iget-object v0, p0, Lio/socket/client/Socket$6$1;->this$1:Lio/socket/client/Socket$6;
-
-    iget-object v0, v0, Lio/socket/client/Socket$6;->val$args:[Ljava/lang/Object;
+    iget-object v0, p1, Lio/socket/client/Socket$6;->val$args:[Ljava/lang/Object;
 
     invoke-static {v0}, Ljava/util/Arrays;->asList([Ljava/lang/Object;)Ljava/util/List;
 

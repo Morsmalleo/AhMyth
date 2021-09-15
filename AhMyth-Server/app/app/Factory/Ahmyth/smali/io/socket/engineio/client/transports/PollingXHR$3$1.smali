@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/PollingXHR$3;
 
-    .prologue
     .line 73
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$3$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$3;
 
@@ -40,7 +39,6 @@
 .method public run()V
     .locals 1
 
-    .prologue
     .line 76
     iget-object v0, p0, Lio/socket/engineio/client/transports/PollingXHR$3$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$3;
 

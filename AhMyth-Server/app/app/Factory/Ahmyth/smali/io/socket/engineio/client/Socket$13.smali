@@ -40,7 +40,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .prologue
     .line 454
     iput-object p1, p0, Lio/socket/engineio/client/Socket$13;->this$0:Lio/socket/engineio/client/Socket;
 
@@ -68,59 +67,56 @@
 .method public run()V
     .locals 4
 
-    .prologue
-    const/4 v3, 0x0
-
     .line 457
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$transport:[Lio/socket/engineio/client/Transport;
 
-    aget-object v0, v0, v3
+    const/4 v1, 0x0
 
-    const-string v1, "open"
+    aget-object v0, v0, v1
 
     iget-object v2, p0, Lio/socket/engineio/client/Socket$13;->val$onTransportOpen:Lio/socket/emitter/Emitter$Listener;
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    const-string v3, "open"
+
+    invoke-virtual {v0, v3, v2}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
     .line 458
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$transport:[Lio/socket/engineio/client/Transport;
 
-    aget-object v0, v0, v3
-
-    const-string v1, "error"
+    aget-object v0, v0, v1
 
     iget-object v2, p0, Lio/socket/engineio/client/Socket$13;->val$onerror:Lio/socket/emitter/Emitter$Listener;
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    const-string v3, "error"
+
+    invoke-virtual {v0, v3, v2}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
     .line 459
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$transport:[Lio/socket/engineio/client/Transport;
 
-    aget-object v0, v0, v3
+    aget-object v0, v0, v1
 
-    const-string v1, "close"
+    iget-object v1, p0, Lio/socket/engineio/client/Socket$13;->val$onTransportClose:Lio/socket/emitter/Emitter$Listener;
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$13;->val$onTransportClose:Lio/socket/emitter/Emitter$Listener;
+    const-string v2, "close"
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
     .line 460
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$self:Lio/socket/engineio/client/Socket;
 
-    const-string v1, "close"
+    iget-object v1, p0, Lio/socket/engineio/client/Socket$13;->val$onclose:Lio/socket/emitter/Emitter$Listener;
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$13;->val$onclose:Lio/socket/emitter/Emitter$Listener;
-
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/Socket;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/Socket;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
     .line 461
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$self:Lio/socket/engineio/client/Socket;
 
-    const-string v1, "upgrading"
+    iget-object v1, p0, Lio/socket/engineio/client/Socket$13;->val$onupgrade:Lio/socket/emitter/Emitter$Listener;
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$13;->val$onupgrade:Lio/socket/emitter/Emitter$Listener;
+    const-string v2, "upgrading"
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/Socket;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/Socket;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
     .line 462
     return-void

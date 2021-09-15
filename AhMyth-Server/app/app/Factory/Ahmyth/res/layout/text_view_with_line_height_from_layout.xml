@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textview.MaterialTextView android:textAppearance="@style/TestStyleWithLineHeight" android:layout_width="fill_parent" android:layout_height="wrap_content" app:lineHeight="@dimen/material_text_view_test_line_height_override"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" />

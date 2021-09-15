@@ -23,7 +23,6 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/internal/http2/Http2Stream;
 
-    .prologue
     .line 581
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Stream$StreamTimeout;->this$0:Lokhttp3/internal/http2/Http2Stream;
 
@@ -42,14 +41,18 @@
         }
     .end annotation
 
-    .prologue
     .line 595
     invoke-virtual {p0}, Lokhttp3/internal/http2/Http2Stream$StreamTimeout;->exit()Z
 
     move-result v0
 
-    if-eqz v0, :cond_0
+    if-nez v0, :cond_0
 
+    .line 596
+    return-void
+
+    .line 595
+    :cond_0
     const/4 v0, 0x0
 
     invoke-virtual {p0, v0}, Lokhttp3/internal/http2/Http2Stream$StreamTimeout;->newTimeoutException(Ljava/io/IOException;)Ljava/io/IOException;
@@ -57,17 +60,12 @@
     move-result-object v0
 
     throw v0
-
-    .line 596
-    :cond_0
-    return-void
 .end method
 
 .method protected newTimeoutException(Ljava/io/IOException;)Ljava/io/IOException;
     .locals 2
     .param p1, "cause"    # Ljava/io/IOException;
 
-    .prologue
     .line 587
     new-instance v0, Ljava/net/SocketTimeoutException;
 
@@ -90,7 +88,6 @@
 .method protected timedOut()V
     .locals 2
 
-    .prologue
     .line 583
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Stream$StreamTimeout;->this$0:Lokhttp3/internal/http2/Http2Stream;
 

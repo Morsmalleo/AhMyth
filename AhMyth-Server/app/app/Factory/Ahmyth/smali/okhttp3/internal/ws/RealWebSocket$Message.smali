@@ -26,7 +26,6 @@
     .param p1, "formatOpcode"    # I
     .param p2, "data"    # Lokio/ByteString;
 
-    .prologue
     .line 531
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 

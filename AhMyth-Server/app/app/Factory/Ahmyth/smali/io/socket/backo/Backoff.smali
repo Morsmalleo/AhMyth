@@ -19,7 +19,6 @@
 .method public constructor <init>()V
     .locals 2
 
-    .prologue
     .line 14
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -45,89 +44,88 @@
 
 # virtual methods
 .method public duration()J
-    .locals 8
+    .locals 6
 
-    .prologue
     .line 17
-    iget-wide v4, p0, Lio/socket/backo/Backoff;->ms:J
+    iget-wide v0, p0, Lio/socket/backo/Backoff;->ms:J
 
-    invoke-static {v4, v5}, Ljava/math/BigInteger;->valueOf(J)Ljava/math/BigInteger;
+    invoke-static {v0, v1}, Ljava/math/BigInteger;->valueOf(J)Ljava/math/BigInteger;
 
-    move-result-object v4
+    move-result-object v0
 
-    iget v5, p0, Lio/socket/backo/Backoff;->factor:I
+    iget v1, p0, Lio/socket/backo/Backoff;->factor:I
 
-    int-to-long v6, v5
+    int-to-long v1, v1
 
     .line 18
-    invoke-static {v6, v7}, Ljava/math/BigInteger;->valueOf(J)Ljava/math/BigInteger;
-
-    move-result-object v5
-
-    iget v6, p0, Lio/socket/backo/Backoff;->attempts:I
-
-    add-int/lit8 v7, v6, 0x1
-
-    iput v7, p0, Lio/socket/backo/Backoff;->attempts:I
-
-    invoke-virtual {v5, v6}, Ljava/math/BigInteger;->pow(I)Ljava/math/BigInteger;
-
-    move-result-object v5
-
-    invoke-virtual {v4, v5}, Ljava/math/BigInteger;->multiply(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+    invoke-static {v1, v2}, Ljava/math/BigInteger;->valueOf(J)Ljava/math/BigInteger;
 
     move-result-object v1
 
+    iget v2, p0, Lio/socket/backo/Backoff;->attempts:I
+
+    add-int/lit8 v3, v2, 0x1
+
+    iput v3, p0, Lio/socket/backo/Backoff;->attempts:I
+
+    invoke-virtual {v1, v2}, Ljava/math/BigInteger;->pow(I)Ljava/math/BigInteger;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/math/BigInteger;->multiply(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+
+    move-result-object v0
+
     .line 19
-    .local v1, "ms":Ljava/math/BigInteger;
-    iget-wide v4, p0, Lio/socket/backo/Backoff;->jitter:D
+    .local v0, "ms":Ljava/math/BigInteger;
+    iget-wide v1, p0, Lio/socket/backo/Backoff;->jitter:D
 
-    const-wide/16 v6, 0x0
+    const-wide/16 v3, 0x0
 
-    cmpl-double v4, v4, v6
+    cmpl-double v5, v1, v3
 
-    if-eqz v4, :cond_0
+    if-eqz v5, :cond_1
 
     .line 20
     invoke-static {}, Ljava/lang/Math;->random()D
 
-    move-result-wide v2
+    move-result-wide v1
 
     .line 21
-    .local v2, "rand":D
-    invoke-static {v2, v3}, Ljava/math/BigDecimal;->valueOf(D)Ljava/math/BigDecimal;
+    .local v1, "rand":D
+    invoke-static {v1, v2}, Ljava/math/BigDecimal;->valueOf(D)Ljava/math/BigDecimal;
 
-    move-result-object v4
+    move-result-object v3
 
-    iget-wide v6, p0, Lio/socket/backo/Backoff;->jitter:D
+    iget-wide v4, p0, Lio/socket/backo/Backoff;->jitter:D
 
     .line 22
-    invoke-static {v6, v7}, Ljava/math/BigDecimal;->valueOf(D)Ljava/math/BigDecimal;
-
-    move-result-object v5
-
-    invoke-virtual {v4, v5}, Ljava/math/BigDecimal;->multiply(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;
+    invoke-static {v4, v5}, Ljava/math/BigDecimal;->valueOf(D)Ljava/math/BigDecimal;
 
     move-result-object v4
 
-    new-instance v5, Ljava/math/BigDecimal;
+    invoke-virtual {v3, v4}, Ljava/math/BigDecimal;->multiply(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;
 
-    invoke-direct {v5, v1}, Ljava/math/BigDecimal;-><init>(Ljava/math/BigInteger;)V
+    move-result-object v3
+
+    new-instance v4, Ljava/math/BigDecimal;
+
+    invoke-direct {v4, v0}, Ljava/math/BigDecimal;-><init>(Ljava/math/BigInteger;)V
 
     .line 23
-    invoke-virtual {v4, v5}, Ljava/math/BigDecimal;->multiply(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;
+    invoke-virtual {v3, v4}, Ljava/math/BigDecimal;->multiply(Ljava/math/BigDecimal;)Ljava/math/BigDecimal;
 
-    move-result-object v4
+    move-result-object v3
 
-    invoke-virtual {v4}, Ljava/math/BigDecimal;->toBigInteger()Ljava/math/BigInteger;
+    invoke-virtual {v3}, Ljava/math/BigDecimal;->toBigInteger()Ljava/math/BigInteger;
 
-    move-result-object v0
+    move-result-object v3
 
     .line 24
-    .local v0, "deviation":Ljava/math/BigInteger;
+    .local v3, "deviation":Ljava/math/BigInteger;
     const-wide/high16 v4, 0x4024000000000000L    # 10.0
 
-    mul-double/2addr v4, v2
+    mul-double v4, v4, v1
 
     invoke-static {v4, v5}, Ljava/lang/Math;->floor(D)D
 
@@ -137,48 +135,46 @@
 
     and-int/lit8 v4, v4, 0x1
 
-    if-nez v4, :cond_1
+    if-nez v4, :cond_0
 
-    invoke-virtual {v1, v0}, Ljava/math/BigInteger;->subtract(Ljava/math/BigInteger;)Ljava/math/BigInteger;
-
-    move-result-object v1
-
-    .line 26
-    .end local v0    # "deviation":Ljava/math/BigInteger;
-    .end local v2    # "rand":D
-    :cond_0
-    :goto_0
-    iget-wide v4, p0, Lio/socket/backo/Backoff;->max:J
-
-    invoke-static {v4, v5}, Ljava/math/BigInteger;->valueOf(J)Ljava/math/BigInteger;
+    invoke-virtual {v0, v3}, Ljava/math/BigInteger;->subtract(Ljava/math/BigInteger;)Ljava/math/BigInteger;
 
     move-result-object v4
-
-    invoke-virtual {v1, v4}, Ljava/math/BigInteger;->min(Ljava/math/BigInteger;)Ljava/math/BigInteger;
-
-    move-result-object v4
-
-    invoke-virtual {v4}, Ljava/math/BigInteger;->longValue()J
-
-    move-result-wide v4
-
-    return-wide v4
-
-    .line 24
-    .restart local v0    # "deviation":Ljava/math/BigInteger;
-    .restart local v2    # "rand":D
-    :cond_1
-    invoke-virtual {v1, v0}, Ljava/math/BigInteger;->add(Ljava/math/BigInteger;)Ljava/math/BigInteger;
-
-    move-result-object v1
 
     goto :goto_0
+
+    :cond_0
+    invoke-virtual {v0, v3}, Ljava/math/BigInteger;->add(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+
+    move-result-object v4
+
+    :goto_0
+    move-object v0, v4
+
+    .line 26
+    .end local v1    # "rand":D
+    .end local v3    # "deviation":Ljava/math/BigInteger;
+    :cond_1
+    iget-wide v1, p0, Lio/socket/backo/Backoff;->max:J
+
+    invoke-static {v1, v2}, Ljava/math/BigInteger;->valueOf(J)Ljava/math/BigInteger;
+
+    move-result-object v1
+
+    invoke-virtual {v0, v1}, Ljava/math/BigInteger;->min(Ljava/math/BigInteger;)Ljava/math/BigInteger;
+
+    move-result-object v1
+
+    invoke-virtual {v1}, Ljava/math/BigInteger;->longValue()J
+
+    move-result-wide v1
+
+    return-wide v1
 .end method
 
 .method public getAttempts()I
     .locals 1
 
-    .prologue
     .line 54
     iget v0, p0, Lio/socket/backo/Backoff;->attempts:I
 
@@ -188,7 +184,6 @@
 .method public reset()V
     .locals 1
 
-    .prologue
     .line 30
     const/4 v0, 0x0
 
@@ -202,7 +197,6 @@
     .locals 0
     .param p1, "factor"    # I
 
-    .prologue
     .line 44
     iput p1, p0, Lio/socket/backo/Backoff;->factor:I
 
@@ -211,10 +205,9 @@
 .end method
 
 .method public setJitter(D)Lio/socket/backo/Backoff;
-    .locals 1
+    .locals 0
     .param p1, "jitter"    # D
 
-    .prologue
     .line 49
     iput-wide p1, p0, Lio/socket/backo/Backoff;->jitter:D
 
@@ -223,10 +216,9 @@
 .end method
 
 .method public setMax(J)Lio/socket/backo/Backoff;
-    .locals 1
+    .locals 0
     .param p1, "max"    # J
 
-    .prologue
     .line 39
     iput-wide p1, p0, Lio/socket/backo/Backoff;->max:J
 
@@ -235,10 +227,9 @@
 .end method
 
 .method public setMin(J)Lio/socket/backo/Backoff;
-    .locals 1
+    .locals 0
     .param p1, "min"    # J
 
-    .prologue
     .line 34
     iput-wide p1, p0, Lio/socket/backo/Backoff;->ms:J
 

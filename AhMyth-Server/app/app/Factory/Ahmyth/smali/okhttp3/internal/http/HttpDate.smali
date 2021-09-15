@@ -13,8 +13,7 @@
 .field private static final STANDARD_DATE_FORMAT:Ljava/lang/ThreadLocal;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/lang/ThreadLocal",
-            "<",
+            "Ljava/lang/ThreadLocal<",
             "Ljava/text/DateFormat;",
             ">;"
         }
@@ -26,7 +25,6 @@
 .method static constructor <clinit>()V
     .locals 3
 
-    .prologue
     .line 37
     new-instance v0, Lokhttp3/internal/http/HttpDate$1;
 
@@ -132,8 +130,6 @@
     sput-object v0, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS:[Ljava/lang/String;
 
     .line 71
-    sget-object v0, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS:[Ljava/lang/String;
-
     array-length v0, v0
 
     new-array v0, v0, [Ljava/text/DateFormat;
@@ -146,7 +142,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 117
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -158,7 +153,6 @@
     .locals 1
     .param p0, "value"    # Ljava/util/Date;
 
-    .prologue
     .line 114
     sget-object v0, Lokhttp3/internal/http/HttpDate;->STANDARD_DATE_FORMAT:Ljava/lang/ThreadLocal;
 
@@ -176,163 +170,157 @@
 .end method
 
 .method public static parse(Ljava/lang/String;)Ljava/util/Date;
-    .locals 9
+    .locals 12
     .param p0, "value"    # Ljava/lang/String;
-
-    .prologue
-    const/4 v6, 0x0
-
-    const/4 v7, 0x0
 
     .line 76
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
-    move-result v5
+    move-result v0
 
-    if-nez v5, :cond_1
+    const/4 v1, 0x0
 
-    move-object v4, v6
+    if-nez v0, :cond_0
 
-    .line 109
-    :cond_0
-    :goto_0
-    return-object v4
+    .line 77
+    return-object v1
 
     .line 80
-    :cond_1
-    new-instance v3, Ljava/text/ParsePosition;
+    :cond_0
+    new-instance v0, Ljava/text/ParsePosition;
 
-    invoke-direct {v3, v7}, Ljava/text/ParsePosition;-><init>(I)V
+    const/4 v2, 0x0
+
+    invoke-direct {v0, v2}, Ljava/text/ParsePosition;-><init>(I)V
 
     .line 81
-    .local v3, "position":Ljava/text/ParsePosition;
-    sget-object v5, Lokhttp3/internal/http/HttpDate;->STANDARD_DATE_FORMAT:Ljava/lang/ThreadLocal;
+    .local v0, "position":Ljava/text/ParsePosition;
+    sget-object v3, Lokhttp3/internal/http/HttpDate;->STANDARD_DATE_FORMAT:Ljava/lang/ThreadLocal;
 
-    invoke-virtual {v5}, Ljava/lang/ThreadLocal;->get()Ljava/lang/Object;
+    invoke-virtual {v3}, Ljava/lang/ThreadLocal;->get()Ljava/lang/Object;
 
-    move-result-object v5
+    move-result-object v3
 
-    check-cast v5, Ljava/text/DateFormat;
+    check-cast v3, Ljava/text/DateFormat;
 
-    invoke-virtual {v5, p0, v3}, Ljava/text/DateFormat;->parse(Ljava/lang/String;Ljava/text/ParsePosition;)Ljava/util/Date;
+    invoke-virtual {v3, p0, v0}, Ljava/text/DateFormat;->parse(Ljava/lang/String;Ljava/text/ParsePosition;)Ljava/util/Date;
 
-    move-result-object v4
+    move-result-object v3
 
     .line 82
-    .local v4, "result":Ljava/util/Date;
-    invoke-virtual {v3}, Ljava/text/ParsePosition;->getIndex()I
+    .local v3, "result":Ljava/util/Date;
+    invoke-virtual {v0}, Ljava/text/ParsePosition;->getIndex()I
 
-    move-result v5
+    move-result v4
 
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
-    move-result v7
+    move-result v5
 
-    if-eq v5, v7, :cond_0
+    if-ne v4, v5, :cond_1
+
+    .line 85
+    return-object v3
 
     .line 87
-    sget-object v7, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS:[Ljava/lang/String;
+    :cond_1
+    sget-object v4, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS:[Ljava/lang/String;
 
-    monitor-enter v7
+    monitor-enter v4
 
     .line 88
-    const/4 v2, 0x0
+    const/4 v5, 0x0
 
-    .local v2, "i":I
+    .local v5, "i":I
     :try_start_0
-    sget-object v5, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS:[Ljava/lang/String;
+    array-length v6, v4
 
-    array-length v0, v5
-
-    .local v0, "count":I
-    :goto_1
-    if-ge v2, v0, :cond_4
+    .local v6, "count":I
+    :goto_0
+    if-ge v5, v6, :cond_4
 
     .line 89
-    sget-object v5, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMATS:[Ljava/text/DateFormat;
+    sget-object v7, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMATS:[Ljava/text/DateFormat;
 
-    aget-object v1, v5, v2
+    aget-object v8, v7, v5
 
     .line 90
-    .local v1, "format":Ljava/text/DateFormat;
-    if-nez v1, :cond_2
+    .local v8, "format":Ljava/text/DateFormat;
+    if-nez v8, :cond_2
 
     .line 91
-    new-instance v1, Ljava/text/SimpleDateFormat;
+    new-instance v9, Ljava/text/SimpleDateFormat;
 
-    .end local v1    # "format":Ljava/text/DateFormat;
-    sget-object v5, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS:[Ljava/lang/String;
+    sget-object v10, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMAT_STRINGS:[Ljava/lang/String;
 
-    aget-object v5, v5, v2
+    aget-object v10, v10, v5
 
-    sget-object v8, Ljava/util/Locale;->US:Ljava/util/Locale;
+    sget-object v11, Ljava/util/Locale;->US:Ljava/util/Locale;
 
-    invoke-direct {v1, v5, v8}, Ljava/text/SimpleDateFormat;-><init>(Ljava/lang/String;Ljava/util/Locale;)V
+    invoke-direct {v9, v10, v11}, Ljava/text/SimpleDateFormat;-><init>(Ljava/lang/String;Ljava/util/Locale;)V
+
+    move-object v8, v9
 
     .line 94
-    .restart local v1    # "format":Ljava/text/DateFormat;
-    sget-object v5, Lokhttp3/internal/Util;->UTC:Ljava/util/TimeZone;
+    sget-object v9, Lokhttp3/internal/Util;->UTC:Ljava/util/TimeZone;
 
-    invoke-virtual {v1, v5}, Ljava/text/DateFormat;->setTimeZone(Ljava/util/TimeZone;)V
+    invoke-virtual {v8, v9}, Ljava/text/DateFormat;->setTimeZone(Ljava/util/TimeZone;)V
 
     .line 95
-    sget-object v5, Lokhttp3/internal/http/HttpDate;->BROWSER_COMPATIBLE_DATE_FORMATS:[Ljava/text/DateFormat;
-
-    aput-object v1, v5, v2
+    aput-object v8, v7, v5
 
     .line 97
     :cond_2
-    const/4 v5, 0x0
-
-    invoke-virtual {v3, v5}, Ljava/text/ParsePosition;->setIndex(I)V
+    invoke-virtual {v0, v2}, Ljava/text/ParsePosition;->setIndex(I)V
 
     .line 98
-    invoke-virtual {v1, p0, v3}, Ljava/text/DateFormat;->parse(Ljava/lang/String;Ljava/text/ParsePosition;)Ljava/util/Date;
+    invoke-virtual {v8, p0, v0}, Ljava/text/DateFormat;->parse(Ljava/lang/String;Ljava/text/ParsePosition;)Ljava/util/Date;
 
-    move-result-object v4
+    move-result-object v7
+
+    move-object v3, v7
 
     .line 99
-    invoke-virtual {v3}, Ljava/text/ParsePosition;->getIndex()I
+    invoke-virtual {v0}, Ljava/text/ParsePosition;->getIndex()I
 
-    move-result v5
+    move-result v7
 
-    if-eqz v5, :cond_3
+    if-eqz v7, :cond_3
 
     .line 105
-    monitor-exit v7
+    monitor-exit v4
+
+    return-object v3
+
+    .line 88
+    .end local v8    # "format":Ljava/text/DateFormat;
+    :cond_3
+    add-int/lit8 v5, v5, 0x1
 
     goto :goto_0
 
     .line 108
-    .end local v0    # "count":I
-    .end local v1    # "format":Ljava/text/DateFormat;
-    :catchall_0
-    move-exception v5
+    .end local v5    # "i":I
+    .end local v6    # "count":I
+    :cond_4
+    monitor-exit v4
 
-    monitor-exit v7
+    .line 109
+    return-object v1
+
+    .line 108
+    :catchall_0
+    move-exception v1
+
+    monitor-exit v4
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    throw v5
+    goto :goto_2
 
-    .line 88
-    .restart local v0    # "count":I
-    .restart local v1    # "format":Ljava/text/DateFormat;
-    :cond_3
-    add-int/lit8 v2, v2, 0x1
+    :goto_1
+    throw v1
 
+    :goto_2
     goto :goto_1
-
-    .line 108
-    .end local v1    # "format":Ljava/text/DateFormat;
-    :cond_4
-    :try_start_1
-    monitor-exit v7
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_0
-
-    move-object v4, v6
-
-    .line 109
-    goto :goto_0
 .end method

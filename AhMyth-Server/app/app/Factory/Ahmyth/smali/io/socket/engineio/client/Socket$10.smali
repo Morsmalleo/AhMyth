@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .prologue
     .line 427
     iput-object p1, p0, Lio/socket/engineio/client/Socket$10;->this$0:Lio/socket/engineio/client/Socket;
 
@@ -45,7 +44,6 @@
     .locals 4
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 430
     iget-object v0, p0, Lio/socket/engineio/client/Socket$10;->val$onerror:Lio/socket/emitter/Emitter$Listener;
 

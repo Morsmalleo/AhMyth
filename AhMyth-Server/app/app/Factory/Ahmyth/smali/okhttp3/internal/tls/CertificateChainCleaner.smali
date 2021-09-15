@@ -7,7 +7,6 @@
 .method public constructor <init>()V
     .locals 0
 
-    .prologue
     .line 36
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -18,7 +17,6 @@
     .locals 1
     .param p0, "trustManager"    # Ljavax/net/ssl/X509TrustManager;
 
-    .prologue
     .line 41
     invoke-static {}, Lokhttp3/internal/platform/Platform;->get()Lokhttp3/internal/platform/Platform;
 
@@ -35,7 +33,6 @@
     .locals 2
     .param p0, "caCerts"    # [Ljava/security/cert/X509Certificate;
 
-    .prologue
     .line 45
     new-instance v0, Lokhttp3/internal/tls/BasicCertificateChainCleaner;
 
@@ -54,14 +51,12 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/security/cert/Certificate;",
             ">;",
             "Ljava/lang/String;",
             ")",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/security/cert/Certificate;",
             ">;"
         }

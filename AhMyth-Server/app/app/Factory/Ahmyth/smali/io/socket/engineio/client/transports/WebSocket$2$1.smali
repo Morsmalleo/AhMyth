@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/WebSocket$2;
 
-    .prologue
     .line 82
     iput-object p1, p0, Lio/socket/engineio/client/transports/WebSocket$2$1;->this$1:Lio/socket/engineio/client/transports/WebSocket$2;
 
@@ -42,34 +41,32 @@
 
 # virtual methods
 .method public run()V
-    .locals 5
+    .locals 4
 
-    .prologue
     .line 85
     iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$2$1;->this$1:Lio/socket/engineio/client/transports/WebSocket$2;
 
     iget-object v0, v0, Lio/socket/engineio/client/transports/WebSocket$2;->val$self:Lio/socket/engineio/client/transports/WebSocket;
 
-    const-string v1, "responseHeaders"
+    const/4 v1, 0x1
 
-    const/4 v2, 0x1
+    new-array v1, v1, [Ljava/lang/Object;
 
-    new-array v2, v2, [Ljava/lang/Object;
+    iget-object v2, p0, Lio/socket/engineio/client/transports/WebSocket$2$1;->val$headers:Ljava/util/Map;
 
     const/4 v3, 0x0
 
-    iget-object v4, p0, Lio/socket/engineio/client/transports/WebSocket$2$1;->val$headers:Ljava/util/Map;
+    aput-object v2, v1, v3
 
-    aput-object v4, v2, v3
+    const-string v2, "responseHeaders"
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/transports/WebSocket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/transports/WebSocket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
     .line 86
     iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$2$1;->this$1:Lio/socket/engineio/client/transports/WebSocket$2;
 
     iget-object v0, v0, Lio/socket/engineio/client/transports/WebSocket$2;->val$self:Lio/socket/engineio/client/transports/WebSocket;
 
-    # invokes: Lio/socket/engineio/client/transports/WebSocket;->onOpen()V
     invoke-static {v0}, Lio/socket/engineio/client/transports/WebSocket;->access$000(Lio/socket/engineio/client/transports/WebSocket;)V
 
     .line 87

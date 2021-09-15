@@ -102,11 +102,15 @@ app.controller("AppCtrl", ($scope) => {
     // function to open the dialog and choose apk to be bindded
     $appCtrl.BrowseApk = () => {
         dialog.showOpenDialog({}, {
+
             properties: ['openFile']
         }).then(result => {
+
             if(result.canceled) {
+
                 $appCtrl.Log("No file selected");
             } else {
+
                 $appCtrl.Log("File choosen  " + result.filePaths[0]);
                 readFile(result.filePaths[0]);
             }
@@ -119,6 +123,7 @@ app.controller("AppCtrl", ($scope) => {
             $appCtrl.$apply();
         }
     }
+
 
 
 
@@ -327,7 +332,7 @@ app.controller("AppCtrl", ($scope) => {
                     // generate a solid ahmyth apk
                     var filePath = $appCtrl.filePath;
                     if (filePath == null) {
-                        $appCtrl.Log("Browse the apk which you want to bind", CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log("Browse an apk file which you want to bind", CONSTANTS.logStatus.FAIL);
                         return;
                     } else if (!filePath.includes(".apk")) {
                         $appCtrl.Log("It is not an apk file", CONSTANTS.logStatus.FAIL);

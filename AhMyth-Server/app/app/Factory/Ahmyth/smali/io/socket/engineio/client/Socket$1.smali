@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .prologue
     .line 133
     iput-object p1, p0, Lio/socket/engineio/client/Socket$1;->this$0:Lio/socket/engineio/client/Socket;
 
@@ -41,34 +40,31 @@
     .locals 3
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 136
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$1;->this$0:Lio/socket/engineio/client/Socket;
+    iget-object v0, p0, Lio/socket/engineio/client/Socket$1;->this$0:Lio/socket/engineio/client/Socket;
 
-    array-length v0, p1
+    array-length v1, p1
 
-    if-lez v0, :cond_0
+    if-lez v1, :cond_0
 
-    const/4 v0, 0x0
+    const/4 v1, 0x0
 
-    aget-object v0, p1, v0
+    aget-object v1, p1, v1
 
-    check-cast v0, Ljava/lang/Long;
+    check-cast v1, Ljava/lang/Long;
 
-    invoke-virtual {v0}, Ljava/lang/Long;->longValue()J
+    invoke-virtual {v1}, Ljava/lang/Long;->longValue()J
 
-    move-result-wide v0
+    move-result-wide v1
+
+    goto :goto_0
+
+    :cond_0
+    const-wide/16 v1, 0x0
 
     :goto_0
-    # invokes: Lio/socket/engineio/client/Socket;->onHeartbeat(J)V
-    invoke-static {v2, v0, v1}, Lio/socket/engineio/client/Socket;->access$000(Lio/socket/engineio/client/Socket;J)V
+    invoke-static {v0, v1, v2}, Lio/socket/engineio/client/Socket;->access$000(Lio/socket/engineio/client/Socket;J)V
 
     .line 137
     return-void
-
-    .line 136
-    :cond_0
-    const-wide/16 v0, 0x0
-
-    goto :goto_0
 .end method

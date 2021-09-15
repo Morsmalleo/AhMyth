@@ -21,7 +21,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 36
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -38,14 +37,12 @@
             "(",
             "Lokhttp3/HttpUrl;",
             ")",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Cookie;",
             ">;"
         }
     .end annotation
 
-    .prologue
     .line 41
     invoke-static {}, Ljava/util/Collections;->emptyList()Ljava/util/List;
 
@@ -61,14 +58,12 @@
         value = {
             "(",
             "Lokhttp3/HttpUrl;",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Cookie;",
             ">;)V"
         }
     .end annotation
 
-    .prologue
     .line 38
     .local p2, "cookies":Ljava/util/List;, "Ljava/util/List<Lokhttp3/Cookie;>;"
     return-void

@@ -7,7 +7,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 23
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -18,7 +17,6 @@
 .method public static userAgent()Ljava/lang/String;
     .locals 1
 
-    .prologue
     .line 20
     const-string v0, "okhttp/3.5.0"
 

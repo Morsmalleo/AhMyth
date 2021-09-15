@@ -24,7 +24,6 @@
 .method constructor <init>(Lokhttp3/MediaType;Ljava/io/File;)V
     .locals 0
 
-    .prologue
     .line 105
     iput-object p1, p0, Lokhttp3/RequestBody$3;->val$contentType:Lokhttp3/MediaType;
 
@@ -40,7 +39,6 @@
 .method public contentLength()J
     .locals 2
 
-    .prologue
     .line 111
     iget-object v0, p0, Lokhttp3/RequestBody$3;->val$file:Ljava/io/File;
 
@@ -54,7 +52,6 @@
 .method public contentType()Lokhttp3/MediaType;
     .locals 1
 
-    .prologue
     .line 107
     iget-object v0, p0, Lokhttp3/RequestBody$3;->val$contentType:Lokhttp3/MediaType;
 
@@ -70,7 +67,6 @@
         }
     .end annotation
 
-    .prologue
     .line 115
     const/4 v0, 0x0
 
@@ -81,7 +77,9 @@
 
     invoke-static {v1}, Lokio/Okio;->source(Ljava/io/File;)Lokio/Source;
 
-    move-result-object v0
+    move-result-object v1
+
+    move-object v0, v1
 
     .line 118
     invoke-interface {p1, v0}, Lokio/BufferedSink;->writeAll(Lokio/Source;)J
@@ -90,6 +88,9 @@
 
     .line 120
     invoke-static {v0}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
+
+    .line 121
+    nop
 
     .line 122
     return-void

@@ -21,7 +21,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 76
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -42,7 +41,6 @@
         }
     .end annotation
 
-    .prologue
     .line 88
     int-to-long v0, p3
 
@@ -61,14 +59,12 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(I",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/internal/http2/Header;",
             ">;Z)Z"
         }
     .end annotation
 
-    .prologue
     .line 83
     .local p2, "responseHeaders":Ljava/util/List;, "Ljava/util/List<Lokhttp3/internal/http2/Header;>;"
     const/4 v0, 0x1
@@ -82,14 +78,12 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(I",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/internal/http2/Header;",
             ">;)Z"
         }
     .end annotation
 
-    .prologue
     .line 79
     .local p2, "requestHeaders":Ljava/util/List;, "Ljava/util/List<Lokhttp3/internal/http2/Header;>;"
     const/4 v0, 0x1
@@ -102,7 +96,6 @@
     .param p1, "streamId"    # I
     .param p2, "errorCode"    # Lokhttp3/internal/http2/ErrorCode;
 
-    .prologue
     .line 93
     return-void
 .end method

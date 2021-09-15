@@ -36,7 +36,6 @@
     .locals 0
     .param p1, "source"    # Lokio/BufferedSource;
 
-    .prologue
     .line 348
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -48,43 +47,38 @@
 .end method
 
 .method private readContinuationHeader()V
-    .locals 8
+    .locals 7
     .annotation system Ldalvik/annotation/Throws;
         value = {
             Ljava/io/IOException;
         }
     .end annotation
 
-    .prologue
-    const/4 v7, 0x1
-
-    const/4 v6, 0x0
-
     .line 375
     iget v0, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->streamId:I
 
     .line 377
     .local v0, "previousStreamId":I
-    iget-object v2, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
+    iget-object v1, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
 
-    invoke-static {v2}, Lokhttp3/internal/http2/Http2Reader;->readMedium(Lokio/BufferedSource;)I
+    invoke-static {v1}, Lokhttp3/internal/http2/Http2Reader;->readMedium(Lokio/BufferedSource;)I
 
-    move-result v2
+    move-result v1
 
-    iput v2, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
+    iput v1, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
 
-    iput v2, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->length:I
+    iput v1, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->length:I
 
     .line 378
-    iget-object v2, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
+    iget-object v1, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
 
-    invoke-interface {v2}, Lokio/BufferedSource;->readByte()B
+    invoke-interface {v1}, Lokio/BufferedSource;->readByte()B
 
-    move-result v2
+    move-result v1
 
-    and-int/lit16 v2, v2, 0xff
+    and-int/lit16 v1, v1, 0xff
 
-    int-to-byte v1, v2
+    int-to-byte v1, v1
 
     .line 379
     .local v1, "type":B
@@ -109,21 +103,23 @@
 
     move-result v2
 
+    const/4 v3, 0x1
+
     if-eqz v2, :cond_0
 
     sget-object v2, Lokhttp3/internal/http2/Http2Reader;->logger:Ljava/util/logging/Logger;
 
-    iget v3, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->streamId:I
+    iget v4, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->streamId:I
 
-    iget v4, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->length:I
+    iget v5, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->length:I
 
-    iget-byte v5, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->flags:B
+    iget-byte v6, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->flags:B
 
-    invoke-static {v7, v3, v4, v1, v5}, Lokhttp3/internal/http2/Http2;->frameLog(ZIIBB)Ljava/lang/String;
+    invoke-static {v3, v4, v5, v1, v6}, Lokhttp3/internal/http2/Http2;->frameLog(ZIIBB)Ljava/lang/String;
 
-    move-result-object v3
+    move-result-object v4
 
-    invoke-virtual {v2, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+    invoke-virtual {v2, v4}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
     .line 381
     :cond_0
@@ -133,52 +129,54 @@
 
     move-result v2
 
-    const v3, 0x7fffffff
+    const v4, 0x7fffffff
 
-    and-int/2addr v2, v3
+    and-int/2addr v2, v4
 
     iput v2, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->streamId:I
 
     .line 382
-    const/16 v2, 0x9
+    const/16 v4, 0x9
 
-    if-eq v1, v2, :cond_1
+    const/4 v5, 0x0
 
-    const-string v2, "%s != TYPE_CONTINUATION"
+    if-ne v1, v4, :cond_2
 
-    new-array v3, v7, [Ljava/lang/Object;
+    .line 383
+    if-ne v2, v0, :cond_1
 
-    invoke-static {v1}, Ljava/lang/Byte;->valueOf(B)Ljava/lang/Byte;
-
-    move-result-object v4
-
-    aput-object v4, v3, v6
-
-    invoke-static {v2, v3}, Lokhttp3/internal/http2/Http2;->ioException(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/IOException;
-
-    move-result-object v2
-
-    throw v2
+    .line 384
+    return-void
 
     .line 383
     :cond_1
-    iget v2, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->streamId:I
+    new-array v2, v5, [Ljava/lang/Object;
 
-    if-eq v2, v0, :cond_2
+    const-string v3, "TYPE_CONTINUATION streamId changed"
 
-    const-string v2, "TYPE_CONTINUATION streamId changed"
-
-    new-array v3, v6, [Ljava/lang/Object;
-
-    invoke-static {v2, v3}, Lokhttp3/internal/http2/Http2;->ioException(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/IOException;
+    invoke-static {v3, v2}, Lokhttp3/internal/http2/Http2;->ioException(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/IOException;
 
     move-result-object v2
 
     throw v2
 
-    .line 384
+    .line 382
     :cond_2
-    return-void
+    new-array v2, v3, [Ljava/lang/Object;
+
+    invoke-static {v1}, Ljava/lang/Byte;->valueOf(B)Ljava/lang/Byte;
+
+    move-result-object v3
+
+    aput-object v3, v2, v5
+
+    const-string v3, "%s != TYPE_CONTINUATION"
+
+    invoke-static {v3, v2}, Lokhttp3/internal/http2/Http2;->ioException(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/IOException;
+
+    move-result-object v2
+
+    throw v2
 .end method
 
 
@@ -191,13 +189,12 @@
         }
     .end annotation
 
-    .prologue
     .line 372
     return-void
 .end method
 
 .method public read(Lokio/Buffer;J)J
-    .locals 8
+    .locals 6
     .param p1, "sink"    # Lokio/Buffer;
     .param p2, "byteCount"    # J
     .annotation system Ldalvik/annotation/Throws;
@@ -206,41 +203,36 @@
         }
     .end annotation
 
-    .prologue
-    const-wide/16 v2, -0x1
-
     .line 353
     :goto_0
-    iget v4, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
+    iget v0, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
 
-    if-nez v4, :cond_1
+    const-wide/16 v1, -0x1
+
+    if-nez v0, :cond_1
 
     .line 354
-    iget-object v4, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
+    iget-object v0, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
 
-    iget-short v5, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->padding:S
+    iget-short v3, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->padding:S
 
-    int-to-long v6, v5
+    int-to-long v3, v3
 
-    invoke-interface {v4, v6, v7}, Lokio/BufferedSource;->skip(J)V
+    invoke-interface {v0, v3, v4}, Lokio/BufferedSource;->skip(J)V
 
     .line 355
-    const/4 v4, 0x0
+    const/4 v0, 0x0
 
-    iput-short v4, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->padding:S
+    iput-short v0, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->padding:S
 
     .line 356
-    iget-byte v4, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->flags:B
+    iget-byte v0, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->flags:B
 
-    and-int/lit8 v4, v4, 0x4
+    and-int/lit8 v0, v0, 0x4
 
-    if-eqz v4, :cond_0
+    if-eqz v0, :cond_0
 
-    move-wide v0, v2
-
-    .line 364
-    :goto_1
-    return-wide v0
+    return-wide v1
 
     .line 357
     :cond_0
@@ -250,49 +242,45 @@
 
     .line 361
     :cond_1
-    iget-object v4, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
+    iget-object v3, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
 
-    iget v5, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
+    int-to-long v4, v0
 
-    int-to-long v6, v5
+    invoke-static {p2, p3, v4, v5}, Ljava/lang/Math;->min(JJ)J
 
-    invoke-static {p2, p3, v6, v7}, Ljava/lang/Math;->min(JJ)J
+    move-result-wide v4
 
-    move-result-wide v6
+    invoke-interface {v3, p1, v4, v5}, Lokio/BufferedSource;->read(Lokio/Buffer;J)J
 
-    invoke-interface {v4, p1, v6, v7}, Lokio/BufferedSource;->read(Lokio/Buffer;J)J
-
-    move-result-wide v0
+    move-result-wide v3
 
     .line 362
-    .local v0, "read":J
-    cmp-long v4, v0, v2
+    .local v3, "read":J
+    cmp-long v0, v3, v1
 
-    if-nez v4, :cond_2
+    if-nez v0, :cond_2
 
-    move-wide v0, v2
-
-    goto :goto_1
+    return-wide v1
 
     .line 363
     :cond_2
-    iget v2, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
+    iget v0, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
 
-    int-to-long v2, v2
+    int-to-long v0, v0
 
-    sub-long/2addr v2, v0
+    sub-long/2addr v0, v3
 
-    long-to-int v2, v2
+    long-to-int v1, v0
 
-    iput v2, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
+    iput v1, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->left:I
 
-    goto :goto_1
+    .line 364
+    return-wide v3
 .end method
 
 .method public timeout()Lokio/Timeout;
     .locals 1
 
-    .prologue
     .line 368
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Reader$ContinuationSource;->source:Lokio/BufferedSource;
 

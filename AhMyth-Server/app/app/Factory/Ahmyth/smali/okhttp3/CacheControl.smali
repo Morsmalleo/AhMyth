@@ -47,7 +47,6 @@
 .method static constructor <clinit>()V
     .locals 3
 
-    .prologue
     .line 18
     new-instance v0, Lokhttp3/CacheControl$Builder;
 
@@ -73,12 +72,12 @@
 
     move-result-object v0
 
-    const v1, 0x7fffffff
-
-    sget-object v2, Ljava/util/concurrent/TimeUnit;->SECONDS:Ljava/util/concurrent/TimeUnit;
+    sget-object v1, Ljava/util/concurrent/TimeUnit;->SECONDS:Ljava/util/concurrent/TimeUnit;
 
     .line 27
-    invoke-virtual {v0, v1, v2}, Lokhttp3/CacheControl$Builder;->maxStale(ILjava/util/concurrent/TimeUnit;)Lokhttp3/CacheControl$Builder;
+    const v2, 0x7fffffff
+
+    invoke-virtual {v0, v2, v1}, Lokhttp3/CacheControl$Builder;->maxStale(ILjava/util/concurrent/TimeUnit;)Lokhttp3/CacheControl$Builder;
 
     move-result-object v0
 
@@ -94,11 +93,8 @@
 .end method
 
 .method constructor <init>(Lokhttp3/CacheControl$Builder;)V
-    .locals 2
+    .locals 1
     .param p1, "builder"    # Lokhttp3/CacheControl$Builder;
-
-    .prologue
-    const/4 v1, 0x0
 
     .line 61
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -124,13 +120,15 @@
     iput v0, p0, Lokhttp3/CacheControl;->sMaxAgeSeconds:I
 
     .line 66
-    iput-boolean v1, p0, Lokhttp3/CacheControl;->isPrivate:Z
+    const/4 v0, 0x0
+
+    iput-boolean v0, p0, Lokhttp3/CacheControl;->isPrivate:Z
 
     .line 67
-    iput-boolean v1, p0, Lokhttp3/CacheControl;->isPublic:Z
+    iput-boolean v0, p0, Lokhttp3/CacheControl;->isPublic:Z
 
     .line 68
-    iput-boolean v1, p0, Lokhttp3/CacheControl;->mustRevalidate:Z
+    iput-boolean v0, p0, Lokhttp3/CacheControl;->mustRevalidate:Z
 
     .line 69
     iget v0, p1, Lokhttp3/CacheControl$Builder;->maxStaleSeconds:I
@@ -171,7 +169,6 @@
     .param p11, "noTransform"    # Z
     .param p12, "headerValue"    # Ljava/lang/String;
 
-    .prologue
     .line 46
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -218,9 +215,6 @@
 .method private headerValue()Ljava/lang/String;
     .locals 4
 
-    .prologue
-    const/4 v3, -0x1
-
     .line 247
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -250,23 +244,21 @@
     :cond_1
     iget v1, p0, Lokhttp3/CacheControl;->maxAgeSeconds:I
 
+    const-string v2, ", "
+
+    const/4 v3, -0x1
+
     if-eq v1, v3, :cond_2
 
     const-string v1, "max-age="
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v1
+    iget v1, p0, Lokhttp3/CacheControl;->maxAgeSeconds:I
 
-    iget v2, p0, Lokhttp3/CacheControl;->maxAgeSeconds:I
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, ", "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 251
     :cond_2
@@ -278,17 +270,11 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v1
+    iget v1, p0, Lokhttp3/CacheControl;->sMaxAgeSeconds:I
 
-    iget v2, p0, Lokhttp3/CacheControl;->sMaxAgeSeconds:I
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, ", "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 252
     :cond_3
@@ -330,17 +316,11 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v1
+    iget v1, p0, Lokhttp3/CacheControl;->maxStaleSeconds:I
 
-    iget v2, p0, Lokhttp3/CacheControl;->maxStaleSeconds:I
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, ", "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 256
     :cond_7
@@ -352,17 +332,11 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v1
+    iget v1, p0, Lokhttp3/CacheControl;->minFreshSeconds:I
 
-    iget v2, p0, Lokhttp3/CacheControl;->minFreshSeconds:I
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v1
-
-    const-string v2, ", "
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 257
     :cond_8
@@ -394,8 +368,6 @@
 
     const-string v1, ""
 
-    .line 261
-    :goto_0
     return-object v1
 
     .line 260
@@ -417,587 +389,730 @@
 
     move-result-object v1
 
-    goto :goto_0
+    return-object v1
 .end method
 
 .method public static parse(Lokhttp3/Headers;)Lokhttp3/CacheControl;
-    .locals 27
+    .locals 30
     .param p0, "headers"    # Lokhttp3/Headers;
 
-    .prologue
     .line 145
-    const/4 v4, 0x0
+    move-object/from16 v0, p0
+
+    const/4 v1, 0x0
 
     .line 146
-    .local v4, "noCache":Z
-    const/4 v5, 0x0
+    .local v1, "noCache":Z
+    const/4 v2, 0x0
 
     .line 147
-    .local v5, "noStore":Z
-    const/4 v6, -0x1
+    .local v2, "noStore":Z
+    const/4 v3, -0x1
 
     .line 148
-    .local v6, "maxAgeSeconds":I
-    const/4 v7, -0x1
+    .local v3, "maxAgeSeconds":I
+    const/4 v4, -0x1
 
     .line 149
-    .local v7, "sMaxAgeSeconds":I
-    const/4 v8, 0x0
+    .local v4, "sMaxAgeSeconds":I
+    const/4 v5, 0x0
 
     .line 150
-    .local v8, "isPrivate":Z
-    const/4 v9, 0x0
+    .local v5, "isPrivate":Z
+    const/4 v6, 0x0
 
     .line 151
-    .local v9, "isPublic":Z
-    const/4 v10, 0x0
+    .local v6, "isPublic":Z
+    const/4 v7, 0x0
 
     .line 152
-    .local v10, "mustRevalidate":Z
-    const/4 v11, -0x1
+    .local v7, "mustRevalidate":Z
+    const/4 v8, -0x1
 
     .line 153
-    .local v11, "maxStaleSeconds":I
-    const/4 v12, -0x1
+    .local v8, "maxStaleSeconds":I
+    const/4 v9, -0x1
 
     .line 154
-    .local v12, "minFreshSeconds":I
-    const/4 v13, 0x0
+    .local v9, "minFreshSeconds":I
+    const/4 v10, 0x0
 
     .line 155
-    .local v13, "onlyIfCached":Z
-    const/4 v14, 0x0
+    .local v10, "onlyIfCached":Z
+    const/4 v11, 0x0
 
     .line 157
-    .local v14, "noTransform":Z
-    const/16 v16, 0x1
+    .local v11, "noTransform":Z
+    const/4 v12, 0x1
 
     .line 158
-    .local v16, "canUseHeaderValue":Z
-    const/4 v15, 0x0
+    .local v12, "canUseHeaderValue":Z
+    const/4 v13, 0x0
 
     .line 160
-    .local v15, "headerValue":Ljava/lang/String;
-    const/16 v18, 0x0
+    .local v13, "headerValue":Ljava/lang/String;
+    const/4 v14, 0x0
 
-    .local v18, "i":I
+    .local v14, "i":I
     invoke-virtual/range {p0 .. p0}, Lokhttp3/Headers;->size()I
 
-    move-result v23
+    move-result v15
 
-    .local v23, "size":I
+    .local v15, "size":I
     :goto_0
-    move/from16 v0, v18
-
-    move/from16 v1, v23
-
-    if-ge v0, v1, :cond_11
+    if-ge v14, v15, :cond_13
 
     .line 161
-    move-object/from16 v0, p0
+    move/from16 v16, v15
 
-    move/from16 v1, v18
+    .end local v15    # "size":I
+    .local v16, "size":I
+    invoke-virtual {v0, v14}, Lokhttp3/Headers;->name(I)Ljava/lang/String;
 
-    invoke-virtual {v0, v1}, Lokhttp3/Headers;->name(I)Ljava/lang/String;
-
-    move-result-object v19
+    move-result-object v15
 
     .line 162
-    .local v19, "name":Ljava/lang/String;
-    move-object/from16 v0, p0
+    .local v15, "name":Ljava/lang/String;
+    move/from16 v29, v11
 
-    move/from16 v1, v18
+    .end local v11    # "noTransform":Z
+    .local v29, "noTransform":Z
+    invoke-virtual {v0, v14}, Lokhttp3/Headers;->value(I)Ljava/lang/String;
 
-    invoke-virtual {v0, v1}, Lokhttp3/Headers;->value(I)Ljava/lang/String;
-
-    move-result-object v25
+    move-result-object v11
 
     .line 164
-    .local v25, "value":Ljava/lang/String;
-    const-string v3, "Cache-Control"
+    .local v11, "value":Ljava/lang/String;
+    const-string v0, "Cache-Control"
 
-    move-object/from16 v0, v19
+    invoke-virtual {v15, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v0, v3}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v0
 
-    move-result v3
-
-    if-eqz v3, :cond_3
+    if-eqz v0, :cond_1
 
     .line 165
-    if-eqz v15, :cond_2
+    if-eqz v13, :cond_0
 
     .line 167
-    const/16 v16, 0x0
+    const/4 v12, 0x0
 
-    .line 178
-    :goto_1
-    const/16 v22, 0x0
-
-    .line 179
-    .local v22, "pos":I
-    :cond_0
-    :goto_2
-    invoke-virtual/range {v25 .. v25}, Ljava/lang/String;->length()I
-
-    move-result v3
-
-    move/from16 v0, v22
-
-    if-ge v0, v3, :cond_10
-
-    .line 180
-    move/from16 v24, v22
-
-    .line 181
-    .local v24, "tokenStart":I
-    const-string v3, "=,;"
-
-    move-object/from16 v0, v25
-
-    move/from16 v1, v22
-
-    invoke-static {v0, v1, v3}, Lokhttp3/internal/http/HttpHeaders;->skipUntil(Ljava/lang/String;ILjava/lang/String;)I
-
-    move-result v22
-
-    .line 182
-    move-object/from16 v0, v25
-
-    move/from16 v1, v24
-
-    move/from16 v2, v22
-
-    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->substring(II)Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Ljava/lang/String;->trim()Ljava/lang/String;
-
-    move-result-object v17
-
-    .line 185
-    .local v17, "directive":Ljava/lang/String;
-    invoke-virtual/range {v25 .. v25}, Ljava/lang/String;->length()I
-
-    move-result v3
-
-    move/from16 v0, v22
-
-    if-eq v0, v3, :cond_1
-
-    move-object/from16 v0, v25
-
-    move/from16 v1, v22
-
-    invoke-virtual {v0, v1}, Ljava/lang/String;->charAt(I)C
-
-    move-result v3
-
-    const/16 v26, 0x2c
-
-    move/from16 v0, v26
-
-    if-eq v3, v0, :cond_1
-
-    move-object/from16 v0, v25
-
-    move/from16 v1, v22
-
-    invoke-virtual {v0, v1}, Ljava/lang/String;->charAt(I)C
-
-    move-result v3
-
-    const/16 v26, 0x3b
-
-    move/from16 v0, v26
-
-    if-ne v3, v0, :cond_4
-
-    .line 186
-    :cond_1
-    add-int/lit8 v22, v22, 0x1
-
-    .line 187
-    const/16 v20, 0x0
-
-    .line 208
-    .local v20, "parameter":Ljava/lang/String;
-    :goto_3
-    const-string v3, "no-cache"
-
-    move-object/from16 v0, v17
-
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
-
-    move-result v3
-
-    if-eqz v3, :cond_6
-
-    .line 209
-    const/4 v4, 0x1
-
-    goto :goto_2
+    goto :goto_1
 
     .line 169
-    .end local v17    # "directive":Ljava/lang/String;
-    .end local v20    # "parameter":Ljava/lang/String;
-    .end local v22    # "pos":I
-    .end local v24    # "tokenStart":I
-    :cond_2
-    move-object/from16 v15, v25
+    :cond_0
+    move-object v13, v11
 
     goto :goto_1
 
     .line 171
-    :cond_3
-    const-string v3, "Pragma"
+    :cond_1
+    const-string v0, "Pragma"
 
-    move-object/from16 v0, v19
+    invoke-virtual {v15, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v0, v3}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v0
 
-    move-result v3
-
-    if-eqz v3, :cond_10
+    if-eqz v0, :cond_12
 
     .line 173
-    const/16 v16, 0x0
+    const/4 v12, 0x0
 
-    goto :goto_1
+    .line 178
+    :goto_1
+    const/4 v0, 0x0
 
-    .line 189
-    .restart local v17    # "directive":Ljava/lang/String;
-    .restart local v22    # "pos":I
-    .restart local v24    # "tokenStart":I
-    :cond_4
-    add-int/lit8 v22, v22, 0x1
+    .line 179
+    .local v0, "pos":I
+    :goto_2
+    move/from16 v17, v1
 
-    .line 190
-    move-object/from16 v0, v25
+    .end local v1    # "noCache":Z
+    .local v17, "noCache":Z
+    invoke-virtual {v11}, Ljava/lang/String;->length()I
 
-    move/from16 v1, v22
+    move-result v1
 
-    invoke-static {v0, v1}, Lokhttp3/internal/http/HttpHeaders;->skipWhitespace(Ljava/lang/String;I)I
+    if-ge v0, v1, :cond_11
 
-    move-result v22
+    .line 180
+    move v1, v0
 
-    .line 193
-    invoke-virtual/range {v25 .. v25}, Ljava/lang/String;->length()I
+    .line 181
+    .local v1, "tokenStart":I
+    move/from16 v18, v2
 
-    move-result v3
+    .end local v2    # "noStore":Z
+    .local v18, "noStore":Z
+    const-string v2, "=,;"
 
-    move/from16 v0, v22
+    invoke-static {v11, v0, v2}, Lokhttp3/internal/http/HttpHeaders;->skipUntil(Ljava/lang/String;ILjava/lang/String;)I
 
-    if-ge v0, v3, :cond_5
+    move-result v0
 
-    move-object/from16 v0, v25
+    .line 182
+    invoke-virtual {v11, v1, v0}, Ljava/lang/String;->substring(II)Ljava/lang/String;
 
-    move/from16 v1, v22
+    move-result-object v2
 
-    invoke-virtual {v0, v1}, Ljava/lang/String;->charAt(I)C
+    invoke-virtual {v2}, Ljava/lang/String;->trim()Ljava/lang/String;
 
-    move-result v3
+    move-result-object v2
 
-    const/16 v26, 0x22
+    .line 185
+    .local v2, "directive":Ljava/lang/String;
+    move/from16 v19, v1
 
-    move/from16 v0, v26
+    .end local v1    # "tokenStart":I
+    .local v19, "tokenStart":I
+    invoke-virtual {v11}, Ljava/lang/String;->length()I
 
-    if-ne v3, v0, :cond_5
+    move-result v1
 
-    .line 194
-    add-int/lit8 v22, v22, 0x1
+    if-eq v0, v1, :cond_4
 
-    .line 195
-    move/from16 v21, v22
+    invoke-virtual {v11, v0}, Ljava/lang/String;->charAt(I)C
 
-    .line 196
-    .local v21, "parameterStart":I
-    const-string v3, "\""
+    move-result v1
 
-    move-object/from16 v0, v25
+    move/from16 v20, v3
 
-    move/from16 v1, v22
+    .end local v3    # "maxAgeSeconds":I
+    .local v20, "maxAgeSeconds":I
+    const/16 v3, 0x2c
 
-    invoke-static {v0, v1, v3}, Lokhttp3/internal/http/HttpHeaders;->skipUntil(Ljava/lang/String;ILjava/lang/String;)I
+    if-eq v1, v3, :cond_5
 
-    move-result v22
+    invoke-virtual {v11, v0}, Ljava/lang/String;->charAt(I)C
 
-    .line 197
-    move-object/from16 v0, v25
+    move-result v1
 
-    move/from16 v1, v21
+    const/16 v3, 0x3b
 
-    move/from16 v2, v22
+    if-ne v1, v3, :cond_2
 
-    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->substring(II)Ljava/lang/String;
-
-    move-result-object v20
-
-    .line 198
-    .restart local v20    # "parameter":Ljava/lang/String;
-    add-int/lit8 v22, v22, 0x1
-
-    .line 201
     goto :goto_3
 
+    .line 189
+    :cond_2
+    add-int/lit8 v0, v0, 0x1
+
+    .line 190
+    invoke-static {v11, v0}, Lokhttp3/internal/http/HttpHeaders;->skipWhitespace(Ljava/lang/String;I)I
+
+    move-result v0
+
+    .line 193
+    invoke-virtual {v11}, Ljava/lang/String;->length()I
+
+    move-result v1
+
+    if-ge v0, v1, :cond_3
+
+    invoke-virtual {v11, v0}, Ljava/lang/String;->charAt(I)C
+
+    move-result v1
+
+    const/16 v3, 0x22
+
+    if-ne v1, v3, :cond_3
+
+    .line 194
+    add-int/lit8 v0, v0, 0x1
+
+    .line 195
+    move v1, v0
+
+    .line 196
+    .local v1, "parameterStart":I
+    const-string v3, "\""
+
+    invoke-static {v11, v0, v3}, Lokhttp3/internal/http/HttpHeaders;->skipUntil(Ljava/lang/String;ILjava/lang/String;)I
+
+    move-result v0
+
+    .line 197
+    invoke-virtual {v11, v1, v0}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+
+    move-result-object v3
+
+    .line 198
+    .local v3, "parameter":Ljava/lang/String;
+    nop
+
+    .end local v1    # "parameterStart":I
+    add-int/lit8 v0, v0, 0x1
+
+    .line 201
+    goto :goto_4
+
     .line 202
-    .end local v20    # "parameter":Ljava/lang/String;
-    .end local v21    # "parameterStart":I
-    :cond_5
-    move/from16 v21, v22
+    .end local v3    # "parameter":Ljava/lang/String;
+    :cond_3
+    move v1, v0
 
     .line 203
-    .restart local v21    # "parameterStart":I
+    .restart local v1    # "parameterStart":I
     const-string v3, ",;"
 
-    move-object/from16 v0, v25
+    invoke-static {v11, v0, v3}, Lokhttp3/internal/http/HttpHeaders;->skipUntil(Ljava/lang/String;ILjava/lang/String;)I
 
-    move/from16 v1, v22
-
-    invoke-static {v0, v1, v3}, Lokhttp3/internal/http/HttpHeaders;->skipUntil(Ljava/lang/String;ILjava/lang/String;)I
-
-    move-result v22
+    move-result v0
 
     .line 204
-    move-object/from16 v0, v25
-
-    move/from16 v1, v21
-
-    move/from16 v2, v22
-
-    invoke-virtual {v0, v1, v2}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+    invoke-virtual {v11, v1, v0}, Ljava/lang/String;->substring(II)Ljava/lang/String;
 
     move-result-object v3
 
     invoke-virtual {v3}, Ljava/lang/String;->trim()Ljava/lang/String;
 
-    move-result-object v20
+    move-result-object v3
 
-    .restart local v20    # "parameter":Ljava/lang/String;
-    goto :goto_3
+    .restart local v3    # "parameter":Ljava/lang/String;
+    goto :goto_4
+
+    .line 185
+    .end local v1    # "parameterStart":I
+    .end local v20    # "maxAgeSeconds":I
+    .local v3, "maxAgeSeconds":I
+    :cond_4
+    move/from16 v20, v3
+
+    .line 186
+    .end local v3    # "maxAgeSeconds":I
+    .restart local v20    # "maxAgeSeconds":I
+    :cond_5
+    :goto_3
+    add-int/lit8 v0, v0, 0x1
+
+    .line 187
+    const/4 v3, 0x0
+
+    .line 208
+    .local v3, "parameter":Ljava/lang/String;
+    :goto_4
+    const-string v1, "no-cache"
+
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v1
+
+    if-eqz v1, :cond_6
+
+    .line 209
+    const/4 v1, 0x1
+
+    move/from16 v21, v0
+
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v17    # "noCache":Z
+    .local v1, "noCache":Z
+    goto/16 :goto_5
 
     .line 210
-    .end local v21    # "parameterStart":I
+    .end local v1    # "noCache":Z
+    .restart local v17    # "noCache":Z
     :cond_6
-    const-string v3, "no-store"
+    const-string v1, "no-store"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v1
 
-    move-result v3
-
-    if-eqz v3, :cond_7
+    if-eqz v1, :cond_7
 
     .line 211
-    const/4 v5, 0x1
+    const/4 v1, 0x1
 
-    goto/16 :goto_2
+    move/from16 v21, v0
+
+    move v2, v1
+
+    move/from16 v1, v17
+
+    move/from16 v3, v20
+
+    .end local v18    # "noStore":Z
+    .local v1, "noStore":Z
+    goto/16 :goto_5
 
     .line 212
+    .end local v1    # "noStore":Z
+    .restart local v18    # "noStore":Z
     :cond_7
-    const-string v3, "max-age"
+    const-string v1, "max-age"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v1
 
-    move-result v3
+    move/from16 v21, v0
 
-    if-eqz v3, :cond_8
+    .end local v0    # "pos":I
+    .local v21, "pos":I
+    const/4 v0, -0x1
+
+    if-eqz v1, :cond_8
 
     .line 213
-    const/4 v3, -0x1
+    invoke-static {v3, v0}, Lokhttp3/internal/http/HttpHeaders;->parseSeconds(Ljava/lang/String;I)I
 
-    move-object/from16 v0, v20
+    move-result v0
 
-    invoke-static {v0, v3}, Lokhttp3/internal/http/HttpHeaders;->parseSeconds(Ljava/lang/String;I)I
+    move v3, v0
 
-    move-result v6
+    move/from16 v1, v17
 
-    goto/16 :goto_2
+    move/from16 v2, v18
+
+    .end local v20    # "maxAgeSeconds":I
+    .local v0, "maxAgeSeconds":I
+    goto/16 :goto_5
 
     .line 214
+    .end local v0    # "maxAgeSeconds":I
+    .restart local v20    # "maxAgeSeconds":I
     :cond_8
-    const-string v3, "s-maxage"
+    const-string v1, "s-maxage"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v1
 
-    move-result v3
-
-    if-eqz v3, :cond_9
+    if-eqz v1, :cond_9
 
     .line 215
-    const/4 v3, -0x1
+    invoke-static {v3, v0}, Lokhttp3/internal/http/HttpHeaders;->parseSeconds(Ljava/lang/String;I)I
 
-    move-object/from16 v0, v20
+    move-result v0
 
-    invoke-static {v0, v3}, Lokhttp3/internal/http/HttpHeaders;->parseSeconds(Ljava/lang/String;I)I
+    move v4, v0
 
-    move-result v7
+    move/from16 v1, v17
 
-    goto/16 :goto_2
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v4    # "sMaxAgeSeconds":I
+    .local v0, "sMaxAgeSeconds":I
+    goto/16 :goto_5
 
     .line 216
+    .end local v0    # "sMaxAgeSeconds":I
+    .restart local v4    # "sMaxAgeSeconds":I
     :cond_9
-    const-string v3, "private"
+    const-string v1, "private"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v1
 
-    move-result v3
-
-    if-eqz v3, :cond_a
+    if-eqz v1, :cond_a
 
     .line 217
-    const/4 v8, 0x1
+    const/4 v0, 0x1
 
-    goto/16 :goto_2
+    move v5, v0
+
+    move/from16 v1, v17
+
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v5    # "isPrivate":Z
+    .local v0, "isPrivate":Z
+    goto/16 :goto_5
 
     .line 218
+    .end local v0    # "isPrivate":Z
+    .restart local v5    # "isPrivate":Z
     :cond_a
-    const-string v3, "public"
+    const-string v1, "public"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v1
 
-    move-result v3
-
-    if-eqz v3, :cond_b
+    if-eqz v1, :cond_b
 
     .line 219
-    const/4 v9, 0x1
+    const/4 v0, 0x1
 
-    goto/16 :goto_2
+    move v6, v0
+
+    move/from16 v1, v17
+
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v6    # "isPublic":Z
+    .local v0, "isPublic":Z
+    goto/16 :goto_5
 
     .line 220
+    .end local v0    # "isPublic":Z
+    .restart local v6    # "isPublic":Z
     :cond_b
-    const-string v3, "must-revalidate"
+    const-string v1, "must-revalidate"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v1
 
-    move-result v3
-
-    if-eqz v3, :cond_c
+    if-eqz v1, :cond_c
 
     .line 221
-    const/4 v10, 0x1
+    const/4 v0, 0x1
 
-    goto/16 :goto_2
+    move v7, v0
+
+    move/from16 v1, v17
+
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v7    # "mustRevalidate":Z
+    .local v0, "mustRevalidate":Z
+    goto :goto_5
 
     .line 222
+    .end local v0    # "mustRevalidate":Z
+    .restart local v7    # "mustRevalidate":Z
     :cond_c
-    const-string v3, "max-stale"
+    const-string v1, "max-stale"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v1
 
-    move-result v3
-
-    if-eqz v3, :cond_d
+    if-eqz v1, :cond_d
 
     .line 223
-    const v3, 0x7fffffff
+    const v0, 0x7fffffff
 
-    move-object/from16 v0, v20
+    invoke-static {v3, v0}, Lokhttp3/internal/http/HttpHeaders;->parseSeconds(Ljava/lang/String;I)I
 
-    invoke-static {v0, v3}, Lokhttp3/internal/http/HttpHeaders;->parseSeconds(Ljava/lang/String;I)I
+    move-result v0
 
-    move-result v11
+    move v8, v0
 
-    goto/16 :goto_2
+    move/from16 v1, v17
+
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v8    # "maxStaleSeconds":I
+    .local v0, "maxStaleSeconds":I
+    goto :goto_5
 
     .line 224
+    .end local v0    # "maxStaleSeconds":I
+    .restart local v8    # "maxStaleSeconds":I
     :cond_d
-    const-string v3, "min-fresh"
+    const-string v1, "min-fresh"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v1, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v1
 
-    move-result v3
-
-    if-eqz v3, :cond_e
+    if-eqz v1, :cond_e
 
     .line 225
-    const/4 v3, -0x1
+    invoke-static {v3, v0}, Lokhttp3/internal/http/HttpHeaders;->parseSeconds(Ljava/lang/String;I)I
 
-    move-object/from16 v0, v20
+    move-result v0
 
-    invoke-static {v0, v3}, Lokhttp3/internal/http/HttpHeaders;->parseSeconds(Ljava/lang/String;I)I
+    move v9, v0
 
-    move-result v12
+    move/from16 v1, v17
 
-    goto/16 :goto_2
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v9    # "minFreshSeconds":I
+    .local v0, "minFreshSeconds":I
+    goto :goto_5
 
     .line 226
+    .end local v0    # "minFreshSeconds":I
+    .restart local v9    # "minFreshSeconds":I
     :cond_e
-    const-string v3, "only-if-cached"
+    const-string v0, "only-if-cached"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v0, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v0
 
-    move-result v3
-
-    if-eqz v3, :cond_f
+    if-eqz v0, :cond_f
 
     .line 227
-    const/4 v13, 0x1
+    const/4 v0, 0x1
 
-    goto/16 :goto_2
+    move v10, v0
+
+    move/from16 v1, v17
+
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v10    # "onlyIfCached":Z
+    .local v0, "onlyIfCached":Z
+    goto :goto_5
 
     .line 228
+    .end local v0    # "onlyIfCached":Z
+    .restart local v10    # "onlyIfCached":Z
     :cond_f
-    const-string v3, "no-transform"
+    const-string v0, "no-transform"
 
-    move-object/from16 v0, v17
+    invoke-virtual {v0, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    move-result v0
 
-    move-result v3
-
-    if-eqz v3, :cond_0
+    if-eqz v0, :cond_10
 
     .line 229
-    const/4 v14, 0x1
+    const/4 v0, 0x1
+
+    move/from16 v29, v0
+
+    move/from16 v1, v17
+
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .end local v29    # "noTransform":Z
+    .local v0, "noTransform":Z
+    goto :goto_5
+
+    .line 228
+    .end local v0    # "noTransform":Z
+    .restart local v29    # "noTransform":Z
+    :cond_10
+    move/from16 v1, v17
+
+    move/from16 v2, v18
+
+    move/from16 v3, v20
+
+    .line 231
+    .end local v17    # "noCache":Z
+    .end local v18    # "noStore":Z
+    .end local v19    # "tokenStart":I
+    .end local v20    # "maxAgeSeconds":I
+    .local v1, "noCache":Z
+    .local v2, "noStore":Z
+    .local v3, "maxAgeSeconds":I
+    :goto_5
+    move/from16 v0, v21
 
     goto/16 :goto_2
 
+    .line 179
+    .end local v1    # "noCache":Z
+    .end local v21    # "pos":I
+    .local v0, "pos":I
+    .restart local v17    # "noCache":Z
+    :cond_11
+    move/from16 v18, v2
+
+    move/from16 v20, v3
+
+    .end local v2    # "noStore":Z
+    .end local v3    # "maxAgeSeconds":I
+    .restart local v18    # "noStore":Z
+    .restart local v20    # "maxAgeSeconds":I
+    move/from16 v1, v17
+
+    move/from16 v11, v29
+
+    goto :goto_6
+
+    .line 171
+    .end local v0    # "pos":I
+    .end local v17    # "noCache":Z
+    .end local v18    # "noStore":Z
+    .end local v20    # "maxAgeSeconds":I
+    .restart local v1    # "noCache":Z
+    .restart local v2    # "noStore":Z
+    .restart local v3    # "maxAgeSeconds":I
+    :cond_12
+    move/from16 v11, v29
+
     .line 160
-    .end local v17    # "directive":Ljava/lang/String;
-    .end local v20    # "parameter":Ljava/lang/String;
-    .end local v22    # "pos":I
-    .end local v24    # "tokenStart":I
-    :cond_10
-    add-int/lit8 v18, v18, 0x1
+    .end local v15    # "name":Ljava/lang/String;
+    .end local v29    # "noTransform":Z
+    .local v11, "noTransform":Z
+    :goto_6
+    add-int/lit8 v14, v14, 0x1
+
+    move-object/from16 v0, p0
+
+    move/from16 v15, v16
 
     goto/16 :goto_0
 
+    .end local v16    # "size":I
+    .local v15, "size":I
+    :cond_13
+    move/from16 v29, v11
+
+    move/from16 v16, v15
+
     .line 234
-    .end local v19    # "name":Ljava/lang/String;
-    .end local v25    # "value":Ljava/lang/String;
-    :cond_11
-    if-nez v16, :cond_12
+    .end local v11    # "noTransform":Z
+    .end local v14    # "i":I
+    .end local v15    # "size":I
+    .restart local v29    # "noTransform":Z
+    if-nez v12, :cond_14
 
     .line 235
-    const/4 v15, 0x0
+    const/4 v13, 0x0
 
     .line 237
-    :cond_12
-    new-instance v3, Lokhttp3/CacheControl;
+    :cond_14
+    new-instance v0, Lokhttp3/CacheControl;
 
-    invoke-direct/range {v3 .. v15}, Lokhttp3/CacheControl;-><init>(ZZIIZZZIIZZLjava/lang/String;)V
+    move-object/from16 v16, v0
 
-    return-object v3
+    move/from16 v17, v1
+
+    move/from16 v18, v2
+
+    move/from16 v19, v3
+
+    move/from16 v20, v4
+
+    move/from16 v21, v5
+
+    move/from16 v22, v6
+
+    move/from16 v23, v7
+
+    move/from16 v24, v8
+
+    move/from16 v25, v9
+
+    move/from16 v26, v10
+
+    move/from16 v27, v29
+
+    move-object/from16 v28, v13
+
+    invoke-direct/range {v16 .. v28}, Lokhttp3/CacheControl;-><init>(ZZIIZZZIIZZLjava/lang/String;)V
+
+    return-object v0
 .end method
 
 
@@ -1005,7 +1120,6 @@
 .method public isPrivate()Z
     .locals 1
 
-    .prologue
     .line 107
     iget-boolean v0, p0, Lokhttp3/CacheControl;->isPrivate:Z
 
@@ -1015,7 +1129,6 @@
 .method public isPublic()Z
     .locals 1
 
-    .prologue
     .line 111
     iget-boolean v0, p0, Lokhttp3/CacheControl;->isPublic:Z
 
@@ -1025,7 +1138,6 @@
 .method public maxAgeSeconds()I
     .locals 1
 
-    .prologue
     .line 95
     iget v0, p0, Lokhttp3/CacheControl;->maxAgeSeconds:I
 
@@ -1035,7 +1147,6 @@
 .method public maxStaleSeconds()I
     .locals 1
 
-    .prologue
     .line 119
     iget v0, p0, Lokhttp3/CacheControl;->maxStaleSeconds:I
 
@@ -1045,7 +1156,6 @@
 .method public minFreshSeconds()I
     .locals 1
 
-    .prologue
     .line 123
     iget v0, p0, Lokhttp3/CacheControl;->minFreshSeconds:I
 
@@ -1055,7 +1165,6 @@
 .method public mustRevalidate()Z
     .locals 1
 
-    .prologue
     .line 115
     iget-boolean v0, p0, Lokhttp3/CacheControl;->mustRevalidate:Z
 
@@ -1065,7 +1174,6 @@
 .method public noCache()Z
     .locals 1
 
-    .prologue
     .line 83
     iget-boolean v0, p0, Lokhttp3/CacheControl;->noCache:Z
 
@@ -1075,7 +1183,6 @@
 .method public noStore()Z
     .locals 1
 
-    .prologue
     .line 88
     iget-boolean v0, p0, Lokhttp3/CacheControl;->noStore:Z
 
@@ -1085,7 +1192,6 @@
 .method public noTransform()Z
     .locals 1
 
-    .prologue
     .line 137
     iget-boolean v0, p0, Lokhttp3/CacheControl;->noTransform:Z
 
@@ -1095,7 +1201,6 @@
 .method public onlyIfCached()Z
     .locals 1
 
-    .prologue
     .line 133
     iget-boolean v0, p0, Lokhttp3/CacheControl;->onlyIfCached:Z
 
@@ -1105,7 +1210,6 @@
 .method public sMaxAgeSeconds()I
     .locals 1
 
-    .prologue
     .line 103
     iget v0, p0, Lokhttp3/CacheControl;->sMaxAgeSeconds:I
 
@@ -1113,9 +1217,8 @@
 .end method
 
 .method public toString()Ljava/lang/String;
-    .locals 1
+    .locals 2
 
-    .prologue
     .line 242
     iget-object v0, p0, Lokhttp3/CacheControl;->headerValue:Ljava/lang/String;
 
@@ -1123,18 +1226,17 @@
     .local v0, "result":Ljava/lang/String;
     if-eqz v0, :cond_0
 
-    .end local v0    # "result":Ljava/lang/String;
-    :goto_0
-    return-object v0
+    move-object v1, v0
 
-    .restart local v0    # "result":Ljava/lang/String;
+    goto :goto_0
+
     :cond_0
     invoke-direct {p0}, Lokhttp3/CacheControl;->headerValue()Ljava/lang/String;
 
-    move-result-object v0
+    move-result-object v1
 
-    .end local v0    # "result":Ljava/lang/String;
-    iput-object v0, p0, Lokhttp3/CacheControl;->headerValue:Ljava/lang/String;
+    iput-object v1, p0, Lokhttp3/CacheControl;->headerValue:Ljava/lang/String;
 
-    goto :goto_0
+    :goto_0
+    return-object v1
 .end method

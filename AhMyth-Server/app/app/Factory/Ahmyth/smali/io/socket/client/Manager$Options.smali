@@ -32,7 +32,6 @@
 .method public constructor <init>()V
     .locals 2
 
-    .prologue
     .line 610
     invoke-direct {p0}, Lio/socket/engineio/client/Socket$Options;-><init>()V
 

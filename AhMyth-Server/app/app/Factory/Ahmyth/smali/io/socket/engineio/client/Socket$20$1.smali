@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/Socket$20;
 
-    .prologue
     .line 719
     iput-object p1, p0, Lio/socket/engineio/client/Socket$20$1;->this$1:Lio/socket/engineio/client/Socket$20;
 
@@ -44,17 +43,14 @@
 .method public run()V
     .locals 2
 
-    .prologue
     .line 722
     iget-object v0, p0, Lio/socket/engineio/client/Socket$20$1;->val$self:Lio/socket/engineio/client/Socket;
 
     const-string v1, "forced close"
 
-    # invokes: Lio/socket/engineio/client/Socket;->onClose(Ljava/lang/String;)V
     invoke-static {v0, v1}, Lio/socket/engineio/client/Socket;->access$800(Lio/socket/engineio/client/Socket;Ljava/lang/String;)V
 
     .line 723
-    # getter for: Lio/socket/engineio/client/Socket;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
     move-result-object v0

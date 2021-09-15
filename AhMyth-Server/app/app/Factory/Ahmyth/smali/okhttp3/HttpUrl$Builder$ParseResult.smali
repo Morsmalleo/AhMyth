@@ -15,8 +15,7 @@
 
 .annotation system Ldalvik/annotation/Signature;
     value = {
-        "Ljava/lang/Enum",
-        "<",
+        "Ljava/lang/Enum<",
         "Lokhttp3/HttpUrl$Builder$ParseResult;",
         ">;"
     }
@@ -39,90 +38,79 @@
 
 # direct methods
 .method static constructor <clinit>()V
-    .locals 7
-
-    .prologue
-    const/4 v6, 0x4
-
-    const/4 v5, 0x3
-
-    const/4 v4, 0x2
-
-    const/4 v3, 0x1
-
-    const/4 v2, 0x0
+    .locals 11
 
     .line 1283
     new-instance v0, Lokhttp3/HttpUrl$Builder$ParseResult;
 
     const-string v1, "SUCCESS"
 
+    const/4 v2, 0x0
+
     invoke-direct {v0, v1, v2}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
 
     sput-object v0, Lokhttp3/HttpUrl$Builder$ParseResult;->SUCCESS:Lokhttp3/HttpUrl$Builder$ParseResult;
 
     .line 1284
-    new-instance v0, Lokhttp3/HttpUrl$Builder$ParseResult;
+    new-instance v1, Lokhttp3/HttpUrl$Builder$ParseResult;
 
-    const-string v1, "MISSING_SCHEME"
+    const-string v3, "MISSING_SCHEME"
 
-    invoke-direct {v0, v1, v3}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
+    const/4 v4, 0x1
 
-    sput-object v0, Lokhttp3/HttpUrl$Builder$ParseResult;->MISSING_SCHEME:Lokhttp3/HttpUrl$Builder$ParseResult;
+    invoke-direct {v1, v3, v4}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
+
+    sput-object v1, Lokhttp3/HttpUrl$Builder$ParseResult;->MISSING_SCHEME:Lokhttp3/HttpUrl$Builder$ParseResult;
 
     .line 1285
-    new-instance v0, Lokhttp3/HttpUrl$Builder$ParseResult;
+    new-instance v3, Lokhttp3/HttpUrl$Builder$ParseResult;
 
-    const-string v1, "UNSUPPORTED_SCHEME"
+    const-string v5, "UNSUPPORTED_SCHEME"
 
-    invoke-direct {v0, v1, v4}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
+    const/4 v6, 0x2
 
-    sput-object v0, Lokhttp3/HttpUrl$Builder$ParseResult;->UNSUPPORTED_SCHEME:Lokhttp3/HttpUrl$Builder$ParseResult;
+    invoke-direct {v3, v5, v6}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
+
+    sput-object v3, Lokhttp3/HttpUrl$Builder$ParseResult;->UNSUPPORTED_SCHEME:Lokhttp3/HttpUrl$Builder$ParseResult;
 
     .line 1286
-    new-instance v0, Lokhttp3/HttpUrl$Builder$ParseResult;
+    new-instance v5, Lokhttp3/HttpUrl$Builder$ParseResult;
 
-    const-string v1, "INVALID_PORT"
+    const-string v7, "INVALID_PORT"
 
-    invoke-direct {v0, v1, v5}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
+    const/4 v8, 0x3
 
-    sput-object v0, Lokhttp3/HttpUrl$Builder$ParseResult;->INVALID_PORT:Lokhttp3/HttpUrl$Builder$ParseResult;
+    invoke-direct {v5, v7, v8}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
+
+    sput-object v5, Lokhttp3/HttpUrl$Builder$ParseResult;->INVALID_PORT:Lokhttp3/HttpUrl$Builder$ParseResult;
 
     .line 1287
-    new-instance v0, Lokhttp3/HttpUrl$Builder$ParseResult;
+    new-instance v7, Lokhttp3/HttpUrl$Builder$ParseResult;
 
-    const-string v1, "INVALID_HOST"
+    const-string v9, "INVALID_HOST"
 
-    invoke-direct {v0, v1, v6}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
+    const/4 v10, 0x4
 
-    sput-object v0, Lokhttp3/HttpUrl$Builder$ParseResult;->INVALID_HOST:Lokhttp3/HttpUrl$Builder$ParseResult;
+    invoke-direct {v7, v9, v10}, Lokhttp3/HttpUrl$Builder$ParseResult;-><init>(Ljava/lang/String;I)V
+
+    sput-object v7, Lokhttp3/HttpUrl$Builder$ParseResult;->INVALID_HOST:Lokhttp3/HttpUrl$Builder$ParseResult;
 
     .line 1282
-    const/4 v0, 0x5
+    const/4 v9, 0x5
 
-    new-array v0, v0, [Lokhttp3/HttpUrl$Builder$ParseResult;
+    new-array v9, v9, [Lokhttp3/HttpUrl$Builder$ParseResult;
 
-    sget-object v1, Lokhttp3/HttpUrl$Builder$ParseResult;->SUCCESS:Lokhttp3/HttpUrl$Builder$ParseResult;
+    aput-object v0, v9, v2
 
-    aput-object v1, v0, v2
+    aput-object v1, v9, v4
 
-    sget-object v1, Lokhttp3/HttpUrl$Builder$ParseResult;->MISSING_SCHEME:Lokhttp3/HttpUrl$Builder$ParseResult;
+    aput-object v3, v9, v6
 
-    aput-object v1, v0, v3
+    aput-object v5, v9, v8
 
-    sget-object v1, Lokhttp3/HttpUrl$Builder$ParseResult;->UNSUPPORTED_SCHEME:Lokhttp3/HttpUrl$Builder$ParseResult;
+    aput-object v7, v9, v10
 
-    aput-object v1, v0, v4
-
-    sget-object v1, Lokhttp3/HttpUrl$Builder$ParseResult;->INVALID_PORT:Lokhttp3/HttpUrl$Builder$ParseResult;
-
-    aput-object v1, v0, v5
-
-    sget-object v1, Lokhttp3/HttpUrl$Builder$ParseResult;->INVALID_HOST:Lokhttp3/HttpUrl$Builder$ParseResult;
-
-    aput-object v1, v0, v6
-
-    sput-object v0, Lokhttp3/HttpUrl$Builder$ParseResult;->$VALUES:[Lokhttp3/HttpUrl$Builder$ParseResult;
+    sput-object v9, Lokhttp3/HttpUrl$Builder$ParseResult;->$VALUES:[Lokhttp3/HttpUrl$Builder$ParseResult;
 
     return-void
 .end method
@@ -135,7 +123,6 @@
         }
     .end annotation
 
-    .prologue
     .line 1282
     invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
 
@@ -146,7 +133,6 @@
     .locals 1
     .param p0, "name"    # Ljava/lang/String;
 
-    .prologue
     .line 1282
     const-class v0, Lokhttp3/HttpUrl$Builder$ParseResult;
 
@@ -162,7 +148,6 @@
 .method public static values()[Lokhttp3/HttpUrl$Builder$ParseResult;
     .locals 1
 
-    .prologue
     .line 1282
     sget-object v0, Lokhttp3/HttpUrl$Builder$ParseResult;->$VALUES:[Lokhttp3/HttpUrl$Builder$ParseResult;
 

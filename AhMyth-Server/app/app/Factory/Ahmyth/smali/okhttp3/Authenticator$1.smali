@@ -21,7 +21,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 51
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -35,7 +34,6 @@
     .param p1, "route"    # Lokhttp3/Route;
     .param p2, "response"    # Lokhttp3/Response;
 
-    .prologue
     .line 53
     const/4 v0, 0x0
 

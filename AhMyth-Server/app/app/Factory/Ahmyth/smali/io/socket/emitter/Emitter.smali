@@ -16,11 +16,9 @@
 .field private callbacks:Ljava/util/concurrent/ConcurrentMap;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/concurrent/ConcurrentMap",
-            "<",
+            "Ljava/util/concurrent/ConcurrentMap<",
             "Ljava/lang/String;",
-            "Ljava/util/concurrent/ConcurrentLinkedQueue",
-            "<",
+            "Ljava/util/concurrent/ConcurrentLinkedQueue<",
             "Lio/socket/emitter/Emitter$Listener;",
             ">;>;"
         }
@@ -32,7 +30,6 @@
 .method public constructor <init>()V
     .locals 1
 
-    .prologue
     .line 17
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -51,7 +48,6 @@
     .param p0, "fn"    # Lio/socket/emitter/Emitter$Listener;
     .param p1, "internal"    # Lio/socket/emitter/Emitter$Listener;
 
-    .prologue
     .line 97
     invoke-virtual {p0, p1}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
 
@@ -62,50 +58,45 @@
     .line 98
     const/4 v0, 0x1
 
-    .line 102
-    .end local p1    # "internal":Lio/socket/emitter/Emitter$Listener;
-    :goto_0
     return v0
 
     .line 99
-    .restart local p1    # "internal":Lio/socket/emitter/Emitter$Listener;
     :cond_0
     instance-of v0, p1, Lio/socket/emitter/Emitter$OnceListener;
 
     if-eqz v0, :cond_1
 
     .line 100
-    check-cast p1, Lio/socket/emitter/Emitter$OnceListener;
+    move-object v0, p1
 
-    .end local p1    # "internal":Lio/socket/emitter/Emitter$Listener;
-    iget-object v0, p1, Lio/socket/emitter/Emitter$OnceListener;->fn:Lio/socket/emitter/Emitter$Listener;
+    check-cast v0, Lio/socket/emitter/Emitter$OnceListener;
+
+    iget-object v0, v0, Lio/socket/emitter/Emitter$OnceListener;->fn:Lio/socket/emitter/Emitter$Listener;
 
     invoke-virtual {p0, v0}, Ljava/lang/Object;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    goto :goto_0
+    return v0
 
     .line 102
-    .restart local p1    # "internal":Lio/socket/emitter/Emitter$Listener;
     :cond_1
     const/4 v0, 0x0
 
-    goto :goto_0
+    return v0
 .end method
 
 
 # virtual methods
 .method public varargs emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
-    .locals 4
+    .locals 3
     .param p1, "event"    # Ljava/lang/String;
     .param p2, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 114
-    iget-object v2, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
+    iget-object v0, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
 
-    invoke-interface {v2, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v0, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -118,29 +109,30 @@
     .line 116
     invoke-virtual {v0}, Ljava/util/concurrent/ConcurrentLinkedQueue;->iterator()Ljava/util/Iterator;
 
-    move-result-object v2
-
-    :goto_0
-    invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
-
-    move-result v3
-
-    if-eqz v3, :cond_0
-
-    invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
-
     move-result-object v1
 
-    check-cast v1, Lio/socket/emitter/Emitter$Listener;
+    :goto_0
+    invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v2
+
+    if-eqz v2, :cond_0
+
+    invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v2
+
+    check-cast v2, Lio/socket/emitter/Emitter$Listener;
 
     .line 117
-    .local v1, "fn":Lio/socket/emitter/Emitter$Listener;
-    invoke-interface {v1, p2}, Lio/socket/emitter/Emitter$Listener;->call([Ljava/lang/Object;)V
+    .local v2, "fn":Lio/socket/emitter/Emitter$Listener;
+    invoke-interface {v2, p2}, Lio/socket/emitter/Emitter$Listener;->call([Ljava/lang/Object;)V
 
+    .line 118
+    .end local v2    # "fn":Lio/socket/emitter/Emitter$Listener;
     goto :goto_0
 
     .line 120
-    .end local v1    # "fn":Lio/socket/emitter/Emitter$Listener;
     :cond_0
     return-object p0
 .end method
@@ -149,11 +141,10 @@
     .locals 2
     .param p1, "event"    # Ljava/lang/String;
 
-    .prologue
     .line 142
-    iget-object v1, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
+    iget-object v0, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
 
-    invoke-interface {v1, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v0, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -171,13 +162,13 @@
 
     const/4 v1, 0x1
 
-    :goto_0
-    return v1
+    goto :goto_0
 
     :cond_0
     const/4 v1, 0x0
 
-    goto :goto_0
+    :goto_0
+    return v1
 .end method
 
 .method public listeners(Ljava/lang/String;)Ljava/util/List;
@@ -188,18 +179,16 @@
             "(",
             "Ljava/lang/String;",
             ")",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lio/socket/emitter/Emitter$Listener;",
             ">;"
         }
     .end annotation
 
-    .prologue
     .line 130
-    iget-object v1, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
+    iget-object v0, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
 
-    invoke-interface {v1, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v0, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -207,29 +196,26 @@
 
     .line 131
     .local v0, "callbacks":Ljava/util/concurrent/ConcurrentLinkedQueue;, "Ljava/util/concurrent/ConcurrentLinkedQueue<Lio/socket/emitter/Emitter$Listener;>;"
-    if-eqz v0, :cond_0
-
     new-instance v1, Ljava/util/ArrayList;
+
+    if-eqz v0, :cond_0
 
     invoke-direct {v1, v0}, Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
 
-    :goto_0
-    return-object v1
+    goto :goto_0
 
     :cond_0
-    new-instance v1, Ljava/util/ArrayList;
-
     const/4 v2, 0x0
 
     invoke-direct {v1, v2}, Ljava/util/ArrayList;-><init>(I)V
 
-    goto :goto_0
+    :goto_0
+    return-object v1
 .end method
 
 .method public off()Lio/socket/emitter/Emitter;
     .locals 1
 
-    .prologue
     .line 59
     iget-object v0, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
 
@@ -243,7 +229,6 @@
     .locals 1
     .param p1, "event"    # Ljava/lang/String;
 
-    .prologue
     .line 70
     iget-object v0, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
 
@@ -258,11 +243,10 @@
     .param p1, "event"    # Ljava/lang/String;
     .param p2, "fn"    # Lio/socket/emitter/Emitter$Listener;
 
-    .prologue
     .line 82
-    iget-object v3, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
+    iget-object v0, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
 
-    invoke-interface {v3, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v0, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -275,52 +259,59 @@
     .line 84
     invoke-virtual {v0}, Ljava/util/concurrent/ConcurrentLinkedQueue;->iterator()Ljava/util/Iterator;
 
-    move-result-object v2
-
-    .line 85
-    .local v2, "it":Ljava/util/Iterator;, "Ljava/util/Iterator<Lio/socket/emitter/Emitter$Listener;>;"
-    :cond_0
-    invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
-
-    move-result v3
-
-    if-eqz v3, :cond_1
-
-    .line 86
-    invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
-
     move-result-object v1
 
-    check-cast v1, Lio/socket/emitter/Emitter$Listener;
+    .line 85
+    .local v1, "it":Ljava/util/Iterator;, "Ljava/util/Iterator<Lio/socket/emitter/Emitter$Listener;>;"
+    :goto_0
+    invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v2
+
+    if-eqz v2, :cond_1
+
+    .line 86
+    invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v2
+
+    check-cast v2, Lio/socket/emitter/Emitter$Listener;
 
     .line 87
-    .local v1, "internal":Lio/socket/emitter/Emitter$Listener;
-    invoke-static {p2, v1}, Lio/socket/emitter/Emitter;->sameAs(Lio/socket/emitter/Emitter$Listener;Lio/socket/emitter/Emitter$Listener;)Z
+    .local v2, "internal":Lio/socket/emitter/Emitter$Listener;
+    invoke-static {p2, v2}, Lio/socket/emitter/Emitter;->sameAs(Lio/socket/emitter/Emitter$Listener;Lio/socket/emitter/Emitter$Listener;)Z
 
     move-result v3
 
     if-eqz v3, :cond_0
 
     .line 88
-    invoke-interface {v2}, Ljava/util/Iterator;->remove()V
+    invoke-interface {v1}, Ljava/util/Iterator;->remove()V
+
+    .line 89
+    goto :goto_1
+
+    .line 91
+    .end local v2    # "internal":Lio/socket/emitter/Emitter$Listener;
+    :cond_0
+    goto :goto_0
 
     .line 93
-    .end local v1    # "internal":Lio/socket/emitter/Emitter$Listener;
-    .end local v2    # "it":Ljava/util/Iterator;, "Ljava/util/Iterator<Lio/socket/emitter/Emitter$Listener;>;"
+    .end local v1    # "it":Ljava/util/Iterator;, "Ljava/util/Iterator<Lio/socket/emitter/Emitter$Listener;>;"
     :cond_1
+    :goto_1
     return-object p0
 .end method
 
 .method public on(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
-    .locals 3
+    .locals 2
     .param p1, "event"    # Ljava/lang/String;
     .param p2, "fn"    # Lio/socket/emitter/Emitter$Listener;
 
-    .prologue
     .line 29
-    iget-object v2, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
+    iget-object v0, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
 
-    invoke-interface {v2, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v0, p1}, Ljava/util/concurrent/ConcurrentMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -331,16 +322,16 @@
     if-nez v0, :cond_0
 
     .line 31
-    new-instance v0, Ljava/util/concurrent/ConcurrentLinkedQueue;
+    new-instance v1, Ljava/util/concurrent/ConcurrentLinkedQueue;
 
-    .end local v0    # "callbacks":Ljava/util/concurrent/ConcurrentLinkedQueue;, "Ljava/util/concurrent/ConcurrentLinkedQueue<Lio/socket/emitter/Emitter$Listener;>;"
-    invoke-direct {v0}, Ljava/util/concurrent/ConcurrentLinkedQueue;-><init>()V
+    invoke-direct {v1}, Ljava/util/concurrent/ConcurrentLinkedQueue;-><init>()V
+
+    move-object v0, v1
 
     .line 32
-    .restart local v0    # "callbacks":Ljava/util/concurrent/ConcurrentLinkedQueue;, "Ljava/util/concurrent/ConcurrentLinkedQueue<Lio/socket/emitter/Emitter$Listener;>;"
-    iget-object v2, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
+    iget-object v1, p0, Lio/socket/emitter/Emitter;->callbacks:Ljava/util/concurrent/ConcurrentMap;
 
-    invoke-interface {v2, p1, v0}, Ljava/util/concurrent/ConcurrentMap;->putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-interface {v1, p1, v0}, Ljava/util/concurrent/ConcurrentMap;->putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v1
 
@@ -367,7 +358,6 @@
     .param p1, "event"    # Ljava/lang/String;
     .param p2, "fn"    # Lio/socket/emitter/Emitter$Listener;
 
-    .prologue
     .line 49
     new-instance v0, Lio/socket/emitter/Emitter$OnceListener;
 

@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/client/Manager$1;
 
-    .prologue
     .line 264
     iput-object p1, p0, Lio/socket/client/Manager$1$1;->this$1:Lio/socket/client/Manager$1;
 
@@ -45,7 +44,6 @@
     .locals 2
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 267
     iget-object v0, p0, Lio/socket/client/Manager$1$1;->val$self:Lio/socket/client/Manager;
 

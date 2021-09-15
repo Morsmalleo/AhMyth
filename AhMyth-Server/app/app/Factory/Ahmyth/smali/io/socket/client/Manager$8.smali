@@ -30,7 +30,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .prologue
     .line 431
     iput-object p1, p0, Lio/socket/client/Manager$8;->this$0:Lio/socket/client/Manager;
 
@@ -49,11 +48,9 @@
     .locals 2
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 434
     iget-object v0, p0, Lio/socket/client/Manager$8;->val$self:Lio/socket/client/Manager;
 
-    # getter for: Lio/socket/client/Manager;->connecting:Ljava/util/Set;
     invoke-static {v0}, Lio/socket/client/Manager;->access$1700(Lio/socket/client/Manager;)Ljava/util/Set;
 
     move-result-object v0

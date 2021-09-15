@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/PollingXHR;
 
-    .prologue
     .line 117
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$6;->this$0:Lio/socket/engineio/client/transports/PollingXHR;
 
@@ -45,7 +44,6 @@
     .locals 1
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 120
     new-instance v0, Lio/socket/engineio/client/transports/PollingXHR$6$1;
 

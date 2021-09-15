@@ -23,7 +23,6 @@
     .param p1, "networkRequest"    # Lokhttp3/Request;
     .param p2, "cacheResponse"    # Lokhttp3/Response;
 
-    .prologue
     .line 56
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -42,94 +41,104 @@
     .param p0, "response"    # Lokhttp3/Response;
     .param p1, "request"    # Lokhttp3/Request;
 
-    .prologue
-    const/4 v0, 0x0
-
     .line 65
     invoke-virtual {p0}, Lokhttp3/Response;->code()I
 
-    move-result v1
+    move-result v0
 
-    sparse-switch v1, :sswitch_data_0
+    const/4 v1, 0x0
 
-    .line 99
-    :cond_0
-    :goto_0
-    return v0
+    sparse-switch v0, :sswitch_data_0
+
+    goto :goto_1
 
     .line 85
     :sswitch_0
-    const-string v1, "Expires"
+    const-string v0, "Expires"
 
-    invoke-virtual {p0, v1}, Lokhttp3/Response;->header(Ljava/lang/String;)Ljava/lang/String;
+    invoke-virtual {p0, v0}, Lokhttp3/Response;->header(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v0
 
-    if-nez v1, :cond_1
+    if-nez v0, :cond_0
 
     .line 86
     invoke-virtual {p0}, Lokhttp3/Response;->cacheControl()Lokhttp3/CacheControl;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1}, Lokhttp3/CacheControl;->maxAgeSeconds()I
+    invoke-virtual {v0}, Lokhttp3/CacheControl;->maxAgeSeconds()I
 
-    move-result v1
+    move-result v0
 
     const/4 v2, -0x1
 
-    if-ne v1, v2, :cond_1
+    if-ne v0, v2, :cond_0
 
     .line 87
     invoke-virtual {p0}, Lokhttp3/Response;->cacheControl()Lokhttp3/CacheControl;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1}, Lokhttp3/CacheControl;->isPublic()Z
+    invoke-virtual {v0}, Lokhttp3/CacheControl;->isPublic()Z
 
-    move-result v1
+    move-result v0
 
-    if-nez v1, :cond_1
+    if-nez v0, :cond_0
 
     .line 88
     invoke-virtual {p0}, Lokhttp3/Response;->cacheControl()Lokhttp3/CacheControl;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1}, Lokhttp3/CacheControl;->isPrivate()Z
+    invoke-virtual {v0}, Lokhttp3/CacheControl;->isPrivate()Z
 
-    move-result v1
+    move-result v0
 
-    if-eqz v1, :cond_0
+    if-eqz v0, :cond_2
+
+    .line 89
+    goto :goto_0
+
+    .line 78
+    :sswitch_1
+    nop
 
     .line 99
-    :cond_1
-    :sswitch_1
+    :cond_0
+    :goto_0
     invoke-virtual {p0}, Lokhttp3/Response;->cacheControl()Lokhttp3/CacheControl;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1}, Lokhttp3/CacheControl;->noStore()Z
+    invoke-virtual {v0}, Lokhttp3/CacheControl;->noStore()Z
 
-    move-result v1
+    move-result v0
 
-    if-nez v1, :cond_0
+    if-nez v0, :cond_1
 
     invoke-virtual {p1}, Lokhttp3/Request;->cacheControl()Lokhttp3/CacheControl;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1}, Lokhttp3/CacheControl;->noStore()Z
+    invoke-virtual {v0}, Lokhttp3/CacheControl;->noStore()Z
 
-    move-result v1
+    move-result v0
 
-    if-nez v1, :cond_0
+    if-nez v0, :cond_1
 
-    const/4 v0, 0x1
+    const/4 v1, 0x1
 
-    goto :goto_0
+    :cond_1
+    return v1
 
-    .line 65
+    .line 95
+    :cond_2
+    :goto_1
+    return v1
+
+    nop
+
     :sswitch_data_0
     .sparse-switch
         0xc8 -> :sswitch_1

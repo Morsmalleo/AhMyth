@@ -15,8 +15,7 @@
 
 .annotation system Ldalvik/annotation/Signature;
     value = {
-        "Ljava/lang/ThreadLocal",
-        "<",
+        "Ljava/lang/ThreadLocal<",
         "Ljava/text/DateFormat;",
         ">;"
     }
@@ -27,7 +26,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 38
     invoke-direct {p0}, Ljava/lang/ThreadLocal;-><init>()V
 
@@ -39,7 +37,6 @@
 .method protected bridge synthetic initialValue()Ljava/lang/Object;
     .locals 1
 
-    .prologue
     .line 38
     invoke-virtual {p0}, Lokhttp3/internal/http/HttpDate$1;->initialValue()Ljava/text/DateFormat;
 
@@ -51,15 +48,14 @@
 .method protected initialValue()Ljava/text/DateFormat;
     .locals 3
 
-    .prologue
     .line 41
     new-instance v0, Ljava/text/SimpleDateFormat;
 
-    const-string v1, "EEE, dd MMM yyyy HH:mm:ss \'GMT\'"
+    sget-object v1, Ljava/util/Locale;->US:Ljava/util/Locale;
 
-    sget-object v2, Ljava/util/Locale;->US:Ljava/util/Locale;
+    const-string v2, "EEE, dd MMM yyyy HH:mm:ss \'GMT\'"
 
-    invoke-direct {v0, v1, v2}, Ljava/text/SimpleDateFormat;-><init>(Ljava/lang/String;Ljava/util/Locale;)V
+    invoke-direct {v0, v2, v1}, Ljava/text/SimpleDateFormat;-><init>(Ljava/lang/String;Ljava/util/Locale;)V
 
     .line 42
     .local v0, "rfc1123":Ljava/text/DateFormat;

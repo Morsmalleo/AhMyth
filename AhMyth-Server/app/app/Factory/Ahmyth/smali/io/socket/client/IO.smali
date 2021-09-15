@@ -17,8 +17,7 @@
 .field private static final managers:Ljava/util/concurrent/ConcurrentHashMap;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/concurrent/ConcurrentHashMap",
-            "<",
+            "Ljava/util/concurrent/ConcurrentHashMap<",
             "Ljava/lang/String;",
             "Lio/socket/client/Manager;",
             ">;"
@@ -33,7 +32,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 17
     const-class v0, Lio/socket/client/IO;
 
@@ -65,7 +63,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 34
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -76,7 +73,6 @@
     .locals 0
     .param p0, "hostnameVerifier"    # Ljavax/net/ssl/HostnameVerifier;
 
-    .prologue
     .line 31
     sput-object p0, Lio/socket/client/Manager;->defaultHostnameVerifier:Ljavax/net/ssl/HostnameVerifier;
 
@@ -88,7 +84,6 @@
     .locals 0
     .param p0, "sslContext"    # Ljavax/net/ssl/SSLContext;
 
-    .prologue
     .line 27
     sput-object p0, Lio/socket/client/Manager;->defaultSSLContext:Ljavax/net/ssl/SSLContext;
 
@@ -105,7 +100,6 @@
         }
     .end annotation
 
-    .prologue
     .line 37
     const/4 v0, 0x0
 
@@ -126,7 +120,6 @@
         }
     .end annotation
 
-    .prologue
     .line 41
     new-instance v0, Ljava/net/URI;
 
@@ -143,7 +136,6 @@
     .locals 1
     .param p0, "uri"    # Ljava/net/URI;
 
-    .prologue
     .line 45
     const/4 v0, 0x0
 
@@ -155,215 +147,205 @@
 .end method
 
 .method public static socket(Ljava/net/URI;Lio/socket/client/IO$Options;)Lio/socket/client/Socket;
-    .locals 12
+    .locals 10
     .param p0, "uri"    # Ljava/net/URI;
     .param p1, "opts"    # Lio/socket/client/IO$Options;
-
-    .prologue
-    const/4 v9, 0x1
-
-    const/4 v10, 0x0
 
     .line 56
     if-nez p1, :cond_0
 
     .line 57
-    new-instance p1, Lio/socket/client/IO$Options;
+    new-instance v0, Lio/socket/client/IO$Options;
 
-    .end local p1    # "opts":Lio/socket/client/IO$Options;
-    invoke-direct {p1}, Lio/socket/client/IO$Options;-><init>()V
+    invoke-direct {v0}, Lio/socket/client/IO$Options;-><init>()V
+
+    move-object p1, v0
 
     .line 60
-    .restart local p1    # "opts":Lio/socket/client/IO$Options;
     :cond_0
     invoke-static {p0}, Lio/socket/client/Url;->parse(Ljava/net/URI;)Ljava/net/URL;
 
-    move-result-object v4
+    move-result-object v0
 
     .line 63
-    .local v4, "parsed":Ljava/net/URL;
+    .local v0, "parsed":Ljava/net/URL;
     :try_start_0
-    invoke-virtual {v4}, Ljava/net/URL;->toURI()Ljava/net/URI;
+    invoke-virtual {v0}, Ljava/net/URL;->toURI()Ljava/net/URI;
+
+    move-result-object v1
     :try_end_0
     .catch Ljava/net/URISyntaxException; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result-object v7
+    .line 66
+    .local v1, "source":Ljava/net/URI;
+    nop
 
     .line 67
-    .local v7, "source":Ljava/net/URI;
-    invoke-static {v4}, Lio/socket/client/Url;->extractId(Ljava/net/URL;)Ljava/lang/String;
-
-    move-result-object v1
-
-    .line 68
-    .local v1, "id":Ljava/lang/String;
-    invoke-virtual {v4}, Ljava/net/URL;->getPath()Ljava/lang/String;
-
-    move-result-object v5
-
-    .line 69
-    .local v5, "path":Ljava/lang/String;
-    sget-object v8, Lio/socket/client/IO;->managers:Ljava/util/concurrent/ConcurrentHashMap;
-
-    invoke-virtual {v8, v1}, Ljava/util/concurrent/ConcurrentHashMap;->containsKey(Ljava/lang/Object;)Z
-
-    move-result v8
-
-    if-eqz v8, :cond_2
-
-    sget-object v8, Lio/socket/client/IO;->managers:Ljava/util/concurrent/ConcurrentHashMap;
-
-    .line 70
-    invoke-virtual {v8, v1}, Ljava/util/concurrent/ConcurrentHashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
-
-    move-result-object v8
-
-    check-cast v8, Lio/socket/client/Manager;
-
-    iget-object v8, v8, Lio/socket/client/Manager;->nsps:Ljava/util/concurrent/ConcurrentHashMap;
-
-    invoke-virtual {v8, v5}, Ljava/util/concurrent/ConcurrentHashMap;->containsKey(Ljava/lang/Object;)Z
-
-    move-result v8
-
-    if-eqz v8, :cond_2
-
-    move v6, v9
-
-    .line 71
-    .local v6, "sameNamespace":Z
-    :goto_0
-    iget-boolean v8, p1, Lio/socket/client/IO$Options;->forceNew:Z
-
-    if-nez v8, :cond_1
-
-    iget-boolean v8, p1, Lio/socket/client/IO$Options;->multiplex:Z
-
-    if-eqz v8, :cond_1
-
-    if-eqz v6, :cond_3
-
-    :cond_1
-    move v3, v9
-
-    .line 74
-    .local v3, "newConnection":Z
-    :goto_1
-    if-eqz v3, :cond_4
-
-    .line 75
-    sget-object v8, Lio/socket/client/IO;->logger:Ljava/util/logging/Logger;
-
-    const-string v11, "ignoring socket cache for %s"
-
-    new-array v9, v9, [Ljava/lang/Object;
-
-    aput-object v7, v9, v10
-
-    invoke-static {v11, v9}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
-
-    move-result-object v9
-
-    invoke-virtual {v8, v9}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
-
-    .line 76
-    new-instance v2, Lio/socket/client/Manager;
-
-    invoke-direct {v2, v7, p1}, Lio/socket/client/Manager;-><init>(Ljava/net/URI;Lio/socket/client/Manager$Options;)V
-
-    .line 85
-    .local v2, "io":Lio/socket/client/Manager;
-    :goto_2
-    invoke-virtual {v4}, Ljava/net/URL;->getPath()Ljava/lang/String;
-
-    move-result-object v8
-
-    invoke-virtual {v2, v8}, Lio/socket/client/Manager;->socket(Ljava/lang/String;)Lio/socket/client/Socket;
-
-    move-result-object v8
-
-    return-object v8
-
-    .line 64
-    .end local v1    # "id":Ljava/lang/String;
-    .end local v2    # "io":Lio/socket/client/Manager;
-    .end local v3    # "newConnection":Z
-    .end local v5    # "path":Ljava/lang/String;
-    .end local v6    # "sameNamespace":Z
-    .end local v7    # "source":Ljava/net/URI;
-    :catch_0
-    move-exception v0
-
-    .line 65
-    .local v0, "e":Ljava/net/URISyntaxException;
-    new-instance v8, Ljava/lang/RuntimeException;
-
-    invoke-direct {v8, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/Throwable;)V
-
-    throw v8
-
-    .end local v0    # "e":Ljava/net/URISyntaxException;
-    .restart local v1    # "id":Ljava/lang/String;
-    .restart local v5    # "path":Ljava/lang/String;
-    .restart local v7    # "source":Ljava/net/URI;
-    :cond_2
-    move v6, v10
-
-    .line 70
-    goto :goto_0
-
-    .restart local v6    # "sameNamespace":Z
-    :cond_3
-    move v3, v10
-
-    .line 71
-    goto :goto_1
-
-    .line 78
-    .restart local v3    # "newConnection":Z
-    :cond_4
-    sget-object v8, Lio/socket/client/IO;->managers:Ljava/util/concurrent/ConcurrentHashMap;
-
-    invoke-virtual {v8, v1}, Ljava/util/concurrent/ConcurrentHashMap;->containsKey(Ljava/lang/Object;)Z
-
-    move-result v8
-
-    if-nez v8, :cond_5
-
-    .line 79
-    sget-object v8, Lio/socket/client/IO;->logger:Ljava/util/logging/Logger;
-
-    const-string v11, "new io instance for %s"
-
-    new-array v9, v9, [Ljava/lang/Object;
-
-    aput-object v7, v9, v10
-
-    invoke-static {v11, v9}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
-
-    move-result-object v9
-
-    invoke-virtual {v8, v9}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
-
-    .line 80
-    sget-object v8, Lio/socket/client/IO;->managers:Ljava/util/concurrent/ConcurrentHashMap;
-
-    new-instance v9, Lio/socket/client/Manager;
-
-    invoke-direct {v9, v7, p1}, Lio/socket/client/Manager;-><init>(Ljava/net/URI;Lio/socket/client/Manager$Options;)V
-
-    invoke-virtual {v8, v1, v9}, Ljava/util/concurrent/ConcurrentHashMap;->putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-
-    .line 82
-    :cond_5
-    sget-object v8, Lio/socket/client/IO;->managers:Ljava/util/concurrent/ConcurrentHashMap;
-
-    invoke-virtual {v8, v1}, Ljava/util/concurrent/ConcurrentHashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-static {v0}, Lio/socket/client/Url;->extractId(Ljava/net/URL;)Ljava/lang/String;
 
     move-result-object v2
 
-    check-cast v2, Lio/socket/client/Manager;
+    .line 68
+    .local v2, "id":Ljava/lang/String;
+    invoke-virtual {v0}, Ljava/net/URL;->getPath()Ljava/lang/String;
 
-    .restart local v2    # "io":Lio/socket/client/Manager;
+    move-result-object v3
+
+    .line 69
+    .local v3, "path":Ljava/lang/String;
+    sget-object v4, Lio/socket/client/IO;->managers:Ljava/util/concurrent/ConcurrentHashMap;
+
+    invoke-virtual {v4, v2}, Ljava/util/concurrent/ConcurrentHashMap;->containsKey(Ljava/lang/Object;)Z
+
+    move-result v5
+
+    const/4 v6, 0x1
+
+    const/4 v7, 0x0
+
+    if-eqz v5, :cond_1
+
+    .line 70
+    invoke-virtual {v4, v2}, Ljava/util/concurrent/ConcurrentHashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v5
+
+    check-cast v5, Lio/socket/client/Manager;
+
+    iget-object v5, v5, Lio/socket/client/Manager;->nsps:Ljava/util/concurrent/ConcurrentHashMap;
+
+    invoke-virtual {v5, v3}, Ljava/util/concurrent/ConcurrentHashMap;->containsKey(Ljava/lang/Object;)Z
+
+    move-result v5
+
+    if-eqz v5, :cond_1
+
+    const/4 v5, 0x1
+
+    goto :goto_0
+
+    :cond_1
+    const/4 v5, 0x0
+
+    .line 71
+    .local v5, "sameNamespace":Z
+    :goto_0
+    iget-boolean v8, p1, Lio/socket/client/IO$Options;->forceNew:Z
+
+    if-nez v8, :cond_3
+
+    iget-boolean v8, p1, Lio/socket/client/IO$Options;->multiplex:Z
+
+    if-eqz v8, :cond_3
+
+    if-eqz v5, :cond_2
+
+    goto :goto_1
+
+    :cond_2
+    const/4 v8, 0x0
+
     goto :goto_2
+
+    :cond_3
+    :goto_1
+    const/4 v8, 0x1
+
+    .line 74
+    .local v8, "newConnection":Z
+    :goto_2
+    if-eqz v8, :cond_4
+
+    .line 75
+    sget-object v4, Lio/socket/client/IO;->logger:Ljava/util/logging/Logger;
+
+    new-array v6, v6, [Ljava/lang/Object;
+
+    aput-object v1, v6, v7
+
+    const-string v7, "ignoring socket cache for %s"
+
+    invoke-static {v7, v6}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v6
+
+    invoke-virtual {v4, v6}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+
+    .line 76
+    new-instance v4, Lio/socket/client/Manager;
+
+    invoke-direct {v4, v1, p1}, Lio/socket/client/Manager;-><init>(Ljava/net/URI;Lio/socket/client/Manager$Options;)V
+
+    .local v4, "io":Lio/socket/client/Manager;
+    goto :goto_3
+
+    .line 78
+    .end local v4    # "io":Lio/socket/client/Manager;
+    :cond_4
+    invoke-virtual {v4, v2}, Ljava/util/concurrent/ConcurrentHashMap;->containsKey(Ljava/lang/Object;)Z
+
+    move-result v9
+
+    if-nez v9, :cond_5
+
+    .line 79
+    sget-object v9, Lio/socket/client/IO;->logger:Ljava/util/logging/Logger;
+
+    new-array v6, v6, [Ljava/lang/Object;
+
+    aput-object v1, v6, v7
+
+    const-string v7, "new io instance for %s"
+
+    invoke-static {v7, v6}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v6
+
+    invoke-virtual {v9, v6}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+
+    .line 80
+    new-instance v6, Lio/socket/client/Manager;
+
+    invoke-direct {v6, v1, p1}, Lio/socket/client/Manager;-><init>(Ljava/net/URI;Lio/socket/client/Manager$Options;)V
+
+    invoke-virtual {v4, v2, v6}, Ljava/util/concurrent/ConcurrentHashMap;->putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+    .line 82
+    :cond_5
+    invoke-virtual {v4, v2}, Ljava/util/concurrent/ConcurrentHashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v4
+
+    check-cast v4, Lio/socket/client/Manager;
+
+    .line 85
+    .restart local v4    # "io":Lio/socket/client/Manager;
+    :goto_3
+    invoke-virtual {v0}, Ljava/net/URL;->getPath()Ljava/lang/String;
+
+    move-result-object v6
+
+    invoke-virtual {v4, v6}, Lio/socket/client/Manager;->socket(Ljava/lang/String;)Lio/socket/client/Socket;
+
+    move-result-object v6
+
+    return-object v6
+
+    .line 64
+    .end local v1    # "source":Ljava/net/URI;
+    .end local v2    # "id":Ljava/lang/String;
+    .end local v3    # "path":Ljava/lang/String;
+    .end local v4    # "io":Lio/socket/client/Manager;
+    .end local v5    # "sameNamespace":Z
+    .end local v8    # "newConnection":Z
+    :catch_0
+    move-exception v1
+
+    .line 65
+    .local v1, "e":Ljava/net/URISyntaxException;
+    new-instance v2, Ljava/lang/RuntimeException;
+
+    invoke-direct {v2, v1}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/Throwable;)V
+
+    throw v2
 .end method

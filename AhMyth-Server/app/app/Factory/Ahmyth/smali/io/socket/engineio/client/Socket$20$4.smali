@@ -30,7 +30,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/Socket$20;
 
-    .prologue
     .line 748
     iput-object p1, p0, Lio/socket/engineio/client/Socket$20$4;->this$1:Lio/socket/engineio/client/Socket$20;
 
@@ -49,13 +48,11 @@
     .locals 1
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 751
     iget-object v0, p0, Lio/socket/engineio/client/Socket$20$4;->this$1:Lio/socket/engineio/client/Socket$20;
 
     iget-object v0, v0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
 
-    # getter for: Lio/socket/engineio/client/Socket;->upgrading:Z
     invoke-static {v0}, Lio/socket/engineio/client/Socket;->access$1300(Lio/socket/engineio/client/Socket;)Z
 
     move-result v0
@@ -67,9 +64,7 @@
 
     invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    .line 756
-    :goto_0
-    return-void
+    goto :goto_0
 
     .line 754
     :cond_0
@@ -77,5 +72,7 @@
 
     invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    goto :goto_0
+    .line 756
+    :goto_0
+    return-void
 .end method

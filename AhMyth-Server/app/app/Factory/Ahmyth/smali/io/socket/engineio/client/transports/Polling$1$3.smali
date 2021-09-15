@@ -30,7 +30,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/Polling$1;
 
-    .prologue
     .line 75
     iput-object p1, p0, Lio/socket/engineio/client/transports/Polling$1$3;->this$1:Lio/socket/engineio/client/transports/Polling$1;
 
@@ -49,9 +48,7 @@
     .locals 3
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 78
-    # getter for: Lio/socket/engineio/client/transports/Polling;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/engineio/client/transports/Polling;->access$100()Ljava/util/logging/Logger;
 
     move-result-object v0

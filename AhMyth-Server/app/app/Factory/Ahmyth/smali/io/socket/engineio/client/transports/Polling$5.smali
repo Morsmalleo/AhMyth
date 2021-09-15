@@ -19,8 +19,8 @@
 .annotation system Ldalvik/annotation/Signature;
     value = {
         "Ljava/lang/Object;",
-        "Lio/socket/engineio/parser/Parser$EncodeCallback",
-        "<[B>;"
+        "Lio/socket/engineio/parser/Parser$EncodeCallback<",
+        "[B>;"
     }
 .end annotation
 
@@ -38,7 +38,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/Polling;
 
-    .prologue
     .line 186
     iput-object p1, p0, Lio/socket/engineio/client/transports/Polling$5;->this$0:Lio/socket/engineio/client/transports/Polling;
 
@@ -56,7 +55,6 @@
 .method public bridge synthetic call(Ljava/lang/Object;)V
     .locals 0
 
-    .prologue
     .line 186
     check-cast p1, [B
 
@@ -69,7 +67,6 @@
     .locals 2
     .param p1, "data"    # [B
 
-    .prologue
     .line 189
     iget-object v0, p0, Lio/socket/engineio/client/transports/Polling$5;->val$self:Lio/socket/engineio/client/transports/Polling;
 

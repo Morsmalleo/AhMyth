@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/Polling;
 
-    .prologue
     .line 152
     iput-object p1, p0, Lio/socket/engineio/client/transports/Polling$3;->this$0:Lio/socket/engineio/client/transports/Polling;
 
@@ -42,41 +41,42 @@
 
 # virtual methods
 .method public varargs call([Ljava/lang/Object;)V
-    .locals 6
+    .locals 5
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 155
-    # getter for: Lio/socket/engineio/client/transports/Polling;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/engineio/client/transports/Polling;->access$100()Ljava/util/logging/Logger;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "writing close packet"
+    const-string v1, "writing close packet"
 
-    invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+    invoke-virtual {v0, v1}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
     .line 157
     :try_start_0
-    iget-object v1, p0, Lio/socket/engineio/client/transports/Polling$3;->val$self:Lio/socket/engineio/client/transports/Polling;
+    iget-object v0, p0, Lio/socket/engineio/client/transports/Polling$3;->val$self:Lio/socket/engineio/client/transports/Polling;
 
-    const/4 v2, 0x1
+    const/4 v1, 0x1
 
-    new-array v2, v2, [Lio/socket/engineio/parser/Packet;
+    new-array v1, v1, [Lio/socket/engineio/parser/Packet;
 
-    const/4 v3, 0x0
+    const/4 v2, 0x0
 
-    new-instance v4, Lio/socket/engineio/parser/Packet;
+    new-instance v3, Lio/socket/engineio/parser/Packet;
 
-    const-string v5, "close"
+    const-string v4, "close"
 
-    invoke-direct {v4, v5}, Lio/socket/engineio/parser/Packet;-><init>(Ljava/lang/String;)V
+    invoke-direct {v3, v4}, Lio/socket/engineio/parser/Packet;-><init>(Ljava/lang/String;)V
 
-    aput-object v4, v2, v3
+    aput-object v3, v1, v2
 
-    invoke-virtual {v1, v2}, Lio/socket/engineio/client/transports/Polling;->write([Lio/socket/engineio/parser/Packet;)V
+    invoke-virtual {v0, v1}, Lio/socket/engineio/client/transports/Polling;->write([Lio/socket/engineio/parser/Packet;)V
     :try_end_0
     .catch Lio/socket/utf8/UTF8Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    .line 160
+    nop
 
     .line 161
     return-void

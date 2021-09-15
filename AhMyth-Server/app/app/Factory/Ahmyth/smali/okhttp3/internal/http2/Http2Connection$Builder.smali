@@ -35,7 +35,6 @@
     .locals 1
     .param p1, "client"    # Z
 
-    .prologue
     .line 516
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -66,7 +65,6 @@
         }
     .end annotation
 
-    .prologue
     .line 545
     new-instance v0, Lokhttp3/internal/http2/Http2Connection;
 
@@ -79,7 +77,6 @@
     .locals 0
     .param p1, "listener"    # Lokhttp3/internal/http2/Http2Connection$Listener;
 
-    .prologue
     .line 535
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->listener:Lokhttp3/internal/http2/Http2Connection$Listener;
 
@@ -91,7 +88,6 @@
     .locals 0
     .param p1, "pushObserver"    # Lokhttp3/internal/http2/PushObserver;
 
-    .prologue
     .line 540
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->pushObserver:Lokhttp3/internal/http2/PushObserver;
 
@@ -108,7 +104,6 @@
         }
     .end annotation
 
-    .prologue
     .line 521
     invoke-virtual {p1}, Ljava/net/Socket;->getRemoteSocketAddress()Ljava/net/SocketAddress;
 
@@ -152,7 +147,6 @@
     .param p3, "source"    # Lokio/BufferedSource;
     .param p4, "sink"    # Lokio/BufferedSink;
 
-    .prologue
     .line 527
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->socket:Ljava/net/Socket;
 

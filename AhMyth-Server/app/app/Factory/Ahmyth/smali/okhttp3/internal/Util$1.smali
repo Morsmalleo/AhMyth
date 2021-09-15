@@ -27,7 +27,6 @@
 .method constructor <init>(Ljava/lang/String;Z)V
     .locals 0
 
-    .prologue
     .line 191
     iput-object p1, p0, Lokhttp3/internal/Util$1;->val$name:Ljava/lang/String;
 
@@ -44,7 +43,6 @@
     .locals 2
     .param p1, "runnable"    # Ljava/lang/Runnable;
 
-    .prologue
     .line 193
     new-instance v0, Ljava/lang/Thread;
 

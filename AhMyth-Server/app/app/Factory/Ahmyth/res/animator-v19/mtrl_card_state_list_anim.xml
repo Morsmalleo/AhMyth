@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:state_enabled="true" app:state_dragged="true">
+        <set>
+            <objectAnimator android:interpolator="@interpolator/mtrl_fast_out_slow_in" android:duration="@integer/mtrl_card_anim_duration_ms" android:valueTo="@dimen/mtrl_card_dragged_z" android:valueType="floatType" android:propertyName="translationZ" android:startDelay="@integer/mtrl_card_anim_delay_ms" />
+        </set>
+    </item>
+    <item android:state_enabled="true">
+        <set>
+            <objectAnimator android:interpolator="@anim/mtrl_card_lowers_interpolator" android:duration="@integer/mtrl_card_anim_duration_ms" android:valueTo="0.0dip" android:valueType="floatType" android:propertyName="translationZ" />
+        </set>
+    </item>
+</selector>

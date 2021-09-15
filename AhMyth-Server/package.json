@@ -1,8 +1,9 @@
 {
     "main": "./app/main.js",
     "devDependencies": {
-        "electron": "^9.2.0",
-        "electron-builder": "^22.8.0"
+        "electron": "^9.4.1",
+        "electron-builder": "^22.11.7",
+        "electron-packager": "^15.4.0"
     },
     "license": "GNU GPLv3",
     "build": {
@@ -23,6 +24,5 @@
         "build:win": "npm run build:win32 && npm run build:win64",
         "build:win32": "npx electron-builder --win --ia32",
         "build:win64": "npx electron-builder --win --x64"
-    },
-    "dependencies": {}
+    }
 }

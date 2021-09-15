@@ -11,7 +11,6 @@
 .method public constructor <init>()V
     .locals 0
 
-    .prologue
     .line 38
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -21,7 +20,6 @@
 .method public static initializeInstanceForTests()V
     .locals 1
 
-    .prologue
     .line 42
     new-instance v0, Lokhttp3/OkHttpClient;
 

@@ -30,7 +30,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Socket;
 
-    .prologue
     .line 173
     iput-object p1, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
@@ -46,114 +45,119 @@
 
 # virtual methods
 .method public run()V
-    .locals 10
+    .locals 9
 
-    .prologue
     .line 176
-    sget-object v5, Lio/socket/client/Socket;->events:Ljava/util/Map;
+    sget-object v0, Lio/socket/client/Socket;->events:Ljava/util/Map;
 
-    iget-object v6, p0, Lio/socket/client/Socket$5;->val$event:Ljava/lang/String;
+    iget-object v1, p0, Lio/socket/client/Socket$5;->val$event:Ljava/lang/String;
 
-    invoke-interface {v5, v6}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
+    invoke-interface {v0, v1}, Ljava/util/Map;->containsKey(Ljava/lang/Object;)Z
 
-    move-result v5
+    move-result v0
 
-    if-eqz v5, :cond_0
+    if-eqz v0, :cond_0
 
     .line 177
-    iget-object v5, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
+    iget-object v0, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
-    iget-object v6, p0, Lio/socket/client/Socket$5;->val$event:Ljava/lang/String;
+    iget-object v1, p0, Lio/socket/client/Socket$5;->val$event:Ljava/lang/String;
 
-    iget-object v7, p0, Lio/socket/client/Socket$5;->val$args:[Ljava/lang/Object;
+    iget-object v2, p0, Lio/socket/client/Socket$5;->val$args:[Ljava/lang/Object;
 
-    # invokes: Lio/socket/emitter/Emitter;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
-    invoke-static {v5, v6, v7}, Lio/socket/client/Socket;->access$601(Lio/socket/client/Socket;Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-static {v0, v1, v2}, Lio/socket/client/Socket;->access$601(Lio/socket/client/Socket;Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 205
-    :goto_0
+    .line 178
     return-void
 
     .line 181
     :cond_0
     new-instance v0, Ljava/util/ArrayList;
 
-    iget-object v5, p0, Lio/socket/client/Socket$5;->val$args:[Ljava/lang/Object;
+    iget-object v1, p0, Lio/socket/client/Socket$5;->val$args:[Ljava/lang/Object;
 
-    array-length v5, v5
+    array-length v1, v1
 
-    add-int/lit8 v5, v5, 0x1
+    const/4 v2, 0x1
 
-    invoke-direct {v0, v5}, Ljava/util/ArrayList;-><init>(I)V
+    add-int/2addr v1, v2
+
+    invoke-direct {v0, v1}, Ljava/util/ArrayList;-><init>(I)V
 
     .line 182
     .local v0, "_args":Ljava/util/List;, "Ljava/util/List<Ljava/lang/Object;>;"
-    iget-object v5, p0, Lio/socket/client/Socket$5;->val$event:Ljava/lang/String;
+    iget-object v1, p0, Lio/socket/client/Socket$5;->val$event:Ljava/lang/String;
 
-    invoke-interface {v0, v5}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+    invoke-interface {v0, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 183
-    iget-object v5, p0, Lio/socket/client/Socket$5;->val$args:[Ljava/lang/Object;
+    iget-object v1, p0, Lio/socket/client/Socket$5;->val$args:[Ljava/lang/Object;
 
-    invoke-static {v5}, Ljava/util/Arrays;->asList([Ljava/lang/Object;)Ljava/util/List;
-
-    move-result-object v5
-
-    invoke-interface {v0, v5}, Ljava/util/List;->addAll(Ljava/util/Collection;)Z
-
-    .line 185
-    new-instance v2, Lorg/json/JSONArray;
-
-    invoke-direct {v2}, Lorg/json/JSONArray;-><init>()V
-
-    .line 186
-    .local v2, "jsonArgs":Lorg/json/JSONArray;
-    invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
-
-    move-result-object v5
-
-    :goto_1
-    invoke-interface {v5}, Ljava/util/Iterator;->hasNext()Z
-
-    move-result v6
-
-    if-eqz v6, :cond_1
-
-    invoke-interface {v5}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+    invoke-static {v1}, Ljava/util/Arrays;->asList([Ljava/lang/Object;)Ljava/util/List;
 
     move-result-object v1
 
+    invoke-interface {v0, v1}, Ljava/util/List;->addAll(Ljava/util/Collection;)Z
+
+    .line 185
+    new-instance v1, Lorg/json/JSONArray;
+
+    invoke-direct {v1}, Lorg/json/JSONArray;-><init>()V
+
+    .line 186
+    .local v1, "jsonArgs":Lorg/json/JSONArray;
+    invoke-interface {v0}, Ljava/util/List;->iterator()Ljava/util/Iterator;
+
+    move-result-object v3
+
+    :goto_0
+    invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
+
+    move-result v4
+
+    if-eqz v4, :cond_1
+
+    invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+
+    move-result-object v4
+
     .line 187
-    .local v1, "arg":Ljava/lang/Object;
-    invoke-virtual {v2, v1}, Lorg/json/JSONArray;->put(Ljava/lang/Object;)Lorg/json/JSONArray;
+    .local v4, "arg":Ljava/lang/Object;
+    invoke-virtual {v1, v4}, Lorg/json/JSONArray;->put(Ljava/lang/Object;)Lorg/json/JSONArray;
+
+    .line 188
+    .end local v4    # "arg":Ljava/lang/Object;
+    goto :goto_0
+
+    .line 189
+    :cond_1
+    invoke-static {v1}, Lio/socket/hasbinary/HasBinary;->hasBinary(Ljava/lang/Object;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_2
+
+    const/4 v3, 0x5
 
     goto :goto_1
 
-    .line 189
-    .end local v1    # "arg":Ljava/lang/Object;
-    :cond_1
-    invoke-static {v2}, Lio/socket/hasbinary/HasBinary;->hasBinary(Ljava/lang/Object;)Z
-
-    move-result v5
-
-    if-eqz v5, :cond_3
-
-    const/4 v4, 0x5
+    :cond_2
+    const/4 v3, 0x2
 
     .line 190
-    .local v4, "parserType":I
-    :goto_2
-    new-instance v3, Lio/socket/parser/Packet;
+    .local v3, "parserType":I
+    :goto_1
+    new-instance v4, Lio/socket/parser/Packet;
 
-    invoke-direct {v3, v4, v2}, Lio/socket/parser/Packet;-><init>(ILjava/lang/Object;)V
+    invoke-direct {v4, v3, v1}, Lio/socket/parser/Packet;-><init>(ILjava/lang/Object;)V
 
     .line 192
-    .local v3, "packet":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<Lorg/json/JSONArray;>;"
+    .local v4, "packet":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<Lorg/json/JSONArray;>;"
     invoke-interface {v0}, Ljava/util/List;->size()I
 
     move-result v5
 
-    add-int/lit8 v5, v5, -0x1
+    sub-int/2addr v5, v2
 
     invoke-interface {v0, v5}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
@@ -161,36 +165,32 @@
 
     instance-of v5, v5, Lio/socket/client/Ack;
 
-    if-eqz v5, :cond_2
+    if-eqz v5, :cond_3
 
     .line 193
-    # getter for: Lio/socket/client/Socket;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/client/Socket;->access$800()Ljava/util/logging/Logger;
 
     move-result-object v5
 
-    const-string v6, "emitting packet with ack id %d"
+    new-array v6, v2, [Ljava/lang/Object;
 
-    const/4 v7, 0x1
+    const/4 v7, 0x0
 
-    new-array v7, v7, [Ljava/lang/Object;
+    iget-object v8, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
-    const/4 v8, 0x0
+    invoke-static {v8}, Lio/socket/client/Socket;->access$700(Lio/socket/client/Socket;)I
 
-    iget-object v9, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
+    move-result v8
 
-    # getter for: Lio/socket/client/Socket;->ids:I
-    invoke-static {v9}, Lio/socket/client/Socket;->access$700(Lio/socket/client/Socket;)I
+    invoke-static {v8}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
-    move-result v9
+    move-result-object v8
 
-    invoke-static {v9}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+    aput-object v8, v6, v7
 
-    move-result-object v9
+    const-string v7, "emitting packet with ack id %d"
 
-    aput-object v9, v7, v8
-
-    invoke-static {v6, v7}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    invoke-static {v7, v6}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v6
 
@@ -199,100 +199,85 @@
     .line 194
     iget-object v5, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
-    # getter for: Lio/socket/client/Socket;->acks:Ljava/util/Map;
     invoke-static {v5}, Lio/socket/client/Socket;->access$900(Lio/socket/client/Socket;)Ljava/util/Map;
-
-    move-result-object v6
-
-    iget-object v5, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
-
-    # getter for: Lio/socket/client/Socket;->ids:I
-    invoke-static {v5}, Lio/socket/client/Socket;->access$700(Lio/socket/client/Socket;)I
-
-    move-result v5
-
-    invoke-static {v5}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
-
-    move-result-object v7
-
-    invoke-interface {v0}, Ljava/util/List;->size()I
-
-    move-result v5
-
-    add-int/lit8 v5, v5, -0x1
-
-    invoke-interface {v0, v5}, Ljava/util/List;->remove(I)Ljava/lang/Object;
 
     move-result-object v5
 
-    check-cast v5, Lio/socket/client/Ack;
+    iget-object v6, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
-    invoke-interface {v6, v7, v5}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-static {v6}, Lio/socket/client/Socket;->access$700(Lio/socket/client/Socket;)I
+
+    move-result v6
+
+    invoke-static {v6}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v6
+
+    invoke-interface {v0}, Ljava/util/List;->size()I
+
+    move-result v7
+
+    sub-int/2addr v7, v2
+
+    invoke-interface {v0, v7}, Ljava/util/List;->remove(I)Ljava/lang/Object;
+
+    move-result-object v7
+
+    check-cast v7, Lio/socket/client/Ack;
+
+    invoke-interface {v5, v6, v7}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
     .line 195
-    invoke-virtual {v2}, Lorg/json/JSONArray;->length()I
+    invoke-virtual {v1}, Lorg/json/JSONArray;->length()I
 
     move-result v5
 
-    add-int/lit8 v5, v5, -0x1
+    sub-int/2addr v5, v2
 
-    # invokes: Lio/socket/client/Socket;->remove(Lorg/json/JSONArray;I)Lorg/json/JSONArray;
-    invoke-static {v2, v5}, Lio/socket/client/Socket;->access$1000(Lorg/json/JSONArray;I)Lorg/json/JSONArray;
+    invoke-static {v1, v5}, Lio/socket/client/Socket;->access$1000(Lorg/json/JSONArray;I)Lorg/json/JSONArray;
 
-    move-result-object v2
+    move-result-object v1
 
     .line 196
-    iput-object v2, v3, Lio/socket/parser/Packet;->data:Ljava/lang/Object;
+    iput-object v1, v4, Lio/socket/parser/Packet;->data:Ljava/lang/Object;
 
     .line 197
-    iget-object v5, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
+    iget-object v2, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
-    # operator++ for: Lio/socket/client/Socket;->ids:I
-    invoke-static {v5}, Lio/socket/client/Socket;->access$708(Lio/socket/client/Socket;)I
+    invoke-static {v2}, Lio/socket/client/Socket;->access$708(Lio/socket/client/Socket;)I
 
-    move-result v5
+    move-result v2
 
-    iput v5, v3, Lio/socket/parser/Packet;->id:I
+    iput v2, v4, Lio/socket/parser/Packet;->id:I
 
     .line 200
-    :cond_2
-    iget-object v5, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
+    :cond_3
+    iget-object v2, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
-    # getter for: Lio/socket/client/Socket;->connected:Z
-    invoke-static {v5}, Lio/socket/client/Socket;->access$300(Lio/socket/client/Socket;)Z
+    invoke-static {v2}, Lio/socket/client/Socket;->access$300(Lio/socket/client/Socket;)Z
 
-    move-result v5
+    move-result v2
 
-    if-eqz v5, :cond_4
+    if-eqz v2, :cond_4
 
     .line 201
-    iget-object v5, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
+    iget-object v2, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
-    # invokes: Lio/socket/client/Socket;->packet(Lio/socket/parser/Packet;)V
-    invoke-static {v5, v3}, Lio/socket/client/Socket;->access$1100(Lio/socket/client/Socket;Lio/socket/parser/Packet;)V
-
-    goto/16 :goto_0
-
-    .line 189
-    .end local v3    # "packet":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<Lorg/json/JSONArray;>;"
-    .end local v4    # "parserType":I
-    :cond_3
-    const/4 v4, 0x2
+    invoke-static {v2, v4}, Lio/socket/client/Socket;->access$1100(Lio/socket/client/Socket;Lio/socket/parser/Packet;)V
 
     goto :goto_2
 
     .line 203
-    .restart local v3    # "packet":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<Lorg/json/JSONArray;>;"
-    .restart local v4    # "parserType":I
     :cond_4
-    iget-object v5, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
+    iget-object v2, p0, Lio/socket/client/Socket$5;->this$0:Lio/socket/client/Socket;
 
-    # getter for: Lio/socket/client/Socket;->sendBuffer:Ljava/util/Queue;
-    invoke-static {v5}, Lio/socket/client/Socket;->access$1200(Lio/socket/client/Socket;)Ljava/util/Queue;
+    invoke-static {v2}, Lio/socket/client/Socket;->access$1200(Lio/socket/client/Socket;)Ljava/util/Queue;
 
-    move-result-object v5
+    move-result-object v2
 
-    invoke-interface {v5, v3}, Ljava/util/Queue;->add(Ljava/lang/Object;)Z
+    invoke-interface {v2, v4}, Ljava/util/Queue;->add(Ljava/lang/Object;)Z
 
-    goto/16 :goto_0
+    .line 205
+    :goto_2
+    return-void
 .end method

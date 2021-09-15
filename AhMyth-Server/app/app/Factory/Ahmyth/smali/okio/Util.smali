@@ -11,7 +11,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 22
     const-string v0, "UTF-8"
 
@@ -27,7 +26,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 24
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -43,7 +41,6 @@
     .param p3, "bOffset"    # I
     .param p4, "byteCount"    # I
 
-    .prologue
     .line 75
     const/4 v0, 0x0
 
@@ -64,8 +61,6 @@
 
     const/4 v1, 0x0
 
-    .line 78
-    :goto_1
     return v1
 
     .line 75
@@ -75,27 +70,27 @@
     goto :goto_0
 
     .line 78
+    .end local v0    # "i":I
     :cond_1
-    const/4 v1, 0x1
+    const/4 v0, 0x1
 
-    goto :goto_1
+    return v0
 .end method
 
 .method public static checkOffsetAndCount(JJJ)V
-    .locals 6
+    .locals 5
     .param p0, "size"    # J
     .param p2, "offset"    # J
     .param p4, "byteCount"    # J
 
-    .prologue
     .line 28
     or-long v0, p2, p4
 
     const-wide/16 v2, 0x0
 
-    cmp-long v0, v0, v2
+    cmp-long v4, v0, v2
 
-    if-ltz v0, :cond_0
+    if-ltz v4, :cond_0
 
     cmp-long v0, p2, p0
 
@@ -103,63 +98,61 @@
 
     sub-long v0, p0, p2
 
-    cmp-long v0, v0, p4
+    cmp-long v2, v0, p4
 
-    if-gez v0, :cond_1
+    if-ltz v2, :cond_0
+
+    .line 32
+    return-void
 
     .line 29
     :cond_0
     new-instance v0, Ljava/lang/ArrayIndexOutOfBoundsException;
 
-    const-string v1, "size=%s offset=%s byteCount=%s"
+    const/4 v1, 0x3
 
-    const/4 v2, 0x3
+    new-array v1, v1, [Ljava/lang/Object;
 
-    new-array v2, v2, [Ljava/lang/Object;
-
-    const/4 v3, 0x0
+    const/4 v2, 0x0
 
     .line 30
     invoke-static {p0, p1}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
 
-    move-result-object v4
+    move-result-object v3
 
-    aput-object v4, v2, v3
+    aput-object v3, v1, v2
 
-    const/4 v3, 0x1
+    const/4 v2, 0x1
 
     invoke-static {p2, p3}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
 
-    move-result-object v4
+    move-result-object v3
 
-    aput-object v4, v2, v3
+    aput-object v3, v1, v2
 
-    const/4 v3, 0x2
+    const/4 v2, 0x2
 
     invoke-static {p4, p5}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
 
-    move-result-object v4
+    move-result-object v3
 
-    aput-object v4, v2, v3
+    aput-object v3, v1, v2
 
-    invoke-static {v1, v2}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    const-string v2, "size=%s offset=%s byteCount=%s"
+
+    invoke-static {v2, v1}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v1
 
     invoke-direct {v0, v1}, Ljava/lang/ArrayIndexOutOfBoundsException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 32
-    :cond_1
-    return-void
 .end method
 
 .method public static reverseBytesInt(I)I
     .locals 2
     .param p0, "i"    # I
 
-    .prologue
     .line 42
     const/high16 v0, -0x1000000
 
@@ -196,75 +189,74 @@
     .locals 8
     .param p0, "v"    # J
 
-    .prologue
-    const/16 v7, 0x38
-
-    const/16 v6, 0x28
-
-    const/16 v5, 0x18
-
-    const/16 v4, 0x8
-
     .line 49
     const-wide/high16 v0, -0x100000000000000L
 
     and-long/2addr v0, p0
 
-    ushr-long/2addr v0, v7
+    const/16 v2, 0x38
 
-    const-wide/high16 v2, 0xff000000000000L
+    ushr-long/2addr v0, v2
 
-    and-long/2addr v2, p0
+    const-wide/high16 v3, 0xff000000000000L
 
-    ushr-long/2addr v2, v6
+    and-long/2addr v3, p0
 
-    or-long/2addr v0, v2
+    const/16 v5, 0x28
 
-    const-wide v2, 0xff0000000000L
+    ushr-long/2addr v3, v5
 
-    and-long/2addr v2, p0
+    or-long/2addr v0, v3
 
-    ushr-long/2addr v2, v5
+    const-wide v3, 0xff0000000000L
 
-    or-long/2addr v0, v2
+    and-long/2addr v3, p0
 
-    const-wide v2, 0xff00000000L
+    const/16 v6, 0x18
 
-    and-long/2addr v2, p0
+    ushr-long/2addr v3, v6
 
-    ushr-long/2addr v2, v4
+    or-long/2addr v0, v3
 
-    or-long/2addr v0, v2
+    const-wide v3, 0xff00000000L
 
-    const-wide v2, 0xff000000L
+    and-long/2addr v3, p0
 
-    and-long/2addr v2, p0
+    const/16 v7, 0x8
 
-    shl-long/2addr v2, v4
+    ushr-long/2addr v3, v7
 
-    or-long/2addr v0, v2
+    or-long/2addr v0, v3
 
-    const-wide/32 v2, 0xff0000
+    const-wide v3, 0xff000000L
 
-    and-long/2addr v2, p0
+    and-long/2addr v3, p0
 
-    shl-long/2addr v2, v5
+    shl-long/2addr v3, v7
 
-    or-long/2addr v0, v2
+    or-long/2addr v0, v3
 
-    const-wide/32 v2, 0xff00
+    const-wide/32 v3, 0xff0000
 
-    and-long/2addr v2, p0
+    and-long/2addr v3, p0
 
-    shl-long/2addr v2, v6
+    shl-long/2addr v3, v6
 
-    or-long/2addr v0, v2
+    or-long/2addr v0, v3
 
-    const-wide/16 v2, 0xff
+    const-wide/32 v3, 0xff00
 
-    and-long/2addr v2, p0
+    and-long/2addr v3, p0
 
-    shl-long/2addr v2, v7
+    shl-long/2addr v3, v5
+
+    or-long/2addr v0, v3
+
+    const-wide/16 v3, 0xff
+
+    and-long/2addr v3, p0
+
+    shl-long v2, v3, v2
 
     or-long/2addr v0, v2
 
@@ -272,28 +264,27 @@
 .end method
 
 .method public static reverseBytesShort(S)S
-    .locals 4
+    .locals 3
     .param p0, "s"    # S
 
-    .prologue
     .line 35
-    const v2, 0xffff
+    const v0, 0xffff
 
-    and-int v0, p0, v2
+    and-int/2addr v0, p0
 
     .line 36
     .local v0, "i":I
-    const v2, 0xff00
+    const v1, 0xff00
 
-    and-int/2addr v2, v0
+    and-int/2addr v1, v0
 
-    ushr-int/lit8 v2, v2, 0x8
+    ushr-int/lit8 v1, v1, 0x8
 
-    and-int/lit16 v3, v0, 0xff
+    and-int/lit16 v2, v0, 0xff
 
-    shl-int/lit8 v3, v3, 0x8
+    shl-int/lit8 v2, v2, 0x8
 
-    or-int v1, v2, v3
+    or-int/2addr v1, v2
 
     .line 38
     .local v1, "reversed":I
@@ -306,7 +297,6 @@
     .locals 0
     .param p0, "t"    # Ljava/lang/Throwable;
 
-    .prologue
     .line 65
     invoke-static {p0}, Lokio/Util;->sneakyThrow2(Ljava/lang/Throwable;)V
 
@@ -333,7 +323,6 @@
         }
     .end annotation
 
-    .prologue
     .line 70
     throw p0
 .end method

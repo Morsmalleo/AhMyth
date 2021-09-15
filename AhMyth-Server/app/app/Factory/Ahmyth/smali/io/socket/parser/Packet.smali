@@ -36,14 +36,13 @@
 .method public constructor <init>()V
     .locals 1
 
-    .prologue
-    .local p0, "this":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<TT;>;"
-    const/4 v0, -0x1
-
     .line 12
+    .local p0, "this":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<TT;>;"
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     .line 6
+    const/4 v0, -0x1
+
     iput v0, p0, Lio/socket/parser/Packet;->type:I
 
     .line 7
@@ -57,14 +56,13 @@
     .locals 1
     .param p1, "type"    # I
 
-    .prologue
-    .local p0, "this":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<TT;>;"
-    const/4 v0, -0x1
-
     .line 14
+    .local p0, "this":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<TT;>;"
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     .line 6
+    const/4 v0, -0x1
+
     iput v0, p0, Lio/socket/parser/Packet;->type:I
 
     .line 7
@@ -86,15 +84,14 @@
         }
     .end annotation
 
-    .prologue
+    .line 18
     .local p0, "this":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<TT;>;"
     .local p2, "data":Ljava/lang/Object;, "TT;"
-    const/4 v0, -0x1
-
-    .line 18
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     .line 6
+    const/4 v0, -0x1
+
     iput v0, p0, Lio/socket/parser/Packet;->type:I
 
     .line 7

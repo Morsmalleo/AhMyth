@@ -26,7 +26,6 @@
 .method constructor <init>(Lokhttp3/MediaType;JLokio/BufferedSource;)V
     .locals 0
 
-    .prologue
     .line 216
     iput-object p1, p0, Lokhttp3/ResponseBody$1;->val$contentType:Lokhttp3/MediaType;
 
@@ -44,7 +43,6 @@
 .method public contentLength()J
     .locals 2
 
-    .prologue
     .line 222
     iget-wide v0, p0, Lokhttp3/ResponseBody$1;->val$contentLength:J
 
@@ -54,7 +52,6 @@
 .method public contentType()Lokhttp3/MediaType;
     .locals 1
 
-    .prologue
     .line 218
     iget-object v0, p0, Lokhttp3/ResponseBody$1;->val$contentType:Lokhttp3/MediaType;
 
@@ -64,7 +61,6 @@
 .method public source()Lokio/BufferedSource;
     .locals 1
 
-    .prologue
     .line 226
     iget-object v0, p0, Lokhttp3/ResponseBody$1;->val$content:Lokio/BufferedSource;
 

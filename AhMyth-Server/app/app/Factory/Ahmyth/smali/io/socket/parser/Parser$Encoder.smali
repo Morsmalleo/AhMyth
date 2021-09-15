@@ -24,7 +24,6 @@
 .method public constructor <init>()V
     .locals 0
 
-    .prologue
     .line 77
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -36,40 +35,39 @@
     .param p1, "obj"    # Lio/socket/parser/Packet;
     .param p2, "callback"    # Lio/socket/parser/Parser$Encoder$Callback;
 
-    .prologue
     .line 124
     invoke-static {p1}, Lio/socket/parser/Binary;->deconstructPacket(Lio/socket/parser/Packet;)Lio/socket/parser/Binary$DeconstructedPacket;
 
-    move-result-object v1
+    move-result-object v0
 
     .line 125
-    .local v1, "deconstruction":Lio/socket/parser/Binary$DeconstructedPacket;
-    iget-object v3, v1, Lio/socket/parser/Binary$DeconstructedPacket;->packet:Lio/socket/parser/Packet;
+    .local v0, "deconstruction":Lio/socket/parser/Binary$DeconstructedPacket;
+    iget-object v1, v0, Lio/socket/parser/Binary$DeconstructedPacket;->packet:Lio/socket/parser/Packet;
 
-    invoke-direct {p0, v3}, Lio/socket/parser/Parser$Encoder;->encodeAsString(Lio/socket/parser/Packet;)Ljava/lang/String;
+    invoke-direct {p0, v1}, Lio/socket/parser/Parser$Encoder;->encodeAsString(Lio/socket/parser/Packet;)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v1
 
     .line 126
-    .local v2, "pack":Ljava/lang/String;
-    new-instance v0, Ljava/util/ArrayList;
+    .local v1, "pack":Ljava/lang/String;
+    new-instance v2, Ljava/util/ArrayList;
 
-    iget-object v3, v1, Lio/socket/parser/Binary$DeconstructedPacket;->buffers:[[B
+    iget-object v3, v0, Lio/socket/parser/Binary$DeconstructedPacket;->buffers:[[B
 
     invoke-static {v3}, Ljava/util/Arrays;->asList([Ljava/lang/Object;)Ljava/util/List;
 
     move-result-object v3
 
-    invoke-direct {v0, v3}, Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
+    invoke-direct {v2, v3}, Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
 
     .line 128
-    .local v0, "buffers":Ljava/util/List;, "Ljava/util/List<Ljava/lang/Object;>;"
+    .local v2, "buffers":Ljava/util/List;, "Ljava/util/List<Ljava/lang/Object;>;"
     const/4 v3, 0x0
 
-    invoke-interface {v0, v3, v2}, Ljava/util/List;->add(ILjava/lang/Object;)V
+    invoke-interface {v2, v3, v1}, Ljava/util/List;->add(ILjava/lang/Object;)V
 
     .line 129
-    invoke-interface {v0}, Ljava/util/List;->toArray()[Ljava/lang/Object;
+    invoke-interface {v2}, Ljava/util/List;->toArray()[Ljava/lang/Object;
 
     move-result-object v3
 
@@ -80,31 +78,30 @@
 .end method
 
 .method private encodeAsString(Lio/socket/parser/Packet;)Ljava/lang/String;
-    .locals 6
+    .locals 5
     .param p1, "obj"    # Lio/socket/parser/Packet;
 
-    .prologue
     .line 91
-    new-instance v1, Ljava/lang/StringBuilder;
+    new-instance v0, Ljava/lang/StringBuilder;
 
-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
     .line 92
-    .local v1, "str":Ljava/lang/StringBuilder;
-    const/4 v0, 0x0
+    .local v0, "str":Ljava/lang/StringBuilder;
+    const/4 v1, 0x0
 
     .line 94
-    .local v0, "nsp":Z
+    .local v1, "nsp":Z
     iget v2, p1, Lio/socket/parser/Packet;->type:I
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     .line 96
-    const/4 v2, 0x5
+    iget v2, p1, Lio/socket/parser/Packet;->type:I
 
-    iget v3, p1, Lio/socket/parser/Packet;->type:I
+    const/4 v3, 0x5
 
-    if-eq v2, v3, :cond_0
+    if-eq v3, v2, :cond_0
 
     const/4 v2, 0x6
 
@@ -116,12 +113,12 @@
     :cond_0
     iget v2, p1, Lio/socket/parser/Packet;->attachments:I
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     .line 98
     const-string v2, "-"
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 101
     :cond_1
@@ -137,46 +134,46 @@
 
     if-eqz v2, :cond_2
 
-    const-string v2, "/"
+    iget-object v2, p1, Lio/socket/parser/Packet;->nsp:Ljava/lang/String;
 
-    iget-object v3, p1, Lio/socket/parser/Packet;->nsp:Ljava/lang/String;
+    const-string v3, "/"
 
-    invoke-virtual {v2, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v3, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v2
 
     if-nez v2, :cond_2
 
     .line 102
-    const/4 v0, 0x1
+    const/4 v1, 0x1
 
     .line 103
     iget-object v2, p1, Lio/socket/parser/Packet;->nsp:Ljava/lang/String;
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 106
     :cond_2
     iget v2, p1, Lio/socket/parser/Packet;->id:I
 
+    const-string v3, ","
+
     if-ltz v2, :cond_4
 
     .line 107
-    if-eqz v0, :cond_3
+    if-eqz v1, :cond_3
 
     .line 108
-    const-string v2, ","
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 109
-    const/4 v0, 0x0
+    const/4 v1, 0x0
 
     .line 111
     :cond_3
     iget v2, p1, Lio/socket/parser/Packet;->id:I
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
 
     .line 114
     :cond_4
@@ -185,47 +182,44 @@
     if-eqz v2, :cond_6
 
     .line 115
-    if-eqz v0, :cond_5
+    if-eqz v1, :cond_5
 
-    const-string v2, ","
-
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     .line 116
     :cond_5
     iget-object v2, p1, Lio/socket/parser/Packet;->data:Ljava/lang/Object;
 
-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+    invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
 
     .line 119
     :cond_6
-    # getter for: Lio/socket/parser/Parser;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/parser/Parser;->access$000()Ljava/util/logging/Logger;
 
     move-result-object v2
 
-    const-string v3, "encoded %s as %s"
+    const/4 v3, 0x2
 
-    const/4 v4, 0x2
+    new-array v3, v3, [Ljava/lang/Object;
 
-    new-array v4, v4, [Ljava/lang/Object;
+    const/4 v4, 0x0
 
-    const/4 v5, 0x0
+    aput-object p1, v3, v4
 
-    aput-object p1, v4, v5
+    const/4 v4, 0x1
 
-    const/4 v5, 0x1
+    aput-object v0, v3, v4
 
-    aput-object v1, v4, v5
+    const-string v4, "encoded %s as %s"
 
-    invoke-static {v3, v4}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    invoke-static {v4, v3}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v3
 
     invoke-virtual {v2, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
     .line 120
-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v2
 
@@ -235,67 +229,69 @@
 
 # virtual methods
 .method public encode(Lio/socket/parser/Packet;Lio/socket/parser/Parser$Encoder$Callback;)V
-    .locals 6
+    .locals 5
     .param p1, "obj"    # Lio/socket/parser/Packet;
     .param p2, "callback"    # Lio/socket/parser/Parser$Encoder$Callback;
 
-    .prologue
-    const/4 v5, 0x1
-
-    const/4 v4, 0x0
-
     .line 80
-    # getter for: Lio/socket/parser/Parser;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/parser/Parser;->access$000()Ljava/util/logging/Logger;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "encoding packet %s"
+    const/4 v1, 0x1
 
-    new-array v3, v5, [Ljava/lang/Object;
+    new-array v2, v1, [Ljava/lang/Object;
 
-    aput-object p1, v3, v4
+    const/4 v3, 0x0
 
-    invoke-static {v2, v3}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    aput-object p1, v2, v3
+
+    const-string v4, "encoding packet %s"
+
+    invoke-static {v4, v2}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
     move-result-object v2
 
-    invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+    invoke-virtual {v0, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
     .line 82
-    const/4 v1, 0x5
+    iget v0, p1, Lio/socket/parser/Packet;->type:I
+
+    const/4 v2, 0x5
+
+    if-eq v2, v0, :cond_1
+
+    const/4 v0, 0x6
 
     iget v2, p1, Lio/socket/parser/Packet;->type:I
 
-    if-eq v1, v2, :cond_0
+    if-ne v0, v2, :cond_0
 
-    const/4 v1, 0x6
-
-    iget v2, p1, Lio/socket/parser/Packet;->type:I
-
-    if-ne v1, v2, :cond_1
-
-    .line 83
-    :cond_0
-    invoke-direct {p0, p1, p2}, Lio/socket/parser/Parser$Encoder;->encodeAsBinary(Lio/socket/parser/Packet;Lio/socket/parser/Parser$Encoder$Callback;)V
-
-    .line 88
-    :goto_0
-    return-void
+    goto :goto_0
 
     .line 85
-    :cond_1
+    :cond_0
     invoke-direct {p0, p1}, Lio/socket/parser/Parser$Encoder;->encodeAsString(Lio/socket/parser/Packet;)Ljava/lang/String;
 
     move-result-object v0
 
     .line 86
     .local v0, "encoding":Ljava/lang/String;
-    new-array v1, v5, [Ljava/lang/String;
+    new-array v1, v1, [Ljava/lang/String;
 
-    aput-object v0, v1, v4
+    aput-object v0, v1, v3
 
     invoke-interface {p2, v1}, Lio/socket/parser/Parser$Encoder$Callback;->call([Ljava/lang/Object;)V
 
-    goto :goto_0
+    goto :goto_1
+
+    .line 83
+    .end local v0    # "encoding":Ljava/lang/String;
+    :cond_1
+    :goto_0
+    invoke-direct {p0, p1, p2}, Lio/socket/parser/Parser$Encoder;->encodeAsBinary(Lio/socket/parser/Packet;Lio/socket/parser/Parser$Encoder$Callback;)V
+
+    .line 88
+    :goto_1
+    return-void
 .end method

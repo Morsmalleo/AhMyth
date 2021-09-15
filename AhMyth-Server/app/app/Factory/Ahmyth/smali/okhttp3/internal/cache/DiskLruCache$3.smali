@@ -19,8 +19,7 @@
 .annotation system Ldalvik/annotation/Signature;
     value = {
         "Ljava/lang/Object;",
-        "Ljava/util/Iterator",
-        "<",
+        "Ljava/util/Iterator<",
         "Lokhttp3/internal/cache/DiskLruCache$Snapshot;",
         ">;"
     }
@@ -31,8 +30,7 @@
 .field final delegate:Ljava/util/Iterator;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/Iterator",
-            "<",
+            "Ljava/util/Iterator<",
             "Lokhttp3/internal/cache/DiskLruCache$Entry;",
             ">;"
         }
@@ -51,7 +49,6 @@
     .locals 2
     .param p1, "this$0"    # Lokhttp3/internal/cache/DiskLruCache;
 
-    .prologue
     .line 730
     iput-object p1, p0, Lokhttp3/internal/cache/DiskLruCache$3;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
@@ -60,9 +57,7 @@
     .line 732
     new-instance v0, Ljava/util/ArrayList;
 
-    iget-object v1, p0, Lokhttp3/internal/cache/DiskLruCache$3;->this$0:Lokhttp3/internal/cache/DiskLruCache;
-
-    iget-object v1, v1, Lokhttp3/internal/cache/DiskLruCache;->lruEntries:Ljava/util/LinkedHashMap;
+    iget-object v1, p1, Lokhttp3/internal/cache/DiskLruCache;->lruEntries:Ljava/util/LinkedHashMap;
 
     invoke-virtual {v1}, Ljava/util/LinkedHashMap;->values()Ljava/util/Collection;
 
@@ -82,107 +77,107 @@
 
 # virtual methods
 .method public hasNext()Z
-    .locals 6
-
-    .prologue
-    const/4 v2, 0x1
-
-    const/4 v3, 0x0
+    .locals 5
 
     .line 741
-    iget-object v4, p0, Lokhttp3/internal/cache/DiskLruCache$3;->nextSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$3;->nextSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    if-eqz v4, :cond_0
+    const/4 v1, 0x1
 
-    .line 756
-    :goto_0
-    return v2
+    if-eqz v0, :cond_0
+
+    return v1
 
     .line 743
     :cond_0
-    iget-object v4, p0, Lokhttp3/internal/cache/DiskLruCache$3;->this$0:Lokhttp3/internal/cache/DiskLruCache;
+    iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$3;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
-    monitor-enter v4
+    monitor-enter v0
 
     .line 745
     :try_start_0
-    iget-object v5, p0, Lokhttp3/internal/cache/DiskLruCache$3;->this$0:Lokhttp3/internal/cache/DiskLruCache;
+    iget-object v2, p0, Lokhttp3/internal/cache/DiskLruCache$3;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
-    iget-boolean v5, v5, Lokhttp3/internal/cache/DiskLruCache;->closed:Z
+    iget-boolean v2, v2, Lokhttp3/internal/cache/DiskLruCache;->closed:Z
 
-    if-eqz v5, :cond_1
+    const/4 v3, 0x0
 
-    monitor-exit v4
+    if-eqz v2, :cond_1
 
-    move v2, v3
+    monitor-exit v0
 
-    goto :goto_0
+    return v3
 
     .line 747
     :cond_1
-    iget-object v5, p0, Lokhttp3/internal/cache/DiskLruCache$3;->delegate:Ljava/util/Iterator;
+    :goto_0
+    iget-object v2, p0, Lokhttp3/internal/cache/DiskLruCache$3;->delegate:Ljava/util/Iterator;
 
-    invoke-interface {v5}, Ljava/util/Iterator;->hasNext()Z
+    invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
 
-    move-result v5
+    move-result v2
 
-    if-eqz v5, :cond_2
+    if-eqz v2, :cond_3
 
     .line 748
-    iget-object v5, p0, Lokhttp3/internal/cache/DiskLruCache$3;->delegate:Ljava/util/Iterator;
+    iget-object v2, p0, Lokhttp3/internal/cache/DiskLruCache$3;->delegate:Ljava/util/Iterator;
 
-    invoke-interface {v5}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+    invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
 
-    move-result-object v0
+    move-result-object v2
 
-    check-cast v0, Lokhttp3/internal/cache/DiskLruCache$Entry;
+    check-cast v2, Lokhttp3/internal/cache/DiskLruCache$Entry;
 
     .line 749
-    .local v0, "entry":Lokhttp3/internal/cache/DiskLruCache$Entry;
-    invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache$Entry;->snapshot()Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    .local v2, "entry":Lokhttp3/internal/cache/DiskLruCache$Entry;
+    invoke-virtual {v2}, Lokhttp3/internal/cache/DiskLruCache$Entry;->snapshot()Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    move-result-object v1
+    move-result-object v4
 
     .line 750
-    .local v1, "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
-    if-eqz v1, :cond_1
-
-    .line 751
-    iput-object v1, p0, Lokhttp3/internal/cache/DiskLruCache$3;->nextSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
-
-    .line 752
-    monitor-exit v4
+    .local v4, "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    if-nez v4, :cond_2
 
     goto :goto_0
 
-    .line 754
-    .end local v0    # "entry":Lokhttp3/internal/cache/DiskLruCache$Entry;
-    .end local v1    # "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
-    :catchall_0
-    move-exception v2
+    .line 751
+    :cond_2
+    iput-object v4, p0, Lokhttp3/internal/cache/DiskLruCache$3;->nextSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    monitor-exit v4
+    .line 752
+    monitor-exit v0
+
+    return v1
+
+    .line 754
+    .end local v2    # "entry":Lokhttp3/internal/cache/DiskLruCache$Entry;
+    .end local v4    # "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    :cond_3
+    monitor-exit v0
+
+    .line 756
+    return v3
+
+    .line 754
+    :catchall_0
+    move-exception v1
+
+    monitor-exit v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    throw v2
+    goto :goto_2
 
-    :cond_2
-    :try_start_1
-    monitor-exit v4
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_0
+    :goto_1
+    throw v1
 
-    move v2, v3
-
-    .line 756
-    goto :goto_0
+    :goto_2
+    goto :goto_1
 .end method
 
 .method public bridge synthetic next()Ljava/lang/Object;
     .locals 1
 
-    .prologue
     .line 730
     invoke-virtual {p0}, Lokhttp3/internal/cache/DiskLruCache$3;->next()Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
@@ -192,95 +187,91 @@
 .end method
 
 .method public next()Lokhttp3/internal/cache/DiskLruCache$Snapshot;
-    .locals 1
+    .locals 2
 
-    .prologue
     .line 760
     invoke-virtual {p0}, Lokhttp3/internal/cache/DiskLruCache$3;->hasNext()Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    new-instance v0, Ljava/util/NoSuchElementException;
-
-    invoke-direct {v0}, Ljava/util/NoSuchElementException;-><init>()V
-
-    throw v0
+    if-eqz v0, :cond_0
 
     .line 761
-    :cond_0
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$3;->nextSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
     iput-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
     .line 762
-    const/4 v0, 0x0
+    const/4 v1, 0x0
 
-    iput-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$3;->nextSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    iput-object v1, p0, Lokhttp3/internal/cache/DiskLruCache$3;->nextSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
     .line 763
-    iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
-
     return-object v0
+
+    .line 760
+    :cond_0
+    new-instance v0, Ljava/util/NoSuchElementException;
+
+    invoke-direct {v0}, Ljava/util/NoSuchElementException;-><init>()V
+
+    throw v0
 .end method
 
 .method public remove()V
     .locals 3
 
-    .prologue
-    const/4 v2, 0x0
-
     .line 767
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    if-nez v0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalStateException;
-
-    const-string v1, "remove() before next()"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz v0, :cond_0
 
     .line 769
-    :cond_0
+    const/4 v1, 0x0
+
     :try_start_0
-    iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$3;->this$0:Lokhttp3/internal/cache/DiskLruCache;
+    iget-object v2, p0, Lokhttp3/internal/cache/DiskLruCache$3;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
-    iget-object v1, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    invoke-static {v0}, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->access$000(Lokhttp3/internal/cache/DiskLruCache$Snapshot;)Ljava/lang/String;
 
-    # getter for: Lokhttp3/internal/cache/DiskLruCache$Snapshot;->key:Ljava/lang/String;
-    invoke-static {v1}, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->access$000(Lokhttp3/internal/cache/DiskLruCache$Snapshot;)Ljava/lang/String;
+    move-result-object v0
 
-    move-result-object v1
-
-    invoke-virtual {v0, v1}, Lokhttp3/internal/cache/DiskLruCache;->remove(Ljava/lang/String;)Z
+    invoke-virtual {v2, v0}, Lokhttp3/internal/cache/DiskLruCache;->remove(Ljava/lang/String;)Z
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 774
-    iput-object v2, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    goto :goto_0
 
-    .line 776
-    :goto_0
-    return-void
+    .line 774
+    :catchall_0
+    move-exception v0
+
+    iput-object v1, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+
+    throw v0
 
     .line 770
     :catch_0
     move-exception v0
 
     .line 774
-    iput-object v2, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    :goto_0
+    iput-object v1, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    goto :goto_0
+    .line 775
+    nop
 
-    :catchall_0
-    move-exception v0
+    .line 776
+    return-void
 
-    iput-object v2, p0, Lokhttp3/internal/cache/DiskLruCache$3;->removeSnapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
+    .line 767
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalStateException;
+
+    const-string v1, "remove() before next()"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
 
     throw v0
 .end method

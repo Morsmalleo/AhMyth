@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/client/Manager$11;
 
-    .prologue
     .line 547
     iput-object p1, p0, Lio/socket/client/Manager$11$1;->this$1:Lio/socket/client/Manager$11;
 
@@ -38,52 +37,41 @@
 
 # virtual methods
 .method public run()V
-    .locals 7
-
-    .prologue
-    const/4 v6, 0x1
-
-    const/4 v5, 0x0
+    .locals 6
 
     .line 550
-    iget-object v1, p0, Lio/socket/client/Manager$11$1;->this$1:Lio/socket/client/Manager$11;
+    iget-object v0, p0, Lio/socket/client/Manager$11$1;->this$1:Lio/socket/client/Manager$11;
 
-    iget-object v1, v1, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
+    iget-object v0, v0, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    # getter for: Lio/socket/client/Manager;->skipReconnect:Z
-    invoke-static {v1}, Lio/socket/client/Manager;->access$300(Lio/socket/client/Manager;)Z
+    invoke-static {v0}, Lio/socket/client/Manager;->access$300(Lio/socket/client/Manager;)Z
 
-    move-result v1
+    move-result v0
 
-    if-eqz v1, :cond_1
+    if-eqz v0, :cond_0
 
-    .line 574
-    :cond_0
-    :goto_0
     return-void
 
     .line 552
-    :cond_1
-    # getter for: Lio/socket/client/Manager;->logger:Ljava/util/logging/Logger;
+    :cond_0
     invoke-static {}, Lio/socket/client/Manager;->access$000()Ljava/util/logging/Logger;
 
-    move-result-object v1
+    move-result-object v0
 
-    const-string v2, "attempting reconnect"
+    const-string v1, "attempting reconnect"
 
-    invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+    invoke-virtual {v0, v1}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
     .line 553
-    iget-object v1, p0, Lio/socket/client/Manager$11$1;->this$1:Lio/socket/client/Manager$11;
+    iget-object v0, p0, Lio/socket/client/Manager$11$1;->this$1:Lio/socket/client/Manager$11;
 
-    iget-object v1, v1, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
+    iget-object v0, v0, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    # getter for: Lio/socket/client/Manager;->backoff:Lio/socket/backo/Backoff;
-    invoke-static {v1}, Lio/socket/client/Manager;->access$2000(Lio/socket/client/Manager;)Lio/socket/backo/Backoff;
+    invoke-static {v0}, Lio/socket/client/Manager;->access$2000(Lio/socket/client/Manager;)Lio/socket/backo/Backoff;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1}, Lio/socket/backo/Backoff;->getAttempts()I
+    invoke-virtual {v0}, Lio/socket/backo/Backoff;->getAttempts()I
 
     move-result v0
 
@@ -93,50 +81,54 @@
 
     iget-object v1, v1, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    const-string v2, "reconnect_attempt"
+    const/4 v2, 0x1
 
-    new-array v3, v6, [Ljava/lang/Object;
+    new-array v3, v2, [Ljava/lang/Object;
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
     move-result-object v4
 
+    const/4 v5, 0x0
+
     aput-object v4, v3, v5
 
-    # invokes: Lio/socket/client/Manager;->emitAll(Ljava/lang/String;[Ljava/lang/Object;)V
-    invoke-static {v1, v2, v3}, Lio/socket/client/Manager;->access$600(Lio/socket/client/Manager;Ljava/lang/String;[Ljava/lang/Object;)V
+    const-string v4, "reconnect_attempt"
+
+    invoke-static {v1, v4, v3}, Lio/socket/client/Manager;->access$600(Lio/socket/client/Manager;Ljava/lang/String;[Ljava/lang/Object;)V
 
     .line 555
     iget-object v1, p0, Lio/socket/client/Manager$11$1;->this$1:Lio/socket/client/Manager$11;
 
     iget-object v1, v1, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    const-string v2, "reconnecting"
-
-    new-array v3, v6, [Ljava/lang/Object;
+    new-array v2, v2, [Ljava/lang/Object;
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
 
-    move-result-object v4
+    move-result-object v3
 
-    aput-object v4, v3, v5
+    aput-object v3, v2, v5
 
-    # invokes: Lio/socket/client/Manager;->emitAll(Ljava/lang/String;[Ljava/lang/Object;)V
-    invoke-static {v1, v2, v3}, Lio/socket/client/Manager;->access$600(Lio/socket/client/Manager;Ljava/lang/String;[Ljava/lang/Object;)V
+    const-string v3, "reconnecting"
+
+    invoke-static {v1, v3, v2}, Lio/socket/client/Manager;->access$600(Lio/socket/client/Manager;Ljava/lang/String;[Ljava/lang/Object;)V
 
     .line 558
     iget-object v1, p0, Lio/socket/client/Manager$11$1;->this$1:Lio/socket/client/Manager$11;
 
     iget-object v1, v1, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    # getter for: Lio/socket/client/Manager;->skipReconnect:Z
     invoke-static {v1}, Lio/socket/client/Manager;->access$300(Lio/socket/client/Manager;)Z
 
     move-result v1
 
-    if-nez v1, :cond_0
+    if-eqz v1, :cond_1
+
+    return-void
 
     .line 560
+    :cond_1
     iget-object v1, p0, Lio/socket/client/Manager$11$1;->this$1:Lio/socket/client/Manager$11;
 
     iget-object v1, v1, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
@@ -147,5 +139,6 @@
 
     invoke-virtual {v1, v2}, Lio/socket/client/Manager;->open(Lio/socket/client/Manager$OpenCallback;)Lio/socket/client/Manager;
 
-    goto :goto_0
+    .line 574
+    return-void
 .end method

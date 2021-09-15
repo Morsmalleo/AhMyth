@@ -15,7 +15,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 7
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -28,7 +27,6 @@
     .param p1, "ev"    # Ljava/lang/String;
     .param p2, "fn"    # Lio/socket/emitter/Emitter$Listener;
 
-    .prologue
     .line 10
     invoke-virtual {p0, p1, p2}, Lio/socket/emitter/Emitter;->on(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 

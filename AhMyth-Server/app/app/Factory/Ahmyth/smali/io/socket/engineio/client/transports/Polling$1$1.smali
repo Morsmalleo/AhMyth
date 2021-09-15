@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/Polling$1;
 
-    .prologue
     .line 46
     iput-object p1, p0, Lio/socket/engineio/client/transports/Polling$1$1;->this$1:Lio/socket/engineio/client/transports/Polling$1;
 
@@ -44,9 +43,7 @@
 .method public run()V
     .locals 2
 
-    .prologue
     .line 49
-    # getter for: Lio/socket/engineio/client/transports/Polling;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/engineio/client/transports/Polling;->access$100()Ljava/util/logging/Logger;
 
     move-result-object v0
@@ -60,7 +57,6 @@
 
     sget-object v1, Lio/socket/engineio/client/Transport$ReadyState;->PAUSED:Lio/socket/engineio/client/Transport$ReadyState;
 
-    # setter for: Lio/socket/engineio/client/transports/Polling;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
     invoke-static {v0, v1}, Lio/socket/engineio/client/transports/Polling;->access$202(Lio/socket/engineio/client/transports/Polling;Lio/socket/engineio/client/Transport$ReadyState;)Lio/socket/engineio/client/Transport$ReadyState;
 
     .line 51

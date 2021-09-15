@@ -28,7 +28,6 @@
     .param p1, "this$1"    # Lokhttp3/Cache$CacheRequestImpl;
     .param p2, "x0"    # Lokio/Sink;
 
-    .prologue
     .line 438
     iput-object p1, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
 
@@ -44,57 +43,54 @@
 
 # virtual methods
 .method public close()V
-    .locals 3
+    .locals 4
     .annotation system Ldalvik/annotation/Throws;
         value = {
             Ljava/io/IOException;
         }
     .end annotation
 
-    .prologue
     .line 440
-    iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
-
-    iget-object v1, v0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
-
-    monitor-enter v1
-
-    .line 441
-    :try_start_0
-    iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
-
-    iget-boolean v0, v0, Lokhttp3/Cache$CacheRequestImpl;->done:Z
-
-    if-eqz v0, :cond_0
-
-    .line 442
-    monitor-exit v1
-
-    .line 449
-    :goto_0
-    return-void
-
-    .line 444
-    :cond_0
-    iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
-
-    const/4 v2, 0x1
-
-    iput-boolean v2, v0, Lokhttp3/Cache$CacheRequestImpl;->done:Z
-
-    .line 445
     iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
 
     iget-object v0, v0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
 
-    iget v2, v0, Lokhttp3/Cache;->writeSuccessCount:I
+    monitor-enter v0
 
-    add-int/lit8 v2, v2, 0x1
+    .line 441
+    :try_start_0
+    iget-object v1, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
 
-    iput v2, v0, Lokhttp3/Cache;->writeSuccessCount:I
+    iget-boolean v1, v1, Lokhttp3/Cache$CacheRequestImpl;->done:Z
+
+    if-eqz v1, :cond_0
+
+    .line 442
+    monitor-exit v0
+
+    return-void
+
+    .line 444
+    :cond_0
+    iget-object v1, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
+
+    const/4 v2, 0x1
+
+    iput-boolean v2, v1, Lokhttp3/Cache$CacheRequestImpl;->done:Z
+
+    .line 445
+    iget-object v1, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
+
+    iget-object v1, v1, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
+
+    iget v3, v1, Lokhttp3/Cache;->writeSuccessCount:I
+
+    add-int/2addr v3, v2
+
+    iput v3, v1, Lokhttp3/Cache;->writeSuccessCount:I
 
     .line 446
-    monitor-exit v1
+    monitor-exit v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
@@ -106,16 +102,17 @@
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache$Editor;->commit()V
 
-    goto :goto_0
+    .line 449
+    return-void
 
     .line 446
     :catchall_0
-    move-exception v0
+    move-exception v1
 
     :try_start_1
-    monitor-exit v1
+    monitor-exit v0
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    throw v0
+    throw v1
 .end method

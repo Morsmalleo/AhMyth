@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/navigation_bar_item_icon_view" android:duplicateParentState="true" android:layout_width="@dimen/mtrl_navigation_rail_icon_size" android:layout_height="@dimen/mtrl_navigation_rail_icon_size" android:layout_marginBottom="@dimen/mtrl_navigation_rail_icon_margin" android:contentDescription="@null" />
+    <com.google.android.material.internal.BaselineLayout android:layout_gravity="bottom|center" android:id="@id/navigation_bar_item_labels_group" android:paddingBottom="@dimen/mtrl_navigation_rail_text_bottom_margin" android:duplicateParentState="true" android:clipChildren="false" android:clipToPadding="false" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/mtrl_navigation_rail_text_size" android:ellipsize="end" android:id="@id/navigation_bar_item_small_label_view" android:duplicateParentState="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+        <TextView android:textSize="@dimen/mtrl_navigation_rail_active_text_size" android:ellipsize="end" android:id="@id/navigation_bar_item_large_label_view" android:visibility="invisible" android:duplicateParentState="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+    </com.google.android.material.internal.BaselineLayout>
+</merge>

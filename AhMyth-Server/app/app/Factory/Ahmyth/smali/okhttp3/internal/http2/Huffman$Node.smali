@@ -24,10 +24,7 @@
 
 # direct methods
 .method constructor <init>()V
-    .locals 2
-
-    .prologue
-    const/4 v1, 0x0
+    .locals 1
 
     .line 208
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,10 +37,12 @@
     iput-object v0, p0, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
     .line 210
-    iput v1, p0, Lokhttp3/internal/http2/Huffman$Node;->symbol:I
+    const/4 v0, 0x0
+
+    iput v0, p0, Lokhttp3/internal/http2/Huffman$Node;->symbol:I
 
     .line 211
-    iput v1, p0, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
+    iput v0, p0, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
 
     .line 212
     return-void
@@ -54,14 +53,13 @@
     .param p1, "symbol"    # I
     .param p2, "bits"    # I
 
-    .prologue
     .line 220
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     .line 221
-    const/4 v1, 0x0
+    const/4 v0, 0x0
 
-    iput-object v1, p0, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    iput-object v0, p0, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
     .line 222
     iput p1, p0, Lokhttp3/internal/http2/Huffman$Node;->symbol:I
@@ -73,11 +71,15 @@
     .local v0, "b":I
     if-nez v0, :cond_0
 
-    const/16 v0, 0x8
+    const/16 v1, 0x8
 
-    .end local v0    # "b":I
+    goto :goto_0
+
     :cond_0
-    iput v0, p0, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
+    move v1, v0
+
+    :goto_0
+    iput v1, p0, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
 
     .line 225
     return-void

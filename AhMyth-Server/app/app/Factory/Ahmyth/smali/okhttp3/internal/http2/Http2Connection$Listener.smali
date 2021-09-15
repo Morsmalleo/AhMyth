@@ -22,7 +22,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 862
     new-instance v0, Lokhttp3/internal/http2/Http2Connection$Listener$1;
 
@@ -36,7 +35,6 @@
 .method public constructor <init>()V
     .locals 0
 
-    .prologue
     .line 861
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -49,7 +47,6 @@
     .locals 0
     .param p1, "connection"    # Lokhttp3/internal/http2/Http2Connection;
 
-    .prologue
     .line 884
     return-void
 .end method

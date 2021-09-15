@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .prologue
     .line 579
     iput-object p1, p0, Lio/socket/client/Manager$12;->this$0:Lio/socket/client/Manager;
 
@@ -44,7 +43,6 @@
 .method public destroy()V
     .locals 1
 
-    .prologue
     .line 582
     iget-object v0, p0, Lio/socket/client/Manager$12;->val$timer:Ljava/util/Timer;
 

@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Transport;
 
-    .prologue
     .line 103
     iput-object p1, p0, Lio/socket/engineio/client/Transport$3;->this$0:Lio/socket/engineio/client/Transport;
 
@@ -42,27 +41,29 @@
 
 # virtual methods
 .method public run()V
-    .locals 3
+    .locals 2
 
-    .prologue
     .line 106
-    iget-object v1, p0, Lio/socket/engineio/client/Transport$3;->this$0:Lio/socket/engineio/client/Transport;
+    iget-object v0, p0, Lio/socket/engineio/client/Transport$3;->this$0:Lio/socket/engineio/client/Transport;
 
-    iget-object v1, v1, Lio/socket/engineio/client/Transport;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
+    iget-object v0, v0, Lio/socket/engineio/client/Transport;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
 
-    sget-object v2, Lio/socket/engineio/client/Transport$ReadyState;->OPEN:Lio/socket/engineio/client/Transport$ReadyState;
+    sget-object v1, Lio/socket/engineio/client/Transport$ReadyState;->OPEN:Lio/socket/engineio/client/Transport$ReadyState;
 
-    if-ne v1, v2, :cond_0
+    if-ne v0, v1, :cond_0
 
     .line 108
     :try_start_0
-    iget-object v1, p0, Lio/socket/engineio/client/Transport$3;->this$0:Lio/socket/engineio/client/Transport;
+    iget-object v0, p0, Lio/socket/engineio/client/Transport$3;->this$0:Lio/socket/engineio/client/Transport;
 
-    iget-object v2, p0, Lio/socket/engineio/client/Transport$3;->val$packets:[Lio/socket/engineio/parser/Packet;
+    iget-object v1, p0, Lio/socket/engineio/client/Transport$3;->val$packets:[Lio/socket/engineio/parser/Packet;
 
-    invoke-virtual {v1, v2}, Lio/socket/engineio/client/Transport;->write([Lio/socket/engineio/parser/Packet;)V
+    invoke-virtual {v0, v1}, Lio/socket/engineio/client/Transport;->write([Lio/socket/engineio/parser/Packet;)V
     :try_end_0
     .catch Lio/socket/utf8/UTF8Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    .line 111
+    nop
 
     .line 115
     return-void
@@ -82,11 +83,11 @@
     .line 113
     .end local v0    # "err":Lio/socket/utf8/UTF8Exception;
     :cond_0
-    new-instance v1, Ljava/lang/RuntimeException;
+    new-instance v0, Ljava/lang/RuntimeException;
 
-    const-string v2, "Transport not open"
+    const-string v1, "Transport not open"
 
-    invoke-direct {v1, v2}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
+    invoke-direct {v0, v1}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
 
-    throw v1
+    throw v0
 .end method

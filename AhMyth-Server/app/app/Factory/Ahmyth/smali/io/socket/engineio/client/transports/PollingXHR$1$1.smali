@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/PollingXHR$1;
 
-    .prologue
     .line 52
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$1$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$1;
 
@@ -42,29 +41,28 @@
 
 # virtual methods
 .method public run()V
-    .locals 5
-
-    .prologue
-    const/4 v4, 0x0
+    .locals 4
 
     .line 55
     iget-object v0, p0, Lio/socket/engineio/client/transports/PollingXHR$1$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$1;
 
     iget-object v0, v0, Lio/socket/engineio/client/transports/PollingXHR$1;->val$self:Lio/socket/engineio/client/transports/PollingXHR;
 
-    const-string v1, "responseHeaders"
+    const/4 v1, 0x1
 
-    const/4 v2, 0x1
+    new-array v1, v1, [Ljava/lang/Object;
 
-    new-array v2, v2, [Ljava/lang/Object;
+    iget-object v2, p0, Lio/socket/engineio/client/transports/PollingXHR$1$1;->val$args:[Ljava/lang/Object;
 
-    iget-object v3, p0, Lio/socket/engineio/client/transports/PollingXHR$1$1;->val$args:[Ljava/lang/Object;
+    const/4 v3, 0x0
 
-    aget-object v3, v3, v4
+    aget-object v2, v2, v3
 
-    aput-object v3, v2, v4
+    aput-object v2, v1, v3
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/transports/PollingXHR;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    const-string v2, "responseHeaders"
+
+    invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/transports/PollingXHR;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
     .line 56
     return-void

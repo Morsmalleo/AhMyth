@@ -22,8 +22,8 @@
 .field private final returnType:Ljava/lang/Class;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/lang/Class",
-            "<*>;"
+            "Ljava/lang/Class<",
+            "*>;"
         }
     .end annotation
 .end field
@@ -37,8 +37,8 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Ljava/lang/Class",
-            "<*>;",
+            "Ljava/lang/Class<",
+            "*>;",
             "Ljava/lang/String;",
             "[",
             "Ljava/lang/Class;",
@@ -46,7 +46,6 @@
         }
     .end annotation
 
-    .prologue
     .line 45
     .local p0, "this":Lokhttp3/internal/platform/OptionalMethod;, "Lokhttp3/internal/platform/OptionalMethod<TT;>;"
     .local p1, "returnType":Ljava/lang/Class;, "Ljava/lang/Class<*>;"
@@ -70,13 +69,12 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Ljava/lang/Class",
-            "<*>;)",
+            "Ljava/lang/Class<",
+            "*>;)",
             "Ljava/lang/reflect/Method;"
         }
     .end annotation
 
-    .prologue
     .line 147
     .local p0, "this":Lokhttp3/internal/platform/OptionalMethod;, "Lokhttp3/internal/platform/OptionalMethod<TT;>;"
     .local p1, "clazz":Ljava/lang/Class;, "Ljava/lang/Class<*>;"
@@ -89,8 +87,6 @@
     if-eqz v1, :cond_0
 
     .line 149
-    iget-object v1, p0, Lokhttp3/internal/platform/OptionalMethod;->methodName:Ljava/lang/String;
-
     iget-object v2, p0, Lokhttp3/internal/platform/OptionalMethod;->methodParams:[Ljava/lang/Class;
 
     invoke-static {p1, v1, v2}, Lokhttp3/internal/platform/OptionalMethod;->getPublicMethod(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
@@ -103,8 +99,6 @@
     iget-object v1, p0, Lokhttp3/internal/platform/OptionalMethod;->returnType:Ljava/lang/Class;
 
     if-eqz v1, :cond_0
-
-    iget-object v1, p0, Lokhttp3/internal/platform/OptionalMethod;->returnType:Ljava/lang/Class;
 
     .line 152
     invoke-virtual {v0}, Ljava/lang/reflect/Method;->getReturnType()Ljava/lang/Class;
@@ -132,8 +126,8 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Ljava/lang/Class",
-            "<*>;",
+            "Ljava/lang/Class<",
+            "*>;",
             "Ljava/lang/String;",
             "[",
             "Ljava/lang/Class;",
@@ -142,7 +136,6 @@
         }
     .end annotation
 
-    .prologue
     .line 162
     .local p0, "clazz":Ljava/lang/Class;, "Ljava/lang/Class<*>;"
     const/4 v0, 0x0
@@ -152,14 +145,16 @@
     :try_start_0
     invoke-virtual {p0, p1, p2}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
 
-    move-result-object v0
+    move-result-object v1
+
+    move-object v0, v1
 
     .line 165
     invoke-virtual {v0}, Ljava/lang/reflect/Method;->getModifiers()I
-    :try_end_0
-    .catch Ljava/lang/NoSuchMethodException; {:try_start_0 .. :try_end_0} :catch_0
 
     move-result v1
+    :try_end_0
+    .catch Ljava/lang/NoSuchMethodException; {:try_start_0 .. :try_end_0} :catch_0
 
     and-int/lit8 v1, v1, 0x1
 
@@ -168,22 +163,23 @@
     .line 166
     const/4 v0, 0x0
 
-    .line 171
+    .line 170
     :cond_0
-    :goto_0
-    return-object v0
+    goto :goto_0
 
     .line 168
     :catch_0
     move-exception v1
 
-    goto :goto_0
+    .line 171
+    :goto_0
+    return-object v0
 .end method
 
 
 # virtual methods
 .method public varargs invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
-    .locals 6
+    .locals 5
     .param p2, "args"    # [Ljava/lang/Object;
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -200,77 +196,38 @@
         }
     .end annotation
 
-    .prologue
     .line 106
     .local p0, "this":Lokhttp3/internal/platform/OptionalMethod;, "Lokhttp3/internal/platform/OptionalMethod<TT;>;"
     .local p1, "target":Ljava/lang/Object;, "TT;"
     invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
-    move-result-object v3
+    move-result-object v0
 
-    invoke-direct {p0, v3}, Lokhttp3/internal/platform/OptionalMethod;->getMethod(Ljava/lang/Class;)Ljava/lang/reflect/Method;
+    invoke-direct {p0, v0}, Lokhttp3/internal/platform/OptionalMethod;->getMethod(Ljava/lang/Class;)Ljava/lang/reflect/Method;
 
-    move-result-object v2
+    move-result-object v0
 
     .line 107
-    .local v2, "m":Ljava/lang/reflect/Method;
-    if-nez v2, :cond_0
-
-    .line 108
-    new-instance v3, Ljava/lang/AssertionError;
-
-    new-instance v4, Ljava/lang/StringBuilder;
-
-    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v5, "Method "
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    iget-object v5, p0, Lokhttp3/internal/platform/OptionalMethod;->methodName:Ljava/lang/String;
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    const-string v5, " not supported for object "
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    invoke-virtual {v4, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v4
-
-    invoke-direct {v3, v4}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
-
-    throw v3
+    .local v0, "m":Ljava/lang/reflect/Method;
+    if-eqz v0, :cond_0
 
     .line 111
-    :cond_0
     :try_start_0
-    invoke-virtual {v2, p1, p2}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-virtual {v0, p1, p2}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v1
     :try_end_0
     .catch Ljava/lang/IllegalAccessException; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result-object v3
-
-    return-object v3
+    return-object v1
 
     .line 112
     :catch_0
-    move-exception v0
+    move-exception v1
 
     .line 114
-    .local v0, "e":Ljava/lang/IllegalAccessException;
-    new-instance v1, Ljava/lang/AssertionError;
+    .local v1, "e":Ljava/lang/IllegalAccessException;
+    new-instance v2, Ljava/lang/AssertionError;
 
     new-instance v3, Ljava/lang/StringBuilder;
 
@@ -280,28 +237,56 @@
 
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
-
-    invoke-virtual {v3, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
+    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
 
     invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v3
 
-    invoke-direct {v1, v3}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
+    invoke-direct {v2, v3}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
 
     .line 115
-    .local v1, "error":Ljava/lang/AssertionError;
-    invoke-virtual {v1, v0}, Ljava/lang/AssertionError;->initCause(Ljava/lang/Throwable;)Ljava/lang/Throwable;
+    .local v2, "error":Ljava/lang/AssertionError;
+    invoke-virtual {v2, v1}, Ljava/lang/AssertionError;->initCause(Ljava/lang/Throwable;)Ljava/lang/Throwable;
 
     .line 116
+    throw v2
+
+    .line 108
+    .end local v1    # "e":Ljava/lang/IllegalAccessException;
+    .end local v2    # "error":Ljava/lang/AssertionError;
+    :cond_0
+    new-instance v1, Ljava/lang/AssertionError;
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "Method "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-object v3, p0, Lokhttp3/internal/platform/OptionalMethod;->methodName:Ljava/lang/String;
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v3, " not supported for object "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v2, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-direct {v1, v2}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
+
     throw v1
 .end method
 
 .method public varargs invokeOptional(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
-    .locals 4
+    .locals 3
     .param p2, "args"    # [Ljava/lang/Object;
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -318,46 +303,44 @@
         }
     .end annotation
 
-    .prologue
+    .line 66
     .local p0, "this":Lokhttp3/internal/platform/OptionalMethod;, "Lokhttp3/internal/platform/OptionalMethod<TT;>;"
     .local p1, "target":Ljava/lang/Object;, "TT;"
-    const/4 v2, 0x0
-
-    .line 66
     invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
-    move-result-object v3
+    move-result-object v0
 
-    invoke-direct {p0, v3}, Lokhttp3/internal/platform/OptionalMethod;->getMethod(Ljava/lang/Class;)Ljava/lang/reflect/Method;
+    invoke-direct {p0, v0}, Lokhttp3/internal/platform/OptionalMethod;->getMethod(Ljava/lang/Class;)Ljava/lang/reflect/Method;
 
-    move-result-object v1
+    move-result-object v0
 
     .line 67
-    .local v1, "m":Ljava/lang/reflect/Method;
-    if-nez v1, :cond_0
+    .local v0, "m":Ljava/lang/reflect/Method;
+    const/4 v1, 0x0
 
-    .line 73
-    :goto_0
-    return-object v2
+    if-nez v0, :cond_0
+
+    .line 68
+    return-object v1
 
     .line 71
     :cond_0
     :try_start_0
-    invoke-virtual {v1, p1, p2}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+    invoke-virtual {v0, p1, p2}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v1
     :try_end_0
     .catch Ljava/lang/IllegalAccessException; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result-object v2
-
-    goto :goto_0
+    return-object v1
 
     .line 72
     :catch_0
-    move-exception v0
+    move-exception v2
 
     .line 73
-    .local v0, "e":Ljava/lang/IllegalAccessException;
-    goto :goto_0
+    .local v2, "e":Ljava/lang/IllegalAccessException;
+    return-object v1
 .end method
 
 .method public varargs invokeOptionalWithoutCheckedException(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
@@ -372,18 +355,17 @@
         }
     .end annotation
 
-    .prologue
     .line 86
     .local p0, "this":Lokhttp3/internal/platform/OptionalMethod;, "Lokhttp3/internal/platform/OptionalMethod<TT;>;"
     .local p1, "target":Ljava/lang/Object;, "TT;"
     :try_start_0
     invoke-virtual {p0, p1, p2}, Lokhttp3/internal/platform/OptionalMethod;->invokeOptional(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v0
     :try_end_0
     .catch Ljava/lang/reflect/InvocationTargetException; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result-object v3
-
-    return-object v3
+    return-object v0
 
     .line 87
     :catch_0
@@ -393,35 +375,35 @@
     .local v0, "e":Ljava/lang/reflect/InvocationTargetException;
     invoke-virtual {v0}, Ljava/lang/reflect/InvocationTargetException;->getTargetException()Ljava/lang/Throwable;
 
-    move-result-object v2
+    move-result-object v1
 
     .line 89
-    .local v2, "targetException":Ljava/lang/Throwable;
-    instance-of v3, v2, Ljava/lang/RuntimeException;
+    .local v1, "targetException":Ljava/lang/Throwable;
+    instance-of v2, v1, Ljava/lang/RuntimeException;
 
-    if-eqz v3, :cond_0
+    if-eqz v2, :cond_0
 
     .line 90
+    move-object v2, v1
+
     check-cast v2, Ljava/lang/RuntimeException;
 
-    .end local v2    # "targetException":Ljava/lang/Throwable;
     throw v2
 
     .line 92
-    .restart local v2    # "targetException":Ljava/lang/Throwable;
     :cond_0
-    new-instance v1, Ljava/lang/AssertionError;
+    new-instance v2, Ljava/lang/AssertionError;
 
     const-string v3, "Unexpected exception"
 
-    invoke-direct {v1, v3}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
+    invoke-direct {v2, v3}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
 
     .line 93
-    .local v1, "error":Ljava/lang/AssertionError;
-    invoke-virtual {v1, v2}, Ljava/lang/AssertionError;->initCause(Ljava/lang/Throwable;)Ljava/lang/Throwable;
+    .local v2, "error":Ljava/lang/AssertionError;
+    invoke-virtual {v2, v1}, Ljava/lang/AssertionError;->initCause(Ljava/lang/Throwable;)Ljava/lang/Throwable;
 
     .line 94
-    throw v1
+    throw v2
 .end method
 
 .method public varargs invokeWithoutCheckedException(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
@@ -436,18 +418,17 @@
         }
     .end annotation
 
-    .prologue
     .line 129
     .local p0, "this":Lokhttp3/internal/platform/OptionalMethod;, "Lokhttp3/internal/platform/OptionalMethod<TT;>;"
     .local p1, "target":Ljava/lang/Object;, "TT;"
     :try_start_0
     invoke-virtual {p0, p1, p2}, Lokhttp3/internal/platform/OptionalMethod;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v0
     :try_end_0
     .catch Ljava/lang/reflect/InvocationTargetException; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result-object v3
-
-    return-object v3
+    return-object v0
 
     .line 130
     :catch_0
@@ -457,35 +438,35 @@
     .local v0, "e":Ljava/lang/reflect/InvocationTargetException;
     invoke-virtual {v0}, Ljava/lang/reflect/InvocationTargetException;->getTargetException()Ljava/lang/Throwable;
 
-    move-result-object v2
+    move-result-object v1
 
     .line 132
-    .local v2, "targetException":Ljava/lang/Throwable;
-    instance-of v3, v2, Ljava/lang/RuntimeException;
+    .local v1, "targetException":Ljava/lang/Throwable;
+    instance-of v2, v1, Ljava/lang/RuntimeException;
 
-    if-eqz v3, :cond_0
+    if-eqz v2, :cond_0
 
     .line 133
+    move-object v2, v1
+
     check-cast v2, Ljava/lang/RuntimeException;
 
-    .end local v2    # "targetException":Ljava/lang/Throwable;
     throw v2
 
     .line 135
-    .restart local v2    # "targetException":Ljava/lang/Throwable;
     :cond_0
-    new-instance v1, Ljava/lang/AssertionError;
+    new-instance v2, Ljava/lang/AssertionError;
 
     const-string v3, "Unexpected exception"
 
-    invoke-direct {v1, v3}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
+    invoke-direct {v2, v3}, Ljava/lang/AssertionError;-><init>(Ljava/lang/Object;)V
 
     .line 136
-    .local v1, "error":Ljava/lang/AssertionError;
-    invoke-virtual {v1, v2}, Ljava/lang/AssertionError;->initCause(Ljava/lang/Throwable;)Ljava/lang/Throwable;
+    .local v2, "error":Ljava/lang/AssertionError;
+    invoke-virtual {v2, v1}, Ljava/lang/AssertionError;->initCause(Ljava/lang/Throwable;)Ljava/lang/Throwable;
 
     .line 137
-    throw v1
+    throw v2
 .end method
 
 .method public isSupported(Ljava/lang/Object;)Z
@@ -496,7 +477,6 @@
         }
     .end annotation
 
-    .prologue
     .line 55
     .local p0, "this":Lokhttp3/internal/platform/OptionalMethod;, "Lokhttp3/internal/platform/OptionalMethod<TT;>;"
     .local p1, "target":Ljava/lang/Object;, "TT;"
@@ -512,11 +492,11 @@
 
     const/4 v0, 0x1
 
-    :goto_0
-    return v0
+    goto :goto_0
 
     :cond_0
     const/4 v0, 0x0
 
-    goto :goto_0
+    :goto_0
+    return v0
 .end method

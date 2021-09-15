@@ -11,7 +11,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 36
     new-instance v0, Lokhttp3/Dns$1;
 
@@ -30,8 +29,7 @@
             "(",
             "Ljava/lang/String;",
             ")",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/net/InetAddress;",
             ">;"
         }

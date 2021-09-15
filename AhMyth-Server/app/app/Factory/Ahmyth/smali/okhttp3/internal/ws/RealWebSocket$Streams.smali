@@ -32,7 +32,6 @@
     .param p2, "source"    # Lokio/BufferedSource;
     .param p3, "sink"    # Lokio/BufferedSink;
 
-    .prologue
     .line 554
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 

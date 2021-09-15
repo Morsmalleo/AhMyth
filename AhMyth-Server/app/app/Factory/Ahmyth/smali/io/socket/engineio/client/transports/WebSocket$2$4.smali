@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/WebSocket$2;
 
-    .prologue
     .line 119
     iput-object p1, p0, Lio/socket/engineio/client/transports/WebSocket$2$4;->this$1:Lio/socket/engineio/client/transports/WebSocket$2;
 
@@ -40,13 +39,11 @@
 .method public run()V
     .locals 1
 
-    .prologue
     .line 122
     iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$2$4;->this$1:Lio/socket/engineio/client/transports/WebSocket$2;
 
     iget-object v0, v0, Lio/socket/engineio/client/transports/WebSocket$2;->val$self:Lio/socket/engineio/client/transports/WebSocket;
 
-    # invokes: Lio/socket/engineio/client/transports/WebSocket;->onClose()V
     invoke-static {v0}, Lio/socket/engineio/client/transports/WebSocket;->access$300(Lio/socket/engineio/client/transports/WebSocket;)V
 
     .line 123

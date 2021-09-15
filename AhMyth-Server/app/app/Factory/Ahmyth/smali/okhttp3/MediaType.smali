@@ -27,7 +27,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 30
     const-string v0, "([a-zA-Z0-9-!#$%&\'*+.^_`{|}~]+)/([a-zA-Z0-9-!#$%&\'*+.^_`{|}~]+)"
 
@@ -56,7 +55,6 @@
     .param p3, "subtype"    # Ljava/lang/String;
     .param p4, "charset"    # Ljava/lang/String;
 
-    .prologue
     .line 39
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -77,240 +75,238 @@
 .end method
 
 .method public static parse(Ljava/lang/String;)Lokhttp3/MediaType;
-    .locals 14
+    .locals 13
     .param p0, "string"    # Ljava/lang/String;
 
-    .prologue
-    const/4 v9, 0x0
-
-    const/4 v13, 0x2
-
-    const/4 v12, 0x1
-
     .line 51
-    sget-object v10, Lokhttp3/MediaType;->TYPE_SUBTYPE:Ljava/util/regex/Pattern;
+    sget-object v0, Lokhttp3/MediaType;->TYPE_SUBTYPE:Ljava/util/regex/Pattern;
 
-    invoke-virtual {v10, p0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+    invoke-virtual {v0, p0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
 
-    move-result-object v8
+    move-result-object v0
 
     .line 52
-    .local v8, "typeSubtype":Ljava/util/regex/Matcher;
-    invoke-virtual {v8}, Ljava/util/regex/Matcher;->lookingAt()Z
+    .local v0, "typeSubtype":Ljava/util/regex/Matcher;
+    invoke-virtual {v0}, Ljava/util/regex/Matcher;->lookingAt()Z
 
-    move-result v10
+    move-result v1
 
-    if-nez v10, :cond_1
+    const/4 v2, 0x0
 
-    .line 81
-    :cond_0
-    :goto_0
-    return-object v9
+    if-nez v1, :cond_0
+
+    return-object v2
 
     .line 53
-    :cond_1
-    invoke-virtual {v8, v12}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
+    :cond_0
+    const/4 v1, 0x1
 
-    move-result-object v10
+    invoke-virtual {v0, v1}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
 
-    sget-object v11, Ljava/util/Locale;->US:Ljava/util/Locale;
+    move-result-object v3
 
-    invoke-virtual {v10, v11}, Ljava/lang/String;->toLowerCase(Ljava/util/Locale;)Ljava/lang/String;
+    sget-object v4, Ljava/util/Locale;->US:Ljava/util/Locale;
 
-    move-result-object v7
+    invoke-virtual {v3, v4}, Ljava/lang/String;->toLowerCase(Ljava/util/Locale;)Ljava/lang/String;
+
+    move-result-object v3
 
     .line 54
-    .local v7, "type":Ljava/lang/String;
-    invoke-virtual {v8, v13}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
+    .local v3, "type":Ljava/lang/String;
+    const/4 v4, 0x2
 
-    move-result-object v10
+    invoke-virtual {v0, v4}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
 
-    sget-object v11, Ljava/util/Locale;->US:Ljava/util/Locale;
+    move-result-object v5
 
-    invoke-virtual {v10, v11}, Ljava/lang/String;->toLowerCase(Ljava/util/Locale;)Ljava/lang/String;
+    sget-object v6, Ljava/util/Locale;->US:Ljava/util/Locale;
+
+    invoke-virtual {v5, v6}, Ljava/lang/String;->toLowerCase(Ljava/util/Locale;)Ljava/lang/String;
 
     move-result-object v5
 
     .line 56
     .local v5, "subtype":Ljava/lang/String;
-    const/4 v0, 0x0
+    const/4 v6, 0x0
 
     .line 57
-    .local v0, "charset":Ljava/lang/String;
-    sget-object v10, Lokhttp3/MediaType;->PARAMETER:Ljava/util/regex/Pattern;
+    .local v6, "charset":Ljava/lang/String;
+    sget-object v7, Lokhttp3/MediaType;->PARAMETER:Ljava/util/regex/Pattern;
 
-    invoke-virtual {v10, p0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+    invoke-virtual {v7, p0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
 
-    move-result-object v3
+    move-result-object v7
 
     .line 58
-    .local v3, "parameter":Ljava/util/regex/Matcher;
-    invoke-virtual {v8}, Ljava/util/regex/Matcher;->end()I
+    .local v7, "parameter":Ljava/util/regex/Matcher;
+    invoke-virtual {v0}, Ljava/util/regex/Matcher;->end()I
 
-    move-result v4
+    move-result v8
 
-    .local v4, "s":I
-    :goto_1
+    .local v8, "s":I
+    :goto_0
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
-    move-result v10
+    move-result v9
 
-    if-ge v4, v10, :cond_7
+    if-ge v8, v9, :cond_8
 
     .line 59
     invoke-virtual {p0}, Ljava/lang/String;->length()I
 
-    move-result v10
+    move-result v9
 
-    invoke-virtual {v3, v4, v10}, Ljava/util/regex/Matcher;->region(II)Ljava/util/regex/Matcher;
+    invoke-virtual {v7, v8, v9}, Ljava/util/regex/Matcher;->region(II)Ljava/util/regex/Matcher;
 
     .line 60
-    invoke-virtual {v3}, Ljava/util/regex/Matcher;->lookingAt()Z
+    invoke-virtual {v7}, Ljava/util/regex/Matcher;->lookingAt()Z
 
-    move-result v10
+    move-result v9
 
-    if-eqz v10, :cond_0
+    if-nez v9, :cond_1
+
+    return-object v2
 
     .line 62
-    invoke-virtual {v3, v12}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
+    :cond_1
+    invoke-virtual {v7, v1}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v9
 
     .line 63
-    .local v2, "name":Ljava/lang/String;
-    if-eqz v2, :cond_2
+    .local v9, "name":Ljava/lang/String;
+    if-eqz v9, :cond_7
 
     const-string v10, "charset"
 
-    invoke-virtual {v2, v10}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    invoke-virtual {v9, v10}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
     move-result v10
 
-    if-nez v10, :cond_3
+    if-nez v10, :cond_2
 
-    .line 58
+    goto :goto_4
+
+    .line 65
     :cond_2
-    :goto_2
-    invoke-virtual {v3}, Ljava/util/regex/Matcher;->end()I
+    invoke-virtual {v7, v4}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
 
-    move-result v4
+    move-result-object v10
+
+    .line 66
+    .local v10, "token":Ljava/lang/String;
+    if-eqz v10, :cond_4
+
+    .line 68
+    const-string v11, "\'"
+
+    invoke-virtual {v10, v11}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+
+    move-result v12
+
+    if-eqz v12, :cond_3
+
+    invoke-virtual {v10, v11}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result v11
+
+    if-eqz v11, :cond_3
+
+    invoke-virtual {v10}, Ljava/lang/String;->length()I
+
+    move-result v11
+
+    if-le v11, v4, :cond_3
+
+    .line 69
+    invoke-virtual {v10}, Ljava/lang/String;->length()I
+
+    move-result v11
+
+    sub-int/2addr v11, v1
+
+    invoke-virtual {v10, v1, v11}, Ljava/lang/String;->substring(II)Ljava/lang/String;
+
+    move-result-object v11
 
     goto :goto_1
 
-    .line 65
     :cond_3
-    invoke-virtual {v3, v13}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
+    move-object v11, v10
 
-    move-result-object v6
-
-    .line 66
-    .local v6, "token":Ljava/lang/String;
-    if-eqz v6, :cond_5
-
-    .line 68
-    const-string v10, "\'"
-
-    invoke-virtual {v6, v10}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
-
-    move-result v10
-
-    if-eqz v10, :cond_4
-
-    const-string v10, "\'"
-
-    invoke-virtual {v6, v10}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
-
-    move-result v10
-
-    if-eqz v10, :cond_4
-
-    invoke-virtual {v6}, Ljava/lang/String;->length()I
-
-    move-result v10
-
-    if-le v10, v13, :cond_4
-
-    .line 69
-    invoke-virtual {v6}, Ljava/lang/String;->length()I
-
-    move-result v10
-
-    add-int/lit8 v10, v10, -0x1
-
-    invoke-virtual {v6, v12, v10}, Ljava/lang/String;->substring(II)Ljava/lang/String;
-
-    move-result-object v1
-
-    .line 75
-    .local v1, "charsetParameter":Ljava/lang/String;
-    :goto_3
-    if-eqz v0, :cond_6
-
-    invoke-virtual {v1, v0}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
-
-    move-result v10
-
-    if-nez v10, :cond_6
-
-    .line 76
-    new-instance v9, Ljava/lang/IllegalArgumentException;
-
-    new-instance v10, Ljava/lang/StringBuilder;
-
-    invoke-direct {v10}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v11, "Multiple different charsets: "
-
-    invoke-virtual {v10, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v10
-
-    invoke-virtual {v10, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v10
-
-    invoke-virtual {v10}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v10
-
-    invoke-direct {v9, v10}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v9
-
-    .end local v1    # "charsetParameter":Ljava/lang/String;
-    :cond_4
-    move-object v1, v6
-
-    .line 69
-    goto :goto_3
+    .local v11, "charsetParameter":Ljava/lang/String;
+    :goto_1
+    goto :goto_2
 
     .line 73
-    :cond_5
-    const/4 v10, 0x3
+    .end local v11    # "charsetParameter":Ljava/lang/String;
+    :cond_4
+    const/4 v11, 0x3
 
-    invoke-virtual {v3, v10}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
+    invoke-virtual {v7, v11}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v11
 
-    .restart local v1    # "charsetParameter":Ljava/lang/String;
+    .line 75
+    .restart local v11    # "charsetParameter":Ljava/lang/String;
+    :goto_2
+    if-eqz v6, :cond_6
+
+    invoke-virtual {v11, v6}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v12
+
+    if-eqz v12, :cond_5
+
     goto :goto_3
+
+    .line 76
+    :cond_5
+    new-instance v1, Ljava/lang/IllegalArgumentException;
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v4, "Multiple different charsets: "
+
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v2, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-direct {v1, v2}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v1
 
     .line 78
     :cond_6
-    move-object v0, v1
+    :goto_3
+    move-object v6, v11
 
-    goto :goto_2
+    .line 58
+    .end local v9    # "name":Ljava/lang/String;
+    .end local v10    # "token":Ljava/lang/String;
+    .end local v11    # "charsetParameter":Ljava/lang/String;
+    :cond_7
+    :goto_4
+    invoke-virtual {v7}, Ljava/util/regex/Matcher;->end()I
+
+    move-result v8
+
+    goto :goto_0
 
     .line 81
-    .end local v1    # "charsetParameter":Ljava/lang/String;
-    .end local v2    # "name":Ljava/lang/String;
-    .end local v6    # "token":Ljava/lang/String;
-    :cond_7
-    new-instance v9, Lokhttp3/MediaType;
+    .end local v8    # "s":I
+    :cond_8
+    new-instance v1, Lokhttp3/MediaType;
 
-    invoke-direct {v9, p0, v7, v5, v0}, Lokhttp3/MediaType;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v1, p0, v3, v5, v6}, Lokhttp3/MediaType;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 
-    goto/16 :goto_0
+    return-object v1
 .end method
 
 
@@ -318,62 +314,60 @@
 .method public charset()Ljava/nio/charset/Charset;
     .locals 1
 
-    .prologue
     .line 103
     iget-object v0, p0, Lokhttp3/MediaType;->charset:Ljava/lang/String;
 
     if-eqz v0, :cond_0
 
-    iget-object v0, p0, Lokhttp3/MediaType;->charset:Ljava/lang/String;
-
     invoke-static {v0}, Ljava/nio/charset/Charset;->forName(Ljava/lang/String;)Ljava/nio/charset/Charset;
 
     move-result-object v0
 
-    :goto_0
-    return-object v0
+    goto :goto_0
 
     :cond_0
     const/4 v0, 0x0
 
-    goto :goto_0
+    :goto_0
+    return-object v0
 .end method
 
 .method public charset(Ljava/nio/charset/Charset;)Ljava/nio/charset/Charset;
     .locals 1
     .param p1, "defaultValue"    # Ljava/nio/charset/Charset;
 
-    .prologue
     .line 111
     iget-object v0, p0, Lokhttp3/MediaType;->charset:Ljava/lang/String;
 
     if-eqz v0, :cond_0
 
-    iget-object v0, p0, Lokhttp3/MediaType;->charset:Ljava/lang/String;
-
     invoke-static {v0}, Ljava/nio/charset/Charset;->forName(Ljava/lang/String;)Ljava/nio/charset/Charset;
 
-    move-result-object p1
+    move-result-object v0
 
-    .end local p1    # "defaultValue":Ljava/nio/charset/Charset;
+    goto :goto_0
+
     :cond_0
-    return-object p1
+    move-object v0, p1
+
+    :goto_0
+    return-object v0
 .end method
 
 .method public equals(Ljava/lang/Object;)Z
     .locals 2
     .param p1, "o"    # Ljava/lang/Object;
 
-    .prologue
     .line 123
     instance-of v0, p1, Lokhttp3/MediaType;
 
     if-eqz v0, :cond_0
 
-    check-cast p1, Lokhttp3/MediaType;
+    move-object v0, p1
 
-    .end local p1    # "o":Ljava/lang/Object;
-    iget-object v0, p1, Lokhttp3/MediaType;->mediaType:Ljava/lang/String;
+    check-cast v0, Lokhttp3/MediaType;
+
+    iget-object v0, v0, Lokhttp3/MediaType;->mediaType:Ljava/lang/String;
 
     iget-object v1, p0, Lokhttp3/MediaType;->mediaType:Ljava/lang/String;
 
@@ -385,19 +379,18 @@
 
     const/4 v0, 0x1
 
-    :goto_0
-    return v0
+    goto :goto_0
 
     :cond_0
     const/4 v0, 0x0
 
-    goto :goto_0
+    :goto_0
+    return v0
 .end method
 
 .method public hashCode()I
     .locals 1
 
-    .prologue
     .line 127
     iget-object v0, p0, Lokhttp3/MediaType;->mediaType:Ljava/lang/String;
 
@@ -411,7 +404,6 @@
 .method public subtype()Ljava/lang/String;
     .locals 1
 
-    .prologue
     .line 96
     iget-object v0, p0, Lokhttp3/MediaType;->subtype:Ljava/lang/String;
 
@@ -421,7 +413,6 @@
 .method public toString()Ljava/lang/String;
     .locals 1
 
-    .prologue
     .line 119
     iget-object v0, p0, Lokhttp3/MediaType;->mediaType:Ljava/lang/String;
 
@@ -431,7 +422,6 @@
 .method public type()Ljava/lang/String;
     .locals 1
 
-    .prologue
     .line 89
     iget-object v0, p0, Lokhttp3/MediaType;->type:Ljava/lang/String;
 

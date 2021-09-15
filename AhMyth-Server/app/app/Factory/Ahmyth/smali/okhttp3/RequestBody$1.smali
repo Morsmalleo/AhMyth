@@ -24,7 +24,6 @@
 .method constructor <init>(Lokhttp3/MediaType;Lokio/ByteString;)V
     .locals 0
 
-    .prologue
     .line 61
     iput-object p1, p0, Lokhttp3/RequestBody$1;->val$contentType:Lokhttp3/MediaType;
 
@@ -45,7 +44,6 @@
         }
     .end annotation
 
-    .prologue
     .line 67
     iget-object v0, p0, Lokhttp3/RequestBody$1;->val$content:Lokio/ByteString;
 
@@ -61,7 +59,6 @@
 .method public contentType()Lokhttp3/MediaType;
     .locals 1
 
-    .prologue
     .line 63
     iget-object v0, p0, Lokhttp3/RequestBody$1;->val$contentType:Lokhttp3/MediaType;
 
@@ -77,7 +74,6 @@
         }
     .end annotation
 
-    .prologue
     .line 71
     iget-object v0, p0, Lokhttp3/RequestBody$1;->val$content:Lokio/ByteString;
 

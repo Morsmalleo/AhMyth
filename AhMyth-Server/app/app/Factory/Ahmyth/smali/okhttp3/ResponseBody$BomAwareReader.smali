@@ -30,7 +30,6 @@
     .param p1, "source"    # Lokio/BufferedSource;
     .param p2, "charset"    # Ljava/nio/charset/Charset;
 
-    .prologue
     .line 238
     invoke-direct {p0}, Ljava/io/Reader;-><init>()V
 
@@ -54,7 +53,6 @@
         }
     .end annotation
 
-    .prologue
     .line 255
     const/4 v0, 0x1
 
@@ -66,13 +64,9 @@
     if-eqz v0, :cond_0
 
     .line 257
-    iget-object v0, p0, Lokhttp3/ResponseBody$BomAwareReader;->delegate:Ljava/io/Reader;
-
     invoke-virtual {v0}, Ljava/io/Reader;->close()V
 
-    .line 261
-    :goto_0
-    return-void
+    goto :goto_0
 
     .line 259
     :cond_0
@@ -80,7 +74,9 @@
 
     invoke-interface {v0}, Lokio/BufferedSource;->close()V
 
-    goto :goto_0
+    .line 261
+    :goto_0
+    return-void
 .end method
 
 .method public read([CII)I
@@ -94,59 +90,60 @@
         }
     .end annotation
 
-    .prologue
     .line 244
-    iget-boolean v2, p0, Lokhttp3/ResponseBody$BomAwareReader;->closed:Z
+    iget-boolean v0, p0, Lokhttp3/ResponseBody$BomAwareReader;->closed:Z
 
-    if-eqz v2, :cond_0
-
-    new-instance v2, Ljava/io/IOException;
-
-    const-string v3, "Stream closed"
-
-    invoke-direct {v2, v3}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-nez v0, :cond_1
 
     .line 246
-    :cond_0
-    iget-object v1, p0, Lokhttp3/ResponseBody$BomAwareReader;->delegate:Ljava/io/Reader;
+    iget-object v0, p0, Lokhttp3/ResponseBody$BomAwareReader;->delegate:Ljava/io/Reader;
 
     .line 247
-    .local v1, "delegate":Ljava/io/Reader;
-    if-nez v1, :cond_1
+    .local v0, "delegate":Ljava/io/Reader;
+    if-nez v0, :cond_0
 
     .line 248
-    iget-object v2, p0, Lokhttp3/ResponseBody$BomAwareReader;->source:Lokio/BufferedSource;
+    iget-object v1, p0, Lokhttp3/ResponseBody$BomAwareReader;->source:Lokio/BufferedSource;
 
-    iget-object v3, p0, Lokhttp3/ResponseBody$BomAwareReader;->charset:Ljava/nio/charset/Charset;
+    iget-object v2, p0, Lokhttp3/ResponseBody$BomAwareReader;->charset:Ljava/nio/charset/Charset;
 
-    invoke-static {v2, v3}, Lokhttp3/internal/Util;->bomAwareCharset(Lokio/BufferedSource;Ljava/nio/charset/Charset;)Ljava/nio/charset/Charset;
+    invoke-static {v1, v2}, Lokhttp3/internal/Util;->bomAwareCharset(Lokio/BufferedSource;Ljava/nio/charset/Charset;)Ljava/nio/charset/Charset;
 
-    move-result-object v0
+    move-result-object v1
 
     .line 249
-    .local v0, "charset":Ljava/nio/charset/Charset;
-    new-instance v1, Ljava/io/InputStreamReader;
+    .local v1, "charset":Ljava/nio/charset/Charset;
+    new-instance v2, Ljava/io/InputStreamReader;
 
-    .end local v1    # "delegate":Ljava/io/Reader;
-    iget-object v2, p0, Lokhttp3/ResponseBody$BomAwareReader;->source:Lokio/BufferedSource;
+    iget-object v3, p0, Lokhttp3/ResponseBody$BomAwareReader;->source:Lokio/BufferedSource;
 
-    invoke-interface {v2}, Lokio/BufferedSource;->inputStream()Ljava/io/InputStream;
+    invoke-interface {v3}, Lokio/BufferedSource;->inputStream()Ljava/io/InputStream;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-direct {v1, v2, v0}, Ljava/io/InputStreamReader;-><init>(Ljava/io/InputStream;Ljava/nio/charset/Charset;)V
+    invoke-direct {v2, v3, v1}, Ljava/io/InputStreamReader;-><init>(Ljava/io/InputStream;Ljava/nio/charset/Charset;)V
 
-    iput-object v1, p0, Lokhttp3/ResponseBody$BomAwareReader;->delegate:Ljava/io/Reader;
+    iput-object v2, p0, Lokhttp3/ResponseBody$BomAwareReader;->delegate:Ljava/io/Reader;
+
+    move-object v0, v2
 
     .line 251
-    .end local v0    # "charset":Ljava/nio/charset/Charset;
-    .restart local v1    # "delegate":Ljava/io/Reader;
+    .end local v1    # "charset":Ljava/nio/charset/Charset;
+    :cond_0
+    invoke-virtual {v0, p1, p2, p3}, Ljava/io/Reader;->read([CII)I
+
+    move-result v1
+
+    return v1
+
+    .line 244
+    .end local v0    # "delegate":Ljava/io/Reader;
     :cond_1
-    invoke-virtual {v1, p1, p2, p3}, Ljava/io/Reader;->read([CII)I
+    new-instance v0, Ljava/io/IOException;
 
-    move-result v2
+    const-string v1, "Stream closed"
 
-    return v2
+    invoke-direct {v0, v1}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method

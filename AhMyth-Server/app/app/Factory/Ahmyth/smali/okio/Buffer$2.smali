@@ -23,7 +23,6 @@
     .locals 0
     .param p1, "this$0"    # Lokio/Buffer;
 
-    .prologue
     .line 113
     iput-object p1, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
@@ -37,7 +36,6 @@
 .method public available()I
     .locals 4
 
-    .prologue
     .line 124
     iget-object v0, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
@@ -49,23 +47,21 @@
 
     move-result-wide v0
 
-    long-to-int v0, v0
+    long-to-int v1, v0
 
-    return v0
+    return v1
 .end method
 
 .method public close()V
     .locals 0
 
-    .prologue
     .line 128
     return-void
 .end method
 
 .method public read()I
-    .locals 4
+    .locals 5
 
-    .prologue
     .line 115
     iget-object v0, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
@@ -73,9 +69,9 @@
 
     const-wide/16 v2, 0x0
 
-    cmp-long v0, v0, v2
+    cmp-long v4, v0, v2
 
-    if-lez v0, :cond_0
+    if-lez v4, :cond_0
 
     iget-object v0, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
@@ -85,14 +81,13 @@
 
     and-int/lit16 v0, v0, 0xff
 
-    .line 116
-    :goto_0
     return v0
 
+    .line 116
     :cond_0
     const/4 v0, -0x1
 
-    goto :goto_0
+    return v0
 .end method
 
 .method public read([BII)I
@@ -101,7 +96,6 @@
     .param p2, "offset"    # I
     .param p3, "byteCount"    # I
 
-    .prologue
     .line 120
     iget-object v0, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
@@ -115,7 +109,6 @@
 .method public toString()Ljava/lang/String;
     .locals 2
 
-    .prologue
     .line 131
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -125,13 +118,9 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
 
-    move-result-object v0
-
     const-string v1, ".inputStream()"
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v0
 
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 

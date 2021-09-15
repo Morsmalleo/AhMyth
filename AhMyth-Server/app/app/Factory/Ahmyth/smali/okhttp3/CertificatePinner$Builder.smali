@@ -18,8 +18,7 @@
 .field private final pins:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/CertificatePinner$Pin;",
             ">;"
         }
@@ -31,7 +30,6 @@
 .method public constructor <init>()V
     .locals 1
 
-    .prologue
     .line 317
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -52,54 +50,59 @@
     .param p1, "pattern"    # Ljava/lang/String;
     .param p2, "pins"    # [Ljava/lang/String;
 
-    .prologue
     .line 328
-    if-nez p1, :cond_0
-
-    new-instance v1, Ljava/lang/NullPointerException;
-
-    const-string v2, "pattern == null"
-
-    invoke-direct {v1, v2}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
-
-    throw v1
+    if-eqz p1, :cond_1
 
     .line 330
-    :cond_0
-    array-length v2, p2
+    array-length v0, p2
 
     const/4 v1, 0x0
 
     :goto_0
-    if-ge v1, v2, :cond_1
+    if-ge v1, v0, :cond_0
 
-    aget-object v0, p2, v1
+    aget-object v2, p2, v1
 
     .line 331
-    .local v0, "pin":Ljava/lang/String;
+    .local v2, "pin":Ljava/lang/String;
     iget-object v3, p0, Lokhttp3/CertificatePinner$Builder;->pins:Ljava/util/List;
 
     new-instance v4, Lokhttp3/CertificatePinner$Pin;
 
-    invoke-direct {v4, p1, v0}, Lokhttp3/CertificatePinner$Pin;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    invoke-direct {v4, p1, v2}, Lokhttp3/CertificatePinner$Pin;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
     invoke-interface {v3, v4}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 330
+    .end local v2    # "pin":Ljava/lang/String;
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
 
     .line 334
-    .end local v0    # "pin":Ljava/lang/String;
-    :cond_1
+    :cond_0
     return-object p0
+
+    .line 328
+    :cond_1
+    new-instance v0, Ljava/lang/NullPointerException;
+
+    const-string v1, "pattern == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+
+    goto :goto_2
+
+    :goto_1
+    throw v0
+
+    :goto_2
+    goto :goto_1
 .end method
 
 .method public build()Lokhttp3/CertificatePinner;
     .locals 3
 
-    .prologue
     .line 338
     new-instance v0, Lokhttp3/CertificatePinner;
 

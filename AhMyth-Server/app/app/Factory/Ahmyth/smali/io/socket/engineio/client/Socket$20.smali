@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .prologue
     .line 711
     iput-object p1, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
 
@@ -40,68 +39,64 @@
 .method public run()V
     .locals 7
 
-    .prologue
     .line 714
-    iget-object v4, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
+    iget-object v0, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
 
-    # getter for: Lio/socket/engineio/client/Socket;->readyState:Lio/socket/engineio/client/Socket$ReadyState;
-    invoke-static {v4}, Lio/socket/engineio/client/Socket;->access$500(Lio/socket/engineio/client/Socket;)Lio/socket/engineio/client/Socket$ReadyState;
+    invoke-static {v0}, Lio/socket/engineio/client/Socket;->access$500(Lio/socket/engineio/client/Socket;)Lio/socket/engineio/client/Socket$ReadyState;
 
-    move-result-object v4
+    move-result-object v0
 
-    sget-object v5, Lio/socket/engineio/client/Socket$ReadyState;->OPENING:Lio/socket/engineio/client/Socket$ReadyState;
+    sget-object v1, Lio/socket/engineio/client/Socket$ReadyState;->OPENING:Lio/socket/engineio/client/Socket$ReadyState;
 
-    if-eq v4, v5, :cond_0
+    if-eq v0, v1, :cond_0
 
-    iget-object v4, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
+    iget-object v0, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
 
-    # getter for: Lio/socket/engineio/client/Socket;->readyState:Lio/socket/engineio/client/Socket$ReadyState;
-    invoke-static {v4}, Lio/socket/engineio/client/Socket;->access$500(Lio/socket/engineio/client/Socket;)Lio/socket/engineio/client/Socket$ReadyState;
+    invoke-static {v0}, Lio/socket/engineio/client/Socket;->access$500(Lio/socket/engineio/client/Socket;)Lio/socket/engineio/client/Socket$ReadyState;
 
-    move-result-object v4
+    move-result-object v0
 
-    sget-object v5, Lio/socket/engineio/client/Socket$ReadyState;->OPEN:Lio/socket/engineio/client/Socket$ReadyState;
+    sget-object v1, Lio/socket/engineio/client/Socket$ReadyState;->OPEN:Lio/socket/engineio/client/Socket$ReadyState;
 
-    if-ne v4, v5, :cond_1
+    if-ne v0, v1, :cond_3
 
     .line 715
     :cond_0
-    iget-object v4, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
+    iget-object v0, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
 
-    sget-object v5, Lio/socket/engineio/client/Socket$ReadyState;->CLOSING:Lio/socket/engineio/client/Socket$ReadyState;
+    sget-object v1, Lio/socket/engineio/client/Socket$ReadyState;->CLOSING:Lio/socket/engineio/client/Socket$ReadyState;
 
-    # setter for: Lio/socket/engineio/client/Socket;->readyState:Lio/socket/engineio/client/Socket$ReadyState;
-    invoke-static {v4, v5}, Lio/socket/engineio/client/Socket;->access$502(Lio/socket/engineio/client/Socket;Lio/socket/engineio/client/Socket$ReadyState;)Lio/socket/engineio/client/Socket$ReadyState;
+    invoke-static {v0, v1}, Lio/socket/engineio/client/Socket;->access$502(Lio/socket/engineio/client/Socket;Lio/socket/engineio/client/Socket$ReadyState;)Lio/socket/engineio/client/Socket$ReadyState;
 
     .line 717
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
+    iget-object v0, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
 
     .line 719
-    .local v2, "self":Lio/socket/engineio/client/Socket;
+    .local v0, "self":Lio/socket/engineio/client/Socket;
     new-instance v1, Lio/socket/engineio/client/Socket$20$1;
 
-    invoke-direct {v1, p0, v2}, Lio/socket/engineio/client/Socket$20$1;-><init>(Lio/socket/engineio/client/Socket$20;Lio/socket/engineio/client/Socket;)V
+    invoke-direct {v1, p0, v0}, Lio/socket/engineio/client/Socket$20$1;-><init>(Lio/socket/engineio/client/Socket$20;Lio/socket/engineio/client/Socket;)V
 
     .line 728
     .local v1, "close":Ljava/lang/Runnable;
-    const/4 v4, 0x1
+    const/4 v2, 0x1
 
-    new-array v0, v4, [Lio/socket/emitter/Emitter$Listener;
+    new-array v2, v2, [Lio/socket/emitter/Emitter$Listener;
 
     .line 729
-    .local v0, "cleanupAndClose":[Lio/socket/emitter/Emitter$Listener;
-    const/4 v4, 0x0
+    .local v2, "cleanupAndClose":[Lio/socket/emitter/Emitter$Listener;
+    const/4 v3, 0x0
 
-    new-instance v5, Lio/socket/engineio/client/Socket$20$2;
+    new-instance v4, Lio/socket/engineio/client/Socket$20$2;
 
-    invoke-direct {v5, p0, v2, v0, v1}, Lio/socket/engineio/client/Socket$20$2;-><init>(Lio/socket/engineio/client/Socket$20;Lio/socket/engineio/client/Socket;[Lio/socket/emitter/Emitter$Listener;Ljava/lang/Runnable;)V
+    invoke-direct {v4, p0, v0, v2, v1}, Lio/socket/engineio/client/Socket$20$2;-><init>(Lio/socket/engineio/client/Socket$20;Lio/socket/engineio/client/Socket;[Lio/socket/emitter/Emitter$Listener;Ljava/lang/Runnable;)V
 
-    aput-object v5, v0, v4
+    aput-object v4, v2, v3
 
     .line 738
     new-instance v3, Lio/socket/engineio/client/Socket$20$3;
 
-    invoke-direct {v3, p0, v2, v0}, Lio/socket/engineio/client/Socket$20$3;-><init>(Lio/socket/engineio/client/Socket$20;Lio/socket/engineio/client/Socket;[Lio/socket/emitter/Emitter$Listener;)V
+    invoke-direct {v3, p0, v0, v2}, Lio/socket/engineio/client/Socket$20$3;-><init>(Lio/socket/engineio/client/Socket$20;Lio/socket/engineio/client/Socket;[Lio/socket/emitter/Emitter$Listener;)V
 
     .line 747
     .local v3, "waitForUpgrade":Ljava/lang/Runnable;
@@ -113,42 +108,30 @@
 
     move-result v4
 
-    if-lez v4, :cond_2
+    if-lez v4, :cond_1
 
     .line 748
     iget-object v4, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
 
-    const-string v5, "drain"
+    new-instance v5, Lio/socket/engineio/client/Socket$20$4;
 
-    new-instance v6, Lio/socket/engineio/client/Socket$20$4;
+    invoke-direct {v5, p0, v3, v1}, Lio/socket/engineio/client/Socket$20$4;-><init>(Lio/socket/engineio/client/Socket$20;Ljava/lang/Runnable;Ljava/lang/Runnable;)V
 
-    invoke-direct {v6, p0, v3, v1}, Lio/socket/engineio/client/Socket$20$4;-><init>(Lio/socket/engineio/client/Socket$20;Ljava/lang/Runnable;Ljava/lang/Runnable;)V
+    const-string v6, "drain"
 
-    invoke-virtual {v4, v5, v6}, Lio/socket/engineio/client/Socket;->once(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v4, v6, v5}, Lio/socket/engineio/client/Socket;->once(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
-    .line 764
-    .end local v0    # "cleanupAndClose":[Lio/socket/emitter/Emitter$Listener;
-    .end local v1    # "close":Ljava/lang/Runnable;
-    .end local v2    # "self":Lio/socket/engineio/client/Socket;
-    .end local v3    # "waitForUpgrade":Ljava/lang/Runnable;
-    :cond_1
-    :goto_0
-    return-void
+    goto :goto_0
 
     .line 758
-    .restart local v0    # "cleanupAndClose":[Lio/socket/emitter/Emitter$Listener;
-    .restart local v1    # "close":Ljava/lang/Runnable;
-    .restart local v2    # "self":Lio/socket/engineio/client/Socket;
-    .restart local v3    # "waitForUpgrade":Ljava/lang/Runnable;
-    :cond_2
+    :cond_1
     iget-object v4, p0, Lio/socket/engineio/client/Socket$20;->this$0:Lio/socket/engineio/client/Socket;
 
-    # getter for: Lio/socket/engineio/client/Socket;->upgrading:Z
     invoke-static {v4}, Lio/socket/engineio/client/Socket;->access$1300(Lio/socket/engineio/client/Socket;)Z
 
     move-result v4
 
-    if-eqz v4, :cond_3
+    if-eqz v4, :cond_2
 
     .line 759
     invoke-interface {v3}, Ljava/lang/Runnable;->run()V
@@ -156,8 +139,15 @@
     goto :goto_0
 
     .line 761
-    :cond_3
+    :cond_2
     invoke-interface {v1}, Ljava/lang/Runnable;->run()V
 
-    goto :goto_0
+    .line 764
+    .end local v0    # "self":Lio/socket/engineio/client/Socket;
+    .end local v1    # "close":Ljava/lang/Runnable;
+    .end local v2    # "cleanupAndClose":[Lio/socket/emitter/Emitter$Listener;
+    .end local v3    # "waitForUpgrade":Ljava/lang/Runnable;
+    :cond_3
+    :goto_0
+    return-void
 .end method

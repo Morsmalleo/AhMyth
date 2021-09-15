@@ -24,7 +24,6 @@
 .method constructor <init>(Lokhttp3/internal/http1/Http1Codec;)V
     .locals 1
 
-    .prologue
     .line 474
     iput-object p1, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
@@ -46,14 +45,11 @@
         }
     .end annotation
 
-    .prologue
     .line 493
     iget-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->closed:Z
 
     if-eqz v0, :cond_0
 
-    .line 498
-    :goto_0
     return-void
 
     .line 494
@@ -73,11 +69,12 @@
 
     iput-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->closed:Z
 
-    goto :goto_0
+    .line 498
+    return-void
 .end method
 
 .method public read(Lokio/Buffer;J)J
-    .locals 8
+    .locals 5
     .param p1, "sink"    # Lokio/Buffer;
     .param p2, "byteCount"    # J
     .annotation system Ldalvik/annotation/Throws;
@@ -86,93 +83,88 @@
         }
     .end annotation
 
-    .prologue
-    const/4 v6, 0x1
-
-    const-wide/16 v2, -0x1
-
     .line 479
-    const-wide/16 v4, 0x0
+    const-wide/16 v0, 0x0
 
-    cmp-long v4, p2, v4
+    cmp-long v2, p2, v0
 
-    if-gez v4, :cond_0
-
-    new-instance v2, Ljava/lang/IllegalArgumentException;
-
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v4, "byteCount < 0: "
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3, p2, p3}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {v2, v3}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-ltz v2, :cond_3
 
     .line 480
-    :cond_0
-    iget-boolean v4, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->closed:Z
+    iget-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->closed:Z
 
-    if-eqz v4, :cond_1
-
-    new-instance v2, Ljava/lang/IllegalStateException;
-
-    const-string v3, "closed"
-
-    invoke-direct {v2, v3}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-nez v0, :cond_2
 
     .line 481
-    :cond_1
-    iget-boolean v4, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->inputExhausted:Z
+    iget-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->inputExhausted:Z
 
-    if-eqz v4, :cond_3
+    const-wide/16 v1, -0x1
 
-    move-wide v0, v2
+    if-eqz v0, :cond_0
 
-    .line 489
-    :cond_2
-    :goto_0
-    return-wide v0
+    return-wide v1
 
     .line 483
-    :cond_3
-    iget-object v4, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->this$0:Lokhttp3/internal/http1/Http1Codec;
+    :cond_0
+    iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
-    iget-object v4, v4, Lokhttp3/internal/http1/Http1Codec;->source:Lokio/BufferedSource;
+    iget-object v0, v0, Lokhttp3/internal/http1/Http1Codec;->source:Lokio/BufferedSource;
 
-    invoke-interface {v4, p1, p2, p3}, Lokio/BufferedSource;->read(Lokio/Buffer;J)J
+    invoke-interface {v0, p1, p2, p3}, Lokio/BufferedSource;->read(Lokio/Buffer;J)J
 
-    move-result-wide v0
+    move-result-wide v3
 
     .line 484
-    .local v0, "read":J
-    cmp-long v4, v0, v2
+    .local v3, "read":J
+    cmp-long v0, v3, v1
 
-    if-nez v4, :cond_2
+    if-nez v0, :cond_1
 
     .line 485
-    iput-boolean v6, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->inputExhausted:Z
+    const/4 v0, 0x1
+
+    iput-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->inputExhausted:Z
 
     .line 486
-    invoke-virtual {p0, v6}, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->endOfInput(Z)V
-
-    move-wide v0, v2
+    invoke-virtual {p0, v0}, Lokhttp3/internal/http1/Http1Codec$UnknownLengthSource;->endOfInput(Z)V
 
     .line 487
-    goto :goto_0
+    return-wide v1
+
+    .line 489
+    :cond_1
+    return-wide v3
+
+    .line 480
+    .end local v3    # "read":J
+    :cond_2
+    new-instance v0, Ljava/lang/IllegalStateException;
+
+    const-string v1, "closed"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 479
+    :cond_3
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "byteCount < 0: "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, p2, p3}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method

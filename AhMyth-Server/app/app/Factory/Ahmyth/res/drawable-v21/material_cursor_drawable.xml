@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <padding android:top="@dimen/material_cursor_inset_top" android:bottom="@dimen/material_cursor_inset_bottom" />
+    <size android:width="@dimen/material_cursor_width" />
+    <solid android:color="?colorPrimary" />
+</shape>

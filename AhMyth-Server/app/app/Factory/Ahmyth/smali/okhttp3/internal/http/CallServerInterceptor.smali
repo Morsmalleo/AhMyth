@@ -15,7 +15,6 @@
     .locals 0
     .param p1, "forWebSocket"    # Z
 
-    .prologue
     .line 33
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -29,7 +28,7 @@
 
 # virtual methods
 .method public intercept(Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
-    .locals 14
+    .locals 12
     .param p1, "chain"    # Lokhttp3/Interceptor$Chain;
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -37,134 +36,133 @@
         }
     .end annotation
 
-    .prologue
     .line 38
-    move-object v9, p1
+    move-object v0, p1
 
-    check-cast v9, Lokhttp3/internal/http/RealInterceptorChain;
+    check-cast v0, Lokhttp3/internal/http/RealInterceptorChain;
 
-    invoke-virtual {v9}, Lokhttp3/internal/http/RealInterceptorChain;->httpStream()Lokhttp3/internal/http/HttpCodec;
-
-    move-result-object v2
-
-    .local v2, "httpCodec":Lokhttp3/internal/http/HttpCodec;
-    move-object v9, p1
-
-    .line 39
-    check-cast v9, Lokhttp3/internal/http/RealInterceptorChain;
-
-    invoke-virtual {v9}, Lokhttp3/internal/http/RealInterceptorChain;->streamAllocation()Lokhttp3/internal/connection/StreamAllocation;
-
-    move-result-object v8
-
-    .line 40
-    .local v8, "streamAllocation":Lokhttp3/internal/connection/StreamAllocation;
-    invoke-interface {p1}, Lokhttp3/Interceptor$Chain;->request()Lokhttp3/Request;
-
-    move-result-object v3
-
-    .line 42
-    .local v3, "request":Lokhttp3/Request;
-    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
-
-    move-result-wide v6
-
-    .line 43
-    .local v6, "sentRequestMillis":J
-    invoke-interface {v2, v3}, Lokhttp3/internal/http/HttpCodec;->writeRequestHeaders(Lokhttp3/Request;)V
-
-    .line 45
-    invoke-virtual {v3}, Lokhttp3/Request;->method()Ljava/lang/String;
-
-    move-result-object v9
-
-    invoke-static {v9}, Lokhttp3/internal/http/HttpMethod;->permitsRequestBody(Ljava/lang/String;)Z
-
-    move-result v9
-
-    if-eqz v9, :cond_0
-
-    invoke-virtual {v3}, Lokhttp3/Request;->body()Lokhttp3/RequestBody;
-
-    move-result-object v9
-
-    if-eqz v9, :cond_0
-
-    .line 46
-    invoke-virtual {v3}, Lokhttp3/Request;->body()Lokhttp3/RequestBody;
-
-    move-result-object v9
-
-    invoke-virtual {v9}, Lokhttp3/RequestBody;->contentLength()J
-
-    move-result-wide v10
-
-    invoke-interface {v2, v3, v10, v11}, Lokhttp3/internal/http/HttpCodec;->createRequestBody(Lokhttp3/Request;J)Lokio/Sink;
-
-    move-result-object v4
-
-    .line 47
-    .local v4, "requestBodyOut":Lokio/Sink;
-    invoke-static {v4}, Lokio/Okio;->buffer(Lokio/Sink;)Lokio/BufferedSink;
+    invoke-virtual {v0}, Lokhttp3/internal/http/RealInterceptorChain;->httpStream()Lokhttp3/internal/http/HttpCodec;
 
     move-result-object v0
 
+    .line 39
+    .local v0, "httpCodec":Lokhttp3/internal/http/HttpCodec;
+    move-object v1, p1
+
+    check-cast v1, Lokhttp3/internal/http/RealInterceptorChain;
+
+    invoke-virtual {v1}, Lokhttp3/internal/http/RealInterceptorChain;->streamAllocation()Lokhttp3/internal/connection/StreamAllocation;
+
+    move-result-object v1
+
+    .line 40
+    .local v1, "streamAllocation":Lokhttp3/internal/connection/StreamAllocation;
+    invoke-interface {p1}, Lokhttp3/Interceptor$Chain;->request()Lokhttp3/Request;
+
+    move-result-object v2
+
+    .line 42
+    .local v2, "request":Lokhttp3/Request;
+    invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
+
+    move-result-wide v3
+
+    .line 43
+    .local v3, "sentRequestMillis":J
+    invoke-interface {v0, v2}, Lokhttp3/internal/http/HttpCodec;->writeRequestHeaders(Lokhttp3/Request;)V
+
+    .line 45
+    invoke-virtual {v2}, Lokhttp3/Request;->method()Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-static {v5}, Lokhttp3/internal/http/HttpMethod;->permitsRequestBody(Ljava/lang/String;)Z
+
+    move-result v5
+
+    if-eqz v5, :cond_0
+
+    invoke-virtual {v2}, Lokhttp3/Request;->body()Lokhttp3/RequestBody;
+
+    move-result-object v5
+
+    if-eqz v5, :cond_0
+
+    .line 46
+    invoke-virtual {v2}, Lokhttp3/Request;->body()Lokhttp3/RequestBody;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Lokhttp3/RequestBody;->contentLength()J
+
+    move-result-wide v5
+
+    invoke-interface {v0, v2, v5, v6}, Lokhttp3/internal/http/HttpCodec;->createRequestBody(Lokhttp3/Request;J)Lokio/Sink;
+
+    move-result-object v5
+
+    .line 47
+    .local v5, "requestBodyOut":Lokio/Sink;
+    invoke-static {v5}, Lokio/Okio;->buffer(Lokio/Sink;)Lokio/BufferedSink;
+
+    move-result-object v6
+
     .line 48
-    .local v0, "bufferedRequestBody":Lokio/BufferedSink;
-    invoke-virtual {v3}, Lokhttp3/Request;->body()Lokhttp3/RequestBody;
+    .local v6, "bufferedRequestBody":Lokio/BufferedSink;
+    invoke-virtual {v2}, Lokhttp3/Request;->body()Lokhttp3/RequestBody;
 
-    move-result-object v9
+    move-result-object v7
 
-    invoke-virtual {v9, v0}, Lokhttp3/RequestBody;->writeTo(Lokio/BufferedSink;)V
+    invoke-virtual {v7, v6}, Lokhttp3/RequestBody;->writeTo(Lokio/BufferedSink;)V
 
     .line 49
-    invoke-interface {v0}, Lokio/BufferedSink;->close()V
+    invoke-interface {v6}, Lokio/BufferedSink;->close()V
 
     .line 52
-    .end local v0    # "bufferedRequestBody":Lokio/BufferedSink;
-    .end local v4    # "requestBodyOut":Lokio/Sink;
+    .end local v5    # "requestBodyOut":Lokio/Sink;
+    .end local v6    # "bufferedRequestBody":Lokio/BufferedSink;
     :cond_0
-    invoke-interface {v2}, Lokhttp3/internal/http/HttpCodec;->finishRequest()V
+    invoke-interface {v0}, Lokhttp3/internal/http/HttpCodec;->finishRequest()V
 
     .line 54
-    invoke-interface {v2}, Lokhttp3/internal/http/HttpCodec;->readResponseHeaders()Lokhttp3/Response$Builder;
+    invoke-interface {v0}, Lokhttp3/internal/http/HttpCodec;->readResponseHeaders()Lokhttp3/Response$Builder;
 
-    move-result-object v9
+    move-result-object v5
 
     .line 55
-    invoke-virtual {v9, v3}, Lokhttp3/Response$Builder;->request(Lokhttp3/Request;)Lokhttp3/Response$Builder;
+    invoke-virtual {v5, v2}, Lokhttp3/Response$Builder;->request(Lokhttp3/Request;)Lokhttp3/Response$Builder;
 
-    move-result-object v9
+    move-result-object v5
 
     .line 56
-    invoke-virtual {v8}, Lokhttp3/internal/connection/StreamAllocation;->connection()Lokhttp3/internal/connection/RealConnection;
+    invoke-virtual {v1}, Lokhttp3/internal/connection/StreamAllocation;->connection()Lokhttp3/internal/connection/RealConnection;
 
-    move-result-object v10
+    move-result-object v6
 
-    invoke-virtual {v10}, Lokhttp3/internal/connection/RealConnection;->handshake()Lokhttp3/Handshake;
+    invoke-virtual {v6}, Lokhttp3/internal/connection/RealConnection;->handshake()Lokhttp3/Handshake;
 
-    move-result-object v10
+    move-result-object v6
 
-    invoke-virtual {v9, v10}, Lokhttp3/Response$Builder;->handshake(Lokhttp3/Handshake;)Lokhttp3/Response$Builder;
+    invoke-virtual {v5, v6}, Lokhttp3/Response$Builder;->handshake(Lokhttp3/Handshake;)Lokhttp3/Response$Builder;
 
-    move-result-object v9
+    move-result-object v5
 
     .line 57
-    invoke-virtual {v9, v6, v7}, Lokhttp3/Response$Builder;->sentRequestAtMillis(J)Lokhttp3/Response$Builder;
+    invoke-virtual {v5, v3, v4}, Lokhttp3/Response$Builder;->sentRequestAtMillis(J)Lokhttp3/Response$Builder;
 
-    move-result-object v9
+    move-result-object v5
 
     .line 58
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
 
-    move-result-wide v10
+    move-result-wide v6
 
-    invoke-virtual {v9, v10, v11}, Lokhttp3/Response$Builder;->receivedResponseAtMillis(J)Lokhttp3/Response$Builder;
+    invoke-virtual {v5, v6, v7}, Lokhttp3/Response$Builder;->receivedResponseAtMillis(J)Lokhttp3/Response$Builder;
 
-    move-result-object v9
+    move-result-object v5
 
     .line 59
-    invoke-virtual {v9}, Lokhttp3/Response$Builder;->build()Lokhttp3/Response;
+    invoke-virtual {v5}, Lokhttp3/Response$Builder;->build()Lokhttp3/Response;
 
     move-result-object v5
 
@@ -172,166 +170,155 @@
     .local v5, "response":Lokhttp3/Response;
     invoke-virtual {v5}, Lokhttp3/Response;->code()I
 
-    move-result v1
+    move-result v6
 
     .line 62
-    .local v1, "code":I
-    iget-boolean v9, p0, Lokhttp3/internal/http/CallServerInterceptor;->forWebSocket:Z
+    .local v6, "code":I
+    iget-boolean v7, p0, Lokhttp3/internal/http/CallServerInterceptor;->forWebSocket:Z
 
-    if-eqz v9, :cond_4
+    if-eqz v7, :cond_1
 
-    const/16 v9, 0x65
+    const/16 v7, 0x65
 
-    if-ne v1, v9, :cond_4
+    if-ne v6, v7, :cond_1
 
     .line 64
     invoke-virtual {v5}, Lokhttp3/Response;->newBuilder()Lokhttp3/Response$Builder;
 
-    move-result-object v9
+    move-result-object v7
 
-    sget-object v10, Lokhttp3/internal/Util;->EMPTY_RESPONSE:Lokhttp3/ResponseBody;
+    sget-object v8, Lokhttp3/internal/Util;->EMPTY_RESPONSE:Lokhttp3/ResponseBody;
 
     .line 65
-    invoke-virtual {v9, v10}, Lokhttp3/Response$Builder;->body(Lokhttp3/ResponseBody;)Lokhttp3/Response$Builder;
+    invoke-virtual {v7, v8}, Lokhttp3/Response$Builder;->body(Lokhttp3/ResponseBody;)Lokhttp3/Response$Builder;
 
-    move-result-object v9
+    move-result-object v7
 
     .line 66
-    invoke-virtual {v9}, Lokhttp3/Response$Builder;->build()Lokhttp3/Response;
+    invoke-virtual {v7}, Lokhttp3/Response$Builder;->build()Lokhttp3/Response;
+
+    move-result-object v5
+
+    goto :goto_0
+
+    .line 68
+    :cond_1
+    invoke-virtual {v5}, Lokhttp3/Response;->newBuilder()Lokhttp3/Response$Builder;
+
+    move-result-object v7
+
+    .line 69
+    invoke-interface {v0, v5}, Lokhttp3/internal/http/HttpCodec;->openResponseBody(Lokhttp3/Response;)Lokhttp3/ResponseBody;
+
+    move-result-object v8
+
+    invoke-virtual {v7, v8}, Lokhttp3/Response$Builder;->body(Lokhttp3/ResponseBody;)Lokhttp3/Response$Builder;
+
+    move-result-object v7
+
+    .line 70
+    invoke-virtual {v7}, Lokhttp3/Response$Builder;->build()Lokhttp3/Response;
 
     move-result-object v5
 
     .line 73
     :goto_0
-    const-string v9, "close"
-
     invoke-virtual {v5}, Lokhttp3/Response;->request()Lokhttp3/Request;
 
-    move-result-object v10
+    move-result-object v7
 
-    const-string v11, "Connection"
+    const-string v8, "Connection"
 
-    invoke-virtual {v10, v11}, Lokhttp3/Request;->header(Ljava/lang/String;)Ljava/lang/String;
+    invoke-virtual {v7, v8}, Lokhttp3/Request;->header(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v10
-
-    invoke-virtual {v9, v10}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
-
-    move-result v9
-
-    if-nez v9, :cond_1
+    move-result-object v7
 
     const-string v9, "close"
 
-    const-string v10, "Connection"
+    invoke-virtual {v9, v7}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v7
+
+    if-nez v7, :cond_2
 
     .line 74
-    invoke-virtual {v5, v10}, Lokhttp3/Response;->header(Ljava/lang/String;)Ljava/lang/String;
+    invoke-virtual {v5, v8}, Lokhttp3/Response;->header(Ljava/lang/String;)Ljava/lang/String;
 
-    move-result-object v10
+    move-result-object v7
 
-    invoke-virtual {v9, v10}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+    invoke-virtual {v9, v7}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
 
-    move-result v9
+    move-result v7
 
-    if-eqz v9, :cond_2
+    if-eqz v7, :cond_3
 
     .line 75
-    :cond_1
-    invoke-virtual {v8}, Lokhttp3/internal/connection/StreamAllocation;->noNewStreams()V
+    :cond_2
+    invoke-virtual {v1}, Lokhttp3/internal/connection/StreamAllocation;->noNewStreams()V
 
     .line 78
-    :cond_2
-    const/16 v9, 0xcc
-
-    if-eq v1, v9, :cond_3
-
-    const/16 v9, 0xcd
-
-    if-ne v1, v9, :cond_5
-
     :cond_3
+    const/16 v7, 0xcc
+
+    if-eq v6, v7, :cond_4
+
+    const/16 v7, 0xcd
+
+    if-ne v6, v7, :cond_5
+
+    :cond_4
+    invoke-virtual {v5}, Lokhttp3/Response;->body()Lokhttp3/ResponseBody;
+
+    move-result-object v7
+
+    invoke-virtual {v7}, Lokhttp3/ResponseBody;->contentLength()J
+
+    move-result-wide v7
+
+    const-wide/16 v9, 0x0
+
+    cmp-long v11, v7, v9
+
+    if-gtz v11, :cond_6
+
+    .line 83
+    :cond_5
+    return-object v5
+
+    .line 79
+    :cond_6
+    new-instance v7, Ljava/net/ProtocolException;
+
+    new-instance v8, Ljava/lang/StringBuilder;
+
+    invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v9, "HTTP "
+
+    invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v8, v6}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    const-string v9, " had non-zero Content-Length: "
+
+    invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    .line 80
     invoke-virtual {v5}, Lokhttp3/Response;->body()Lokhttp3/ResponseBody;
 
     move-result-object v9
 
     invoke-virtual {v9}, Lokhttp3/ResponseBody;->contentLength()J
 
-    move-result-wide v10
+    move-result-wide v9
 
-    const-wide/16 v12, 0x0
+    invoke-virtual {v8, v9, v10}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
 
-    cmp-long v9, v10, v12
+    invoke-virtual {v8}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    if-lez v9, :cond_5
+    move-result-object v8
 
-    .line 79
-    new-instance v9, Ljava/net/ProtocolException;
+    invoke-direct {v7, v8}, Ljava/net/ProtocolException;-><init>(Ljava/lang/String;)V
 
-    new-instance v10, Ljava/lang/StringBuilder;
-
-    invoke-direct {v10}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v11, "HTTP "
-
-    invoke-virtual {v10, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v10
-
-    invoke-virtual {v10, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v10
-
-    const-string v11, " had non-zero Content-Length: "
-
-    invoke-virtual {v10, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v10
-
-    .line 80
-    invoke-virtual {v5}, Lokhttp3/Response;->body()Lokhttp3/ResponseBody;
-
-    move-result-object v11
-
-    invoke-virtual {v11}, Lokhttp3/ResponseBody;->contentLength()J
-
-    move-result-wide v12
-
-    invoke-virtual {v10, v12, v13}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
-
-    move-result-object v10
-
-    invoke-virtual {v10}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v10
-
-    invoke-direct {v9, v10}, Ljava/net/ProtocolException;-><init>(Ljava/lang/String;)V
-
-    throw v9
-
-    .line 68
-    :cond_4
-    invoke-virtual {v5}, Lokhttp3/Response;->newBuilder()Lokhttp3/Response$Builder;
-
-    move-result-object v9
-
-    .line 69
-    invoke-interface {v2, v5}, Lokhttp3/internal/http/HttpCodec;->openResponseBody(Lokhttp3/Response;)Lokhttp3/ResponseBody;
-
-    move-result-object v10
-
-    invoke-virtual {v9, v10}, Lokhttp3/Response$Builder;->body(Lokhttp3/ResponseBody;)Lokhttp3/Response$Builder;
-
-    move-result-object v9
-
-    .line 70
-    invoke-virtual {v9}, Lokhttp3/Response$Builder;->build()Lokhttp3/Response;
-
-    move-result-object v5
-
-    goto :goto_0
-
-    .line 83
-    :cond_5
-    return-object v5
+    throw v7
 .end method

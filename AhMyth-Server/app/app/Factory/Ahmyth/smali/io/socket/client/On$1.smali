@@ -29,7 +29,6 @@
 .method constructor <init>(Lio/socket/emitter/Emitter;Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)V
     .locals 0
 
-    .prologue
     .line 11
     iput-object p1, p0, Lio/socket/client/On$1;->val$obj:Lio/socket/emitter/Emitter;
 
@@ -47,7 +46,6 @@
 .method public destroy()V
     .locals 3
 
-    .prologue
     .line 14
     iget-object v0, p0, Lio/socket/client/On$1;->val$obj:Lio/socket/emitter/Emitter;
 

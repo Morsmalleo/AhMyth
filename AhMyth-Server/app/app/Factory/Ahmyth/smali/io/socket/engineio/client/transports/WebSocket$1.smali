@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/WebSocket;
 
-    .prologue
     .line 61
     iput-object p1, p0, Lio/socket/engineio/client/transports/WebSocket$1;->this$0:Lio/socket/engineio/client/transports/WebSocket;
 
@@ -51,7 +50,6 @@
         }
     .end annotation
 
-    .prologue
     .line 64
     invoke-virtual {p2}, Lokhttp3/Response;->request()Lokhttp3/Request;
 
@@ -61,12 +59,12 @@
 
     move-result-object v0
 
-    const-string v1, "Proxy-Authorization"
-
-    iget-object v2, p0, Lio/socket/engineio/client/transports/WebSocket$1;->val$credentials:Ljava/lang/String;
+    iget-object v1, p0, Lio/socket/engineio/client/transports/WebSocket$1;->val$credentials:Ljava/lang/String;
 
     .line 65
-    invoke-virtual {v0, v1, v2}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
+    const-string v2, "Proxy-Authorization"
+
+    invoke-virtual {v0, v2, v1}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
 
     move-result-object v0
 

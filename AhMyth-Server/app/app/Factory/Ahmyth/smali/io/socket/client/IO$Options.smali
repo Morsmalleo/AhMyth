@@ -24,7 +24,6 @@
 .method public constructor <init>()V
     .locals 1
 
-    .prologue
     .line 89
     invoke-direct {p0}, Lio/socket/client/Manager$Options;-><init>()V
 

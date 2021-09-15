@@ -30,7 +30,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .prologue
     .line 665
     iput-object p1, p0, Lio/socket/engineio/client/Socket$18;->this$0:Lio/socket/engineio/client/Socket;
 
@@ -48,18 +47,16 @@
 .method public run()V
     .locals 4
 
-    .prologue
     .line 668
     iget-object v0, p0, Lio/socket/engineio/client/Socket$18;->this$0:Lio/socket/engineio/client/Socket;
 
-    const-string v1, "message"
+    iget-object v1, p0, Lio/socket/engineio/client/Socket$18;->val$msg:[B
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$18;->val$msg:[B
+    iget-object v2, p0, Lio/socket/engineio/client/Socket$18;->val$fn:Ljava/lang/Runnable;
 
-    iget-object v3, p0, Lio/socket/engineio/client/Socket$18;->val$fn:Ljava/lang/Runnable;
+    const-string v3, "message"
 
-    # invokes: Lio/socket/engineio/client/Socket;->sendPacket(Ljava/lang/String;[BLjava/lang/Runnable;)V
-    invoke-static {v0, v1, v2, v3}, Lio/socket/engineio/client/Socket;->access$1900(Lio/socket/engineio/client/Socket;Ljava/lang/String;[BLjava/lang/Runnable;)V
+    invoke-static {v0, v3, v1, v2}, Lio/socket/engineio/client/Socket;->access$1900(Lio/socket/engineio/client/Socket;Ljava/lang/String;[BLjava/lang/Runnable;)V
 
     .line 669
     return-void

@@ -28,7 +28,6 @@
 .method constructor <init>(Lokhttp3/MediaType;I[BI)V
     .locals 0
 
-    .prologue
     .line 86
     iput-object p1, p0, Lokhttp3/RequestBody$2;->val$contentType:Lokhttp3/MediaType;
 
@@ -48,7 +47,6 @@
 .method public contentLength()J
     .locals 2
 
-    .prologue
     .line 92
     iget v0, p0, Lokhttp3/RequestBody$2;->val$byteCount:I
 
@@ -60,7 +58,6 @@
 .method public contentType()Lokhttp3/MediaType;
     .locals 1
 
-    .prologue
     .line 88
     iget-object v0, p0, Lokhttp3/RequestBody$2;->val$contentType:Lokhttp3/MediaType;
 
@@ -76,7 +73,6 @@
         }
     .end annotation
 
-    .prologue
     .line 96
     iget-object v0, p0, Lokhttp3/RequestBody$2;->val$content:[B
 

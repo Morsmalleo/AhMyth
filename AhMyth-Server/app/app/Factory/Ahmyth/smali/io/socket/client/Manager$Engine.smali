@@ -20,7 +20,6 @@
     .param p1, "uri"    # Ljava/net/URI;
     .param p2, "opts"    # Lio/socket/engineio/client/Socket$Options;
 
-    .prologue
     .line 606
     invoke-direct {p0, p1, p2}, Lio/socket/engineio/client/Socket;-><init>(Ljava/net/URI;Lio/socket/engineio/client/Socket$Options;)V
 

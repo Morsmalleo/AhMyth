@@ -19,8 +19,7 @@
 .field private final encodedNames:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/lang/String;",
             ">;"
         }
@@ -30,8 +29,7 @@
 .field private final encodedValues:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/lang/String;",
             ">;"
         }
@@ -43,11 +41,12 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 29
-    const-string v0, "application/x-www-form-urlencoded"
+    nop
 
     .line 30
+    const-string v0, "application/x-www-form-urlencoded"
+
     invoke-static {v0}, Lokhttp3/MediaType;->parse(Ljava/lang/String;)Lokhttp3/MediaType;
 
     move-result-object v0
@@ -63,18 +62,15 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/lang/String;",
             ">;",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/lang/String;",
             ">;)V"
         }
     .end annotation
 
-    .prologue
     .line 35
     .local p1, "encodedNames":Ljava/util/List;, "Ljava/util/List<Ljava/lang/String;>;"
     .local p2, "encodedValues":Ljava/util/List;, "Ljava/util/List<Ljava/lang/String;>;"
@@ -103,104 +99,101 @@
     .param p1, "sink"    # Lokio/BufferedSink;
     .param p2, "countBytes"    # Z
 
-    .prologue
     .line 80
-    const-wide/16 v2, 0x0
+    const-wide/16 v0, 0x0
 
     .line 83
-    .local v2, "byteCount":J
-    if-eqz p2, :cond_1
+    .local v0, "byteCount":J
+    if-eqz p2, :cond_0
 
     .line 84
-    new-instance v0, Lokio/Buffer;
+    new-instance v2, Lokio/Buffer;
 
-    invoke-direct {v0}, Lokio/Buffer;-><init>()V
+    invoke-direct {v2}, Lokio/Buffer;-><init>()V
+
+    .local v2, "buffer":Lokio/Buffer;
+    goto :goto_0
+
+    .line 86
+    .end local v2    # "buffer":Lokio/Buffer;
+    :cond_0
+    invoke-interface {p1}, Lokio/BufferedSink;->buffer()Lokio/Buffer;
+
+    move-result-object v2
 
     .line 89
-    .local v0, "buffer":Lokio/Buffer;
+    .restart local v2    # "buffer":Lokio/Buffer;
     :goto_0
-    const/4 v1, 0x0
+    const/4 v3, 0x0
 
-    .local v1, "i":I
-    iget-object v5, p0, Lokhttp3/FormBody;->encodedNames:Ljava/util/List;
+    .local v3, "i":I
+    iget-object v4, p0, Lokhttp3/FormBody;->encodedNames:Ljava/util/List;
 
-    invoke-interface {v5}, Ljava/util/List;->size()I
+    invoke-interface {v4}, Ljava/util/List;->size()I
 
     move-result v4
 
     .local v4, "size":I
     :goto_1
-    if-ge v1, v4, :cond_2
+    if-ge v3, v4, :cond_2
 
     .line 90
-    if-lez v1, :cond_0
+    if-lez v3, :cond_1
 
     const/16 v5, 0x26
 
-    invoke-virtual {v0, v5}, Lokio/Buffer;->writeByte(I)Lokio/Buffer;
+    invoke-virtual {v2, v5}, Lokio/Buffer;->writeByte(I)Lokio/Buffer;
 
     .line 91
-    :cond_0
+    :cond_1
     iget-object v5, p0, Lokhttp3/FormBody;->encodedNames:Ljava/util/List;
 
-    invoke-interface {v5, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-interface {v5, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v5
 
     check-cast v5, Ljava/lang/String;
 
-    invoke-virtual {v0, v5}, Lokio/Buffer;->writeUtf8(Ljava/lang/String;)Lokio/Buffer;
+    invoke-virtual {v2, v5}, Lokio/Buffer;->writeUtf8(Ljava/lang/String;)Lokio/Buffer;
 
     .line 92
     const/16 v5, 0x3d
 
-    invoke-virtual {v0, v5}, Lokio/Buffer;->writeByte(I)Lokio/Buffer;
+    invoke-virtual {v2, v5}, Lokio/Buffer;->writeByte(I)Lokio/Buffer;
 
     .line 93
     iget-object v5, p0, Lokhttp3/FormBody;->encodedValues:Ljava/util/List;
 
-    invoke-interface {v5, v1}, Ljava/util/List;->get(I)Ljava/lang/Object;
+    invoke-interface {v5, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v5
 
     check-cast v5, Ljava/lang/String;
 
-    invoke-virtual {v0, v5}, Lokio/Buffer;->writeUtf8(Ljava/lang/String;)Lokio/Buffer;
+    invoke-virtual {v2, v5}, Lokio/Buffer;->writeUtf8(Ljava/lang/String;)Lokio/Buffer;
 
     .line 89
-    add-int/lit8 v1, v1, 0x1
+    add-int/lit8 v3, v3, 0x1
 
     goto :goto_1
 
-    .line 86
-    .end local v0    # "buffer":Lokio/Buffer;
-    .end local v1    # "i":I
-    .end local v4    # "size":I
-    :cond_1
-    invoke-interface {p1}, Lokio/BufferedSink;->buffer()Lokio/Buffer;
-
-    move-result-object v0
-
-    .restart local v0    # "buffer":Lokio/Buffer;
-    goto :goto_0
-
     .line 96
-    .restart local v1    # "i":I
-    .restart local v4    # "size":I
+    .end local v3    # "i":I
+    .end local v4    # "size":I
     :cond_2
     if-eqz p2, :cond_3
 
     .line 97
-    invoke-virtual {v0}, Lokio/Buffer;->size()J
+    invoke-virtual {v2}, Lokio/Buffer;->size()J
 
-    move-result-wide v2
+    move-result-wide v0
 
     .line 98
-    invoke-virtual {v0}, Lokio/Buffer;->clear()V
+    invoke-virtual {v2}, Lokio/Buffer;->clear()V
 
     .line 101
     :cond_3
-    return-wide v2
+    return-wide v0
 .end method
 
 
@@ -208,7 +201,6 @@
 .method public contentLength()J
     .locals 2
 
-    .prologue
     .line 66
     const/4 v0, 0x0
 
@@ -224,7 +216,6 @@
 .method public contentType()Lokhttp3/MediaType;
     .locals 1
 
-    .prologue
     .line 62
     sget-object v0, Lokhttp3/FormBody;->CONTENT_TYPE:Lokhttp3/MediaType;
 
@@ -235,7 +226,6 @@
     .locals 1
     .param p1, "index"    # I
 
-    .prologue
     .line 46
     iget-object v0, p0, Lokhttp3/FormBody;->encodedNames:Ljava/util/List;
 
@@ -252,7 +242,6 @@
     .locals 1
     .param p1, "index"    # I
 
-    .prologue
     .line 54
     iget-object v0, p0, Lokhttp3/FormBody;->encodedValues:Ljava/util/List;
 
@@ -269,7 +258,6 @@
     .locals 2
     .param p1, "index"    # I
 
-    .prologue
     .line 50
     invoke-virtual {p0, p1}, Lokhttp3/FormBody;->encodedName(I)Ljava/lang/String;
 
@@ -287,7 +275,6 @@
 .method public size()I
     .locals 1
 
-    .prologue
     .line 42
     iget-object v0, p0, Lokhttp3/FormBody;->encodedNames:Ljava/util/List;
 
@@ -302,7 +289,6 @@
     .locals 2
     .param p1, "index"    # I
 
-    .prologue
     .line 58
     invoke-virtual {p0, p1}, Lokhttp3/FormBody;->encodedValue(I)Ljava/lang/String;
 
@@ -326,7 +312,6 @@
         }
     .end annotation
 
-    .prologue
     .line 70
     const/4 v0, 0x0
 

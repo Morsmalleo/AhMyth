@@ -18,7 +18,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 128
     invoke-direct {p0}, Lokhttp3/internal/Internal;-><init>()V
 
@@ -32,7 +31,6 @@
     .param p1, "builder"    # Lokhttp3/Headers$Builder;
     .param p2, "line"    # Ljava/lang/String;
 
-    .prologue
     .line 130
     invoke-virtual {p1, p2}, Lokhttp3/Headers$Builder;->addLenient(Ljava/lang/String;)Lokhttp3/Headers$Builder;
 
@@ -46,7 +44,6 @@
     .param p2, "name"    # Ljava/lang/String;
     .param p3, "value"    # Ljava/lang/String;
 
-    .prologue
     .line 134
     invoke-virtual {p1, p2, p3}, Lokhttp3/Headers$Builder;->addLenient(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Headers$Builder;
 
@@ -60,7 +57,6 @@
     .param p2, "sslSocket"    # Ljavax/net/ssl/SSLSocket;
     .param p3, "isFallback"    # Z
 
-    .prologue
     .line 161
     invoke-virtual {p1, p2, p3}, Lokhttp3/ConnectionSpec;->apply(Ljavax/net/ssl/SSLSocket;Z)V
 
@@ -73,7 +69,6 @@
     .param p1, "pool"    # Lokhttp3/ConnectionPool;
     .param p2, "connection"    # Lokhttp3/internal/connection/RealConnection;
 
-    .prologue
     .line 143
     invoke-virtual {p1, p2}, Lokhttp3/ConnectionPool;->connectionBecameIdle(Lokhttp3/internal/connection/RealConnection;)Z
 
@@ -88,7 +83,6 @@
     .param p2, "address"    # Lokhttp3/Address;
     .param p3, "streamAllocation"    # Lokhttp3/internal/connection/StreamAllocation;
 
-    .prologue
     .line 148
     invoke-virtual {p1, p2, p3}, Lokhttp3/ConnectionPool;->get(Lokhttp3/Address;Lokhttp3/internal/connection/StreamAllocation;)Lokhttp3/internal/connection/RealConnection;
 
@@ -107,7 +101,6 @@
         }
     .end annotation
 
-    .prologue
     .line 166
     invoke-static {p1}, Lokhttp3/HttpUrl;->getChecked(Ljava/lang/String;)Lokhttp3/HttpUrl;
 
@@ -121,7 +114,6 @@
     .param p1, "client"    # Lokhttp3/OkHttpClient;
     .param p2, "originalRequest"    # Lokhttp3/Request;
 
-    .prologue
     .line 174
     new-instance v0, Lokhttp3/RealCall;
 
@@ -137,7 +129,6 @@
     .param p1, "pool"    # Lokhttp3/ConnectionPool;
     .param p2, "connection"    # Lokhttp3/internal/connection/RealConnection;
 
-    .prologue
     .line 152
     invoke-virtual {p1, p2}, Lokhttp3/ConnectionPool;->put(Lokhttp3/internal/connection/RealConnection;)V
 
@@ -149,7 +140,6 @@
     .locals 1
     .param p1, "connectionPool"    # Lokhttp3/ConnectionPool;
 
-    .prologue
     .line 156
     iget-object v0, p1, Lokhttp3/ConnectionPool;->routeDatabase:Lokhttp3/internal/connection/RouteDatabase;
 
@@ -161,7 +151,6 @@
     .param p1, "builder"    # Lokhttp3/OkHttpClient$Builder;
     .param p2, "internalCache"    # Lokhttp3/internal/cache/InternalCache;
 
-    .prologue
     .line 138
     invoke-virtual {p1, p2}, Lokhttp3/OkHttpClient$Builder;->setInternalCache(Lokhttp3/internal/cache/InternalCache;)V
 
@@ -173,12 +162,12 @@
     .locals 1
     .param p1, "call"    # Lokhttp3/Call;
 
-    .prologue
     .line 170
-    check-cast p1, Lokhttp3/RealCall;
+    move-object v0, p1
 
-    .end local p1    # "call":Lokhttp3/Call;
-    invoke-virtual {p1}, Lokhttp3/RealCall;->streamAllocation()Lokhttp3/internal/connection/StreamAllocation;
+    check-cast v0, Lokhttp3/RealCall;
+
+    invoke-virtual {v0}, Lokhttp3/RealCall;->streamAllocation()Lokhttp3/internal/connection/StreamAllocation;
 
     move-result-object v0
 

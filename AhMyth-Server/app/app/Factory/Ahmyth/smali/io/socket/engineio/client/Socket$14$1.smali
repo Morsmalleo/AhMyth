@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/Socket$14;
 
-    .prologue
     .line 548
     iput-object p1, p0, Lio/socket/engineio/client/Socket$14$1;->this$1:Lio/socket/engineio/client/Socket$14;
 
@@ -40,13 +39,11 @@
 .method public run()V
     .locals 2
 
-    .prologue
     .line 551
     iget-object v0, p0, Lio/socket/engineio/client/Socket$14$1;->this$1:Lio/socket/engineio/client/Socket$14;
 
     iget-object v0, v0, Lio/socket/engineio/client/Socket$14;->val$self:Lio/socket/engineio/client/Socket;
 
-    # getter for: Lio/socket/engineio/client/Socket;->readyState:Lio/socket/engineio/client/Socket$ReadyState;
     invoke-static {v0}, Lio/socket/engineio/client/Socket;->access$500(Lio/socket/engineio/client/Socket;)Lio/socket/engineio/client/Socket$ReadyState;
 
     move-result-object v0
@@ -55,8 +52,6 @@
 
     if-ne v0, v1, :cond_0
 
-    .line 553
-    :goto_0
     return-void
 
     .line 552
@@ -67,8 +62,8 @@
 
     const-string v1, "ping timeout"
 
-    # invokes: Lio/socket/engineio/client/Socket;->onClose(Ljava/lang/String;)V
     invoke-static {v0, v1}, Lio/socket/engineio/client/Socket;->access$800(Lio/socket/engineio/client/Socket;Ljava/lang/String;)V
 
-    goto :goto_0
+    .line 553
+    return-void
 .end method

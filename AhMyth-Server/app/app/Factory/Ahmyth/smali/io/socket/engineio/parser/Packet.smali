@@ -49,7 +49,6 @@
     .locals 1
     .param p1, "type"    # Ljava/lang/String;
 
-    .prologue
     .line 20
     .local p0, "this":Lio/socket/engineio/parser/Packet;, "Lio/socket/engineio/parser/Packet<TT;>;"
     const/4 v0, 0x0
@@ -71,7 +70,6 @@
         }
     .end annotation
 
-    .prologue
     .line 23
     .local p0, "this":Lio/socket/engineio/parser/Packet;, "Lio/socket/engineio/parser/Packet<TT;>;"
     .local p2, "data":Ljava/lang/Object;, "TT;"

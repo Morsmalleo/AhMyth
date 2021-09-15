@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView android:gravity="center_horizontal" android:id="@id/mtrl_calendar_days_of_week" android:layout_width="fill_parent" android:layout_height="@dimen/mtrl_calendar_days_of_week_height" android:horizontalSpacing="@dimen/mtrl_calendar_month_horizontal_padding"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

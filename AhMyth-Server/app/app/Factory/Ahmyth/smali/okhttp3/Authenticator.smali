@@ -11,7 +11,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 51
     new-instance v0, Lokhttp3/Authenticator$1;
 

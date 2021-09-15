@@ -15,8 +15,7 @@
 
 .annotation system Ldalvik/annotation/Signature;
     value = {
-        "Ljava/lang/ref/WeakReference",
-        "<",
+        "Ljava/lang/ref/WeakReference<",
         "Lokhttp3/internal/connection/StreamAllocation;",
         ">;"
     }
@@ -33,7 +32,6 @@
     .param p1, "referent"    # Lokhttp3/internal/connection/StreamAllocation;
     .param p2, "callStackTrace"    # Ljava/lang/Object;
 
-    .prologue
     .line 356
     invoke-direct {p0, p1}, Ljava/lang/ref/WeakReference;-><init>(Ljava/lang/Object;)V
 

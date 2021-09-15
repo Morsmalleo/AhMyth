@@ -36,8 +36,7 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(ZII",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/internal/http2/Header;",
             ">;)V"
         }
@@ -54,8 +53,7 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(II",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/internal/http2/Header;",
             ">;)V"
         }

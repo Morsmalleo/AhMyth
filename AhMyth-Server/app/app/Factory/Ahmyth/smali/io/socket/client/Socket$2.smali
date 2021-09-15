@@ -15,8 +15,7 @@
 
 .annotation system Ldalvik/annotation/Signature;
     value = {
-        "Ljava/util/LinkedList",
-        "<",
+        "Ljava/util/LinkedList<",
         "Lio/socket/client/On$Handle;",
         ">;"
     }
@@ -31,10 +30,9 @@
 
 # direct methods
 .method constructor <init>(Lio/socket/client/Socket;Lio/socket/client/Manager;)V
-    .locals 3
+    .locals 2
     .param p1, "this$0"    # Lio/socket/client/Socket;
 
-    .prologue
     .line 101
     iput-object p1, p0, Lio/socket/client/Socket$2;->this$0:Lio/socket/client/Socket;
 
@@ -43,49 +41,43 @@
     invoke-direct {p0}, Ljava/util/LinkedList;-><init>()V
 
     .line 102
-    iget-object v0, p0, Lio/socket/client/Socket$2;->val$io:Lio/socket/client/Manager;
+    new-instance v0, Lio/socket/client/Socket$2$1;
+
+    invoke-direct {v0, p0}, Lio/socket/client/Socket$2$1;-><init>(Lio/socket/client/Socket$2;)V
 
     const-string v1, "open"
 
-    new-instance v2, Lio/socket/client/Socket$2$1;
-
-    invoke-direct {v2, p0}, Lio/socket/client/Socket$2$1;-><init>(Lio/socket/client/Socket$2;)V
-
-    invoke-static {v0, v1, v2}, Lio/socket/client/On;->on(Lio/socket/emitter/Emitter;Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/client/On$Handle;
+    invoke-static {p2, v1, v0}, Lio/socket/client/On;->on(Lio/socket/emitter/Emitter;Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/client/On$Handle;
 
     move-result-object v0
 
     invoke-virtual {p0, v0}, Lio/socket/client/Socket$2;->add(Ljava/lang/Object;)Z
 
     .line 108
-    iget-object v0, p0, Lio/socket/client/Socket$2;->val$io:Lio/socket/client/Manager;
+    new-instance v0, Lio/socket/client/Socket$2$2;
+
+    invoke-direct {v0, p0}, Lio/socket/client/Socket$2$2;-><init>(Lio/socket/client/Socket$2;)V
 
     const-string v1, "packet"
 
-    new-instance v2, Lio/socket/client/Socket$2$2;
-
-    invoke-direct {v2, p0}, Lio/socket/client/Socket$2$2;-><init>(Lio/socket/client/Socket$2;)V
-
-    invoke-static {v0, v1, v2}, Lio/socket/client/On;->on(Lio/socket/emitter/Emitter;Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/client/On$Handle;
+    invoke-static {p2, v1, v0}, Lio/socket/client/On;->on(Lio/socket/emitter/Emitter;Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/client/On$Handle;
 
     move-result-object v0
 
     invoke-virtual {p0, v0}, Lio/socket/client/Socket$2;->add(Ljava/lang/Object;)Z
 
     .line 114
-    iget-object v0, p0, Lio/socket/client/Socket$2;->val$io:Lio/socket/client/Manager;
+    new-instance v0, Lio/socket/client/Socket$2$3;
+
+    invoke-direct {v0, p0}, Lio/socket/client/Socket$2$3;-><init>(Lio/socket/client/Socket$2;)V
 
     const-string v1, "close"
 
-    new-instance v2, Lio/socket/client/Socket$2$3;
+    invoke-static {p2, v1, v0}, Lio/socket/client/On;->on(Lio/socket/emitter/Emitter;Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/client/On$Handle;
 
-    invoke-direct {v2, p0}, Lio/socket/client/Socket$2$3;-><init>(Lio/socket/client/Socket$2;)V
+    move-result-object p2
 
-    invoke-static {v0, v1, v2}, Lio/socket/client/On;->on(Lio/socket/emitter/Emitter;Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/client/On$Handle;
-
-    move-result-object v0
-
-    invoke-virtual {p0, v0}, Lio/socket/client/Socket$2;->add(Ljava/lang/Object;)Z
+    invoke-virtual {p0, p2}, Lio/socket/client/Socket$2;->add(Ljava/lang/Object;)Z
 
     .line 120
     return-void

@@ -9,8 +9,7 @@
 # annotations
 .annotation system Ldalvik/annotation/Signature;
     value = {
-        "Ljava/util/AbstractList",
-        "<",
+        "Ljava/util/AbstractList<",
         "Lokio/ByteString;",
         ">;",
         "Ljava/util/RandomAccess;"
@@ -27,7 +26,6 @@
     .locals 0
     .param p1, "byteStrings"    # [Lokio/ByteString;
 
-    .prologue
     .line 25
     invoke-direct {p0}, Ljava/util/AbstractList;-><init>()V
 
@@ -42,40 +40,37 @@
     .locals 2
     .param p0, "byteStrings"    # [Lokio/ByteString;
 
-    .prologue
     .line 30
-    new-instance v1, Lokio/Options;
+    new-instance v0, Lokio/Options;
 
     invoke-virtual {p0}, [Lokio/ByteString;->clone()Ljava/lang/Object;
 
-    move-result-object v0
+    move-result-object v1
 
-    check-cast v0, [Lokio/ByteString;
+    check-cast v1, [Lokio/ByteString;
 
-    invoke-direct {v1, v0}, Lokio/Options;-><init>([Lokio/ByteString;)V
+    invoke-direct {v0, v1}, Lokio/Options;-><init>([Lokio/ByteString;)V
 
-    return-object v1
+    return-object v0
 .end method
 
 
 # virtual methods
 .method public bridge synthetic get(I)Ljava/lang/Object;
-    .locals 1
+    .locals 0
 
-    .prologue
     .line 22
     invoke-virtual {p0, p1}, Lokio/Options;->get(I)Lokio/ByteString;
 
-    move-result-object v0
+    move-result-object p1
 
-    return-object v0
+    return-object p1
 .end method
 
 .method public get(I)Lokio/ByteString;
     .locals 1
     .param p1, "i"    # I
 
-    .prologue
     .line 34
     iget-object v0, p0, Lokio/Options;->byteStrings:[Lokio/ByteString;
 
@@ -87,7 +82,6 @@
 .method public size()I
     .locals 1
 
-    .prologue
     .line 38
     iget-object v0, p0, Lokio/Options;->byteStrings:[Lokio/ByteString;
 

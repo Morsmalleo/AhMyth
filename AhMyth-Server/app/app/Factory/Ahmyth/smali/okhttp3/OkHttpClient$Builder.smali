@@ -30,8 +30,7 @@
 .field connectionSpecs:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/ConnectionSpec;",
             ">;"
         }
@@ -53,8 +52,7 @@
 .field final interceptors:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Interceptor;",
             ">;"
         }
@@ -66,8 +64,7 @@
 .field final networkInterceptors:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Interceptor;",
             ">;"
         }
@@ -79,8 +76,7 @@
 .field protocols:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Protocol;",
             ">;"
         }
@@ -106,12 +102,7 @@
 
 # direct methods
 .method public constructor <init>()V
-    .locals 3
-
-    .prologue
-    const/16 v2, 0x2710
-
-    const/4 v1, 0x1
+    .locals 1
 
     .line 441
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -199,22 +190,26 @@
     iput-object v0, p0, Lokhttp3/OkHttpClient$Builder;->dns:Lokhttp3/Dns;
 
     .line 454
-    iput-boolean v1, p0, Lokhttp3/OkHttpClient$Builder;->followSslRedirects:Z
+    const/4 v0, 0x1
+
+    iput-boolean v0, p0, Lokhttp3/OkHttpClient$Builder;->followSslRedirects:Z
 
     .line 455
-    iput-boolean v1, p0, Lokhttp3/OkHttpClient$Builder;->followRedirects:Z
+    iput-boolean v0, p0, Lokhttp3/OkHttpClient$Builder;->followRedirects:Z
 
     .line 456
-    iput-boolean v1, p0, Lokhttp3/OkHttpClient$Builder;->retryOnConnectionFailure:Z
+    iput-boolean v0, p0, Lokhttp3/OkHttpClient$Builder;->retryOnConnectionFailure:Z
 
     .line 457
-    iput v2, p0, Lokhttp3/OkHttpClient$Builder;->connectTimeout:I
+    const/16 v0, 0x2710
+
+    iput v0, p0, Lokhttp3/OkHttpClient$Builder;->connectTimeout:I
 
     .line 458
-    iput v2, p0, Lokhttp3/OkHttpClient$Builder;->readTimeout:I
+    iput v0, p0, Lokhttp3/OkHttpClient$Builder;->readTimeout:I
 
     .line 459
-    iput v2, p0, Lokhttp3/OkHttpClient$Builder;->writeTimeout:I
+    iput v0, p0, Lokhttp3/OkHttpClient$Builder;->writeTimeout:I
 
     .line 460
     const/4 v0, 0x0
@@ -226,10 +221,9 @@
 .end method
 
 .method constructor <init>(Lokhttp3/OkHttpClient;)V
-    .locals 2
+    .locals 3
     .param p1, "okHttpClient"    # Lokhttp3/OkHttpClient;
 
-    .prologue
     .line 463
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -241,45 +235,41 @@
     iput-object v0, p0, Lokhttp3/OkHttpClient$Builder;->interceptors:Ljava/util/List;
 
     .line 419
-    new-instance v0, Ljava/util/ArrayList;
+    new-instance v1, Ljava/util/ArrayList;
 
-    invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
+    invoke-direct {v1}, Ljava/util/ArrayList;-><init>()V
 
-    iput-object v0, p0, Lokhttp3/OkHttpClient$Builder;->networkInterceptors:Ljava/util/List;
+    iput-object v1, p0, Lokhttp3/OkHttpClient$Builder;->networkInterceptors:Ljava/util/List;
 
     .line 464
-    iget-object v0, p1, Lokhttp3/OkHttpClient;->dispatcher:Lokhttp3/Dispatcher;
+    iget-object v2, p1, Lokhttp3/OkHttpClient;->dispatcher:Lokhttp3/Dispatcher;
 
-    iput-object v0, p0, Lokhttp3/OkHttpClient$Builder;->dispatcher:Lokhttp3/Dispatcher;
+    iput-object v2, p0, Lokhttp3/OkHttpClient$Builder;->dispatcher:Lokhttp3/Dispatcher;
 
     .line 465
-    iget-object v0, p1, Lokhttp3/OkHttpClient;->proxy:Ljava/net/Proxy;
+    iget-object v2, p1, Lokhttp3/OkHttpClient;->proxy:Ljava/net/Proxy;
 
-    iput-object v0, p0, Lokhttp3/OkHttpClient$Builder;->proxy:Ljava/net/Proxy;
+    iput-object v2, p0, Lokhttp3/OkHttpClient$Builder;->proxy:Ljava/net/Proxy;
 
     .line 466
-    iget-object v0, p1, Lokhttp3/OkHttpClient;->protocols:Ljava/util/List;
+    iget-object v2, p1, Lokhttp3/OkHttpClient;->protocols:Ljava/util/List;
 
-    iput-object v0, p0, Lokhttp3/OkHttpClient$Builder;->protocols:Ljava/util/List;
+    iput-object v2, p0, Lokhttp3/OkHttpClient$Builder;->protocols:Ljava/util/List;
 
     .line 467
-    iget-object v0, p1, Lokhttp3/OkHttpClient;->connectionSpecs:Ljava/util/List;
+    iget-object v2, p1, Lokhttp3/OkHttpClient;->connectionSpecs:Ljava/util/List;
 
-    iput-object v0, p0, Lokhttp3/OkHttpClient$Builder;->connectionSpecs:Ljava/util/List;
+    iput-object v2, p0, Lokhttp3/OkHttpClient$Builder;->connectionSpecs:Ljava/util/List;
 
     .line 468
-    iget-object v0, p0, Lokhttp3/OkHttpClient$Builder;->interceptors:Ljava/util/List;
+    iget-object v2, p1, Lokhttp3/OkHttpClient;->interceptors:Ljava/util/List;
 
-    iget-object v1, p1, Lokhttp3/OkHttpClient;->interceptors:Ljava/util/List;
-
-    invoke-interface {v0, v1}, Ljava/util/List;->addAll(Ljava/util/Collection;)Z
+    invoke-interface {v0, v2}, Ljava/util/List;->addAll(Ljava/util/Collection;)Z
 
     .line 469
-    iget-object v0, p0, Lokhttp3/OkHttpClient$Builder;->networkInterceptors:Ljava/util/List;
+    iget-object v0, p1, Lokhttp3/OkHttpClient;->networkInterceptors:Ljava/util/List;
 
-    iget-object v1, p1, Lokhttp3/OkHttpClient;->networkInterceptors:Ljava/util/List;
-
-    invoke-interface {v0, v1}, Ljava/util/List;->addAll(Ljava/util/Collection;)Z
+    invoke-interface {v1, v0}, Ljava/util/List;->addAll(Ljava/util/Collection;)Z
 
     .line 470
     iget-object v0, p1, Lokhttp3/OkHttpClient;->proxySelector:Ljava/net/ProxySelector;
@@ -391,127 +381,122 @@
     .param p1, "duration"    # J
     .param p3, "unit"    # Ljava/util/concurrent/TimeUnit;
 
-    .prologue
-    const-wide/16 v4, 0x0
-
     .line 534
-    cmp-long v2, p1, v4
+    const-wide/16 v0, 0x0
 
-    if-gez v2, :cond_0
+    cmp-long v2, p1, v0
 
-    new-instance v2, Ljava/lang/IllegalArgumentException;
-
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v3, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    const-string v4, " < 0"
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {v2, v3}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-ltz v2, :cond_4
 
     .line 535
-    :cond_0
-    if-nez p3, :cond_1
-
-    new-instance v2, Ljava/lang/NullPointerException;
-
-    const-string v3, "unit == null"
-
-    invoke-direct {v2, v3}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-eqz p3, :cond_3
 
     .line 536
-    :cond_1
     invoke-virtual {p3, p1, p2}, Ljava/util/concurrent/TimeUnit;->toMillis(J)J
 
-    move-result-wide v0
+    move-result-wide v2
 
     .line 537
-    .local v0, "millis":J
-    const-wide/32 v2, 0x7fffffff
+    .local v2, "millis":J
+    const-wide/32 v4, 0x7fffffff
 
-    cmp-long v2, v0, v2
+    cmp-long v6, v2, v4
 
-    if-lez v2, :cond_2
-
-    new-instance v2, Ljava/lang/IllegalArgumentException;
-
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    invoke-virtual {v3, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    const-string v4, " too large."
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v3
-
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v3
-
-    invoke-direct {v2, v3}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-gtz v6, :cond_2
 
     .line 538
-    :cond_2
-    cmp-long v2, v0, v4
+    cmp-long v4, v2, v0
 
-    if-nez v2, :cond_3
+    if-nez v4, :cond_1
 
-    cmp-long v2, p1, v4
+    cmp-long v4, p1, v0
 
-    if-lez v2, :cond_3
+    if-gtz v4, :cond_0
 
-    new-instance v2, Ljava/lang/IllegalArgumentException;
+    goto :goto_0
 
-    new-instance v3, Ljava/lang/StringBuilder;
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
 
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+    new-instance v1, Ljava/lang/StringBuilder;
 
-    invoke-virtual {v3, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    move-result-object v3
+    invoke-virtual {v1, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     const-string v4, " too small."
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v1
 
-    move-result-object v3
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
 
-    invoke-direct {v2, v3}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    throw v0
 
     .line 539
-    :cond_3
-    long-to-int v2, v0
+    :cond_1
+    :goto_0
+    long-to-int v0, v2
 
-    return v2
+    return v0
+
+    .line 537
+    :cond_2
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v1, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v4, " too large."
+
+    invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 535
+    .end local v2    # "millis":J
+    :cond_3
+    new-instance v0, Ljava/lang/NullPointerException;
+
+    const-string v1, "unit == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 534
+    :cond_4
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v1, p0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v2, " < 0"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 
@@ -520,7 +505,6 @@
     .locals 1
     .param p1, "interceptor"    # Lokhttp3/Interceptor;
 
-    .prologue
     .line 849
     iget-object v0, p0, Lokhttp3/OkHttpClient$Builder;->interceptors:Ljava/util/List;
 
@@ -534,7 +518,6 @@
     .locals 1
     .param p1, "interceptor"    # Lokhttp3/Interceptor;
 
-    .prologue
     .line 863
     iget-object v0, p0, Lokhttp3/OkHttpClient$Builder;->networkInterceptors:Ljava/util/List;
 
@@ -548,10 +531,17 @@
     .locals 2
     .param p1, "authenticator"    # Lokhttp3/Authenticator;
 
-    .prologue
     .line 705
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 706
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->authenticator:Lokhttp3/Authenticator;
+
+    .line 707
+    return-object p0
+
+    .line 705
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "authenticator == null"
@@ -559,19 +549,11 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 706
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->authenticator:Lokhttp3/Authenticator;
-
-    .line 707
-    return-object p0
 .end method
 
 .method public build()Lokhttp3/OkHttpClient;
     .locals 1
 
-    .prologue
     .line 868
     new-instance v0, Lokhttp3/OkHttpClient;
 
@@ -584,7 +566,6 @@
     .locals 1
     .param p1, "cache"    # Lokhttp3/Cache;
 
-    .prologue
     .line 585
     iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->cache:Lokhttp3/Cache;
 
@@ -601,10 +582,17 @@
     .locals 2
     .param p1, "certificatePinner"    # Lokhttp3/CertificatePinner;
 
-    .prologue
     .line 693
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 694
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->certificatePinner:Lokhttp3/CertificatePinner;
+
+    .line 695
+    return-object p0
+
+    .line 693
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "certificatePinner == null"
@@ -612,13 +600,6 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 694
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->certificatePinner:Lokhttp3/CertificatePinner;
-
-    .line 695
-    return-object p0
 .end method
 
 .method public connectTimeout(JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;
@@ -626,7 +607,6 @@
     .param p1, "timeout"    # J
     .param p3, "unit"    # Ljava/util/concurrent/TimeUnit;
 
-    .prologue
     .line 498
     const-string v0, "timeout"
 
@@ -644,10 +624,17 @@
     .locals 2
     .param p1, "connectionPool"    # Lokhttp3/ConnectionPool;
 
-    .prologue
     .line 728
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 729
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->connectionPool:Lokhttp3/ConnectionPool;
+
+    .line 730
+    return-object p0
+
+    .line 728
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "connectionPool == null"
@@ -655,13 +642,6 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 729
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->connectionPool:Lokhttp3/ConnectionPool;
-
-    .line 730
-    return-object p0
 .end method
 
 .method public connectionSpecs(Ljava/util/List;)Lokhttp3/OkHttpClient$Builder;
@@ -669,15 +649,13 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/ConnectionSpec;",
             ">;)",
             "Lokhttp3/OkHttpClient$Builder;"
         }
     .end annotation
 
-    .prologue
     .line 835
     .local p1, "connectionSpecs":Ljava/util/List;, "Ljava/util/List<Lokhttp3/ConnectionSpec;>;"
     invoke-static {p1}, Lokhttp3/internal/Util;->immutableList(Ljava/util/List;)Ljava/util/List;
@@ -694,10 +672,17 @@
     .locals 2
     .param p1, "cookieJar"    # Lokhttp3/CookieJar;
 
-    .prologue
     .line 572
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 573
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->cookieJar:Lokhttp3/CookieJar;
+
+    .line 574
+    return-object p0
+
+    .line 572
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "cookieJar == null"
@@ -705,23 +690,23 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 573
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->cookieJar:Lokhttp3/CookieJar;
-
-    .line 574
-    return-object p0
 .end method
 
 .method public dispatcher(Lokhttp3/Dispatcher;)Lokhttp3/OkHttpClient$Builder;
     .locals 2
     .param p1, "dispatcher"    # Lokhttp3/Dispatcher;
 
-    .prologue
     .line 777
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 778
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->dispatcher:Lokhttp3/Dispatcher;
+
+    .line 779
+    return-object p0
+
+    .line 777
+    :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
     const-string v1, "dispatcher == null"
@@ -729,23 +714,23 @@
     invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 778
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->dispatcher:Lokhttp3/Dispatcher;
-
-    .line 779
-    return-object p0
 .end method
 
 .method public dns(Lokhttp3/Dns;)Lokhttp3/OkHttpClient$Builder;
     .locals 2
     .param p1, "dns"    # Lokhttp3/Dns;
 
-    .prologue
     .line 596
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 597
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->dns:Lokhttp3/Dns;
+
+    .line 598
+    return-object p0
+
+    .line 596
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "dns == null"
@@ -753,20 +738,12 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 597
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->dns:Lokhttp3/Dns;
-
-    .line 598
-    return-object p0
 .end method
 
 .method public followRedirects(Z)Lokhttp3/OkHttpClient$Builder;
     .locals 0
     .param p1, "followRedirects"    # Z
 
-    .prologue
     .line 746
     iput-boolean p1, p0, Lokhttp3/OkHttpClient$Builder;->followRedirects:Z
 
@@ -778,7 +755,6 @@
     .locals 0
     .param p1, "followProtocolRedirects"    # Z
 
-    .prologue
     .line 740
     iput-boolean p1, p0, Lokhttp3/OkHttpClient$Builder;->followSslRedirects:Z
 
@@ -790,10 +766,17 @@
     .locals 2
     .param p1, "hostnameVerifier"    # Ljavax/net/ssl/HostnameVerifier;
 
-    .prologue
     .line 682
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 683
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->hostnameVerifier:Ljavax/net/ssl/HostnameVerifier;
+
+    .line 684
+    return-object p0
+
+    .line 682
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "hostnameVerifier == null"
@@ -801,13 +784,6 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 683
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->hostnameVerifier:Ljavax/net/ssl/HostnameVerifier;
-
-    .line 684
-    return-object p0
 .end method
 
 .method public interceptors()Ljava/util/List;
@@ -815,14 +791,12 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Interceptor;",
             ">;"
         }
     .end annotation
 
-    .prologue
     .line 845
     iget-object v0, p0, Lokhttp3/OkHttpClient$Builder;->interceptors:Ljava/util/List;
 
@@ -834,14 +808,12 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "()",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Interceptor;",
             ">;"
         }
     .end annotation
 
-    .prologue
     .line 859
     iget-object v0, p0, Lokhttp3/OkHttpClient$Builder;->networkInterceptors:Ljava/util/List;
 
@@ -853,7 +825,6 @@
     .param p1, "interval"    # J
     .param p3, "unit"    # Ljava/util/concurrent/TimeUnit;
 
-    .prologue
     .line 529
     const-string v0, "interval"
 
@@ -868,147 +839,136 @@
 .end method
 
 .method public protocols(Ljava/util/List;)Lokhttp3/OkHttpClient$Builder;
-    .locals 4
+    .locals 3
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Protocol;",
             ">;)",
             "Lokhttp3/OkHttpClient$Builder;"
         }
     .end annotation
 
-    .prologue
     .line 811
     .local p1, "protocols":Ljava/util/List;, "Ljava/util/List<Lokhttp3/Protocol;>;"
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0, p1}, Ljava/util/ArrayList;-><init>(Ljava/util/Collection;)V
 
+    move-object p1, v0
+
     .line 814
-    .end local p1    # "protocols":Ljava/util/List;, "Ljava/util/List<Lokhttp3/Protocol;>;"
-    .local v0, "protocols":Ljava/util/List;, "Ljava/util/List<Lokhttp3/Protocol;>;"
-    sget-object v1, Lokhttp3/Protocol;->HTTP_1_1:Lokhttp3/Protocol;
+    sget-object v0, Lokhttp3/Protocol;->HTTP_1_1:Lokhttp3/Protocol;
 
-    invoke-interface {v0, v1}, Ljava/util/List;->contains(Ljava/lang/Object;)Z
+    invoke-interface {p1, v0}, Ljava/util/List;->contains(Ljava/lang/Object;)Z
 
-    move-result v1
+    move-result v0
 
-    if-nez v1, :cond_0
-
-    .line 815
-    new-instance v1, Ljava/lang/IllegalArgumentException;
-
-    new-instance v2, Ljava/lang/StringBuilder;
-
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v3, "protocols doesn\'t contain http/1.1: "
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-direct {v1, v2}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v1
+    if-eqz v0, :cond_3
 
     .line 817
-    :cond_0
-    sget-object v1, Lokhttp3/Protocol;->HTTP_1_0:Lokhttp3/Protocol;
+    sget-object v0, Lokhttp3/Protocol;->HTTP_1_0:Lokhttp3/Protocol;
 
-    invoke-interface {v0, v1}, Ljava/util/List;->contains(Ljava/lang/Object;)Z
+    invoke-interface {p1, v0}, Ljava/util/List;->contains(Ljava/lang/Object;)Z
 
-    move-result v1
+    move-result v0
 
-    if-eqz v1, :cond_1
-
-    .line 818
-    new-instance v1, Ljava/lang/IllegalArgumentException;
-
-    new-instance v2, Ljava/lang/StringBuilder;
-
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v3, "protocols must not contain http/1.0: "
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-direct {v1, v2}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v1
+    if-nez v0, :cond_2
 
     .line 820
-    :cond_1
-    const/4 v1, 0x0
+    const/4 v0, 0x0
 
-    invoke-interface {v0, v1}, Ljava/util/List;->contains(Ljava/lang/Object;)Z
+    invoke-interface {p1, v0}, Ljava/util/List;->contains(Ljava/lang/Object;)Z
 
-    move-result v1
+    move-result v0
 
-    if-eqz v1, :cond_2
-
-    .line 821
-    new-instance v1, Ljava/lang/IllegalArgumentException;
-
-    const-string v2, "protocols must not contain null"
-
-    invoke-direct {v1, v2}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v1
+    if-nez v0, :cond_1
 
     .line 825
-    :cond_2
-    sget-object v1, Lokhttp3/Protocol;->SPDY_3:Lokhttp3/Protocol;
+    sget-object v0, Lokhttp3/Protocol;->SPDY_3:Lokhttp3/Protocol;
 
-    invoke-interface {v0, v1}, Ljava/util/List;->contains(Ljava/lang/Object;)Z
+    invoke-interface {p1, v0}, Ljava/util/List;->contains(Ljava/lang/Object;)Z
 
-    move-result v1
+    move-result v0
 
-    if-eqz v1, :cond_3
+    if-eqz v0, :cond_0
 
     .line 826
-    sget-object v1, Lokhttp3/Protocol;->SPDY_3:Lokhttp3/Protocol;
+    sget-object v0, Lokhttp3/Protocol;->SPDY_3:Lokhttp3/Protocol;
 
-    invoke-interface {v0, v1}, Ljava/util/List;->remove(Ljava/lang/Object;)Z
+    invoke-interface {p1, v0}, Ljava/util/List;->remove(Ljava/lang/Object;)Z
 
     .line 830
-    :cond_3
-    invoke-static {v0}, Ljava/util/Collections;->unmodifiableList(Ljava/util/List;)Ljava/util/List;
+    :cond_0
+    invoke-static {p1}, Ljava/util/Collections;->unmodifiableList(Ljava/util/List;)Ljava/util/List;
 
-    move-result-object v1
+    move-result-object v0
 
-    iput-object v1, p0, Lokhttp3/OkHttpClient$Builder;->protocols:Ljava/util/List;
+    iput-object v0, p0, Lokhttp3/OkHttpClient$Builder;->protocols:Ljava/util/List;
 
     .line 831
     return-object p0
+
+    .line 821
+    :cond_1
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "protocols must not contain null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 818
+    :cond_2
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "protocols must not contain http/1.0: "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 815
+    :cond_3
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v2, "protocols doesn\'t contain http/1.1: "
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public proxy(Ljava/net/Proxy;)Lokhttp3/OkHttpClient$Builder;
     .locals 0
     .param p1, "proxy"    # Ljava/net/Proxy;
 
-    .prologue
     .line 548
     iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->proxy:Ljava/net/Proxy;
 
@@ -1020,10 +980,17 @@
     .locals 2
     .param p1, "proxyAuthenticator"    # Lokhttp3/Authenticator;
 
-    .prologue
     .line 717
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 718
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->proxyAuthenticator:Lokhttp3/Authenticator;
+
+    .line 719
+    return-object p0
+
+    .line 717
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "proxyAuthenticator == null"
@@ -1031,20 +998,12 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 718
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->proxyAuthenticator:Lokhttp3/Authenticator;
-
-    .line 719
-    return-object p0
 .end method
 
 .method public proxySelector(Ljava/net/ProxySelector;)Lokhttp3/OkHttpClient$Builder;
     .locals 0
     .param p1, "proxySelector"    # Ljava/net/ProxySelector;
 
-    .prologue
     .line 561
     iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->proxySelector:Ljava/net/ProxySelector;
 
@@ -1057,7 +1016,6 @@
     .param p1, "timeout"    # J
     .param p3, "unit"    # Ljava/util/concurrent/TimeUnit;
 
-    .prologue
     .line 507
     const-string v0, "timeout"
 
@@ -1075,7 +1033,6 @@
     .locals 0
     .param p1, "retryOnConnectionFailure"    # Z
 
-    .prologue
     .line 769
     iput-boolean p1, p0, Lokhttp3/OkHttpClient$Builder;->retryOnConnectionFailure:Z
 
@@ -1087,7 +1044,6 @@
     .locals 1
     .param p1, "internalCache"    # Lokhttp3/internal/cache/InternalCache;
 
-    .prologue
     .line 579
     iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->internalCache:Lokhttp3/internal/cache/InternalCache;
 
@@ -1104,10 +1060,17 @@
     .locals 2
     .param p1, "socketFactory"    # Ljavax/net/SocketFactory;
 
-    .prologue
     .line 610
-    if-nez p1, :cond_0
+    if-eqz p1, :cond_0
 
+    .line 611
+    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->socketFactory:Ljavax/net/SocketFactory;
+
+    .line 612
+    return-object p0
+
+    .line 610
+    :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "socketFactory == null"
@@ -1115,91 +1078,29 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 611
-    :cond_0
-    iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->socketFactory:Ljavax/net/SocketFactory;
-
-    .line 612
-    return-object p0
 .end method
 
 .method public sslSocketFactory(Ljavax/net/ssl/SSLSocketFactory;)Lokhttp3/OkHttpClient$Builder;
     .locals 4
     .param p1, "sslSocketFactory"    # Ljavax/net/ssl/SSLSocketFactory;
 
-    .prologue
     .line 625
-    if-nez p1, :cond_0
-
-    new-instance v1, Ljava/lang/NullPointerException;
-
-    const-string v2, "sslSocketFactory == null"
-
-    invoke-direct {v1, v2}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
-
-    throw v1
+    if-eqz p1, :cond_1
 
     .line 626
-    :cond_0
     invoke-static {}, Lokhttp3/internal/platform/Platform;->get()Lokhttp3/internal/platform/Platform;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1, p1}, Lokhttp3/internal/platform/Platform;->trustManager(Ljavax/net/ssl/SSLSocketFactory;)Ljavax/net/ssl/X509TrustManager;
+    invoke-virtual {v0, p1}, Lokhttp3/internal/platform/Platform;->trustManager(Ljavax/net/ssl/SSLSocketFactory;)Ljavax/net/ssl/X509TrustManager;
 
     move-result-object v0
 
     .line 627
     .local v0, "trustManager":Ljavax/net/ssl/X509TrustManager;
-    if-nez v0, :cond_1
-
-    .line 628
-    new-instance v1, Ljava/lang/IllegalStateException;
-
-    new-instance v2, Ljava/lang/StringBuilder;
-
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v3, "Unable to extract the trust manager on "
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-static {}, Lokhttp3/internal/platform/Platform;->get()Lokhttp3/internal/platform/Platform;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    const-string v3, ", sslSocketFactory is "
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    .line 629
-    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
-
-    move-result-object v3
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-
-    move-result-object v2
-
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v2
-
-    invoke-direct {v1, v2}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v1
+    if-eqz v0, :cond_0
 
     .line 631
-    :cond_1
     iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->sslSocketFactory:Ljavax/net/ssl/SSLSocketFactory;
 
     .line 632
@@ -1211,17 +1112,47 @@
 
     .line 633
     return-object p0
-.end method
 
-.method public sslSocketFactory(Ljavax/net/ssl/SSLSocketFactory;Ljavax/net/ssl/X509TrustManager;)Lokhttp3/OkHttpClient$Builder;
-    .locals 2
-    .param p1, "sslSocketFactory"    # Ljavax/net/ssl/SSLSocketFactory;
-    .param p2, "trustManager"    # Ljavax/net/ssl/X509TrustManager;
+    .line 628
+    :cond_0
+    new-instance v1, Ljava/lang/IllegalStateException;
 
-    .prologue
-    .line 668
-    if-nez p1, :cond_0
+    new-instance v2, Ljava/lang/StringBuilder;
 
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "Unable to extract the trust manager on "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-static {}, Lokhttp3/internal/platform/Platform;->get()Lokhttp3/internal/platform/Platform;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    const-string v3, ", sslSocketFactory is "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    .line 629
+    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-direct {v1, v2}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    throw v1
+
+    .line 625
+    .end local v0    # "trustManager":Ljavax/net/ssl/X509TrustManager;
+    :cond_1
     new-instance v0, Ljava/lang/NullPointerException;
 
     const-string v1, "sslSocketFactory == null"
@@ -1229,21 +1160,20 @@
     invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
 
     throw v0
+.end method
+
+.method public sslSocketFactory(Ljavax/net/ssl/SSLSocketFactory;Ljavax/net/ssl/X509TrustManager;)Lokhttp3/OkHttpClient$Builder;
+    .locals 2
+    .param p1, "sslSocketFactory"    # Ljavax/net/ssl/SSLSocketFactory;
+    .param p2, "trustManager"    # Ljavax/net/ssl/X509TrustManager;
+
+    .line 668
+    if-eqz p1, :cond_1
 
     .line 669
-    :cond_0
-    if-nez p2, :cond_1
-
-    new-instance v0, Ljava/lang/NullPointerException;
-
-    const-string v1, "trustManager == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p2, :cond_0
 
     .line 670
-    :cond_1
     iput-object p1, p0, Lokhttp3/OkHttpClient$Builder;->sslSocketFactory:Ljavax/net/ssl/SSLSocketFactory;
 
     .line 671
@@ -1255,6 +1185,26 @@
 
     .line 672
     return-object p0
+
+    .line 669
+    :cond_0
+    new-instance v0, Ljava/lang/NullPointerException;
+
+    const-string v1, "trustManager == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 668
+    :cond_1
+    new-instance v0, Ljava/lang/NullPointerException;
+
+    const-string v1, "sslSocketFactory == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public writeTimeout(JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;
@@ -1262,7 +1212,6 @@
     .param p1, "timeout"    # J
     .param p3, "unit"    # Ljava/util/concurrent/TimeUnit;
 
-    .prologue
     .line 516
     const-string v0, "timeout"
 

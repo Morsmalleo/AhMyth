@@ -21,7 +21,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 197
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -38,7 +37,6 @@
         }
     .end annotation
 
-    .prologue
     .line 208
     return-void
 .end method
@@ -51,7 +49,6 @@
         }
     .end annotation
 
-    .prologue
     .line 202
     return-void
 .end method
@@ -59,7 +56,6 @@
 .method public timeout()Lokio/Timeout;
     .locals 1
 
-    .prologue
     .line 205
     sget-object v0, Lokio/Timeout;->NONE:Lokio/Timeout;
 
@@ -76,7 +72,6 @@
         }
     .end annotation
 
-    .prologue
     .line 199
     invoke-virtual {p1, p2, p3}, Lokio/Buffer;->skip(J)V
 

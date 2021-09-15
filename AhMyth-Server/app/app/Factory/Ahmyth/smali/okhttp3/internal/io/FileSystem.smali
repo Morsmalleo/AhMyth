@@ -11,7 +11,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 42
     new-instance v0, Lokhttp3/internal/io/FileSystem$1;
 

@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/WebSocket$2;
 
-    .prologue
     .line 132
     iput-object p1, p0, Lio/socket/engineio/client/transports/WebSocket$2$5;->this$1:Lio/socket/engineio/client/transports/WebSocket$2;
 
@@ -44,20 +43,18 @@
 .method public run()V
     .locals 3
 
-    .prologue
     .line 135
     iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$2$5;->this$1:Lio/socket/engineio/client/transports/WebSocket$2;
 
-    iget-object v1, v0, Lio/socket/engineio/client/transports/WebSocket$2;->val$self:Lio/socket/engineio/client/transports/WebSocket;
+    iget-object v0, v0, Lio/socket/engineio/client/transports/WebSocket$2;->val$self:Lio/socket/engineio/client/transports/WebSocket;
+
+    iget-object v1, p0, Lio/socket/engineio/client/transports/WebSocket$2$5;->val$t:Ljava/lang/Throwable;
+
+    check-cast v1, Ljava/lang/Exception;
 
     const-string v2, "websocket error"
 
-    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$2$5;->val$t:Ljava/lang/Throwable;
-
-    check-cast v0, Ljava/lang/Exception;
-
-    # invokes: Lio/socket/engineio/client/transports/WebSocket;->onError(Ljava/lang/String;Ljava/lang/Exception;)Lio/socket/engineio/client/Transport;
-    invoke-static {v1, v2, v0}, Lio/socket/engineio/client/transports/WebSocket;->access$400(Lio/socket/engineio/client/transports/WebSocket;Ljava/lang/String;Ljava/lang/Exception;)Lio/socket/engineio/client/Transport;
+    invoke-static {v0, v2, v1}, Lio/socket/engineio/client/transports/WebSocket;->access$400(Lio/socket/engineio/client/transports/WebSocket;Ljava/lang/String;Ljava/lang/Exception;)Lio/socket/engineio/client/Transport;
 
     .line 136
     return-void

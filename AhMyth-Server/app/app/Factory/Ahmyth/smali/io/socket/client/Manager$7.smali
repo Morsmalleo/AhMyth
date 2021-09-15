@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .prologue
     .line 380
     iput-object p1, p0, Lio/socket/client/Manager$7;->this$0:Lio/socket/client/Manager;
 
@@ -41,18 +40,16 @@
     .locals 2
     .param p1, "objects"    # [Ljava/lang/Object;
 
-    .prologue
     .line 383
-    iget-object v1, p0, Lio/socket/client/Manager$7;->this$0:Lio/socket/client/Manager;
+    iget-object v0, p0, Lio/socket/client/Manager$7;->this$0:Lio/socket/client/Manager;
 
-    const/4 v0, 0x0
+    const/4 v1, 0x0
 
-    aget-object v0, p1, v0
+    aget-object v1, p1, v1
 
-    check-cast v0, Lio/socket/parser/Packet;
+    check-cast v1, Lio/socket/parser/Packet;
 
-    # invokes: Lio/socket/client/Manager;->ondecoded(Lio/socket/parser/Packet;)V
-    invoke-static {v1, v0}, Lio/socket/client/Manager;->access$1600(Lio/socket/client/Manager;Lio/socket/parser/Packet;)V
+    invoke-static {v0, v1}, Lio/socket/client/Manager;->access$1600(Lio/socket/client/Manager;Lio/socket/parser/Packet;)V
 
     .line 384
     return-void

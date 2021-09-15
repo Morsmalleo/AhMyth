@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$2"    # Lio/socket/client/Manager$11$1;
 
-    .prologue
     .line 560
     iput-object p1, p0, Lio/socket/client/Manager$11$1$1;->this$2:Lio/socket/client/Manager$11$1;
 
@@ -38,17 +37,13 @@
 
 # virtual methods
 .method public call(Ljava/lang/Exception;)V
-    .locals 4
+    .locals 3
     .param p1, "err"    # Ljava/lang/Exception;
-
-    .prologue
-    const/4 v3, 0x0
 
     .line 563
     if-eqz p1, :cond_0
 
     .line 564
-    # getter for: Lio/socket/client/Manager;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/client/Manager;->access$000()Ljava/util/logging/Logger;
 
     move-result-object v0
@@ -64,8 +59,9 @@
 
     iget-object v0, v0, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    # setter for: Lio/socket/client/Manager;->reconnecting:Z
-    invoke-static {v0, v3}, Lio/socket/client/Manager;->access$2102(Lio/socket/client/Manager;Z)Z
+    const/4 v1, 0x0
+
+    invoke-static {v0, v1}, Lio/socket/client/Manager;->access$2102(Lio/socket/client/Manager;Z)Z
 
     .line 566
     iget-object v0, p0, Lio/socket/client/Manager$11$1$1;->this$2:Lio/socket/client/Manager$11$1;
@@ -74,7 +70,6 @@
 
     iget-object v0, v0, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    # invokes: Lio/socket/client/Manager;->reconnect()V
     invoke-static {v0}, Lio/socket/client/Manager;->access$2200(Lio/socket/client/Manager;)V
 
     .line 567
@@ -84,24 +79,20 @@
 
     iget-object v0, v0, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    const-string v1, "reconnect_error"
-
     const/4 v2, 0x1
 
     new-array v2, v2, [Ljava/lang/Object;
 
-    aput-object p1, v2, v3
+    aput-object p1, v2, v1
 
-    # invokes: Lio/socket/client/Manager;->emitAll(Ljava/lang/String;[Ljava/lang/Object;)V
+    const-string v1, "reconnect_error"
+
     invoke-static {v0, v1, v2}, Lio/socket/client/Manager;->access$600(Lio/socket/client/Manager;Ljava/lang/String;[Ljava/lang/Object;)V
 
-    .line 572
-    :goto_0
-    return-void
+    goto :goto_0
 
     .line 569
     :cond_0
-    # getter for: Lio/socket/client/Manager;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/client/Manager;->access$000()Ljava/util/logging/Logger;
 
     move-result-object v0
@@ -117,8 +108,9 @@
 
     iget-object v0, v0, Lio/socket/client/Manager$11;->val$self:Lio/socket/client/Manager;
 
-    # invokes: Lio/socket/client/Manager;->onreconnect()V
     invoke-static {v0}, Lio/socket/client/Manager;->access$2300(Lio/socket/client/Manager;)V
 
-    goto :goto_0
+    .line 572
+    :goto_0
+    return-void
 .end method

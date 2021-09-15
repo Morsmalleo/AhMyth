@@ -34,8 +34,7 @@
 .field public query:Ljava/util/Map;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/Map",
-            "<",
+            "Ljava/util/Map<",
             "Ljava/lang/String;",
             "Ljava/lang/String;",
             ">;"
@@ -58,13 +57,12 @@
 .method public constructor <init>()V
     .locals 1
 
-    .prologue
-    const/4 v0, -0x1
-
     .line 149
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     .line 156
+    const/4 v0, -0x1
+
     iput v0, p0, Lio/socket/engineio/client/Transport$Options;->port:I
 
     .line 157

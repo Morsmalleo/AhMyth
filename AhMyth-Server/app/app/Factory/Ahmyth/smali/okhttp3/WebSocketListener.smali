@@ -7,7 +7,6 @@
 .method public constructor <init>()V
     .locals 0
 
-    .prologue
     .line 20
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -22,7 +21,6 @@
     .param p2, "code"    # I
     .param p3, "reason"    # Ljava/lang/String;
 
-    .prologue
     .line 45
     return-void
 .end method
@@ -33,7 +31,6 @@
     .param p2, "code"    # I
     .param p3, "reason"    # Ljava/lang/String;
 
-    .prologue
     .line 38
     return-void
 .end method
@@ -44,7 +41,6 @@
     .param p2, "t"    # Ljava/lang/Throwable;
     .param p3, "response"    # Lokhttp3/Response;
 
-    .prologue
     .line 53
     return-void
 .end method
@@ -54,7 +50,6 @@
     .param p1, "webSocket"    # Lokhttp3/WebSocket;
     .param p2, "text"    # Ljava/lang/String;
 
-    .prologue
     .line 30
     return-void
 .end method
@@ -64,7 +59,6 @@
     .param p1, "webSocket"    # Lokhttp3/WebSocket;
     .param p2, "bytes"    # Lokio/ByteString;
 
-    .prologue
     .line 34
     return-void
 .end method
@@ -74,7 +68,6 @@
     .param p1, "webSocket"    # Lokhttp3/WebSocket;
     .param p2, "response"    # Lokhttp3/Response;
 
-    .prologue
     .line 26
     return-void
 .end method

@@ -11,7 +11,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 36
     new-instance v0, Lokhttp3/CookieJar$1;
 
@@ -30,8 +29,7 @@
             "(",
             "Lokhttp3/HttpUrl;",
             ")",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Cookie;",
             ">;"
         }
@@ -43,8 +41,7 @@
         value = {
             "(",
             "Lokhttp3/HttpUrl;",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/Cookie;",
             ">;)V"
         }

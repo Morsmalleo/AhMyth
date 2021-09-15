@@ -16,7 +16,6 @@
     .param p1, "format"    # Ljava/lang/String;
     .param p2, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 24
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -39,13 +38,12 @@
 .method public final run()V
     .locals 3
 
-    .prologue
     .line 29
     invoke-static {}, Ljava/lang/Thread;->currentThread()Ljava/lang/Thread;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1}, Ljava/lang/Thread;->getName()Ljava/lang/String;
+    invoke-virtual {v0}, Ljava/lang/Thread;->getName()Ljava/lang/String;
 
     move-result-object v0
 
@@ -71,6 +69,9 @@
     move-result-object v1
 
     invoke-virtual {v1, v0}, Ljava/lang/Thread;->setName(Ljava/lang/String;)V
+
+    .line 35
+    nop
 
     .line 36
     return-void

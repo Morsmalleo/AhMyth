@@ -32,7 +32,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Socket;
 
-    .prologue
     .line 349
     iput-object p1, p0, Lio/socket/client/Socket$7;->this$0:Lio/socket/client/Socket;
 
@@ -53,7 +52,6 @@
     .locals 1
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 352
     new-instance v0, Lio/socket/client/Socket$7$1;
 

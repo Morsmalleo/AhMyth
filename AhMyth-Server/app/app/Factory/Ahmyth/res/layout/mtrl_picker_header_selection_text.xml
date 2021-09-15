@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:gravity="start|bottom|center" android:layout_gravity="start|center|top" android:id="@id/mtrl_picker_header_selection_text" android:paddingBottom="@dimen/mtrl_calendar_pre_l_text_clip_padding" android:layout_width="fill_parent" android:layout_height="wrap_content" app:firstBaselineToTopHeight="@dimen/mtrl_calendar_selection_text_baseline_to_top" app:lineHeight="@dimen/mtrl_calendar_header_selection_line_height" style="?materialCalendarHeaderSelection"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" />

@@ -1,4 +1,4 @@
-<div class="ui segment {{load}} full" style="overflow-y:auto;overflow-x: auto;white-space:nowrap;" id="parent">
+<div class="ui segment {{load}} full" style="overflow-y:auto;overflow-x: auto;white-space:nowrap; height: 400px;" id="parent">
     <div class="ui list" style="overflow-y:auto;white-space:nowrap;" infinite-scroll="increaseLimit()" infinite-scroll-container='"#parent"'>
         <div class="item" ng-repeat="file in files | limitTo:barLimit | orderBy:['-isDir','name']">
 

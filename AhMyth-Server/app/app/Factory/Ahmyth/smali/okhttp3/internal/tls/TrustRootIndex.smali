@@ -16,7 +16,6 @@
 .method public constructor <init>()V
     .locals 0
 
-    .prologue
     .line 30
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -24,51 +23,46 @@
 .end method
 
 .method public static get(Ljavax/net/ssl/X509TrustManager;)Lokhttp3/internal/tls/TrustRootIndex;
-    .locals 7
+    .locals 6
     .param p0, "trustManager"    # Ljavax/net/ssl/X509TrustManager;
 
-    .prologue
     .line 38
     :try_start_0
     invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
 
-    move-result-object v2
+    move-result-object v0
 
-    const-string v3, "findTrustAnchorByIssuerAndSignature"
+    const-string v1, "findTrustAnchorByIssuerAndSignature"
 
-    const/4 v4, 0x1
-
-    new-array v4, v4, [Ljava/lang/Class;
-
-    const/4 v5, 0x0
-
-    const-class v6, Ljava/security/cert/X509Certificate;
-
-    aput-object v6, v4, v5
-
-    invoke-virtual {v2, v3, v4}, Ljava/lang/Class;->getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
-
-    move-result-object v1
-
-    .line 40
-    .local v1, "method":Ljava/lang/reflect/Method;
     const/4 v2, 0x1
 
-    invoke-virtual {v1, v2}, Ljava/lang/reflect/Method;->setAccessible(Z)V
+    new-array v3, v2, [Ljava/lang/Class;
+
+    const/4 v4, 0x0
+
+    const-class v5, Ljava/security/cert/X509Certificate;
+
+    aput-object v5, v3, v4
+
+    invoke-virtual {v0, v1, v3}, Ljava/lang/Class;->getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+
+    move-result-object v0
+
+    .line 40
+    .local v0, "method":Ljava/lang/reflect/Method;
+    invoke-virtual {v0, v2}, Ljava/lang/reflect/Method;->setAccessible(Z)V
 
     .line 41
-    new-instance v2, Lokhttp3/internal/tls/TrustRootIndex$AndroidTrustRootIndex;
+    new-instance v1, Lokhttp3/internal/tls/TrustRootIndex$AndroidTrustRootIndex;
 
-    invoke-direct {v2, p0, v1}, Lokhttp3/internal/tls/TrustRootIndex$AndroidTrustRootIndex;-><init>(Ljavax/net/ssl/X509TrustManager;Ljava/lang/reflect/Method;)V
+    invoke-direct {v1, p0, v0}, Lokhttp3/internal/tls/TrustRootIndex$AndroidTrustRootIndex;-><init>(Ljavax/net/ssl/X509TrustManager;Ljava/lang/reflect/Method;)V
     :try_end_0
     .catch Ljava/lang/NoSuchMethodException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 43
-    .end local v1    # "method":Ljava/lang/reflect/Method;
-    :goto_0
-    return-object v2
+    return-object v1
 
     .line 42
+    .end local v0    # "method":Ljava/lang/reflect/Method;
     :catch_0
     move-exception v0
 
@@ -76,20 +70,19 @@
     .local v0, "e":Ljava/lang/NoSuchMethodException;
     invoke-interface {p0}, Ljavax/net/ssl/X509TrustManager;->getAcceptedIssuers()[Ljava/security/cert/X509Certificate;
 
-    move-result-object v2
+    move-result-object v1
 
-    invoke-static {v2}, Lokhttp3/internal/tls/TrustRootIndex;->get([Ljava/security/cert/X509Certificate;)Lokhttp3/internal/tls/TrustRootIndex;
+    invoke-static {v1}, Lokhttp3/internal/tls/TrustRootIndex;->get([Ljava/security/cert/X509Certificate;)Lokhttp3/internal/tls/TrustRootIndex;
 
-    move-result-object v2
+    move-result-object v1
 
-    goto :goto_0
+    return-object v1
 .end method
 
 .method public static varargs get([Ljava/security/cert/X509Certificate;)Lokhttp3/internal/tls/TrustRootIndex;
     .locals 1
     .param p0, "caCerts"    # [Ljava/security/cert/X509Certificate;
 
-    .prologue
     .line 48
     new-instance v0, Lokhttp3/internal/tls/TrustRootIndex$BasicTrustRootIndex;
 

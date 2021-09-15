@@ -27,18 +27,17 @@
 .method static constructor <clinit>()V
     .locals 2
 
-    .prologue
-    const/16 v1, 0x100
-
     .line 37
-    new-array v0, v1, [I
+    const/16 v0, 0x100
 
-    fill-array-data v0, :array_0
+    new-array v1, v0, [I
 
-    sput-object v0, Lokhttp3/internal/http2/Huffman;->CODES:[I
+    fill-array-data v1, :array_0
+
+    sput-object v1, Lokhttp3/internal/http2/Huffman;->CODES:[I
 
     .line 65
-    new-array v0, v1, [B
+    new-array v0, v0, [B
 
     fill-array-data v0, :array_1
 
@@ -53,7 +52,6 @@
 
     return-void
 
-    .line 37
     :array_0
     .array-data 4
         0x1ff8
@@ -314,7 +312,6 @@
         0x3ffffee
     .end array-data
 
-    .line 65
     :array_1
     .array-data 1
         0xdt
@@ -579,7 +576,6 @@
 .method private constructor <init>()V
     .locals 1
 
-    .prologue
     .line 87
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -598,117 +594,119 @@
 .end method
 
 .method private addCode(IIB)V
-    .locals 8
+    .locals 7
     .param p1, "sym"    # I
     .param p2, "code"    # I
     .param p3, "len"    # B
 
-    .prologue
     .line 173
-    new-instance v5, Lokhttp3/internal/http2/Huffman$Node;
+    new-instance v0, Lokhttp3/internal/http2/Huffman$Node;
 
-    invoke-direct {v5, p1, p3}, Lokhttp3/internal/http2/Huffman$Node;-><init>(II)V
+    invoke-direct {v0, p1, p3}, Lokhttp3/internal/http2/Huffman$Node;-><init>(II)V
 
     .line 175
-    .local v5, "terminal":Lokhttp3/internal/http2/Huffman$Node;
-    iget-object v0, p0, Lokhttp3/internal/http2/Huffman;->root:Lokhttp3/internal/http2/Huffman$Node;
+    .local v0, "terminal":Lokhttp3/internal/http2/Huffman$Node;
+    iget-object v1, p0, Lokhttp3/internal/http2/Huffman;->root:Lokhttp3/internal/http2/Huffman$Node;
 
     .line 176
-    .local v0, "current":Lokhttp3/internal/http2/Huffman$Node;
+    .local v1, "current":Lokhttp3/internal/http2/Huffman$Node;
     :goto_0
-    const/16 v6, 0x8
+    const/16 v2, 0x8
 
-    if-le p3, v6, :cond_2
+    if-le p3, v2, :cond_2
 
     .line 177
-    add-int/lit8 v6, p3, -0x8
+    add-int/lit8 v2, p3, -0x8
 
-    int-to-byte p3, v6
+    int-to-byte p3, v2
 
     .line 178
-    ushr-int v6, p2, p3
+    ushr-int v2, p2, p3
 
-    and-int/lit16 v2, v6, 0xff
+    and-int/lit16 v2, v2, 0xff
 
     .line 179
     .local v2, "i":I
-    iget-object v6, v0, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    iget-object v3, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
-    if-nez v6, :cond_0
-
-    .line 180
-    new-instance v6, Ljava/lang/IllegalStateException;
-
-    const-string v7, "invalid dictionary: prefix not unique"
-
-    invoke-direct {v6, v7}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v6
+    if-eqz v3, :cond_1
 
     .line 182
-    :cond_0
-    iget-object v6, v0, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    iget-object v3, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
-    aget-object v6, v6, v2
+    aget-object v3, v3, v2
 
-    if-nez v6, :cond_1
+    if-nez v3, :cond_0
 
     .line 183
-    iget-object v6, v0, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    iget-object v3, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
-    new-instance v7, Lokhttp3/internal/http2/Huffman$Node;
+    new-instance v4, Lokhttp3/internal/http2/Huffman$Node;
 
-    invoke-direct {v7}, Lokhttp3/internal/http2/Huffman$Node;-><init>()V
+    invoke-direct {v4}, Lokhttp3/internal/http2/Huffman$Node;-><init>()V
 
-    aput-object v7, v6, v2
+    aput-object v4, v3, v2
 
     .line 185
-    :cond_1
-    iget-object v6, v0, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    :cond_0
+    iget-object v3, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
-    aget-object v0, v6, v2
+    aget-object v1, v3, v2
 
     .line 186
+    .end local v2    # "i":I
     goto :goto_0
+
+    .line 180
+    .restart local v2    # "i":I
+    :cond_1
+    new-instance v3, Ljava/lang/IllegalStateException;
+
+    const-string v4, "invalid dictionary: prefix not unique"
+
+    invoke-direct {v3, v4}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    throw v3
 
     .line 188
     .end local v2    # "i":I
     :cond_2
-    rsub-int/lit8 v3, p3, 0x8
+    rsub-int/lit8 v2, p3, 0x8
 
     .line 189
-    .local v3, "shift":I
-    shl-int v6, p2, v3
+    .local v2, "shift":I
+    shl-int v3, p2, v2
 
-    and-int/lit16 v4, v6, 0xff
+    and-int/lit16 v3, v3, 0xff
 
     .line 190
-    .local v4, "start":I
-    const/4 v6, 0x1
+    .local v3, "start":I
+    const/4 v4, 0x1
 
-    shl-int v1, v6, v3
+    shl-int/2addr v4, v2
 
     .line 191
-    .local v1, "end":I
-    move v2, v4
+    .local v4, "end":I
+    move v5, v3
 
-    .restart local v2    # "i":I
+    .local v5, "i":I
     :goto_1
-    add-int v6, v4, v1
+    add-int v6, v3, v4
 
-    if-ge v2, v6, :cond_3
+    if-ge v5, v6, :cond_3
 
     .line 192
-    iget-object v6, v0, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    iget-object v6, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
-    aput-object v5, v6, v2
+    aput-object v0, v6, v5
 
     .line 191
-    add-int/lit8 v2, v2, 0x1
+    add-int/lit8 v5, v5, 0x1
 
     goto :goto_1
 
     .line 194
+    .end local v5    # "i":I
     :cond_3
     return-void
 .end method
@@ -716,7 +714,6 @@
 .method private buildTree()V
     .locals 3
 
-    .prologue
     .line 167
     const/4 v0, 0x0
 
@@ -724,20 +721,18 @@
     :goto_0
     sget-object v1, Lokhttp3/internal/http2/Huffman;->CODE_LENGTHS:[B
 
-    array-length v1, v1
+    array-length v2, v1
 
-    if-ge v0, v1, :cond_0
+    if-ge v0, v2, :cond_0
 
     .line 168
-    sget-object v1, Lokhttp3/internal/http2/Huffman;->CODES:[I
+    sget-object v2, Lokhttp3/internal/http2/Huffman;->CODES:[I
 
-    aget v1, v1, v0
+    aget v2, v2, v0
 
-    sget-object v2, Lokhttp3/internal/http2/Huffman;->CODE_LENGTHS:[B
+    aget-byte v1, v1, v0
 
-    aget-byte v2, v2, v0
-
-    invoke-direct {p0, v0, v1, v2}, Lokhttp3/internal/http2/Huffman;->addCode(IIB)V
+    invoke-direct {p0, v0, v2, v1}, Lokhttp3/internal/http2/Huffman;->addCode(IIB)V
 
     .line 167
     add-int/lit8 v0, v0, 0x1
@@ -745,6 +740,7 @@
     goto :goto_0
 
     .line 170
+    .end local v0    # "i":I
     :cond_0
     return-void
 .end method
@@ -752,7 +748,6 @@
 .method public static get()Lokhttp3/internal/http2/Huffman;
     .locals 1
 
-    .prologue
     .line 82
     sget-object v0, Lokhttp3/internal/http2/Huffman;->INSTANCE:Lokhttp3/internal/http2/Huffman;
 
@@ -765,155 +760,163 @@
     .locals 8
     .param p1, "buf"    # [B
 
-    .prologue
     .line 129
-    new-instance v1, Ljava/io/ByteArrayOutputStream;
+    new-instance v0, Ljava/io/ByteArrayOutputStream;
 
-    invoke-direct {v1}, Ljava/io/ByteArrayOutputStream;-><init>()V
+    invoke-direct {v0}, Ljava/io/ByteArrayOutputStream;-><init>()V
 
     .line 130
-    .local v1, "baos":Ljava/io/ByteArrayOutputStream;
-    iget-object v6, p0, Lokhttp3/internal/http2/Huffman;->root:Lokhttp3/internal/http2/Huffman$Node;
+    .local v0, "baos":Ljava/io/ByteArrayOutputStream;
+    iget-object v1, p0, Lokhttp3/internal/http2/Huffman;->root:Lokhttp3/internal/http2/Huffman$Node;
 
     .line 131
-    .local v6, "node":Lokhttp3/internal/http2/Huffman$Node;
-    const/4 v3, 0x0
+    .local v1, "node":Lokhttp3/internal/http2/Huffman$Node;
+    const/4 v2, 0x0
 
     .line 132
-    .local v3, "current":I
-    const/4 v5, 0x0
+    .local v2, "current":I
+    const/4 v3, 0x0
 
     .line 133
-    .local v5, "nbits":I
+    .local v3, "nbits":I
     const/4 v4, 0x0
 
     .local v4, "i":I
     :goto_0
-    array-length v7, p1
+    array-length v5, p1
 
-    if-ge v4, v7, :cond_3
+    if-ge v4, v5, :cond_2
 
     .line 134
-    aget-byte v7, p1, v4
+    aget-byte v5, p1, v4
 
-    and-int/lit16 v0, v7, 0xff
+    and-int/lit16 v5, v5, 0xff
 
     .line 135
-    .local v0, "b":I
-    shl-int/lit8 v7, v3, 0x8
+    .local v5, "b":I
+    shl-int/lit8 v6, v2, 0x8
 
-    or-int v3, v7, v0
+    or-int v2, v6, v5
 
     .line 136
-    add-int/lit8 v5, v5, 0x8
+    add-int/lit8 v3, v3, 0x8
 
     .line 137
     :goto_1
-    const/16 v7, 0x8
+    const/16 v6, 0x8
 
-    if-lt v5, v7, :cond_1
+    if-lt v3, v6, :cond_1
 
     .line 138
-    add-int/lit8 v7, v5, -0x8
+    add-int/lit8 v6, v3, -0x8
 
-    ushr-int v7, v3, v7
+    ushr-int v6, v2, v6
 
-    and-int/lit16 v2, v7, 0xff
+    and-int/lit16 v6, v6, 0xff
 
     .line 139
-    .local v2, "c":I
-    iget-object v7, v6, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    .local v6, "c":I
+    iget-object v7, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
-    aget-object v6, v7, v2
+    aget-object v1, v7, v6
 
     .line 140
-    iget-object v7, v6, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    iget-object v7, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
     if-nez v7, :cond_0
 
     .line 142
-    iget v7, v6, Lokhttp3/internal/http2/Huffman$Node;->symbol:I
+    iget v7, v1, Lokhttp3/internal/http2/Huffman$Node;->symbol:I
 
-    invoke-virtual {v1, v7}, Ljava/io/ByteArrayOutputStream;->write(I)V
+    invoke-virtual {v0, v7}, Ljava/io/ByteArrayOutputStream;->write(I)V
 
     .line 143
-    iget v7, v6, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
+    iget v7, v1, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
 
-    sub-int/2addr v5, v7
+    sub-int/2addr v3, v7
 
     .line 144
-    iget-object v6, p0, Lokhttp3/internal/http2/Huffman;->root:Lokhttp3/internal/http2/Huffman$Node;
+    iget-object v1, p0, Lokhttp3/internal/http2/Huffman;->root:Lokhttp3/internal/http2/Huffman$Node;
 
-    goto :goto_1
+    goto :goto_2
 
     .line 147
     :cond_0
-    add-int/lit8 v5, v5, -0x8
+    add-int/lit8 v3, v3, -0x8
 
+    .line 149
+    .end local v6    # "c":I
+    :goto_2
     goto :goto_1
 
     .line 133
-    .end local v2    # "c":I
+    .end local v5    # "b":I
     :cond_1
     add-int/lit8 v4, v4, 0x1
 
     goto :goto_0
 
-    .line 158
-    .end local v0    # "b":I
-    .restart local v2    # "c":I
-    :cond_2
-    iget v7, v6, Lokhttp3/internal/http2/Huffman$Node;->symbol:I
-
-    invoke-virtual {v1, v7}, Ljava/io/ByteArrayOutputStream;->write(I)V
-
-    .line 159
-    iget v7, v6, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
-
-    sub-int/2addr v5, v7
-
-    .line 160
-    iget-object v6, p0, Lokhttp3/internal/http2/Huffman;->root:Lokhttp3/internal/http2/Huffman$Node;
-
     .line 152
-    .end local v2    # "c":I
-    :cond_3
-    if-lez v5, :cond_4
+    .end local v4    # "i":I
+    :cond_2
+    :goto_3
+    if-lez v3, :cond_4
 
     .line 153
-    rsub-int/lit8 v7, v5, 0x8
+    rsub-int/lit8 v4, v3, 0x8
 
-    shl-int v7, v3, v7
+    shl-int v4, v2, v4
 
-    and-int/lit16 v2, v7, 0xff
+    and-int/lit16 v4, v4, 0xff
 
     .line 154
-    .restart local v2    # "c":I
-    iget-object v7, v6, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    .local v4, "c":I
+    iget-object v5, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
-    aget-object v6, v7, v2
+    aget-object v1, v5, v4
 
     .line 155
-    iget-object v7, v6, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
+    iget-object v5, v1, Lokhttp3/internal/http2/Huffman$Node;->children:[Lokhttp3/internal/http2/Huffman$Node;
 
-    if-nez v7, :cond_4
+    if-nez v5, :cond_4
 
-    iget v7, v6, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
+    iget v5, v1, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
 
-    if-le v7, v5, :cond_2
+    if-le v5, v3, :cond_3
+
+    .line 156
+    goto :goto_4
+
+    .line 158
+    :cond_3
+    iget v5, v1, Lokhttp3/internal/http2/Huffman$Node;->symbol:I
+
+    invoke-virtual {v0, v5}, Ljava/io/ByteArrayOutputStream;->write(I)V
+
+    .line 159
+    iget v5, v1, Lokhttp3/internal/http2/Huffman$Node;->terminalBits:I
+
+    sub-int/2addr v3, v5
+
+    .line 160
+    iget-object v1, p0, Lokhttp3/internal/http2/Huffman;->root:Lokhttp3/internal/http2/Huffman$Node;
+
+    .line 161
+    .end local v4    # "c":I
+    goto :goto_3
 
     .line 163
-    .end local v2    # "c":I
     :cond_4
-    invoke-virtual {v1}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
+    :goto_4
+    invoke-virtual {v0}, Ljava/io/ByteArrayOutputStream;->toByteArray()[B
 
-    move-result-object v7
+    move-result-object v4
 
-    return-object v7
+    return-object v4
 .end method
 
 .method encode(Lokio/ByteString;Lokio/BufferedSink;)V
-    .locals 10
+    .locals 9
     .param p1, "data"    # Lokio/ByteString;
     .param p2, "sink"    # Lokio/BufferedSink;
     .annotation system Ldalvik/annotation/Throws;
@@ -922,106 +925,106 @@
         }
     .end annotation
 
-    .prologue
     .line 92
-    const-wide/16 v2, 0x0
+    const-wide/16 v0, 0x0
 
     .line 93
-    .local v2, "current":J
-    const/4 v5, 0x0
+    .local v0, "current":J
+    const/4 v2, 0x0
 
     .line 95
-    .local v5, "n":I
-    const/4 v4, 0x0
+    .local v2, "n":I
+    const/4 v3, 0x0
 
-    .local v4, "i":I
+    .local v3, "i":I
     :goto_0
     invoke-virtual {p1}, Lokio/ByteString;->size()I
 
-    move-result v7
+    move-result v4
 
-    if-ge v4, v7, :cond_1
+    const/16 v5, 0xff
+
+    if-ge v3, v4, :cond_1
 
     .line 96
-    invoke-virtual {p1, v4}, Lokio/ByteString;->getByte(I)B
+    invoke-virtual {p1, v3}, Lokio/ByteString;->getByte(I)B
 
-    move-result v7
+    move-result v4
 
-    and-int/lit16 v0, v7, 0xff
+    and-int/2addr v4, v5
 
     .line 97
-    .local v0, "b":I
-    sget-object v7, Lokhttp3/internal/http2/Huffman;->CODES:[I
+    .local v4, "b":I
+    sget-object v5, Lokhttp3/internal/http2/Huffman;->CODES:[I
 
-    aget v1, v7, v0
+    aget v5, v5, v4
 
     .line 98
-    .local v1, "code":I
-    sget-object v7, Lokhttp3/internal/http2/Huffman;->CODE_LENGTHS:[B
+    .local v5, "code":I
+    sget-object v6, Lokhttp3/internal/http2/Huffman;->CODE_LENGTHS:[B
 
-    aget-byte v6, v7, v0
+    aget-byte v6, v6, v4
 
     .line 100
     .local v6, "nbits":I
-    shl-long/2addr v2, v6
+    shl-long/2addr v0, v6
 
     .line 101
-    int-to-long v8, v1
+    int-to-long v7, v5
 
-    or-long/2addr v2, v8
+    or-long/2addr v0, v7
 
     .line 102
-    add-int/2addr v5, v6
+    add-int/2addr v2, v6
 
     .line 104
     :goto_1
     const/16 v7, 0x8
 
-    if-lt v5, v7, :cond_0
+    if-lt v2, v7, :cond_0
 
     .line 105
-    add-int/lit8 v5, v5, -0x8
+    add-int/lit8 v2, v2, -0x8
 
     .line 106
-    shr-long v8, v2, v5
+    shr-long v7, v0, v2
 
-    long-to-int v7, v8
+    long-to-int v8, v7
 
-    invoke-interface {p2, v7}, Lokio/BufferedSink;->writeByte(I)Lokio/BufferedSink;
+    invoke-interface {p2, v8}, Lokio/BufferedSink;->writeByte(I)Lokio/BufferedSink;
 
     goto :goto_1
 
     .line 95
+    .end local v4    # "b":I
+    .end local v5    # "code":I
+    .end local v6    # "nbits":I
     :cond_0
-    add-int/lit8 v4, v4, 0x1
+    add-int/lit8 v3, v3, 0x1
 
     goto :goto_0
 
     .line 110
-    .end local v0    # "b":I
-    .end local v1    # "code":I
-    .end local v6    # "nbits":I
+    .end local v3    # "i":I
     :cond_1
-    if-lez v5, :cond_2
+    if-lez v2, :cond_2
 
     .line 111
-    rsub-int/lit8 v7, v5, 0x8
+    rsub-int/lit8 v3, v2, 0x8
 
-    shl-long/2addr v2, v7
+    shl-long/2addr v0, v3
 
     .line 112
-    const/16 v7, 0xff
+    ushr-int v3, v5, v2
 
-    ushr-int/2addr v7, v5
+    int-to-long v3, v3
 
-    int-to-long v8, v7
-
-    or-long/2addr v2, v8
+    or-long/2addr v0, v3
 
     .line 113
-    long-to-int v7, v2
+    long-to-int v3, v0
 
-    invoke-interface {p2, v7}, Lokio/BufferedSink;->writeByte(I)Lokio/BufferedSink;
+    invoke-interface {p2, v3}, Lokio/BufferedSink;->writeByte(I)Lokio/BufferedSink;
 
     .line 115
     :cond_2
@@ -1029,59 +1032,59 @@
 .end method
 
 .method encodedLength(Lokio/ByteString;)I
-    .locals 7
+    .locals 6
     .param p1, "bytes"    # Lokio/ByteString;
 
-    .prologue
     .line 118
-    const-wide/16 v2, 0x0
+    const-wide/16 v0, 0x0
 
     .line 120
-    .local v2, "len":J
-    const/4 v1, 0x0
+    .local v0, "len":J
+    const/4 v2, 0x0
 
-    .local v1, "i":I
+    .local v2, "i":I
     :goto_0
     invoke-virtual {p1}, Lokio/ByteString;->size()I
 
-    move-result v4
+    move-result v3
 
-    if-ge v1, v4, :cond_0
+    if-ge v2, v3, :cond_0
 
     .line 121
-    invoke-virtual {p1, v1}, Lokio/ByteString;->getByte(I)B
+    invoke-virtual {p1, v2}, Lokio/ByteString;->getByte(I)B
 
-    move-result v4
+    move-result v3
 
-    and-int/lit16 v0, v4, 0xff
+    and-int/lit16 v3, v3, 0xff
 
     .line 122
-    .local v0, "b":I
+    .local v3, "b":I
     sget-object v4, Lokhttp3/internal/http2/Huffman;->CODE_LENGTHS:[B
 
-    aget-byte v4, v4, v0
+    aget-byte v4, v4, v3
 
     int-to-long v4, v4
 
-    add-long/2addr v2, v4
+    add-long/2addr v0, v4
 
     .line 120
-    add-int/lit8 v1, v1, 0x1
+    .end local v3    # "b":I
+    add-int/lit8 v2, v2, 0x1
 
     goto :goto_0
 
     .line 125
-    .end local v0    # "b":I
+    .end local v2    # "i":I
     :cond_0
-    const-wide/16 v4, 0x7
+    const-wide/16 v2, 0x7
 
-    add-long/2addr v4, v2
+    add-long/2addr v2, v0
 
-    const/4 v6, 0x3
+    const/4 v4, 0x3
 
-    shr-long/2addr v4, v6
+    shr-long/2addr v2, v4
 
-    long-to-int v4, v4
+    long-to-int v3, v2
 
-    return v4
+    return v3
 .end method

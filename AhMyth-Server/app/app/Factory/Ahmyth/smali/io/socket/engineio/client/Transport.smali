@@ -48,8 +48,7 @@
 .field public query:Ljava/util/Map;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/Map",
-            "<",
+            "Ljava/util/Map<",
             "Ljava/lang/String;",
             "Ljava/lang/String;",
             ">;"
@@ -77,7 +76,6 @@
     .locals 1
     .param p1, "opts"    # Lio/socket/engineio/client/Transport$Options;
 
-    .prologue
     .line 53
     invoke-direct {p0}, Lio/socket/emitter/Emitter;-><init>()V
 
@@ -155,7 +153,6 @@
 .method public close()Lio/socket/engineio/client/Transport;
     .locals 1
 
-    .prologue
     .line 90
     new-instance v0, Lio/socket/engineio/client/Transport$2;
 
@@ -176,20 +173,19 @@
 .method protected onClose()V
     .locals 2
 
-    .prologue
     .line 138
     sget-object v0, Lio/socket/engineio/client/Transport$ReadyState;->CLOSED:Lio/socket/engineio/client/Transport$ReadyState;
 
     iput-object v0, p0, Lio/socket/engineio/client/Transport;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
 
     .line 139
-    const-string v0, "close"
+    const/4 v0, 0x0
 
-    const/4 v1, 0x0
+    new-array v0, v0, [Ljava/lang/Object;
 
-    new-array v1, v1, [Ljava/lang/Object;
+    const-string v1, "close"
 
-    invoke-virtual {p0, v0, v1}, Lio/socket/engineio/client/Transport;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {p0, v1, v0}, Lio/socket/engineio/client/Transport;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
     .line 140
     return-void
@@ -199,7 +195,6 @@
     .locals 1
     .param p1, "data"    # Ljava/lang/String;
 
-    .prologue
     .line 126
     invoke-static {p1}, Lio/socket/engineio/parser/Parser;->decodePacket(Ljava/lang/String;)Lio/socket/engineio/parser/Packet;
 
@@ -215,7 +210,6 @@
     .locals 1
     .param p1, "data"    # [B
 
-    .prologue
     .line 130
     invoke-static {p1}, Lio/socket/engineio/parser/Parser;->decodePacket([B)Lio/socket/engineio/parser/Packet;
 
@@ -228,11 +222,10 @@
 .end method
 
 .method protected onError(Ljava/lang/String;Ljava/lang/Exception;)Lio/socket/engineio/client/Transport;
-    .locals 4
+    .locals 3
     .param p1, "msg"    # Ljava/lang/String;
     .param p2, "desc"    # Ljava/lang/Exception;
 
-    .prologue
     .line 71
     new-instance v0, Lio/socket/engineio/client/EngineIOException;
 
@@ -240,17 +233,17 @@
 
     .line 72
     .local v0, "err":Ljava/lang/Exception;
-    const-string v1, "error"
+    const/4 v1, 0x1
 
-    const/4 v2, 0x1
+    new-array v1, v1, [Ljava/lang/Object;
 
-    new-array v2, v2, [Ljava/lang/Object;
+    const/4 v2, 0x0
 
-    const/4 v3, 0x0
+    aput-object v0, v1, v2
 
-    aput-object v0, v2, v3
+    const-string v2, "error"
 
-    invoke-virtual {p0, v1, v2}, Lio/socket/engineio/client/Transport;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {p0, v2, v1}, Lio/socket/engineio/client/Transport;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
     .line 73
     return-object p0
@@ -259,7 +252,6 @@
 .method protected onOpen()V
     .locals 2
 
-    .prologue
     .line 120
     sget-object v0, Lio/socket/engineio/client/Transport$ReadyState;->OPEN:Lio/socket/engineio/client/Transport$ReadyState;
 
@@ -271,35 +263,34 @@
     iput-boolean v0, p0, Lio/socket/engineio/client/Transport;->writable:Z
 
     .line 122
-    const-string v0, "open"
+    const/4 v0, 0x0
 
-    const/4 v1, 0x0
+    new-array v0, v0, [Ljava/lang/Object;
 
-    new-array v1, v1, [Ljava/lang/Object;
+    const-string v1, "open"
 
-    invoke-virtual {p0, v0, v1}, Lio/socket/engineio/client/Transport;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {p0, v1, v0}, Lio/socket/engineio/client/Transport;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
     .line 123
     return-void
 .end method
 
 .method protected onPacket(Lio/socket/engineio/parser/Packet;)V
-    .locals 3
+    .locals 2
     .param p1, "packet"    # Lio/socket/engineio/parser/Packet;
 
-    .prologue
     .line 134
-    const-string v0, "packet"
+    const/4 v0, 0x1
 
-    const/4 v1, 0x1
+    new-array v0, v0, [Ljava/lang/Object;
 
-    new-array v1, v1, [Ljava/lang/Object;
+    const/4 v1, 0x0
 
-    const/4 v2, 0x0
+    aput-object p1, v0, v1
 
-    aput-object p1, v1, v2
+    const-string v1, "packet"
 
-    invoke-virtual {p0, v0, v1}, Lio/socket/engineio/client/Transport;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {p0, v1, v0}, Lio/socket/engineio/client/Transport;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
     .line 135
     return-void
@@ -308,7 +299,6 @@
 .method public open()Lio/socket/engineio/client/Transport;
     .locals 1
 
-    .prologue
     .line 77
     new-instance v0, Lio/socket/engineio/client/Transport$1;
 
@@ -324,7 +314,6 @@
     .locals 1
     .param p1, "packets"    # [Lio/socket/engineio/parser/Packet;
 
-    .prologue
     .line 103
     new-instance v0, Lio/socket/engineio/client/Transport$3;
 

@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/PollingXHR$5;
 
-    .prologue
     .line 104
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$5$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$5;
 
@@ -44,66 +43,63 @@
 .method public run()V
     .locals 3
 
-    .prologue
     .line 107
-    iget-object v1, p0, Lio/socket/engineio/client/transports/PollingXHR$5$1;->val$args:[Ljava/lang/Object;
+    iget-object v0, p0, Lio/socket/engineio/client/transports/PollingXHR$5$1;->val$args:[Ljava/lang/Object;
 
-    array-length v1, v1
+    array-length v1, v0
 
-    if-lez v1, :cond_1
+    if-lez v1, :cond_0
 
-    iget-object v1, p0, Lio/socket/engineio/client/transports/PollingXHR$5$1;->val$args:[Ljava/lang/Object;
+    const/4 v1, 0x0
 
-    const/4 v2, 0x0
+    aget-object v0, v0, v1
 
-    aget-object v0, v1, v2
+    goto :goto_0
+
+    :cond_0
+    const/4 v0, 0x0
 
     .line 108
     .local v0, "arg":Ljava/lang/Object;
     :goto_0
     instance-of v1, v0, Ljava/lang/String;
 
-    if-eqz v1, :cond_2
+    if-eqz v1, :cond_1
 
     .line 109
     iget-object v1, p0, Lio/socket/engineio/client/transports/PollingXHR$5$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$5;
 
     iget-object v1, v1, Lio/socket/engineio/client/transports/PollingXHR$5;->val$self:Lio/socket/engineio/client/transports/PollingXHR;
 
-    check-cast v0, Ljava/lang/String;
+    move-object v2, v0
 
-    .end local v0    # "arg":Ljava/lang/Object;
-    invoke-virtual {v1, v0}, Lio/socket/engineio/client/transports/PollingXHR;->onData(Ljava/lang/String;)V
+    check-cast v2, Ljava/lang/String;
 
-    .line 113
-    :cond_0
-    :goto_1
-    return-void
+    invoke-virtual {v1, v2}, Lio/socket/engineio/client/transports/PollingXHR;->onData(Ljava/lang/String;)V
 
-    .line 107
-    :cond_1
-    const/4 v0, 0x0
-
-    goto :goto_0
+    goto :goto_1
 
     .line 110
-    .restart local v0    # "arg":Ljava/lang/Object;
-    :cond_2
+    :cond_1
     instance-of v1, v0, [B
 
-    if-eqz v1, :cond_0
+    if-eqz v1, :cond_2
 
     .line 111
     iget-object v1, p0, Lio/socket/engineio/client/transports/PollingXHR$5$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$5;
 
     iget-object v1, v1, Lio/socket/engineio/client/transports/PollingXHR$5;->val$self:Lio/socket/engineio/client/transports/PollingXHR;
 
-    check-cast v0, [B
+    move-object v2, v0
 
-    .end local v0    # "arg":Ljava/lang/Object;
-    check-cast v0, [B
+    check-cast v2, [B
 
-    invoke-virtual {v1, v0}, Lio/socket/engineio/client/transports/PollingXHR;->onData([B)V
+    check-cast v2, [B
 
-    goto :goto_1
+    invoke-virtual {v1, v2}, Lio/socket/engineio/client/transports/PollingXHR;->onData([B)V
+
+    .line 113
+    :cond_2
+    :goto_1
+    return-void
 .end method

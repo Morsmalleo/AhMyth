@@ -24,7 +24,6 @@
     .param p1, "this$0"    # Lokhttp3/internal/http2/Http2Codec;
     .param p2, "delegate"    # Lokio/Source;
 
-    .prologue
     .line 171
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Codec$StreamFinishingSource;->this$0:Lokhttp3/internal/http2/Http2Codec;
 
@@ -45,17 +44,16 @@
         }
     .end annotation
 
-    .prologue
     .line 176
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Codec$StreamFinishingSource;->this$0:Lokhttp3/internal/http2/Http2Codec;
 
     iget-object v0, v0, Lokhttp3/internal/http2/Http2Codec;->streamAllocation:Lokhttp3/internal/connection/StreamAllocation;
 
-    const/4 v1, 0x0
+    iget-object v1, p0, Lokhttp3/internal/http2/Http2Codec$StreamFinishingSource;->this$0:Lokhttp3/internal/http2/Http2Codec;
 
-    iget-object v2, p0, Lokhttp3/internal/http2/Http2Codec$StreamFinishingSource;->this$0:Lokhttp3/internal/http2/Http2Codec;
+    const/4 v2, 0x0
 
-    invoke-virtual {v0, v1, v2}, Lokhttp3/internal/connection/StreamAllocation;->streamFinished(ZLokhttp3/internal/http/HttpCodec;)V
+    invoke-virtual {v0, v2, v1}, Lokhttp3/internal/connection/StreamAllocation;->streamFinished(ZLokhttp3/internal/http/HttpCodec;)V
 
     .line 177
     invoke-super {p0}, Lokio/ForwardingSource;->close()V

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:id="@id/mtrl_picker_fullscreen" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/mtrl_picker_header_fullscreen" />
+    <FrameLayout android:id="@id/mtrl_calendar_frame" android:paddingLeft="@dimen/mtrl_calendar_content_padding" android:paddingRight="@dimen/mtrl_calendar_content_padding" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingStart="@dimen/mtrl_calendar_content_padding" android:paddingEnd="@dimen/mtrl_calendar_content_padding" />
+</LinearLayout>

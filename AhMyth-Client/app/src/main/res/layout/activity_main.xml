@@ -4,26 +4,43 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ahmyth.mine.king.ahmyth.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/camera_preview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:layout_above="@+id/btnCapture" />
-
-    <Button
-        android:text="Button"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:padding="20dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/btnCapture"
-        android:onClick="onClick"/>
+        android:layout_marginTop="100dp"
+        android:text="Oops! Failed to open Google Play. \nPlease open it manually"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="#C70039"
+        android:gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open Google Play"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:padding="15dp"
+        android:background="#1B5E20"
+        android:textColor="#fff"
+        android:id="@+id/openGooglePlayBtn"
+        android:onClick="openGooglePlay"/>
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hide App Icon"
+        android:textStyle="bold"
+        android:layout_below="@+id/openGooglePlayBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:visibility="invisible"/>
+
 
 </RelativeLayout>

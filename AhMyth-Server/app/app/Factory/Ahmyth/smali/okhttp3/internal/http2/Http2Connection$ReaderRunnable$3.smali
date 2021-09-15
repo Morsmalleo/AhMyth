@@ -27,7 +27,6 @@
     .param p2, "format"    # Ljava/lang/String;
     .param p3, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 695
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$3;->this$1:Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;
 
@@ -43,7 +42,6 @@
 .method public execute()V
     .locals 2
 
-    .prologue
     .line 698
     :try_start_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$3;->this$1:Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;
@@ -58,13 +56,14 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 701
-    :goto_0
-    return-void
+    .line 700
+    goto :goto_0
 
     .line 699
     :catch_0
     move-exception v0
 
-    goto :goto_0
+    .line 701
+    :goto_0
+    return-void
 .end method

@@ -18,50 +18,19 @@
     .param p2, "proxy"    # Ljava/net/Proxy;
     .param p3, "inetSocketAddress"    # Ljava/net/InetSocketAddress;
 
-    .prologue
     .line 41
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     .line 42
-    if-nez p1, :cond_0
-
-    .line 43
-    new-instance v0, Ljava/lang/NullPointerException;
-
-    const-string v1, "address == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p1, :cond_2
 
     .line 45
-    :cond_0
-    if-nez p2, :cond_1
-
-    .line 46
-    new-instance v0, Ljava/lang/NullPointerException;
-
-    const-string v1, "proxy == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p2, :cond_1
 
     .line 48
-    :cond_1
-    if-nez p3, :cond_2
-
-    .line 49
-    new-instance v0, Ljava/lang/NullPointerException;
-
-    const-string v1, "inetSocketAddress == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p3, :cond_0
 
     .line 51
-    :cond_2
     iput-object p1, p0, Lokhttp3/Route;->address:Lokhttp3/Address;
 
     .line 52
@@ -72,6 +41,36 @@
 
     .line 54
     return-void
+
+    .line 49
+    :cond_0
+    new-instance v0, Ljava/lang/NullPointerException;
+
+    const-string v1, "inetSocketAddress == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 46
+    :cond_1
+    new-instance v0, Ljava/lang/NullPointerException;
+
+    const-string v1, "proxy == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 43
+    :cond_2
+    new-instance v0, Ljava/lang/NullPointerException;
+
+    const-string v1, "address == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/NullPointerException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 
@@ -79,7 +78,6 @@
 .method public address()Lokhttp3/Address;
     .locals 1
 
-    .prologue
     .line 57
     iget-object v0, p0, Lokhttp3/Route;->address:Lokhttp3/Address;
 
@@ -90,17 +88,16 @@
     .locals 4
     .param p1, "obj"    # Ljava/lang/Object;
 
-    .prologue
+    .line 83
+    instance-of v0, p1, Lokhttp3/Route;
+
     const/4 v1, 0x0
 
-    .line 83
-    instance-of v2, p1, Lokhttp3/Route;
-
-    if-eqz v2, :cond_0
-
-    move-object v0, p1
+    if-eqz v0, :cond_1
 
     .line 84
+    move-object v0, p1
+
     check-cast v0, Lokhttp3/Route;
 
     .line 85
@@ -139,31 +136,43 @@
 
     const/4 v1, 0x1
 
+    goto :goto_0
+
+    :cond_0
+    nop
+
+    .line 85
+    :goto_0
+    return v1
+
     .line 89
     .end local v0    # "other":Lokhttp3/Route;
-    :cond_0
+    :cond_1
     return v1
 .end method
 
 .method public hashCode()I
     .locals 3
 
-    .prologue
     .line 93
     const/16 v0, 0x11
 
     .line 94
     .local v0, "result":I
-    iget-object v1, p0, Lokhttp3/Route;->address:Lokhttp3/Address;
+    mul-int/lit8 v1, v0, 0x1f
 
-    invoke-virtual {v1}, Lokhttp3/Address;->hashCode()I
+    iget-object v2, p0, Lokhttp3/Route;->address:Lokhttp3/Address;
 
-    move-result v1
+    invoke-virtual {v2}, Lokhttp3/Address;->hashCode()I
 
-    add-int/lit16 v0, v1, 0x20f
+    move-result v2
+
+    add-int/2addr v1, v2
 
     .line 95
-    mul-int/lit8 v1, v0, 0x1f
+    .end local v0    # "result":I
+    .local v1, "result":I
+    mul-int/lit8 v0, v1, 0x1f
 
     iget-object v2, p0, Lokhttp3/Route;->proxy:Ljava/net/Proxy;
 
@@ -171,9 +180,11 @@
 
     move-result v2
 
-    add-int v0, v1, v2
+    add-int/2addr v0, v2
 
     .line 96
+    .end local v1    # "result":I
+    .restart local v0    # "result":I
     mul-int/lit8 v1, v0, 0x1f
 
     iget-object v2, p0, Lokhttp3/Route;->inetSocketAddress:Ljava/net/InetSocketAddress;
@@ -182,16 +193,17 @@
 
     move-result v2
 
-    add-int v0, v1, v2
+    add-int/2addr v1, v2
 
     .line 97
-    return v0
+    .end local v0    # "result":I
+    .restart local v1    # "result":I
+    return v1
 .end method
 
 .method public proxy()Ljava/net/Proxy;
     .locals 1
 
-    .prologue
     .line 67
     iget-object v0, p0, Lokhttp3/Route;->proxy:Ljava/net/Proxy;
 
@@ -201,7 +213,6 @@
 .method public requiresTunnel()Z
     .locals 2
 
-    .prologue
     .line 79
     iget-object v0, p0, Lokhttp3/Route;->address:Lokhttp3/Address;
 
@@ -221,19 +232,18 @@
 
     const/4 v0, 0x1
 
-    :goto_0
-    return v0
+    goto :goto_0
 
     :cond_0
     const/4 v0, 0x0
 
-    goto :goto_0
+    :goto_0
+    return v0
 .end method
 
 .method public socketAddress()Ljava/net/InetSocketAddress;
     .locals 1
 
-    .prologue
     .line 71
     iget-object v0, p0, Lokhttp3/Route;->inetSocketAddress:Ljava/net/InetSocketAddress;
 

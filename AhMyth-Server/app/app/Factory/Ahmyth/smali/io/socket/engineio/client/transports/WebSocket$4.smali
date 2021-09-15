@@ -32,7 +32,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/WebSocket;
 
-    .prologue
     .line 169
     iput-object p1, p0, Lio/socket/engineio/client/transports/WebSocket$4;->this$0:Lio/socket/engineio/client/transports/WebSocket;
 
@@ -50,84 +49,61 @@
 
 # virtual methods
 .method public call(Ljava/lang/Object;)V
-    .locals 4
+    .locals 3
     .param p1, "packet"    # Ljava/lang/Object;
 
-    .prologue
     .line 173
     :try_start_0
-    instance-of v1, p1, Ljava/lang/String;
+    instance-of v0, p1, Ljava/lang/String;
 
-    if-eqz v1, :cond_2
+    if-eqz v0, :cond_0
 
     .line 174
-    iget-object v1, p0, Lio/socket/engineio/client/transports/WebSocket$4;->val$self:Lio/socket/engineio/client/transports/WebSocket;
+    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$4;->val$self:Lio/socket/engineio/client/transports/WebSocket;
 
-    # getter for: Lio/socket/engineio/client/transports/WebSocket;->ws:Lokhttp3/WebSocket;
-    invoke-static {v1}, Lio/socket/engineio/client/transports/WebSocket;->access$500(Lio/socket/engineio/client/transports/WebSocket;)Lokhttp3/WebSocket;
+    invoke-static {v0}, Lio/socket/engineio/client/transports/WebSocket;->access$500(Lio/socket/engineio/client/transports/WebSocket;)Lokhttp3/WebSocket;
+
+    move-result-object v0
+
+    move-object v1, p1
+
+    check-cast v1, Ljava/lang/String;
+
+    invoke-interface {v0, v1}, Lokhttp3/WebSocket;->send(Ljava/lang/String;)Z
+
+    goto :goto_0
+
+    .line 175
+    :cond_0
+    instance-of v0, p1, [B
+
+    if-eqz v0, :cond_1
+
+    .line 176
+    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$4;->val$self:Lio/socket/engineio/client/transports/WebSocket;
+
+    invoke-static {v0}, Lio/socket/engineio/client/transports/WebSocket;->access$500(Lio/socket/engineio/client/transports/WebSocket;)Lokhttp3/WebSocket;
+
+    move-result-object v0
+
+    move-object v1, p1
+
+    check-cast v1, [B
+
+    check-cast v1, [B
+
+    invoke-static {v1}, Lokio/ByteString;->of([B)Lokio/ByteString;
 
     move-result-object v1
 
-    check-cast p1, Ljava/lang/String;
-
-    .end local p1    # "packet":Ljava/lang/Object;
-    invoke-interface {v1, p1}, Lokhttp3/WebSocket;->send(Ljava/lang/String;)Z
+    invoke-interface {v0, v1}, Lokhttp3/WebSocket;->send(Lokio/ByteString;)Z
     :try_end_0
     .catch Ljava/lang/IllegalStateException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 182
-    :cond_0
-    :goto_0
-    iget-object v1, p0, Lio/socket/engineio/client/transports/WebSocket$4;->val$total:[I
-
-    const/4 v2, 0x0
-
-    aget v3, v1, v2
-
-    add-int/lit8 v3, v3, -0x1
-
-    aput v3, v1, v2
-
-    if-nez v3, :cond_1
-
-    iget-object v1, p0, Lio/socket/engineio/client/transports/WebSocket$4;->val$done:Ljava/lang/Runnable;
-
-    invoke-interface {v1}, Ljava/lang/Runnable;->run()V
-
-    .line 183
+    .line 180
     :cond_1
-    return-void
-
-    .line 175
-    .restart local p1    # "packet":Ljava/lang/Object;
-    :cond_2
-    :try_start_1
-    instance-of v1, p1, [B
-
-    if-eqz v1, :cond_0
-
-    .line 176
-    iget-object v1, p0, Lio/socket/engineio/client/transports/WebSocket$4;->val$self:Lio/socket/engineio/client/transports/WebSocket;
-
-    # getter for: Lio/socket/engineio/client/transports/WebSocket;->ws:Lokhttp3/WebSocket;
-    invoke-static {v1}, Lio/socket/engineio/client/transports/WebSocket;->access$500(Lio/socket/engineio/client/transports/WebSocket;)Lokhttp3/WebSocket;
-
-    move-result-object v1
-
-    check-cast p1, [B
-
-    .end local p1    # "packet":Ljava/lang/Object;
-    check-cast p1, [B
-
-    invoke-static {p1}, Lokio/ByteString;->of([B)Lokio/ByteString;
-
-    move-result-object v2
-
-    invoke-interface {v1, v2}, Lokhttp3/WebSocket;->send(Lokio/ByteString;)Z
-    :try_end_1
-    .catch Ljava/lang/IllegalStateException; {:try_start_1 .. :try_end_1} :catch_0
-
-    goto :goto_0
+    :goto_0
+    goto :goto_1
 
     .line 178
     :catch_0
@@ -135,7 +111,6 @@
 
     .line 179
     .local v0, "e":Ljava/lang/IllegalStateException;
-    # getter for: Lio/socket/engineio/client/transports/WebSocket;->logger:Ljava/util/logging/Logger;
     invoke-static {}, Lio/socket/engineio/client/transports/WebSocket;->access$600()Ljava/util/logging/Logger;
 
     move-result-object v1
@@ -144,5 +119,26 @@
 
     invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    goto :goto_0
+    .line 182
+    .end local v0    # "e":Ljava/lang/IllegalStateException;
+    :goto_1
+    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$4;->val$total:[I
+
+    const/4 v1, 0x0
+
+    aget v2, v0, v1
+
+    add-int/lit8 v2, v2, -0x1
+
+    aput v2, v0, v1
+
+    if-nez v2, :cond_2
+
+    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$4;->val$done:Ljava/lang/Runnable;
+
+    invoke-interface {v0}, Ljava/lang/Runnable;->run()V
+
+    .line 183
+    :cond_2
+    return-void
 .end method

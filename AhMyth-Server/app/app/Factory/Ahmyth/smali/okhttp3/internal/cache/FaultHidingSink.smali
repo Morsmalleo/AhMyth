@@ -12,7 +12,6 @@
     .locals 0
     .param p1, "delegate"    # Lokio/Sink;
 
-    .prologue
     .line 28
     invoke-direct {p0, p1}, Lokio/ForwardingSink;-><init>(Lokio/Sink;)V
 
@@ -30,14 +29,11 @@
         }
     .end annotation
 
-    .prologue
     .line 55
-    iget-boolean v1, p0, Lokhttp3/internal/cache/FaultHidingSink;->hasErrors:Z
+    iget-boolean v0, p0, Lokhttp3/internal/cache/FaultHidingSink;->hasErrors:Z
 
-    if-eqz v1, :cond_0
+    if-eqz v0, :cond_0
 
-    .line 62
-    :goto_0
     return-void
 
     .line 57
@@ -47,6 +43,7 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
+    .line 61
     goto :goto_0
 
     .line 58
@@ -62,7 +59,10 @@
     .line 60
     invoke-virtual {p0, v0}, Lokhttp3/internal/cache/FaultHidingSink;->onException(Ljava/io/IOException;)V
 
-    goto :goto_0
+    .line 62
+    .end local v0    # "e":Ljava/io/IOException;
+    :goto_0
+    return-void
 .end method
 
 .method public flush()V
@@ -73,14 +73,11 @@
         }
     .end annotation
 
-    .prologue
     .line 45
-    iget-boolean v1, p0, Lokhttp3/internal/cache/FaultHidingSink;->hasErrors:Z
+    iget-boolean v0, p0, Lokhttp3/internal/cache/FaultHidingSink;->hasErrors:Z
 
-    if-eqz v1, :cond_0
+    if-eqz v0, :cond_0
 
-    .line 52
-    :goto_0
     return-void
 
     .line 47
@@ -90,6 +87,7 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
+    .line 51
     goto :goto_0
 
     .line 48
@@ -105,14 +103,16 @@
     .line 50
     invoke-virtual {p0, v0}, Lokhttp3/internal/cache/FaultHidingSink;->onException(Ljava/io/IOException;)V
 
-    goto :goto_0
+    .line 52
+    .end local v0    # "e":Ljava/io/IOException;
+    :goto_0
+    return-void
 .end method
 
 .method protected onException(Ljava/io/IOException;)V
     .locals 0
     .param p1, "e"    # Ljava/io/IOException;
 
-    .prologue
     .line 65
     return-void
 .end method
@@ -127,17 +127,15 @@
         }
     .end annotation
 
-    .prologue
     .line 32
-    iget-boolean v1, p0, Lokhttp3/internal/cache/FaultHidingSink;->hasErrors:Z
+    iget-boolean v0, p0, Lokhttp3/internal/cache/FaultHidingSink;->hasErrors:Z
 
-    if-eqz v1, :cond_0
+    if-eqz v0, :cond_0
 
     .line 33
     invoke-virtual {p1, p2, p3}, Lokio/Buffer;->skip(J)V
 
-    .line 42
-    :goto_0
+    .line 34
     return-void
 
     .line 37
@@ -147,6 +145,7 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
+    .line 41
     goto :goto_0
 
     .line 38
@@ -162,5 +161,8 @@
     .line 40
     invoke-virtual {p0, v0}, Lokhttp3/internal/cache/FaultHidingSink;->onException(Ljava/io/IOException;)V
 
-    goto :goto_0
+    .line 42
+    .end local v0    # "e":Ljava/io/IOException;
+    :goto_0
+    return-void
 .end method

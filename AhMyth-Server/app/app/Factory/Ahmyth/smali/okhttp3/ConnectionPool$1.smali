@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/ConnectionPool;
 
-    .prologue
     .line 55
     iput-object p1, p0, Lokhttp3/ConnectionPool$1;->this$0:Lokhttp3/ConnectionPool;
 
@@ -38,86 +37,98 @@
 
 # virtual methods
 .method public run()V
-    .locals 10
-
-    .prologue
-    const-wide/32 v8, 0xf4240
+    .locals 7
 
     .line 58
-    :cond_0
     :goto_0
-    iget-object v4, p0, Lokhttp3/ConnectionPool$1;->this$0:Lokhttp3/ConnectionPool;
+    iget-object v0, p0, Lokhttp3/ConnectionPool$1;->this$0:Lokhttp3/ConnectionPool;
 
     invoke-static {}, Ljava/lang/System;->nanoTime()J
 
-    move-result-wide v6
+    move-result-wide v1
 
-    invoke-virtual {v4, v6, v7}, Lokhttp3/ConnectionPool;->cleanup(J)J
+    invoke-virtual {v0, v1, v2}, Lokhttp3/ConnectionPool;->cleanup(J)J
 
-    move-result-wide v2
+    move-result-wide v0
 
     .line 59
-    .local v2, "waitNanos":J
-    const-wide/16 v4, -0x1
+    .local v0, "waitNanos":J
+    const-wide/16 v2, -0x1
 
-    cmp-long v4, v2, v4
+    cmp-long v4, v0, v2
 
-    if-nez v4, :cond_1
+    if-nez v4, :cond_0
 
     return-void
 
     .line 60
-    :cond_1
-    const-wide/16 v4, 0x0
+    :cond_0
+    const-wide/16 v2, 0x0
 
-    cmp-long v4, v2, v4
+    cmp-long v4, v0, v2
 
-    if-lez v4, :cond_0
+    if-lez v4, :cond_1
 
     .line 61
-    div-long v0, v2, v8
+    const-wide/32 v2, 0xf4240
+
+    div-long v4, v0, v2
 
     .line 62
-    .local v0, "waitMillis":J
-    mul-long v4, v0, v8
+    .local v4, "waitMillis":J
+    mul-long v2, v2, v4
 
-    sub-long/2addr v2, v4
+    sub-long v2, v0, v2
 
     .line 63
-    iget-object v5, p0, Lokhttp3/ConnectionPool$1;->this$0:Lokhttp3/ConnectionPool;
+    .end local v0    # "waitNanos":J
+    .local v2, "waitNanos":J
+    iget-object v6, p0, Lokhttp3/ConnectionPool$1;->this$0:Lokhttp3/ConnectionPool;
 
-    monitor-enter v5
+    monitor-enter v6
 
     .line 65
     :try_start_0
-    iget-object v4, p0, Lokhttp3/ConnectionPool$1;->this$0:Lokhttp3/ConnectionPool;
+    iget-object v0, p0, Lokhttp3/ConnectionPool$1;->this$0:Lokhttp3/ConnectionPool;
 
-    long-to-int v6, v2
+    long-to-int v1, v2
 
-    invoke-virtual {v4, v0, v1, v6}, Ljava/lang/Object;->wait(JI)V
+    invoke-virtual {v0, v4, v5, v1}, Ljava/lang/Object;->wait(JI)V
     :try_end_0
     .catch Ljava/lang/InterruptedException; {:try_start_0 .. :try_end_0} :catch_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
+    .line 67
+    goto :goto_1
+
     .line 68
-    :goto_1
-    :try_start_1
-    monitor-exit v5
-
-    goto :goto_0
-
     :catchall_0
-    move-exception v4
+    move-exception v0
 
-    monitor-exit v5
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_0
-
-    throw v4
+    goto :goto_2
 
     .line 66
     :catch_0
-    move-exception v4
+    move-exception v0
 
-    goto :goto_1
+    .line 68
+    :goto_1
+    :try_start_1
+    monitor-exit v6
+
+    goto :goto_3
+
+    :goto_2
+    monitor-exit v6
+    :try_end_1
+    .catchall {:try_start_1 .. :try_end_1} :catchall_0
+
+    throw v0
+
+    .line 70
+    .end local v2    # "waitNanos":J
+    .end local v4    # "waitMillis":J
+    :cond_1
+    :goto_3
+    goto :goto_0
 .end method

@@ -25,7 +25,6 @@
 .method private constructor <init>(Lokhttp3/internal/ws/RealWebSocket;)V
     .locals 0
 
-    .prologue
     .line 489
     iput-object p1, p0, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
@@ -39,7 +38,6 @@
     .param p1, "x0"    # Lokhttp3/internal/ws/RealWebSocket;
     .param p2, "x1"    # Lokhttp3/internal/ws/RealWebSocket$1;
 
-    .prologue
     .line 489
     invoke-direct {p0, p1}, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;-><init>(Lokhttp3/internal/ws/RealWebSocket;)V
 
@@ -51,11 +49,9 @@
 .method public run()V
     .locals 1
 
-    .prologue
     .line 491
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
-    # invokes: Lokhttp3/internal/ws/RealWebSocket;->writePingFrame()V
     invoke-static {v0}, Lokhttp3/internal/ws/RealWebSocket;->access$100(Lokhttp3/internal/ws/RealWebSocket;)V
 
     .line 492

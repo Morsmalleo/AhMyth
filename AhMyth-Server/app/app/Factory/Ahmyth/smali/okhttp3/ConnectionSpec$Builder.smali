@@ -29,7 +29,6 @@
     .locals 1
     .param p1, "connectionSpec"    # Lokhttp3/ConnectionSpec;
 
-    .prologue
     .line 263
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -61,7 +60,6 @@
     .locals 0
     .param p1, "tls"    # Z
 
-    .prologue
     .line 259
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -77,12 +75,21 @@
 .method public allEnabledCipherSuites()Lokhttp3/ConnectionSpec$Builder;
     .locals 2
 
-    .prologue
     .line 271
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    if-nez v0, :cond_0
+    if-eqz v0, :cond_0
 
+    .line 272
+    const/4 v0, 0x0
+
+    iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->cipherSuites:[Ljava/lang/String;
+
+    .line 273
+    return-object p0
+
+    .line 271
+    :cond_0
     new-instance v0, Ljava/lang/IllegalStateException;
 
     const-string v1, "no cipher suites for cleartext connections"
@@ -90,26 +97,26 @@
     invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 272
-    :cond_0
-    const/4 v0, 0x0
-
-    iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->cipherSuites:[Ljava/lang/String;
-
-    .line 273
-    return-object p0
 .end method
 
 .method public allEnabledTlsVersions()Lokhttp3/ConnectionSpec$Builder;
     .locals 2
 
-    .prologue
     .line 298
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    if-nez v0, :cond_0
+    if-eqz v0, :cond_0
 
+    .line 299
+    const/4 v0, 0x0
+
+    iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->tlsVersions:[Ljava/lang/String;
+
+    .line 300
+    return-object p0
+
+    .line 298
+    :cond_0
     new-instance v0, Ljava/lang/IllegalStateException;
 
     const-string v1, "no TLS versions for cleartext connections"
@@ -117,21 +124,11 @@
     invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 299
-    :cond_0
-    const/4 v0, 0x0
-
-    iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->tlsVersions:[Ljava/lang/String;
-
-    .line 300
-    return-object p0
 .end method
 
 .method public build()Lokhttp3/ConnectionSpec;
     .locals 1
 
-    .prologue
     .line 332
     new-instance v0, Lokhttp3/ConnectionSpec;
 
@@ -144,37 +141,17 @@
     .locals 2
     .param p1, "cipherSuites"    # [Ljava/lang/String;
 
-    .prologue
     .line 287
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    if-nez v0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalStateException;
-
-    const-string v1, "no cipher suites for cleartext connections"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz v0, :cond_1
 
     .line 289
-    :cond_0
     array-length v0, p1
 
-    if-nez v0, :cond_1
-
-    .line 290
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    const-string v1, "At least one cipher suite is required"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz v0, :cond_0
 
     .line 293
-    :cond_1
     invoke-virtual {p1}, [Ljava/lang/String;->clone()Ljava/lang/Object;
 
     move-result-object v0
@@ -185,73 +162,108 @@
 
     .line 294
     return-object p0
+
+    .line 290
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "At least one cipher suite is required"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 287
+    :cond_1
+    new-instance v0, Ljava/lang/IllegalStateException;
+
+    const-string v1, "no cipher suites for cleartext connections"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public varargs cipherSuites([Lokhttp3/CipherSuite;)Lokhttp3/ConnectionSpec$Builder;
-    .locals 4
+    .locals 3
     .param p1, "cipherSuites"    # [Lokhttp3/CipherSuite;
 
-    .prologue
     .line 277
-    iget-boolean v2, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
+    iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    if-nez v2, :cond_0
-
-    new-instance v2, Ljava/lang/IllegalStateException;
-
-    const-string v3, "no cipher suites for cleartext connections"
-
-    invoke-direct {v2, v3}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-eqz v0, :cond_1
 
     .line 279
-    :cond_0
-    array-length v2, p1
+    array-length v0, p1
 
-    new-array v1, v2, [Ljava/lang/String;
+    new-array v0, v0, [Ljava/lang/String;
 
     .line 280
-    .local v1, "strings":[Ljava/lang/String;
-    const/4 v0, 0x0
+    .local v0, "strings":[Ljava/lang/String;
+    const/4 v1, 0x0
 
-    .local v0, "i":I
+    .local v1, "i":I
     :goto_0
     array-length v2, p1
 
-    if-ge v0, v2, :cond_1
+    if-ge v1, v2, :cond_0
 
     .line 281
-    aget-object v2, p1, v0
+    aget-object v2, p1, v1
 
     iget-object v2, v2, Lokhttp3/CipherSuite;->javaName:Ljava/lang/String;
 
-    aput-object v2, v1, v0
+    aput-object v2, v0, v1
 
     .line 280
-    add-int/lit8 v0, v0, 0x1
+    add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
 
     .line 283
+    .end local v1    # "i":I
+    :cond_0
+    invoke-virtual {p0, v0}, Lokhttp3/ConnectionSpec$Builder;->cipherSuites([Ljava/lang/String;)Lokhttp3/ConnectionSpec$Builder;
+
+    move-result-object v1
+
+    return-object v1
+
+    .line 277
+    .end local v0    # "strings":[Ljava/lang/String;
     :cond_1
-    invoke-virtual {p0, v1}, Lokhttp3/ConnectionSpec$Builder;->cipherSuites([Ljava/lang/String;)Lokhttp3/ConnectionSpec$Builder;
+    new-instance v0, Ljava/lang/IllegalStateException;
 
-    move-result-object v2
+    const-string v1, "no cipher suites for cleartext connections"
 
-    return-object v2
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    goto :goto_2
+
+    :goto_1
+    throw v0
+
+    :goto_2
+    goto :goto_1
 .end method
 
 .method public supportsTlsExtensions(Z)Lokhttp3/ConnectionSpec$Builder;
     .locals 2
     .param p1, "supportsTlsExtensions"    # Z
 
-    .prologue
     .line 326
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    if-nez v0, :cond_0
+    if-eqz v0, :cond_0
 
+    .line 327
+    iput-boolean p1, p0, Lokhttp3/ConnectionSpec$Builder;->supportsTlsExtensions:Z
+
+    .line 328
+    return-object p0
+
+    .line 326
+    :cond_0
     new-instance v0, Ljava/lang/IllegalStateException;
 
     const-string v1, "no TLS extensions for cleartext connections"
@@ -259,50 +271,23 @@
     invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
 
     throw v0
-
-    .line 327
-    :cond_0
-    iput-boolean p1, p0, Lokhttp3/ConnectionSpec$Builder;->supportsTlsExtensions:Z
-
-    .line 328
-    return-object p0
 .end method
 
 .method public varargs tlsVersions([Ljava/lang/String;)Lokhttp3/ConnectionSpec$Builder;
     .locals 2
     .param p1, "tlsVersions"    # [Ljava/lang/String;
 
-    .prologue
     .line 315
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    if-nez v0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalStateException;
-
-    const-string v1, "no TLS versions for cleartext connections"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz v0, :cond_1
 
     .line 317
-    :cond_0
     array-length v0, p1
 
-    if-nez v0, :cond_1
-
-    .line 318
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    const-string v1, "At least one TLS version is required"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz v0, :cond_0
 
     .line 321
-    :cond_1
     invoke-virtual {p1}, [Ljava/lang/String;->clone()Ljava/lang/Object;
 
     move-result-object v0
@@ -313,59 +298,87 @@
 
     .line 322
     return-object p0
+
+    .line 318
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "At least one TLS version is required"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
+
+    .line 315
+    :cond_1
+    new-instance v0, Ljava/lang/IllegalStateException;
+
+    const-string v1, "no TLS versions for cleartext connections"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public varargs tlsVersions([Lokhttp3/TlsVersion;)Lokhttp3/ConnectionSpec$Builder;
-    .locals 4
+    .locals 3
     .param p1, "tlsVersions"    # [Lokhttp3/TlsVersion;
 
-    .prologue
     .line 304
-    iget-boolean v2, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
+    iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    if-nez v2, :cond_0
-
-    new-instance v2, Ljava/lang/IllegalStateException;
-
-    const-string v3, "no TLS versions for cleartext connections"
-
-    invoke-direct {v2, v3}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-eqz v0, :cond_1
 
     .line 306
-    :cond_0
-    array-length v2, p1
+    array-length v0, p1
 
-    new-array v1, v2, [Ljava/lang/String;
+    new-array v0, v0, [Ljava/lang/String;
 
     .line 307
-    .local v1, "strings":[Ljava/lang/String;
-    const/4 v0, 0x0
+    .local v0, "strings":[Ljava/lang/String;
+    const/4 v1, 0x0
 
-    .local v0, "i":I
+    .local v1, "i":I
     :goto_0
     array-length v2, p1
 
-    if-ge v0, v2, :cond_1
+    if-ge v1, v2, :cond_0
 
     .line 308
-    aget-object v2, p1, v0
+    aget-object v2, p1, v1
 
     iget-object v2, v2, Lokhttp3/TlsVersion;->javaName:Ljava/lang/String;
 
-    aput-object v2, v1, v0
+    aput-object v2, v0, v1
 
     .line 307
-    add-int/lit8 v0, v0, 0x1
+    add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
 
     .line 311
+    .end local v1    # "i":I
+    :cond_0
+    invoke-virtual {p0, v0}, Lokhttp3/ConnectionSpec$Builder;->tlsVersions([Ljava/lang/String;)Lokhttp3/ConnectionSpec$Builder;
+
+    move-result-object v1
+
+    return-object v1
+
+    .line 304
+    .end local v0    # "strings":[Ljava/lang/String;
     :cond_1
-    invoke-virtual {p0, v1}, Lokhttp3/ConnectionSpec$Builder;->tlsVersions([Ljava/lang/String;)Lokhttp3/ConnectionSpec$Builder;
+    new-instance v0, Ljava/lang/IllegalStateException;
 
-    move-result-object v2
+    const-string v1, "no TLS versions for cleartext connections"
 
-    return-object v2
+    invoke-direct {v0, v1}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    goto :goto_2
+
+    :goto_1
+    throw v0
+
+    :goto_2
+    goto :goto_1
 .end method

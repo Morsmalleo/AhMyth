@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:textAppearance="?textAppearanceBody2" android:gravity="center" android:layout_width="@dimen/mtrl_calendar_day_width" android:layout_height="@dimen/mtrl_calendar_days_of_week_height"
+  xmlns:android="http://schemas.android.com/apk/res/android" />

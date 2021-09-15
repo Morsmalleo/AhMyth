@@ -223,7 +223,7 @@ app.controller("FmCtrl", function($scope, $rootScope) {
             $fmCtrl.files = data;
             $fmCtrl.$apply();
         } else {
-            $rootScope.Log('That directory is inaccessible', CONSTANTS.logStatus.FAIL);
+            $rootScope.Log('That directory is inaccessible (Access denied)', CONSTANTS.logStatus.FAIL);
             $fmCtrl.load = '';
             $fmCtrl.$apply();
         }

@@ -21,7 +21,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 18
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -34,7 +33,6 @@
     .locals 2
     .param p1, "runnable"    # Ljava/lang/Runnable;
 
-    .prologue
     .line 21
     new-instance v0, Lio/socket/thread/EventThread;
 
@@ -42,11 +40,9 @@
 
     invoke-direct {v0, p1, v1}, Lio/socket/thread/EventThread;-><init>(Ljava/lang/Runnable;Lio/socket/thread/EventThread$1;)V
 
-    # setter for: Lio/socket/thread/EventThread;->thread:Lio/socket/thread/EventThread;
     invoke-static {v0}, Lio/socket/thread/EventThread;->access$002(Lio/socket/thread/EventThread;)Lio/socket/thread/EventThread;
 
     .line 22
-    # getter for: Lio/socket/thread/EventThread;->thread:Lio/socket/thread/EventThread;
     invoke-static {}, Lio/socket/thread/EventThread;->access$000()Lio/socket/thread/EventThread;
 
     move-result-object v0
@@ -56,7 +52,6 @@
     invoke-virtual {v0, v1}, Lio/socket/thread/EventThread;->setName(Ljava/lang/String;)V
 
     .line 23
-    # getter for: Lio/socket/thread/EventThread;->thread:Lio/socket/thread/EventThread;
     invoke-static {}, Lio/socket/thread/EventThread;->access$000()Lio/socket/thread/EventThread;
 
     move-result-object v0
@@ -72,7 +67,6 @@
     invoke-virtual {v0, v1}, Lio/socket/thread/EventThread;->setDaemon(Z)V
 
     .line 24
-    # getter for: Lio/socket/thread/EventThread;->thread:Lio/socket/thread/EventThread;
     invoke-static {}, Lio/socket/thread/EventThread;->access$000()Lio/socket/thread/EventThread;
 
     move-result-object v0

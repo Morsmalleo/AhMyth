@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/internal/ws/RealWebSocket;
 
-    .prologue
     .line 143
     iput-object p1, p0, Lokhttp3/internal/ws/RealWebSocket$1;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
@@ -40,23 +39,24 @@
 .method public run()V
     .locals 3
 
-    .prologue
     .line 146
-    :cond_0
+    :goto_0
     :try_start_0
-    iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket$1;->this$0:Lokhttp3/internal/ws/RealWebSocket;
+    iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket$1;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
-    invoke-virtual {v1}, Lokhttp3/internal/ws/RealWebSocket;->writeOneFrame()Z
+    invoke-virtual {v0}, Lokhttp3/internal/ws/RealWebSocket;->writeOneFrame()Z
+
+    move-result v0
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
-    move-result v1
+    if-eqz v0, :cond_0
 
-    if-nez v1, :cond_0
+    goto :goto_0
 
-    .line 151
-    :goto_0
-    return-void
+    .line 150
+    :cond_0
+    goto :goto_1
 
     .line 148
     :catch_0
@@ -70,5 +70,8 @@
 
     invoke-virtual {v1, v0, v2}, Lokhttp3/internal/ws/RealWebSocket;->failWebSocket(Ljava/lang/Exception;Lokhttp3/Response;)V
 
-    goto :goto_0
+    .line 151
+    .end local v0    # "e":Ljava/io/IOException;
+    :goto_1
+    return-void
 .end method

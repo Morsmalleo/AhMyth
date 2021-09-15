@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .prologue
     .line 461
     iput-object p1, p0, Lio/socket/client/Manager$10;->this$0:Lio/socket/client/Manager;
 
@@ -42,78 +41,77 @@
 
 # virtual methods
 .method public call([Ljava/lang/Object;)V
-    .locals 5
+    .locals 6
     .param p1, "encodedPackets"    # [Ljava/lang/Object;
 
-    .prologue
+    .line 464
+    array-length v0, p1
+
+    const/4 v1, 0x0
+
     const/4 v2, 0x0
 
-    .line 464
-    array-length v3, p1
-
-    move v1, v2
-
     :goto_0
-    if-ge v1, v3, :cond_2
+    if-ge v2, v0, :cond_2
 
-    aget-object v0, p1, v1
+    aget-object v3, p1, v2
 
     .line 465
-    .local v0, "packet":Ljava/lang/Object;
-    instance-of v4, v0, Ljava/lang/String;
+    .local v3, "packet":Ljava/lang/Object;
+    instance-of v4, v3, Ljava/lang/String;
 
-    if-eqz v4, :cond_1
+    if-eqz v4, :cond_0
 
     .line 466
     iget-object v4, p0, Lio/socket/client/Manager$10;->val$self:Lio/socket/client/Manager;
 
     iget-object v4, v4, Lio/socket/client/Manager;->engine:Lio/socket/engineio/client/Socket;
 
-    check-cast v0, Ljava/lang/String;
+    move-object v5, v3
 
-    .end local v0    # "packet":Ljava/lang/Object;
-    invoke-virtual {v4, v0}, Lio/socket/engineio/client/Socket;->write(Ljava/lang/String;)V
+    check-cast v5, Ljava/lang/String;
 
-    .line 464
-    :cond_0
-    :goto_1
-    add-int/lit8 v1, v1, 0x1
+    invoke-virtual {v4, v5}, Lio/socket/engineio/client/Socket;->write(Ljava/lang/String;)V
 
-    goto :goto_0
+    goto :goto_1
 
     .line 467
-    .restart local v0    # "packet":Ljava/lang/Object;
-    :cond_1
-    instance-of v4, v0, [B
+    :cond_0
+    instance-of v4, v3, [B
 
-    if-eqz v4, :cond_0
+    if-eqz v4, :cond_1
 
     .line 468
     iget-object v4, p0, Lio/socket/client/Manager$10;->val$self:Lio/socket/client/Manager;
 
     iget-object v4, v4, Lio/socket/client/Manager;->engine:Lio/socket/engineio/client/Socket;
 
-    check-cast v0, [B
+    move-object v5, v3
 
-    .end local v0    # "packet":Ljava/lang/Object;
-    check-cast v0, [B
+    check-cast v5, [B
 
-    invoke-virtual {v4, v0}, Lio/socket/engineio/client/Socket;->write([B)V
+    check-cast v5, [B
 
-    goto :goto_1
+    invoke-virtual {v4, v5}, Lio/socket/engineio/client/Socket;->write([B)V
+
+    .line 464
+    .end local v3    # "packet":Ljava/lang/Object;
+    :cond_1
+    :goto_1
+    add-int/lit8 v2, v2, 0x1
+
+    goto :goto_0
 
     .line 471
     :cond_2
-    iget-object v1, p0, Lio/socket/client/Manager$10;->val$self:Lio/socket/client/Manager;
+    iget-object v0, p0, Lio/socket/client/Manager$10;->val$self:Lio/socket/client/Manager;
 
-    # setter for: Lio/socket/client/Manager;->encoding:Z
-    invoke-static {v1, v2}, Lio/socket/client/Manager;->access$1802(Lio/socket/client/Manager;Z)Z
+    invoke-static {v0, v1}, Lio/socket/client/Manager;->access$1802(Lio/socket/client/Manager;Z)Z
 
     .line 472
-    iget-object v1, p0, Lio/socket/client/Manager$10;->val$self:Lio/socket/client/Manager;
+    iget-object v0, p0, Lio/socket/client/Manager$10;->val$self:Lio/socket/client/Manager;
 
-    # invokes: Lio/socket/client/Manager;->processPacketQueue()V
-    invoke-static {v1}, Lio/socket/client/Manager;->access$1900(Lio/socket/client/Manager;)V
+    invoke-static {v0}, Lio/socket/client/Manager;->access$1900(Lio/socket/client/Manager;)V
 
     .line 473
     return-void

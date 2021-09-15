@@ -18,8 +18,7 @@
 .field private final names:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/lang/String;",
             ">;"
         }
@@ -29,8 +28,7 @@
 .field private final values:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Ljava/lang/String;",
             ">;"
         }
@@ -42,7 +40,6 @@
 .method public constructor <init>()V
     .locals 1
 
-    .prologue
     .line 104
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -70,44 +67,39 @@
     .param p1, "name"    # Ljava/lang/String;
     .param p2, "value"    # Ljava/lang/String;
 
-    .prologue
-    const/4 v4, 0x1
-
-    const/4 v2, 0x0
-
     .line 109
-    iget-object v6, p0, Lokhttp3/FormBody$Builder;->names:Ljava/util/List;
+    iget-object v0, p0, Lokhttp3/FormBody$Builder;->names:Ljava/util/List;
 
-    const-string v1, " \"\':;<=>@[]^`{}|/\\?#&!$(),~"
+    const-string v2, " \"\':;<=>@[]^`{}|/\\?#&!$(),~"
 
-    move-object v0, p1
+    const/4 v3, 0x0
 
-    move v3, v2
+    const/4 v4, 0x0
 
-    move v5, v4
+    const/4 v5, 0x1
 
-    invoke-static/range {v0 .. v5}, Lokhttp3/HttpUrl;->canonicalize(Ljava/lang/String;Ljava/lang/String;ZZZZ)Ljava/lang/String;
+    const/4 v6, 0x1
 
-    move-result-object v0
+    move-object v1, p1
 
-    invoke-interface {v6, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+    invoke-static/range {v1 .. v6}, Lokhttp3/HttpUrl;->canonicalize(Ljava/lang/String;Ljava/lang/String;ZZZZ)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-interface {v0, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 110
-    iget-object v6, p0, Lokhttp3/FormBody$Builder;->values:Ljava/util/List;
+    iget-object v0, p0, Lokhttp3/FormBody$Builder;->values:Ljava/util/List;
 
-    const-string v1, " \"\':;<=>@[]^`{}|/\\?#&!$(),~"
+    const-string v2, " \"\':;<=>@[]^`{}|/\\?#&!$(),~"
 
-    move-object v0, p2
+    move-object v1, p2
 
-    move v3, v2
+    invoke-static/range {v1 .. v6}, Lokhttp3/HttpUrl;->canonicalize(Ljava/lang/String;Ljava/lang/String;ZZZZ)Ljava/lang/String;
 
-    move v5, v4
+    move-result-object v1
 
-    invoke-static/range {v0 .. v5}, Lokhttp3/HttpUrl;->canonicalize(Ljava/lang/String;Ljava/lang/String;ZZZZ)Ljava/lang/String;
-
-    move-result-object v0
-
-    invoke-interface {v6, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+    invoke-interface {v0, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 111
     return-object p0
@@ -118,44 +110,39 @@
     .param p1, "name"    # Ljava/lang/String;
     .param p2, "value"    # Ljava/lang/String;
 
-    .prologue
-    const/4 v3, 0x0
-
-    const/4 v2, 0x1
-
     .line 115
-    iget-object v6, p0, Lokhttp3/FormBody$Builder;->names:Ljava/util/List;
+    iget-object v0, p0, Lokhttp3/FormBody$Builder;->names:Ljava/util/List;
 
-    const-string v1, " \"\':;<=>@[]^`{}|/\\?#&!$(),~"
+    const-string v2, " \"\':;<=>@[]^`{}|/\\?#&!$(),~"
 
-    move-object v0, p1
+    const/4 v3, 0x1
 
-    move v4, v2
+    const/4 v4, 0x0
 
-    move v5, v2
+    const/4 v5, 0x1
 
-    invoke-static/range {v0 .. v5}, Lokhttp3/HttpUrl;->canonicalize(Ljava/lang/String;Ljava/lang/String;ZZZZ)Ljava/lang/String;
+    const/4 v6, 0x1
 
-    move-result-object v0
+    move-object v1, p1
 
-    invoke-interface {v6, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+    invoke-static/range {v1 .. v6}, Lokhttp3/HttpUrl;->canonicalize(Ljava/lang/String;Ljava/lang/String;ZZZZ)Ljava/lang/String;
+
+    move-result-object v1
+
+    invoke-interface {v0, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 116
-    iget-object v6, p0, Lokhttp3/FormBody$Builder;->values:Ljava/util/List;
+    iget-object v0, p0, Lokhttp3/FormBody$Builder;->values:Ljava/util/List;
 
-    const-string v1, " \"\':;<=>@[]^`{}|/\\?#&!$(),~"
+    const-string v2, " \"\':;<=>@[]^`{}|/\\?#&!$(),~"
 
-    move-object v0, p2
+    move-object v1, p2
 
-    move v4, v2
+    invoke-static/range {v1 .. v6}, Lokhttp3/HttpUrl;->canonicalize(Ljava/lang/String;Ljava/lang/String;ZZZZ)Ljava/lang/String;
 
-    move v5, v2
+    move-result-object v1
 
-    invoke-static/range {v0 .. v5}, Lokhttp3/HttpUrl;->canonicalize(Ljava/lang/String;Ljava/lang/String;ZZZZ)Ljava/lang/String;
-
-    move-result-object v0
-
-    invoke-interface {v6, v0}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+    invoke-interface {v0, v1}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
     .line 117
     return-object p0
@@ -164,7 +151,6 @@
 .method public build()Lokhttp3/FormBody;
     .locals 3
 
-    .prologue
     .line 121
     new-instance v0, Lokhttp3/FormBody;
 

@@ -7,7 +7,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 53
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -19,7 +18,6 @@
     .locals 1
     .param p0, "method"    # Ljava/lang/String;
 
-    .prologue
     .line 20
     const-string v0, "POST"
 
@@ -27,134 +25,136 @@
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "PATCH"
+    if-nez v0, :cond_1
 
     .line 21
+    const-string v0, "PATCH"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "PUT"
+    if-nez v0, :cond_1
 
     .line 22
+    const-string v0, "PUT"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "DELETE"
+    if-nez v0, :cond_1
 
     .line 23
+    const-string v0, "DELETE"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "MOVE"
+    if-nez v0, :cond_1
 
     .line 24
+    const-string v0, "MOVE"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_1
+    if-eqz v0, :cond_0
+
+    goto :goto_0
 
     :cond_0
+    const/4 v0, 0x0
+
+    goto :goto_1
+
+    :cond_1
+    :goto_0
     const/4 v0, 0x1
 
     .line 20
-    :goto_0
+    :goto_1
     return v0
-
-    .line 24
-    :cond_1
-    const/4 v0, 0x0
-
-    goto :goto_0
 .end method
 
 .method public static permitsRequestBody(Ljava/lang/String;)Z
     .locals 1
     .param p0, "method"    # Ljava/lang/String;
 
-    .prologue
     .line 36
     invoke-static {p0}, Lokhttp3/internal/http/HttpMethod;->requiresRequestBody(Ljava/lang/String;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "OPTIONS"
+    if-nez v0, :cond_1
 
     .line 37
+    const-string v0, "OPTIONS"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "DELETE"
+    if-nez v0, :cond_1
 
     .line 38
+    const-string v0, "DELETE"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "PROPFIND"
+    if-nez v0, :cond_1
 
     .line 39
+    const-string v0, "PROPFIND"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "MKCOL"
+    if-nez v0, :cond_1
 
     .line 40
+    const-string v0, "MKCOL"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "LOCK"
+    if-nez v0, :cond_1
 
     .line 41
+    const-string v0, "LOCK"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_1
+    if-eqz v0, :cond_0
+
+    goto :goto_0
 
     :cond_0
+    const/4 v0, 0x0
+
+    goto :goto_1
+
+    :cond_1
+    :goto_0
     const/4 v0, 0x1
 
     .line 36
-    :goto_0
+    :goto_1
     return v0
-
-    .line 41
-    :cond_1
-    const/4 v0, 0x0
-
-    goto :goto_0
 .end method
 
 .method public static redirectsToGet(Ljava/lang/String;)Z
     .locals 1
     .param p0, "method"    # Ljava/lang/String;
 
-    .prologue
     .line 50
     const-string v0, "PROPFIND"
 
@@ -162,24 +162,15 @@
 
     move-result v0
 
-    if-nez v0, :cond_0
+    xor-int/lit8 v0, v0, 0x1
 
-    const/4 v0, 0x1
-
-    :goto_0
     return v0
-
-    :cond_0
-    const/4 v0, 0x0
-
-    goto :goto_0
 .end method
 
 .method public static redirectsWithBody(Ljava/lang/String;)Z
     .locals 1
     .param p0, "method"    # Ljava/lang/String;
 
-    .prologue
     .line 45
     const-string v0, "PROPFIND"
 
@@ -194,7 +185,6 @@
     .locals 1
     .param p0, "method"    # Ljava/lang/String;
 
-    .prologue
     .line 28
     const-string v0, "POST"
 
@@ -202,54 +192,56 @@
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "PUT"
+    if-nez v0, :cond_1
 
     .line 29
+    const-string v0, "PUT"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "PATCH"
+    if-nez v0, :cond_1
 
     .line 30
+    const-string v0, "PATCH"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "PROPPATCH"
+    if-nez v0, :cond_1
 
     .line 31
+    const-string v0, "PROPPATCH"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-nez v0, :cond_0
-
-    const-string v0, "REPORT"
+    if-nez v0, :cond_1
 
     .line 32
+    const-string v0, "REPORT"
+
     invoke-virtual {p0, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_1
+    if-eqz v0, :cond_0
+
+    goto :goto_0
 
     :cond_0
+    const/4 v0, 0x0
+
+    goto :goto_1
+
+    :cond_1
+    :goto_0
     const/4 v0, 0x1
 
     .line 28
-    :goto_0
+    :goto_1
     return v0
-
-    .line 32
-    :cond_1
-    const/4 v0, 0x0
-
-    goto :goto_0
 .end method

@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .prologue
     .line 345
     iput-object p1, p0, Lio/socket/client/Manager$2;->this$0:Lio/socket/client/Manager;
 
@@ -38,52 +37,50 @@
 
 # virtual methods
 .method public varargs call([Ljava/lang/Object;)V
-    .locals 2
+    .locals 3
     .param p1, "objects"    # [Ljava/lang/Object;
 
-    .prologue
     .line 348
-    const/4 v1, 0x0
+    const/4 v0, 0x0
 
-    aget-object v0, p1, v1
+    aget-object v0, p1, v0
 
     .line 349
     .local v0, "data":Ljava/lang/Object;
     instance-of v1, v0, Ljava/lang/String;
 
-    if-eqz v1, :cond_1
+    if-eqz v1, :cond_0
 
     .line 350
     iget-object v1, p0, Lio/socket/client/Manager$2;->this$0:Lio/socket/client/Manager;
 
-    check-cast v0, Ljava/lang/String;
+    move-object v2, v0
 
-    .end local v0    # "data":Ljava/lang/Object;
-    # invokes: Lio/socket/client/Manager;->ondata(Ljava/lang/String;)V
-    invoke-static {v1, v0}, Lio/socket/client/Manager;->access$1000(Lio/socket/client/Manager;Ljava/lang/String;)V
+    check-cast v2, Ljava/lang/String;
 
-    .line 354
-    :cond_0
-    :goto_0
-    return-void
+    invoke-static {v1, v2}, Lio/socket/client/Manager;->access$1000(Lio/socket/client/Manager;Ljava/lang/String;)V
+
+    goto :goto_0
 
     .line 351
-    .restart local v0    # "data":Ljava/lang/Object;
-    :cond_1
+    :cond_0
     instance-of v1, v0, [B
 
-    if-eqz v1, :cond_0
+    if-eqz v1, :cond_1
 
     .line 352
     iget-object v1, p0, Lio/socket/client/Manager$2;->this$0:Lio/socket/client/Manager;
 
-    check-cast v0, [B
+    move-object v2, v0
 
-    .end local v0    # "data":Ljava/lang/Object;
-    check-cast v0, [B
+    check-cast v2, [B
 
-    # invokes: Lio/socket/client/Manager;->ondata([B)V
-    invoke-static {v1, v0}, Lio/socket/client/Manager;->access$1100(Lio/socket/client/Manager;[B)V
+    check-cast v2, [B
 
-    goto :goto_0
+    invoke-static {v1, v2}, Lio/socket/client/Manager;->access$1100(Lio/socket/client/Manager;[B)V
+
+    .line 354
+    :cond_1
+    :goto_0
+    return-void
 .end method

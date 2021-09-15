@@ -11,7 +11,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 76
     new-instance v0, Lokhttp3/internal/http2/PushObserver$1;
 
@@ -36,8 +35,7 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(I",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/internal/http2/Header;",
             ">;Z)Z"
         }
@@ -48,8 +46,7 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(I",
-            "Ljava/util/List",
-            "<",
+            "Ljava/util/List<",
             "Lokhttp3/internal/http2/Header;",
             ">;)Z"
         }

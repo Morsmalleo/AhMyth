@@ -31,7 +31,6 @@
     .param p2, "event"    # Ljava/lang/String;
     .param p3, "fn"    # Lio/socket/emitter/Emitter$Listener;
 
-    .prologue
     .line 156
     iput-object p1, p0, Lio/socket/emitter/Emitter$OnceListener;->this$0:Lio/socket/emitter/Emitter;
 
@@ -53,7 +52,6 @@
     .locals 2
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 163
     iget-object v0, p0, Lio/socket/emitter/Emitter$OnceListener;->this$0:Lio/socket/emitter/Emitter;
 

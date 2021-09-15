@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .prologue
     .line 310
     iput-object p1, p0, Lio/socket/engineio/client/Socket$5;->this$0:Lio/socket/engineio/client/Socket;
 
@@ -45,30 +44,27 @@
     .locals 2
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .prologue
     .line 313
-    iget-object v1, p0, Lio/socket/engineio/client/Socket$5;->val$self:Lio/socket/engineio/client/Socket;
+    iget-object v0, p0, Lio/socket/engineio/client/Socket$5;->val$self:Lio/socket/engineio/client/Socket;
 
-    array-length v0, p1
+    array-length v1, p1
 
-    if-lez v0, :cond_0
+    if-lez v1, :cond_0
 
-    const/4 v0, 0x0
+    const/4 v1, 0x0
 
-    aget-object v0, p1, v0
+    aget-object v1, p1, v1
 
-    check-cast v0, Lio/socket/engineio/parser/Packet;
+    check-cast v1, Lio/socket/engineio/parser/Packet;
+
+    goto :goto_0
+
+    :cond_0
+    const/4 v1, 0x0
 
     :goto_0
-    # invokes: Lio/socket/engineio/client/Socket;->onPacket(Lio/socket/engineio/parser/Packet;)V
-    invoke-static {v1, v0}, Lio/socket/engineio/client/Socket;->access$1000(Lio/socket/engineio/client/Socket;Lio/socket/engineio/parser/Packet;)V
+    invoke-static {v0, v1}, Lio/socket/engineio/client/Socket;->access$1000(Lio/socket/engineio/client/Socket;Lio/socket/engineio/parser/Packet;)V
 
     .line 314
     return-void
-
-    .line 313
-    :cond_0
-    const/4 v0, 0x0
-
-    goto :goto_0
 .end method

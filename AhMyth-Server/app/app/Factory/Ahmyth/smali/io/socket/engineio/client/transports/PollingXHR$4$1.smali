@@ -28,7 +28,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/PollingXHR$4;
 
-    .prologue
     .line 84
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$4;
 
@@ -44,31 +43,29 @@
 .method public run()V
     .locals 3
 
-    .prologue
-    const/4 v2, 0x0
-
     .line 87
-    iget-object v1, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->val$args:[Ljava/lang/Object;
+    iget-object v0, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->val$args:[Ljava/lang/Object;
 
-    array-length v1, v1
+    array-length v1, v0
 
     if-lez v1, :cond_0
 
-    iget-object v1, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->val$args:[Ljava/lang/Object;
+    const/4 v1, 0x0
 
-    aget-object v1, v1, v2
+    aget-object v2, v0, v1
 
-    instance-of v1, v1, Ljava/lang/Exception;
+    instance-of v2, v2, Ljava/lang/Exception;
 
-    if-eqz v1, :cond_0
+    if-eqz v2, :cond_0
 
-    iget-object v1, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->val$args:[Ljava/lang/Object;
+    aget-object v0, v0, v1
 
-    aget-object v1, v1, v2
+    check-cast v0, Ljava/lang/Exception;
 
-    check-cast v1, Ljava/lang/Exception;
+    goto :goto_0
 
-    move-object v0, v1
+    :cond_0
+    const/4 v0, 0x0
 
     .line 88
     .local v0, "err":Ljava/lang/Exception;
@@ -79,16 +76,8 @@
 
     const-string v2, "xhr post error"
 
-    # invokes: Lio/socket/engineio/client/transports/PollingXHR;->onError(Ljava/lang/String;Ljava/lang/Exception;)Lio/socket/engineio/client/Transport;
     invoke-static {v1, v2, v0}, Lio/socket/engineio/client/transports/PollingXHR;->access$000(Lio/socket/engineio/client/transports/PollingXHR;Ljava/lang/String;Ljava/lang/Exception;)Lio/socket/engineio/client/Transport;
 
     .line 89
     return-void
-
-    .line 87
-    .end local v0    # "err":Ljava/lang/Exception;
-    :cond_0
-    const/4 v0, 0x0
-
-    goto :goto_0
 .end method

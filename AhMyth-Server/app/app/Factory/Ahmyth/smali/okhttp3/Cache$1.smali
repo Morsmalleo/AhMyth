@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/Cache;
 
-    .prologue
     .line 142
     iput-object p1, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
@@ -46,7 +45,6 @@
         }
     .end annotation
 
-    .prologue
     .line 144
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
@@ -66,7 +64,6 @@
         }
     .end annotation
 
-    .prologue
     .line 148
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
@@ -86,7 +83,6 @@
         }
     .end annotation
 
-    .prologue
     .line 152
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
@@ -99,7 +95,6 @@
 .method public trackConditionalCacheHit()V
     .locals 1
 
-    .prologue
     .line 160
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
@@ -113,7 +108,6 @@
     .locals 1
     .param p1, "cacheStrategy"    # Lokhttp3/internal/cache/CacheStrategy;
 
-    .prologue
     .line 164
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
@@ -128,7 +122,6 @@
     .param p1, "cached"    # Lokhttp3/Response;
     .param p2, "network"    # Lokhttp3/Response;
 
-    .prologue
     .line 156
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 

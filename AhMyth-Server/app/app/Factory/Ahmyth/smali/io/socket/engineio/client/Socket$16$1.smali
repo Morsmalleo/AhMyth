@@ -26,7 +26,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/Socket$16;
 
-    .prologue
     .line 587
     iput-object p1, p0, Lio/socket/engineio/client/Socket$16$1;->this$1:Lio/socket/engineio/client/Socket$16;
 
@@ -40,19 +39,18 @@
 .method public run()V
     .locals 3
 
-    .prologue
     .line 590
     iget-object v0, p0, Lio/socket/engineio/client/Socket$16$1;->this$1:Lio/socket/engineio/client/Socket$16;
 
     iget-object v0, v0, Lio/socket/engineio/client/Socket$16;->this$0:Lio/socket/engineio/client/Socket;
 
-    const-string v1, "ping"
+    const/4 v1, 0x0
 
-    const/4 v2, 0x0
+    new-array v1, v1, [Ljava/lang/Object;
 
-    new-array v2, v2, [Ljava/lang/Object;
+    const-string v2, "ping"
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
     .line 591
     return-void

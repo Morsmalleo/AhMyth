@@ -30,7 +30,6 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/Socket$20;
 
-    .prologue
     .line 738
     iput-object p1, p0, Lio/socket/engineio/client/Socket$20$3;->this$1:Lio/socket/engineio/client/Socket$20;
 
@@ -48,30 +47,29 @@
 .method public run()V
     .locals 4
 
-    .prologue
-    const/4 v3, 0x0
-
     .line 742
     iget-object v0, p0, Lio/socket/engineio/client/Socket$20$3;->val$self:Lio/socket/engineio/client/Socket;
 
-    const-string v1, "upgrade"
+    iget-object v1, p0, Lio/socket/engineio/client/Socket$20$3;->val$cleanupAndClose:[Lio/socket/emitter/Emitter$Listener;
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$20$3;->val$cleanupAndClose:[Lio/socket/emitter/Emitter$Listener;
+    const/4 v2, 0x0
 
-    aget-object v2, v2, v3
+    aget-object v1, v1, v2
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/Socket;->once(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    const-string v3, "upgrade"
+
+    invoke-virtual {v0, v3, v1}, Lio/socket/engineio/client/Socket;->once(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
     .line 743
     iget-object v0, p0, Lio/socket/engineio/client/Socket$20$3;->val$self:Lio/socket/engineio/client/Socket;
 
-    const-string v1, "upgradeError"
+    iget-object v1, p0, Lio/socket/engineio/client/Socket$20$3;->val$cleanupAndClose:[Lio/socket/emitter/Emitter$Listener;
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$20$3;->val$cleanupAndClose:[Lio/socket/emitter/Emitter$Listener;
+    aget-object v1, v1, v2
 
-    aget-object v2, v2, v3
+    const-string v2, "upgradeError"
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/engineio/client/Socket;->once(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/Socket;->once(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
     .line 744
     return-void

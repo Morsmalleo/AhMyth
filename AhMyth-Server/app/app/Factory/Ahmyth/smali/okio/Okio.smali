@@ -11,7 +11,6 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
     .line 39
     const-class v0, Lokio/Okio;
 
@@ -31,7 +30,6 @@
 .method private constructor <init>()V
     .locals 0
 
-    .prologue
     .line 41
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -48,20 +46,10 @@
         }
     .end annotation
 
-    .prologue
     .line 184
-    if-nez p0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    const-string v1, "file == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p0, :cond_0
 
     .line 185
-    :cond_0
     new-instance v0, Ljava/io/FileOutputStream;
 
     const/4 v1, 0x1
@@ -73,12 +61,21 @@
     move-result-object v0
 
     return-object v0
+
+    .line 184
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "file == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public static blackhole()Lokio/Sink;
     .locals 1
 
-    .prologue
     .line 197
     new-instance v0, Lokio/Okio$3;
 
@@ -91,7 +88,6 @@
     .locals 1
     .param p0, "sink"    # Lokio/Sink;
 
-    .prologue
     .line 59
     new-instance v0, Lokio/RealBufferedSink;
 
@@ -104,7 +100,6 @@
     .locals 1
     .param p0, "source"    # Lokio/Source;
 
-    .prologue
     .line 50
     new-instance v0, Lokio/RealBufferedSource;
 
@@ -117,7 +112,6 @@
     .locals 2
     .param p0, "e"    # Ljava/lang/AssertionError;
 
-    .prologue
     .line 257
     invoke-virtual {p0}, Ljava/lang/AssertionError;->getCause()Ljava/lang/Throwable;
 
@@ -146,15 +140,14 @@
 
     const/4 v0, 0x1
 
-    .line 257
-    :goto_0
-    return v0
+    goto :goto_0
 
-    .line 258
     :cond_0
     const/4 v0, 0x0
 
-    goto :goto_0
+    .line 257
+    :goto_0
+    return v0
 .end method
 
 .method public static sink(Ljava/io/File;)Lokio/Sink;
@@ -166,20 +159,10 @@
         }
     .end annotation
 
-    .prologue
     .line 178
-    if-nez p0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    const-string v1, "file == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p0, :cond_0
 
     .line 179
-    :cond_0
     new-instance v0, Ljava/io/FileOutputStream;
 
     invoke-direct {v0, p0}, Ljava/io/FileOutputStream;-><init>(Ljava/io/File;)V
@@ -189,13 +172,22 @@
     move-result-object v0
 
     return-object v0
+
+    .line 178
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "file == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public static sink(Ljava/io/OutputStream;)Lokio/Sink;
     .locals 1
     .param p0, "out"    # Ljava/io/OutputStream;
 
-    .prologue
     .line 64
     new-instance v0, Lokio/Timeout;
 
@@ -213,22 +205,21 @@
     .param p0, "out"    # Ljava/io/OutputStream;
     .param p1, "timeout"    # Lokio/Timeout;
 
-    .prologue
     .line 68
-    if-nez p0, :cond_0
+    if-eqz p0, :cond_1
 
-    new-instance v0, Ljava/lang/IllegalArgumentException;
+    .line 69
+    if-eqz p1, :cond_0
 
-    const-string v1, "out == null"
+    .line 71
+    new-instance v0, Lokio/Okio$1;
 
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+    invoke-direct {v0, p1, p0}, Lokio/Okio$1;-><init>(Lokio/Timeout;Ljava/io/OutputStream;)V
 
-    throw v0
+    return-object v0
 
     .line 69
     :cond_0
-    if-nez p1, :cond_1
-
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
     const-string v1, "timeout == null"
@@ -237,17 +228,19 @@
 
     throw v0
 
-    .line 71
+    .line 68
     :cond_1
-    new-instance v0, Lokio/Okio$1;
+    new-instance v0, Ljava/lang/IllegalArgumentException;
 
-    invoke-direct {v0, p1, p0}, Lokio/Okio$1;-><init>(Lokio/Timeout;Ljava/io/OutputStream;)V
+    const-string v1, "out == null"
 
-    return-object v0
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public static sink(Ljava/net/Socket;)Lokio/Sink;
-    .locals 4
+    .locals 3
     .param p0, "socket"    # Ljava/net/Socket;
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -255,41 +248,43 @@
         }
     .end annotation
 
-    .prologue
     .line 115
-    if-nez p0, :cond_0
-
-    new-instance v2, Ljava/lang/IllegalArgumentException;
-
-    const-string v3, "socket == null"
-
-    invoke-direct {v2, v3}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-eqz p0, :cond_0
 
     .line 116
-    :cond_0
     invoke-static {p0}, Lokio/Okio;->timeout(Ljava/net/Socket;)Lokio/AsyncTimeout;
-
-    move-result-object v1
-
-    .line 117
-    .local v1, "timeout":Lokio/AsyncTimeout;
-    invoke-virtual {p0}, Ljava/net/Socket;->getOutputStream()Ljava/io/OutputStream;
-
-    move-result-object v2
-
-    invoke-static {v2, v1}, Lokio/Okio;->sink(Ljava/io/OutputStream;Lokio/Timeout;)Lokio/Sink;
 
     move-result-object v0
 
+    .line 117
+    .local v0, "timeout":Lokio/AsyncTimeout;
+    invoke-virtual {p0}, Ljava/net/Socket;->getOutputStream()Ljava/io/OutputStream;
+
+    move-result-object v1
+
+    invoke-static {v1, v0}, Lokio/Okio;->sink(Ljava/io/OutputStream;Lokio/Timeout;)Lokio/Sink;
+
+    move-result-object v1
+
     .line 118
-    .local v0, "sink":Lokio/Sink;
-    invoke-virtual {v1, v0}, Lokio/AsyncTimeout;->sink(Lokio/Sink;)Lokio/Sink;
+    .local v1, "sink":Lokio/Sink;
+    invoke-virtual {v0, v1}, Lokio/AsyncTimeout;->sink(Lokio/Sink;)Lokio/Sink;
 
     move-result-object v2
 
     return-object v2
+
+    .line 115
+    .end local v0    # "timeout":Lokio/AsyncTimeout;
+    .end local v1    # "sink":Lokio/Sink;
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "socket == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public static varargs sink(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Lokio/Sink;
@@ -302,23 +297,10 @@
         }
     .end annotation
 
-    .annotation build Lorg/codehaus/mojo/animal_sniffer/IgnoreJRERequirement;
-    .end annotation
-
-    .prologue
     .line 191
-    if-nez p0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    const-string v1, "path == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p0, :cond_0
 
     .line 192
-    :cond_0
     invoke-static {p0, p1}, Ljava/nio/file/Files;->newOutputStream(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/OutputStream;
 
     move-result-object v0
@@ -328,6 +310,16 @@
     move-result-object v0
 
     return-object v0
+
+    .line 191
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "path == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public static source(Ljava/io/File;)Lokio/Source;
@@ -339,20 +331,10 @@
         }
     .end annotation
 
-    .prologue
     .line 165
-    if-nez p0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    const-string v1, "file == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p0, :cond_0
 
     .line 166
-    :cond_0
     new-instance v0, Ljava/io/FileInputStream;
 
     invoke-direct {v0, p0}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
@@ -362,13 +344,22 @@
     move-result-object v0
 
     return-object v0
+
+    .line 165
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "file == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public static source(Ljava/io/InputStream;)Lokio/Source;
     .locals 1
     .param p0, "in"    # Ljava/io/InputStream;
 
-    .prologue
     .line 123
     new-instance v0, Lokio/Timeout;
 
@@ -386,22 +377,21 @@
     .param p0, "in"    # Ljava/io/InputStream;
     .param p1, "timeout"    # Lokio/Timeout;
 
-    .prologue
     .line 127
-    if-nez p0, :cond_0
+    if-eqz p0, :cond_1
 
-    new-instance v0, Ljava/lang/IllegalArgumentException;
+    .line 128
+    if-eqz p1, :cond_0
 
-    const-string v1, "in == null"
+    .line 130
+    new-instance v0, Lokio/Okio$2;
 
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+    invoke-direct {v0, p1, p0}, Lokio/Okio$2;-><init>(Lokio/Timeout;Ljava/io/InputStream;)V
 
-    throw v0
+    return-object v0
 
     .line 128
     :cond_0
-    if-nez p1, :cond_1
-
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
     const-string v1, "timeout == null"
@@ -410,17 +400,19 @@
 
     throw v0
 
-    .line 130
+    .line 127
     :cond_1
-    new-instance v0, Lokio/Okio$2;
+    new-instance v0, Ljava/lang/IllegalArgumentException;
 
-    invoke-direct {v0, p1, p0}, Lokio/Okio$2;-><init>(Lokio/Timeout;Ljava/io/InputStream;)V
+    const-string v1, "in == null"
 
-    return-object v0
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public static source(Ljava/net/Socket;)Lokio/Source;
-    .locals 4
+    .locals 3
     .param p0, "socket"    # Ljava/net/Socket;
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -428,41 +420,43 @@
         }
     .end annotation
 
-    .prologue
     .line 218
-    if-nez p0, :cond_0
-
-    new-instance v2, Ljava/lang/IllegalArgumentException;
-
-    const-string v3, "socket == null"
-
-    invoke-direct {v2, v3}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v2
+    if-eqz p0, :cond_0
 
     .line 219
-    :cond_0
     invoke-static {p0}, Lokio/Okio;->timeout(Ljava/net/Socket;)Lokio/AsyncTimeout;
-
-    move-result-object v1
-
-    .line 220
-    .local v1, "timeout":Lokio/AsyncTimeout;
-    invoke-virtual {p0}, Ljava/net/Socket;->getInputStream()Ljava/io/InputStream;
-
-    move-result-object v2
-
-    invoke-static {v2, v1}, Lokio/Okio;->source(Ljava/io/InputStream;Lokio/Timeout;)Lokio/Source;
 
     move-result-object v0
 
+    .line 220
+    .local v0, "timeout":Lokio/AsyncTimeout;
+    invoke-virtual {p0}, Ljava/net/Socket;->getInputStream()Ljava/io/InputStream;
+
+    move-result-object v1
+
+    invoke-static {v1, v0}, Lokio/Okio;->source(Ljava/io/InputStream;Lokio/Timeout;)Lokio/Source;
+
+    move-result-object v1
+
     .line 221
-    .local v0, "source":Lokio/Source;
-    invoke-virtual {v1, v0}, Lokio/AsyncTimeout;->source(Lokio/Source;)Lokio/Source;
+    .local v1, "source":Lokio/Source;
+    invoke-virtual {v0, v1}, Lokio/AsyncTimeout;->source(Lokio/Source;)Lokio/Source;
 
     move-result-object v2
 
     return-object v2
+
+    .line 218
+    .end local v0    # "timeout":Lokio/AsyncTimeout;
+    .end local v1    # "source":Lokio/Source;
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "socket == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method public static varargs source(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Lokio/Source;
@@ -475,23 +469,10 @@
         }
     .end annotation
 
-    .annotation build Lorg/codehaus/mojo/animal_sniffer/IgnoreJRERequirement;
-    .end annotation
-
-    .prologue
     .line 172
-    if-nez p0, :cond_0
-
-    new-instance v0, Ljava/lang/IllegalArgumentException;
-
-    const-string v1, "path == null"
-
-    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
-
-    throw v0
+    if-eqz p0, :cond_0
 
     .line 173
-    :cond_0
     invoke-static {p0, p1}, Ljava/nio/file/Files;->newInputStream(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/InputStream;
 
     move-result-object v0
@@ -501,13 +482,22 @@
     move-result-object v0
 
     return-object v0
+
+    .line 172
+    :cond_0
+    new-instance v0, Ljava/lang/IllegalArgumentException;
+
+    const-string v1, "path == null"
+
+    invoke-direct {v0, v1}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v0
 .end method
 
 .method private static timeout(Ljava/net/Socket;)Lokio/AsyncTimeout;
     .locals 1
     .param p0, "socket"    # Ljava/net/Socket;
 
-    .prologue
     .line 225
     new-instance v0, Lokio/Okio$4;
 
