@@ -80,7 +80,7 @@ sleep 2
 echo " |-------------------| "
 echo " | Installing AhMyth | "
 echo " |-------------------| " 
-su -c "npm install && npm audit fix" kali
+sudo -H $USER -c bash "npm install && npm audit fix"
 clear
 /usr/bin/update-alternatives --config java
 dir=`pwd`
