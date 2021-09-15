@@ -26,10 +26,7 @@
 4. ```sudo ./autoinstall```
 ###### Once the installer has installed AhMyth and its prerequisites, it will prompt you to change your java version
 5.  ```Select the corresponding number for Java 11 openjdk``` - Example: `0`
-
-###### select whether or not you want to add a `system shortcut` to be able to launch AhMyth from anywhere in the terminal or desktop.
-- if you chose y/Yes for system shortcut - type ```ahmyth``` anywhere in your terminal to launch AhMyth
-- if you chose n/No for system shortcut - type ```npm start``` inside the `AhMyth-Server` folder
+6. Launch AhMyth anywhere & automatically with the `ahmyth` command or type `npm start` in `AhMyth-Server`
 
 #### Manual Install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
