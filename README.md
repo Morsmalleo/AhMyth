@@ -1,24 +1,23 @@
-# AhMyth Android Rat
-### Getting Started
-###### The Application uses two parts
+# AhMyth Android RAT
+# Getting Started
+##### The Application uses two parts
 - the **`Server`** side
 - the **`Client`** side 
 
-###### You can install AhMyth in 3 ways
+##### You can install AhMyth in 3 ways
 1. From Source
 2. Manually using **`npm`** or **`yarn`**
 3. Automatically using the **`autoinstaller`** file
 
-###### Make sure you have all the prerequisites listed below, installed before setup
+##### Make sure you have all the prerequisites listed below, installed before setup
 ### PREREQUISITES
 - npm & nodejs 
 - electron (To start the app)
 - Java 11 openjdk (To generate backdoor)
 - electron packager (if you want to build binaries for Windows/Mac/Linux)
-----------------
-# INSTALLATION
 
-### Kali Linux & Parrot OS
+# INSTALLATION
+## Kali Linux & Parrot OS
 #### Auto install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
@@ -37,9 +36,8 @@
 5. ```sudo update-alternatives --config java``` 
 6. ```Select the corresponding number for openjdk-11-jdk``` - **Example:** **`0`**
 7. ```npm start```
-------------------
 
-### Windows 10 Installation
+## Windows 10 Installation
 #### Auto Install
 1. Navigate to the `Releases` section - https://github.com/Morsmalleo/AhMyth/releases
 2. Click on the latest release version of AhMyth - currently `1.0-beta.3`
@@ -57,5 +55,3 @@
 2. ```cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server```
 3. ```npm install && npm audit fix```
 4. ```npm start```
---------------------------------------------------------------------------
-##### This is not my work, I have only contributed to this wonderful tool.
