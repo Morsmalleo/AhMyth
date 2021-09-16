@@ -13,7 +13,7 @@
 
 # INSTALLATION
 #### Installation Note
-#### You can install AhMyth in 3 ways
+You can install AhMyth in 3 ways
 1. From Source
 2. Manually using **`npm`** or **`yarn`**
 3. Automatically using the **`autoinstaller`** file
