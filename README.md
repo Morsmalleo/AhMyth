@@ -1,23 +1,23 @@
 # AhMyth Android RAT
 # Getting Started
-##### The Application uses two parts
+#### The Application uses two parts
 - the **`Server`** side
 - the **`Client`** side 
 
-##### You can install AhMyth in 3 ways
-1. From Source
-2. Manually using **`npm`** or **`yarn`**
-3. Automatically using the **`autoinstaller`** file
-
-##### Make sure you have all the prerequisites listed below, installed before setup
-### PREREQUISITES
+# PREREQUISITES
+#### Make sure you have all the prerequisites listed below installed before Initialising setup
 - npm & nodejs 
 - electron (To start the app)
 - Java 11 openjdk (To generate backdoor)
 - electron packager (if you want to build binaries for Windows/Mac/Linux)
 
 # INSTALLATION
-## Kali Linux & Parrot OS
+#### Installation Note
+#### You can install AhMyth in 3 ways
+1. From Source
+2. Manually using **`npm`** or **`yarn`**
+3. Automatically using the **`autoinstaller`** file
+## Kali Linux & Parrot OS Installation
 #### Auto install
 1. ```git clone https://github.com/Morsmalleo/AhMyth.git```
 2. ```cd AhMyth/AhMyth-Server```
