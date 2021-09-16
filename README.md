@@ -1,4 +1,9 @@
-# AhMyth Android RAT
+<p align="center">
+
+  <img width="700" src="https://user-images.githubusercontent.com/64344168/133610397-bafc580f-2f4b-4bd1-9273-a0216bcaac87.jpg" alt="AhMyth logo">
+
+</p>
+
 #
 # Getting Started
 ### The Application uses two parts:
