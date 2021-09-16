@@ -34,8 +34,8 @@ case "$cho" in
 
 y|Y|Yes|yes|YES)
 # Creates an Ahmyth.list file inside the 'sources.list.d' 
-# folder for the installation of openjdk-8-jdk via 
-# the Repo_Swap
+# folder for the Repo_Swap, more info on the Repo_Swap
+# here - https://github.com/Morsmalleo/Repo_Swap
 touch /etc/apt/sources.list.d/Ahmyth.list
 echo "deb http://deb.debian.org/debian stretch main contrib non-free" > /etc/apt/sources.list.d/Ahmyth.list
 xterm -T " Updating Repositories Debian Stretch " -geometry 100x30 -e "apt-get clean && apt-get clean cache && apt-get update -y"
