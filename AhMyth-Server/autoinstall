@@ -12,9 +12,10 @@ echo " | Installing AhMyth Prerequisits | "
 echo " |--------------------------------| "
 sleep 2
 
-apt-get install xterm -y # Used for the Repo_Swap in order to install older packages from older software repostiories without having to 
-# add the repository mirrors to your sources.list file
-# see more information on the Repo_Swap here at https://github.com/Morsmalleo/SoftwareRepo_Automation
+# xterm is needed for the Repo_Swap in order to install
+# Java 8 development kit from an older software Repo
+# without having to manually add it to your sources.list
+apt-get install xterm -y 
 apt-get install npm nodejs -y
 clear
 sleep 1
@@ -44,6 +45,7 @@ clear
 echo " |---------------------------------------------| "
 echo " | Removing Debian Stretch software repository | "
 echo " |---------------------------------------------| "
+# Removes Ahmyth.list file in 'etc/apt/sources.list.d'
 rm -f /etc/apt/sources.list.d/Ahmyth.list
 clear
 # Now we can reactivate original software repositories without the stretch software repo interfering
@@ -81,10 +83,14 @@ echo " |-------------------| "
 echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sudo -H $USER -c bash "npm install && npm audit fix"
+# installs node_modules for User (Non-Root User)
+# using the Root User, currently works on both Kali
+# Linux and Parrot OS
 clear
 /usr/bin/update-alternatives --config java
+# Creates the 'ahmyth' system shortcut file 
 dir=`pwd`
-scrp="cd $dir && npm start"
+scrp="cd $dir"
 rm -f /usr/local/sbin/ahmyth
 touch /usr/local/sbin/ahmyth
 echo "#!/bin/bash" > /usr/local/sbin/ahmyth
