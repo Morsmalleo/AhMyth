@@ -55,3 +55,7 @@ You can install AhMyth in 3 ways
 2. ```cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server```
 3. ```npm install && npm audit fix```
 4. ```npm start```
+---------------------------------------------------------------------------------------------------------------
+![splash](https://user-images.githubusercontent.com/64344168/133571994-7595c487-38a5-4c50-845c-597bb12ead94.jpg)
+
+
