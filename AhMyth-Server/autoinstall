@@ -21,9 +21,11 @@ clear
 sleep 1
 
 clear
-echo " AhMyth now supports Java 11 Development Kit, but it is still recommended "
-echo " to install Java 8 Development Kit in case of errors simply because "
-echo " Java 11 support for AhMyth is still in beta phases "
+echo " |--------------------------------------------------------------------------| "
+echo " | AhMyth now supports Java 11 Development Kit, but it is still recommended | "
+echo " | to install Java 8 Development Kit in case of errors simply because       | "
+echo " | Java 11 support for AhMyth is still in beta phases                       | "
+echo " |--------------------------------------------------------------------------| "
 sleep 15
 clear
 
