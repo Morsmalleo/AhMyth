@@ -1,8 +1,8 @@
 # AhMyth Android RAT
 # Getting Started
 #### The Application uses two parts
-- the **`Server`** side
-- the **`Client`** side 
+- the **`Server`** side - `Control Panel`
+- the **`Client`** side - `Backdoor Payload`
 
 # PREREQUISITES
 #### Make sure you have all the prerequisites listed below installed before Initialising setup
