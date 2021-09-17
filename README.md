@@ -59,6 +59,22 @@
     3. npm install && npm audit fix
     4. npm start
 <br /><br />
+# Release Note:
+    AhMyth is currently experiencing some problems with APK Binding using Java 8 & 11 on Windows,
+    I do not know why this is happening, it didn't happen in my tests otherwise I wouldn't have 
+    released v1.0-beta.3, so I will revert back to v1.0-beta.2 or if I have to v1.0-beta.1 and determine
+    what the issue is, if found, the issue will be fixed, commited and pushed to github immediately!
+    
+    For the time being though Windows AhMyth users will have to use Linux instead to run AhMyth until the 
+    Windows bug can be fixed, if anyone manages to determine what the problem is before I do, please contact me 
+    at morsmalleodev@gmail.com or please create a pull request after testing to make sure the fix works. Please
+    note that the Java 11 support is with the followuing files
+    - sign.jar
+    - testkey.x509.pem
+    - testkey.pk8
+    
+<br /><br />
+
 # Disclaimer
     I am not in any way reponsible for any damage or harm to any devices, you use this at your own risk,
     I also DO NOT OWN THIS PROJECT, I have just contributed to it, this Android RAT application belongs to its 
