@@ -41,10 +41,12 @@
 #
 #
 ## Windows Development Ceased
-    AhMyth development for Windows machines has ceased since v1.0-beta.3, due to to many errors and issues compared to that of Linux.
-    AhMyth will now be developed and maintained for Linux Machines only. This Windows sub-section of the installation section of AhMyth
-    will be removed in the next release of AhMyth Android RAT. You will no longer find Windows Setup executables for AhMyth in versions 
-    1.0-beta.2 & 1.0-beta.3, as well as future releases of AhMyth.
+    AhMyth development for Windows machines has ceased since v1.0-beta.3, due to to many errors and issues compared to that of 
+    Linux. AhMyth will now be developed and maintained for Linux Machines only. This Windows sub-section of the installation 
+    section of AhMyth will be removed in the next release of AhMyth Android RAT. 
+    
+    You will no longer find Windows Setup executables for AhMyth in versions 1.0-beta.2 & 1.0-beta.3, 
+    as well as future releases of AhMyth.
 <br /><br />
 
 # Disclaimer
