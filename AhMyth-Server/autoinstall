@@ -86,7 +86,7 @@ sleep 2
 echo " |-------------------| "
 echo " | Installing AhMyth | "
 echo " |-------------------| " 
-sudo -H $USER -c bash "npm install && npm audit fix"
+sudo su $USER -c "npm install"
 # installs node_modules for User (Non-Root User)
 # using the Root User, currently works on both Kali
 # Linux and Parrot OS
@@ -94,7 +94,7 @@ clear
 /usr/bin/update-alternatives --config java
 # Creates the 'ahmyth' system shortcut file 
 dir=`pwd`
-scrp="cd $dir"
+scrp="cd $dir && npm start"
 rm -f /usr/local/sbin/ahmyth
 touch /usr/local/sbin/ahmyth
 echo "#!/bin/bash" > /usr/local/sbin/ahmyth
