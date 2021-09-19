@@ -51,7 +51,7 @@
 <br /><br />
 ## Setup Packages Removed Until Further Notice
     I have removed all the AhMyth Linux.deb setup files from versions 1.0-beta.2 & 1.0-beta.3
-    due to the fact that there were errors adding the source IP was to the APK file after the .deb 
+    due to the fact that there were errors adding the source IP to the APK file after the .deb 
     package was installed. So they have been removed, and both versions of AhMyth are now Source code 
     ONLY to prevent anymore unwanted problems & errors until furhter research is conducted into why this
     is happening.
