@@ -40,39 +40,10 @@
     7. npm start
 #
 #
-## Windows Install
-#### Auto Install:
-    1. Navigate to the Releases section - https://github.com/Morsmalleo/AhMyth/releases
-    2. Click on the latest release version of AhMyth - currently 1.0-beta.3
-    3. Click on the AhMyth_Win64-Setup.exe file, or the AhMyth_Win32-Setup.exe file, to download it 
-    4. Once downloaded, double click the file and this will begin to install AhMyth for windows automatically
-    5. Once AhMyth has been installed, you can start it by double clicking the desktop shortcut 
-
-#### Manual Install:
-    INSTALL THE FOLLOWING PREREQUISITS
-    - npm & nodejs for Windows 10 - https://nodejs.org/en/download/
-    - Java 11 for Windows 10 - https://www.oracle.com/au/java/technologies/javase-jdk11-downloads.html
-    - Git for Windows 10 - https://git-scm.com/downloads
-###### Open Git Bash and follow the below steps
-    1. git clone https://github.com/Morsmalleo/AhMyth
-    2. cd C:\Users\your-username-here\Desktop\AhMyth\AhMyth-Server
-    3. npm install && npm audit fix
-    4. npm start
-<br /><br />
-# Release Note:
-    AhMyth is currently experiencing some problems with APK Binding using Java 8 & 11 on Windows,
-    I do not know why this is happening, it didn't happen in my tests otherwise I wouldn't have 
-    released v1.0-beta.3, so I will revert back to v1.0-beta.2 or if I have to v1.0-beta.1 and determine
-    what the issue is, if found, the issue will be fixed, commited and pushed to github immediately!
-    
-    For the time being though Windows AhMyth users will have to use Linux instead to run AhMyth until the 
-    Windows bug can be fixed, if anyone manages to determine what the problem is before I do, please contact me 
-    at morsmalleodev@gmail.com or please create a pull request after testing to make sure the fix works. Please
-    note that the Java 11 support is with the followuing files
-    - sign.jar
-    - testkey.x509.pem
-    - testkey.pk8
-    
+## Windows Development Ceased
+    AhMyth development for Windows machines has ceased since v1.0-beta.3, due to to many errors and issues compared to that of Linux.
+    AhMyth will now be developed and maintained for Linux Machines only. This Windows sub-section of the installation section of AhMyth
+    will be removed in the next release of AhMyth Android RAT.
 <br /><br />
 
 # Disclaimer
