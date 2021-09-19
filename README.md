@@ -13,7 +13,7 @@
     anymore unwanted errors or problems until further notice. 
     
     You can still setup AhMyth with the source code the same way you would do it
-    if you git cloned it, just Download the Source Code from the releases section, 
+    if you git cloned it, just Download the Source Code from the releases page, 
     then follow the steps below in the INSTALLATION section.
 <br /><br />
 ### Windows Development Ceased
