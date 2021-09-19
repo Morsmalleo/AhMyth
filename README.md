@@ -41,14 +41,8 @@
 # INSTALLATION
 ## Linux
 #### Auto install:
-    1. git clone https://github.com/Morsmalleo/AhMyth.git
-    2. cd AhMyth/AhMyth-Server
-    3. chmod +x autoinstall
-    4. sudo ./autoinstall
-###### Once the "autoinstaller" has finished installing everything, it will prompt you to change your java version
-    5. Select the corresponding number for Java 11 openjdk - Example: 0
-    6. type `ahmyth` anywhere inside your terminal to auto-launch AhMyth
-    7. You can also launch AhMyth from your `Applications Menu`
+    Currently facing problems with the autoinstall script
+    please refer to the manual install steps.
 
 #### Manual Install:
     1. git clone https://github.com/Morsmalleo/AhMyth.git
