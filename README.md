@@ -8,9 +8,9 @@
 ## IMPORTANT NOTES PLEASE READ
 ### AhMyth.deb packages removed
     I have removed all the AhMyth Linux.deb setup files from versions 1.0-beta.2 & 1.0-beta.3
-    due to errors with AhMyth after having it packaged into .deb files for 64-Bit & 32-Bit Linux Machines,
-    so the AhMyth_Linux.deb files have been removed from both releases and are now Source Code only to prevent
-    anymore unwanted errors or problems until further notice. 
+    due to errors with AhMyth after having it packaged into .deb files for 64-Bit & 32-Bit 
+    Linux Machines, so the AhMyth_Linux.deb files have been removed from both releases and are 
+    now Source Code only to prevent anymore unwanted errors or problems until further notice. 
     
     You can still setup AhMyth with the source code the same way you would do it
     if you git cloned it, just Download the Source Code from the releases page, 
@@ -41,8 +41,13 @@
 # INSTALLATION
 ## Linux
 #### Auto install:
-    Currently facing problems with the autoinstall script
-    please refer to the manual install steps.
+    1. git clone https://github.com/Morsmalleo/AhMyth.git
+    2. cd AhMyth/AhMyth-Server
+    3. chmod +x autoinstall
+    4. sudo ./autoinstall
+    5. Select the corresponding number for openjdk-11-jdk when prompted - Example: 0
+    6. type 'ahmyth' anywhere in the terminal to auto-launch AhMyth
+       or you can launch AhMyth from your Applications Menu
 
 #### Manual Install:
     1. git clone https://github.com/Morsmalleo/AhMyth.git
