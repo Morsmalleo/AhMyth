@@ -4,6 +4,20 @@
 
 </p>
 
+## IMPORTANT NOTES PLEASE READ
+### AhMyth.deb packages removed
+    I have removed all the AhMyth Linux.deb setup files from versions 1.0-beta.2 & 1.0-beta.3
+    due to errors with AhMyth after having it packaged into .deb files for 64-Bit & 32-Bit Linux Machines.
+<br /><br />
+### Windows Development Ceased
+    AhMyth development for Windows machines has ceased since v1.0-beta.3, due to to many errors 
+    and issues compared to that of Linux. AhMyth will now be developed and maintained for Linux 
+    Machines only. This Windows sub-section of the installation section of AhMyth will be removed 
+    in the next release of AhMyth Android RAT. 
+    
+    You will no longer find Windows Setup executables for AhMyth in versions 1.0-beta.2 & 1.0-beta.3, 
+    as well as future releases of AhMyth.
+<br /><br />
 #
 # Getting Started
 ### The Application uses two parts:
@@ -17,9 +31,8 @@
     electron packager (if you want to build binaries for Windows/Mac/Linux)
 <br /><br />
 #
-#
 # INSTALLATION
-## Linux Install
+## Linux
 #### Auto install:
     1. git clone https://github.com/Morsmalleo/AhMyth.git
     2. cd AhMyth/AhMyth-Server
@@ -38,23 +51,6 @@
     5. sudo update-alternatives --config java
     6. Select the corresponding number for openjdk-11-jdk - Example: 0
     7. npm start
-#
-#
-## Windows Development Ceased
-    AhMyth development for Windows machines has ceased since v1.0-beta.3, due to to many errors 
-    and issues compared to that of Linux. AhMyth will now be developed and maintained for Linux 
-    Machines only. This Windows sub-section of the installation section of AhMyth will be removed 
-    in the next release of AhMyth Android RAT. 
-    
-    You will no longer find Windows Setup executables for AhMyth in versions 1.0-beta.2 & 1.0-beta.3, 
-    as well as future releases of AhMyth.
-<br /><br />
-## Setup Packages Removed Until Further Notice
-    I have removed all the AhMyth Linux.deb setup files from versions 1.0-beta.2 & 1.0-beta.3
-    due to the fact that there were errors adding the source IP to the APK file after the .deb 
-    package was installed. So they have been removed, and both versions of AhMyth are now Source code 
-    ONLY to prevent anymore unwanted problems & errors until furhter research is conducted into why this
-    is happening.
 <br /><br />
 # Disclaimer
     I am not in any way reponsible for any damage or harm to any devices, you use this at your own risk,
