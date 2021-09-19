@@ -7,7 +7,13 @@
 ## IMPORTANT NOTES PLEASE READ
 ### AhMyth.deb packages removed
     I have removed all the AhMyth Linux.deb setup files from versions 1.0-beta.2 & 1.0-beta.3
-    due to errors with AhMyth after having it packaged into .deb files for 64-Bit & 32-Bit Linux Machines.
+    due to errors with AhMyth after having it packaged into .deb files for 64-Bit & 32-Bit Linux Machines,
+    so the AhMyth_Linux.deb files have been removed from both releases and are now Source Code only to prevent
+    anymore unwanted errors or problems until further notice. 
+    
+    You can still setup AhMyth with the source code the same way you would do it
+    if you git cloned it, just Download the Source Code from the releases section, 
+    then follow the steps below in the INSTALLATION section.
 <br /><br />
 ### Windows Development Ceased
     AhMyth development for Windows machines has ceased since v1.0-beta.3, due to to many errors 
