@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.chip.ChipGroup android:id="@id/chip_group" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="16.0dip"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.google.android.material.chip.Chip android:ellipsize="end" android:id="@id/chip1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/chip_text" style="@style/Widget.MaterialComponents.Chip.Filter" />
-    <com.google.android.material.chip.Chip android:ellipsize="end" android:id="@id/chip2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/chip_text" style="@style/Widget.MaterialComponents.Chip.Filter" />
-    <com.google.android.material.chip.Chip android:ellipsize="end" android:id="@id/chip3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/chip_text" style="@style/Widget.MaterialComponents.Chip.Filter" />
-</com.google.android.material.chip.ChipGroup>

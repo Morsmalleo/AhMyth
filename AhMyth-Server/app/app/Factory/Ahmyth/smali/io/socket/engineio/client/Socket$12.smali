@@ -30,7 +30,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 443
+    .line 479
     iput-object p1, p0, Lio/socket/engineio/client/Socket$12;->this$0:Lio/socket/engineio/client/Socket;
 
     iput-object p2, p0, Lio/socket/engineio/client/Socket$12;->val$transport:[Lio/socket/engineio/client/Transport;
@@ -48,20 +48,20 @@
     .locals 6
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 446
+    .line 482
     const/4 v0, 0x0
 
     aget-object v1, p1, v0
 
     check-cast v1, Lio/socket/engineio/client/Transport;
 
-    .line 447
+    .line 483
     .local v1, "to":Lio/socket/engineio/client/Transport;
     iget-object v2, p0, Lio/socket/engineio/client/Socket$12;->val$transport:[Lio/socket/engineio/client/Transport;
 
     aget-object v2, v2, v0
 
-    if-eqz v2, :cond_0
+    if-eqz v2, :cond_1
 
     iget-object v2, v1, Lio/socket/engineio/client/Transport;->name:Ljava/lang/String;
 
@@ -75,9 +75,22 @@
 
     move-result v2
 
-    if-nez v2, :cond_0
+    if-nez v2, :cond_1
 
-    .line 448
+    .line 484
+    invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
+
+    move-result-object v2
+
+    sget-object v3, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+
+    invoke-virtual {v2, v3}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_0
+
+    .line 485
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
     move-result-object v2
@@ -108,14 +121,15 @@
 
     invoke-virtual {v2, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 449
+    .line 487
+    :cond_0
     iget-object v2, p0, Lio/socket/engineio/client/Socket$12;->val$freezeTransport:Lio/socket/emitter/Emitter$Listener;
 
     new-array v0, v0, [Ljava/lang/Object;
 
     invoke-interface {v2, v0}, Lio/socket/emitter/Emitter$Listener;->call([Ljava/lang/Object;)V
 
-    .line 451
-    :cond_0
+    .line 489
+    :cond_1
     return-void
 .end method

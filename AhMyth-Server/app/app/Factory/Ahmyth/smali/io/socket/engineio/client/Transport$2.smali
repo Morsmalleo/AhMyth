@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Transport;
 
-    .line 90
+    .line 84
     iput-object p1, p0, Lio/socket/engineio/client/Transport$2;->this$0:Lio/socket/engineio/client/Transport;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -39,7 +39,7 @@
 .method public run()V
     .locals 2
 
-    .line 93
+    .line 87
     iget-object v0, p0, Lio/socket/engineio/client/Transport$2;->this$0:Lio/socket/engineio/client/Transport;
 
     iget-object v0, v0, Lio/socket/engineio/client/Transport;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
@@ -56,18 +56,18 @@
 
     if-ne v0, v1, :cond_1
 
-    .line 94
+    .line 88
     :cond_0
     iget-object v0, p0, Lio/socket/engineio/client/Transport$2;->this$0:Lio/socket/engineio/client/Transport;
 
     invoke-virtual {v0}, Lio/socket/engineio/client/Transport;->doClose()V
 
-    .line 95
+    .line 89
     iget-object v0, p0, Lio/socket/engineio/client/Transport$2;->this$0:Lio/socket/engineio/client/Transport;
 
     invoke-virtual {v0}, Lio/socket/engineio/client/Transport;->onClose()V
 
-    .line 97
+    .line 91
     :cond_1
     return-void
 .end method

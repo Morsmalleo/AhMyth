@@ -40,7 +40,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 454
+    .line 492
     iput-object p1, p0, Lio/socket/engineio/client/Socket$13;->this$0:Lio/socket/engineio/client/Socket;
 
     iput-object p2, p0, Lio/socket/engineio/client/Socket$13;->val$transport:[Lio/socket/engineio/client/Transport;
@@ -67,7 +67,7 @@
 .method public run()V
     .locals 4
 
-    .line 457
+    .line 495
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$transport:[Lio/socket/engineio/client/Transport;
 
     const/4 v1, 0x0
@@ -80,7 +80,7 @@
 
     invoke-virtual {v0, v3, v2}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
-    .line 458
+    .line 496
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$transport:[Lio/socket/engineio/client/Transport;
 
     aget-object v0, v0, v1
@@ -91,7 +91,7 @@
 
     invoke-virtual {v0, v3, v2}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
-    .line 459
+    .line 497
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$transport:[Lio/socket/engineio/client/Transport;
 
     aget-object v0, v0, v1
@@ -102,14 +102,14 @@
 
     invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/Transport;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
-    .line 460
+    .line 498
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$self:Lio/socket/engineio/client/Socket;
 
     iget-object v1, p0, Lio/socket/engineio/client/Socket$13;->val$onclose:Lio/socket/emitter/Emitter$Listener;
 
     invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/Socket;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
-    .line 461
+    .line 499
     iget-object v0, p0, Lio/socket/engineio/client/Socket$13;->val$self:Lio/socket/engineio/client/Socket;
 
     iget-object v1, p0, Lio/socket/engineio/client/Socket$13;->val$onupgrade:Lio/socket/emitter/Emitter$Listener;
@@ -118,6 +118,6 @@
 
     invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/Socket;->off(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
-    .line 462
+    .line 500
     return-void
 .end method

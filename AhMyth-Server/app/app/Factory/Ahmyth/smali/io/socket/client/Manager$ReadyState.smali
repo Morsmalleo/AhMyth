@@ -36,7 +36,7 @@
 .method static constructor <clinit>()V
     .locals 7
 
-    .line 25
+    .line 27
     new-instance v0, Lio/socket/client/Manager$ReadyState;
 
     const-string v1, "CLOSED"
@@ -67,7 +67,7 @@
 
     sput-object v3, Lio/socket/client/Manager$ReadyState;->OPEN:Lio/socket/client/Manager$ReadyState;
 
-    .line 24
+    .line 26
     const/4 v5, 0x3
 
     new-array v5, v5, [Lio/socket/client/Manager$ReadyState;
@@ -91,7 +91,7 @@
         }
     .end annotation
 
-    .line 24
+    .line 26
     invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
 
     return-void
@@ -101,7 +101,7 @@
     .locals 1
     .param p0, "name"    # Ljava/lang/String;
 
-    .line 24
+    .line 26
     const-class v0, Lio/socket/client/Manager$ReadyState;
 
     invoke-static {v0, p0}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
@@ -116,7 +116,7 @@
 .method public static values()[Lio/socket/client/Manager$ReadyState;
     .locals 1
 
-    .line 24
+    .line 26
     sget-object v0, Lio/socket/client/Manager$ReadyState;->$VALUES:[Lio/socket/client/Manager$ReadyState;
 
     invoke-virtual {v0}, [Lio/socket/client/Manager$ReadyState;->clone()Ljava/lang/Object;

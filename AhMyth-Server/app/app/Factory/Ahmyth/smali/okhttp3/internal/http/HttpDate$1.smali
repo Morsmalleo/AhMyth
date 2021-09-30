@@ -1,4 +1,4 @@
-.class final Lokhttp3/internal/http/HttpDate$1;
+.class Lokhttp3/internal/http/HttpDate$1;
 .super Ljava/lang/ThreadLocal;
 .source "HttpDate.java"
 
@@ -9,7 +9,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x8
+    accessFlags = 0x0
     name = null
 .end annotation
 

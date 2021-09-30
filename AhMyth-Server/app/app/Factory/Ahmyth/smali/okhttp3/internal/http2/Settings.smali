@@ -153,10 +153,10 @@
 .method getInitialWindowSize()I
     .locals 3
 
-    .line 114
+    .line 113
     const/16 v0, 0x80
 
-    .line 115
+    .line 114
     .local v0, "bit":I
     iget v1, p0, Lokhttp3/internal/http2/Settings;->set:I
 
@@ -183,10 +183,10 @@
     .locals 3
     .param p1, "defaultValue"    # I
 
-    .line 99
+    .line 98
     const/16 v0, 0x10
 
-    .line 100
+    .line 99
     .local v0, "bit":I
     iget v1, p0, Lokhttp3/internal/http2/Settings;->set:I
 
@@ -213,10 +213,10 @@
     .locals 3
     .param p1, "defaultValue"    # I
 
-    .line 104
+    .line 103
     const/16 v0, 0x20
 
-    .line 105
+    .line 104
     .local v0, "bit":I
     iget v1, p0, Lokhttp3/internal/http2/Settings;->set:I
 
@@ -243,10 +243,10 @@
     .locals 3
     .param p1, "defaultValue"    # I
 
-    .line 109
+    .line 108
     const/16 v0, 0x40
 
-    .line 110
+    .line 109
     .local v0, "bit":I
     iget v1, p0, Lokhttp3/internal/http2/Settings;->set:I
 
@@ -299,7 +299,7 @@
     .locals 2
     .param p1, "other"    # Lokhttp3/internal/http2/Settings;
 
-    .line 123
+    .line 122
     const/4 v0, 0x0
 
     .local v0, "i":I
@@ -308,7 +308,7 @@
 
     if-ge v0, v1, :cond_1
 
-    .line 124
+    .line 123
     invoke-virtual {p1, v0}, Lokhttp3/internal/http2/Settings;->isSet(I)Z
 
     move-result v1
@@ -317,7 +317,7 @@
 
     goto :goto_1
 
-    .line 125
+    .line 124
     :cond_0
     invoke-virtual {p1, v0}, Lokhttp3/internal/http2/Settings;->get(I)I
 
@@ -325,13 +325,13 @@
 
     invoke-virtual {p0, v0, v1}, Lokhttp3/internal/http2/Settings;->set(II)Lokhttp3/internal/http2/Settings;
 
-    .line 123
+    .line 122
     :goto_1
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_0
 
-    .line 127
+    .line 126
     .end local v0    # "i":I
     :cond_1
     return-void
@@ -343,14 +343,15 @@
     .param p2, "value"    # I
 
     .line 59
+    if-ltz p1, :cond_1
+
     iget-object v0, p0, Lokhttp3/internal/http2/Settings;->values:[I
 
     array-length v1, v0
 
     if-lt p1, v1, :cond_0
 
-    .line 60
-    return-object p0
+    goto :goto_0
 
     .line 63
     :cond_0
@@ -370,6 +371,12 @@
     aput p2, v0, p1
 
     .line 66
+    return-object p0
+
+    .line 60
+    .end local v1    # "bit":I
+    :cond_1
+    :goto_0
     return-object p0
 .end method
 

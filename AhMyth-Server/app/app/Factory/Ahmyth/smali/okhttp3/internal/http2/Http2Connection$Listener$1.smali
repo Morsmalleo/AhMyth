@@ -1,4 +1,4 @@
-.class final Lokhttp3/internal/http2/Http2Connection$Listener$1;
+.class Lokhttp3/internal/http2/Http2Connection$Listener$1;
 .super Lokhttp3/internal/http2/Http2Connection$Listener;
 .source "Http2Connection.java"
 
@@ -9,7 +9,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x8
+    accessFlags = 0x0
     name = null
 .end annotation
 
@@ -18,7 +18,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 862
+    .line 1001
     invoke-direct {p0}, Lokhttp3/internal/http2/Http2Connection$Listener;-><init>()V
 
     return-void
@@ -35,11 +35,11 @@
         }
     .end annotation
 
-    .line 864
+    .line 1003
     sget-object v0, Lokhttp3/internal/http2/ErrorCode;->REFUSED_STREAM:Lokhttp3/internal/http2/ErrorCode;
 
     invoke-virtual {p1, v0}, Lokhttp3/internal/http2/Http2Stream;->close(Lokhttp3/internal/http2/ErrorCode;)V
 
-    .line 865
+    .line 1004
     return-void
 .end method

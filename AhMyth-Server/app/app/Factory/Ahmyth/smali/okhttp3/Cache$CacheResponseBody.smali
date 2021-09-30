@@ -18,39 +18,45 @@
 .field private final bodySource:Lokio/BufferedSource;
 
 .field private final contentLength:Ljava/lang/String;
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
+.end field
 
 .field private final contentType:Ljava/lang/String;
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
+.end field
 
 .field final snapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
 
 # direct methods
-.method public constructor <init>(Lokhttp3/internal/cache/DiskLruCache$Snapshot;Ljava/lang/String;Ljava/lang/String;)V
+.method constructor <init>(Lokhttp3/internal/cache/DiskLruCache$Snapshot;Ljava/lang/String;Ljava/lang/String;)V
     .locals 2
     .param p1, "snapshot"    # Lokhttp3/internal/cache/DiskLruCache$Snapshot;
     .param p2, "contentType"    # Ljava/lang/String;
     .param p3, "contentLength"    # Ljava/lang/String;
 
-    .line 743
+    .line 744
     invoke-direct {p0}, Lokhttp3/ResponseBody;-><init>()V
 
-    .line 744
+    .line 745
     iput-object p1, p0, Lokhttp3/Cache$CacheResponseBody;->snapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    .line 745
+    .line 746
     iput-object p2, p0, Lokhttp3/Cache$CacheResponseBody;->contentType:Ljava/lang/String;
 
-    .line 746
+    .line 747
     iput-object p3, p0, Lokhttp3/Cache$CacheResponseBody;->contentLength:Ljava/lang/String;
 
-    .line 748
+    .line 749
     const/4 v0, 0x1
 
     invoke-virtual {p1, v0}, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->getSource(I)Lokio/Source;
 
     move-result-object v0
 
-    .line 749
+    .line 750
     .local v0, "source":Lokio/Source;
     new-instance v1, Lokhttp3/Cache$CacheResponseBody$1;
 
@@ -62,7 +68,7 @@
 
     iput-object v1, p0, Lokhttp3/Cache$CacheResponseBody;->bodySource:Lokio/BufferedSource;
 
-    .line 755
+    .line 756
     return-void
 .end method
 
@@ -71,7 +77,7 @@
 .method public contentLength()J
     .locals 3
 
-    .line 763
+    .line 764
     const-wide/16 v0, -0x1
 
     :try_start_0
@@ -88,11 +94,11 @@
     :cond_0
     return-wide v0
 
-    .line 764
+    .line 765
     :catch_0
     move-exception v2
 
-    .line 765
+    .line 766
     .local v2, "e":Ljava/lang/NumberFormatException;
     return-wide v0
 .end method
@@ -100,7 +106,7 @@
 .method public contentType()Lokhttp3/MediaType;
     .locals 1
 
-    .line 758
+    .line 759
     iget-object v0, p0, Lokhttp3/Cache$CacheResponseBody;->contentType:Ljava/lang/String;
 
     if-eqz v0, :cond_0
@@ -121,7 +127,7 @@
 .method public source()Lokio/BufferedSource;
     .locals 1
 
-    .line 770
+    .line 771
     iget-object v0, p0, Lokhttp3/Cache$CacheResponseBody;->bodySource:Lokio/BufferedSource;
 
     return-object v0

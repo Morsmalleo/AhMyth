@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="mtrl_badge_content_description">
-        <item quantity="other">ការជូនដំណឹងថ្មី %d</item>
-        <item quantity="one">ការជូនដំណឹងថ្មី %d</item>
-    </plurals>
-</resources>

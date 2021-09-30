@@ -9,7 +9,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x8
+    accessFlags = 0x0
     name = null
 .end annotation
 
@@ -18,7 +18,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 49
+    .line 48
     invoke-direct {p0}, Lokio/Timeout;-><init>()V
 
     return-void
@@ -30,7 +30,7 @@
     .locals 0
     .param p1, "deadlineNanoTime"    # J
 
-    .line 55
+    .line 54
     return-object p0
 .end method
 
@@ -42,7 +42,7 @@
         }
     .end annotation
 
-    .line 59
+    .line 58
     return-void
 .end method
 
@@ -51,6 +51,6 @@
     .param p1, "timeout"    # J
     .param p3, "unit"    # Ljava/util/concurrent/TimeUnit;
 
-    .line 51
+    .line 50
     return-object p0
 .end method

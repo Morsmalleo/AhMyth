@@ -32,7 +32,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Socket;
 
-    .line 349
+    .line 329
     iput-object p1, p0, Lio/socket/client/Socket$7;->this$0:Lio/socket/client/Socket;
 
     iput-object p2, p0, Lio/socket/client/Socket$7;->val$sent:[Z
@@ -52,13 +52,13 @@
     .locals 1
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 352
+    .line 332
     new-instance v0, Lio/socket/client/Socket$7$1;
 
     invoke-direct {v0, p0, p1}, Lio/socket/client/Socket$7$1;-><init>(Lio/socket/client/Socket$7;[Ljava/lang/Object;)V
 
     invoke-static {v0}, Lio/socket/thread/EventThread;->exec(Ljava/lang/Runnable;)V
 
-    .line 371
+    .line 351
     return-void
 .end method

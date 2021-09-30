@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical" android:id="@id/topPanel" android:layout_width="fill_parent" android:layout_height="wrap_content"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout android:id="@id/title_template" style="?materialAlertDialogTitlePanelStyle">
-        <ImageView android:id="@android:id/icon" style="?materialAlertDialogTitleIconStyle" />
-        <androidx.appcompat.widget.DialogTitle android:id="@id/alertTitle" style="?materialAlertDialogTitleTextStyle" />
-    </LinearLayout>
-    <android.widget.Space android:id="@id/titleDividerNoCustom" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/abc_dialog_title_divider_material" />
-</LinearLayout>

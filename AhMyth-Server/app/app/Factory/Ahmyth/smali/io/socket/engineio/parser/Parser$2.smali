@@ -16,17 +16,30 @@
     name = null
 .end annotation
 
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Ljava/lang/Object;",
+        "Lio/socket/engineio/parser/Parser$EncodeCallback<",
+        "Ljava/lang/String;",
+        ">;"
+    }
+.end annotation
+
 
 # instance fields
-.field final synthetic val$results:Ljava/util/ArrayList;
+.field final synthetic val$isLast:Z
+
+.field final synthetic val$result:Ljava/lang/StringBuilder;
 
 
 # direct methods
-.method constructor <init>(Ljava/util/ArrayList;)V
+.method constructor <init>(Ljava/lang/StringBuilder;Z)V
     .locals 0
 
-    .line 121
-    iput-object p1, p0, Lio/socket/engineio/parser/Parser$2;->val$results:Ljava/util/ArrayList;
+    .line 102
+    iput-object p1, p0, Lio/socket/engineio/parser/Parser$2;->val$result:Ljava/lang/StringBuilder;
+
+    iput-boolean p2, p0, Lio/socket/engineio/parser/Parser$2;->val$isLast:Z
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -35,207 +48,39 @@
 
 
 # virtual methods
-.method public call(Ljava/lang/Object;)V
-    .locals 9
-    .param p1, "packet"    # Ljava/lang/Object;
+.method public bridge synthetic call(Ljava/lang/Object;)V
+    .locals 0
 
-    .line 124
-    instance-of v0, p1, Ljava/lang/String;
+    .line 102
+    check-cast p1, Ljava/lang/String;
 
-    const/4 v1, -0x1
+    invoke-virtual {p0, p1}, Lio/socket/engineio/parser/Parser$2;->call(Ljava/lang/String;)V
 
-    const/4 v2, 0x2
-
-    const/4 v3, 0x0
-
-    const/4 v4, 0x1
-
-    if-eqz v0, :cond_1
-
-    .line 125
-    move-object v0, p1
-
-    check-cast v0, Ljava/lang/String;
-
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
-
-    move-result v0
-
-    invoke-static {v0}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
-
-    move-result-object v0
-
-    .line 126
-    .local v0, "encodingLength":Ljava/lang/String;
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
-
-    move-result v5
-
-    add-int/2addr v5, v2
-
-    new-array v5, v5, [B
-
-    .line 128
-    .local v5, "sizeBuffer":[B
-    aput-byte v3, v5, v3
-
-    .line 129
-    const/4 v6, 0x0
-
-    .local v6, "i":I
-    :goto_0
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
-
-    move-result v7
-
-    if-ge v6, v7, :cond_0
-
-    .line 130
-    add-int/lit8 v7, v6, 0x1
-
-    invoke-virtual {v0, v6}, Ljava/lang/String;->charAt(I)C
-
-    move-result v8
-
-    invoke-static {v8}, Ljava/lang/Character;->getNumericValue(C)I
-
-    move-result v8
-
-    int-to-byte v8, v8
-
-    aput-byte v8, v5, v7
-
-    .line 129
-    add-int/lit8 v6, v6, 0x1
-
-    goto :goto_0
-
-    .line 132
-    .end local v6    # "i":I
-    :cond_0
-    array-length v6, v5
-
-    sub-int/2addr v6, v4
-
-    aput-byte v1, v5, v6
-
-    .line 133
-    iget-object v1, p0, Lio/socket/engineio/parser/Parser$2;->val$results:Ljava/util/ArrayList;
-
-    new-array v2, v2, [[B
-
-    aput-object v5, v2, v3
-
-    move-object v3, p1
-
-    check-cast v3, Ljava/lang/String;
-
-    invoke-static {v3}, Lio/socket/engineio/parser/Parser;->access$000(Ljava/lang/String;)[B
-
-    move-result-object v3
-
-    aput-object v3, v2, v4
-
-    invoke-static {v2}, Lio/socket/engineio/parser/Buffer;->concat([[B)[B
-
-    move-result-object v2
-
-    invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
-
-    .line 134
     return-void
+.end method
 
-    .line 137
-    .end local v0    # "encodingLength":Ljava/lang/String;
-    .end local v5    # "sizeBuffer":[B
-    :cond_1
-    move-object v0, p1
+.method public call(Ljava/lang/String;)V
+    .locals 2
+    .param p1, "message"    # Ljava/lang/String;
 
-    check-cast v0, [B
+    .line 105
+    iget-object v0, p0, Lio/socket/engineio/parser/Parser$2;->val$result:Ljava/lang/StringBuilder;
 
-    check-cast v0, [B
+    invoke-virtual {v0, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    array-length v0, v0
+    .line 106
+    iget-boolean v0, p0, Lio/socket/engineio/parser/Parser$2;->val$isLast:Z
 
-    invoke-static {v0}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+    if-nez v0, :cond_0
 
-    move-result-object v0
+    .line 107
+    iget-object v0, p0, Lio/socket/engineio/parser/Parser$2;->val$result:Ljava/lang/StringBuilder;
 
-    .line 138
-    .restart local v0    # "encodingLength":Ljava/lang/String;
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
+    const/16 v1, 0x1e
 
-    move-result v5
+    invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
-    add-int/2addr v5, v2
-
-    new-array v5, v5, [B
-
-    .line 139
-    .restart local v5    # "sizeBuffer":[B
-    aput-byte v4, v5, v3
-
-    .line 140
-    const/4 v6, 0x0
-
-    .restart local v6    # "i":I
-    :goto_1
-    invoke-virtual {v0}, Ljava/lang/String;->length()I
-
-    move-result v7
-
-    if-ge v6, v7, :cond_2
-
-    .line 141
-    add-int/lit8 v7, v6, 0x1
-
-    invoke-virtual {v0, v6}, Ljava/lang/String;->charAt(I)C
-
-    move-result v8
-
-    invoke-static {v8}, Ljava/lang/Character;->getNumericValue(C)I
-
-    move-result v8
-
-    int-to-byte v8, v8
-
-    aput-byte v8, v5, v7
-
-    .line 140
-    add-int/lit8 v6, v6, 0x1
-
-    goto :goto_1
-
-    .line 143
-    .end local v6    # "i":I
-    :cond_2
-    array-length v6, v5
-
-    sub-int/2addr v6, v4
-
-    aput-byte v1, v5, v6
-
-    .line 144
-    iget-object v1, p0, Lio/socket/engineio/parser/Parser$2;->val$results:Ljava/util/ArrayList;
-
-    new-array v2, v2, [[B
-
-    aput-object v5, v2, v3
-
-    move-object v3, p1
-
-    check-cast v3, [B
-
-    check-cast v3, [B
-
-    aput-object v3, v2, v4
-
-    invoke-static {v2}, Lio/socket/engineio/parser/Buffer;->concat([[B)[B
-
-    move-result-object v2
-
-    invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
-
-    .line 145
+    .line 109
+    :cond_0
     return-void
 .end method

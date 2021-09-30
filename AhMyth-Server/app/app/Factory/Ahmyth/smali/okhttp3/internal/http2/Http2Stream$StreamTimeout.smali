@@ -23,7 +23,7 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/internal/http2/Http2Stream;
 
-    .line 581
+    .line 665
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Stream$StreamTimeout;->this$0:Lokhttp3/internal/http2/Http2Stream;
 
     invoke-direct {p0}, Lokio/AsyncTimeout;-><init>()V
@@ -41,17 +41,17 @@
         }
     .end annotation
 
-    .line 595
+    .line 680
     invoke-virtual {p0}, Lokhttp3/internal/http2/Http2Stream$StreamTimeout;->exit()Z
 
     move-result v0
 
     if-nez v0, :cond_0
 
-    .line 596
+    .line 681
     return-void
 
-    .line 595
+    .line 680
     :cond_0
     const/4 v0, 0x0
 
@@ -66,21 +66,21 @@
     .locals 2
     .param p1, "cause"    # Ljava/io/IOException;
 
-    .line 587
+    .line 672
     new-instance v0, Ljava/net/SocketTimeoutException;
 
     const-string v1, "timeout"
 
     invoke-direct {v0, v1}, Ljava/net/SocketTimeoutException;-><init>(Ljava/lang/String;)V
 
-    .line 588
+    .line 673
     .local v0, "socketTimeoutException":Ljava/net/SocketTimeoutException;
     if-eqz p1, :cond_0
 
-    .line 589
+    .line 674
     invoke-virtual {v0, p1}, Ljava/net/SocketTimeoutException;->initCause(Ljava/lang/Throwable;)Ljava/lang/Throwable;
 
-    .line 591
+    .line 676
     :cond_0
     return-object v0
 .end method
@@ -88,13 +88,20 @@
 .method protected timedOut()V
     .locals 2
 
-    .line 583
+    .line 667
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Stream$StreamTimeout;->this$0:Lokhttp3/internal/http2/Http2Stream;
 
     sget-object v1, Lokhttp3/internal/http2/ErrorCode;->CANCEL:Lokhttp3/internal/http2/ErrorCode;
 
     invoke-virtual {v0, v1}, Lokhttp3/internal/http2/Http2Stream;->closeLater(Lokhttp3/internal/http2/ErrorCode;)V
 
-    .line 584
+    .line 668
+    iget-object v0, p0, Lokhttp3/internal/http2/Http2Stream$StreamTimeout;->this$0:Lokhttp3/internal/http2/Http2Stream;
+
+    iget-object v0, v0, Lokhttp3/internal/http2/Http2Stream;->connection:Lokhttp3/internal/http2/Http2Connection;
+
+    invoke-virtual {v0}, Lokhttp3/internal/http2/Http2Connection;->sendDegradedPingLater()V
+
+    .line 669
     return-void
 .end method

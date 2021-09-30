@@ -26,7 +26,7 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .line 309
+    .line 316
     const-class v0, Lokhttp3/internal/cache/DiskLruCache;
 
     return-void
@@ -37,7 +37,7 @@
     .param p1, "this$0"    # Lokhttp3/internal/cache/DiskLruCache;
     .param p2, "delegate"    # Lokio/Sink;
 
-    .line 309
+    .line 316
     iput-object p1, p0, Lokhttp3/internal/cache/DiskLruCache$2;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-direct {p0, p2}, Lokhttp3/internal/cache/FaultHidingSink;-><init>(Lokio/Sink;)V
@@ -51,7 +51,7 @@
     .locals 2
     .param p1, "e"    # Ljava/io/IOException;
 
-    .line 311
+    .line 318
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$2;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-static {v0}, Ljava/lang/Thread;->holdsLock(Ljava/lang/Object;)Z
@@ -60,17 +60,17 @@
 
     if-eqz v0, :cond_0
 
-    .line 312
+    .line 319
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$2;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lokhttp3/internal/cache/DiskLruCache;->hasJournalErrors:Z
 
-    .line 313
+    .line 320
     return-void
 
-    .line 311
+    .line 318
     :cond_0
     new-instance v0, Ljava/lang/AssertionError;
 

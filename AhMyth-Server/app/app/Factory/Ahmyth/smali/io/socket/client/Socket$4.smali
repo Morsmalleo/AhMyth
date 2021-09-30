@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Socket;
 
-    .line 155
+    .line 143
     iput-object p1, p0, Lio/socket/client/Socket$4;->this$0:Lio/socket/client/Socket;
 
     iput-object p2, p0, Lio/socket/client/Socket$4;->val$args:[Ljava/lang/Object;
@@ -43,7 +43,7 @@
 .method public run()V
     .locals 3
 
-    .line 158
+    .line 146
     iget-object v0, p0, Lio/socket/client/Socket$4;->this$0:Lio/socket/client/Socket;
 
     iget-object v1, p0, Lio/socket/client/Socket$4;->val$args:[Ljava/lang/Object;
@@ -52,6 +52,6 @@
 
     invoke-virtual {v0, v2, v1}, Lio/socket/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 159
+    .line 147
     return-void
 .end method

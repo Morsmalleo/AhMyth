@@ -36,9 +36,9 @@
     .line 45
     new-instance v0, Lokhttp3/internal/tls/BasicCertificateChainCleaner;
 
-    invoke-static {p0}, Lokhttp3/internal/tls/TrustRootIndex;->get([Ljava/security/cert/X509Certificate;)Lokhttp3/internal/tls/TrustRootIndex;
+    new-instance v1, Lokhttp3/internal/tls/BasicTrustRootIndex;
 
-    move-result-object v1
+    invoke-direct {v1, p0}, Lokhttp3/internal/tls/BasicTrustRootIndex;-><init>([Ljava/security/cert/X509Certificate;)V
 
     invoke-direct {v0, v1}, Lokhttp3/internal/tls/BasicCertificateChainCleaner;-><init>(Lokhttp3/internal/tls/TrustRootIndex;)V
 

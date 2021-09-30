@@ -1,4 +1,4 @@
-.class final Lokhttp3/RequestBody$2;
+.class Lokhttp3/RequestBody$2;
 .super Lokhttp3/RequestBody;
 .source "RequestBody.java"
 
@@ -9,7 +9,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x8
+    accessFlags = 0x0
     name = null
 .end annotation
 
@@ -28,7 +28,7 @@
 .method constructor <init>(Lokhttp3/MediaType;I[BI)V
     .locals 0
 
-    .line 86
+    .line 88
     iput-object p1, p0, Lokhttp3/RequestBody$2;->val$contentType:Lokhttp3/MediaType;
 
     iput p2, p0, Lokhttp3/RequestBody$2;->val$byteCount:I
@@ -47,7 +47,7 @@
 .method public contentLength()J
     .locals 2
 
-    .line 92
+    .line 94
     iget v0, p0, Lokhttp3/RequestBody$2;->val$byteCount:I
 
     int-to-long v0, v0
@@ -57,8 +57,10 @@
 
 .method public contentType()Lokhttp3/MediaType;
     .locals 1
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
 
-    .line 88
+    .line 90
     iget-object v0, p0, Lokhttp3/RequestBody$2;->val$contentType:Lokhttp3/MediaType;
 
     return-object v0
@@ -73,7 +75,7 @@
         }
     .end annotation
 
-    .line 96
+    .line 98
     iget-object v0, p0, Lokhttp3/RequestBody$2;->val$content:[B
 
     iget v1, p0, Lokhttp3/RequestBody$2;->val$offset:I
@@ -82,6 +84,6 @@
 
     invoke-interface {p1, v0, v1, v2}, Lokio/BufferedSink;->write([BII)Lokio/BufferedSink;
 
-    .line 97
+    .line 99
     return-void
 .end method

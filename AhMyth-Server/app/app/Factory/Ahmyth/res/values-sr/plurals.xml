@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="mtrl_badge_content_description">
-        <item quantity="other">%d нових обавештења</item>
-        <item quantity="one">%d ново обавештење</item>
-        <item quantity="few">%d нова обавештења</item>
-    </plurals>
-</resources>

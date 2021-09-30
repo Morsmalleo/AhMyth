@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/PollingXHR$3;
 
-    .line 73
+    .line 82
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$3$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$3;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -39,13 +39,13 @@
 .method public run()V
     .locals 1
 
-    .line 76
+    .line 85
     iget-object v0, p0, Lio/socket/engineio/client/transports/PollingXHR$3$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$3;
 
     iget-object v0, v0, Lio/socket/engineio/client/transports/PollingXHR$3;->val$fn:Ljava/lang/Runnable;
 
     invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    .line 77
+    .line 86
     return-void
 .end method

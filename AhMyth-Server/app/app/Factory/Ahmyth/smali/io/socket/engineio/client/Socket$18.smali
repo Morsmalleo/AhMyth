@@ -3,12 +3,12 @@
 .source "Socket.java"
 
 # interfaces
-.implements Ljava/lang/Runnable;
+.implements Lio/socket/emitter/Emitter$Listener;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lio/socket/engineio/client/Socket;->send([BLjava/lang/Runnable;)V
+    value = Lio/socket/engineio/client/Socket;->sendPacket(Lio/socket/engineio/parser/Packet;Ljava/lang/Runnable;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -22,20 +22,16 @@
 
 .field final synthetic val$fn:Ljava/lang/Runnable;
 
-.field final synthetic val$msg:[B
-
 
 # direct methods
-.method constructor <init>(Lio/socket/engineio/client/Socket;[BLjava/lang/Runnable;)V
+.method constructor <init>(Lio/socket/engineio/client/Socket;Ljava/lang/Runnable;)V
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 665
+    .line 706
     iput-object p1, p0, Lio/socket/engineio/client/Socket$18;->this$0:Lio/socket/engineio/client/Socket;
 
-    iput-object p2, p0, Lio/socket/engineio/client/Socket$18;->val$msg:[B
-
-    iput-object p3, p0, Lio/socket/engineio/client/Socket$18;->val$fn:Ljava/lang/Runnable;
+    iput-object p2, p0, Lio/socket/engineio/client/Socket$18;->val$fn:Ljava/lang/Runnable;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -44,20 +40,15 @@
 
 
 # virtual methods
-.method public run()V
-    .locals 4
+.method public varargs call([Ljava/lang/Object;)V
+    .locals 1
+    .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 668
-    iget-object v0, p0, Lio/socket/engineio/client/Socket$18;->this$0:Lio/socket/engineio/client/Socket;
+    .line 709
+    iget-object v0, p0, Lio/socket/engineio/client/Socket$18;->val$fn:Ljava/lang/Runnable;
 
-    iget-object v1, p0, Lio/socket/engineio/client/Socket$18;->val$msg:[B
+    invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$18;->val$fn:Ljava/lang/Runnable;
-
-    const-string v3, "message"
-
-    invoke-static {v0, v3, v1, v2}, Lio/socket/engineio/client/Socket;->access$1900(Lio/socket/engineio/client/Socket;Ljava/lang/String;[BLjava/lang/Runnable;)V
-
-    .line 669
+    .line 710
     return-void
 .end method

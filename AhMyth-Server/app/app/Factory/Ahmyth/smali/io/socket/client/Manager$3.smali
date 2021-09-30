@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .line 356
+    .line 340
     iput-object p1, p0, Lio/socket/client/Manager$3;->this$0:Lio/socket/client/Manager;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -37,14 +37,20 @@
 
 # virtual methods
 .method public varargs call([Ljava/lang/Object;)V
-    .locals 1
+    .locals 2
     .param p1, "objects"    # [Ljava/lang/Object;
 
-    .line 359
+    .line 343
     iget-object v0, p0, Lio/socket/client/Manager$3;->this$0:Lio/socket/client/Manager;
 
-    invoke-static {v0}, Lio/socket/client/Manager;->access$1200(Lio/socket/client/Manager;)V
+    const/4 v1, 0x0
 
-    .line 360
+    aget-object v1, p1, v1
+
+    check-cast v1, Ljava/lang/Exception;
+
+    invoke-static {v0, v1}, Lio/socket/client/Manager;->access$1000(Lio/socket/client/Manager;Ljava/lang/Exception;)V
+
+    .line 344
     return-void
 .end method

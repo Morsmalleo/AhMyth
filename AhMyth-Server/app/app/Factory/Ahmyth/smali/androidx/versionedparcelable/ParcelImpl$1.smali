@@ -30,7 +30,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 60
+    .line 58
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -42,7 +42,7 @@
     .locals 1
     .param p1, "in"    # Landroid/os/Parcel;
 
-    .line 63
+    .line 61
     new-instance v0, Landroidx/versionedparcelable/ParcelImpl;
 
     invoke-direct {v0, p1}, Landroidx/versionedparcelable/ParcelImpl;-><init>(Landroid/os/Parcel;)V
@@ -53,7 +53,7 @@
 .method public bridge synthetic createFromParcel(Landroid/os/Parcel;)Ljava/lang/Object;
     .locals 0
 
-    .line 60
+    .line 58
     invoke-virtual {p0, p1}, Landroidx/versionedparcelable/ParcelImpl$1;->createFromParcel(Landroid/os/Parcel;)Landroidx/versionedparcelable/ParcelImpl;
 
     move-result-object p1
@@ -65,7 +65,7 @@
     .locals 1
     .param p1, "size"    # I
 
-    .line 68
+    .line 66
     new-array v0, p1, [Landroidx/versionedparcelable/ParcelImpl;
 
     return-object v0
@@ -74,7 +74,7 @@
 .method public bridge synthetic newArray(I)[Ljava/lang/Object;
     .locals 0
 
-    .line 60
+    .line 58
     invoke-virtual {p0, p1}, Landroidx/versionedparcelable/ParcelImpl$1;->newArray(I)[Landroidx/versionedparcelable/ParcelImpl;
 
     move-result-object p1

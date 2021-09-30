@@ -38,24 +38,24 @@
     .param p5, "sources"    # [Lokio/Source;
     .param p6, "lengths"    # [J
 
-    .line 787
+    .line 795
     iput-object p1, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 788
+    .line 796
     iput-object p2, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->key:Ljava/lang/String;
 
-    .line 789
+    .line 797
     iput-wide p3, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->sequenceNumber:J
 
-    .line 790
+    .line 798
     iput-object p5, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->sources:[Lokio/Source;
 
-    .line 791
+    .line 799
     iput-object p6, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->lengths:[J
 
-    .line 792
+    .line 800
     return-void
 .end method
 
@@ -63,7 +63,7 @@
     .locals 1
     .param p0, "x0"    # Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    .line 781
+    .line 789
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->key:Ljava/lang/String;
 
     return-object v0
@@ -74,7 +74,7 @@
 .method public close()V
     .locals 4
 
-    .line 817
+    .line 825
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->sources:[Lokio/Source;
 
     array-length v1, v0
@@ -86,17 +86,17 @@
 
     aget-object v3, v0, v2
 
-    .line 818
+    .line 826
     .local v3, "in":Lokio/Source;
     invoke-static {v3}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
 
-    .line 817
+    .line 825
     .end local v3    # "in":Lokio/Source;
     add-int/lit8 v2, v2, 0x1
 
     goto :goto_0
 
-    .line 820
+    .line 828
     :cond_0
     return-void
 .end method
@@ -109,7 +109,10 @@
         }
     .end annotation
 
-    .line 803
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
+
+    .line 811
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
     iget-object v1, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->key:Ljava/lang/String;
@@ -127,7 +130,7 @@
     .locals 3
     .param p1, "index"    # I
 
-    .line 813
+    .line 821
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->lengths:[J
 
     aget-wide v1, v0, p1
@@ -139,7 +142,7 @@
     .locals 1
     .param p1, "index"    # I
 
-    .line 808
+    .line 816
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->sources:[Lokio/Source;
 
     aget-object v0, v0, p1
@@ -150,7 +153,7 @@
 .method public key()Ljava/lang/String;
     .locals 1
 
-    .line 795
+    .line 803
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->key:Ljava/lang/String;
 
     return-object v0

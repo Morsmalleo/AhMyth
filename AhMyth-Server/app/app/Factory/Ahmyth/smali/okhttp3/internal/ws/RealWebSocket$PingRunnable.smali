@@ -22,25 +22,15 @@
 
 
 # direct methods
-.method private constructor <init>(Lokhttp3/internal/ws/RealWebSocket;)V
+.method constructor <init>(Lokhttp3/internal/ws/RealWebSocket;)V
     .locals 0
 
-    .line 489
+    .line 526
     iput-object p1, p0, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    return-void
-.end method
-
-.method synthetic constructor <init>(Lokhttp3/internal/ws/RealWebSocket;Lokhttp3/internal/ws/RealWebSocket$1;)V
-    .locals 0
-    .param p1, "x0"    # Lokhttp3/internal/ws/RealWebSocket;
-    .param p2, "x1"    # Lokhttp3/internal/ws/RealWebSocket$1;
-
-    .line 489
-    invoke-direct {p0, p1}, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;-><init>(Lokhttp3/internal/ws/RealWebSocket;)V
-
+    .line 527
     return-void
 .end method
 
@@ -49,11 +39,11 @@
 .method public run()V
     .locals 1
 
-    .line 491
+    .line 530
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
-    invoke-static {v0}, Lokhttp3/internal/ws/RealWebSocket;->access$100(Lokhttp3/internal/ws/RealWebSocket;)V
+    invoke-virtual {v0}, Lokhttp3/internal/ws/RealWebSocket;->writePingFrame()V
 
-    .line 492
+    .line 531
     return-void
 .end method

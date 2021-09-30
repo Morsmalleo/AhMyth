@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lio/socket/engineio/client/Socket;->send(Ljava/lang/String;Ljava/lang/Runnable;)V
+    value = Lio/socket/engineio/client/Socket;->send([BLjava/lang/Runnable;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -22,18 +22,18 @@
 
 .field final synthetic val$fn:Ljava/lang/Runnable;
 
-.field final synthetic val$msg:Ljava/lang/String;
+.field final synthetic val$msg:[B
 
 
 # direct methods
-.method constructor <init>(Lio/socket/engineio/client/Socket;Ljava/lang/String;Ljava/lang/Runnable;)V
+.method constructor <init>(Lio/socket/engineio/client/Socket;[BLjava/lang/Runnable;)V
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 656
+    .line 676
     iput-object p1, p0, Lio/socket/engineio/client/Socket$17;->this$0:Lio/socket/engineio/client/Socket;
 
-    iput-object p2, p0, Lio/socket/engineio/client/Socket$17;->val$msg:Ljava/lang/String;
+    iput-object p2, p0, Lio/socket/engineio/client/Socket$17;->val$msg:[B
 
     iput-object p3, p0, Lio/socket/engineio/client/Socket$17;->val$fn:Ljava/lang/Runnable;
 
@@ -47,17 +47,17 @@
 .method public run()V
     .locals 4
 
-    .line 659
+    .line 679
     iget-object v0, p0, Lio/socket/engineio/client/Socket$17;->this$0:Lio/socket/engineio/client/Socket;
 
-    iget-object v1, p0, Lio/socket/engineio/client/Socket$17;->val$msg:Ljava/lang/String;
+    iget-object v1, p0, Lio/socket/engineio/client/Socket$17;->val$msg:[B
 
     iget-object v2, p0, Lio/socket/engineio/client/Socket$17;->val$fn:Ljava/lang/Runnable;
 
     const-string v3, "message"
 
-    invoke-static {v0, v3, v1, v2}, Lio/socket/engineio/client/Socket;->access$1800(Lio/socket/engineio/client/Socket;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Runnable;)V
+    invoke-static {v0, v3, v1, v2}, Lio/socket/engineio/client/Socket;->access$1700(Lio/socket/engineio/client/Socket;Ljava/lang/String;[BLjava/lang/Runnable;)V
 
-    .line 660
+    .line 680
     return-void
 .end method

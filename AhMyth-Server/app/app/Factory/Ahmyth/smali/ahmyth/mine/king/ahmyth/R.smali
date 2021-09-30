@@ -5,19 +5,14 @@
 # annotations
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
-        Lahmyth/mine/king/ahmyth/R$anim;,
-        Lahmyth/mine/king/ahmyth/R$animator;,
         Lahmyth/mine/king/ahmyth/R$attr;,
-        Lahmyth/mine/king/ahmyth/R$bool;,
         Lahmyth/mine/king/ahmyth/R$color;,
         Lahmyth/mine/king/ahmyth/R$dimen;,
         Lahmyth/mine/king/ahmyth/R$drawable;,
         Lahmyth/mine/king/ahmyth/R$id;,
         Lahmyth/mine/king/ahmyth/R$integer;,
-        Lahmyth/mine/king/ahmyth/R$interpolator;,
         Lahmyth/mine/king/ahmyth/R$layout;,
         Lahmyth/mine/king/ahmyth/R$mipmap;,
-        Lahmyth/mine/king/ahmyth/R$plurals;,
         Lahmyth/mine/king/ahmyth/R$string;,
         Lahmyth/mine/king/ahmyth/R$style;,
         Lahmyth/mine/king/ahmyth/R$styleable;,

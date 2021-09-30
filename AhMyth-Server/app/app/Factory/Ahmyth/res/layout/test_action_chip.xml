@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.chip.Chip android:ellipsize="end" android:id="@id/chip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/chip_text" style="@style/Widget.MaterialComponents.Chip.Action"
-  xmlns:android="http://schemas.android.com/apk/res/android" />

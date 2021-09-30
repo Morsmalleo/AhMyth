@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Socket;
 
-    .line 430
+    .line 417
     iput-object p1, p0, Lio/socket/client/Socket$8;->this$0:Lio/socket/client/Socket;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -39,21 +39,34 @@
 .method public run()V
     .locals 5
 
-    .line 433
+    .line 420
     iget-object v0, p0, Lio/socket/client/Socket$8;->this$0:Lio/socket/client/Socket;
 
-    invoke-static {v0}, Lio/socket/client/Socket;->access$300(Lio/socket/client/Socket;)Z
+    invoke-static {v0}, Lio/socket/client/Socket;->access$200(Lio/socket/client/Socket;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_0
+    if-eqz v0, :cond_1
 
-    .line 434
+    .line 421
     invoke-static {}, Lio/socket/client/Socket;->access$800()Ljava/util/logging/Logger;
 
     move-result-object v0
 
+    sget-object v1, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+
+    invoke-virtual {v0, v1}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v0
+
     const/4 v1, 0x1
+
+    if-eqz v0, :cond_0
+
+    .line 422
+    invoke-static {}, Lio/socket/client/Socket;->access$800()Ljava/util/logging/Logger;
+
+    move-result-object v0
 
     new-array v2, v1, [Ljava/lang/Object;
 
@@ -61,7 +74,7 @@
 
     iget-object v4, p0, Lio/socket/client/Socket$8;->this$0:Lio/socket/client/Socket;
 
-    invoke-static {v4}, Lio/socket/client/Socket;->access$1300(Lio/socket/client/Socket;)Ljava/lang/String;
+    invoke-static {v4}, Lio/socket/client/Socket;->access$1200(Lio/socket/client/Socket;)Ljava/lang/String;
 
     move-result-object v4
 
@@ -75,38 +88,39 @@
 
     invoke-virtual {v0, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 435
+    .line 424
+    :cond_0
     iget-object v0, p0, Lio/socket/client/Socket$8;->this$0:Lio/socket/client/Socket;
 
     new-instance v2, Lio/socket/parser/Packet;
 
     invoke-direct {v2, v1}, Lio/socket/parser/Packet;-><init>(I)V
 
-    invoke-static {v0, v2}, Lio/socket/client/Socket;->access$1100(Lio/socket/client/Socket;Lio/socket/parser/Packet;)V
+    invoke-static {v0, v2}, Lio/socket/client/Socket;->access$1000(Lio/socket/client/Socket;Lio/socket/parser/Packet;)V
 
-    .line 438
-    :cond_0
+    .line 427
+    :cond_1
     iget-object v0, p0, Lio/socket/client/Socket$8;->this$0:Lio/socket/client/Socket;
 
-    invoke-static {v0}, Lio/socket/client/Socket;->access$1400(Lio/socket/client/Socket;)V
+    invoke-static {v0}, Lio/socket/client/Socket;->access$1300(Lio/socket/client/Socket;)V
 
-    .line 440
+    .line 429
     iget-object v0, p0, Lio/socket/client/Socket$8;->this$0:Lio/socket/client/Socket;
 
-    invoke-static {v0}, Lio/socket/client/Socket;->access$300(Lio/socket/client/Socket;)Z
+    invoke-static {v0}, Lio/socket/client/Socket;->access$200(Lio/socket/client/Socket;)Z
 
     move-result v0
 
-    if-eqz v0, :cond_1
+    if-eqz v0, :cond_2
 
-    .line 441
+    .line 430
     iget-object v0, p0, Lio/socket/client/Socket$8;->this$0:Lio/socket/client/Socket;
 
     const-string v1, "io client disconnect"
 
-    invoke-static {v0, v1}, Lio/socket/client/Socket;->access$200(Lio/socket/client/Socket;Ljava/lang/String;)V
+    invoke-static {v0, v1}, Lio/socket/client/Socket;->access$400(Lio/socket/client/Socket;Ljava/lang/String;)V
 
-    .line 443
-    :cond_1
+    .line 432
+    :cond_2
     return-void
 .end method

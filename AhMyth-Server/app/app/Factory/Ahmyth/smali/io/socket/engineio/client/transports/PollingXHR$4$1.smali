@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/transports/PollingXHR$4;
 
-    .line 84
+    .line 93
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$4;
 
     iput-object p2, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->val$args:[Ljava/lang/Object;
@@ -43,7 +43,7 @@
 .method public run()V
     .locals 3
 
-    .line 87
+    .line 96
     iget-object v0, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->val$args:[Ljava/lang/Object;
 
     array-length v1, v0
@@ -67,7 +67,7 @@
     :cond_0
     const/4 v0, 0x0
 
-    .line 88
+    .line 97
     .local v0, "err":Ljava/lang/Exception;
     :goto_0
     iget-object v1, p0, Lio/socket/engineio/client/transports/PollingXHR$4$1;->this$1:Lio/socket/engineio/client/transports/PollingXHR$4;
@@ -78,6 +78,6 @@
 
     invoke-static {v1, v2, v0}, Lio/socket/engineio/client/transports/PollingXHR;->access$000(Lio/socket/engineio/client/transports/PollingXHR;Ljava/lang/String;Ljava/lang/Exception;)Lio/socket/engineio/client/Transport;
 
-    .line 89
+    .line 98
     return-void
 .end method

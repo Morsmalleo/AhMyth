@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lokhttp3/internal/ws/RealWebSocket;-><init>(Lokhttp3/Request;Lokhttp3/WebSocketListener;Ljava/util/Random;)V
+    value = Lokhttp3/internal/ws/RealWebSocket;-><init>(Lokhttp3/Request;Lokhttp3/WebSocketListener;Ljava/util/Random;J)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/internal/ws/RealWebSocket;
 
-    .line 143
+    .line 156
     iput-object p1, p0, Lokhttp3/internal/ws/RealWebSocket$1;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -39,7 +39,7 @@
 .method public run()V
     .locals 3
 
-    .line 146
+    .line 159
     :goto_0
     :try_start_0
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket$1;->this$0:Lokhttp3/internal/ws/RealWebSocket;
@@ -54,15 +54,15 @@
 
     goto :goto_0
 
-    .line 150
+    .line 163
     :cond_0
     goto :goto_1
 
-    .line 148
+    .line 161
     :catch_0
     move-exception v0
 
-    .line 149
+    .line 162
     .local v0, "e":Ljava/io/IOException;
     iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket$1;->this$0:Lokhttp3/internal/ws/RealWebSocket;
 
@@ -70,7 +70,7 @@
 
     invoke-virtual {v1, v0, v2}, Lokhttp3/internal/ws/RealWebSocket;->failWebSocket(Ljava/lang/Exception;Lokhttp3/Response;)V
 
-    .line 151
+    .line 164
     .end local v0    # "e":Ljava/io/IOException;
     :goto_1
     return-void

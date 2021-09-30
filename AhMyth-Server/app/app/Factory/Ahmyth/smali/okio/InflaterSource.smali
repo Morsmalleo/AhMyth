@@ -85,14 +85,14 @@
         }
     .end annotation
 
-    .line 112
+    .line 113
     iget v0, p0, Lokio/InflaterSource;->bufferBytesHeldByInflater:I
 
     if-nez v0, :cond_0
 
     return-void
 
-    .line 113
+    .line 114
     :cond_0
     iget-object v1, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
 
@@ -102,7 +102,7 @@
 
     sub-int/2addr v0, v1
 
-    .line 114
+    .line 115
     .local v0, "toRelease":I
     iget v1, p0, Lokio/InflaterSource;->bufferBytesHeldByInflater:I
 
@@ -110,14 +110,14 @@
 
     iput v1, p0, Lokio/InflaterSource;->bufferBytesHeldByInflater:I
 
-    .line 115
+    .line 116
     iget-object v1, p0, Lokio/InflaterSource;->source:Lokio/BufferedSource;
 
     int-to-long v2, v0
 
     invoke-interface {v1, v2, v3}, Lokio/BufferedSource;->skip(J)V
 
-    .line 116
+    .line 117
     return-void
 .end method
 
@@ -131,35 +131,35 @@
         }
     .end annotation
 
-    .line 123
+    .line 124
     iget-boolean v0, p0, Lokio/InflaterSource;->closed:Z
 
     if-eqz v0, :cond_0
 
     return-void
 
-    .line 124
+    .line 125
     :cond_0
     iget-object v0, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
 
     invoke-virtual {v0}, Ljava/util/zip/Inflater;->end()V
 
-    .line 125
+    .line 126
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokio/InflaterSource;->closed:Z
 
-    .line 126
+    .line 127
     iget-object v0, p0, Lokio/InflaterSource;->source:Lokio/BufferedSource;
 
     invoke-interface {v0}, Lokio/BufferedSource;->close()V
 
-    .line 127
+    .line 128
     return-void
 .end method
 
 .method public read(Lokio/Buffer;J)J
-    .locals 7
+    .locals 8
     .param p1, "sink"    # Lokio/Buffer;
     .param p2, "byteCount"    # J
     .annotation system Ldalvik/annotation/Throws;
@@ -205,95 +205,107 @@
 
     .line 67
     .local v1, "tail":Lokio/Segment;
+    iget v2, v1, Lokio/Segment;->limit:I
+
+    rsub-int v2, v2, 0x2000
+
+    int-to-long v2, v2
+
+    invoke-static {p2, p3, v2, v3}, Ljava/lang/Math;->min(JJ)J
+
+    move-result-wide v2
+
+    long-to-int v3, v2
+
+    .line 68
+    .local v3, "toRead":I
     iget-object v2, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
 
-    iget-object v3, v1, Lokio/Segment;->data:[B
-
-    iget v4, v1, Lokio/Segment;->limit:I
+    iget-object v4, v1, Lokio/Segment;->data:[B
 
     iget v5, v1, Lokio/Segment;->limit:I
 
-    rsub-int v5, v5, 0x2000
-
-    invoke-virtual {v2, v3, v4, v5}, Ljava/util/zip/Inflater;->inflate([BII)I
+    invoke-virtual {v2, v4, v5, v3}, Ljava/util/zip/Inflater;->inflate([BII)I
 
     move-result v2
 
-    .line 68
+    .line 69
     .local v2, "bytesInflated":I
     if-lez v2, :cond_1
 
-    .line 69
-    iget v3, v1, Lokio/Segment;->limit:I
-
-    add-int/2addr v3, v2
-
-    iput v3, v1, Lokio/Segment;->limit:I
-
     .line 70
-    iget-wide v3, p1, Lokio/Buffer;->size:J
+    iget v4, v1, Lokio/Segment;->limit:I
 
-    int-to-long v5, v2
+    add-int/2addr v4, v2
 
-    add-long/2addr v3, v5
-
-    iput-wide v3, p1, Lokio/Buffer;->size:J
+    iput v4, v1, Lokio/Segment;->limit:I
 
     .line 71
-    int-to-long v3, v2
+    iget-wide v4, p1, Lokio/Buffer;->size:J
 
-    return-wide v3
+    int-to-long v6, v2
 
-    .line 73
+    add-long/2addr v4, v6
+
+    iput-wide v4, p1, Lokio/Buffer;->size:J
+
+    .line 72
+    int-to-long v4, v2
+
+    return-wide v4
+
+    .line 74
     :cond_1
-    iget-object v3, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
+    iget-object v4, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
 
-    invoke-virtual {v3}, Ljava/util/zip/Inflater;->finished()Z
+    invoke-virtual {v4}, Ljava/util/zip/Inflater;->finished()Z
 
-    move-result v3
+    move-result v4
 
-    if-nez v3, :cond_4
+    if-nez v4, :cond_4
 
-    iget-object v3, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
+    iget-object v4, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
 
-    invoke-virtual {v3}, Ljava/util/zip/Inflater;->needsDictionary()Z
+    invoke-virtual {v4}, Ljava/util/zip/Inflater;->needsDictionary()Z
 
-    move-result v3
+    move-result v4
 
-    if-eqz v3, :cond_2
+    if-eqz v4, :cond_2
 
     goto :goto_1
 
-    .line 82
+    .line 83
     :cond_2
     if-nez v0, :cond_3
 
-    .line 85
+    .line 86
     .end local v1    # "tail":Lokio/Segment;
     .end local v2    # "bytesInflated":I
+    .end local v3    # "toRead":I
     nop
 
-    .line 86
+    .line 87
     .end local v0    # "sourceExhausted":Z
     goto :goto_0
 
-    .line 82
+    .line 83
     .restart local v0    # "sourceExhausted":Z
     .restart local v1    # "tail":Lokio/Segment;
     .restart local v2    # "bytesInflated":I
+    .restart local v3    # "toRead":I
     :cond_3
-    new-instance v3, Ljava/io/EOFException;
+    new-instance v4, Ljava/io/EOFException;
 
-    const-string v4, "source exhausted prematurely"
+    const-string v5, "source exhausted prematurely"
 
-    invoke-direct {v3, v4}, Ljava/io/EOFException;-><init>(Ljava/lang/String;)V
+    invoke-direct {v4, v5}, Ljava/io/EOFException;-><init>(Ljava/lang/String;)V
 
     .end local v0    # "sourceExhausted":Z
     .end local p1    # "sink":Lokio/Buffer;
     .end local p2    # "byteCount":J
-    throw v3
+    throw v4
 
-    .line 74
+    .line 75
     .restart local v0    # "sourceExhausted":Z
     .restart local p1    # "sink":Lokio/Buffer;
     .restart local p2    # "byteCount":J
@@ -301,38 +313,39 @@
     :goto_1
     invoke-direct {p0}, Lokio/InflaterSource;->releaseInflatedBytes()V
 
-    .line 75
-    iget v3, v1, Lokio/Segment;->pos:I
+    .line 76
+    iget v4, v1, Lokio/Segment;->pos:I
 
-    iget v4, v1, Lokio/Segment;->limit:I
+    iget v5, v1, Lokio/Segment;->limit:I
 
-    if-ne v3, v4, :cond_5
-
-    .line 77
-    invoke-virtual {v1}, Lokio/Segment;->pop()Lokio/Segment;
-
-    move-result-object v3
-
-    iput-object v3, p1, Lokio/Buffer;->head:Lokio/Segment;
+    if-ne v4, v5, :cond_5
 
     .line 78
+    invoke-virtual {v1}, Lokio/Segment;->pop()Lokio/Segment;
+
+    move-result-object v4
+
+    iput-object v4, p1, Lokio/Buffer;->head:Lokio/Segment;
+
+    .line 79
     invoke-static {v1}, Lokio/SegmentPool;->recycle(Lokio/Segment;)V
     :try_end_0
     .catch Ljava/util/zip/DataFormatException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 80
+    .line 81
     :cond_5
-    const-wide/16 v3, -0x1
+    const-wide/16 v4, -0x1
 
-    return-wide v3
+    return-wide v4
 
-    .line 83
+    .line 84
     .end local v1    # "tail":Lokio/Segment;
     .end local v2    # "bytesInflated":I
+    .end local v3    # "toRead":I
     :catch_0
     move-exception v1
 
-    .line 84
+    .line 85
     .local v1, "e":Ljava/util/zip/DataFormatException;
     new-instance v2, Ljava/io/IOException;
 
@@ -364,7 +377,11 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v1
+
     invoke-virtual {v1, p2, p3}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+
+    move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -381,7 +398,7 @@
     goto :goto_2
 .end method
 
-.method public refill()Z
+.method public final refill()Z
     .locals 6
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -389,7 +406,7 @@
         }
     .end annotation
 
-    .line 95
+    .line 96
     iget-object v0, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
 
     invoke-virtual {v0}, Ljava/util/zip/Inflater;->needsInput()Z
@@ -402,11 +419,11 @@
 
     return v1
 
-    .line 97
+    .line 98
     :cond_0
     invoke-direct {p0}, Lokio/InflaterSource;->releaseInflatedBytes()V
 
-    .line 98
+    .line 99
     iget-object v0, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
 
     invoke-virtual {v0}, Ljava/util/zip/Inflater;->getRemaining()I
@@ -415,7 +432,7 @@
 
     if-nez v0, :cond_2
 
-    .line 101
+    .line 102
     iget-object v0, p0, Lokio/InflaterSource;->source:Lokio/BufferedSource;
 
     invoke-interface {v0}, Lokio/BufferedSource;->exhausted()Z
@@ -428,7 +445,7 @@
 
     return v0
 
-    .line 104
+    .line 105
     :cond_1
     iget-object v0, p0, Lokio/InflaterSource;->source:Lokio/BufferedSource;
 
@@ -438,7 +455,7 @@
 
     iget-object v0, v0, Lokio/Buffer;->head:Lokio/Segment;
 
-    .line 105
+    .line 106
     .local v0, "head":Lokio/Segment;
     iget v2, v0, Lokio/Segment;->limit:I
 
@@ -448,7 +465,7 @@
 
     iput v2, p0, Lokio/InflaterSource;->bufferBytesHeldByInflater:I
 
-    .line 106
+    .line 107
     iget-object v2, p0, Lokio/InflaterSource;->inflater:Ljava/util/zip/Inflater;
 
     iget-object v3, v0, Lokio/Segment;->data:[B
@@ -459,10 +476,10 @@
 
     invoke-virtual {v2, v3, v4, v5}, Ljava/util/zip/Inflater;->setInput([BII)V
 
-    .line 107
+    .line 108
     return v1
 
-    .line 98
+    .line 99
     .end local v0    # "head":Lokio/Segment;
     :cond_2
     new-instance v0, Ljava/lang/IllegalStateException;
@@ -477,7 +494,7 @@
 .method public timeout()Lokio/Timeout;
     .locals 1
 
-    .line 119
+    .line 120
     iget-object v0, p0, Lokio/InflaterSource;->source:Lokio/BufferedSource;
 
     invoke-interface {v0}, Lokio/BufferedSource;->timeout()Lokio/Timeout;

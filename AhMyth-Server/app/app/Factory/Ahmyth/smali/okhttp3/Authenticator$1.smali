@@ -1,4 +1,4 @@
-.class final Lokhttp3/Authenticator$1;
+.class Lokhttp3/Authenticator$1;
 .super Ljava/lang/Object;
 .source "Authenticator.java"
 
@@ -12,7 +12,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x8
+    accessFlags = 0x0
     name = null
 .end annotation
 
@@ -21,7 +21,7 @@
 .method constructor <init>()V
     .locals 0
 
-    .line 51
+    .line 100
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -32,9 +32,12 @@
 .method public authenticate(Lokhttp3/Route;Lokhttp3/Response;)Lokhttp3/Request;
     .locals 1
     .param p1, "route"    # Lokhttp3/Route;
+        .annotation runtime Ljavax/annotation/Nullable;
+        .end annotation
+    .end param
     .param p2, "response"    # Lokhttp3/Response;
 
-    .line 53
+    .line 102
     const/4 v0, 0x0
 
     return-object v0

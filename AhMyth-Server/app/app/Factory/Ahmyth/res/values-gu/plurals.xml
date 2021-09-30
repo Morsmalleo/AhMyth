@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="mtrl_badge_content_description">
-        <item quantity="other">%d નવા નોટિફિકેશન</item>
-        <item quantity="one">%d નવું નોટિફિકેશન</item>
-    </plurals>
-</resources>

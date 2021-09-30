@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<view android:layout_gravity="bottom" android:layout_width="fill_parent" android:layout_height="wrap_content" class="com.google.android.material.snackbar.SnackbarContentLayout"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <TextView android:layout_gravity="start|center" android:id="@id/snackbar_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0" style="?snackbarTextViewStyle" />
-    <Button android:layout_gravity="end|center" android:id="@id/snackbar_action" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="48.0dip" style="?snackbarButtonStyle" />
-</view>

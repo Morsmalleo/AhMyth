@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="mtrl_badge_content_description">
-        <item quantity="other">%d de notificări noi</item>
-        <item quantity="one">%d notificare nouă</item>
-        <item quantity="few">%d notificări noi</item>
-    </plurals>
-</resources>

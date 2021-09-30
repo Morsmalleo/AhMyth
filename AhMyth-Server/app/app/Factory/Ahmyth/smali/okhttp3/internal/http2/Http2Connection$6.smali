@@ -33,7 +33,7 @@
     .param p2, "format"    # Ljava/lang/String;
     .param p3, "args"    # [Ljava/lang/Object;
 
-    .line 833
+    .line 966
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$6;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     iput p4, p0, Lokhttp3/internal/http2/Http2Connection$6;->val$streamId:I
@@ -54,7 +54,7 @@
 .method public execute()V
     .locals 5
 
-    .line 836
+    .line 969
     :try_start_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$6;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -72,7 +72,7 @@
 
     move-result v0
 
-    .line 837
+    .line 970
     .local v0, "cancel":Z
     if-eqz v0, :cond_0
 
@@ -86,7 +86,7 @@
 
     invoke-virtual {v1, v2, v3}, Lokhttp3/internal/http2/Http2Writer;->rstStream(ILokhttp3/internal/http2/ErrorCode;)V
 
-    .line 838
+    .line 971
     :cond_0
     if-nez v0, :cond_1
 
@@ -94,7 +94,7 @@
 
     if-eqz v1, :cond_2
 
-    .line 839
+    .line 972
     :cond_1
     iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$6;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -102,7 +102,7 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 840
+    .line 973
     :try_start_1
     iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$6;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -116,15 +116,15 @@
 
     invoke-interface {v2, v3}, Ljava/util/Set;->remove(Ljava/lang/Object;)Z
 
-    .line 841
+    .line 974
     monitor-exit v1
 
-    .line 844
+    .line 977
     .end local v0    # "cancel":Z
     :cond_2
     goto :goto_0
 
-    .line 841
+    .line 974
     .restart local v0    # "cancel":Z
     :catchall_0
     move-exception v2
@@ -138,12 +138,12 @@
     :try_end_2
     .catch Ljava/io/IOException; {:try_start_2 .. :try_end_2} :catch_0
 
-    .line 843
+    .line 976
     .end local v0    # "cancel":Z
     :catch_0
     move-exception v0
 
-    .line 845
+    .line 978
     :goto_0
     return-void
 .end method

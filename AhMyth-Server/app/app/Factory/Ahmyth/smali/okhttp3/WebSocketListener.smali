@@ -7,7 +7,7 @@
 .method public constructor <init>()V
     .locals 0
 
-    .line 20
+    .line 21
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -21,7 +21,7 @@
     .param p2, "code"    # I
     .param p3, "reason"    # Ljava/lang/String;
 
-    .line 45
+    .line 49
     return-void
 .end method
 
@@ -31,7 +31,7 @@
     .param p2, "code"    # I
     .param p3, "reason"    # Ljava/lang/String;
 
-    .line 38
+    .line 42
     return-void
 .end method
 
@@ -40,8 +40,11 @@
     .param p1, "webSocket"    # Lokhttp3/WebSocket;
     .param p2, "t"    # Ljava/lang/Throwable;
     .param p3, "response"    # Lokhttp3/Response;
+        .annotation runtime Ljavax/annotation/Nullable;
+        .end annotation
+    .end param
 
-    .line 53
+    .line 57
     return-void
 .end method
 
@@ -50,7 +53,7 @@
     .param p1, "webSocket"    # Lokhttp3/WebSocket;
     .param p2, "text"    # Ljava/lang/String;
 
-    .line 30
+    .line 31
     return-void
 .end method
 
@@ -59,7 +62,7 @@
     .param p1, "webSocket"    # Lokhttp3/WebSocket;
     .param p2, "bytes"    # Lokio/ByteString;
 
-    .line 34
+    .line 35
     return-void
 .end method
 
@@ -68,6 +71,6 @@
     .param p1, "webSocket"    # Lokhttp3/WebSocket;
     .param p2, "response"    # Lokhttp3/Response;
 
-    .line 26
+    .line 27
     return-void
 .end method

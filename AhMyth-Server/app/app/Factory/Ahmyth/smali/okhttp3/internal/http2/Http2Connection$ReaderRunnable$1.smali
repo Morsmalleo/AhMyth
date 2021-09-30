@@ -27,7 +27,7 @@
     .param p2, "format"    # Ljava/lang/String;
     .param p3, "args"    # [Ljava/lang/Object;
 
-    .line 627
+    .line 739
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$1;->this$1:Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;
 
     iput-object p4, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$1;->val$newStream:Lokhttp3/internal/http2/Http2Stream;
@@ -42,7 +42,7 @@
 .method public execute()V
     .locals 5
 
-    .line 630
+    .line 742
     :try_start_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$1;->this$1:Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;
 
@@ -56,14 +56,14 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 637
+    .line 749
     goto :goto_0
 
-    .line 631
+    .line 743
     :catch_0
     move-exception v0
 
-    .line 632
+    .line 744
     .local v0, "e":Ljava/io/IOException;
     invoke-static {}, Lokhttp3/internal/platform/Platform;->get()Lokhttp3/internal/platform/Platform;
 
@@ -75,9 +75,11 @@
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v4, "FramedConnection.Listener failure for "
+    const-string v4, "Http2Connection.Listener failure for "
 
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
 
     iget-object v4, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$1;->this$1:Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;
 
@@ -87,13 +89,15 @@
 
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v3
+
     invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v3
 
     invoke-virtual {v1, v2, v3, v0}, Lokhttp3/internal/platform/Platform;->log(ILjava/lang/String;Ljava/lang/Throwable;)V
 
-    .line 634
+    .line 746
     :try_start_1
     iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$1;->val$newStream:Lokhttp3/internal/http2/Http2Stream;
 
@@ -103,14 +107,14 @@
     :try_end_1
     .catch Ljava/io/IOException; {:try_start_1 .. :try_end_1} :catch_1
 
-    .line 636
+    .line 748
     goto :goto_0
 
-    .line 635
+    .line 747
     :catch_1
     move-exception v1
 
-    .line 638
+    .line 750
     .end local v0    # "e":Ljava/io/IOException;
     :goto_0
     return-void

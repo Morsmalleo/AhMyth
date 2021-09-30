@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Transport;
 
-    .line 103
+    .line 97
     iput-object p1, p0, Lio/socket/engineio/client/Transport$3;->this$0:Lio/socket/engineio/client/Transport;
 
     iput-object p2, p0, Lio/socket/engineio/client/Transport$3;->val$packets:[Lio/socket/engineio/parser/Packet;
@@ -43,7 +43,7 @@
 .method public run()V
     .locals 2
 
-    .line 106
+    .line 100
     iget-object v0, p0, Lio/socket/engineio/client/Transport$3;->this$0:Lio/socket/engineio/client/Transport;
 
     iget-object v0, v0, Lio/socket/engineio/client/Transport;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
@@ -52,36 +52,17 @@
 
     if-ne v0, v1, :cond_0
 
-    .line 108
-    :try_start_0
+    .line 101
     iget-object v0, p0, Lio/socket/engineio/client/Transport$3;->this$0:Lio/socket/engineio/client/Transport;
 
     iget-object v1, p0, Lio/socket/engineio/client/Transport$3;->val$packets:[Lio/socket/engineio/parser/Packet;
 
     invoke-virtual {v0, v1}, Lio/socket/engineio/client/Transport;->write([Lio/socket/engineio/parser/Packet;)V
-    :try_end_0
-    .catch Lio/socket/utf8/UTF8Exception; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 111
-    nop
-
-    .line 115
+    .line 105
     return-void
 
-    .line 109
-    :catch_0
-    move-exception v0
-
-    .line 110
-    .local v0, "err":Lio/socket/utf8/UTF8Exception;
-    new-instance v1, Ljava/lang/RuntimeException;
-
-    invoke-direct {v1, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/Throwable;)V
-
-    throw v1
-
-    .line 113
-    .end local v0    # "err":Lio/socket/utf8/UTF8Exception;
+    .line 103
     :cond_0
     new-instance v0, Ljava/lang/RuntimeException;
 

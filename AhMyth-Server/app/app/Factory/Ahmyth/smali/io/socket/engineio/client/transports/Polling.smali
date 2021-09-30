@@ -64,118 +64,102 @@
     .local v0, "self":Lio/socket/engineio/client/transports/Polling;
     sget-object v1, Lio/socket/engineio/client/transports/Polling;->logger:Ljava/util/logging/Logger;
 
-    const/4 v2, 0x1
+    sget-object v2, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
 
-    new-array v3, v2, [Ljava/lang/Object;
+    invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v2
+
+    const/4 v3, 0x1
 
     const/4 v4, 0x0
 
-    aput-object p1, v3, v4
+    if-eqz v2, :cond_0
+
+    .line 112
+    new-array v2, v3, [Ljava/lang/Object;
+
+    aput-object p1, v2, v4
 
     const-string v5, "polling got data %s"
 
-    invoke-static {v5, v3}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    invoke-static {v5, v2}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
-    move-result-object v3
+    move-result-object v2
 
-    invoke-virtual {v1, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+    invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 112
-    new-instance v3, Lio/socket/engineio/client/transports/Polling$2;
+    .line 114
+    :cond_0
+    new-instance v2, Lio/socket/engineio/client/transports/Polling$2;
 
-    invoke-direct {v3, p0, v0}, Lio/socket/engineio/client/transports/Polling$2;-><init>(Lio/socket/engineio/client/transports/Polling;Lio/socket/engineio/client/transports/Polling;)V
-
-    .line 129
-    .local v3, "callback":Lio/socket/engineio/parser/Parser$DecodePayloadCallback;
-    instance-of v5, p1, Ljava/lang/String;
-
-    if-eqz v5, :cond_0
+    invoke-direct {v2, p0, v0}, Lio/socket/engineio/client/transports/Polling$2;-><init>(Lio/socket/engineio/client/transports/Polling;Lio/socket/engineio/client/transports/Polling;)V
 
     .line 131
-    move-object v5, v3
-
-    .line 132
-    .local v5, "tempCallback":Lio/socket/engineio/parser/Parser$DecodePayloadCallback;, "Lio/socket/engineio/parser/Parser$DecodePayloadCallback<Ljava/lang/String;>;"
-    move-object v6, p1
-
-    check-cast v6, Ljava/lang/String;
-
-    invoke-static {v6, v5}, Lio/socket/engineio/parser/Parser;->decodePayload(Ljava/lang/String;Lio/socket/engineio/parser/Parser$DecodePayloadCallback;)V
-
-    .end local v5    # "tempCallback":Lio/socket/engineio/parser/Parser$DecodePayloadCallback;, "Lio/socket/engineio/parser/Parser$DecodePayloadCallback<Ljava/lang/String;>;"
-    goto :goto_0
-
-    .line 133
-    :cond_0
-    instance-of v5, p1, [B
-
-    if-eqz v5, :cond_1
-
-    .line 134
+    .local v2, "callback":Lio/socket/engineio/parser/Parser$DecodePayloadCallback;
     move-object v5, p1
 
-    check-cast v5, [B
+    check-cast v5, Ljava/lang/String;
 
-    check-cast v5, [B
-
-    invoke-static {v5, v3}, Lio/socket/engineio/parser/Parser;->decodePayload([BLio/socket/engineio/parser/Parser$DecodePayloadCallback;)V
-
-    goto :goto_1
+    invoke-static {v5, v2}, Lio/socket/engineio/parser/Parser;->decodePayload(Ljava/lang/String;Lio/socket/engineio/parser/Parser$DecodePayloadCallback;)V
 
     .line 133
-    :cond_1
-    :goto_0
-    nop
-
-    .line 137
-    :goto_1
     iget-object v5, p0, Lio/socket/engineio/client/transports/Polling;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
 
     sget-object v6, Lio/socket/engineio/client/Transport$ReadyState;->CLOSED:Lio/socket/engineio/client/Transport$ReadyState;
 
-    if-eq v5, v6, :cond_3
+    if-eq v5, v6, :cond_2
 
-    .line 138
+    .line 134
     iput-boolean v4, p0, Lio/socket/engineio/client/transports/Polling;->polling:Z
 
-    .line 139
+    .line 135
     new-array v5, v4, [Ljava/lang/Object;
 
     const-string v6, "pollComplete"
 
     invoke-virtual {p0, v6, v5}, Lio/socket/engineio/client/transports/Polling;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 141
+    .line 137
     iget-object v5, p0, Lio/socket/engineio/client/transports/Polling;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
 
     sget-object v6, Lio/socket/engineio/client/Transport$ReadyState;->OPEN:Lio/socket/engineio/client/Transport$ReadyState;
 
-    if-ne v5, v6, :cond_2
+    if-ne v5, v6, :cond_1
 
-    .line 142
+    .line 138
     invoke-direct {p0}, Lio/socket/engineio/client/transports/Polling;->poll()V
 
-    goto :goto_2
+    goto :goto_0
 
-    .line 144
-    :cond_2
-    new-array v2, v2, [Ljava/lang/Object;
+    .line 140
+    :cond_1
+    sget-object v5, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+
+    invoke-virtual {v1, v5}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v5
+
+    if-eqz v5, :cond_2
+
+    .line 141
+    new-array v3, v3, [Ljava/lang/Object;
 
     iget-object v5, p0, Lio/socket/engineio/client/transports/Polling;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
 
-    aput-object v5, v2, v4
+    aput-object v5, v3, v4
 
     const-string v4, "ignoring poll - transport state \'%s\'"
 
-    invoke-static {v4, v2}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    invoke-static {v4, v3}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+    invoke-virtual {v1, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 147
-    :cond_3
-    :goto_2
+    .line 145
+    :cond_2
+    :goto_0
     return-void
 .end method
 
@@ -297,16 +281,16 @@
 .method protected doClose()V
     .locals 4
 
-    .line 150
+    .line 148
     move-object v0, p0
 
-    .line 152
+    .line 150
     .local v0, "self":Lio/socket/engineio/client/transports/Polling;
     new-instance v1, Lio/socket/engineio/client/transports/Polling$3;
 
     invoke-direct {v1, p0, v0}, Lio/socket/engineio/client/transports/Polling$3;-><init>(Lio/socket/engineio/client/transports/Polling;Lio/socket/engineio/client/transports/Polling;)V
 
-    .line 164
+    .line 158
     .local v1, "close":Lio/socket/emitter/Emitter$Listener;
     iget-object v2, p0, Lio/socket/engineio/client/transports/Polling;->readyState:Lio/socket/engineio/client/Transport$ReadyState;
 
@@ -314,14 +298,14 @@
 
     if-ne v2, v3, :cond_0
 
-    .line 165
+    .line 159
     sget-object v2, Lio/socket/engineio/client/transports/Polling;->logger:Ljava/util/logging/Logger;
 
     const-string v3, "transport open - closing"
 
     invoke-virtual {v2, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 166
+    .line 160
     const/4 v2, 0x0
 
     new-array v2, v2, [Ljava/lang/Object;
@@ -330,7 +314,7 @@
 
     goto :goto_0
 
-    .line 170
+    .line 164
     :cond_0
     sget-object v2, Lio/socket/engineio/client/transports/Polling;->logger:Ljava/util/logging/Logger;
 
@@ -338,12 +322,12 @@
 
     invoke-virtual {v2, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 171
+    .line 165
     const-string v2, "open"
 
     invoke-virtual {p0, v2, v1}, Lio/socket/engineio/client/transports/Polling;->once(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
-    .line 173
+    .line 167
     :goto_0
     return-void
 .end method
@@ -361,7 +345,7 @@
 .method protected abstract doPoll()V
 .end method
 
-.method protected abstract doWrite([BLjava/lang/Runnable;)V
+.method protected abstract doWrite(Ljava/lang/String;Ljava/lang/Runnable;)V
 .end method
 
 .method protected onData(Ljava/lang/String;)V
@@ -404,21 +388,21 @@
 .method protected uri()Ljava/lang/String;
     .locals 8
 
-    .line 195
+    .line 189
     iget-object v0, p0, Lio/socket/engineio/client/transports/Polling;->query:Ljava/util/Map;
 
-    .line 196
+    .line 190
     .local v0, "query":Ljava/util/Map;, "Ljava/util/Map<Ljava/lang/String;Ljava/lang/String;>;"
     if-nez v0, :cond_0
 
-    .line 197
+    .line 191
     new-instance v1, Ljava/util/HashMap;
 
     invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
 
     move-object v0, v1
 
-    .line 199
+    .line 193
     :cond_0
     iget-boolean v1, p0, Lio/socket/engineio/client/transports/Polling;->secure:Z
 
@@ -435,18 +419,18 @@
     :cond_1
     move-object v1, v3
 
-    .line 200
+    .line 194
     .local v1, "schema":Ljava/lang/String;
     :goto_0
     const-string v4, ""
 
-    .line 202
+    .line 196
     .local v4, "port":Ljava/lang/String;
     iget-boolean v5, p0, Lio/socket/engineio/client/transports/Polling;->timestampRequests:Z
 
     if-eqz v5, :cond_2
 
-    .line 203
+    .line 197
     iget-object v5, p0, Lio/socket/engineio/client/transports/Polling;->timestampParam:Ljava/lang/String;
 
     invoke-static {}, Lio/socket/yeast/Yeast;->yeast()Ljava/lang/String;
@@ -455,13 +439,13 @@
 
     invoke-interface {v0, v5, v6}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 206
+    .line 200
     :cond_2
     invoke-static {v0}, Lio/socket/parseqs/ParseQS;->encode(Ljava/util/Map;)Ljava/lang/String;
 
     move-result-object v5
 
-    .line 208
+    .line 202
     .local v5, "derivedQuery":Ljava/lang/String;
     iget v6, p0, Lio/socket/engineio/client/transports/Polling;->port:I
 
@@ -481,7 +465,7 @@
 
     if-ne v2, v6, :cond_4
 
-    .line 209
+    .line 203
     :cond_3
     invoke-virtual {v3, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
@@ -495,7 +479,7 @@
 
     if-eq v2, v3, :cond_5
 
-    .line 210
+    .line 204
     :cond_4
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -503,15 +487,19 @@
 
     invoke-virtual {v2, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v2
+
     iget v3, p0, Lio/socket/engineio/client/transports/Polling;->port:I
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
 
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v4
 
-    .line 213
+    .line 207
     :cond_5
     invoke-virtual {v5}, Ljava/lang/String;->length()I
 
@@ -519,7 +507,7 @@
 
     if-lez v2, :cond_6
 
-    .line 214
+    .line 208
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
@@ -528,13 +516,17 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v2
+
     invoke-virtual {v2, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
 
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v5
 
-    .line 217
+    .line 211
     :cond_6
     iget-object v2, p0, Lio/socket/engineio/client/transports/Polling;->hostname:Ljava/lang/String;
 
@@ -542,7 +534,7 @@
 
     move-result v2
 
-    .line 218
+    .line 212
     .local v2, "ipv6":Z
     new-instance v3, Ljava/lang/StringBuilder;
 
@@ -550,9 +542,13 @@
 
     invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v3
+
     const-string v6, "://"
 
     invoke-virtual {v3, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
 
     if-eqz v2, :cond_7
 
@@ -564,13 +560,19 @@
 
     invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v6
+
     iget-object v7, p0, Lio/socket/engineio/client/transports/Polling;->hostname:Ljava/lang/String;
 
     invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v6
+
     const-string v7, "]"
 
     invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v6
 
     invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -584,13 +586,21 @@
     :goto_1
     invoke-virtual {v3, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v3
+
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
 
     iget-object v6, p0, Lio/socket/engineio/client/transports/Polling;->path:Ljava/lang/String;
 
     invoke-virtual {v3, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v3
+
     invoke-virtual {v3, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
 
     invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -602,27 +612,22 @@
 .method protected write([Lio/socket/engineio/parser/Packet;)V
     .locals 3
     .param p1, "packets"    # [Lio/socket/engineio/parser/Packet;
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Lio/socket/utf8/UTF8Exception;
-        }
-    .end annotation
 
-    .line 176
+    .line 170
     move-object v0, p0
 
-    .line 177
+    .line 171
     .local v0, "self":Lio/socket/engineio/client/transports/Polling;
     const/4 v1, 0x0
 
     iput-boolean v1, p0, Lio/socket/engineio/client/transports/Polling;->writable:Z
 
-    .line 178
+    .line 172
     new-instance v1, Lio/socket/engineio/client/transports/Polling$4;
 
     invoke-direct {v1, p0, v0}, Lio/socket/engineio/client/transports/Polling$4;-><init>(Lio/socket/engineio/client/transports/Polling;Lio/socket/engineio/client/transports/Polling;)V
 
-    .line 186
+    .line 180
     .local v1, "callbackfn":Ljava/lang/Runnable;
     new-instance v2, Lio/socket/engineio/client/transports/Polling$5;
 
@@ -630,6 +635,6 @@
 
     invoke-static {p1, v2}, Lio/socket/engineio/parser/Parser;->encodePayload([Lio/socket/engineio/parser/Packet;Lio/socket/engineio/parser/Parser$EncodeCallback;)V
 
-    .line 192
+    .line 186
     return-void
 .end method

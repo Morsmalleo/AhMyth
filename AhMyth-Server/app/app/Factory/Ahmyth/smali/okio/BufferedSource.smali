@@ -4,6 +4,7 @@
 
 # interfaces
 .implements Lokio/Source;
+.implements Ljava/nio/channels/ReadableByteChannel;
 
 
 # virtual methods
@@ -27,6 +28,14 @@
 .end method
 
 .method public abstract indexOf(BJ)J
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/io/IOException;
+        }
+    .end annotation
+.end method
+
+.method public abstract indexOf(BJJ)J
     .annotation system Ldalvik/annotation/Throws;
         value = {
             Ljava/io/IOException;
@@ -275,9 +284,20 @@
             Ljava/io/IOException;
         }
     .end annotation
+
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
 .end method
 
 .method public abstract readUtf8LineStrict()Ljava/lang/String;
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/io/IOException;
+        }
+    .end annotation
+.end method
+
+.method public abstract readUtf8LineStrict(J)Ljava/lang/String;
     .annotation system Ldalvik/annotation/Throws;
         value = {
             Ljava/io/IOException;

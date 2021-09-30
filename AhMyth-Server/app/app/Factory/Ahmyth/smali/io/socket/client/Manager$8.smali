@@ -3,12 +3,12 @@
 .source "Manager.java"
 
 # interfaces
-.implements Lio/socket/emitter/Emitter$Listener;
+.implements Lio/socket/client/On$Handle;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lio/socket/client/Manager;->socket(Ljava/lang/String;)Lio/socket/client/Socket;
+    value = Lio/socket/client/Manager;->reconnect()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,22 +20,18 @@
 # instance fields
 .field final synthetic this$0:Lio/socket/client/Manager;
 
-.field final synthetic val$s:Lio/socket/client/Socket;
-
-.field final synthetic val$self:Lio/socket/client/Manager;
+.field final synthetic val$timer:Ljava/util/Timer;
 
 
 # direct methods
-.method constructor <init>(Lio/socket/client/Manager;Lio/socket/client/Manager;Lio/socket/client/Socket;)V
+.method constructor <init>(Lio/socket/client/Manager;Ljava/util/Timer;)V
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .line 431
+    .line 529
     iput-object p1, p0, Lio/socket/client/Manager$8;->this$0:Lio/socket/client/Manager;
 
-    iput-object p2, p0, Lio/socket/client/Manager$8;->val$self:Lio/socket/client/Manager;
-
-    iput-object p3, p0, Lio/socket/client/Manager$8;->val$s:Lio/socket/client/Socket;
+    iput-object p2, p0, Lio/socket/client/Manager$8;->val$timer:Ljava/util/Timer;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -44,21 +40,14 @@
 
 
 # virtual methods
-.method public varargs call([Ljava/lang/Object;)V
-    .locals 2
-    .param p1, "args"    # [Ljava/lang/Object;
+.method public destroy()V
+    .locals 1
 
-    .line 434
-    iget-object v0, p0, Lio/socket/client/Manager$8;->val$self:Lio/socket/client/Manager;
+    .line 532
+    iget-object v0, p0, Lio/socket/client/Manager$8;->val$timer:Ljava/util/Timer;
 
-    invoke-static {v0}, Lio/socket/client/Manager;->access$1700(Lio/socket/client/Manager;)Ljava/util/Set;
+    invoke-virtual {v0}, Ljava/util/Timer;->cancel()V
 
-    move-result-object v0
-
-    iget-object v1, p0, Lio/socket/client/Manager$8;->val$s:Lio/socket/client/Socket;
-
-    invoke-interface {v0, v1}, Ljava/util/Set;->add(Ljava/lang/Object;)Z
-
-    .line 435
+    .line 533
     return-void
 .end method

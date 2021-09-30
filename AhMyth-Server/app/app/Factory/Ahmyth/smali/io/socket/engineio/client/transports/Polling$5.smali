@@ -20,7 +20,8 @@
     value = {
         "Ljava/lang/Object;",
         "Lio/socket/engineio/parser/Parser$EncodeCallback<",
-        "[B>;"
+        "Ljava/lang/String;",
+        ">;"
     }
 .end annotation
 
@@ -38,7 +39,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/Polling;
 
-    .line 186
+    .line 180
     iput-object p1, p0, Lio/socket/engineio/client/transports/Polling$5;->this$0:Lio/socket/engineio/client/transports/Polling;
 
     iput-object p2, p0, Lio/socket/engineio/client/transports/Polling$5;->val$self:Lio/socket/engineio/client/transports/Polling;
@@ -55,25 +56,25 @@
 .method public bridge synthetic call(Ljava/lang/Object;)V
     .locals 0
 
-    .line 186
-    check-cast p1, [B
+    .line 180
+    check-cast p1, Ljava/lang/String;
 
-    invoke-virtual {p0, p1}, Lio/socket/engineio/client/transports/Polling$5;->call([B)V
+    invoke-virtual {p0, p1}, Lio/socket/engineio/client/transports/Polling$5;->call(Ljava/lang/String;)V
 
     return-void
 .end method
 
-.method public call([B)V
+.method public call(Ljava/lang/String;)V
     .locals 2
-    .param p1, "data"    # [B
+    .param p1, "data"    # Ljava/lang/String;
 
-    .line 189
+    .line 183
     iget-object v0, p0, Lio/socket/engineio/client/transports/Polling$5;->val$self:Lio/socket/engineio/client/transports/Polling;
 
     iget-object v1, p0, Lio/socket/engineio/client/transports/Polling$5;->val$callbackfn:Ljava/lang/Runnable;
 
-    invoke-virtual {v0, p1, v1}, Lio/socket/engineio/client/transports/Polling;->doWrite([BLjava/lang/Runnable;)V
+    invoke-virtual {v0, p1, v1}, Lio/socket/engineio/client/transports/Polling;->doWrite(Ljava/lang/String;Ljava/lang/Runnable;)V
 
-    .line 190
+    .line 184
     return-void
 .end method

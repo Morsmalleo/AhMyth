@@ -34,7 +34,7 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/internal/ws/WebSocketWriter;
 
-    .line 220
+    .line 215
     iput-object p1, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -52,25 +52,19 @@
         }
     .end annotation
 
-    .line 260
+    .line 251
     iget-boolean v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->closed:Z
 
     if-nez v0, :cond_0
 
-    .line 262
-    iget-object v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
-
-    monitor-enter v0
-
-    .line 263
-    :try_start_0
+    .line 253
     iget-object v1, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
 
     iget v2, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->formatOpcode:I
 
-    iget-object v3, v1, Lokhttp3/internal/ws/WebSocketWriter;->buffer:Lokio/Buffer;
+    iget-object v0, v1, Lokhttp3/internal/ws/WebSocketWriter;->buffer:Lokio/Buffer;
 
-    invoke-virtual {v3}, Lokio/Buffer;->size()J
+    invoke-virtual {v0}, Lokio/Buffer;->size()J
 
     move-result-wide v3
 
@@ -78,40 +72,24 @@
 
     const/4 v6, 0x1
 
-    invoke-virtual/range {v1 .. v6}, Lokhttp3/internal/ws/WebSocketWriter;->writeMessageFrameSynchronized(IJZZ)V
+    invoke-virtual/range {v1 .. v6}, Lokhttp3/internal/ws/WebSocketWriter;->writeMessageFrame(IJZZ)V
 
-    .line 264
-    monitor-exit v0
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
-
-    .line 265
+    .line 254
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->closed:Z
 
-    .line 266
+    .line 255
     iget-object v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
 
     const/4 v1, 0x0
 
     iput-boolean v1, v0, Lokhttp3/internal/ws/WebSocketWriter;->activeWriter:Z
 
-    .line 267
+    .line 256
     return-void
 
-    .line 264
-    :catchall_0
-    move-exception v1
-
-    :try_start_1
-    monitor-exit v0
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_0
-
-    throw v1
-
-    .line 260
+    .line 251
     :cond_0
     new-instance v0, Ljava/io/IOException;
 
@@ -130,25 +108,19 @@
         }
     .end annotation
 
-    .line 246
+    .line 239
     iget-boolean v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->closed:Z
 
     if-nez v0, :cond_0
 
-    .line 248
-    iget-object v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
-
-    monitor-enter v0
-
-    .line 249
-    :try_start_0
+    .line 241
     iget-object v1, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
 
     iget v2, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->formatOpcode:I
 
-    iget-object v3, v1, Lokhttp3/internal/ws/WebSocketWriter;->buffer:Lokio/Buffer;
+    iget-object v0, v1, Lokhttp3/internal/ws/WebSocketWriter;->buffer:Lokio/Buffer;
 
-    invoke-virtual {v3}, Lokio/Buffer;->size()J
+    invoke-virtual {v0}, Lokio/Buffer;->size()J
 
     move-result-wide v3
 
@@ -156,33 +128,17 @@
 
     const/4 v6, 0x0
 
-    invoke-virtual/range {v1 .. v6}, Lokhttp3/internal/ws/WebSocketWriter;->writeMessageFrameSynchronized(IJZZ)V
+    invoke-virtual/range {v1 .. v6}, Lokhttp3/internal/ws/WebSocketWriter;->writeMessageFrame(IJZZ)V
 
-    .line 250
-    monitor-exit v0
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
-
-    .line 251
+    .line 242
     const/4 v0, 0x0
 
     iput-boolean v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->isFirstFrame:Z
 
-    .line 252
+    .line 243
     return-void
 
-    .line 250
-    :catchall_0
-    move-exception v1
-
-    :try_start_1
-    monitor-exit v0
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_0
-
-    throw v1
-
-    .line 246
+    .line 239
     :cond_0
     new-instance v0, Ljava/io/IOException;
 
@@ -196,7 +152,7 @@
 .method public timeout()Lokio/Timeout;
     .locals 1
 
-    .line 255
+    .line 246
     iget-object v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
 
     iget-object v0, v0, Lokhttp3/internal/ws/WebSocketWriter;->sink:Lokio/BufferedSink;
@@ -218,19 +174,19 @@
         }
     .end annotation
 
-    .line 227
+    .line 222
     iget-boolean v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->closed:Z
 
     if-nez v0, :cond_2
 
-    .line 229
+    .line 224
     iget-object v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
 
     iget-object v0, v0, Lokhttp3/internal/ws/WebSocketWriter;->buffer:Lokio/Buffer;
 
     invoke-virtual {v0, p1, p2, p3}, Lokio/Buffer;->write(Lokio/Buffer;J)V
 
-    .line 232
+    .line 227
     iget-boolean v0, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->isFirstFrame:Z
 
     const/4 v1, 0x0
@@ -249,7 +205,7 @@
 
     iget-object v0, v0, Lokhttp3/internal/ws/WebSocketWriter;->buffer:Lokio/Buffer;
 
-    .line 234
+    .line 229
     invoke-virtual {v0}, Lokio/Buffer;->size()J
 
     move-result-wide v2
@@ -271,7 +227,7 @@
     :cond_0
     const/4 v0, 0x0
 
-    .line 236
+    .line 231
     .local v0, "deferWrite":Z
     :goto_0
     iget-object v2, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
@@ -282,7 +238,7 @@
 
     move-result-wide v9
 
-    .line 237
+    .line 232
     .local v9, "emitCount":J
     const-wide/16 v2, 0x0
 
@@ -292,13 +248,7 @@
 
     if-nez v0, :cond_1
 
-    .line 238
-    iget-object v2, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
-
-    monitor-enter v2
-
-    .line 239
-    :try_start_0
+    .line 233
     iget-object v3, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->this$0:Lokhttp3/internal/ws/WebSocketWriter;
 
     iget v4, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->formatOpcode:I
@@ -309,35 +259,16 @@
 
     move-wide v5, v9
 
-    invoke-virtual/range {v3 .. v8}, Lokhttp3/internal/ws/WebSocketWriter;->writeMessageFrameSynchronized(IJZZ)V
+    invoke-virtual/range {v3 .. v8}, Lokhttp3/internal/ws/WebSocketWriter;->writeMessageFrame(IJZZ)V
 
-    .line 240
-    monitor-exit v2
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
-
-    .line 241
+    .line 234
     iput-boolean v1, p0, Lokhttp3/internal/ws/WebSocketWriter$FrameSink;->isFirstFrame:Z
 
-    goto :goto_1
-
-    .line 240
-    :catchall_0
-    move-exception v1
-
-    :try_start_1
-    monitor-exit v2
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_0
-
-    throw v1
-
-    .line 243
+    .line 236
     :cond_1
-    :goto_1
     return-void
 
-    .line 227
+    .line 222
     .end local v0    # "deferWrite":Z
     .end local v9    # "emitCount":J
     :cond_2

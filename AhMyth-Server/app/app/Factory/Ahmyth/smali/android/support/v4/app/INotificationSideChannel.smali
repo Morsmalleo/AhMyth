@@ -9,8 +9,7 @@
 # annotations
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
-        Landroid/support/v4/app/INotificationSideChannel$Stub;,
-        Landroid/support/v4/app/INotificationSideChannel$Default;
+        Landroid/support/v4/app/INotificationSideChannel$Stub;
     }
 .end annotation
 

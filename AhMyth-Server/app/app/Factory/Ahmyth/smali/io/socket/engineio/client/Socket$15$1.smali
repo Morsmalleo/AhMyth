@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/Socket$15;
 
-    .line 568
+    .line 595
     iput-object p1, p0, Lio/socket/engineio/client/Socket$15$1;->this$1:Lio/socket/engineio/client/Socket$15;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -37,63 +37,33 @@
 
 # virtual methods
 .method public run()V
-    .locals 4
+    .locals 2
 
-    .line 571
-    invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
+    .line 598
+    iget-object v0, p0, Lio/socket/engineio/client/Socket$15$1;->this$1:Lio/socket/engineio/client/Socket$15;
+
+    iget-object v0, v0, Lio/socket/engineio/client/Socket$15;->val$self:Lio/socket/engineio/client/Socket;
+
+    invoke-static {v0}, Lio/socket/engineio/client/Socket;->access$500(Lio/socket/engineio/client/Socket;)Lio/socket/engineio/client/Socket$ReadyState;
 
     move-result-object v0
 
-    const/4 v1, 0x1
+    sget-object v1, Lio/socket/engineio/client/Socket$ReadyState;->CLOSED:Lio/socket/engineio/client/Socket$ReadyState;
 
-    new-array v1, v1, [Ljava/lang/Object;
+    if-ne v0, v1, :cond_0
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$15$1;->this$1:Lio/socket/engineio/client/Socket$15;
+    return-void
 
-    iget-object v2, v2, Lio/socket/engineio/client/Socket$15;->val$self:Lio/socket/engineio/client/Socket;
-
-    invoke-static {v2}, Lio/socket/engineio/client/Socket;->access$1500(Lio/socket/engineio/client/Socket;)J
-
-    move-result-wide v2
-
-    invoke-static {v2, v3}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
-
-    move-result-object v2
-
-    const/4 v3, 0x0
-
-    aput-object v2, v1, v3
-
-    const-string v2, "writing ping packet - expecting pong within %sms"
-
-    invoke-static {v2, v1}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-virtual {v0, v1}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
-
-    .line 572
+    .line 599
+    :cond_0
     iget-object v0, p0, Lio/socket/engineio/client/Socket$15$1;->this$1:Lio/socket/engineio/client/Socket$15;
 
     iget-object v0, v0, Lio/socket/engineio/client/Socket$15;->val$self:Lio/socket/engineio/client/Socket;
 
-    invoke-static {v0}, Lio/socket/engineio/client/Socket;->access$1600(Lio/socket/engineio/client/Socket;)V
+    const-string v1, "ping timeout"
 
-    .line 573
-    iget-object v0, p0, Lio/socket/engineio/client/Socket$15$1;->this$1:Lio/socket/engineio/client/Socket$15;
+    invoke-static {v0, v1}, Lio/socket/engineio/client/Socket;->access$800(Lio/socket/engineio/client/Socket;Ljava/lang/String;)V
 
-    iget-object v0, v0, Lio/socket/engineio/client/Socket$15;->val$self:Lio/socket/engineio/client/Socket;
-
-    iget-object v1, p0, Lio/socket/engineio/client/Socket$15$1;->this$1:Lio/socket/engineio/client/Socket$15;
-
-    iget-object v1, v1, Lio/socket/engineio/client/Socket$15;->val$self:Lio/socket/engineio/client/Socket;
-
-    invoke-static {v1}, Lio/socket/engineio/client/Socket;->access$1500(Lio/socket/engineio/client/Socket;)J
-
-    move-result-wide v1
-
-    invoke-static {v0, v1, v2}, Lio/socket/engineio/client/Socket;->access$000(Lio/socket/engineio/client/Socket;J)V
-
-    .line 574
+    .line 600
     return-void
 .end method

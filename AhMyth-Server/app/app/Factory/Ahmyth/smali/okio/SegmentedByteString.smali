@@ -1182,7 +1182,7 @@
 .end method
 
 .method write(Lokio/Buffer;)V
-    .locals 8
+    .locals 12
     .param p1, "buffer"    # Lokio/Buffer;
 
     .line 193
@@ -1214,17 +1214,25 @@
 
     .line 197
     .local v3, "nextSegmentOffset":I
-    new-instance v5, Lokio/Segment;
+    new-instance v11, Lokio/Segment;
 
-    iget-object v6, p0, Lokio/SegmentedByteString;->segments:[[B
+    iget-object v5, p0, Lokio/SegmentedByteString;->segments:[[B
 
-    aget-object v6, v6, v1
+    aget-object v6, v5, v1
 
-    add-int v7, v4, v3
+    add-int v5, v4, v3
 
-    sub-int/2addr v7, v0
+    sub-int v8, v5, v0
 
-    invoke-direct {v5, v6, v4, v7}, Lokio/Segment;-><init>([BII)V
+    const/4 v9, 0x1
+
+    const/4 v10, 0x0
+
+    move-object v5, v11
+
+    move v7, v4
+
+    invoke-direct/range {v5 .. v10}, Lokio/Segment;-><init>([BIIZZ)V
 
     .line 199
     .local v5, "segment":Lokio/Segment;

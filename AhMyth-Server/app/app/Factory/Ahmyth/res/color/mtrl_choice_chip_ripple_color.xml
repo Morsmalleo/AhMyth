@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:color="?colorPrimary" android:alpha="@dimen/mtrl_low_ripple_pressed_alpha" />
-    <item android:state_focused="true" android:color="?colorOnSurface" android:alpha="@dimen/mtrl_low_ripple_focused_alpha" android:state_hovered="true" />
-    <item android:state_focused="true" android:color="?colorOnSurface" android:alpha="@dimen/mtrl_low_ripple_focused_alpha" />
-    <item android:color="?colorOnSurface" android:alpha="@dimen/mtrl_low_ripple_hovered_alpha" android:state_hovered="true" />
-    <item android:color="?colorOnSurface" android:alpha="@dimen/mtrl_low_ripple_default_alpha" />
-</selector>

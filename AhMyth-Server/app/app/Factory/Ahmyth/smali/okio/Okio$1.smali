@@ -12,7 +12,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x8
+    accessFlags = 0x0
     name = null
 .end annotation
 
@@ -27,7 +27,7 @@
 .method constructor <init>(Lokio/Timeout;Ljava/io/OutputStream;)V
     .locals 0
 
-    .line 71
+    .line 72
     iput-object p1, p0, Lokio/Okio$1;->val$timeout:Lokio/Timeout;
 
     iput-object p2, p0, Lokio/Okio$1;->val$out:Ljava/io/OutputStream;
@@ -47,12 +47,12 @@
         }
     .end annotation
 
-    .line 96
+    .line 97
     iget-object v0, p0, Lokio/Okio$1;->val$out:Ljava/io/OutputStream;
 
     invoke-virtual {v0}, Ljava/io/OutputStream;->close()V
 
-    .line 97
+    .line 98
     return-void
 .end method
 
@@ -64,19 +64,19 @@
         }
     .end annotation
 
-    .line 92
+    .line 93
     iget-object v0, p0, Lokio/Okio$1;->val$out:Ljava/io/OutputStream;
 
     invoke-virtual {v0}, Ljava/io/OutputStream;->flush()V
 
-    .line 93
+    .line 94
     return-void
 .end method
 
 .method public timeout()Lokio/Timeout;
     .locals 1
 
-    .line 100
+    .line 101
     iget-object v0, p0, Lokio/Okio$1;->val$timeout:Lokio/Timeout;
 
     return-object v0
@@ -85,7 +85,7 @@
 .method public toString()Ljava/lang/String;
     .locals 2
 
-    .line 104
+    .line 105
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -94,13 +94,19 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v0
+
     iget-object v1, p0, Lokio/Okio$1;->val$out:Ljava/io/OutputStream;
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
 
+    move-result-object v0
+
     const-string v1, ")"
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
 
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -119,7 +125,7 @@
         }
     .end annotation
 
-    .line 73
+    .line 74
     iget-wide v0, p1, Lokio/Buffer;->size:J
 
     const-wide/16 v2, 0x0
@@ -128,7 +134,7 @@
 
     invoke-static/range {v0 .. v5}, Lokio/Util;->checkOffsetAndCount(JJJ)V
 
-    .line 74
+    .line 75
     :goto_0
     const-wide/16 v0, 0x0
 
@@ -136,15 +142,15 @@
 
     if-lez v2, :cond_1
 
-    .line 75
+    .line 76
     iget-object v0, p0, Lokio/Okio$1;->val$timeout:Lokio/Timeout;
 
     invoke-virtual {v0}, Lokio/Timeout;->throwIfReached()V
 
-    .line 76
+    .line 77
     iget-object v0, p1, Lokio/Buffer;->head:Lokio/Segment;
 
-    .line 77
+    .line 78
     .local v0, "head":Lokio/Segment;
     iget v1, v0, Lokio/Segment;->limit:I
 
@@ -160,7 +166,7 @@
 
     long-to-int v2, v1
 
-    .line 78
+    .line 79
     .local v2, "toCopy":I
     iget-object v1, p0, Lokio/Okio$1;->val$out:Ljava/io/OutputStream;
 
@@ -170,19 +176,19 @@
 
     invoke-virtual {v1, v3, v4, v2}, Ljava/io/OutputStream;->write([BII)V
 
-    .line 80
+    .line 81
     iget v1, v0, Lokio/Segment;->pos:I
 
     add-int/2addr v1, v2
 
     iput v1, v0, Lokio/Segment;->pos:I
 
-    .line 81
+    .line 82
     int-to-long v3, v2
 
     sub-long/2addr p2, v3
 
-    .line 82
+    .line 83
     iget-wide v3, p1, Lokio/Buffer;->size:J
 
     int-to-long v5, v2
@@ -191,30 +197,30 @@
 
     iput-wide v3, p1, Lokio/Buffer;->size:J
 
-    .line 84
+    .line 85
     iget v1, v0, Lokio/Segment;->pos:I
 
     iget v3, v0, Lokio/Segment;->limit:I
 
     if-ne v1, v3, :cond_0
 
-    .line 85
+    .line 86
     invoke-virtual {v0}, Lokio/Segment;->pop()Lokio/Segment;
 
     move-result-object v1
 
     iput-object v1, p1, Lokio/Buffer;->head:Lokio/Segment;
 
-    .line 86
+    .line 87
     invoke-static {v0}, Lokio/SegmentPool;->recycle(Lokio/Segment;)V
 
-    .line 88
+    .line 89
     .end local v0    # "head":Lokio/Segment;
     .end local v2    # "toCopy":I
     :cond_0
     goto :goto_0
 
-    .line 89
+    .line 90
     :cond_1
     return-void
 .end method

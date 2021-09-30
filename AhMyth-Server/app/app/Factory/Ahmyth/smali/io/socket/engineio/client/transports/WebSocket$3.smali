@@ -3,7 +3,7 @@
 .source "WebSocket.java"
 
 # interfaces
-.implements Ljava/lang/Runnable;
+.implements Lio/socket/engineio/parser/Parser$EncodeCallback;
 
 
 # annotations
@@ -20,18 +20,26 @@
 # instance fields
 .field final synthetic this$0:Lio/socket/engineio/client/transports/WebSocket;
 
+.field final synthetic val$done:Ljava/lang/Runnable;
+
 .field final synthetic val$self:Lio/socket/engineio/client/transports/WebSocket;
+
+.field final synthetic val$total:[I
 
 
 # direct methods
-.method constructor <init>(Lio/socket/engineio/client/transports/WebSocket;Lio/socket/engineio/client/transports/WebSocket;)V
+.method constructor <init>(Lio/socket/engineio/client/transports/WebSocket;Lio/socket/engineio/client/transports/WebSocket;[ILjava/lang/Runnable;)V
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/WebSocket;
 
-    .line 147
+    .line 142
     iput-object p1, p0, Lio/socket/engineio/client/transports/WebSocket$3;->this$0:Lio/socket/engineio/client/transports/WebSocket;
 
     iput-object p2, p0, Lio/socket/engineio/client/transports/WebSocket$3;->val$self:Lio/socket/engineio/client/transports/WebSocket;
+
+    iput-object p3, p0, Lio/socket/engineio/client/transports/WebSocket$3;->val$total:[I
+
+    iput-object p4, p0, Lio/socket/engineio/client/transports/WebSocket$3;->val$done:Ljava/lang/Runnable;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -40,16 +48,97 @@
 
 
 # virtual methods
-.method public run()V
-    .locals 1
+.method public call(Ljava/lang/Object;)V
+    .locals 3
+    .param p1, "packet"    # Ljava/lang/Object;
+
+    .line 146
+    :try_start_0
+    instance-of v0, p1, Ljava/lang/String;
+
+    if-eqz v0, :cond_0
+
+    .line 147
+    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$3;->val$self:Lio/socket/engineio/client/transports/WebSocket;
+
+    invoke-static {v0}, Lio/socket/engineio/client/transports/WebSocket;->access$500(Lio/socket/engineio/client/transports/WebSocket;)Lokhttp3/WebSocket;
+
+    move-result-object v0
+
+    move-object v1, p1
+
+    check-cast v1, Ljava/lang/String;
+
+    invoke-interface {v0, v1}, Lokhttp3/WebSocket;->send(Ljava/lang/String;)Z
+
+    goto :goto_0
+
+    .line 148
+    :cond_0
+    instance-of v0, p1, [B
+
+    if-eqz v0, :cond_1
+
+    .line 149
+    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$3;->val$self:Lio/socket/engineio/client/transports/WebSocket;
+
+    invoke-static {v0}, Lio/socket/engineio/client/transports/WebSocket;->access$500(Lio/socket/engineio/client/transports/WebSocket;)Lokhttp3/WebSocket;
+
+    move-result-object v0
+
+    move-object v1, p1
+
+    check-cast v1, [B
+
+    check-cast v1, [B
+
+    invoke-static {v1}, Lokio/ByteString;->of([B)Lokio/ByteString;
+
+    move-result-object v1
+
+    invoke-interface {v0, v1}, Lokhttp3/WebSocket;->send(Lokio/ByteString;)Z
+    :try_end_0
+    .catch Ljava/lang/IllegalStateException; {:try_start_0 .. :try_end_0} :catch_0
+
+    .line 153
+    :cond_1
+    :goto_0
+    goto :goto_1
+
+    .line 151
+    :catch_0
+    move-exception v0
 
     .line 152
-    new-instance v0, Lio/socket/engineio/client/transports/WebSocket$3$1;
+    .local v0, "e":Ljava/lang/IllegalStateException;
+    invoke-static {}, Lio/socket/engineio/client/transports/WebSocket;->access$600()Ljava/util/logging/Logger;
 
-    invoke-direct {v0, p0}, Lio/socket/engineio/client/transports/WebSocket$3$1;-><init>(Lio/socket/engineio/client/transports/WebSocket$3;)V
+    move-result-object v1
 
-    invoke-static {v0}, Lio/socket/thread/EventThread;->nextTick(Ljava/lang/Runnable;)V
+    const-string v2, "websocket closed before we could write"
 
-    .line 159
+    invoke-virtual {v1, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+
+    .line 155
+    .end local v0    # "e":Ljava/lang/IllegalStateException;
+    :goto_1
+    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$3;->val$total:[I
+
+    const/4 v1, 0x0
+
+    aget v2, v0, v1
+
+    add-int/lit8 v2, v2, -0x1
+
+    aput v2, v0, v1
+
+    if-nez v2, :cond_2
+
+    iget-object v0, p0, Lio/socket/engineio/client/transports/WebSocket$3;->val$done:Ljava/lang/Runnable;
+
+    invoke-interface {v0}, Ljava/lang/Runnable;->run()V
+
+    .line 156
+    :cond_2
     return-void
 .end method

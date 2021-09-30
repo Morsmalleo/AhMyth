@@ -11,7 +11,7 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .line 51
+    .line 100
     new-instance v0, Lokhttp3/Authenticator$1;
 
     invoke-direct {v0}, Lokhttp3/Authenticator$1;-><init>()V
@@ -24,9 +24,16 @@
 
 # virtual methods
 .method public abstract authenticate(Lokhttp3/Route;Lokhttp3/Response;)Lokhttp3/Request;
+    .param p1    # Lokhttp3/Route;
+        .annotation runtime Ljavax/annotation/Nullable;
+        .end annotation
+    .end param
     .annotation system Ldalvik/annotation/Throws;
         value = {
             Ljava/io/IOException;
         }
+    .end annotation
+
+    .annotation runtime Ljavax/annotation/Nullable;
     .end annotation
 .end method

@@ -240,9 +240,13 @@
 
     invoke-virtual {v13, v14}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v13
+
     invoke-virtual {v13, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    invoke-virtual {v13}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v8
+
+    invoke-virtual {v8}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v8
 
@@ -313,13 +317,19 @@
 
     invoke-virtual {v13, v14}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v13
+
     const/16 v14, 0x7c
 
     invoke-virtual {v13, v14}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
 
+    move-result-object v13
+
     aget-object v15, v11, v5
 
     invoke-virtual {v13, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v13
 
     invoke-virtual {v13}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -340,13 +350,21 @@
 
     invoke-virtual {v13, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v13
+
     invoke-virtual {v13, v14}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+
+    move-result-object v13
 
     aget-object v14, v11, v5
 
     invoke-virtual {v13, v14}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v13
+
     invoke-virtual {v13, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v13
 
     invoke-virtual {v13}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -403,8 +421,6 @@
     :cond_5
     return-void
 
-    nop
-
     :array_0
     .array-data 4
         0x4
@@ -437,27 +453,38 @@
 
     .line 148
     :cond_0
-    packed-switch p0, :pswitch_data_0
+    const/4 v0, 0x2
+
+    if-eq p0, v0, :cond_6
+
+    const/4 v0, 0x3
+
+    if-eq p0, v0, :cond_6
+
+    const/4 v0, 0x4
+
+    if-eq p0, v0, :cond_4
+
+    const/4 v0, 0x6
+
+    if-eq p0, v0, :cond_4
+
+    const/4 v0, 0x7
+
+    if-eq p0, v0, :cond_6
+
+    const/16 v0, 0x8
+
+    if-eq p0, v0, :cond_6
 
     .line 158
-    :pswitch_0
     sget-object v0, Lokhttp3/internal/http2/Http2;->FLAGS:[Ljava/lang/String;
 
     array-length v1, v0
 
-    if-ge p1, v1, :cond_2
+    if-ge p1, v1, :cond_1
 
     aget-object v0, v0, p1
-
-    goto :goto_1
-
-    .line 151
-    :pswitch_1
-    const/4 v0, 0x1
-
-    if-ne p1, v0, :cond_1
-
-    const-string v0, "ACK"
 
     goto :goto_0
 
@@ -466,33 +493,16 @@
 
     aget-object v0, v0, p1
 
-    :goto_0
-    return-object v0
-
-    .line 156
-    :pswitch_2
-    sget-object v0, Lokhttp3/internal/http2/Http2;->BINARY:[Ljava/lang/String;
-
-    aget-object v0, v0, p1
-
-    return-object v0
-
-    .line 158
-    :cond_2
-    sget-object v0, Lokhttp3/internal/http2/Http2;->BINARY:[Ljava/lang/String;
-
-    aget-object v0, v0, p1
-
     .line 160
     .local v0, "result":Ljava/lang/String;
-    :goto_1
+    :goto_0
     const/4 v1, 0x5
 
-    if-ne p0, v1, :cond_3
+    if-ne p0, v1, :cond_2
 
     and-int/lit8 v1, p1, 0x4
 
-    if-eqz v1, :cond_3
+    if-eqz v1, :cond_2
 
     .line 161
     const-string v1, "HEADERS"
@@ -506,12 +516,12 @@
     return-object v1
 
     .line 162
-    :cond_3
-    if-nez p0, :cond_4
+    :cond_2
+    if-nez p0, :cond_3
 
     and-int/lit8 v1, p1, 0x20
 
-    if-eqz v1, :cond_4
+    if-eqz v1, :cond_3
 
     .line 163
     const-string v1, "PRIORITY"
@@ -525,19 +535,35 @@
     return-object v1
 
     .line 165
-    :cond_4
+    :cond_3
     return-object v0
 
-    :pswitch_data_0
-    .packed-switch 0x2
-        :pswitch_2
-        :pswitch_2
-        :pswitch_1
-        :pswitch_0
-        :pswitch_1
-        :pswitch_2
-        :pswitch_2
-    .end packed-switch
+    .line 151
+    .end local v0    # "result":Ljava/lang/String;
+    :cond_4
+    const/4 v0, 0x1
+
+    if-ne p1, v0, :cond_5
+
+    const-string v0, "ACK"
+
+    goto :goto_1
+
+    :cond_5
+    sget-object v0, Lokhttp3/internal/http2/Http2;->BINARY:[Ljava/lang/String;
+
+    aget-object v0, v0, p1
+
+    :goto_1
+    return-object v0
+
+    .line 156
+    :cond_6
+    sget-object v0, Lokhttp3/internal/http2/Http2;->BINARY:[Ljava/lang/String;
+
+    aget-object v0, v0, p1
+
+    return-object v0
 .end method
 
 .method static frameLog(ZIIBB)Ljava/lang/String;

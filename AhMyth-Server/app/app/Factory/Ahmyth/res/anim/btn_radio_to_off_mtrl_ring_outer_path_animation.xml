@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<set
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <set android:ordering="sequentially">
-        <objectAnimator android:interpolator="@interpolator/fast_out_slow_in" android:duration="183" android:valueFrom="2.0" android:valueTo="2.0" android:valueType="floatType" android:propertyName="strokeWidth" />
-        <objectAnimator android:interpolator="@interpolator/fast_out_slow_in" android:duration="16" android:valueFrom="2.0" android:valueTo="18.0" android:valueType="floatType" android:propertyName="strokeWidth" />
-        <objectAnimator android:interpolator="@interpolator/fast_out_slow_in" android:duration="300" android:valueFrom="18.0" android:valueTo="2.0" android:valueType="floatType" android:propertyName="strokeWidth" />
-    </set>
-</set>

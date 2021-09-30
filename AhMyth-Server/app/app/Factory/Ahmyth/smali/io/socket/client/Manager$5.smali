@@ -3,7 +3,7 @@
 .source "Manager.java"
 
 # interfaces
-.implements Lio/socket/emitter/Emitter$Listener;
+.implements Lio/socket/parser/Parser$Decoder$Callback;
 
 
 # annotations
@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/client/Manager;
 
-    .line 368
+    .line 352
     iput-object p1, p0, Lio/socket/client/Manager$5;->this$0:Lio/socket/client/Manager;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -36,21 +36,15 @@
 
 
 # virtual methods
-.method public varargs call([Ljava/lang/Object;)V
-    .locals 2
-    .param p1, "objects"    # [Ljava/lang/Object;
+.method public call(Lio/socket/parser/Packet;)V
+    .locals 1
+    .param p1, "packet"    # Lio/socket/parser/Packet;
 
-    .line 371
+    .line 355
     iget-object v0, p0, Lio/socket/client/Manager$5;->this$0:Lio/socket/client/Manager;
 
-    const/4 v1, 0x0
+    invoke-static {v0, p1}, Lio/socket/client/Manager;->access$1200(Lio/socket/client/Manager;Lio/socket/parser/Packet;)V
 
-    aget-object v1, p1, v1
-
-    check-cast v1, Ljava/lang/Exception;
-
-    invoke-static {v0, v1}, Lio/socket/client/Manager;->access$1400(Lio/socket/client/Manager;Ljava/lang/Exception;)V
-
-    .line 372
+    .line 356
     return-void
 .end method

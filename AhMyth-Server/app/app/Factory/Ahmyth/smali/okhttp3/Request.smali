@@ -13,14 +13,30 @@
 
 # instance fields
 .field final body:Lokhttp3/RequestBody;
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
+.end field
 
 .field private volatile cacheControl:Lokhttp3/CacheControl;
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
+.end field
 
 .field final headers:Lokhttp3/Headers;
 
 .field final method:Ljava/lang/String;
 
-.field final tag:Ljava/lang/Object;
+.field final tags:Ljava/util/Map;
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "Ljava/util/Map<",
+            "Ljava/lang/Class<",
+            "*>;",
+            "Ljava/lang/Object;",
+            ">;"
+        }
+    .end annotation
+.end field
 
 .field final url:Lokhttp3/HttpUrl;
 
@@ -30,20 +46,20 @@
     .locals 1
     .param p1, "builder"    # Lokhttp3/Request$Builder;
 
-    .line 36
+    .line 40
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 37
+    .line 41
     iget-object v0, p1, Lokhttp3/Request$Builder;->url:Lokhttp3/HttpUrl;
 
     iput-object v0, p0, Lokhttp3/Request;->url:Lokhttp3/HttpUrl;
 
-    .line 38
+    .line 42
     iget-object v0, p1, Lokhttp3/Request$Builder;->method:Ljava/lang/String;
 
     iput-object v0, p0, Lokhttp3/Request;->method:Ljava/lang/String;
 
-    .line 39
+    .line 43
     iget-object v0, p1, Lokhttp3/Request$Builder;->headers:Lokhttp3/Headers$Builder;
 
     invoke-virtual {v0}, Lokhttp3/Headers$Builder;->build()Lokhttp3/Headers;
@@ -52,27 +68,21 @@
 
     iput-object v0, p0, Lokhttp3/Request;->headers:Lokhttp3/Headers;
 
-    .line 40
+    .line 44
     iget-object v0, p1, Lokhttp3/Request$Builder;->body:Lokhttp3/RequestBody;
 
     iput-object v0, p0, Lokhttp3/Request;->body:Lokhttp3/RequestBody;
 
-    .line 41
-    iget-object v0, p1, Lokhttp3/Request$Builder;->tag:Ljava/lang/Object;
+    .line 45
+    iget-object v0, p1, Lokhttp3/Request$Builder;->tags:Ljava/util/Map;
 
-    if-eqz v0, :cond_0
+    invoke-static {v0}, Lokhttp3/internal/Util;->immutableMap(Ljava/util/Map;)Ljava/util/Map;
 
-    iget-object v0, p1, Lokhttp3/Request$Builder;->tag:Ljava/lang/Object;
+    move-result-object v0
 
-    goto :goto_0
+    iput-object v0, p0, Lokhttp3/Request;->tags:Ljava/util/Map;
 
-    :cond_0
-    move-object v0, p0
-
-    :goto_0
-    iput-object v0, p0, Lokhttp3/Request;->tag:Ljava/lang/Object;
-
-    .line 42
+    .line 46
     return-void
 .end method
 
@@ -80,8 +90,10 @@
 # virtual methods
 .method public body()Lokhttp3/RequestBody;
     .locals 1
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
 
-    .line 65
+    .line 69
     iget-object v0, p0, Lokhttp3/Request;->body:Lokhttp3/RequestBody;
 
     return-object v0
@@ -90,10 +102,10 @@
 .method public cacheControl()Lokhttp3/CacheControl;
     .locals 2
 
-    .line 81
+    .line 101
     iget-object v0, p0, Lokhttp3/Request;->cacheControl:Lokhttp3/CacheControl;
 
-    .line 82
+    .line 102
     .local v0, "result":Lokhttp3/CacheControl;
     if-eqz v0, :cond_0
 
@@ -117,8 +129,10 @@
 .method public header(Ljava/lang/String;)Ljava/lang/String;
     .locals 1
     .param p1, "name"    # Ljava/lang/String;
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
 
-    .line 57
+    .line 61
     iget-object v0, p0, Lokhttp3/Request;->headers:Lokhttp3/Headers;
 
     invoke-virtual {v0, p1}, Lokhttp3/Headers;->get(Ljava/lang/String;)Ljava/lang/String;
@@ -142,7 +156,7 @@
         }
     .end annotation
 
-    .line 61
+    .line 65
     iget-object v0, p0, Lokhttp3/Request;->headers:Lokhttp3/Headers;
 
     invoke-virtual {v0, p1}, Lokhttp3/Headers;->values(Ljava/lang/String;)Ljava/util/List;
@@ -155,7 +169,7 @@
 .method public headers()Lokhttp3/Headers;
     .locals 1
 
-    .line 53
+    .line 57
     iget-object v0, p0, Lokhttp3/Request;->headers:Lokhttp3/Headers;
 
     return-object v0
@@ -164,7 +178,7 @@
 .method public isHttps()Z
     .locals 1
 
-    .line 86
+    .line 106
     iget-object v0, p0, Lokhttp3/Request;->url:Lokhttp3/HttpUrl;
 
     invoke-virtual {v0}, Lokhttp3/HttpUrl;->isHttps()Z
@@ -177,7 +191,7 @@
 .method public method()Ljava/lang/String;
     .locals 1
 
-    .line 49
+    .line 53
     iget-object v0, p0, Lokhttp3/Request;->method:Ljava/lang/String;
 
     return-object v0
@@ -186,7 +200,7 @@
 .method public newBuilder()Lokhttp3/Request$Builder;
     .locals 1
 
-    .line 73
+    .line 93
     new-instance v0, Lokhttp3/Request$Builder;
 
     invoke-direct {v0, p0}, Lokhttp3/Request$Builder;-><init>(Lokhttp3/Request;)V
@@ -196,9 +210,45 @@
 
 .method public tag()Ljava/lang/Object;
     .locals 1
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
 
-    .line 69
-    iget-object v0, p0, Lokhttp3/Request;->tag:Ljava/lang/Object;
+    .line 81
+    const-class v0, Ljava/lang/Object;
+
+    invoke-virtual {p0, v0}, Lokhttp3/Request;->tag(Ljava/lang/Class;)Ljava/lang/Object;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method public tag(Ljava/lang/Class;)Ljava/lang/Object;
+    .locals 1
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "<T:",
+            "Ljava/lang/Object;",
+            ">(",
+            "Ljava/lang/Class<",
+            "+TT;>;)TT;"
+        }
+    .end annotation
+
+    .annotation runtime Ljavax/annotation/Nullable;
+    .end annotation
+
+    .line 89
+    .local p1, "type":Ljava/lang/Class;, "Ljava/lang/Class<+TT;>;"
+    iget-object v0, p0, Lokhttp3/Request;->tags:Ljava/util/Map;
+
+    invoke-interface {v0, p1}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v0
+
+    invoke-virtual {p1, v0}, Ljava/lang/Class;->cast(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v0
 
     return-object v0
 .end method
@@ -206,7 +256,7 @@
 .method public toString()Ljava/lang/String;
     .locals 2
 
-    .line 90
+    .line 110
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -215,37 +265,43 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v0
+
     iget-object v1, p0, Lokhttp3/Request;->method:Ljava/lang/String;
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
 
     const-string v1, ", url="
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v0
+
     iget-object v1, p0, Lokhttp3/Request;->url:Lokhttp3/HttpUrl;
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
 
-    const-string v1, ", tag="
+    move-result-object v0
+
+    const-string v1, ", tags="
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    iget-object v1, p0, Lokhttp3/Request;->tag:Ljava/lang/Object;
+    move-result-object v0
 
-    if-eq v1, p0, :cond_0
+    iget-object v1, p0, Lokhttp3/Request;->tags:Ljava/util/Map;
 
-    goto :goto_0
-
-    :cond_0
-    const/4 v1, 0x0
-
-    :goto_0
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
 
     const/16 v1, 0x7d
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
+
+    move-result-object v0
 
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -257,7 +313,7 @@
 .method public url()Lokhttp3/HttpUrl;
     .locals 1
 
-    .line 45
+    .line 49
     iget-object v0, p0, Lokhttp3/Request;->url:Lokhttp3/HttpUrl;
 
     return-object v0

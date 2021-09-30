@@ -8,7 +8,7 @@
 
 
 # direct methods
-.method public constructor <init>(Lokio/Sink;)V
+.method constructor <init>(Lokio/Sink;)V
     .locals 0
     .param p1, "delegate"    # Lokio/Sink;
 

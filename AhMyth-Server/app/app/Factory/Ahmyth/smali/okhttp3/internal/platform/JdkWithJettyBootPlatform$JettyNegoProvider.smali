@@ -34,7 +34,7 @@
 
 
 # direct methods
-.method public constructor <init>(Ljava/util/List;)V
+.method constructor <init>(Ljava/util/List;)V
     .locals 0
     .annotation system Ldalvik/annotation/Signature;
         value = {
@@ -45,14 +45,14 @@
         }
     .end annotation
 
-    .line 113
+    .line 116
     .local p1, "protocols":Ljava/util/List;, "Ljava/util/List<Ljava/lang/String;>;"
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 114
+    .line 117
     iput-object p1, p0, Lokhttp3/internal/platform/JdkWithJettyBootPlatform$JettyNegoProvider;->protocols:Ljava/util/List;
 
-    .line 115
+    .line 118
     return-void
 .end method
 
@@ -69,25 +69,25 @@
         }
     .end annotation
 
-    .line 118
+    .line 121
     invoke-virtual {p2}, Ljava/lang/reflect/Method;->getName()Ljava/lang/String;
 
     move-result-object v0
 
-    .line 119
+    .line 122
     .local v0, "methodName":Ljava/lang/String;
     invoke-virtual {p2}, Ljava/lang/reflect/Method;->getReturnType()Ljava/lang/Class;
 
     move-result-object v1
 
-    .line 120
+    .line 123
     .local v1, "returnType":Ljava/lang/Class;, "Ljava/lang/Class<*>;"
     if-nez p3, :cond_0
 
-    .line 121
+    .line 124
     sget-object p3, Lokhttp3/internal/Util;->EMPTY_STRING_ARRAY:[Ljava/lang/String;
 
-    .line 123
+    .line 126
     :cond_0
     const-string v2, "supports"
 
@@ -103,14 +103,14 @@
 
     if-ne v2, v1, :cond_1
 
-    .line 124
+    .line 127
     invoke-static {v3}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
 
     move-result-object v2
 
     return-object v2
 
-    .line 125
+    .line 128
     :cond_1
     const-string v2, "unsupported"
 
@@ -126,13 +126,13 @@
 
     if-ne v2, v1, :cond_2
 
-    .line 126
+    .line 129
     iput-boolean v3, p0, Lokhttp3/internal/platform/JdkWithJettyBootPlatform$JettyNegoProvider;->unsupported:Z
 
-    .line 127
+    .line 130
     return-object v4
 
-    .line 128
+    .line 131
     :cond_2
     const-string v2, "protocols"
 
@@ -146,12 +146,12 @@
 
     if-nez v2, :cond_3
 
-    .line 129
+    .line 132
     iget-object v2, p0, Lokhttp3/internal/platform/JdkWithJettyBootPlatform$JettyNegoProvider;->protocols:Ljava/util/List;
 
     return-object v2
 
-    .line 130
+    .line 133
     :cond_3
     const-string v2, "selectProtocol"
 
@@ -186,12 +186,12 @@
 
     if-eqz v2, :cond_7
 
-    .line 132
+    .line 135
     aget-object v2, p3, v5
 
     check-cast v2, Ljava/util/List;
 
-    .line 134
+    .line 137
     .local v2, "peerProtocols":Ljava/util/List;, "Ljava/util/List<Ljava/lang/String;>;"
     const/4 v3, 0x0
 
@@ -204,7 +204,7 @@
     :goto_0
     if-ge v3, v4, :cond_6
 
-    .line 135
+    .line 138
     iget-object v6, p0, Lokhttp3/internal/platform/JdkWithJettyBootPlatform$JettyNegoProvider;->protocols:Ljava/util/List;
 
     invoke-interface {v2, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
@@ -217,7 +217,7 @@
 
     if-eqz v6, :cond_5
 
-    .line 136
+    .line 139
     invoke-interface {v2, v3}, Ljava/util/List;->get(I)Ljava/lang/Object;
 
     move-result-object v5
@@ -228,13 +228,13 @@
 
     return-object v5
 
-    .line 134
+    .line 137
     :cond_5
     add-int/lit8 v3, v3, 0x1
 
     goto :goto_0
 
-    .line 139
+    .line 142
     .end local v3    # "i":I
     .end local v4    # "size":I
     :cond_6
@@ -250,7 +250,7 @@
 
     return-object v3
 
-    .line 140
+    .line 143
     .end local v2    # "peerProtocols":Ljava/util/List;, "Ljava/util/List<Ljava/lang/String;>;"
     :cond_7
     const-string v2, "protocolSelected"
@@ -274,17 +274,17 @@
 
     if-ne v2, v3, :cond_9
 
-    .line 142
+    .line 145
     aget-object v2, p3, v5
 
     check-cast v2, Ljava/lang/String;
 
     iput-object v2, p0, Lokhttp3/internal/platform/JdkWithJettyBootPlatform$JettyNegoProvider;->selected:Ljava/lang/String;
 
-    .line 143
+    .line 146
     return-object v4
 
-    .line 145
+    .line 148
     :cond_9
     invoke-virtual {p2, p0, p3}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
 

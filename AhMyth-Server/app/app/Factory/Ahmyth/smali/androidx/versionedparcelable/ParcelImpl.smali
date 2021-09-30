@@ -26,7 +26,7 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .line 60
+    .line 58
     new-instance v0, Landroidx/versionedparcelable/ParcelImpl$1;
 
     invoke-direct {v0}, Landroidx/versionedparcelable/ParcelImpl$1;-><init>()V
@@ -40,10 +40,10 @@
     .locals 1
     .param p1, "in"    # Landroid/os/Parcel;
 
-    .line 38
+    .line 36
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 39
+    .line 37
     new-instance v0, Landroidx/versionedparcelable/VersionedParcelParcel;
 
     invoke-direct {v0, p1}, Landroidx/versionedparcelable/VersionedParcelParcel;-><init>(Landroid/os/Parcel;)V
@@ -54,7 +54,7 @@
 
     iput-object v0, p0, Landroidx/versionedparcelable/ParcelImpl;->mParcel:Landroidx/versionedparcelable/VersionedParcelable;
 
-    .line 40
+    .line 38
     return-void
 .end method
 
@@ -62,13 +62,13 @@
     .locals 0
     .param p1, "parcel"    # Landroidx/versionedparcelable/VersionedParcelable;
 
-    .line 34
+    .line 32
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 35
+    .line 33
     iput-object p1, p0, Landroidx/versionedparcelable/ParcelImpl;->mParcel:Landroidx/versionedparcelable/VersionedParcelable;
 
-    .line 36
+    .line 34
     return-void
 .end method
 
@@ -77,7 +77,7 @@
 .method public describeContents()I
     .locals 1
 
-    .line 51
+    .line 49
     const/4 v0, 0x0
 
     return v0
@@ -93,7 +93,7 @@
         }
     .end annotation
 
-    .line 46
+    .line 44
     iget-object v0, p0, Landroidx/versionedparcelable/ParcelImpl;->mParcel:Landroidx/versionedparcelable/VersionedParcelable;
 
     return-object v0
@@ -104,17 +104,17 @@
     .param p1, "dest"    # Landroid/os/Parcel;
     .param p2, "flags"    # I
 
-    .line 56
+    .line 54
     new-instance v0, Landroidx/versionedparcelable/VersionedParcelParcel;
 
     invoke-direct {v0, p1}, Landroidx/versionedparcelable/VersionedParcelParcel;-><init>(Landroid/os/Parcel;)V
 
-    .line 57
+    .line 55
     .local v0, "parcel":Landroidx/versionedparcelable/VersionedParcelParcel;
     iget-object v1, p0, Landroidx/versionedparcelable/ParcelImpl;->mParcel:Landroidx/versionedparcelable/VersionedParcelable;
 
     invoke-virtual {v0, v1}, Landroidx/versionedparcelable/VersionedParcelParcel;->writeVersionedParcelable(Landroidx/versionedparcelable/VersionedParcelable;)V
 
-    .line 58
+    .line 56
     return-void
 .end method

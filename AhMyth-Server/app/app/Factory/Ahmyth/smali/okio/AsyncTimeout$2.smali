@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lokio/AsyncTimeout;
 
-    .line 231
+    .line 232
     iput-object p1, p0, Lokio/AsyncTimeout$2;->this$0:Lokio/AsyncTimeout;
 
     iput-object p2, p0, Lokio/AsyncTimeout$2;->val$source:Lokio/Source;
@@ -48,10 +48,10 @@
         }
     .end annotation
 
-    .line 247
+    .line 248
     const/4 v0, 0x0
 
-    .line 249
+    .line 250
     .local v0, "throwOnTimeout":Z
     :try_start_0
     iget-object v1, p0, Lokio/AsyncTimeout$2;->val$source:Lokio/Source;
@@ -61,31 +61,31 @@
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 250
+    .line 251
     const/4 v0, 0x1
 
-    .line 254
+    .line 255
     iget-object v1, p0, Lokio/AsyncTimeout$2;->this$0:Lokio/AsyncTimeout;
 
     invoke-virtual {v1, v0}, Lokio/AsyncTimeout;->exit(Z)V
 
-    .line 255
+    .line 256
     nop
 
-    .line 256
+    .line 257
     return-void
 
-    .line 254
+    .line 255
     :catchall_0
     move-exception v1
 
     goto :goto_0
 
-    .line 251
+    .line 252
     :catch_0
     move-exception v1
 
-    .line 252
+    .line 253
     .local v1, "e":Ljava/io/IOException;
     :try_start_1
     iget-object v2, p0, Lokio/AsyncTimeout$2;->this$0:Lokio/AsyncTimeout;
@@ -99,7 +99,7 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 254
+    .line 255
     .end local v1    # "e":Ljava/io/IOException;
     .restart local v0    # "throwOnTimeout":Z
     :goto_0
@@ -120,16 +120,16 @@
         }
     .end annotation
 
-    .line 233
+    .line 234
     const/4 v0, 0x0
 
-    .line 234
+    .line 235
     .local v0, "throwOnTimeout":Z
     iget-object v1, p0, Lokio/AsyncTimeout$2;->this$0:Lokio/AsyncTimeout;
 
     invoke-virtual {v1}, Lokio/AsyncTimeout;->enter()V
 
-    .line 236
+    .line 237
     :try_start_0
     iget-object v1, p0, Lokio/AsyncTimeout$2;->val$source:Lokio/Source;
 
@@ -140,33 +140,33 @@
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 237
+    .line 238
     .local v1, "result":J
     const/4 v0, 0x1
 
-    .line 238
+    .line 239
     nop
 
-    .line 242
+    .line 243
     iget-object v3, p0, Lokio/AsyncTimeout$2;->this$0:Lokio/AsyncTimeout;
 
     invoke-virtual {v3, v0}, Lokio/AsyncTimeout;->exit(Z)V
 
-    .line 238
+    .line 239
     return-wide v1
 
-    .line 242
+    .line 243
     .end local v1    # "result":J
     :catchall_0
     move-exception v1
 
     goto :goto_0
 
-    .line 239
+    .line 240
     :catch_0
     move-exception v1
 
-    .line 240
+    .line 241
     .local v1, "e":Ljava/io/IOException;
     :try_start_1
     iget-object v2, p0, Lokio/AsyncTimeout$2;->this$0:Lokio/AsyncTimeout;
@@ -182,7 +182,7 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 242
+    .line 243
     .end local v1    # "e":Ljava/io/IOException;
     .restart local v0    # "throwOnTimeout":Z
     .restart local p1    # "sink":Lokio/Buffer;
@@ -198,7 +198,7 @@
 .method public timeout()Lokio/Timeout;
     .locals 1
 
-    .line 259
+    .line 260
     iget-object v0, p0, Lokio/AsyncTimeout$2;->this$0:Lokio/AsyncTimeout;
 
     return-object v0
@@ -207,7 +207,7 @@
 .method public toString()Ljava/lang/String;
     .locals 2
 
-    .line 263
+    .line 264
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -216,13 +216,19 @@
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v0
+
     iget-object v1, p0, Lokio/AsyncTimeout$2;->val$source:Lokio/Source;
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
 
+    move-result-object v0
+
     const-string v1, ")"
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v0
 
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 

@@ -20,9 +20,9 @@
     .param p1, "uri"    # Ljava/net/URI;
     .param p2, "opts"    # Lio/socket/engineio/client/Socket$Options;
 
-    .line 606
+    .line 555
     invoke-direct {p0, p1, p2}, Lio/socket/engineio/client/Socket;-><init>(Ljava/net/URI;Lio/socket/engineio/client/Socket$Options;)V
 
-    .line 607
+    .line 556
     return-void
 .end method

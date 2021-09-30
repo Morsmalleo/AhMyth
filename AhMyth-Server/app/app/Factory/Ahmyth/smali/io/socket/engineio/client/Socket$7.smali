@@ -36,7 +36,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 338
+    .line 364
     iput-object p1, p0, Lio/socket/engineio/client/Socket$7;->this$0:Lio/socket/engineio/client/Socket;
 
     iput-object p2, p0, Lio/socket/engineio/client/Socket$7;->val$failed:[Z
@@ -60,7 +60,7 @@
     .locals 5
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 341
+    .line 367
     iget-object v0, p0, Lio/socket/engineio/client/Socket$7;->val$failed:[Z
 
     const/4 v1, 0x0
@@ -71,13 +71,26 @@
 
     return-void
 
-    .line 343
+    .line 369
     :cond_0
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
     move-result-object v0
 
+    sget-object v2, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+
+    invoke-virtual {v0, v2}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v0
+
     const/4 v2, 0x1
+
+    if-eqz v0, :cond_1
+
+    .line 370
+    invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
+
+    move-result-object v0
 
     new-array v3, v2, [Ljava/lang/Object;
 
@@ -93,7 +106,8 @@
 
     invoke-virtual {v0, v3}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 344
+    .line 372
+    :cond_1
     new-instance v0, Lio/socket/engineio/parser/Packet;
 
     const-string v3, "ping"
@@ -102,7 +116,7 @@
 
     invoke-direct {v0, v3, v4}, Lio/socket/engineio/parser/Packet;-><init>(Ljava/lang/String;Ljava/lang/Object;)V
 
-    .line 345
+    .line 373
     .local v0, "packet":Lio/socket/engineio/parser/Packet;, "Lio/socket/engineio/parser/Packet<Ljava/lang/String;>;"
     iget-object v3, p0, Lio/socket/engineio/client/Socket$7;->val$transport:[Lio/socket/engineio/client/Transport;
 
@@ -114,7 +128,7 @@
 
     invoke-virtual {v3, v2}, Lio/socket/engineio/client/Transport;->send([Lio/socket/engineio/parser/Packet;)V
 
-    .line 346
+    .line 374
     iget-object v2, p0, Lio/socket/engineio/client/Socket$7;->val$transport:[Lio/socket/engineio/client/Transport;
 
     aget-object v1, v2, v1
@@ -127,6 +141,6 @@
 
     invoke-virtual {v1, v3, v2}, Lio/socket/engineio/client/Transport;->once(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
 
-    .line 387
+    .line 421
     return-void
 .end method

@@ -274,8 +274,13 @@
 .end method
 
 .method private getName(I)Lokio/ByteString;
-    .locals 2
+    .locals 4
     .param p1, "index"    # I
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/io/IOException;
+        }
+    .end annotation
 
     .line 262
     invoke-direct {p0, p1}, Lokhttp3/internal/http2/Hpack$Reader;->isStaticHeader(I)Z
@@ -295,23 +300,60 @@
 
     .line 265
     :cond_0
-    iget-object v0, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTable:[Lokhttp3/internal/http2/Header;
+    sget-object v0, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
 
-    sget-object v1, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
+    array-length v0, v0
 
-    array-length v1, v1
+    sub-int v0, p1, v0
 
-    sub-int v1, p1, v1
+    invoke-direct {p0, v0}, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTableIndex(I)I
 
-    invoke-direct {p0, v1}, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTableIndex(I)I
+    move-result v0
 
-    move-result v1
+    .line 266
+    .local v0, "dynamicTableIndex":I
+    if-ltz v0, :cond_1
 
-    aget-object v0, v0, v1
+    iget-object v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTable:[Lokhttp3/internal/http2/Header;
 
-    iget-object v0, v0, Lokhttp3/internal/http2/Header;->name:Lokio/ByteString;
+    array-length v2, v1
 
-    return-object v0
+    if-ge v0, v2, :cond_1
+
+    .line 270
+    aget-object v1, v1, v0
+
+    iget-object v1, v1, Lokhttp3/internal/http2/Header;->name:Lokio/ByteString;
+
+    return-object v1
+
+    .line 267
+    :cond_1
+    new-instance v1, Ljava/io/IOException;
+
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v3, "Header index too large "
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    add-int/lit8 v3, p1, 0x1
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-direct {v1, v2}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+
+    throw v1
 .end method
 
 .method private insertIntoDynamicTable(ILokhttp3/internal/http2/Header;)V
@@ -319,21 +361,21 @@
     .param p1, "index"    # I
     .param p2, "entry"    # Lokhttp3/internal/http2/Header;
 
-    .line 275
+    .line 280
     iget-object v0, p0, Lokhttp3/internal/http2/Hpack$Reader;->headerList:Ljava/util/List;
 
     invoke-interface {v0, p2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 277
+    .line 282
     iget v0, p2, Lokhttp3/internal/http2/Header;->hpackSize:I
 
-    .line 278
+    .line 283
     .local v0, "delta":I
     const/4 v1, -0x1
 
     if-eq p1, v1, :cond_0
 
-    .line 279
+    .line 284
     iget-object v2, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTable:[Lokhttp3/internal/http2/Header;
 
     invoke-direct {p0, p1}, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTableIndex(I)I
@@ -346,19 +388,19 @@
 
     sub-int/2addr v0, v2
 
-    .line 283
+    .line 288
     :cond_0
     iget v2, p0, Lokhttp3/internal/http2/Hpack$Reader;->maxDynamicTableByteCount:I
 
     if-le v0, v2, :cond_1
 
-    .line 284
+    .line 289
     invoke-direct {p0}, Lokhttp3/internal/http2/Hpack$Reader;->clearDynamicTable()V
 
-    .line 285
+    .line 290
     return-void
 
-    .line 289
+    .line 294
     :cond_1
     iget v3, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTableByteCount:I
 
@@ -366,17 +408,17 @@
 
     sub-int/2addr v3, v2
 
-    .line 290
+    .line 295
     .local v3, "bytesToRecover":I
     invoke-direct {p0, v3}, Lokhttp3/internal/http2/Hpack$Reader;->evictToRecoverBytes(I)I
 
     move-result v2
 
-    .line 292
+    .line 297
     .local v2, "entriesEvicted":I
     if-ne p1, v1, :cond_3
 
-    .line 293
+    .line 298
     iget v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->headerCount:I
 
     add-int/lit8 v1, v1, 0x1
@@ -387,14 +429,14 @@
 
     if-le v1, v5, :cond_2
 
-    .line 294
+    .line 299
     array-length v1, v4
 
     mul-int/lit8 v1, v1, 0x2
 
     new-array v1, v1, [Lokhttp3/internal/http2/Header;
 
-    .line 295
+    .line 300
     .local v1, "doubled":[Lokhttp3/internal/http2/Header;
     const/4 v5, 0x0
 
@@ -404,7 +446,7 @@
 
     invoke-static {v4, v5, v1, v6, v7}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 296
+    .line 301
     iget-object v4, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTable:[Lokhttp3/internal/http2/Header;
 
     array-length v4, v4
@@ -413,10 +455,10 @@
 
     iput v4, p0, Lokhttp3/internal/http2/Hpack$Reader;->nextHeaderIndex:I
 
-    .line 297
+    .line 302
     iput-object v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTable:[Lokhttp3/internal/http2/Header;
 
-    .line 299
+    .line 304
     .end local v1    # "doubled":[Lokhttp3/internal/http2/Header;
     :cond_2
     iget v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->nextHeaderIndex:I
@@ -427,12 +469,12 @@
 
     move p1, v1
 
-    .line 300
+    .line 305
     iget-object v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTable:[Lokhttp3/internal/http2/Header;
 
     aput-object p2, v1, p1
 
-    .line 301
+    .line 306
     iget v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->headerCount:I
 
     add-int/lit8 v1, v1, 0x1
@@ -441,7 +483,7 @@
 
     goto :goto_0
 
-    .line 303
+    .line 308
     :cond_3
     invoke-direct {p0, p1}, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTableIndex(I)I
 
@@ -451,12 +493,12 @@
 
     add-int/2addr p1, v1
 
-    .line 304
+    .line 309
     iget-object v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTable:[Lokhttp3/internal/http2/Header;
 
     aput-object p2, v1, p1
 
-    .line 306
+    .line 311
     :goto_0
     iget v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTableByteCount:I
 
@@ -464,7 +506,7 @@
 
     iput v1, p0, Lokhttp3/internal/http2/Hpack$Reader;->dynamicTableByteCount:I
 
-    .line 307
+    .line 312
     return-void
 .end method
 
@@ -472,7 +514,7 @@
     .locals 2
     .param p1, "index"    # I
 
-    .line 270
+    .line 275
     const/4 v0, 0x1
 
     if-ltz p1, :cond_0
@@ -502,7 +544,7 @@
         }
     .end annotation
 
-    .line 310
+    .line 315
     iget-object v0, p0, Lokhttp3/internal/http2/Hpack$Reader;->source:Lokio/BufferedSource;
 
     invoke-interface {v0}, Lokio/BufferedSource;->readByte()B
@@ -565,9 +607,7 @@
 
     array-length v2, v1
 
-    add-int/lit8 v2, v2, -0x1
-
-    if-gt v0, v2, :cond_1
+    if-ge v0, v2, :cond_1
 
     .line 227
     iget-object v2, p0, Lokhttp3/internal/http2/Hpack$Reader;->headerList:Ljava/util/List;
@@ -594,9 +634,13 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v2
+
     add-int/lit8 v3, p1, 0x1
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
 
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -796,12 +840,12 @@
         }
     .end annotation
 
-    .line 337
+    .line 342
     invoke-direct {p0}, Lokhttp3/internal/http2/Hpack$Reader;->readByte()I
 
     move-result v0
 
-    .line 338
+    .line 343
     .local v0, "firstByte":I
     and-int/lit16 v1, v0, 0x80
 
@@ -816,7 +860,7 @@
     :cond_0
     const/4 v1, 0x0
 
-    .line 339
+    .line 344
     .local v1, "huffmanDecode":Z
     :goto_0
     const/16 v2, 0x7f
@@ -825,11 +869,11 @@
 
     move-result v2
 
-    .line 341
+    .line 346
     .local v2, "length":I
     if-eqz v1, :cond_1
 
-    .line 342
+    .line 347
     invoke-static {}, Lokhttp3/internal/http2/Huffman;->get()Lokhttp3/internal/http2/Huffman;
 
     move-result-object v3
@@ -852,7 +896,7 @@
 
     return-object v3
 
-    .line 344
+    .line 349
     :cond_1
     iget-object v3, p0, Lokhttp3/internal/http2/Hpack$Reader;->source:Lokio/BufferedSource;
 
@@ -993,9 +1037,13 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v2
+
     iget v3, p0, Lokhttp3/internal/http2/Hpack$Reader;->maxDynamicTableByteCount:I
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
 
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1069,62 +1117,62 @@
         }
     .end annotation
 
-    .line 314
+    .line 319
     and-int v0, p1, p2
 
-    .line 315
+    .line 320
     .local v0, "prefix":I
     if-ge v0, p2, :cond_0
 
-    .line 316
+    .line 321
     return v0
 
-    .line 320
+    .line 325
     :cond_0
     move v1, p2
 
-    .line 321
+    .line 326
     .local v1, "result":I
     const/4 v2, 0x0
 
-    .line 323
+    .line 328
     .local v2, "shift":I
     :goto_0
     invoke-direct {p0}, Lokhttp3/internal/http2/Hpack$Reader;->readByte()I
 
     move-result v3
 
-    .line 324
+    .line 329
     .local v3, "b":I
     and-int/lit16 v4, v3, 0x80
 
     if-eqz v4, :cond_1
 
-    .line 325
+    .line 330
     and-int/lit8 v4, v3, 0x7f
 
     shl-int/2addr v4, v2
 
     add-int/2addr v1, v4
 
-    .line 326
+    .line 331
     add-int/lit8 v2, v2, 0x7
 
-    .line 331
+    .line 336
     .end local v3    # "b":I
     goto :goto_0
 
-    .line 328
+    .line 333
     .restart local v3    # "b":I
     :cond_1
     shl-int v4, v3, v2
 
     add-int/2addr v1, v4
 
-    .line 329
+    .line 334
     nop
 
-    .line 332
+    .line 337
     .end local v3    # "b":I
     return v1
 .end method

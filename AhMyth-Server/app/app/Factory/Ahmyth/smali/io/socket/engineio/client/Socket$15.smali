@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lio/socket/engineio/client/Socket;->setPing()V
+    value = Lio/socket/engineio/client/Socket;->onHeartbeat()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 565
+    .line 592
     iput-object p1, p0, Lio/socket/engineio/client/Socket$15;->this$0:Lio/socket/engineio/client/Socket;
 
     iput-object p2, p0, Lio/socket/engineio/client/Socket$15;->val$self:Lio/socket/engineio/client/Socket;
@@ -43,13 +43,13 @@
 .method public run()V
     .locals 1
 
-    .line 568
+    .line 595
     new-instance v0, Lio/socket/engineio/client/Socket$15$1;
 
     invoke-direct {v0, p0}, Lio/socket/engineio/client/Socket$15$1;-><init>(Lio/socket/engineio/client/Socket$15;)V
 
     invoke-static {v0}, Lio/socket/thread/EventThread;->exec(Ljava/lang/Runnable;)V
 
-    .line 576
+    .line 602
     return-void
 .end method

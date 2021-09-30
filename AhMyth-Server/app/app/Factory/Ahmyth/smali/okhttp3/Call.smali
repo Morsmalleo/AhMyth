@@ -40,3 +40,6 @@
 
 .method public abstract request()Lokhttp3/Request;
 .end method
+
+.method public abstract timeout()Lokio/Timeout;
+.end method

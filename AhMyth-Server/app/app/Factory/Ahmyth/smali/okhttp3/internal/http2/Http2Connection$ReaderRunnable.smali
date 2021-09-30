@@ -29,10 +29,10 @@
     .param p1, "this$0"    # Lokhttp3/internal/http2/Http2Connection;
     .param p2, "reader"    # Lokhttp3/internal/http2/Http2Reader;
 
-    .line 556
+    .line 668
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
-    .line 557
+    .line 669
     const/4 v0, 0x1
 
     new-array v0, v0, [Ljava/lang/Object;
@@ -47,41 +47,10 @@
 
     invoke-direct {p0, v1, v0}, Lokhttp3/internal/NamedRunnable;-><init>(Ljava/lang/String;[Ljava/lang/Object;)V
 
-    .line 558
+    .line 670
     iput-object p2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->reader:Lokhttp3/internal/http2/Http2Reader;
 
-    .line 559
-    return-void
-.end method
-
-.method private applyAndAckSettings(Lokhttp3/internal/http2/Settings;)V
-    .locals 5
-    .param p1, "peerSettings"    # Lokhttp3/internal/http2/Settings;
-
-    .line 695
-    sget-object v0, Lokhttp3/internal/http2/Http2Connection;->executor:Ljava/util/concurrent/ExecutorService;
-
-    new-instance v1, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$3;
-
-    const/4 v2, 0x1
-
-    new-array v2, v2, [Ljava/lang/Object;
-
-    iget-object v3, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iget-object v3, v3, Lokhttp3/internal/http2/Http2Connection;->hostname:Ljava/lang/String;
-
-    const/4 v4, 0x0
-
-    aput-object v3, v2, v4
-
-    const-string v3, "OkHttp %s ACK Settings"
-
-    invoke-direct {v1, p0, v3, v2, p1}, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$3;-><init>(Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;Ljava/lang/String;[Ljava/lang/Object;Lokhttp3/internal/http2/Settings;)V
-
-    invoke-interface {v0, v1}, Ljava/util/concurrent/ExecutorService;->execute(Ljava/lang/Runnable;)V
-
-    .line 703
+    .line 671
     return-void
 .end method
 
@@ -90,7 +59,7 @@
 .method public ackSettings()V
     .locals 0
 
-    .line 707
+    .line 822
     return-void
 .end method
 
@@ -103,12 +72,287 @@
     .param p5, "port"    # I
     .param p6, "maxAge"    # J
 
-    .line 770
+    .line 895
     return-void
 .end method
 
+.method applyAndAckSettings(ZLokhttp3/internal/http2/Settings;)V
+    .locals 9
+    .param p1, "clearPrevious"    # Z
+    .param p2, "settings"    # Lokhttp3/internal/http2/Settings;
+
+    .line 785
+    const-wide/16 v0, 0x0
+
+    .line 786
+    .local v0, "delta":J
+    const/4 v2, 0x0
+
+    .line 787
+    .local v2, "streamsToNotify":[Lokhttp3/internal/http2/Http2Stream;
+    iget-object v3, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v3, v3, Lokhttp3/internal/http2/Http2Connection;->writer:Lokhttp3/internal/http2/Http2Writer;
+
+    monitor-enter v3
+
+    .line 788
+    :try_start_0
+    iget-object v4, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    monitor-enter v4
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_2
+
+    .line 789
+    :try_start_1
+    iget-object v5, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v5, v5, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+
+    invoke-virtual {v5}, Lokhttp3/internal/http2/Settings;->getInitialWindowSize()I
+
+    move-result v5
+
+    .line 790
+    .local v5, "priorWriteWindowSize":I
+    if-eqz p1, :cond_0
+
+    iget-object v6, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v6, v6, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+
+    invoke-virtual {v6}, Lokhttp3/internal/http2/Settings;->clear()V
+
+    .line 791
+    :cond_0
+    iget-object v6, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v6, v6, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+
+    invoke-virtual {v6, p2}, Lokhttp3/internal/http2/Settings;->merge(Lokhttp3/internal/http2/Settings;)V
+
+    .line 792
+    iget-object v6, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v6, v6, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+
+    invoke-virtual {v6}, Lokhttp3/internal/http2/Settings;->getInitialWindowSize()I
+
+    move-result v6
+
+    .line 793
+    .local v6, "peerInitialWindowSize":I
+    const/4 v7, -0x1
+
+    if-eq v6, v7, :cond_2
+
+    if-eq v6, v5, :cond_2
+
+    .line 794
+    sub-int v7, v6, v5
+
+    int-to-long v0, v7
+
+    .line 795
+    iget-object v7, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v7, v7, Lokhttp3/internal/http2/Http2Connection;->streams:Ljava/util/Map;
+
+    invoke-interface {v7}, Ljava/util/Map;->isEmpty()Z
+
+    move-result v7
+
+    if-nez v7, :cond_1
+
+    .line 796
+    iget-object v7, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v7, v7, Lokhttp3/internal/http2/Http2Connection;->streams:Ljava/util/Map;
+
+    invoke-interface {v7}, Ljava/util/Map;->values()Ljava/util/Collection;
+
+    move-result-object v7
+
+    iget-object v8, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v8, v8, Lokhttp3/internal/http2/Http2Connection;->streams:Ljava/util/Map;
+
+    invoke-interface {v8}, Ljava/util/Map;->size()I
+
+    move-result v8
+
+    new-array v8, v8, [Lokhttp3/internal/http2/Http2Stream;
+
+    invoke-interface {v7, v8}, Ljava/util/Collection;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
+
+    move-result-object v7
+
+    check-cast v7, [Lokhttp3/internal/http2/Http2Stream;
+
+    goto :goto_0
+
+    .line 797
+    :cond_1
+    const/4 v7, 0x0
+
+    :goto_0
+    move-object v2, v7
+
+    .line 799
+    .end local v5    # "priorWriteWindowSize":I
+    .end local v6    # "peerInitialWindowSize":I
+    :cond_2
+    monitor-exit v4
+    :try_end_1
+    .catchall {:try_start_1 .. :try_end_1} :catchall_1
+
+    .line 801
+    :try_start_2
+    iget-object v4, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v4, v4, Lokhttp3/internal/http2/Http2Connection;->writer:Lokhttp3/internal/http2/Http2Writer;
+
+    iget-object v5, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v5, v5, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+
+    invoke-virtual {v4, v5}, Lokhttp3/internal/http2/Http2Writer;->applyAndAckSettings(Lokhttp3/internal/http2/Settings;)V
+    :try_end_2
+    .catch Ljava/io/IOException; {:try_start_2 .. :try_end_2} :catch_0
+    .catchall {:try_start_2 .. :try_end_2} :catchall_2
+
+    .line 804
+    goto :goto_1
+
+    .line 802
+    :catch_0
+    move-exception v4
+
+    .line 803
+    .local v4, "e":Ljava/io/IOException;
+    :try_start_3
+    iget-object v5, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    invoke-static {v5}, Lokhttp3/internal/http2/Http2Connection;->access$000(Lokhttp3/internal/http2/Http2Connection;)V
+
+    .line 805
+    .end local v4    # "e":Ljava/io/IOException;
+    :goto_1
+    monitor-exit v3
+    :try_end_3
+    .catchall {:try_start_3 .. :try_end_3} :catchall_2
+
+    .line 806
+    const/4 v3, 0x0
+
+    if-eqz v2, :cond_3
+
+    .line 807
+    array-length v4, v2
+
+    const/4 v5, 0x0
+
+    :goto_2
+    if-ge v5, v4, :cond_3
+
+    aget-object v6, v2, v5
+
+    .line 808
+    .local v6, "stream":Lokhttp3/internal/http2/Http2Stream;
+    monitor-enter v6
+
+    .line 809
+    :try_start_4
+    invoke-virtual {v6, v0, v1}, Lokhttp3/internal/http2/Http2Stream;->addBytesToWriteWindow(J)V
+
+    .line 810
+    monitor-exit v6
+
+    .line 807
+    .end local v6    # "stream":Lokhttp3/internal/http2/Http2Stream;
+    add-int/lit8 v5, v5, 0x1
+
+    goto :goto_2
+
+    .line 810
+    .restart local v6    # "stream":Lokhttp3/internal/http2/Http2Stream;
+    :catchall_0
+    move-exception v3
+
+    monitor-exit v6
+    :try_end_4
+    .catchall {:try_start_4 .. :try_end_4} :catchall_0
+
+    throw v3
+
+    .line 813
+    .end local v6    # "stream":Lokhttp3/internal/http2/Http2Stream;
+    :cond_3
+    invoke-static {}, Lokhttp3/internal/http2/Http2Connection;->access$400()Ljava/util/concurrent/ExecutorService;
+
+    move-result-object v4
+
+    new-instance v5, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$3;
+
+    const-string v6, "OkHttp %s settings"
+
+    const/4 v7, 0x1
+
+    new-array v7, v7, [Ljava/lang/Object;
+
+    iget-object v8, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    iget-object v8, v8, Lokhttp3/internal/http2/Http2Connection;->hostname:Ljava/lang/String;
+
+    aput-object v8, v7, v3
+
+    invoke-direct {v5, p0, v6, v7}, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$3;-><init>(Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;Ljava/lang/String;[Ljava/lang/Object;)V
+
+    invoke-interface {v4, v5}, Ljava/util/concurrent/ExecutorService;->execute(Ljava/lang/Runnable;)V
+
+    .line 818
+    return-void
+
+    .line 799
+    :catchall_1
+    move-exception v5
+
+    :try_start_5
+    monitor-exit v4
+    :try_end_5
+    .catchall {:try_start_5 .. :try_end_5} :catchall_1
+
+    .end local v0    # "delta":J
+    .end local v2    # "streamsToNotify":[Lokhttp3/internal/http2/Http2Stream;
+    .end local p1    # "clearPrevious":Z
+    .end local p2    # "settings":Lokhttp3/internal/http2/Settings;
+    :try_start_6
+    throw v5
+
+    .line 805
+    .restart local v0    # "delta":J
+    .restart local v2    # "streamsToNotify":[Lokhttp3/internal/http2/Http2Stream;
+    .restart local p1    # "clearPrevious":Z
+    .restart local p2    # "settings":Lokhttp3/internal/http2/Settings;
+    :catchall_2
+    move-exception v4
+
+    monitor-exit v3
+    :try_end_6
+    .catchall {:try_start_6 .. :try_end_6} :catchall_2
+
+    goto :goto_4
+
+    :goto_3
+    throw v4
+
+    :goto_4
+    goto :goto_3
+.end method
+
 .method public data(ZILokio/BufferedSource;I)V
-    .locals 3
+    .locals 4
     .param p1, "inFinished"    # Z
     .param p2, "streamId"    # I
     .param p3, "source"    # Lokio/BufferedSource;
@@ -119,7 +363,7 @@
         }
     .end annotation
 
-    .line 586
+    .line 696
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v0, p2}, Lokhttp3/internal/http2/Http2Connection;->pushedStream(I)Z
@@ -128,15 +372,15 @@
 
     if-eqz v0, :cond_0
 
-    .line 587
+    .line 697
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v0, p2, p3, p4, p1}, Lokhttp3/internal/http2/Http2Connection;->pushDataLater(ILokio/BufferedSource;IZ)V
 
-    .line 588
+    .line 698
     return-void
 
-    .line 590
+    .line 700
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -144,36 +388,43 @@
 
     move-result-object v0
 
-    .line 591
+    .line 701
     .local v0, "dataStream":Lokhttp3/internal/http2/Http2Stream;
     if-nez v0, :cond_1
 
-    .line 592
+    .line 702
     iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     sget-object v2, Lokhttp3/internal/http2/ErrorCode;->PROTOCOL_ERROR:Lokhttp3/internal/http2/ErrorCode;
 
     invoke-virtual {v1, p2, v2}, Lokhttp3/internal/http2/Http2Connection;->writeSynResetLater(ILokhttp3/internal/http2/ErrorCode;)V
 
-    .line 593
+    .line 703
+    iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    int-to-long v2, p4
+
+    invoke-virtual {v1, v2, v3}, Lokhttp3/internal/http2/Http2Connection;->updateConnectionFlowControl(J)V
+
+    .line 704
     int-to-long v1, p4
 
     invoke-interface {p3, v1, v2}, Lokio/BufferedSource;->skip(J)V
 
-    .line 594
+    .line 705
     return-void
 
-    .line 596
+    .line 707
     :cond_1
     invoke-virtual {v0, p3, p4}, Lokhttp3/internal/http2/Http2Stream;->receiveData(Lokio/BufferedSource;I)V
 
-    .line 597
+    .line 708
     if-eqz p1, :cond_2
 
-    .line 598
+    .line 709
     invoke-virtual {v0}, Lokhttp3/internal/http2/Http2Stream;->receiveFin()V
 
-    .line 600
+    .line 711
     :cond_2
     return-void
 .end method
@@ -181,47 +432,41 @@
 .method protected execute()V
     .locals 4
 
-    .line 562
+    .line 674
     sget-object v0, Lokhttp3/internal/http2/ErrorCode;->INTERNAL_ERROR:Lokhttp3/internal/http2/ErrorCode;
 
-    .line 563
+    .line 675
     .local v0, "connectionErrorCode":Lokhttp3/internal/http2/ErrorCode;
     sget-object v1, Lokhttp3/internal/http2/ErrorCode;->INTERNAL_ERROR:Lokhttp3/internal/http2/ErrorCode;
 
-    .line 565
+    .line 677
     .local v1, "streamErrorCode":Lokhttp3/internal/http2/ErrorCode;
     :try_start_0
-    iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iget-boolean v2, v2, Lokhttp3/internal/http2/Http2Connection;->client:Z
-
-    if-nez v2, :cond_0
-
-    .line 566
     iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->reader:Lokhttp3/internal/http2/Http2Reader;
 
-    invoke-virtual {v2}, Lokhttp3/internal/http2/Http2Reader;->readConnectionPreface()V
+    invoke-virtual {v2, p0}, Lokhttp3/internal/http2/Http2Reader;->readConnectionPreface(Lokhttp3/internal/http2/Http2Reader$Handler;)V
 
-    .line 568
-    :cond_0
+    .line 678
     :goto_0
     iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->reader:Lokhttp3/internal/http2/Http2Reader;
 
-    invoke-virtual {v2, p0}, Lokhttp3/internal/http2/Http2Reader;->nextFrame(Lokhttp3/internal/http2/Http2Reader$Handler;)Z
+    const/4 v3, 0x0
+
+    invoke-virtual {v2, v3, p0}, Lokhttp3/internal/http2/Http2Reader;->nextFrame(ZLokhttp3/internal/http2/Http2Reader$Handler;)Z
 
     move-result v2
 
-    if-eqz v2, :cond_1
+    if-eqz v2, :cond_0
 
     goto :goto_0
 
-    .line 570
-    :cond_1
+    .line 680
+    :cond_0
     sget-object v2, Lokhttp3/internal/http2/ErrorCode;->NO_ERROR:Lokhttp3/internal/http2/ErrorCode;
 
     move-object v0, v2
 
-    .line 571
+    .line 681
     sget-object v2, Lokhttp3/internal/http2/ErrorCode;->CANCEL:Lokhttp3/internal/http2/ErrorCode;
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_1
@@ -229,7 +474,7 @@
 
     move-object v1, v2
 
-    .line 577
+    .line 687
     :try_start_1
     iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -239,37 +484,37 @@
 
     goto :goto_1
 
-    .line 578
+    .line 688
     :catch_0
     move-exception v2
 
     goto :goto_2
 
-    .line 576
+    .line 686
     :catchall_0
     move-exception v2
 
     goto :goto_3
 
-    .line 572
+    .line 682
     :catch_1
     move-exception v2
 
-    .line 573
+    .line 683
     .local v2, "e":Ljava/io/IOException;
     :try_start_2
     sget-object v3, Lokhttp3/internal/http2/ErrorCode;->PROTOCOL_ERROR:Lokhttp3/internal/http2/ErrorCode;
 
     move-object v0, v3
 
-    .line 574
+    .line 684
     sget-object v3, Lokhttp3/internal/http2/ErrorCode;->PROTOCOL_ERROR:Lokhttp3/internal/http2/ErrorCode;
     :try_end_2
     .catchall {:try_start_2 .. :try_end_2} :catchall_0
 
     move-object v1, v3
 
-    .line 577
+    .line 687
     .end local v2    # "e":Ljava/io/IOException;
     :try_start_3
     iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
@@ -278,27 +523,27 @@
     :try_end_3
     .catch Ljava/io/IOException; {:try_start_3 .. :try_end_3} :catch_2
 
-    .line 579
+    .line 689
     :goto_1
     goto :goto_2
 
-    .line 578
+    .line 688
     :catch_2
     move-exception v2
 
-    .line 580
+    .line 690
     :goto_2
     iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->reader:Lokhttp3/internal/http2/Http2Reader;
 
     invoke-static {v2}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
 
-    .line 581
+    .line 691
     nop
 
-    .line 582
+    .line 692
     return-void
 
-    .line 577
+    .line 687
     :goto_3
     :try_start_4
     iget-object v3, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
@@ -307,14 +552,14 @@
     :try_end_4
     .catch Ljava/io/IOException; {:try_start_4 .. :try_end_4} :catch_3
 
-    .line 579
+    .line 689
     goto :goto_4
 
-    .line 578
+    .line 688
     :catch_3
     move-exception v3
 
-    .line 580
+    .line 690
     :goto_4
     iget-object v3, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->reader:Lokhttp3/internal/http2/Http2Reader;
 
@@ -335,15 +580,15 @@
     .param p2, "errorCode"    # Lokhttp3/internal/http2/ErrorCode;
     .param p3, "debugData"    # Lokio/ByteString;
 
-    .line 722
+    .line 847
     invoke-virtual {p3}, Lokio/ByteString;->size()I
 
-    .line 727
+    .line 852
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     monitor-enter v0
 
-    .line 728
+    .line 853
     :try_start_0
     iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -369,20 +614,20 @@
 
     check-cast v1, [Lokhttp3/internal/http2/Http2Stream;
 
-    .line 729
+    .line 854
     .local v1, "streamsCopy":[Lokhttp3/internal/http2/Http2Stream;
     iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     const/4 v3, 0x1
 
-    iput-boolean v3, v2, Lokhttp3/internal/http2/Http2Connection;->shutdown:Z
+    invoke-static {v2, v3}, Lokhttp3/internal/http2/Http2Connection;->access$302(Lokhttp3/internal/http2/Http2Connection;Z)Z
 
-    .line 730
+    .line 855
     monitor-exit v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 733
+    .line 858
     array-length v0, v1
 
     const/4 v2, 0x0
@@ -392,7 +637,7 @@
 
     aget-object v3, v1, v2
 
-    .line 734
+    .line 859
     .local v3, "http2Stream":Lokhttp3/internal/http2/Http2Stream;
     invoke-virtual {v3}, Lokhttp3/internal/http2/Http2Stream;->getId()I
 
@@ -406,12 +651,12 @@
 
     if-eqz v4, :cond_0
 
-    .line 735
+    .line 860
     sget-object v4, Lokhttp3/internal/http2/ErrorCode;->REFUSED_STREAM:Lokhttp3/internal/http2/ErrorCode;
 
     invoke-virtual {v3, v4}, Lokhttp3/internal/http2/Http2Stream;->receiveRstStream(Lokhttp3/internal/http2/ErrorCode;)V
 
-    .line 736
+    .line 861
     iget-object v4, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v3}, Lokhttp3/internal/http2/Http2Stream;->getId()I
@@ -420,18 +665,18 @@
 
     invoke-virtual {v4, v5}, Lokhttp3/internal/http2/Http2Connection;->removeStream(I)Lokhttp3/internal/http2/Http2Stream;
 
-    .line 733
+    .line 858
     .end local v3    # "http2Stream":Lokhttp3/internal/http2/Http2Stream;
     :cond_0
     add-int/lit8 v2, v2, 0x1
 
     goto :goto_0
 
-    .line 739
+    .line 864
     :cond_1
     return-void
 
-    .line 730
+    .line 855
     .end local v1    # "streamsCopy":[Lokhttp3/internal/http2/Http2Stream;
     :catchall_0
     move-exception v1
@@ -464,7 +709,7 @@
         }
     .end annotation
 
-    .line 604
+    .line 715
     .local p4, "headerBlock":Ljava/util/List;, "Ljava/util/List<Lokhttp3/internal/http2/Header;>;"
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -474,45 +719,47 @@
 
     if-eqz v0, :cond_0
 
-    .line 605
+    .line 716
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v0, p2, p4, p1}, Lokhttp3/internal/http2/Http2Connection;->pushHeadersLater(ILjava/util/List;Z)V
 
-    .line 606
+    .line 717
     return-void
 
-    .line 609
+    .line 720
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     monitor-enter v0
 
-    .line 611
+    .line 721
     :try_start_0
-    iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iget-boolean v1, v1, Lokhttp3/internal/http2/Http2Connection;->shutdown:Z
-
-    if-eqz v1, :cond_1
-
-    monitor-exit v0
-
-    return-void
-
-    .line 613
-    :cond_1
     iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v1, p2}, Lokhttp3/internal/http2/Http2Connection;->getStream(I)Lokhttp3/internal/http2/Http2Stream;
 
     move-result-object v1
 
-    .line 615
+    .line 723
     .local v1, "stream":Lokhttp3/internal/http2/Http2Stream;
     if-nez v1, :cond_4
 
-    .line 617
+    .line 725
+    iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    invoke-static {v2}, Lokhttp3/internal/http2/Http2Connection;->access$300(Lokhttp3/internal/http2/Http2Connection;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_1
+
+    monitor-exit v0
+
+    return-void
+
+    .line 728
+    :cond_1
     iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     iget v2, v2, Lokhttp3/internal/http2/Http2Connection;->lastGoodStreamId:I
@@ -523,7 +770,7 @@
 
     return-void
 
-    .line 620
+    .line 731
     :cond_2
     rem-int/lit8 v2, p2, 0x2
 
@@ -541,8 +788,14 @@
 
     return-void
 
-    .line 623
+    .line 734
     :cond_3
+    invoke-static {p4}, Lokhttp3/internal/Util;->toHeaders(Ljava/util/List;)Lokhttp3/Headers;
+
+    move-result-object v10
+
+    .line 735
+    .local v10, "headers":Lokhttp3/Headers;
     new-instance v2, Lokhttp3/internal/http2/Http2Stream;
 
     iget-object v7, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
@@ -555,17 +808,15 @@
 
     move v9, p1
 
-    move-object v10, p4
+    invoke-direct/range {v5 .. v10}, Lokhttp3/internal/http2/Http2Stream;-><init>(ILokhttp3/internal/http2/Http2Connection;ZZLokhttp3/Headers;)V
 
-    invoke-direct/range {v5 .. v10}, Lokhttp3/internal/http2/Http2Stream;-><init>(ILokhttp3/internal/http2/Http2Connection;ZZLjava/util/List;)V
-
-    .line 625
+    .line 737
     .local v2, "newStream":Lokhttp3/internal/http2/Http2Stream;
     iget-object v3, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     iput p2, v3, Lokhttp3/internal/http2/Http2Connection;->lastGoodStreamId:I
 
-    .line 626
+    .line 738
     iget-object v3, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     iget-object v3, v3, Lokhttp3/internal/http2/Http2Connection;->streams:Ljava/util/Map;
@@ -576,8 +827,10 @@
 
     invoke-interface {v3, v5, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 627
-    sget-object v3, Lokhttp3/internal/http2/Http2Connection;->executor:Ljava/util/concurrent/ExecutorService;
+    .line 739
+    invoke-static {}, Lokhttp3/internal/http2/Http2Connection;->access$400()Ljava/util/concurrent/ExecutorService;
+
+    move-result-object v3
 
     new-instance v5, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$1;
 
@@ -605,31 +858,32 @@
 
     invoke-interface {v3, v5}, Ljava/util/concurrent/ExecutorService;->execute(Ljava/lang/Runnable;)V
 
-    .line 640
+    .line 752
     monitor-exit v0
 
     return-void
 
-    .line 642
+    .line 754
     .end local v2    # "newStream":Lokhttp3/internal/http2/Http2Stream;
+    .end local v10    # "headers":Lokhttp3/Headers;
     :cond_4
     monitor-exit v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 645
+    .line 757
     invoke-virtual {v1, p4}, Lokhttp3/internal/http2/Http2Stream;->receiveHeaders(Ljava/util/List;)V
 
-    .line 646
+    .line 758
     if-eqz p1, :cond_5
 
     invoke-virtual {v1}, Lokhttp3/internal/http2/Http2Stream;->receiveFin()V
 
-    .line 647
+    .line 759
     :cond_5
     return-void
 
-    .line 642
+    .line 754
     .end local v1    # "stream":Lokhttp3/internal/http2/Http2Stream;
     :catchall_0
     move-exception v1
@@ -643,45 +897,109 @@
 .end method
 
 .method public ping(ZII)V
-    .locals 3
+    .locals 4
     .param p1, "reply"    # Z
     .param p2, "payload1"    # I
     .param p3, "payload2"    # I
 
-    .line 710
-    if-eqz p1, :cond_1
+    .line 825
+    const/4 v0, 0x1
 
-    .line 711
+    if-eqz p1, :cond_3
+
+    .line 826
+    iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    monitor-enter v1
+
+    .line 827
+    if-ne p2, v0, :cond_0
+
+    .line 828
+    :try_start_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
-    invoke-virtual {v0, p2}, Lokhttp3/internal/http2/Http2Connection;->removePing(I)Lokhttp3/internal/http2/Ping;
+    invoke-static {v0}, Lokhttp3/internal/http2/Http2Connection;->access$108(Lokhttp3/internal/http2/Http2Connection;)J
 
-    move-result-object v0
-
-    .line 712
-    .local v0, "ping":Lokhttp3/internal/http2/Ping;
-    if-eqz v0, :cond_0
-
-    .line 713
-    invoke-virtual {v0}, Lokhttp3/internal/http2/Ping;->receive()V
-
-    .line 715
-    .end local v0    # "ping":Lokhttp3/internal/http2/Ping;
-    :cond_0
     goto :goto_0
 
-    .line 717
-    :cond_1
+    .line 835
+    :catchall_0
+    move-exception v0
+
+    goto :goto_1
+
+    .line 829
+    :cond_0
+    const/4 v0, 0x2
+
+    if-ne p2, v0, :cond_1
+
+    .line 830
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
-    const/4 v1, 0x1
+    invoke-static {v0}, Lokhttp3/internal/http2/Http2Connection;->access$608(Lokhttp3/internal/http2/Http2Connection;)J
 
-    const/4 v2, 0x0
+    goto :goto_0
 
-    invoke-virtual {v0, v1, p2, p3, v2}, Lokhttp3/internal/http2/Http2Connection;->writePingLater(ZIILokhttp3/internal/http2/Ping;)V
+    .line 831
+    :cond_1
+    const/4 v0, 0x3
 
-    .line 719
+    if-ne p2, v0, :cond_2
+
+    .line 832
+    iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    invoke-static {v0}, Lokhttp3/internal/http2/Http2Connection;->access$708(Lokhttp3/internal/http2/Http2Connection;)J
+
+    .line 833
+    iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    invoke-virtual {v0}, Ljava/lang/Object;->notifyAll()V
+
+    .line 835
+    :cond_2
     :goto_0
+    monitor-exit v1
+
+    goto :goto_2
+
+    :goto_1
+    monitor-exit v1
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    throw v0
+
+    .line 839
+    :cond_3
+    :try_start_1
+    iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    invoke-static {v1}, Lokhttp3/internal/http2/Http2Connection;->access$500(Lokhttp3/internal/http2/Http2Connection;)Ljava/util/concurrent/ScheduledExecutorService;
+
+    move-result-object v1
+
+    new-instance v2, Lokhttp3/internal/http2/Http2Connection$PingRunnable;
+
+    iget-object v3, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+
+    invoke-direct {v2, v3, v0, p2, p3}, Lokhttp3/internal/http2/Http2Connection$PingRunnable;-><init>(Lokhttp3/internal/http2/Http2Connection;ZII)V
+
+    invoke-interface {v1, v2}, Ljava/util/concurrent/ScheduledExecutorService;->execute(Ljava/lang/Runnable;)V
+    :try_end_1
+    .catch Ljava/util/concurrent/RejectedExecutionException; {:try_start_1 .. :try_end_1} :catch_0
+
+    .line 842
+    goto :goto_2
+
+    .line 840
+    :catch_0
+    move-exception v0
+
+    .line 844
+    :goto_2
     return-void
 .end method
 
@@ -692,7 +1010,7 @@
     .param p3, "weight"    # I
     .param p4, "exclusive"    # Z
 
-    .line 760
+    .line 885
     return-void
 .end method
 
@@ -709,13 +1027,13 @@
         }
     .end annotation
 
-    .line 764
+    .line 889
     .local p3, "requestHeaders":Ljava/util/List;, "Ljava/util/List<Lokhttp3/internal/http2/Header;>;"
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v0, p2, p3}, Lokhttp3/internal/http2/Http2Connection;->pushRequestLater(ILjava/util/List;)V
 
-    .line 765
+    .line 890
     return-void
 .end method
 
@@ -724,7 +1042,7 @@
     .param p1, "streamId"    # I
     .param p2, "errorCode"    # Lokhttp3/internal/http2/ErrorCode;
 
-    .line 650
+    .line 762
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v0, p1}, Lokhttp3/internal/http2/Http2Connection;->pushedStream(I)Z
@@ -733,15 +1051,15 @@
 
     if-eqz v0, :cond_0
 
-    .line 651
+    .line 763
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v0, p1, p2}, Lokhttp3/internal/http2/Http2Connection;->pushResetLater(ILokhttp3/internal/http2/ErrorCode;)V
 
-    .line 652
+    .line 764
     return-void
 
-    .line 654
+    .line 766
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -749,242 +1067,71 @@
 
     move-result-object v0
 
-    .line 655
+    .line 767
     .local v0, "rstStream":Lokhttp3/internal/http2/Http2Stream;
     if-eqz v0, :cond_1
 
-    .line 656
+    .line 768
     invoke-virtual {v0, p2}, Lokhttp3/internal/http2/Http2Stream;->receiveRstStream(Lokhttp3/internal/http2/ErrorCode;)V
 
-    .line 658
+    .line 770
     :cond_1
     return-void
 .end method
 
 .method public settings(ZLokhttp3/internal/http2/Settings;)V
-    .locals 12
+    .locals 8
     .param p1, "clearPrevious"    # Z
-    .param p2, "newSettings"    # Lokhttp3/internal/http2/Settings;
+    .param p2, "settings"    # Lokhttp3/internal/http2/Settings;
 
-    .line 661
-    const-wide/16 v0, 0x0
-
-    .line 662
-    .local v0, "delta":J
-    const/4 v2, 0x0
-
-    .line 663
-    .local v2, "streamsToNotify":[Lokhttp3/internal/http2/Http2Stream;
-    iget-object v3, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    monitor-enter v3
-
-    .line 664
+    .line 774
     :try_start_0
-    iget-object v4, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+    iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
-    iget-object v4, v4, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+    invoke-static {v0}, Lokhttp3/internal/http2/Http2Connection;->access$500(Lokhttp3/internal/http2/Http2Connection;)Ljava/util/concurrent/ScheduledExecutorService;
 
-    invoke-virtual {v4}, Lokhttp3/internal/http2/Settings;->getInitialWindowSize()I
+    move-result-object v0
 
-    move-result v4
+    new-instance v7, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$2;
 
-    .line 665
-    .local v4, "priorWriteWindowSize":I
-    if-eqz p1, :cond_0
+    const-string v3, "OkHttp %s ACK Settings"
 
-    iget-object v5, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+    const/4 v1, 0x1
 
-    iget-object v5, v5, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+    new-array v4, v1, [Ljava/lang/Object;
 
-    invoke-virtual {v5}, Lokhttp3/internal/http2/Settings;->clear()V
+    const/4 v1, 0x0
 
-    .line 666
-    :cond_0
-    iget-object v5, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+    iget-object v2, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
-    iget-object v5, v5, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+    iget-object v2, v2, Lokhttp3/internal/http2/Http2Connection;->hostname:Ljava/lang/String;
 
-    invoke-virtual {v5, p2}, Lokhttp3/internal/http2/Settings;->merge(Lokhttp3/internal/http2/Settings;)V
+    aput-object v2, v4, v1
 
-    .line 667
-    invoke-direct {p0, p2}, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->applyAndAckSettings(Lokhttp3/internal/http2/Settings;)V
+    move-object v1, v7
 
-    .line 668
-    iget-object v5, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
+    move-object v2, p0
 
-    iget-object v5, v5, Lokhttp3/internal/http2/Http2Connection;->peerSettings:Lokhttp3/internal/http2/Settings;
+    move v5, p1
 
-    invoke-virtual {v5}, Lokhttp3/internal/http2/Settings;->getInitialWindowSize()I
+    move-object v6, p2
 
-    move-result v5
+    invoke-direct/range {v1 .. v6}, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$2;-><init>(Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;Ljava/lang/String;[Ljava/lang/Object;ZLokhttp3/internal/http2/Settings;)V
 
-    .line 669
-    .local v5, "peerInitialWindowSize":I
-    const/4 v6, -0x1
-
-    const/4 v7, 0x1
-
-    if-eq v5, v6, :cond_2
-
-    if-eq v5, v4, :cond_2
-
-    .line 670
-    sub-int v6, v5, v4
-
-    int-to-long v0, v6
-
-    .line 671
-    iget-object v6, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iget-boolean v6, v6, Lokhttp3/internal/http2/Http2Connection;->receivedInitialPeerSettings:Z
-
-    if-nez v6, :cond_1
-
-    .line 672
-    iget-object v6, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    invoke-virtual {v6, v0, v1}, Lokhttp3/internal/http2/Http2Connection;->addBytesToWriteWindow(J)V
-
-    .line 673
-    iget-object v6, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iput-boolean v7, v6, Lokhttp3/internal/http2/Http2Connection;->receivedInitialPeerSettings:Z
-
-    .line 675
-    :cond_1
-    iget-object v6, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iget-object v6, v6, Lokhttp3/internal/http2/Http2Connection;->streams:Ljava/util/Map;
-
-    invoke-interface {v6}, Ljava/util/Map;->isEmpty()Z
-
-    move-result v6
-
-    if-nez v6, :cond_2
-
-    .line 676
-    iget-object v6, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iget-object v6, v6, Lokhttp3/internal/http2/Http2Connection;->streams:Ljava/util/Map;
-
-    invoke-interface {v6}, Ljava/util/Map;->values()Ljava/util/Collection;
-
-    move-result-object v6
-
-    iget-object v8, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iget-object v8, v8, Lokhttp3/internal/http2/Http2Connection;->streams:Ljava/util/Map;
-
-    invoke-interface {v8}, Ljava/util/Map;->size()I
-
-    move-result v8
-
-    new-array v8, v8, [Lokhttp3/internal/http2/Http2Stream;
-
-    invoke-interface {v6, v8}, Ljava/util/Collection;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
-
-    move-result-object v6
-
-    check-cast v6, [Lokhttp3/internal/http2/Http2Stream;
-
-    move-object v2, v6
-
-    .line 679
-    :cond_2
-    sget-object v6, Lokhttp3/internal/http2/Http2Connection;->executor:Ljava/util/concurrent/ExecutorService;
-
-    new-instance v8, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$2;
-
-    const-string v9, "OkHttp %s settings"
-
-    new-array v7, v7, [Ljava/lang/Object;
-
-    iget-object v10, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
-
-    iget-object v10, v10, Lokhttp3/internal/http2/Http2Connection;->hostname:Ljava/lang/String;
-
-    const/4 v11, 0x0
-
-    aput-object v10, v7, v11
-
-    invoke-direct {v8, p0, v9, v7}, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable$2;-><init>(Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;Ljava/lang/String;[Ljava/lang/Object;)V
-
-    invoke-interface {v6, v8}, Ljava/util/concurrent/ExecutorService;->execute(Ljava/lang/Runnable;)V
-
-    .line 684
-    .end local v4    # "priorWriteWindowSize":I
-    .end local v5    # "peerInitialWindowSize":I
-    monitor-exit v3
+    invoke-interface {v0, v7}, Ljava/util/concurrent/ScheduledExecutorService;->execute(Ljava/lang/Runnable;)V
     :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_1
+    .catch Ljava/util/concurrent/RejectedExecutionException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 685
-    if-eqz v2, :cond_3
-
-    const-wide/16 v3, 0x0
-
-    cmp-long v5, v0, v3
-
-    if-eqz v5, :cond_3
-
-    .line 686
-    array-length v3, v2
-
-    :goto_0
-    if-ge v11, v3, :cond_3
-
-    aget-object v4, v2, v11
-
-    .line 687
-    .local v4, "stream":Lokhttp3/internal/http2/Http2Stream;
-    monitor-enter v4
-
-    .line 688
-    :try_start_1
-    invoke-virtual {v4, v0, v1}, Lokhttp3/internal/http2/Http2Stream;->addBytesToWriteWindow(J)V
-
-    .line 689
-    monitor-exit v4
-
-    .line 686
-    .end local v4    # "stream":Lokhttp3/internal/http2/Http2Stream;
-    add-int/lit8 v11, v11, 0x1
-
+    .line 781
     goto :goto_0
 
-    .line 689
-    .restart local v4    # "stream":Lokhttp3/internal/http2/Http2Stream;
-    :catchall_0
-    move-exception v3
+    .line 779
+    :catch_0
+    move-exception v0
 
-    monitor-exit v4
-    :try_end_1
-    .catchall {:try_start_1 .. :try_end_1} :catchall_0
-
-    throw v3
-
-    .line 692
-    .end local v4    # "stream":Lokhttp3/internal/http2/Http2Stream;
-    :cond_3
+    .line 782
+    :goto_0
     return-void
-
-    .line 684
-    :catchall_1
-    move-exception v4
-
-    :try_start_2
-    monitor-exit v3
-    :try_end_2
-    .catchall {:try_start_2 .. :try_end_2} :catchall_1
-
-    goto :goto_2
-
-    :goto_1
-    throw v4
-
-    :goto_2
-    goto :goto_1
 .end method
 
 .method public windowUpdate(IJ)V
@@ -992,15 +1139,15 @@
     .param p1, "streamId"    # I
     .param p2, "windowSizeIncrement"    # J
 
-    .line 742
+    .line 867
     if-nez p1, :cond_0
 
-    .line 743
+    .line 868
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     monitor-enter v0
 
-    .line 744
+    .line 869
     :try_start_0
     iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -1010,12 +1157,12 @@
 
     iput-wide v2, v1, Lokhttp3/internal/http2/Http2Connection;->bytesLeftInWriteWindow:J
 
-    .line 745
+    .line 870
     iget-object v1, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
     invoke-virtual {v1}, Ljava/lang/Object;->notifyAll()V
 
-    .line 746
+    .line 871
     monitor-exit v0
 
     goto :goto_0
@@ -1029,7 +1176,7 @@
 
     throw v1
 
-    .line 748
+    .line 873
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;->this$0:Lokhttp3/internal/http2/Http2Connection;
 
@@ -1037,18 +1184,18 @@
 
     move-result-object v0
 
-    .line 749
+    .line 874
     .local v0, "stream":Lokhttp3/internal/http2/Http2Stream;
     if-eqz v0, :cond_1
 
-    .line 750
+    .line 875
     monitor-enter v0
 
-    .line 751
+    .line 876
     :try_start_1
     invoke-virtual {v0, p2, p3}, Lokhttp3/internal/http2/Http2Stream;->addBytesToWriteWindow(J)V
 
-    .line 752
+    .line 877
     monitor-exit v0
 
     goto :goto_0
@@ -1062,7 +1209,7 @@
 
     throw v1
 
-    .line 755
+    .line 880
     .end local v0    # "stream":Lokhttp3/internal/http2/Http2Stream;
     :cond_1
     :goto_0

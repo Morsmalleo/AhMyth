@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/client/Manager$1;
 
-    .line 271
+    .line 247
     iput-object p1, p0, Lio/socket/client/Manager$1$2;->this$1:Lio/socket/client/Manager$1;
 
     iput-object p2, p0, Lio/socket/client/Manager$1$2;->val$self:Lio/socket/client/Manager;
@@ -44,12 +44,12 @@
     .locals 2
     .param p1, "objects"    # [Ljava/lang/Object;
 
-    .line 274
+    .line 250
     iget-object v0, p0, Lio/socket/client/Manager$1$2;->val$self:Lio/socket/client/Manager;
 
     invoke-static {v0}, Lio/socket/client/Manager;->access$400(Lio/socket/client/Manager;)V
 
-    .line 275
+    .line 251
     iget-object v0, p0, Lio/socket/client/Manager$1$2;->this$1:Lio/socket/client/Manager$1;
 
     iget-object v0, v0, Lio/socket/client/Manager$1;->val$fn:Lio/socket/client/Manager$OpenCallback;
@@ -64,7 +64,7 @@
 
     invoke-interface {v0, v1}, Lio/socket/client/Manager$OpenCallback;->call(Ljava/lang/Exception;)V
 
-    .line 276
+    .line 252
     :cond_0
     return-void
 .end method

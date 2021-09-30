@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/engineio/client/Socket$7;
 
-    .line 346
+    .line 374
     iput-object p1, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .locals 6
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 349
+    .line 377
     iget-object v0, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
     iget-object v0, v0, Lio/socket/engineio/client/Socket$7;->val$failed:[Z
@@ -53,13 +53,13 @@
 
     return-void
 
-    .line 351
+    .line 379
     :cond_0
     aget-object v0, p1, v1
 
     check-cast v0, Lio/socket/engineio/parser/Packet;
 
-    .line 352
+    .line 380
     .local v0, "msg":Lio/socket/engineio/parser/Packet;
     iget-object v2, v0, Lio/socket/engineio/parser/Packet;->type:Ljava/lang/String;
 
@@ -71,7 +71,7 @@
 
     const/4 v3, 0x1
 
-    if-eqz v2, :cond_2
+    if-eqz v2, :cond_4
 
     iget-object v2, v0, Lio/socket/engineio/parser/Packet;->data:Ljava/lang/Object;
 
@@ -81,9 +81,22 @@
 
     move-result v2
 
-    if-eqz v2, :cond_2
+    if-eqz v2, :cond_4
 
-    .line 353
+    .line 381
+    invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
+
+    move-result-object v2
+
+    sget-object v4, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+
+    invoke-virtual {v2, v4}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_1
+
+    .line 382
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
     move-result-object v2
@@ -104,14 +117,15 @@
 
     invoke-virtual {v2, v4}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 354
+    .line 384
+    :cond_1
     iget-object v2, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
     iget-object v2, v2, Lio/socket/engineio/client/Socket$7;->val$self:Lio/socket/engineio/client/Socket;
 
     invoke-static {v2, v3}, Lio/socket/engineio/client/Socket;->access$1302(Lio/socket/engineio/client/Socket;Z)Z
 
-    .line 355
+    .line 385
     iget-object v2, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
     iget-object v2, v2, Lio/socket/engineio/client/Socket$7;->val$self:Lio/socket/engineio/client/Socket;
@@ -130,19 +144,19 @@
 
     invoke-virtual {v2, v5, v4}, Lio/socket/engineio/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 356
+    .line 386
     iget-object v2, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
     iget-object v2, v2, Lio/socket/engineio/client/Socket$7;->val$transport:[Lio/socket/engineio/client/Transport;
 
     aget-object v2, v2, v1
 
-    if-nez v2, :cond_1
+    if-nez v2, :cond_2
 
     return-void
 
-    .line 357
-    :cond_1
+    .line 387
+    :cond_2
     iget-object v2, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
     iget-object v2, v2, Lio/socket/engineio/client/Socket$7;->val$transport:[Lio/socket/engineio/client/Transport;
@@ -159,7 +173,20 @@
 
     invoke-static {v2}, Lio/socket/engineio/client/Socket;->access$302(Z)Z
 
-    .line 359
+    .line 389
+    invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
+
+    move-result-object v2
+
+    sget-object v4, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+
+    invoke-virtual {v2, v4}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_3
+
+    .line 390
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
     move-result-object v2
@@ -184,7 +211,8 @@
 
     invoke-virtual {v2, v1}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 360
+    .line 392
+    :cond_3
     iget-object v1, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
     iget-object v1, v1, Lio/socket/engineio/client/Socket$7;->val$self:Lio/socket/engineio/client/Socket;
@@ -201,8 +229,21 @@
 
     goto :goto_0
 
-    .line 380
-    :cond_2
+    .line 412
+    :cond_4
+    invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
+
+    move-result-object v2
+
+    sget-object v4, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+
+    invoke-virtual {v2, v4}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_5
+
+    .line 413
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
     move-result-object v2
@@ -223,14 +264,15 @@
 
     invoke-virtual {v2, v4}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 381
+    .line 415
+    :cond_5
     new-instance v2, Lio/socket/engineio/client/EngineIOException;
 
     const-string v4, "probe error"
 
     invoke-direct {v2, v4}, Lio/socket/engineio/client/EngineIOException;-><init>(Ljava/lang/String;)V
 
-    .line 382
+    .line 416
     .local v2, "err":Lio/socket/engineio/client/EngineIOException;
     iget-object v4, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
@@ -242,7 +284,7 @@
 
     iput-object v4, v2, Lio/socket/engineio/client/EngineIOException;->transport:Ljava/lang/String;
 
-    .line 383
+    .line 417
     iget-object v4, p0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
 
     iget-object v4, v4, Lio/socket/engineio/client/Socket$7;->val$self:Lio/socket/engineio/client/Socket;
@@ -255,7 +297,7 @@
 
     invoke-virtual {v4, v1, v3}, Lio/socket/engineio/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 385
+    .line 419
     .end local v2    # "err":Lio/socket/engineio/client/EngineIOException;
     :goto_0
     return-void

@@ -18,7 +18,7 @@
     .locals 1
 
     .line 20
-    const-string v0, "okhttp/3.5.0"
+    const-string v0, "okhttp/3.12.12"
 
     return-object v0
 .end method

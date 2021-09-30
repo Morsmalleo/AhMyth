@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/client/Socket$7;
 
-    .line 352
+    .line 332
     iput-object p1, p0, Lio/socket/client/Socket$7$1;->this$1:Lio/socket/client/Socket$7;
 
     iput-object p2, p0, Lio/socket/client/Socket$7$1;->val$args:[Ljava/lang/Object;
@@ -43,7 +43,7 @@
 .method public run()V
     .locals 5
 
-    .line 355
+    .line 335
     iget-object v0, p0, Lio/socket/client/Socket$7$1;->this$1:Lio/socket/client/Socket$7;
 
     iget-object v0, v0, Lio/socket/client/Socket$7;->val$sent:[Z
@@ -56,7 +56,7 @@
 
     return-void
 
-    .line 356
+    .line 336
     :cond_0
     iget-object v0, p0, Lio/socket/client/Socket$7$1;->this$1:Lio/socket/client/Socket$7;
 
@@ -66,7 +66,20 @@
 
     aput-boolean v2, v0, v1
 
-    .line 357
+    .line 337
+    invoke-static {}, Lio/socket/client/Socket;->access$800()Ljava/util/logging/Logger;
+
+    move-result-object v0
+
+    sget-object v2, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+
+    invoke-virtual {v0, v2}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_2
+
+    .line 338
     invoke-static {}, Lio/socket/client/Socket;->access$800()Ljava/util/logging/Logger;
 
     move-result-object v0
@@ -91,69 +104,56 @@
 
     invoke-virtual {v0, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 359
+    .line 341
+    :cond_2
     new-instance v0, Lorg/json/JSONArray;
 
     invoke-direct {v0}, Lorg/json/JSONArray;-><init>()V
 
-    .line 360
+    .line 342
     .local v0, "jsonArgs":Lorg/json/JSONArray;
     iget-object v2, p0, Lio/socket/client/Socket$7$1;->val$args:[Ljava/lang/Object;
 
     array-length v3, v2
 
     :goto_1
-    if-ge v1, v3, :cond_2
+    if-ge v1, v3, :cond_3
 
     aget-object v4, v2, v1
 
-    .line 361
+    .line 343
     .local v4, "arg":Ljava/lang/Object;
     invoke-virtual {v0, v4}, Lorg/json/JSONArray;->put(Ljava/lang/Object;)Lorg/json/JSONArray;
 
-    .line 360
+    .line 342
     .end local v4    # "arg":Ljava/lang/Object;
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_1
 
-    .line 364
-    :cond_2
-    invoke-static {v0}, Lio/socket/hasbinary/HasBinary;->hasBinary(Ljava/lang/Object;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_3
-
-    const/4 v1, 0x6
-
-    goto :goto_2
-
+    .line 346
     :cond_3
-    const/4 v1, 0x3
+    new-instance v1, Lio/socket/parser/Packet;
 
-    .line 366
-    .local v1, "type":I
-    :goto_2
-    new-instance v2, Lio/socket/parser/Packet;
+    const/4 v2, 0x3
 
-    invoke-direct {v2, v1, v0}, Lio/socket/parser/Packet;-><init>(ILjava/lang/Object;)V
+    invoke-direct {v1, v2, v0}, Lio/socket/parser/Packet;-><init>(ILjava/lang/Object;)V
 
-    .line 367
-    .local v2, "packet":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<Lorg/json/JSONArray;>;"
-    iget-object v3, p0, Lio/socket/client/Socket$7$1;->this$1:Lio/socket/client/Socket$7;
+    .line 347
+    .local v1, "packet":Lio/socket/parser/Packet;, "Lio/socket/parser/Packet<Lorg/json/JSONArray;>;"
+    iget-object v2, p0, Lio/socket/client/Socket$7$1;->this$1:Lio/socket/client/Socket$7;
 
-    iget v3, v3, Lio/socket/client/Socket$7;->val$id:I
+    iget v2, v2, Lio/socket/client/Socket$7;->val$id:I
 
-    iput v3, v2, Lio/socket/parser/Packet;->id:I
+    iput v2, v1, Lio/socket/parser/Packet;->id:I
 
-    .line 368
-    iget-object v3, p0, Lio/socket/client/Socket$7$1;->this$1:Lio/socket/client/Socket$7;
+    .line 348
+    iget-object v2, p0, Lio/socket/client/Socket$7$1;->this$1:Lio/socket/client/Socket$7;
 
-    iget-object v3, v3, Lio/socket/client/Socket$7;->val$self:Lio/socket/client/Socket;
+    iget-object v2, v2, Lio/socket/client/Socket$7;->val$self:Lio/socket/client/Socket;
 
-    invoke-static {v3, v2}, Lio/socket/client/Socket;->access$1100(Lio/socket/client/Socket;Lio/socket/parser/Packet;)V
+    invoke-static {v2, v1}, Lio/socket/client/Socket;->access$1000(Lio/socket/client/Socket;Lio/socket/parser/Packet;)V
 
-    .line 369
+    .line 349
     return-void
 .end method

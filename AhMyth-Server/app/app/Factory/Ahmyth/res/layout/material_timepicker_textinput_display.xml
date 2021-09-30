@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:paddingTop="8.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <include android:id="@id/material_hour_text_input" layout="@layout/material_chip_input_combo" />
-    <include layout="@layout/material_clock_display_divider" />
-    <include android:id="@id/material_minute_text_input" layout="@layout/material_chip_input_combo" />
-</LinearLayout>

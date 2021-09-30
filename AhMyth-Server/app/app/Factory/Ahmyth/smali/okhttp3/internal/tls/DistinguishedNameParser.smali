@@ -20,7 +20,7 @@
 
 
 # direct methods
-.method public constructor <init>(Ljavax/security/auth/x500/X500Principal;)V
+.method constructor <init>(Ljavax/security/auth/x500/X500Principal;)V
     .locals 1
     .param p1, "principal"    # Ljavax/security/auth/x500/X500Principal;
 
@@ -48,7 +48,7 @@
 .end method
 
 .method private escapedAV()Ljava/lang/String;
-    .locals 5
+    .locals 8
 
     .line 187
     iget v0, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->pos:I
@@ -88,7 +88,25 @@
 
     aget-char v2, v1, v0
 
-    sparse-switch v2, :sswitch_data_0
+    const/16 v3, 0x2c
+
+    const/16 v4, 0x2b
+
+    const/16 v5, 0x3b
+
+    const/16 v6, 0x20
+
+    if-eq v2, v6, :cond_4
+
+    if-eq v2, v5, :cond_3
+
+    const/16 v5, 0x5c
+
+    if-eq v2, v5, :cond_2
+
+    if-eq v2, v4, :cond_3
+
+    if-eq v2, v3, :cond_3
 
     .line 224
     iget v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
@@ -109,7 +127,7 @@
     goto :goto_0
 
     .line 203
-    :sswitch_0
+    :cond_2
     iget v0, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
 
     add-int/lit8 v2, v0, 0x1
@@ -133,8 +151,10 @@
     goto :goto_0
 
     .line 200
-    :sswitch_1
+    :cond_3
     new-instance v0, Ljava/lang/String;
+
+    iget-object v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
 
     iget v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->beg:I
 
@@ -147,7 +167,7 @@
     return-object v0
 
     .line 209
-    :sswitch_2
+    :cond_4
     iget v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
 
     iput v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->cur:I
@@ -162,66 +182,58 @@
 
     iput v0, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
 
-    const/16 v0, 0x20
-
-    aput-char v0, v1, v2
+    aput-char v6, v1, v2
 
     .line 214
     :goto_1
-    iget v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->pos:I
+    iget v0, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->pos:I
 
-    iget v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->length:I
+    iget v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->length:I
 
-    if-ge v1, v2, :cond_2
+    if-ge v0, v1, :cond_5
 
-    iget-object v3, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
+    iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
 
-    aget-char v4, v3, v1
+    aget-char v7, v2, v0
 
-    if-ne v4, v0, :cond_2
+    if-ne v7, v6, :cond_5
 
     .line 215
-    iget v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
+    iget v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
 
-    add-int/lit8 v4, v2, 0x1
+    add-int/lit8 v7, v1, 0x1
 
-    iput v4, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
+    iput v7, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
 
-    aput-char v0, v3, v2
+    aput-char v6, v2, v1
 
     .line 214
-    add-int/lit8 v1, v1, 0x1
+    add-int/lit8 v0, v0, 0x1
 
-    iput v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->pos:I
+    iput v0, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->pos:I
 
     goto :goto_1
 
     .line 217
-    :cond_2
-    if-eq v1, v2, :cond_3
+    :cond_5
+    if-eq v0, v1, :cond_6
 
-    iget-object v0, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
+    iget-object v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
 
-    aget-char v2, v0, v1
+    aget-char v2, v1, v0
 
-    const/16 v3, 0x2c
+    if-eq v2, v3, :cond_6
 
-    if-eq v2, v3, :cond_3
+    aget-char v2, v1, v0
 
-    aget-char v2, v0, v1
+    if-eq v2, v4, :cond_6
 
-    const/16 v3, 0x2b
+    aget-char v0, v1, v0
 
-    if-eq v2, v3, :cond_3
-
-    aget-char v0, v0, v1
-
-    const/16 v1, 0x3b
-
-    if-ne v0, v1, :cond_0
+    if-ne v0, v5, :cond_0
 
     .line 220
-    :cond_3
+    :cond_6
     new-instance v0, Ljava/lang/String;
 
     iget-object v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
@@ -235,17 +247,6 @@
     invoke-direct {v0, v1, v2, v3}, Ljava/lang/String;-><init>([CII)V
 
     return-object v0
-
-    nop
-
-    :sswitch_data_0
-    .sparse-switch
-        0x20 -> :sswitch_2
-        0x2b -> :sswitch_1
-        0x2c -> :sswitch_1
-        0x3b -> :sswitch_1
-        0x5c -> :sswitch_0
-    .end sparse-switch
 .end method
 
 .method private getByte(I)I
@@ -364,11 +365,15 @@
 
     invoke-virtual {v4, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
+    move-result-object v2
 
-    invoke-virtual {v4, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    iget-object v4, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
-    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v2, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v2
 
@@ -387,11 +392,15 @@
 
     invoke-virtual {v3, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
+    move-result-object v2
 
-    invoke-virtual {v3, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    iget-object v3, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v2
 
@@ -410,9 +419,13 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v1
+
     iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -424,7 +437,7 @@
 .end method
 
 .method private getEscaped()C
-    .locals 3
+    .locals 4
 
     .line 232
     iget v0, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->pos:I
@@ -436,14 +449,40 @@
     .line 233
     iget v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->length:I
 
-    if-eq v0, v1, :cond_0
+    if-eq v0, v1, :cond_1
 
     .line 237
     iget-object v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
 
     aget-char v2, v1, v0
 
-    sparse-switch v2, :sswitch_data_0
+    const/16 v3, 0x20
+
+    if-eq v2, v3, :cond_0
+
+    const/16 v3, 0x25
+
+    if-eq v2, v3, :cond_0
+
+    const/16 v3, 0x5c
+
+    if-eq v2, v3, :cond_0
+
+    const/16 v3, 0x5f
+
+    if-eq v2, v3, :cond_0
+
+    const/16 v3, 0x22
+
+    if-eq v2, v3, :cond_0
+
+    const/16 v3, 0x23
+
+    if-eq v2, v3, :cond_0
+
+    packed-switch v2, :pswitch_data_0
+
+    packed-switch v2, :pswitch_data_1
 
     .line 256
     invoke-direct {p0}, Lokhttp3/internal/tls/DistinguishedNameParser;->getUTF8()C
@@ -453,13 +492,14 @@
     return v0
 
     .line 252
-    :sswitch_0
+    :cond_0
+    :pswitch_0
     aget-char v0, v1, v0
 
     return v0
 
     .line 234
-    :cond_0
+    :cond_1
     new-instance v0, Ljava/lang/IllegalStateException;
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -470,9 +510,13 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v1
+
     iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -482,22 +526,22 @@
 
     throw v0
 
-    :sswitch_data_0
-    .sparse-switch
-        0x20 -> :sswitch_0
-        0x22 -> :sswitch_0
-        0x23 -> :sswitch_0
-        0x25 -> :sswitch_0
-        0x2a -> :sswitch_0
-        0x2b -> :sswitch_0
-        0x2c -> :sswitch_0
-        0x3b -> :sswitch_0
-        0x3c -> :sswitch_0
-        0x3d -> :sswitch_0
-        0x3e -> :sswitch_0
-        0x5c -> :sswitch_0
-        0x5f -> :sswitch_0
-    .end sparse-switch
+    nop
+
+    :pswitch_data_0
+    .packed-switch 0x2a
+        :pswitch_0
+        :pswitch_0
+        :pswitch_0
+    .end packed-switch
+
+    :pswitch_data_1
+    .packed-switch 0x3b
+        :pswitch_0
+        :pswitch_0
+        :pswitch_0
+        :pswitch_0
+    .end packed-switch
 .end method
 
 .method private getUTF8()C
@@ -872,9 +916,13 @@
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v2
+
     iget-object v3, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
 
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -895,9 +943,13 @@
 
     invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v1
+
     iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1045,9 +1097,13 @@
 
     invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v1
+
     iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1092,87 +1148,89 @@
 
     iget v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->beg:I
 
-    sub-int v2, v0, v1
+    sub-int/2addr v0, v1
 
-    const/4 v3, 0x4
+    const/4 v2, 0x4
 
-    if-le v2, v3, :cond_a
+    if-le v0, v2, :cond_a
 
-    iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
+    iget-object v0, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
 
-    add-int/lit8 v4, v1, 0x3
+    add-int/lit8 v3, v1, 0x3
 
-    aget-char v4, v2, v4
+    aget-char v3, v0, v3
 
-    const/16 v5, 0x2e
+    const/16 v4, 0x2e
 
-    if-ne v4, v5, :cond_a
+    if-ne v3, v4, :cond_a
 
-    aget-char v4, v2, v1
+    aget-char v3, v0, v1
 
-    const/16 v5, 0x4f
+    const/16 v4, 0x4f
 
-    if-eq v4, v5, :cond_7
+    if-eq v3, v4, :cond_7
 
-    aget-char v4, v2, v1
+    aget-char v3, v0, v1
 
-    const/16 v5, 0x6f
+    const/16 v4, 0x6f
 
-    if-ne v4, v5, :cond_a
+    if-ne v3, v4, :cond_a
 
     :cond_7
-    add-int/lit8 v4, v1, 0x1
+    add-int/lit8 v3, v1, 0x1
 
-    aget-char v4, v2, v4
+    aget-char v3, v0, v3
 
-    const/16 v5, 0x49
+    const/16 v4, 0x49
 
-    if-eq v4, v5, :cond_8
+    if-eq v3, v4, :cond_8
 
-    add-int/lit8 v4, v1, 0x1
+    add-int/lit8 v3, v1, 0x1
 
-    aget-char v4, v2, v4
+    aget-char v3, v0, v3
 
-    const/16 v5, 0x69
+    const/16 v4, 0x69
 
-    if-ne v4, v5, :cond_a
+    if-ne v3, v4, :cond_a
 
     :cond_8
-    add-int/lit8 v4, v1, 0x2
+    add-int/lit8 v3, v1, 0x2
 
-    aget-char v4, v2, v4
+    aget-char v3, v0, v3
 
-    const/16 v5, 0x44
+    const/16 v4, 0x44
 
-    if-eq v4, v5, :cond_9
+    if-eq v3, v4, :cond_9
 
-    add-int/lit8 v4, v1, 0x2
+    add-int/lit8 v3, v1, 0x2
 
-    aget-char v2, v2, v4
+    aget-char v0, v0, v3
 
-    const/16 v4, 0x64
+    const/16 v3, 0x64
 
-    if-ne v2, v4, :cond_a
+    if-ne v0, v3, :cond_a
 
     .line 96
     :cond_9
-    add-int/2addr v1, v3
+    add-int/2addr v1, v2
 
     iput v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->beg:I
 
     .line 99
     :cond_a
-    new-instance v1, Ljava/lang/String;
+    new-instance v0, Ljava/lang/String;
 
-    iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
+    iget-object v1, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
 
-    iget v3, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->beg:I
+    iget v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->beg:I
 
-    sub-int/2addr v0, v3
+    iget v3, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->end:I
 
-    invoke-direct {v1, v2, v3, v0}, Ljava/lang/String;-><init>([CII)V
+    sub-int/2addr v3, v2
 
-    return-object v1
+    invoke-direct {v0, v1, v2, v3}, Ljava/lang/String;-><init>([CII)V
+
+    return-object v0
 
     .line 66
     :cond_b
@@ -1184,9 +1242,13 @@
 
     invoke-virtual {v1, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v1
+
     iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1338,9 +1400,13 @@
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
+    move-result-object v1
+
     iget-object v2, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v1
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1360,7 +1426,7 @@
 
 # virtual methods
 .method public findMostSpecific(Ljava/lang/String;)Ljava/lang/String;
-    .locals 8
+    .locals 10
     .param p1, "attributeType"    # Ljava/lang/String;
 
     .line 350
@@ -1422,7 +1488,25 @@
 
     aget-char v3, v4, v3
 
-    sparse-switch v3, :sswitch_data_0
+    const/16 v4, 0x22
+
+    const/16 v5, 0x3b
+
+    const/16 v6, 0x2c
+
+    const/16 v7, 0x2b
+
+    if-eq v3, v4, :cond_4
+
+    const/16 v4, 0x23
+
+    if-eq v3, v4, :cond_3
+
+    if-eq v3, v7, :cond_2
+
+    if-eq v3, v6, :cond_2
+
+    if-eq v3, v5, :cond_2
 
     .line 380
     invoke-direct {p0}, Lokhttp3/internal/tls/DistinguishedNameParser;->escapedAV()Ljava/lang/String;
@@ -1432,11 +1516,11 @@
     goto :goto_1
 
     .line 378
-    :sswitch_0
+    :cond_2
     goto :goto_1
 
     .line 372
-    :sswitch_1
+    :cond_3
     invoke-direct {p0}, Lokhttp3/internal/tls/DistinguishedNameParser;->hexAV()Ljava/lang/String;
 
     move-result-object v2
@@ -1445,7 +1529,7 @@
     goto :goto_1
 
     .line 369
-    :sswitch_2
+    :cond_4
     invoke-direct {p0}, Lokhttp3/internal/tls/DistinguishedNameParser;->quotedAV()Ljava/lang/String;
 
     move-result-object v2
@@ -1459,65 +1543,63 @@
 
     move-result v3
 
-    if-eqz v3, :cond_2
+    if-eqz v3, :cond_5
 
     .line 387
     return-object v2
 
     .line 390
-    :cond_2
+    :cond_5
     iget v3, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->pos:I
 
     iget v4, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->length:I
 
-    if-lt v3, v4, :cond_3
+    if-lt v3, v4, :cond_6
 
     .line 391
     return-object v1
 
     .line 394
-    :cond_3
+    :cond_6
     iget-object v4, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->chars:[C
 
-    aget-char v5, v4, v3
+    aget-char v8, v4, v3
 
-    const/16 v6, 0x2c
+    const-string v9, "Malformed DN: "
 
-    const-string v7, "Malformed DN: "
+    if-eq v8, v6, :cond_9
 
-    if-eq v5, v6, :cond_6
+    aget-char v6, v4, v3
 
-    aget-char v5, v4, v3
-
-    const/16 v6, 0x3b
-
-    if-ne v5, v6, :cond_4
+    if-ne v6, v5, :cond_7
 
     goto :goto_2
 
     .line 395
-    :cond_4
+    :cond_7
     aget-char v4, v4, v3
 
-    const/16 v5, 0x2b
-
-    if-ne v4, v5, :cond_5
+    if-ne v4, v7, :cond_8
 
     goto :goto_2
 
     .line 396
-    :cond_5
+    :cond_8
     new-instance v1, Ljava/lang/IllegalStateException;
 
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
 
-    invoke-virtual {v3, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v3, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
 
     iget-object v4, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
 
     invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1528,7 +1610,7 @@
     throw v1
 
     .line 399
-    :cond_6
+    :cond_9
     :goto_2
     add-int/lit8 v3, v3, 0x1
 
@@ -1540,7 +1622,7 @@
     move-result-object v0
 
     .line 401
-    if-eqz v0, :cond_7
+    if-eqz v0, :cond_a
 
     .line 404
     .end local v2    # "attValue":Ljava/lang/String;
@@ -1548,18 +1630,22 @@
 
     .line 402
     .restart local v2    # "attValue":Ljava/lang/String;
-    :cond_7
+    :cond_a
     new-instance v1, Ljava/lang/IllegalStateException;
 
     new-instance v3, Ljava/lang/StringBuilder;
 
     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
 
-    invoke-virtual {v3, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v3, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
 
     iget-object v4, p0, Lokhttp3/internal/tls/DistinguishedNameParser;->dn:Ljava/lang/String;
 
     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v3
 
     invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -1574,13 +1660,4 @@
 
     :goto_4
     goto :goto_3
-
-    :sswitch_data_0
-    .sparse-switch
-        0x22 -> :sswitch_2
-        0x23 -> :sswitch_1
-        0x2b -> :sswitch_0
-        0x2c -> :sswitch_0
-        0x3b -> :sswitch_0
-    .end sparse-switch
 .end method

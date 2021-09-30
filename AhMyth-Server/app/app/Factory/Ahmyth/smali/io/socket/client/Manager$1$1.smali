@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/client/Manager$1;
 
-    .line 264
+    .line 240
     iput-object p1, p0, Lio/socket/client/Manager$1$1;->this$1:Lio/socket/client/Manager$1;
 
     iput-object p2, p0, Lio/socket/client/Manager$1$1;->val$self:Lio/socket/client/Manager;
@@ -44,13 +44,13 @@
     .locals 2
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 267
+    .line 243
     iget-object v0, p0, Lio/socket/client/Manager$1$1;->val$self:Lio/socket/client/Manager;
 
     const-string v1, "transport"
 
     invoke-virtual {v0, v1, p1}, Lio/socket/client/Manager;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 268
+    .line 244
     return-void
 .end method

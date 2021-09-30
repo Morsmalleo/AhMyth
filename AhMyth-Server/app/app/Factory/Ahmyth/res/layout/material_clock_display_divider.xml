@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView android:textAppearance="?textAppearanceHeadline3" android:textSize="56.0dip" android:textColor="?colorOnSurface" android:gravity="center" android:layout_width="@dimen/material_clock_display_padding" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:text="@string/material_clock_display_divider" android:maxEms="1" android:includeFontPadding="false" android:lineSpacingExtra="0.0dip" android:importantForAccessibility="no"
-  xmlns:android="http://schemas.android.com/apk/res/android" />

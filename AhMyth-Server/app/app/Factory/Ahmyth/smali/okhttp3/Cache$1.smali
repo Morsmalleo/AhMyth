@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$0"    # Lokhttp3/Cache;
 
-    .line 142
+    .line 143
     iput-object p1, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -45,7 +45,7 @@
         }
     .end annotation
 
-    .line 144
+    .line 145
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
     invoke-virtual {v0, p1}, Lokhttp3/Cache;->get(Lokhttp3/Request;)Lokhttp3/Response;
@@ -64,7 +64,7 @@
         }
     .end annotation
 
-    .line 148
+    .line 149
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
     invoke-virtual {v0, p1}, Lokhttp3/Cache;->put(Lokhttp3/Response;)Lokhttp3/internal/cache/CacheRequest;
@@ -83,24 +83,24 @@
         }
     .end annotation
 
-    .line 152
+    .line 153
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
     invoke-virtual {v0, p1}, Lokhttp3/Cache;->remove(Lokhttp3/Request;)V
 
-    .line 153
+    .line 154
     return-void
 .end method
 
 .method public trackConditionalCacheHit()V
     .locals 1
 
-    .line 160
+    .line 161
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
     invoke-virtual {v0}, Lokhttp3/Cache;->trackConditionalCacheHit()V
 
-    .line 161
+    .line 162
     return-void
 .end method
 
@@ -108,12 +108,12 @@
     .locals 1
     .param p1, "cacheStrategy"    # Lokhttp3/internal/cache/CacheStrategy;
 
-    .line 164
+    .line 165
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
     invoke-virtual {v0, p1}, Lokhttp3/Cache;->trackResponse(Lokhttp3/internal/cache/CacheStrategy;)V
 
-    .line 165
+    .line 166
     return-void
 .end method
 
@@ -122,11 +122,11 @@
     .param p1, "cached"    # Lokhttp3/Response;
     .param p2, "network"    # Lokhttp3/Response;
 
-    .line 156
+    .line 157
     iget-object v0, p0, Lokhttp3/Cache$1;->this$0:Lokhttp3/Cache;
 
     invoke-virtual {v0, p1, p2}, Lokhttp3/Cache;->update(Lokhttp3/Response;Lokhttp3/Response;)V
 
-    .line 157
+    .line 158
     return-void
 .end method

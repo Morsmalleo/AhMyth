@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/Polling;
 
-    .line 152
+    .line 150
     iput-object p1, p0, Lio/socket/engineio/client/transports/Polling$3;->this$0:Lio/socket/engineio/client/transports/Polling;
 
     iput-object p2, p0, Lio/socket/engineio/client/transports/Polling$3;->val$self:Lio/socket/engineio/client/transports/Polling;
@@ -41,10 +41,10 @@
 
 # virtual methods
 .method public varargs call([Ljava/lang/Object;)V
-    .locals 5
+    .locals 4
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 155
+    .line 153
     invoke-static {}, Lio/socket/engineio/client/transports/Polling;->access$100()Ljava/util/logging/Logger;
 
     move-result-object v0
@@ -53,43 +53,25 @@
 
     invoke-virtual {v0, v1}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 157
-    :try_start_0
+    .line 154
     iget-object v0, p0, Lio/socket/engineio/client/transports/Polling$3;->val$self:Lio/socket/engineio/client/transports/Polling;
 
     const/4 v1, 0x1
 
     new-array v1, v1, [Lio/socket/engineio/parser/Packet;
 
-    const/4 v2, 0x0
+    new-instance v2, Lio/socket/engineio/parser/Packet;
 
-    new-instance v3, Lio/socket/engineio/parser/Packet;
+    const-string v3, "close"
 
-    const-string v4, "close"
+    invoke-direct {v2, v3}, Lio/socket/engineio/parser/Packet;-><init>(Ljava/lang/String;)V
 
-    invoke-direct {v3, v4}, Lio/socket/engineio/parser/Packet;-><init>(Ljava/lang/String;)V
+    const/4 v3, 0x0
 
-    aput-object v3, v1, v2
+    aput-object v2, v1, v3
 
     invoke-virtual {v0, v1}, Lio/socket/engineio/client/transports/Polling;->write([Lio/socket/engineio/parser/Packet;)V
-    :try_end_0
-    .catch Lio/socket/utf8/UTF8Exception; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 160
-    nop
-
-    .line 161
+    .line 155
     return-void
-
-    .line 158
-    :catch_0
-    move-exception v0
-
-    .line 159
-    .local v0, "err":Lio/socket/utf8/UTF8Exception;
-    new-instance v1, Ljava/lang/RuntimeException;
-
-    invoke-direct {v1, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/Throwable;)V
-
-    throw v1
 .end method

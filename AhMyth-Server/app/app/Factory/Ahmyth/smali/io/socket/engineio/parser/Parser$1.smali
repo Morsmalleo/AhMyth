@@ -27,10 +27,10 @@
 .method constructor <init>()V
     .locals 2
 
-    .line 19
+    .line 12
     invoke-direct {p0}, Ljava/util/HashMap;-><init>()V
 
-    .line 20
+    .line 13
     const/4 v0, 0x0
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -41,7 +41,7 @@
 
     invoke-virtual {p0, v1, v0}, Lio/socket/engineio/parser/Parser$1;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 21
+    .line 14
     const/4 v0, 0x1
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -52,7 +52,7 @@
 
     invoke-virtual {p0, v1, v0}, Lio/socket/engineio/parser/Parser$1;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 22
+    .line 15
     const/4 v0, 0x2
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -63,7 +63,7 @@
 
     invoke-virtual {p0, v1, v0}, Lio/socket/engineio/parser/Parser$1;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 23
+    .line 16
     const/4 v0, 0x3
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -74,7 +74,7 @@
 
     invoke-virtual {p0, v1, v0}, Lio/socket/engineio/parser/Parser$1;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 24
+    .line 17
     const/4 v0, 0x4
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -85,7 +85,7 @@
 
     invoke-virtual {p0, v1, v0}, Lio/socket/engineio/parser/Parser$1;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 25
+    .line 18
     const/4 v0, 0x5
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -96,7 +96,7 @@
 
     invoke-virtual {p0, v1, v0}, Lio/socket/engineio/parser/Parser$1;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 26
+    .line 19
     const/4 v0, 0x6
 
     invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
@@ -107,6 +107,6 @@
 
     invoke-virtual {p0, v1, v0}, Lio/socket/engineio/parser/Parser$1;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 27
+    .line 20
     return-void
 .end method

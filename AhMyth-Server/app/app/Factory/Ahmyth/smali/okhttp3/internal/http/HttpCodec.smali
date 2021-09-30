@@ -22,6 +22,14 @@
     .end annotation
 .end method
 
+.method public abstract flushRequest()V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/io/IOException;
+        }
+    .end annotation
+.end method
+
 .method public abstract openResponseBody(Lokhttp3/Response;)Lokhttp3/ResponseBody;
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -30,7 +38,7 @@
     .end annotation
 .end method
 
-.method public abstract readResponseHeaders()Lokhttp3/Response$Builder;
+.method public abstract readResponseHeaders(Z)Lokhttp3/Response$Builder;
     .annotation system Ldalvik/annotation/Throws;
         value = {
             Ljava/io/IOException;
