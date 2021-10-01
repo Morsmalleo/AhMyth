@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 242
+    .line 226
     iput-object p1, p0, Lio/socket/engineio/client/Socket$2;->this$0:Lio/socket/engineio/client/Socket;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -39,7 +39,7 @@
 .method public run()V
     .locals 3
 
-    .line 246
+    .line 230
     iget-object v0, p0, Lio/socket/engineio/client/Socket$2;->this$0:Lio/socket/engineio/client/Socket;
 
     invoke-static {v0}, Lio/socket/engineio/client/Socket;->access$200(Lio/socket/engineio/client/Socket;)Z
@@ -68,13 +68,13 @@
 
     if-eqz v0, :cond_0
 
-    .line 247
+    .line 231
     const-string v0, "websocket"
 
     .local v0, "transportName":Ljava/lang/String;
     goto :goto_0
 
-    .line 248
+    .line 232
     .end local v0    # "transportName":Ljava/lang/String;
     :cond_0
     iget-object v0, p0, Lio/socket/engineio/client/Socket$2;->this$0:Lio/socket/engineio/client/Socket;
@@ -89,10 +89,10 @@
 
     if-nez v0, :cond_1
 
-    .line 250
+    .line 234
     iget-object v0, p0, Lio/socket/engineio/client/Socket$2;->this$0:Lio/socket/engineio/client/Socket;
 
-    .line 251
+    .line 235
     .local v0, "self":Lio/socket/engineio/client/Socket;
     new-instance v1, Lio/socket/engineio/client/Socket$2$1;
 
@@ -100,10 +100,10 @@
 
     invoke-static {v1}, Lio/socket/thread/EventThread;->nextTick(Ljava/lang/Runnable;)V
 
-    .line 257
+    .line 241
     return-void
 
-    .line 259
+    .line 243
     .end local v0    # "self":Lio/socket/engineio/client/Socket;
     :cond_1
     iget-object v0, p0, Lio/socket/engineio/client/Socket$2;->this$0:Lio/socket/engineio/client/Socket;
@@ -120,7 +120,7 @@
 
     check-cast v0, Ljava/lang/String;
 
-    .line 261
+    .line 245
     .local v0, "transportName":Ljava/lang/String;
     :goto_0
     iget-object v1, p0, Lio/socket/engineio/client/Socket$2;->this$0:Lio/socket/engineio/client/Socket;
@@ -129,22 +129,22 @@
 
     invoke-static {v1, v2}, Lio/socket/engineio/client/Socket;->access$502(Lio/socket/engineio/client/Socket;Lio/socket/engineio/client/Socket$ReadyState;)Lio/socket/engineio/client/Socket$ReadyState;
 
-    .line 262
+    .line 246
     iget-object v1, p0, Lio/socket/engineio/client/Socket$2;->this$0:Lio/socket/engineio/client/Socket;
 
     invoke-static {v1, v0}, Lio/socket/engineio/client/Socket;->access$600(Lio/socket/engineio/client/Socket;Ljava/lang/String;)Lio/socket/engineio/client/Transport;
 
     move-result-object v1
 
-    .line 263
+    .line 247
     .local v1, "transport":Lio/socket/engineio/client/Transport;
     iget-object v2, p0, Lio/socket/engineio/client/Socket$2;->this$0:Lio/socket/engineio/client/Socket;
 
     invoke-static {v2, v1}, Lio/socket/engineio/client/Socket;->access$700(Lio/socket/engineio/client/Socket;Lio/socket/engineio/client/Transport;)V
 
-    .line 264
+    .line 248
     invoke-virtual {v1}, Lio/socket/engineio/client/Transport;->open()Lio/socket/engineio/client/Transport;
 
-    .line 265
+    .line 249
     return-void
 .end method

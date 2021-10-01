@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$1"    # Lio/socket/client/Manager$1;
 
-    .line 255
+    .line 279
     iput-object p1, p0, Lio/socket/client/Manager$1$3;->this$1:Lio/socket/client/Manager$1;
 
     iput-object p2, p0, Lio/socket/client/Manager$1$3;->val$self:Lio/socket/client/Manager;
@@ -41,10 +41,10 @@
 
 # virtual methods
 .method public varargs call([Ljava/lang/Object;)V
-    .locals 5
+    .locals 6
     .param p1, "objects"    # [Ljava/lang/Object;
 
-    .line 258
+    .line 282
     array-length v0, p1
 
     const/4 v1, 0x0
@@ -60,7 +60,7 @@
     :cond_0
     move-object v0, v2
 
-    .line 259
+    .line 283
     .local v0, "data":Ljava/lang/Object;
     :goto_0
     invoke-static {}, Lio/socket/client/Manager;->access$000()Ljava/util/logging/Logger;
@@ -71,39 +71,37 @@
 
     invoke-virtual {v3, v4}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 260
+    .line 284
     iget-object v3, p0, Lio/socket/client/Manager$1$3;->val$self:Lio/socket/client/Manager;
 
     invoke-static {v3}, Lio/socket/client/Manager;->access$500(Lio/socket/client/Manager;)V
 
-    .line 261
+    .line 285
     iget-object v3, p0, Lio/socket/client/Manager$1$3;->val$self:Lio/socket/client/Manager;
 
-    sget-object v4, Lio/socket/client/Manager$ReadyState;->CLOSED:Lio/socket/client/Manager$ReadyState;
+    sget-object v5, Lio/socket/client/Manager$ReadyState;->CLOSED:Lio/socket/client/Manager$ReadyState;
 
-    iput-object v4, v3, Lio/socket/client/Manager;->readyState:Lio/socket/client/Manager$ReadyState;
+    iput-object v5, v3, Lio/socket/client/Manager;->readyState:Lio/socket/client/Manager$ReadyState;
 
-    .line 262
+    .line 286
     iget-object v3, p0, Lio/socket/client/Manager$1$3;->val$self:Lio/socket/client/Manager;
 
-    const/4 v4, 0x1
+    const/4 v5, 0x1
 
-    new-array v4, v4, [Ljava/lang/Object;
+    new-array v5, v5, [Ljava/lang/Object;
 
-    aput-object v0, v4, v1
+    aput-object v0, v5, v1
 
-    const-string v1, "error"
+    invoke-static {v3, v4, v5}, Lio/socket/client/Manager;->access$600(Lio/socket/client/Manager;Ljava/lang/String;[Ljava/lang/Object;)V
 
-    invoke-virtual {v3, v1, v4}, Lio/socket/client/Manager;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
-
-    .line 263
+    .line 287
     iget-object v1, p0, Lio/socket/client/Manager$1$3;->this$1:Lio/socket/client/Manager$1;
 
     iget-object v1, v1, Lio/socket/client/Manager$1;->val$fn:Lio/socket/client/Manager$OpenCallback;
 
     if-eqz v1, :cond_2
 
-    .line 264
+    .line 288
     new-instance v1, Lio/socket/client/SocketIOException;
 
     instance-of v3, v0, Ljava/lang/Exception;
@@ -119,7 +117,7 @@
 
     invoke-direct {v1, v3, v2}, Lio/socket/client/SocketIOException;-><init>(Ljava/lang/String;Ljava/lang/Throwable;)V
 
-    .line 266
+    .line 290
     .local v1, "err":Ljava/lang/Exception;
     iget-object v2, p0, Lio/socket/client/Manager$1$3;->this$1:Lio/socket/client/Manager$1;
 
@@ -127,17 +125,17 @@
 
     invoke-interface {v2, v1}, Lio/socket/client/Manager$OpenCallback;->call(Ljava/lang/Exception;)V
 
-    .line 267
+    .line 291
     .end local v1    # "err":Ljava/lang/Exception;
     goto :goto_1
 
-    .line 269
+    .line 293
     :cond_2
     iget-object v1, p0, Lio/socket/client/Manager$1$3;->val$self:Lio/socket/client/Manager;
 
-    invoke-static {v1}, Lio/socket/client/Manager;->access$600(Lio/socket/client/Manager;)V
+    invoke-static {v1}, Lio/socket/client/Manager;->access$700(Lio/socket/client/Manager;)V
 
-    .line 271
+    .line 295
     :goto_1
     return-void
 .end method

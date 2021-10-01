@@ -16,10 +16,6 @@
 .end method
 
 .method public abstract close(ILjava/lang/String;)Z
-    .param p2    # Ljava/lang/String;
-        .annotation runtime Ljavax/annotation/Nullable;
-        .end annotation
-    .end param
 .end method
 
 .method public abstract queueSize()J

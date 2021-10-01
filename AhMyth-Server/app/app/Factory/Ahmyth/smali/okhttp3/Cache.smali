@@ -49,12 +49,12 @@
     .param p1, "directory"    # Ljava/io/File;
     .param p2, "maxSize"    # J
 
-    .line 182
+    .line 178
     sget-object v0, Lokhttp3/internal/io/FileSystem;->SYSTEM:Lokhttp3/internal/io/FileSystem;
 
     invoke-direct {p0, p1, p2, p3, v0}, Lokhttp3/Cache;-><init>(Ljava/io/File;JLokhttp3/internal/io/FileSystem;)V
 
-    .line 183
+    .line 179
     return-void
 .end method
 
@@ -64,17 +64,17 @@
     .param p2, "maxSize"    # J
     .param p4, "fileSystem"    # Lokhttp3/internal/io/FileSystem;
 
-    .line 185
+    .line 181
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 143
+    .line 142
     new-instance v0, Lokhttp3/Cache$1;
 
     invoke-direct {v0, p0}, Lokhttp3/Cache$1;-><init>(Lokhttp3/Cache;)V
 
     iput-object v0, p0, Lokhttp3/Cache;->internalCache:Lokhttp3/internal/cache/InternalCache;
 
-    .line 186
+    .line 182
     const v3, 0x31191
 
     const/4 v4, 0x2
@@ -91,21 +91,18 @@
 
     iput-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
-    .line 187
+    .line 183
     return-void
 .end method
 
 .method private abortQuietly(Lokhttp3/internal/cache/DiskLruCache$Editor;)V
     .locals 1
     .param p1, "editor"    # Lokhttp3/internal/cache/DiskLruCache$Editor;
-        .annotation runtime Ljavax/annotation/Nullable;
-        .end annotation
-    .end param
 
-    .line 283
+    .line 279
     if-eqz p1, :cond_0
 
-    .line 284
+    .line 280
     :try_start_0
     invoke-virtual {p1}, Lokhttp3/internal/cache/DiskLruCache$Editor;->abort()V
     :try_end_0
@@ -113,18 +110,18 @@
 
     goto :goto_0
 
-    .line 286
+    .line 282
     :catch_0
     move-exception v0
 
     goto :goto_1
 
-    .line 287
+    .line 283
     :cond_0
     :goto_0
     nop
 
-    .line 288
+    .line 284
     :goto_1
     return-void
 .end method
@@ -133,7 +130,7 @@
     .locals 1
     .param p0, "url"    # Lokhttp3/HttpUrl;
 
-    .line 190
+    .line 186
     invoke-virtual {p0}, Lokhttp3/HttpUrl;->toString()Ljava/lang/String;
 
     move-result-object v0
@@ -162,19 +159,19 @@
         }
     .end annotation
 
-    .line 726
+    .line 725
     :try_start_0
     invoke-interface {p0}, Lokio/BufferedSource;->readDecimalLong()J
 
     move-result-wide v0
 
-    .line 727
+    .line 726
     .local v0, "result":J
     invoke-interface {p0}, Lokio/BufferedSource;->readUtf8LineStrict()Ljava/lang/String;
 
     move-result-object v2
 
-    .line 728
+    .line 727
     .local v2, "line":Ljava/lang/String;
     const-wide/16 v3, 0x0
 
@@ -194,12 +191,12 @@
 
     if-eqz v3, :cond_0
 
-    .line 731
+    .line 730
     long-to-int v3, v0
 
     return v3
 
-    .line 729
+    .line 728
     :cond_0
     new-instance v3, Ljava/io/IOException;
 
@@ -238,14 +235,14 @@
     :try_end_0
     .catch Ljava/lang/NumberFormatException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 732
+    .line 731
     .end local v0    # "result":J
     .end local v2    # "line":Ljava/lang/String;
     .restart local p0    # "source":Lokio/BufferedSource;
     :catch_0
     move-exception v0
 
-    .line 733
+    .line 732
     .local v0, "e":Ljava/lang/NumberFormatException;
     new-instance v1, Ljava/io/IOException;
 
@@ -268,12 +265,12 @@
         }
     .end annotation
 
-    .line 395
+    .line 390
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->close()V
 
-    .line 396
+    .line 391
     return-void
 .end method
 
@@ -285,19 +282,19 @@
         }
     .end annotation
 
-    .line 310
+    .line 306
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->delete()V
 
-    .line 311
+    .line 307
     return-void
 .end method
 
 .method public directory()Ljava/io/File;
     .locals 1
 
-    .line 399
+    .line 394
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->getDirectory()Ljava/io/File;
@@ -315,12 +312,12 @@
         }
     .end annotation
 
-    .line 318
+    .line 314
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->evictAll()V
 
-    .line 319
+    .line 315
     return-void
 .end method
 
@@ -332,22 +329,20 @@
         }
     .end annotation
 
-    .line 391
+    .line 386
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->flush()V
 
-    .line 392
+    .line 387
     return-void
 .end method
 
 .method get(Lokhttp3/Request;)Lokhttp3/Response;
     .locals 6
     .param p1, "request"    # Lokhttp3/Request;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
 
-    .line 194
+    .line 190
     invoke-virtual {p1}, Lokhttp3/Request;->url()Lokhttp3/HttpUrl;
 
     move-result-object v0
@@ -356,7 +351,7 @@
 
     move-result-object v0
 
-    .line 198
+    .line 194
     .local v0, "key":Ljava/lang/String;
     const/4 v1, 0x0
 
@@ -369,18 +364,18 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_1
 
-    .line 199
+    .line 195
     .local v2, "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
     if-nez v2, :cond_0
 
-    .line 200
+    .line 196
     return-object v1
 
-    .line 205
+    .line 201
     :cond_0
     nop
 
-    .line 208
+    .line 204
     :try_start_1
     new-instance v3, Lokhttp3/Cache$Entry;
 
@@ -394,16 +389,16 @@
     :try_end_1
     .catch Ljava/io/IOException; {:try_start_1 .. :try_end_1} :catch_0
 
-    .line 212
+    .line 208
     .local v3, "entry":Lokhttp3/Cache$Entry;
     nop
 
-    .line 214
+    .line 210
     invoke-virtual {v3, v2}, Lokhttp3/Cache$Entry;->response(Lokhttp3/internal/cache/DiskLruCache$Snapshot;)Lokhttp3/Response;
 
     move-result-object v4
 
-    .line 216
+    .line 212
     .local v4, "response":Lokhttp3/Response;
     invoke-virtual {v3, p1, v4}, Lokhttp3/Cache$Entry;->matches(Lokhttp3/Request;Lokhttp3/Response;)Z
 
@@ -411,40 +406,40 @@
 
     if-nez v5, :cond_1
 
-    .line 217
+    .line 213
     invoke-virtual {v4}, Lokhttp3/Response;->body()Lokhttp3/ResponseBody;
 
     move-result-object v5
 
     invoke-static {v5}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
 
-    .line 218
+    .line 214
     return-object v1
 
-    .line 221
+    .line 217
     :cond_1
     return-object v4
 
-    .line 209
+    .line 205
     .end local v3    # "entry":Lokhttp3/Cache$Entry;
     .end local v4    # "response":Lokhttp3/Response;
     :catch_0
     move-exception v3
 
-    .line 210
+    .line 206
     .local v3, "e":Ljava/io/IOException;
     invoke-static {v2}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
 
-    .line 211
+    .line 207
     return-object v1
 
-    .line 202
+    .line 198
     .end local v2    # "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
     .end local v3    # "e":Ljava/io/IOException;
     :catch_1
     move-exception v2
 
-    .line 204
+    .line 200
     .local v2, "e":Ljava/io/IOException;
     return-object v1
 .end method
@@ -454,7 +449,7 @@
 
     monitor-enter p0
 
-    .line 427
+    .line 422
     :try_start_0
     iget v0, p0, Lokhttp3/Cache;->hitCount:I
     :try_end_0
@@ -464,7 +459,7 @@
 
     return v0
 
-    .line 427
+    .line 422
     .end local p0    # "this":Lokhttp3/Cache;
     :catchall_0
     move-exception v0
@@ -482,19 +477,19 @@
         }
     .end annotation
 
-    .line 302
+    .line 298
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->initialize()V
 
-    .line 303
+    .line 299
     return-void
 .end method
 
 .method public isClosed()Z
     .locals 1
 
-    .line 403
+    .line 398
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->isClosed()Z
@@ -507,7 +502,7 @@
 .method public maxSize()J
     .locals 2
 
-    .line 387
+    .line 382
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->getMaxSize()J
@@ -522,7 +517,7 @@
 
     monitor-enter p0
 
-    .line 423
+    .line 418
     :try_start_0
     iget v0, p0, Lokhttp3/Cache;->networkCount:I
     :try_end_0
@@ -532,7 +527,7 @@
 
     return v0
 
-    .line 423
+    .line 418
     .end local p0    # "this":Lokhttp3/Cache;
     :catchall_0
     move-exception v0
@@ -545,10 +540,8 @@
 .method put(Lokhttp3/Response;)Lokhttp3/internal/cache/CacheRequest;
     .locals 6
     .param p1, "response"    # Lokhttp3/Response;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
 
-    .line 225
+    .line 221
     invoke-virtual {p1}, Lokhttp3/Response;->request()Lokhttp3/Request;
 
     move-result-object v0
@@ -557,7 +550,7 @@
 
     move-result-object v0
 
-    .line 227
+    .line 223
     .local v0, "requestMethod":Ljava/lang/String;
     invoke-virtual {p1}, Lokhttp3/Response;->request()Lokhttp3/Request;
 
@@ -575,7 +568,7 @@
 
     if-eqz v1, :cond_0
 
-    .line 229
+    .line 225
     :try_start_0
     invoke-virtual {p1}, Lokhttp3/Response;->request()Lokhttp3/Request;
 
@@ -585,18 +578,18 @@
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 232
+    .line 228
     goto :goto_0
 
-    .line 230
+    .line 226
     :catch_0
     move-exception v1
 
-    .line 233
+    .line 229
     :goto_0
     return-object v2
 
-    .line 235
+    .line 231
     :cond_0
     const-string v1, "GET"
 
@@ -606,10 +599,10 @@
 
     if-nez v1, :cond_1
 
-    .line 239
+    .line 235
     return-object v2
 
-    .line 242
+    .line 238
     :cond_1
     invoke-static {p1}, Lokhttp3/internal/http/HttpHeaders;->hasVaryAll(Lokhttp3/Response;)Z
 
@@ -617,20 +610,20 @@
 
     if-eqz v1, :cond_2
 
-    .line 243
+    .line 239
     return-object v2
 
-    .line 246
+    .line 242
     :cond_2
     new-instance v1, Lokhttp3/Cache$Entry;
 
     invoke-direct {v1, p1}, Lokhttp3/Cache$Entry;-><init>(Lokhttp3/Response;)V
 
-    .line 247
+    .line 243
     .local v1, "entry":Lokhttp3/Cache$Entry;
     const/4 v3, 0x0
 
-    .line 249
+    .line 245
     .local v3, "editor":Lokhttp3/internal/cache/DiskLruCache$Editor;
     :try_start_1
     iget-object v4, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
@@ -653,17 +646,17 @@
 
     move-object v3, v4
 
-    .line 250
+    .line 246
     if-nez v3, :cond_3
 
-    .line 251
+    .line 247
     return-object v2
 
-    .line 253
+    .line 249
     :cond_3
     invoke-virtual {v1, v3}, Lokhttp3/Cache$Entry;->writeTo(Lokhttp3/internal/cache/DiskLruCache$Editor;)V
 
-    .line 254
+    .line 250
     new-instance v4, Lokhttp3/Cache$CacheRequestImpl;
 
     invoke-direct {v4, p0, v3}, Lokhttp3/Cache$CacheRequestImpl;-><init>(Lokhttp3/Cache;Lokhttp3/internal/cache/DiskLruCache$Editor;)V
@@ -672,15 +665,15 @@
 
     return-object v4
 
-    .line 255
+    .line 251
     :catch_1
     move-exception v4
 
-    .line 256
+    .line 252
     .local v4, "e":Ljava/io/IOException;
     invoke-direct {p0, v3}, Lokhttp3/Cache;->abortQuietly(Lokhttp3/internal/cache/DiskLruCache$Editor;)V
 
-    .line 257
+    .line 253
     return-object v2
 .end method
 
@@ -693,7 +686,7 @@
         }
     .end annotation
 
-    .line 262
+    .line 258
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {p1}, Lokhttp3/Request;->url()Lokhttp3/HttpUrl;
@@ -706,7 +699,7 @@
 
     invoke-virtual {v0, v1}, Lokhttp3/internal/cache/DiskLruCache;->remove(Ljava/lang/String;)Z
 
-    .line 263
+    .line 259
     return-void
 .end method
 
@@ -715,7 +708,7 @@
 
     monitor-enter p0
 
-    .line 431
+    .line 426
     :try_start_0
     iget v0, p0, Lokhttp3/Cache;->requestCount:I
     :try_end_0
@@ -725,7 +718,7 @@
 
     return v0
 
-    .line 431
+    .line 426
     .end local p0    # "this":Lokhttp3/Cache;
     :catchall_0
     move-exception v0
@@ -743,7 +736,7 @@
         }
     .end annotation
 
-    .line 382
+    .line 378
     iget-object v0, p0, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->size()J
@@ -758,7 +751,7 @@
 
     monitor-enter p0
 
-    .line 419
+    .line 414
     :try_start_0
     iget v0, p0, Lokhttp3/Cache;->hitCount:I
 
@@ -768,12 +761,12 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 420
+    .line 415
     monitor-exit p0
 
     return-void
 
-    .line 418
+    .line 413
     .end local p0    # "this":Lokhttp3/Cache;
     :catchall_0
     move-exception v0
@@ -789,7 +782,7 @@
 
     monitor-enter p0
 
-    .line 407
+    .line 402
     :try_start_0
     iget v0, p0, Lokhttp3/Cache;->requestCount:I
 
@@ -797,12 +790,12 @@
 
     iput v0, p0, Lokhttp3/Cache;->requestCount:I
 
-    .line 409
+    .line 404
     iget-object v0, p1, Lokhttp3/internal/cache/CacheStrategy;->networkRequest:Lokhttp3/Request;
 
     if-eqz v0, :cond_0
 
-    .line 411
+    .line 406
     iget v0, p0, Lokhttp3/Cache;->networkCount:I
 
     add-int/lit8 v0, v0, 0x1
@@ -811,14 +804,14 @@
 
     goto :goto_0
 
-    .line 412
+    .line 407
     .end local p0    # "this":Lokhttp3/Cache;
     :cond_0
     iget-object v0, p1, Lokhttp3/internal/cache/CacheStrategy;->cacheResponse:Lokhttp3/Response;
 
     if-eqz v0, :cond_1
 
-    .line 414
+    .line 409
     iget v0, p0, Lokhttp3/Cache;->hitCount:I
 
     add-int/lit8 v0, v0, 0x1
@@ -827,14 +820,14 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 416
+    .line 411
     :cond_1
     :goto_0
     monitor-exit p0
 
     return-void
 
-    .line 406
+    .line 401
     .end local p1    # "cacheStrategy":Lokhttp3/internal/cache/CacheStrategy;
     :catchall_0
     move-exception p1
@@ -849,12 +842,12 @@
     .param p1, "cached"    # Lokhttp3/Response;
     .param p2, "network"    # Lokhttp3/Response;
 
-    .line 266
+    .line 262
     new-instance v0, Lokhttp3/Cache$Entry;
 
     invoke-direct {v0, p2}, Lokhttp3/Cache$Entry;-><init>(Lokhttp3/Response;)V
 
-    .line 267
+    .line 263
     .local v0, "entry":Lokhttp3/Cache$Entry;
     invoke-virtual {p1}, Lokhttp3/Response;->body()Lokhttp3/ResponseBody;
 
@@ -864,11 +857,11 @@
 
     iget-object v1, v1, Lokhttp3/Cache$CacheResponseBody;->snapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    .line 268
+    .line 264
     .local v1, "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
     const/4 v2, 0x0
 
-    .line 270
+    .line 266
     .local v2, "editor":Lokhttp3/internal/cache/DiskLruCache$Editor;
     :try_start_0
     invoke-virtual {v1}, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->edit()Lokhttp3/internal/cache/DiskLruCache$Editor;
@@ -877,30 +870,30 @@
 
     move-object v2, v3
 
-    .line 271
+    .line 267
     if-eqz v2, :cond_0
 
-    .line 272
+    .line 268
     invoke-virtual {v0, v2}, Lokhttp3/Cache$Entry;->writeTo(Lokhttp3/internal/cache/DiskLruCache$Editor;)V
 
-    .line 273
+    .line 269
     invoke-virtual {v2}, Lokhttp3/internal/cache/DiskLruCache$Editor;->commit()V
     :try_end_0
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 277
+    .line 273
     :cond_0
     goto :goto_0
 
-    .line 275
+    .line 271
     :catch_0
     move-exception v3
 
-    .line 276
+    .line 272
     .local v3, "e":Ljava/io/IOException;
     invoke-direct {p0, v2}, Lokhttp3/Cache;->abortQuietly(Lokhttp3/internal/cache/DiskLruCache$Editor;)V
 
-    .line 278
+    .line 274
     .end local v3    # "e":Ljava/io/IOException;
     :goto_0
     return-void
@@ -923,7 +916,7 @@
         }
     .end annotation
 
-    .line 331
+    .line 327
     new-instance v0, Lokhttp3/Cache$2;
 
     invoke-direct {v0, p0}, Lokhttp3/Cache$2;-><init>(Lokhttp3/Cache;)V
@@ -936,7 +929,7 @@
 
     monitor-enter p0
 
-    .line 374
+    .line 370
     :try_start_0
     iget v0, p0, Lokhttp3/Cache;->writeAbortCount:I
     :try_end_0
@@ -946,7 +939,7 @@
 
     return v0
 
-    .line 374
+    .line 370
     .end local p0    # "this":Lokhttp3/Cache;
     :catchall_0
     move-exception v0
@@ -961,7 +954,7 @@
 
     monitor-enter p0
 
-    .line 378
+    .line 374
     :try_start_0
     iget v0, p0, Lokhttp3/Cache;->writeSuccessCount:I
     :try_end_0
@@ -971,7 +964,7 @@
 
     return v0
 
-    .line 378
+    .line 374
     .end local p0    # "this":Lokhttp3/Cache;
     :catchall_0
     move-exception v0

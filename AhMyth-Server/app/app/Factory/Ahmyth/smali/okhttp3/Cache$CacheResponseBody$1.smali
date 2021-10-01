@@ -24,9 +24,9 @@
 .method constructor <init>(Lokhttp3/Cache$CacheResponseBody;Lokio/Source;Lokhttp3/internal/cache/DiskLruCache$Snapshot;)V
     .locals 0
     .param p1, "this$0"    # Lokhttp3/Cache$CacheResponseBody;
-    .param p2, "arg0"    # Lokio/Source;
+    .param p2, "x0"    # Lokio/Source;
 
-    .line 750
+    .line 749
     iput-object p1, p0, Lokhttp3/Cache$CacheResponseBody$1;->this$0:Lokhttp3/Cache$CacheResponseBody;
 
     iput-object p3, p0, Lokhttp3/Cache$CacheResponseBody$1;->val$snapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
@@ -46,14 +46,14 @@
         }
     .end annotation
 
-    .line 752
+    .line 751
     iget-object v0, p0, Lokhttp3/Cache$CacheResponseBody$1;->val$snapshot:Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->close()V
 
-    .line 753
+    .line 752
     invoke-super {p0}, Lokio/ForwardingSource;->close()V
 
-    .line 754
+    .line 753
     return-void
 .end method

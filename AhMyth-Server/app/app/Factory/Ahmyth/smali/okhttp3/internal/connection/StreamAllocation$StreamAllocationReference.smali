@@ -32,12 +32,12 @@
     .param p1, "referent"    # Lokhttp3/internal/connection/StreamAllocation;
     .param p2, "callStackTrace"    # Ljava/lang/Object;
 
-    .line 538
+    .line 356
     invoke-direct {p0, p1}, Ljava/lang/ref/WeakReference;-><init>(Ljava/lang/Object;)V
 
-    .line 539
+    .line 357
     iput-object p2, p0, Lokhttp3/internal/connection/StreamAllocation$StreamAllocationReference;->callStackTrace:Ljava/lang/Object;
 
-    .line 540
+    .line 358
     return-void
 .end method

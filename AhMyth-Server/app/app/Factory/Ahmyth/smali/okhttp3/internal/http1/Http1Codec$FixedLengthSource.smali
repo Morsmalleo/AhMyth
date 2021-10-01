@@ -21,8 +21,8 @@
 
 
 # direct methods
-.method constructor <init>(Lokhttp3/internal/http1/Http1Codec;J)V
-    .locals 3
+.method public constructor <init>(Lokhttp3/internal/http1/Http1Codec;J)V
+    .locals 2
     .param p2, "length"    # J
     .annotation system Ldalvik/annotation/Throws;
         value = {
@@ -30,29 +30,29 @@
         }
     .end annotation
 
-    .line 395
+    .line 373
     iput-object p1, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
     const/4 v0, 0x0
 
     invoke-direct {p0, p1, v0}, Lokhttp3/internal/http1/Http1Codec$AbstractSource;-><init>(Lokhttp3/internal/http1/Http1Codec;Lokhttp3/internal/http1/Http1Codec$1;)V
 
-    .line 396
+    .line 374
     iput-wide p2, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->bytesRemaining:J
 
-    .line 397
-    const-wide/16 v1, 0x0
+    .line 375
+    const-wide/16 v0, 0x0
 
-    cmp-long p1, p2, v1
+    cmp-long p1, p2, v0
 
     if-nez p1, :cond_0
 
-    .line 398
+    .line 376
     const/4 p1, 0x1
 
-    invoke-virtual {p0, p1, v0}, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->endOfInput(ZLjava/io/IOException;)V
+    invoke-virtual {p0, p1}, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->endOfInput(Z)V
 
-    .line 400
+    .line 378
     :cond_0
     return-void
 .end method
@@ -67,14 +67,14 @@
         }
     .end annotation
 
-    .line 422
+    .line 399
     iget-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->closed:Z
 
     if-eqz v0, :cond_0
 
     return-void
 
-    .line 424
+    .line 401
     :cond_0
     iget-wide v0, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->bytesRemaining:J
 
@@ -94,25 +94,23 @@
 
     if-nez v0, :cond_1
 
-    .line 425
+    .line 402
     const/4 v0, 0x0
 
-    const/4 v1, 0x0
+    invoke-virtual {p0, v0}, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->endOfInput(Z)V
 
-    invoke-virtual {p0, v0, v1}, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->endOfInput(ZLjava/io/IOException;)V
-
-    .line 428
+    .line 405
     :cond_1
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->closed:Z
 
-    .line 429
+    .line 406
     return-void
 .end method
 
 .method public read(Lokio/Buffer;J)J
-    .locals 7
+    .locals 8
     .param p1, "sink"    # Lokio/Buffer;
     .param p2, "byteCount"    # J
     .annotation system Ldalvik/annotation/Throws;
@@ -121,19 +119,19 @@
         }
     .end annotation
 
-    .line 403
+    .line 381
     const-wide/16 v0, 0x0
 
     cmp-long v2, p2, v0
 
     if-ltz v2, :cond_4
 
-    .line 404
+    .line 382
     iget-boolean v2, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->closed:Z
 
     if-nez v2, :cond_3
 
-    .line 405
+    .line 383
     iget-wide v2, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->bytesRemaining:J
 
     const-wide/16 v4, -0x1
@@ -144,64 +142,65 @@
 
     return-wide v4
 
-    .line 407
+    .line 385
     :cond_0
-    invoke-static {v2, v3, p2, p3}, Ljava/lang/Math;->min(JJ)J
+    iget-object v2, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->this$0:Lokhttp3/internal/http1/Http1Codec;
+
+    iget-object v2, v2, Lokhttp3/internal/http1/Http1Codec;->source:Lokio/BufferedSource;
+
+    iget-wide v6, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->bytesRemaining:J
+
+    invoke-static {v6, v7, p2, p3}, Ljava/lang/Math;->min(JJ)J
+
+    move-result-wide v6
+
+    invoke-interface {v2, p1, v6, v7}, Lokio/BufferedSource;->read(Lokio/Buffer;J)J
 
     move-result-wide v2
 
-    invoke-super {p0, p1, v2, v3}, Lokhttp3/internal/http1/Http1Codec$AbstractSource;->read(Lokio/Buffer;J)J
-
-    move-result-wide v2
-
-    .line 408
+    .line 386
     .local v2, "read":J
     cmp-long v6, v2, v4
 
     if-eqz v6, :cond_2
 
-    .line 414
+    .line 391
     iget-wide v4, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->bytesRemaining:J
 
     sub-long/2addr v4, v2
 
     iput-wide v4, p0, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->bytesRemaining:J
 
-    .line 415
+    .line 392
     cmp-long v6, v4, v0
 
     if-nez v6, :cond_1
 
-    .line 416
+    .line 393
     const/4 v0, 0x1
 
-    const/4 v1, 0x0
+    invoke-virtual {p0, v0}, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->endOfInput(Z)V
 
-    invoke-virtual {p0, v0, v1}, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->endOfInput(ZLjava/io/IOException;)V
-
-    .line 418
+    .line 395
     :cond_1
     return-wide v2
 
-    .line 409
+    .line 387
     :cond_2
+    const/4 v0, 0x0
+
+    invoke-virtual {p0, v0}, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->endOfInput(Z)V
+
+    .line 388
     new-instance v0, Ljava/net/ProtocolException;
 
     const-string v1, "unexpected end of stream"
 
     invoke-direct {v0, v1}, Ljava/net/ProtocolException;-><init>(Ljava/lang/String;)V
 
-    .line 410
-    .local v0, "e":Ljava/net/ProtocolException;
-    const/4 v1, 0x0
-
-    invoke-virtual {p0, v1, v0}, Lokhttp3/internal/http1/Http1Codec$FixedLengthSource;->endOfInput(ZLjava/io/IOException;)V
-
-    .line 411
     throw v0
 
-    .line 404
-    .end local v0    # "e":Ljava/net/ProtocolException;
+    .line 382
     .end local v2    # "read":J
     :cond_3
     new-instance v0, Ljava/lang/IllegalStateException;
@@ -212,7 +211,7 @@
 
     throw v0
 
-    .line 403
+    .line 381
     :cond_4
     new-instance v0, Ljava/lang/IllegalArgumentException;
 

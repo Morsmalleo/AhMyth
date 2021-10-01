@@ -21,8 +21,6 @@
 
 .field listener:Lokhttp3/internal/http2/Http2Connection$Listener;
 
-.field pingIntervalMillis:I
-
 .field pushObserver:Lokhttp3/internal/http2/PushObserver;
 
 .field sink:Lokio/BufferedSink;
@@ -37,23 +35,23 @@
     .locals 1
     .param p1, "client"    # Z
 
-    .line 623
+    .line 516
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 614
+    .line 508
     sget-object v0, Lokhttp3/internal/http2/Http2Connection$Listener;->REFUSE_INCOMING_STREAMS:Lokhttp3/internal/http2/Http2Connection$Listener;
 
     iput-object v0, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->listener:Lokhttp3/internal/http2/Http2Connection$Listener;
 
-    .line 615
+    .line 509
     sget-object v0, Lokhttp3/internal/http2/PushObserver;->CANCEL:Lokhttp3/internal/http2/PushObserver;
 
     iput-object v0, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->pushObserver:Lokhttp3/internal/http2/PushObserver;
 
-    .line 624
+    .line 517
     iput-boolean p1, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->client:Z
 
-    .line 625
+    .line 518
     return-void
 .end method
 
@@ -61,8 +59,13 @@
 # virtual methods
 .method public build()Lokhttp3/internal/http2/Http2Connection;
     .locals 1
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/io/IOException;
+        }
+    .end annotation
 
-    .line 657
+    .line 545
     new-instance v0, Lokhttp3/internal/http2/Http2Connection;
 
     invoke-direct {v0, p0}, Lokhttp3/internal/http2/Http2Connection;-><init>(Lokhttp3/internal/http2/Http2Connection$Builder;)V
@@ -74,21 +77,10 @@
     .locals 0
     .param p1, "listener"    # Lokhttp3/internal/http2/Http2Connection$Listener;
 
-    .line 642
+    .line 535
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->listener:Lokhttp3/internal/http2/Http2Connection$Listener;
 
-    .line 643
-    return-object p0
-.end method
-
-.method public pingIntervalMillis(I)Lokhttp3/internal/http2/Http2Connection$Builder;
-    .locals 0
-    .param p1, "pingIntervalMillis"    # I
-
-    .line 652
-    iput p1, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->pingIntervalMillis:I
-
-    .line 653
+    .line 536
     return-object p0
 .end method
 
@@ -96,10 +88,10 @@
     .locals 0
     .param p1, "pushObserver"    # Lokhttp3/internal/http2/PushObserver;
 
-    .line 647
+    .line 540
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->pushObserver:Lokhttp3/internal/http2/PushObserver;
 
-    .line 648
+    .line 541
     return-object p0
 .end method
 
@@ -112,7 +104,7 @@
         }
     .end annotation
 
-    .line 628
+    .line 521
     invoke-virtual {p1}, Ljava/net/Socket;->getRemoteSocketAddress()Ljava/net/SocketAddress;
 
     move-result-object v0
@@ -123,7 +115,7 @@
 
     move-result-object v0
 
-    .line 629
+    .line 522
     invoke-static {p1}, Lokio/Okio;->source(Ljava/net/Socket;)Lokio/Source;
 
     move-result-object v1
@@ -140,7 +132,7 @@
 
     move-result-object v2
 
-    .line 628
+    .line 521
     invoke-virtual {p0, p1, v0, v1, v2}, Lokhttp3/internal/http2/Http2Connection$Builder;->socket(Ljava/net/Socket;Ljava/lang/String;Lokio/BufferedSource;Lokio/BufferedSink;)Lokhttp3/internal/http2/Http2Connection$Builder;
 
     move-result-object v0
@@ -155,18 +147,18 @@
     .param p3, "source"    # Lokio/BufferedSource;
     .param p4, "sink"    # Lokio/BufferedSink;
 
-    .line 634
+    .line 527
     iput-object p1, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->socket:Ljava/net/Socket;
 
-    .line 635
+    .line 528
     iput-object p2, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->hostname:Ljava/lang/String;
 
-    .line 636
+    .line 529
     iput-object p3, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->source:Lokio/BufferedSource;
 
-    .line 637
+    .line 530
     iput-object p4, p0, Lokhttp3/internal/http2/Http2Connection$Builder;->sink:Lokio/BufferedSink;
 
-    .line 638
+    .line 531
     return-object p0
 .end method

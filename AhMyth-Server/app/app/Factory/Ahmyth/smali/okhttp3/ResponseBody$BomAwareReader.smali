@@ -20,9 +20,6 @@
 .field private closed:Z
 
 .field private delegate:Ljava/io/Reader;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 .field private final source:Lokio/BufferedSource;
 
@@ -33,16 +30,16 @@
     .param p1, "source"    # Lokio/BufferedSource;
     .param p2, "charset"    # Ljava/nio/charset/Charset;
 
-    .line 246
+    .line 238
     invoke-direct {p0}, Ljava/io/Reader;-><init>()V
 
-    .line 247
+    .line 239
     iput-object p1, p0, Lokhttp3/ResponseBody$BomAwareReader;->source:Lokio/BufferedSource;
 
-    .line 248
+    .line 240
     iput-object p2, p0, Lokhttp3/ResponseBody$BomAwareReader;->charset:Ljava/nio/charset/Charset;
 
-    .line 249
+    .line 241
     return-void
 .end method
 
@@ -56,28 +53,28 @@
         }
     .end annotation
 
-    .line 263
+    .line 255
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokhttp3/ResponseBody$BomAwareReader;->closed:Z
 
-    .line 264
+    .line 256
     iget-object v0, p0, Lokhttp3/ResponseBody$BomAwareReader;->delegate:Ljava/io/Reader;
 
     if-eqz v0, :cond_0
 
-    .line 265
+    .line 257
     invoke-virtual {v0}, Ljava/io/Reader;->close()V
 
     goto :goto_0
 
-    .line 267
+    .line 259
     :cond_0
     iget-object v0, p0, Lokhttp3/ResponseBody$BomAwareReader;->source:Lokio/BufferedSource;
 
     invoke-interface {v0}, Lokio/BufferedSource;->close()V
 
-    .line 269
+    .line 261
     :goto_0
     return-void
 .end method
@@ -93,19 +90,19 @@
         }
     .end annotation
 
-    .line 252
+    .line 244
     iget-boolean v0, p0, Lokhttp3/ResponseBody$BomAwareReader;->closed:Z
 
     if-nez v0, :cond_1
 
-    .line 254
+    .line 246
     iget-object v0, p0, Lokhttp3/ResponseBody$BomAwareReader;->delegate:Ljava/io/Reader;
 
-    .line 255
+    .line 247
     .local v0, "delegate":Ljava/io/Reader;
     if-nez v0, :cond_0
 
-    .line 256
+    .line 248
     iget-object v1, p0, Lokhttp3/ResponseBody$BomAwareReader;->source:Lokio/BufferedSource;
 
     iget-object v2, p0, Lokhttp3/ResponseBody$BomAwareReader;->charset:Ljava/nio/charset/Charset;
@@ -114,7 +111,7 @@
 
     move-result-object v1
 
-    .line 257
+    .line 249
     .local v1, "charset":Ljava/nio/charset/Charset;
     new-instance v2, Ljava/io/InputStreamReader;
 
@@ -130,7 +127,7 @@
 
     move-object v0, v2
 
-    .line 259
+    .line 251
     .end local v1    # "charset":Ljava/nio/charset/Charset;
     :cond_0
     invoke-virtual {v0, p1, p2, p3}, Ljava/io/Reader;->read([CII)I
@@ -139,7 +136,7 @@
 
     return v1
 
-    .line 252
+    .line 244
     .end local v0    # "delegate":Ljava/io/Reader;
     :cond_1
     new-instance v0, Ljava/io/IOException;

@@ -4,39 +4,27 @@
 
 
 # instance fields
-.field private final contentLength:J
-
-.field private final contentTypeString:Ljava/lang/String;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
+.field private final headers:Lokhttp3/Headers;
 
 .field private final source:Lokio/BufferedSource;
 
 
 # direct methods
-.method public constructor <init>(Ljava/lang/String;JLokio/BufferedSource;)V
+.method public constructor <init>(Lokhttp3/Headers;Lokio/BufferedSource;)V
     .locals 0
-    .param p1, "contentTypeString"    # Ljava/lang/String;
-        .annotation runtime Ljavax/annotation/Nullable;
-        .end annotation
-    .end param
-    .param p2, "contentLength"    # J
-    .param p4, "source"    # Lokio/BufferedSource;
+    .param p1, "headers"    # Lokhttp3/Headers;
+    .param p2, "source"    # Lokio/BufferedSource;
 
-    .line 33
+    .line 27
     invoke-direct {p0}, Lokhttp3/ResponseBody;-><init>()V
 
-    .line 34
-    iput-object p1, p0, Lokhttp3/internal/http/RealResponseBody;->contentTypeString:Ljava/lang/String;
+    .line 28
+    iput-object p1, p0, Lokhttp3/internal/http/RealResponseBody;->headers:Lokhttp3/Headers;
 
-    .line 35
-    iput-wide p2, p0, Lokhttp3/internal/http/RealResponseBody;->contentLength:J
+    .line 29
+    iput-object p2, p0, Lokhttp3/internal/http/RealResponseBody;->source:Lokio/BufferedSource;
 
-    .line 36
-    iput-object p4, p0, Lokhttp3/internal/http/RealResponseBody;->source:Lokio/BufferedSource;
-
-    .line 37
+    .line 30
     return-void
 .end method
 
@@ -45,37 +33,49 @@
 .method public contentLength()J
     .locals 2
 
-    .line 44
-    iget-wide v0, p0, Lokhttp3/internal/http/RealResponseBody;->contentLength:J
+    .line 38
+    iget-object v0, p0, Lokhttp3/internal/http/RealResponseBody;->headers:Lokhttp3/Headers;
+
+    invoke-static {v0}, Lokhttp3/internal/http/HttpHeaders;->contentLength(Lokhttp3/Headers;)J
+
+    move-result-wide v0
 
     return-wide v0
 .end method
 
 .method public contentType()Lokhttp3/MediaType;
-    .locals 1
+    .locals 2
 
-    .line 40
-    iget-object v0, p0, Lokhttp3/internal/http/RealResponseBody;->contentTypeString:Ljava/lang/String;
+    .line 33
+    iget-object v0, p0, Lokhttp3/internal/http/RealResponseBody;->headers:Lokhttp3/Headers;
 
+    const-string v1, "Content-Type"
+
+    invoke-virtual {v0, v1}, Lokhttp3/Headers;->get(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 34
+    .local v0, "contentType":Ljava/lang/String;
     if-eqz v0, :cond_0
 
     invoke-static {v0}, Lokhttp3/MediaType;->parse(Ljava/lang/String;)Lokhttp3/MediaType;
 
-    move-result-object v0
+    move-result-object v1
 
     goto :goto_0
 
     :cond_0
-    const/4 v0, 0x0
+    const/4 v1, 0x0
 
     :goto_0
-    return-object v0
+    return-object v1
 .end method
 
 .method public source()Lokio/BufferedSource;
     .locals 1
 
-    .line 48
+    .line 42
     iget-object v0, p0, Lokhttp3/internal/http/RealResponseBody;->source:Lokio/BufferedSource;
 
     return-object v0

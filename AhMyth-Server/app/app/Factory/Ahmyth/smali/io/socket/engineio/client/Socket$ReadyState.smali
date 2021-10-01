@@ -38,7 +38,7 @@
 .method static constructor <clinit>()V
     .locals 9
 
-    .line 44
+    .line 39
     new-instance v0, Lio/socket/engineio/client/Socket$ReadyState;
 
     const-string v1, "OPENING"
@@ -79,7 +79,7 @@
 
     sput-object v5, Lio/socket/engineio/client/Socket$ReadyState;->CLOSED:Lio/socket/engineio/client/Socket$ReadyState;
 
-    .line 43
+    .line 38
     const/4 v7, 0x4
 
     new-array v7, v7, [Lio/socket/engineio/client/Socket$ReadyState;
@@ -105,7 +105,7 @@
         }
     .end annotation
 
-    .line 43
+    .line 38
     invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
 
     return-void
@@ -115,7 +115,7 @@
     .locals 1
     .param p0, "name"    # Ljava/lang/String;
 
-    .line 43
+    .line 38
     const-class v0, Lio/socket/engineio/client/Socket$ReadyState;
 
     invoke-static {v0, p0}, Ljava/lang/Enum;->valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
@@ -130,7 +130,7 @@
 .method public static values()[Lio/socket/engineio/client/Socket$ReadyState;
     .locals 1
 
-    .line 43
+    .line 38
     sget-object v0, Lio/socket/engineio/client/Socket$ReadyState;->$VALUES:[Lio/socket/engineio/client/Socket$ReadyState;
 
     invoke-virtual {v0}, [Lio/socket/engineio/client/Socket$ReadyState;->clone()Ljava/lang/Object;
@@ -147,7 +147,7 @@
 .method public toString()Ljava/lang/String;
     .locals 1
 
-    .line 48
+    .line 43
     invoke-super {p0}, Ljava/lang/Enum;->toString()Ljava/lang/String;
 
     move-result-object v0

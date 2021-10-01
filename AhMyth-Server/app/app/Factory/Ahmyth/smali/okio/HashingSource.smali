@@ -194,7 +194,7 @@
 
 
 # virtual methods
-.method public final hash()Lokio/ByteString;
+.method public hash()Lokio/ByteString;
     .locals 2
 
     .line 131

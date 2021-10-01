@@ -26,7 +26,7 @@
     .locals 0
     .param p1, "this$2"    # Lio/socket/engineio/client/Socket$7$1;
 
-    .line 392
+    .line 360
     iput-object p1, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -39,7 +39,7 @@
 .method public run()V
     .locals 6
 
-    .line 395
+    .line 363
     iget-object v0, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
     iget-object v0, v0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
@@ -54,7 +54,7 @@
 
     return-void
 
-    .line 396
+    .line 364
     :cond_0
     sget-object v0, Lio/socket/engineio/client/Socket$ReadyState;->CLOSED:Lio/socket/engineio/client/Socket$ReadyState;
 
@@ -72,7 +72,7 @@
 
     return-void
 
-    .line 398
+    .line 366
     :cond_1
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
@@ -82,7 +82,7 @@
 
     invoke-virtual {v0, v2}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 400
+    .line 368
     iget-object v0, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
     iget-object v0, v0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
@@ -93,7 +93,7 @@
 
     invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    .line 402
+    .line 370
     iget-object v0, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
     iget-object v0, v0, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
@@ -110,14 +110,14 @@
 
     invoke-static {v0, v2}, Lio/socket/engineio/client/Socket;->access$700(Lio/socket/engineio/client/Socket;Lio/socket/engineio/client/Transport;)V
 
-    .line 403
+    .line 371
     new-instance v0, Lio/socket/engineio/parser/Packet;
 
     const-string v2, "upgrade"
 
     invoke-direct {v0, v2}, Lio/socket/engineio/parser/Packet;-><init>(Ljava/lang/String;)V
 
-    .line 404
+    .line 372
     .local v0, "packet":Lio/socket/engineio/parser/Packet;
     iget-object v3, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
@@ -135,7 +135,7 @@
 
     invoke-virtual {v3, v5}, Lio/socket/engineio/client/Transport;->send([Lio/socket/engineio/parser/Packet;)V
 
-    .line 405
+    .line 373
     iget-object v3, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
     iget-object v3, v3, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
@@ -156,7 +156,7 @@
 
     invoke-virtual {v3, v2, v4}, Lio/socket/engineio/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 406
+    .line 374
     iget-object v2, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
     iget-object v2, v2, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
@@ -167,7 +167,7 @@
 
     aput-object v3, v2, v1
 
-    .line 407
+    .line 375
     iget-object v2, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
     iget-object v2, v2, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
@@ -176,7 +176,7 @@
 
     invoke-static {v2, v1}, Lio/socket/engineio/client/Socket;->access$1302(Lio/socket/engineio/client/Socket;Z)Z
 
-    .line 408
+    .line 376
     iget-object v1, p0, Lio/socket/engineio/client/Socket$7$1$1;->this$2:Lio/socket/engineio/client/Socket$7$1;
 
     iget-object v1, v1, Lio/socket/engineio/client/Socket$7$1;->this$1:Lio/socket/engineio/client/Socket$7;
@@ -185,6 +185,6 @@
 
     invoke-static {v1}, Lio/socket/engineio/client/Socket;->access$1400(Lio/socket/engineio/client/Socket;)V
 
-    .line 409
+    .line 377
     return-void
 .end method

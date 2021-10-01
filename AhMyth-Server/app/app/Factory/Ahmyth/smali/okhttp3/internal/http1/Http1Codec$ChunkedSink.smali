@@ -29,12 +29,12 @@
 .method constructor <init>(Lokhttp3/internal/http1/Http1Codec;)V
     .locals 1
 
-    .line 321
+    .line 313
     iput-object p1, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 318
+    .line 310
     new-instance v0, Lokio/ForwardingTimeout;
 
     iget-object p1, p1, Lokhttp3/internal/http1/Http1Codec;->sink:Lokio/BufferedSink;
@@ -47,7 +47,7 @@
 
     iput-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->timeout:Lokio/ForwardingTimeout;
 
-    .line 322
+    .line 314
     return-void
 .end method
 
@@ -63,7 +63,7 @@
 
     monitor-enter p0
 
-    .line 344
+    .line 336
     :try_start_0
     iget-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->closed:Z
     :try_end_0
@@ -75,14 +75,14 @@
 
     return-void
 
-    .line 345
+    .line 337
     :cond_0
     const/4 v0, 0x1
 
     :try_start_1
     iput-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->closed:Z
 
-    .line 346
+    .line 338
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
     iget-object v0, v0, Lokhttp3/internal/http1/Http1Codec;->sink:Lokio/BufferedSink;
@@ -91,14 +91,14 @@
 
     invoke-interface {v0, v1}, Lokio/BufferedSink;->writeUtf8(Ljava/lang/String;)Lokio/BufferedSink;
 
-    .line 347
+    .line 339
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
     iget-object v1, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->timeout:Lokio/ForwardingTimeout;
 
     invoke-virtual {v0, v1}, Lokhttp3/internal/http1/Http1Codec;->detachTimeout(Lokio/ForwardingTimeout;)V
 
-    .line 348
+    .line 340
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
     const/4 v1, 0x3
@@ -107,12 +107,12 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 349
+    .line 341
     monitor-exit p0
 
     return-void
 
-    .line 343
+    .line 335
     .end local p0    # "this":Lokhttp3/internal/http1/Http1Codec$ChunkedSink;
     :catchall_0
     move-exception v0
@@ -132,7 +132,7 @@
 
     monitor-enter p0
 
-    .line 339
+    .line 331
     :try_start_0
     iget-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->closed:Z
     :try_end_0
@@ -144,7 +144,7 @@
 
     return-void
 
-    .line 340
+    .line 332
     :cond_0
     :try_start_1
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
@@ -155,12 +155,12 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 341
+    .line 333
     monitor-exit p0
 
     return-void
 
-    .line 338
+    .line 330
     .end local p0    # "this":Lokhttp3/internal/http1/Http1Codec$ChunkedSink;
     :catchall_0
     move-exception v0
@@ -173,7 +173,7 @@
 .method public timeout()Lokio/Timeout;
     .locals 1
 
-    .line 325
+    .line 317
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->timeout:Lokio/ForwardingTimeout;
 
     return-object v0
@@ -189,12 +189,12 @@
         }
     .end annotation
 
-    .line 329
+    .line 321
     iget-boolean v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->closed:Z
 
     if-nez v0, :cond_1
 
-    .line 330
+    .line 322
     const-wide/16 v0, 0x0
 
     cmp-long v2, p2, v0
@@ -203,7 +203,7 @@
 
     return-void
 
-    .line 332
+    .line 324
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
@@ -211,7 +211,7 @@
 
     invoke-interface {v0, p2, p3}, Lokio/BufferedSink;->writeHexadecimalUnsignedLong(J)Lokio/BufferedSink;
 
-    .line 333
+    .line 325
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
     iget-object v0, v0, Lokhttp3/internal/http1/Http1Codec;->sink:Lokio/BufferedSink;
@@ -220,24 +220,24 @@
 
     invoke-interface {v0, v1}, Lokio/BufferedSink;->writeUtf8(Ljava/lang/String;)Lokio/BufferedSink;
 
-    .line 334
+    .line 326
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
     iget-object v0, v0, Lokhttp3/internal/http1/Http1Codec;->sink:Lokio/BufferedSink;
 
     invoke-interface {v0, p1, p2, p3}, Lokio/BufferedSink;->write(Lokio/Buffer;J)V
 
-    .line 335
+    .line 327
     iget-object v0, p0, Lokhttp3/internal/http1/Http1Codec$ChunkedSink;->this$0:Lokhttp3/internal/http1/Http1Codec;
 
     iget-object v0, v0, Lokhttp3/internal/http1/Http1Codec;->sink:Lokio/BufferedSink;
 
     invoke-interface {v0, v1}, Lokio/BufferedSink;->writeUtf8(Ljava/lang/String;)Lokio/BufferedSink;
 
-    .line 336
+    .line 328
     return-void
 
-    .line 329
+    .line 321
     :cond_1
     new-instance v0, Ljava/lang/IllegalStateException;
 

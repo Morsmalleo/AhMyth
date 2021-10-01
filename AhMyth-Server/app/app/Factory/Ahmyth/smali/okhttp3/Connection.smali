@@ -5,8 +5,6 @@
 
 # virtual methods
 .method public abstract handshake()Lokhttp3/Handshake;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
 .end method
 
 .method public abstract protocol()Lokhttp3/Protocol;

@@ -1,6 +1,9 @@
 .class Lio/socket/client/Manager$1$5;
-.super Ljava/util/TimerTask;
+.super Ljava/lang/Object;
 .source "Manager.java"
+
+# interfaces
+.implements Lio/socket/client/On$Handle;
 
 
 # annotations
@@ -17,34 +20,34 @@
 # instance fields
 .field final synthetic this$1:Lio/socket/client/Manager$1;
 
-.field final synthetic val$onTimeout:Ljava/lang/Runnable;
+.field final synthetic val$timer:Ljava/util/Timer;
 
 
 # direct methods
-.method constructor <init>(Lio/socket/client/Manager$1;Ljava/lang/Runnable;)V
+.method constructor <init>(Lio/socket/client/Manager$1;Ljava/util/Timer;)V
     .locals 0
     .param p1, "this$1"    # Lio/socket/client/Manager$1;
 
-    .line 292
+    .line 319
     iput-object p1, p0, Lio/socket/client/Manager$1$5;->this$1:Lio/socket/client/Manager$1;
 
-    iput-object p2, p0, Lio/socket/client/Manager$1$5;->val$onTimeout:Ljava/lang/Runnable;
+    iput-object p2, p0, Lio/socket/client/Manager$1$5;->val$timer:Ljava/util/Timer;
 
-    invoke-direct {p0}, Ljava/util/TimerTask;-><init>()V
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
 .end method
 
 
 # virtual methods
-.method public run()V
+.method public destroy()V
     .locals 1
 
-    .line 295
-    iget-object v0, p0, Lio/socket/client/Manager$1$5;->val$onTimeout:Ljava/lang/Runnable;
+    .line 322
+    iget-object v0, p0, Lio/socket/client/Manager$1$5;->val$timer:Ljava/util/Timer;
 
-    invoke-static {v0}, Lio/socket/thread/EventThread;->exec(Ljava/lang/Runnable;)V
+    invoke-virtual {v0}, Ljava/util/Timer;->cancel()V
 
-    .line 296
+    .line 323
     return-void
 .end method

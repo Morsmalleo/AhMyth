@@ -104,7 +104,6 @@
     .local v1, "s":Lokio/Segment;
     if-eqz p1, :cond_0
 
-    .line 93
     iget-object v2, p0, Lokio/DeflaterSink;->deflater:Ljava/util/zip/Deflater;
 
     iget-object v3, v1, Lokio/Segment;->data:[B
@@ -117,13 +116,13 @@
 
     const/4 v6, 0x2
 
+    .line 93
     invoke-virtual {v2, v3, v4, v5, v6}, Ljava/util/zip/Deflater;->deflate([BIII)I
 
     move-result v2
 
     goto :goto_1
 
-    .line 94
     :cond_0
     iget-object v2, p0, Lokio/DeflaterSink;->deflater:Ljava/util/zip/Deflater;
 
@@ -135,6 +134,7 @@
 
     rsub-int v5, v5, 0x2000
 
+    .line 94
     invoke-virtual {v2, v3, v4, v5}, Ljava/util/zip/Deflater;->deflate([BII)I
 
     move-result v2

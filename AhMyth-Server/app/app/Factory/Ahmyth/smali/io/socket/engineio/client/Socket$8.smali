@@ -32,7 +32,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 424
+    .line 390
     iput-object p1, p0, Lio/socket/engineio/client/Socket$8;->this$0:Lio/socket/engineio/client/Socket;
 
     iput-object p2, p0, Lio/socket/engineio/client/Socket$8;->val$failed:[Z
@@ -52,7 +52,7 @@
     .locals 3
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 427
+    .line 393
     iget-object v0, p0, Lio/socket/engineio/client/Socket$8;->val$failed:[Z
 
     const/4 v1, 0x0
@@ -63,33 +63,33 @@
 
     return-void
 
-    .line 429
+    .line 395
     :cond_0
     const/4 v2, 0x1
 
     aput-boolean v2, v0, v1
 
-    .line 431
+    .line 397
     iget-object v0, p0, Lio/socket/engineio/client/Socket$8;->val$cleanup:[Ljava/lang/Runnable;
 
     aget-object v0, v0, v1
 
     invoke-interface {v0}, Ljava/lang/Runnable;->run()V
 
-    .line 433
+    .line 399
     iget-object v0, p0, Lio/socket/engineio/client/Socket$8;->val$transport:[Lio/socket/engineio/client/Transport;
 
     aget-object v0, v0, v1
 
     invoke-virtual {v0}, Lio/socket/engineio/client/Transport;->close()Lio/socket/engineio/client/Transport;
 
-    .line 434
+    .line 400
     iget-object v0, p0, Lio/socket/engineio/client/Socket$8;->val$transport:[Lio/socket/engineio/client/Transport;
 
     const/4 v2, 0x0
 
     aput-object v2, v0, v1
 
-    .line 435
+    .line 401
     return-void
 .end method

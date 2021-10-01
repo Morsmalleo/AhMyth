@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/PollingXHR;
 
-    .line 122
+    .line 117
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$6;->this$0:Lio/socket/engineio/client/transports/PollingXHR;
 
     iput-object p2, p0, Lio/socket/engineio/client/transports/PollingXHR$6;->val$self:Lio/socket/engineio/client/transports/PollingXHR;
@@ -44,13 +44,13 @@
     .locals 1
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 125
+    .line 120
     new-instance v0, Lio/socket/engineio/client/transports/PollingXHR$6$1;
 
     invoke-direct {v0, p0, p1}, Lio/socket/engineio/client/transports/PollingXHR$6$1;-><init>(Lio/socket/engineio/client/transports/PollingXHR$6;[Ljava/lang/Object;)V
 
     invoke-static {v0}, Lio/socket/thread/EventThread;->exec(Ljava/lang/Runnable;)V
 
-    .line 132
+    .line 127
     return-void
 .end method

@@ -32,18 +32,18 @@
     .param p2, "source"    # Lokio/BufferedSource;
     .param p3, "sink"    # Lokio/BufferedSink;
 
-    .line 604
+    .line 554
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 605
+    .line 555
     iput-boolean p1, p0, Lokhttp3/internal/ws/RealWebSocket$Streams;->client:Z
 
-    .line 606
+    .line 556
     iput-object p2, p0, Lokhttp3/internal/ws/RealWebSocket$Streams;->source:Lokio/BufferedSource;
 
-    .line 607
+    .line 557
     iput-object p3, p0, Lokhttp3/internal/ws/RealWebSocket$Streams;->sink:Lokio/BufferedSink;
 
-    .line 608
+    .line 558
     return-void
 .end method

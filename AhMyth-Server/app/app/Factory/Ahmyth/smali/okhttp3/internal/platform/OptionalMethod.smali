@@ -30,7 +30,7 @@
 
 
 # direct methods
-.method varargs constructor <init>(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)V
+.method public varargs constructor <init>(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)V
     .locals 0
     .param p2, "methodName"    # Ljava/lang/String;
     .param p3, "methodParams"    # [Ljava/lang/Class;

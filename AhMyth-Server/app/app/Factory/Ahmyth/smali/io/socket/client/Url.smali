@@ -3,30 +3,33 @@
 .source "Url.java"
 
 
-# annotations
-.annotation system Ldalvik/annotation/MemberClasses;
-    value = {
-        Lio/socket/client/Url$ParsedURI;
-    }
-.end annotation
-
-
 # static fields
-.field private static PATTERN_AUTHORITY:Ljava/util/regex/Pattern;
+.field private static PATTERN_HTTP:Ljava/util/regex/Pattern;
+
+.field private static PATTERN_HTTPS:Ljava/util/regex/Pattern;
 
 
 # direct methods
 .method static constructor <clinit>()V
     .locals 1
 
-    .line 12
-    const-string v0, "^(.*@)?([^:]+)(:\\d+)?$"
+    .line 11
+    const-string v0, "^http|ws$"
 
     invoke-static {v0}, Ljava/util/regex/Pattern;->compile(Ljava/lang/String;)Ljava/util/regex/Pattern;
 
     move-result-object v0
 
-    sput-object v0, Lio/socket/client/Url;->PATTERN_AUTHORITY:Ljava/util/regex/Pattern;
+    sput-object v0, Lio/socket/client/Url;->PATTERN_HTTP:Ljava/util/regex/Pattern;
+
+    .line 12
+    const-string v0, "^(http|ws)s$"
+
+    invoke-static {v0}, Ljava/util/regex/Pattern;->compile(Ljava/lang/String;)Ljava/util/regex/Pattern;
+
+    move-result-object v0
+
+    sput-object v0, Lio/socket/client/Url;->PATTERN_HTTPS:Ljava/util/regex/Pattern;
 
     return-void
 .end method
@@ -40,67 +43,156 @@
     return-void
 .end method
 
-.method private static extractHostFromAuthorityPart(Ljava/lang/String;)Ljava/lang/String;
-    .locals 3
-    .param p0, "authority"    # Ljava/lang/String;
+.method public static extractId(Ljava/lang/String;)Ljava/lang/String;
+    .locals 1
+    .param p0, "url"    # Ljava/lang/String;
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/net/MalformedURLException;
+        }
+    .end annotation
 
-    .line 69
-    const-string v0, "unable to parse the host from the authority"
+    .line 57
+    new-instance v0, Ljava/net/URL;
 
-    if-eqz p0, :cond_1
+    invoke-direct {v0, p0}, Ljava/net/URL;-><init>(Ljava/lang/String;)V
 
-    .line 73
-    sget-object v1, Lio/socket/client/Url;->PATTERN_AUTHORITY:Ljava/util/regex/Pattern;
+    invoke-static {v0}, Lio/socket/client/Url;->extractId(Ljava/net/URL;)Ljava/lang/String;
 
-    invoke-virtual {v1, p0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+    move-result-object v0
 
-    move-result-object v1
+    return-object v0
+.end method
 
-    .line 76
-    .local v1, "matcher":Ljava/util/regex/Matcher;
-    invoke-virtual {v1}, Ljava/util/regex/Matcher;->matches()Z
+.method public static extractId(Ljava/net/URL;)Ljava/lang/String;
+    .locals 4
+    .param p0, "url"    # Ljava/net/URL;
+
+    .line 61
+    invoke-virtual {p0}, Ljava/net/URL;->getProtocol()Ljava/lang/String;
+
+    move-result-object v0
+
+    .line 62
+    .local v0, "protocol":Ljava/lang/String;
+    invoke-virtual {p0}, Ljava/net/URL;->getPort()I
+
+    move-result v1
+
+    .line 63
+    .local v1, "port":I
+    const/4 v2, -0x1
+
+    if-ne v1, v2, :cond_1
+
+    .line 64
+    sget-object v2, Lio/socket/client/Url;->PATTERN_HTTP:Ljava/util/regex/Pattern;
+
+    invoke-virtual {v2, v0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/util/regex/Matcher;->matches()Z
 
     move-result v2
 
     if-eqz v2, :cond_0
 
-    .line 81
-    const/4 v0, 0x2
+    .line 65
+    const/16 v1, 0x50
 
-    invoke-virtual {v1, v0}, Ljava/util/regex/Matcher;->group(I)Ljava/lang/String;
+    goto :goto_0
+
+    .line 66
+    :cond_0
+    sget-object v2, Lio/socket/client/Url;->PATTERN_HTTPS:Ljava/util/regex/Pattern;
+
+    invoke-virtual {v2, v0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/util/regex/Matcher;->matches()Z
+
+    move-result v2
+
+    if-eqz v2, :cond_1
+
+    .line 67
+    const/16 v1, 0x1bb
+
+    .line 70
+    :cond_1
+    :goto_0
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const-string v3, "://"
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {p0}, Ljava/net/URL;->getHost()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const-string v3, ":"
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    return-object v2
+.end method
+
+.method public static parse(Ljava/lang/String;)Ljava/net/URL;
+    .locals 1
+    .param p0, "uri"    # Ljava/lang/String;
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/net/URISyntaxException;
+        }
+    .end annotation
+
+    .line 17
+    new-instance v0, Ljava/net/URI;
+
+    invoke-direct {v0, p0}, Ljava/net/URI;-><init>(Ljava/lang/String;)V
+
+    invoke-static {v0}, Lio/socket/client/Url;->parse(Ljava/net/URI;)Ljava/net/URL;
 
     move-result-object v0
 
     return-object v0
-
-    .line 77
-    :cond_0
-    new-instance v2, Ljava/lang/RuntimeException;
-
-    invoke-direct {v2, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
-
-    throw v2
-
-    .line 70
-    .end local v1    # "matcher":Ljava/util/regex/Matcher;
-    :cond_1
-    new-instance v1, Ljava/lang/RuntimeException;
-
-    invoke-direct {v1, v0}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
-
-    throw v1
 .end method
 
-.method public static parse(Ljava/net/URI;)Lio/socket/client/Url$ParsedURI;
-    .locals 13
+.method public static parse(Ljava/net/URI;)Ljava/net/URL;
+    .locals 12
     .param p0, "uri"    # Ljava/net/URI;
 
-    .line 27
+    .line 21
     invoke-virtual {p0}, Ljava/net/URI;->getScheme()Ljava/lang/String;
 
     move-result-object v0
 
-    .line 28
+    .line 22
     .local v0, "protocol":Ljava/lang/String;
     if-eqz v0, :cond_0
 
@@ -112,130 +204,101 @@
 
     if-nez v1, :cond_1
 
-    .line 29
+    .line 23
     :cond_0
     const-string v0, "https"
 
-    .line 32
+    .line 26
     :cond_1
     invoke-virtual {p0}, Ljava/net/URI;->getPort()I
 
     move-result v1
 
-    .line 33
+    .line 27
     .local v1, "port":I
     const/4 v2, -0x1
 
-    if-ne v1, v2, :cond_5
+    if-ne v1, v2, :cond_3
 
-    .line 34
-    const-string v3, "http"
+    .line 28
+    sget-object v3, Lio/socket/client/Url;->PATTERN_HTTP:Ljava/util/regex/Pattern;
 
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v3, v0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
 
-    move-result v3
+    move-result-object v3
 
-    if-nez v3, :cond_4
-
-    const-string v3, "ws"
-
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v3}, Ljava/util/regex/Matcher;->matches()Z
 
     move-result v3
 
     if-eqz v3, :cond_2
 
-    goto :goto_0
-
-    .line 36
-    :cond_2
-    const-string v3, "https"
-
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v3
-
-    if-nez v3, :cond_3
-
-    const-string v3, "wss"
-
-    invoke-virtual {v3, v0}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v3
-
-    if-eqz v3, :cond_5
-
-    .line 37
-    :cond_3
-    const/16 v1, 0x1bb
-
-    goto :goto_1
-
-    .line 35
-    :cond_4
-    :goto_0
+    .line 29
     const/16 v1, 0x50
 
-    .line 41
-    :cond_5
-    :goto_1
+    goto :goto_0
+
+    .line 30
+    :cond_2
+    sget-object v3, Lio/socket/client/Url;->PATTERN_HTTPS:Ljava/util/regex/Pattern;
+
+    invoke-virtual {v3, v0}, Ljava/util/regex/Pattern;->matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/util/regex/Matcher;->matches()Z
+
+    move-result v3
+
+    if-eqz v3, :cond_3
+
+    .line 31
+    const/16 v1, 0x1bb
+
+    .line 35
+    :cond_3
+    :goto_0
     invoke-virtual {p0}, Ljava/net/URI;->getRawPath()Ljava/lang/String;
 
     move-result-object v3
 
-    .line 42
+    .line 36
     .local v3, "path":Ljava/lang/String;
-    if-eqz v3, :cond_6
+    if-eqz v3, :cond_4
 
     invoke-virtual {v3}, Ljava/lang/String;->length()I
 
     move-result v4
 
-    if-nez v4, :cond_7
+    if-nez v4, :cond_5
 
-    .line 43
-    :cond_6
+    .line 37
+    :cond_4
     const-string v3, "/"
 
-    .line 46
-    :cond_7
+    .line 40
+    :cond_5
     invoke-virtual {p0}, Ljava/net/URI;->getRawUserInfo()Ljava/lang/String;
 
     move-result-object v4
 
-    .line 47
+    .line 41
     .local v4, "userInfo":Ljava/lang/String;
     invoke-virtual {p0}, Ljava/net/URI;->getRawQuery()Ljava/lang/String;
 
     move-result-object v5
 
-    .line 48
+    .line 42
     .local v5, "query":Ljava/lang/String;
     invoke-virtual {p0}, Ljava/net/URI;->getRawFragment()Ljava/lang/String;
 
     move-result-object v6
 
-    .line 49
+    .line 44
     .local v6, "fragment":Ljava/lang/String;
-    invoke-virtual {p0}, Ljava/net/URI;->getHost()Ljava/lang/String;
+    :try_start_0
+    new-instance v7, Ljava/net/URL;
 
-    move-result-object v7
-
-    .line 50
-    .local v7, "_host":Ljava/lang/String;
-    if-nez v7, :cond_8
-
-    .line 52
-    invoke-virtual {p0}, Ljava/net/URI;->getRawAuthority()Ljava/lang/String;
-
-    move-result-object v8
-
-    invoke-static {v8}, Lio/socket/client/Url;->extractHostFromAuthorityPart(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v7
-
-    .line 54
-    :cond_8
     new-instance v8, Ljava/lang/StringBuilder;
 
     invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
@@ -249,52 +312,60 @@
     invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v8
+    :try_end_0
+    .catch Ljava/net/MalformedURLException; {:try_start_0 .. :try_end_0} :catch_0
 
-    const-string v10, ""
+    const-string v9, ""
 
-    if-eqz v4, :cond_9
+    if-eqz v4, :cond_6
 
-    new-instance v11, Ljava/lang/StringBuilder;
+    :try_start_1
+    new-instance v10, Ljava/lang/StringBuilder;
 
-    invoke-direct {v11}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-direct {v10}, Ljava/lang/StringBuilder;-><init>()V
 
-    invoke-virtual {v11, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v10, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v11
+    move-result-object v10
 
-    const-string v12, "@"
+    const-string v11, "@"
 
-    invoke-virtual {v11, v12}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v10, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v11
+    move-result-object v10
 
-    invoke-virtual {v11}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    invoke-virtual {v10}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v11
+    move-result-object v10
 
-    goto :goto_2
+    goto :goto_1
 
-    :cond_9
-    move-object v11, v10
+    :cond_6
+    move-object v10, v9
 
-    :goto_2
-    invoke-virtual {v8, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    :goto_1
+    invoke-virtual {v8, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v8
 
-    invoke-virtual {v8, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    .line 46
+    invoke-virtual {p0}, Ljava/net/URI;->getHost()Ljava/lang/String;
+
+    move-result-object v10
+
+    invoke-virtual {v8, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v8
 
-    const-string v11, ":"
-
-    if-eq v1, v2, :cond_a
+    if-eq v1, v2, :cond_7
 
     new-instance v2, Ljava/lang/StringBuilder;
 
     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
 
-    invoke-virtual {v2, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    const-string v10, ":"
+
+    invoke-virtual {v2, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
@@ -306,12 +377,12 @@
 
     move-result-object v2
 
-    goto :goto_3
+    goto :goto_2
 
-    :cond_a
-    move-object v2, v10
+    :cond_7
+    move-object v2, v9
 
-    :goto_3
+    :goto_2
     invoke-virtual {v8, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
@@ -320,15 +391,15 @@
 
     move-result-object v2
 
-    if-eqz v5, :cond_b
+    if-eqz v5, :cond_8
 
     new-instance v8, Ljava/lang/StringBuilder;
 
     invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v12, "?"
+    const-string v10, "?"
 
-    invoke-virtual {v8, v12}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v8, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v8
 
@@ -340,25 +411,25 @@
 
     move-result-object v8
 
-    goto :goto_4
+    goto :goto_3
 
-    :cond_b
-    move-object v8, v10
+    :cond_8
+    move-object v8, v9
 
-    :goto_4
+    :goto_3
     invoke-virtual {v2, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
-    if-eqz v6, :cond_c
+    if-eqz v6, :cond_9
 
     new-instance v8, Ljava/lang/StringBuilder;
 
     invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v10, "#"
+    const-string v9, "#"
 
-    invoke-virtual {v8, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v8
 
@@ -368,10 +439,10 @@
 
     invoke-virtual {v8}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
-    move-result-object v10
+    move-result-object v9
 
-    :cond_c
-    invoke-virtual {v2, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    :cond_9
+    invoke-virtual {v2, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     move-result-object v2
 
@@ -379,45 +450,22 @@
 
     move-result-object v2
 
-    invoke-static {v2}, Ljava/net/URI;->create(Ljava/lang/String;)Ljava/net/URI;
+    invoke-direct {v7, v2}, Ljava/net/URL;-><init>(Ljava/lang/String;)V
+    :try_end_1
+    .catch Ljava/net/MalformedURLException; {:try_start_1 .. :try_end_1} :catch_0
 
-    move-result-object v2
+    .line 44
+    return-object v7
 
-    .line 61
-    .local v2, "completeUri":Ljava/net/URI;
-    new-instance v8, Ljava/lang/StringBuilder;
+    .line 51
+    :catch_0
+    move-exception v2
 
-    invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
+    .line 52
+    .local v2, "e":Ljava/net/MalformedURLException;
+    new-instance v7, Ljava/lang/RuntimeException;
 
-    invoke-virtual {v8, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-direct {v7, v2}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/Throwable;)V
 
-    move-result-object v8
-
-    invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v8
-
-    invoke-virtual {v8, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v8
-
-    invoke-virtual {v8, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v8
-
-    invoke-virtual {v8, v1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v8
-
-    invoke-virtual {v8}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v8
-
-    .line 63
-    .local v8, "id":Ljava/lang/String;
-    new-instance v9, Lio/socket/client/Url$ParsedURI;
-
-    invoke-direct {v9, v2, v8}, Lio/socket/client/Url$ParsedURI;-><init>(Ljava/net/URI;Ljava/lang/String;)V
-
-    return-object v9
+    throw v7
 .end method

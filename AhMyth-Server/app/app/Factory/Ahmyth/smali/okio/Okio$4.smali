@@ -9,7 +9,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x0
+    accessFlags = 0x8
     name = null
 .end annotation
 
@@ -22,7 +22,7 @@
 .method constructor <init>(Ljava/net/Socket;)V
     .locals 0
 
-    .line 230
+    .line 225
     iput-object p1, p0, Lokio/Okio$4;->val$socket:Ljava/net/Socket;
 
     invoke-direct {p0}, Lokio/AsyncTimeout;-><init>()V
@@ -35,25 +35,22 @@
 .method protected newTimeoutException(Ljava/io/IOException;)Ljava/io/IOException;
     .locals 2
     .param p1, "cause"    # Ljava/io/IOException;
-        .annotation runtime Ljavax/annotation/Nullable;
-        .end annotation
-    .end param
 
-    .line 232
+    .line 227
     new-instance v0, Ljava/net/SocketTimeoutException;
 
     const-string v1, "timeout"
 
     invoke-direct {v0, v1}, Ljava/net/SocketTimeoutException;-><init>(Ljava/lang/String;)V
 
-    .line 233
+    .line 228
     .local v0, "ioe":Ljava/io/InterruptedIOException;
     if-eqz p1, :cond_0
 
-    .line 234
+    .line 229
     invoke-virtual {v0, p1}, Ljava/io/InterruptedIOException;->initCause(Ljava/lang/Throwable;)Ljava/lang/Throwable;
 
-    .line 236
+    .line 231
     :cond_0
     return-object v0
 .end method
@@ -61,7 +58,7 @@
 .method protected timedOut()V
     .locals 5
 
-    .line 241
+    .line 236
     const-string v0, "Failed to close timed out socket "
 
     :try_start_0
@@ -74,11 +71,11 @@
 
     goto :goto_0
 
-    .line 244
+    .line 239
     :catch_0
     move-exception v1
 
-    .line 245
+    .line 240
     .local v1, "e":Ljava/lang/AssertionError;
     invoke-static {v1}, Lokio/Okio;->isAndroidGetsocknameError(Ljava/lang/AssertionError;)Z
 
@@ -86,7 +83,7 @@
 
     if-eqz v2, :cond_0
 
-    .line 248
+    .line 243
     sget-object v2, Lokio/Okio;->logger:Ljava/util/logging/Logger;
 
     sget-object v3, Ljava/util/logging/Level;->WARNING:Ljava/util/logging/Level;
@@ -113,16 +110,16 @@
 
     goto :goto_1
 
-    .line 250
+    .line 245
     :cond_0
     throw v1
 
-    .line 242
+    .line 237
     .end local v1    # "e":Ljava/lang/AssertionError;
     :catch_1
     move-exception v1
 
-    .line 243
+    .line 238
     .local v1, "e":Ljava/lang/Exception;
     sget-object v2, Lokio/Okio;->logger:Ljava/util/logging/Logger;
 
@@ -148,12 +145,12 @@
 
     invoke-virtual {v2, v3, v0, v1}, Ljava/util/logging/Logger;->log(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
 
-    .line 252
+    .line 247
     .end local v1    # "e":Ljava/lang/Exception;
     :goto_0
     nop
 
-    .line 253
+    .line 248
     :goto_1
     return-void
 .end method

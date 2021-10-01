@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 344
+    .line 320
     iput-object p1, p0, Lio/socket/engineio/client/Socket$3;->this$0:Lio/socket/engineio/client/Socket;
 
     iput-object p2, p0, Lio/socket/engineio/client/Socket$3;->val$self:Lio/socket/engineio/client/Socket;
@@ -44,13 +44,13 @@
     .locals 2
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 347
+    .line 323
     iget-object v0, p0, Lio/socket/engineio/client/Socket$3;->val$self:Lio/socket/engineio/client/Socket;
 
     const-string v1, "transport close"
 
     invoke-static {v0, v1}, Lio/socket/engineio/client/Socket;->access$800(Lio/socket/engineio/client/Socket;Ljava/lang/String;)V
 
-    .line 348
+    .line 324
     return-void
 .end method

@@ -11,6 +11,7 @@
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
         Lokhttp3/internal/ws/RealWebSocket$CancelRunnable;,
+        Lokhttp3/internal/ws/RealWebSocket$ClientStreams;,
         Lokhttp3/internal/ws/RealWebSocket$Streams;,
         Lokhttp3/internal/ws/RealWebSocket$Close;,
         Lokhttp3/internal/ws/RealWebSocket$Message;,
@@ -38,8 +39,6 @@
 
 
 # instance fields
-.field private awaitingPong:Z
-
 .field private call:Lokhttp3/Call;
 
 .field private cancelFuture:Ljava/util/concurrent/ScheduledFuture;
@@ -73,7 +72,9 @@
 
 .field private final originalRequest:Lokhttp3/Request;
 
-.field private final pingIntervalMillis:J
+.field pingCount:I
+
+.field pongCount:I
 
 .field private final pongQueue:Ljava/util/ArrayDeque;
     .annotation system Ldalvik/annotation/Signature;
@@ -95,12 +96,6 @@
 
 .field private receivedCloseReason:Ljava/lang/String;
 
-.field private receivedPingCount:I
-
-.field private receivedPongCount:I
-
-.field private sentPingCount:I
-
 .field private streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
 
 .field private writer:Lokhttp3/internal/ws/WebSocketWriter;
@@ -112,10 +107,10 @@
 .method static constructor <clinit>()V
     .locals 1
 
-    .line 56
+    .line 52
     nop
 
-    .line 57
+    .line 53
     sget-object v0, Lokhttp3/Protocol;->HTTP_1_1:Lokhttp3/Protocol;
 
     invoke-static {v0}, Ljava/util/Collections;->singletonList(Ljava/lang/Object;)Ljava/util/List;
@@ -127,36 +122,35 @@
     return-void
 .end method
 
-.method public constructor <init>(Lokhttp3/Request;Lokhttp3/WebSocketListener;Ljava/util/Random;J)V
+.method public constructor <init>(Lokhttp3/Request;Lokhttp3/WebSocketListener;Ljava/util/Random;)V
     .locals 3
     .param p1, "request"    # Lokhttp3/Request;
     .param p2, "listener"    # Lokhttp3/WebSocketListener;
     .param p3, "random"    # Ljava/util/Random;
-    .param p4, "pingIntervalMillis"    # J
 
-    .line 143
+    .line 131
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 104
+    .line 99
     new-instance v0, Ljava/util/ArrayDeque;
 
     invoke-direct {v0}, Ljava/util/ArrayDeque;-><init>()V
 
     iput-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pongQueue:Ljava/util/ArrayDeque;
 
-    .line 107
+    .line 102
     new-instance v0, Ljava/util/ArrayDeque;
 
     invoke-direct {v0}, Ljava/util/ArrayDeque;-><init>()V
 
     iput-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->messageAndCloseQueue:Ljava/util/ArrayDeque;
 
-    .line 122
+    .line 117
     const/4 v0, -0x1
 
     iput v0, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedCloseCode:I
 
-    .line 144
+    .line 132
     invoke-virtual {p1}, Lokhttp3/Request;->method()Ljava/lang/String;
 
     move-result-object v0
@@ -169,28 +163,25 @@
 
     if-eqz v0, :cond_0
 
-    .line 147
+    .line 135
     iput-object p1, p0, Lokhttp3/internal/ws/RealWebSocket;->originalRequest:Lokhttp3/Request;
 
-    .line 148
+    .line 136
     iput-object p2, p0, Lokhttp3/internal/ws/RealWebSocket;->listener:Lokhttp3/WebSocketListener;
 
-    .line 149
+    .line 137
     iput-object p3, p0, Lokhttp3/internal/ws/RealWebSocket;->random:Ljava/util/Random;
 
-    .line 150
-    iput-wide p4, p0, Lokhttp3/internal/ws/RealWebSocket;->pingIntervalMillis:J
-
-    .line 152
+    .line 139
     const/16 v0, 0x10
 
     new-array v0, v0, [B
 
-    .line 153
+    .line 140
     .local v0, "nonce":[B
     invoke-virtual {p3, v0}, Ljava/util/Random;->nextBytes([B)V
 
-    .line 154
+    .line 141
     invoke-static {v0}, Lokio/ByteString;->of([B)Lokio/ByteString;
 
     move-result-object v1
@@ -201,17 +192,17 @@
 
     iput-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->key:Ljava/lang/String;
 
-    .line 156
+    .line 143
     new-instance v1, Lokhttp3/internal/ws/RealWebSocket$1;
 
     invoke-direct {v1, p0}, Lokhttp3/internal/ws/RealWebSocket$1;-><init>(Lokhttp3/internal/ws/RealWebSocket;)V
 
     iput-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->writerRunnable:Ljava/lang/Runnable;
 
-    .line 166
+    .line 153
     return-void
 
-    .line 145
+    .line 133
     .end local v0    # "nonce":[B
     :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
@@ -243,31 +234,41 @@
     throw v0
 .end method
 
+.method static synthetic access$100(Lokhttp3/internal/ws/RealWebSocket;)V
+    .locals 0
+    .param p0, "x0"    # Lokhttp3/internal/ws/RealWebSocket;
+
+    .line 52
+    invoke-direct {p0}, Lokhttp3/internal/ws/RealWebSocket;->writePingFrame()V
+
+    return-void
+.end method
+
 .method private runWriter()V
     .locals 2
 
-    .line 437
+    .line 401
     invoke-static {p0}, Ljava/lang/Thread;->holdsLock(Ljava/lang/Object;)Z
 
     move-result v0
 
     if-eqz v0, :cond_1
 
-    .line 439
+    .line 403
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
 
     if-eqz v0, :cond_0
 
-    .line 440
+    .line 404
     iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->writerRunnable:Ljava/lang/Runnable;
 
     invoke-interface {v0, v1}, Ljava/util/concurrent/ScheduledExecutorService;->execute(Ljava/lang/Runnable;)V
 
-    .line 442
+    .line 406
     :cond_0
     return-void
 
-    .line 437
+    .line 401
     :cond_1
     new-instance v0, Ljava/lang/AssertionError;
 
@@ -283,7 +284,7 @@
 
     monitor-enter p0
 
-    .line 386
+    .line 350
     :try_start_0
     iget-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->failed:Z
 
@@ -297,7 +298,7 @@
 
     goto :goto_0
 
-    .line 389
+    .line 353
     :cond_0
     iget-wide v2, p0, Lokhttp3/internal/ws/RealWebSocket;->queueSize:J
 
@@ -315,7 +316,7 @@
 
     if-lez v0, :cond_1
 
-    .line 390
+    .line 354
     const/16 v0, 0x3e9
 
     const/4 v2, 0x0
@@ -324,12 +325,12 @@
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 391
+    .line 355
     monitor-exit p0
 
     return v1
 
-    .line 395
+    .line 359
     .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
     :cond_1
     :try_start_1
@@ -345,7 +346,7 @@
 
     iput-wide v0, p0, Lokhttp3/internal/ws/RealWebSocket;->queueSize:J
 
-    .line 396
+    .line 360
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->messageAndCloseQueue:Ljava/util/ArrayDeque;
 
     new-instance v1, Lokhttp3/internal/ws/RealWebSocket$Message;
@@ -354,26 +355,26 @@
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayDeque;->add(Ljava/lang/Object;)Z
 
-    .line 397
+    .line 361
     invoke-direct {p0}, Lokhttp3/internal/ws/RealWebSocket;->runWriter()V
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 398
+    .line 362
     const/4 v0, 0x1
 
     monitor-exit p0
 
     return v0
 
-    .line 386
+    .line 350
     :cond_2
     :goto_0
     monitor-exit p0
 
     return v1
 
-    .line 385
+    .line 349
     .end local p1    # "data":Lokio/ByteString;
     .end local p2    # "formatOpcode":I
     :catchall_0
@@ -384,38 +385,82 @@
     throw p1
 .end method
 
-
-# virtual methods
-.method awaitTermination(ILjava/util/concurrent/TimeUnit;)V
+.method private writePingFrame()V
     .locals 3
-    .param p1, "timeout"    # I
-    .param p2, "timeUnit"    # Ljava/util/concurrent/TimeUnit;
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/InterruptedException;
-        }
-    .end annotation
 
-    .line 296
-    iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
+    .line 497
+    monitor-enter p0
 
-    int-to-long v1, p1
+    .line 498
+    :try_start_0
+    iget-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->failed:Z
 
-    invoke-interface {v0, v1, v2, p2}, Ljava/util/concurrent/ScheduledExecutorService;->awaitTermination(JLjava/util/concurrent/TimeUnit;)Z
+    if-eqz v0, :cond_0
 
-    .line 297
+    monitor-exit p0
+
     return-void
+
+    .line 499
+    :cond_0
+    iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->writer:Lokhttp3/internal/ws/WebSocketWriter;
+
+    .line 500
+    .local v0, "writer":Lokhttp3/internal/ws/WebSocketWriter;
+    monitor-exit p0
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    .line 503
+    :try_start_1
+    sget-object v1, Lokio/ByteString;->EMPTY:Lokio/ByteString;
+
+    invoke-virtual {v0, v1}, Lokhttp3/internal/ws/WebSocketWriter;->writePing(Lokio/ByteString;)V
+    :try_end_1
+    .catch Ljava/io/IOException; {:try_start_1 .. :try_end_1} :catch_0
+
+    .line 506
+    goto :goto_0
+
+    .line 504
+    :catch_0
+    move-exception v1
+
+    .line 505
+    .local v1, "e":Ljava/io/IOException;
+    const/4 v2, 0x0
+
+    invoke-virtual {p0, v1, v2}, Lokhttp3/internal/ws/RealWebSocket;->failWebSocket(Ljava/lang/Exception;Lokhttp3/Response;)V
+
+    .line 507
+    .end local v1    # "e":Ljava/io/IOException;
+    :goto_0
+    return-void
+
+    .line 500
+    .end local v0    # "writer":Lokhttp3/internal/ws/WebSocketWriter;
+    :catchall_0
+    move-exception v0
+
+    :try_start_2
+    monitor-exit p0
+    :try_end_2
+    .catchall {:try_start_2 .. :try_end_2} :catchall_0
+
+    throw v0
 .end method
 
+
+# virtual methods
 .method public cancel()V
     .locals 1
 
-    .line 177
+    .line 164
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->call:Lokhttp3/Call;
 
     invoke-interface {v0}, Lokhttp3/Call;->cancel()V
 
-    .line 178
+    .line 165
     return-void
 .end method
 
@@ -428,7 +473,7 @@
         }
     .end annotation
 
-    .line 227
+    .line 213
     invoke-virtual {p1}, Lokhttp3/Response;->code()I
 
     move-result v0
@@ -439,14 +484,14 @@
 
     if-ne v0, v2, :cond_3
 
-    .line 232
+    .line 218
     const-string v0, "Connection"
 
     invoke-virtual {p1, v0}, Lokhttp3/Response;->header(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 233
+    .line 219
     .local v0, "headerConnection":Ljava/lang/String;
     const-string v2, "Upgrade"
 
@@ -456,12 +501,12 @@
 
     if-eqz v3, :cond_2
 
-    .line 238
+    .line 224
     invoke-virtual {p1, v2}, Lokhttp3/Response;->header(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v2
 
-    .line 239
+    .line 225
     .local v2, "headerUpgrade":Ljava/lang/String;
     const-string v3, "websocket"
 
@@ -471,14 +516,14 @@
 
     if-eqz v3, :cond_1
 
-    .line 244
+    .line 230
     const-string v3, "Sec-WebSocket-Accept"
 
     invoke-virtual {p1, v3}, Lokhttp3/Response;->header(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
 
-    .line 245
+    .line 231
     .local v3, "headerAccept":Ljava/lang/String;
     new-instance v4, Ljava/lang/StringBuilder;
 
@@ -504,7 +549,7 @@
 
     move-result-object v4
 
-    .line 246
+    .line 232
     invoke-virtual {v4}, Lokio/ByteString;->sha1()Lokio/ByteString;
 
     move-result-object v4
@@ -513,7 +558,7 @@
 
     move-result-object v4
 
-    .line 247
+    .line 233
     .local v4, "acceptExpected":Ljava/lang/String;
     invoke-virtual {v4, v3}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
 
@@ -521,10 +566,10 @@
 
     if-eqz v5, :cond_0
 
-    .line 251
+    .line 237
     return-void
 
-    .line 248
+    .line 234
     :cond_0
     new-instance v5, Ljava/net/ProtocolException;
 
@@ -564,7 +609,7 @@
 
     throw v5
 
-    .line 240
+    .line 226
     .end local v3    # "headerAccept":Ljava/lang/String;
     .end local v4    # "acceptExpected":Ljava/lang/String;
     :cond_1
@@ -596,7 +641,7 @@
 
     throw v3
 
-    .line 234
+    .line 220
     .end local v2    # "headerUpgrade":Ljava/lang/String;
     :cond_2
     new-instance v2, Ljava/net/ProtocolException;
@@ -627,7 +672,7 @@
 
     throw v2
 
-    .line 228
+    .line 214
     .end local v0    # "headerConnection":Ljava/lang/String;
     :cond_3
     new-instance v0, Ljava/net/ProtocolException;
@@ -642,7 +687,7 @@
 
     move-result-object v2
 
-    .line 229
+    .line 215
     invoke-virtual {p1}, Lokhttp3/Response;->code()I
 
     move-result v3
@@ -683,7 +728,7 @@
     .param p1, "code"    # I
     .param p2, "reason"    # Ljava/lang/String;
 
-    .line 411
+    .line 375
     const-wide/32 v0, 0xea60
 
     invoke-virtual {p0, p1, p2, v0, v1}, Lokhttp3/internal/ws/RealWebSocket;->close(ILjava/lang/String;J)Z
@@ -701,25 +746,25 @@
 
     monitor-enter p0
 
-    .line 415
+    .line 379
     :try_start_0
     invoke-static {p1}, Lokhttp3/internal/ws/WebSocketProtocol;->validateCloseCode(I)V
 
-    .line 417
+    .line 381
     const/4 v0, 0x0
 
-    .line 418
+    .line 382
     .local v0, "reasonBytes":Lokio/ByteString;
     if-eqz p2, :cond_1
 
-    .line 419
+    .line 383
     invoke-static {p2}, Lokio/ByteString;->encodeUtf8(Ljava/lang/String;)Lokio/ByteString;
 
     move-result-object v1
 
     move-object v0, v1
 
-    .line 420
+    .line 384
     invoke-virtual {v0}, Lokio/ByteString;->size()I
 
     move-result v1
@@ -734,7 +779,7 @@
 
     goto :goto_0
 
-    .line 421
+    .line 385
     :cond_0
     new-instance v1, Ljava/lang/IllegalArgumentException;
 
@@ -760,7 +805,7 @@
 
     throw v1
 
-    .line 425
+    .line 389
     .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
     :cond_1
     :goto_0
@@ -774,13 +819,13 @@
 
     goto :goto_1
 
-    .line 428
+    .line 392
     :cond_2
     const/4 v1, 0x1
 
     iput-boolean v1, p0, Lokhttp3/internal/ws/RealWebSocket;->enqueuedClose:Z
 
-    .line 431
+    .line 395
     iget-object v2, p0, Lokhttp3/internal/ws/RealWebSocket;->messageAndCloseQueue:Ljava/util/ArrayDeque;
 
     new-instance v3, Lokhttp3/internal/ws/RealWebSocket$Close;
@@ -789,17 +834,17 @@
 
     invoke-virtual {v2, v3}, Ljava/util/ArrayDeque;->add(Ljava/lang/Object;)Z
 
-    .line 432
+    .line 396
     invoke-direct {p0}, Lokhttp3/internal/ws/RealWebSocket;->runWriter()V
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 433
+    .line 397
     monitor-exit p0
 
     return v1
 
-    .line 425
+    .line 389
     :cond_3
     :goto_1
     const/4 v1, 0x0
@@ -808,7 +853,7 @@
 
     return v1
 
-    .line 414
+    .line 378
     .end local v0    # "reasonBytes":Lokio/ByteString;
     .end local p1    # "code":I
     .end local p2    # "reason":Ljava/lang/String;
@@ -822,121 +867,108 @@
 .end method
 
 .method public connect(Lokhttp3/OkHttpClient;)V
-    .locals 3
+    .locals 4
     .param p1, "client"    # Lokhttp3/OkHttpClient;
 
-    .line 181
+    .line 168
     invoke-virtual {p1}, Lokhttp3/OkHttpClient;->newBuilder()Lokhttp3/OkHttpClient$Builder;
-
-    move-result-object v0
-
-    sget-object v1, Lokhttp3/EventListener;->NONE:Lokhttp3/EventListener;
-
-    .line 182
-    invoke-virtual {v0, v1}, Lokhttp3/OkHttpClient$Builder;->eventListener(Lokhttp3/EventListener;)Lokhttp3/OkHttpClient$Builder;
 
     move-result-object v0
 
     sget-object v1, Lokhttp3/internal/ws/RealWebSocket;->ONLY_HTTP1:Ljava/util/List;
 
-    .line 183
+    .line 169
     invoke-virtual {v0, v1}, Lokhttp3/OkHttpClient$Builder;->protocols(Ljava/util/List;)Lokhttp3/OkHttpClient$Builder;
 
     move-result-object v0
 
-    .line 184
+    .line 170
     invoke-virtual {v0}, Lokhttp3/OkHttpClient$Builder;->build()Lokhttp3/OkHttpClient;
 
     move-result-object p1
 
-    .line 185
-    iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->originalRequest:Lokhttp3/Request;
+    .line 171
+    invoke-virtual {p1}, Lokhttp3/OkHttpClient;->pingIntervalMillis()I
 
-    invoke-virtual {v0}, Lokhttp3/Request;->newBuilder()Lokhttp3/Request$Builder;
+    move-result v0
 
-    move-result-object v0
+    .line 172
+    .local v0, "pingIntervalMillis":I
+    iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->originalRequest:Lokhttp3/Request;
 
-    .line 186
-    const-string v1, "Upgrade"
-
-    const-string v2, "websocket"
-
-    invoke-virtual {v0, v1, v2}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
-
-    move-result-object v0
-
-    .line 187
-    const-string v2, "Connection"
-
-    invoke-virtual {v0, v2, v1}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
-
-    move-result-object v0
-
-    iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->key:Ljava/lang/String;
-
-    .line 188
-    const-string v2, "Sec-WebSocket-Key"
-
-    invoke-virtual {v0, v2, v1}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
-
-    move-result-object v0
-
-    .line 189
-    const-string v1, "Sec-WebSocket-Version"
-
-    const-string v2, "13"
-
-    invoke-virtual {v0, v1, v2}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
-
-    move-result-object v0
-
-    .line 190
-    invoke-virtual {v0}, Lokhttp3/Request$Builder;->build()Lokhttp3/Request;
-
-    move-result-object v0
-
-    .line 191
-    .local v0, "request":Lokhttp3/Request;
-    sget-object v1, Lokhttp3/internal/Internal;->instance:Lokhttp3/internal/Internal;
-
-    invoke-virtual {v1, p1, v0}, Lokhttp3/internal/Internal;->newWebSocketCall(Lokhttp3/OkHttpClient;Lokhttp3/Request;)Lokhttp3/Call;
+    invoke-virtual {v1}, Lokhttp3/Request;->newBuilder()Lokhttp3/Request$Builder;
 
     move-result-object v1
 
-    iput-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->call:Lokhttp3/Call;
+    .line 173
+    const-string v2, "Upgrade"
 
-    .line 192
-    invoke-interface {v1}, Lokhttp3/Call;->timeout()Lokio/Timeout;
+    const-string v3, "websocket"
+
+    invoke-virtual {v1, v2, v3}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
 
     move-result-object v1
 
-    invoke-virtual {v1}, Lokio/Timeout;->clearTimeout()Lokio/Timeout;
+    .line 174
+    const-string v3, "Connection"
 
-    .line 193
-    iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->call:Lokhttp3/Call;
+    invoke-virtual {v1, v3, v2}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
 
-    new-instance v2, Lokhttp3/internal/ws/RealWebSocket$2;
+    move-result-object v1
 
-    invoke-direct {v2, p0, v0}, Lokhttp3/internal/ws/RealWebSocket$2;-><init>(Lokhttp3/internal/ws/RealWebSocket;Lokhttp3/Request;)V
+    iget-object v2, p0, Lokhttp3/internal/ws/RealWebSocket;->key:Ljava/lang/String;
 
-    invoke-interface {v1, v2}, Lokhttp3/Call;->enqueue(Lokhttp3/Callback;)V
+    .line 175
+    const-string v3, "Sec-WebSocket-Key"
 
-    .line 224
+    invoke-virtual {v1, v3, v2}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
+
+    move-result-object v1
+
+    .line 176
+    const-string v2, "Sec-WebSocket-Version"
+
+    const-string v3, "13"
+
+    invoke-virtual {v1, v2, v3}, Lokhttp3/Request$Builder;->header(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
+
+    move-result-object v1
+
+    .line 177
+    invoke-virtual {v1}, Lokhttp3/Request$Builder;->build()Lokhttp3/Request;
+
+    move-result-object v1
+
+    .line 178
+    .local v1, "request":Lokhttp3/Request;
+    sget-object v2, Lokhttp3/internal/Internal;->instance:Lokhttp3/internal/Internal;
+
+    invoke-virtual {v2, p1, v1}, Lokhttp3/internal/Internal;->newWebSocketCall(Lokhttp3/OkHttpClient;Lokhttp3/Request;)Lokhttp3/Call;
+
+    move-result-object v2
+
+    iput-object v2, p0, Lokhttp3/internal/ws/RealWebSocket;->call:Lokhttp3/Call;
+
+    .line 179
+    new-instance v3, Lokhttp3/internal/ws/RealWebSocket$2;
+
+    invoke-direct {v3, p0, v1, v0}, Lokhttp3/internal/ws/RealWebSocket$2;-><init>(Lokhttp3/internal/ws/RealWebSocket;Lokhttp3/Request;I)V
+
+    invoke-interface {v2, v3}, Lokhttp3/Call;->enqueue(Lokhttp3/Callback;)V
+
+    .line 210
     return-void
 .end method
 
-.method public failWebSocket(Ljava/lang/Exception;Lokhttp3/Response;)V
+.method failWebSocket(Ljava/lang/Exception;Lokhttp3/Response;)V
     .locals 3
     .param p1, "e"    # Ljava/lang/Exception;
     .param p2, "response"    # Lokhttp3/Response;
-        .annotation runtime Ljavax/annotation/Nullable;
-        .end annotation
-    .end param
 
-    .line 561
+    .line 511
     monitor-enter p0
 
-    .line 562
+    .line 512
     :try_start_0
     iget-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->failed:Z
 
@@ -946,22 +978,22 @@
 
     return-void
 
-    .line 563
+    .line 513
     :cond_0
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->failed:Z
 
-    .line 564
+    .line 514
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
 
-    .line 565
+    .line 515
     .local v0, "streamsToClose":Lokhttp3/internal/ws/RealWebSocket$Streams;
     const/4 v1, 0x0
 
     iput-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
 
-    .line 566
+    .line 516
     iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->cancelFuture:Ljava/util/concurrent/ScheduledFuture;
 
     if-eqz v1, :cond_1
@@ -970,7 +1002,7 @@
 
     invoke-interface {v1, v2}, Ljava/util/concurrent/ScheduledFuture;->cancel(Z)Z
 
-    .line 567
+    .line 517
     :cond_1
     iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
 
@@ -978,13 +1010,13 @@
 
     invoke-interface {v1}, Ljava/util/concurrent/ScheduledExecutorService;->shutdown()V
 
-    .line 568
+    .line 518
     :cond_2
     monitor-exit p0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_1
 
-    .line 571
+    .line 521
     :try_start_1
     iget-object v1, p0, Lokhttp3/internal/ws/RealWebSocket;->listener:Lokhttp3/WebSocketListener;
 
@@ -992,16 +1024,16 @@
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 573
+    .line 523
     invoke-static {v0}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
 
-    .line 574
+    .line 524
     nop
 
-    .line 575
+    .line 525
     return-void
 
-    .line 573
+    .line 523
     :catchall_0
     move-exception v1
 
@@ -1009,7 +1041,7 @@
 
     throw v1
 
-    .line 568
+    .line 518
     .end local v0    # "streamsToClose":Lokhttp3/internal/ws/RealWebSocket$Streams;
     :catchall_1
     move-exception v0
@@ -1022,29 +1054,30 @@
     throw v0
 .end method
 
-.method public initReaderAndWriter(Ljava/lang/String;Lokhttp3/internal/ws/RealWebSocket$Streams;)V
+.method public initReaderAndWriter(Ljava/lang/String;JLokhttp3/internal/ws/RealWebSocket$Streams;)V
     .locals 11
     .param p1, "name"    # Ljava/lang/String;
-    .param p2, "streams"    # Lokhttp3/internal/ws/RealWebSocket$Streams;
+    .param p2, "pingIntervalMillis"    # J
+    .param p4, "streams"    # Lokhttp3/internal/ws/RealWebSocket$Streams;
     .annotation system Ldalvik/annotation/Throws;
         value = {
             Ljava/io/IOException;
         }
     .end annotation
 
-    .line 254
+    .line 241
     monitor-enter p0
 
-    .line 255
+    .line 242
     :try_start_0
-    iput-object p2, p0, Lokhttp3/internal/ws/RealWebSocket;->streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
+    iput-object p4, p0, Lokhttp3/internal/ws/RealWebSocket;->streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
 
-    .line 256
+    .line 243
     new-instance v0, Lokhttp3/internal/ws/WebSocketWriter;
 
-    iget-boolean v1, p2, Lokhttp3/internal/ws/RealWebSocket$Streams;->client:Z
+    iget-boolean v1, p4, Lokhttp3/internal/ws/RealWebSocket$Streams;->client:Z
 
-    iget-object v2, p2, Lokhttp3/internal/ws/RealWebSocket$Streams;->sink:Lokio/BufferedSink;
+    iget-object v2, p4, Lokhttp3/internal/ws/RealWebSocket$Streams;->sink:Lokio/BufferedSink;
 
     iget-object v3, p0, Lokhttp3/internal/ws/RealWebSocket;->random:Ljava/util/Random;
 
@@ -1052,7 +1085,7 @@
 
     iput-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->writer:Lokhttp3/internal/ws/WebSocketWriter;
 
-    .line 257
+    .line 244
     new-instance v4, Ljava/util/concurrent/ScheduledThreadPoolExecutor;
 
     const/4 v0, 0x1
@@ -1067,29 +1100,29 @@
 
     iput-object v4, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
 
-    .line 258
-    iget-wide v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pingIntervalMillis:J
+    .line 245
+    const-wide/16 v0, 0x0
 
-    const-wide/16 v2, 0x0
+    cmp-long v2, p2, v0
 
-    cmp-long v5, v0, v2
+    if-eqz v2, :cond_0
 
-    if-eqz v5, :cond_0
-
-    .line 259
+    .line 246
     new-instance v5, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;
 
-    invoke-direct {v5, p0}, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;-><init>(Lokhttp3/internal/ws/RealWebSocket;)V
+    const/4 v0, 0x0
 
-    iget-wide v8, p0, Lokhttp3/internal/ws/RealWebSocket;->pingIntervalMillis:J
+    invoke-direct {v5, p0, v0}, Lokhttp3/internal/ws/RealWebSocket$PingRunnable;-><init>(Lokhttp3/internal/ws/RealWebSocket;Lokhttp3/internal/ws/RealWebSocket$1;)V
 
     sget-object v10, Ljava/util/concurrent/TimeUnit;->MILLISECONDS:Ljava/util/concurrent/TimeUnit;
 
-    move-wide v6, v8
+    move-wide v6, p2
+
+    move-wide v8, p2
 
     invoke-interface/range {v4 .. v10}, Ljava/util/concurrent/ScheduledExecutorService;->scheduleAtFixedRate(Ljava/lang/Runnable;JJLjava/util/concurrent/TimeUnit;)Ljava/util/concurrent/ScheduledFuture;
 
-    .line 262
+    .line 249
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->messageAndCloseQueue:Ljava/util/ArrayDeque;
 
@@ -1099,30 +1132,30 @@
 
     if-nez v0, :cond_1
 
-    .line 263
+    .line 250
     invoke-direct {p0}, Lokhttp3/internal/ws/RealWebSocket;->runWriter()V
 
-    .line 265
+    .line 252
     :cond_1
     monitor-exit p0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 267
+    .line 254
     new-instance v0, Lokhttp3/internal/ws/WebSocketReader;
 
-    iget-boolean v1, p2, Lokhttp3/internal/ws/RealWebSocket$Streams;->client:Z
+    iget-boolean v1, p4, Lokhttp3/internal/ws/RealWebSocket$Streams;->client:Z
 
-    iget-object v2, p2, Lokhttp3/internal/ws/RealWebSocket$Streams;->source:Lokio/BufferedSource;
+    iget-object v2, p4, Lokhttp3/internal/ws/RealWebSocket$Streams;->source:Lokio/BufferedSource;
 
     invoke-direct {v0, v1, v2, p0}, Lokhttp3/internal/ws/WebSocketReader;-><init>(ZLokio/BufferedSource;Lokhttp3/internal/ws/WebSocketReader$FrameCallback;)V
 
     iput-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->reader:Lokhttp3/internal/ws/WebSocketReader;
 
-    .line 268
+    .line 255
     return-void
 
-    .line 265
+    .line 252
     :catchall_0
     move-exception v0
 
@@ -1142,7 +1175,7 @@
         }
     .end annotation
 
-    .line 272
+    .line 259
     :goto_0
     iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedCloseCode:I
 
@@ -1150,14 +1183,14 @@
 
     if-ne v0, v1, :cond_0
 
-    .line 274
+    .line 261
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->reader:Lokhttp3/internal/ws/WebSocketReader;
 
     invoke-virtual {v0}, Lokhttp3/internal/ws/WebSocketReader;->processNextFrame()V
 
     goto :goto_0
 
-    .line 276
+    .line 263
     :cond_0
     return-void
 .end method
@@ -1167,31 +1200,31 @@
     .param p1, "code"    # I
     .param p2, "reason"    # Ljava/lang/String;
 
-    .line 346
+    .line 310
     const/4 v0, -0x1
 
     if-eq p1, v0, :cond_4
 
-    .line 348
+    .line 312
     const/4 v1, 0x0
 
-    .line 349
+    .line 313
     .local v1, "toClose":Lokhttp3/internal/ws/RealWebSocket$Streams;
     monitor-enter p0
 
-    .line 350
+    .line 314
     :try_start_0
     iget v2, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedCloseCode:I
 
     if-ne v2, v0, :cond_3
 
-    .line 351
+    .line 315
     iput p1, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedCloseCode:I
 
-    .line 352
+    .line 316
     iput-object p2, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedCloseReason:Ljava/lang/String;
 
-    .line 353
+    .line 317
     iget-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->enqueuedClose:Z
 
     if-eqz v0, :cond_1
@@ -1204,17 +1237,17 @@
 
     if-eqz v0, :cond_1
 
-    .line 354
+    .line 318
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
 
     move-object v1, v0
 
-    .line 355
+    .line 319
     const/4 v0, 0x0
 
     iput-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
 
-    .line 356
+    .line 320
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->cancelFuture:Ljava/util/concurrent/ScheduledFuture;
 
     if-eqz v0, :cond_0
@@ -1223,45 +1256,45 @@
 
     invoke-interface {v0, v2}, Ljava/util/concurrent/ScheduledFuture;->cancel(Z)Z
 
-    .line 357
+    .line 321
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
 
     invoke-interface {v0}, Ljava/util/concurrent/ScheduledExecutorService;->shutdown()V
 
-    .line 359
+    .line 323
     :cond_1
     monitor-exit p0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_1
 
-    .line 362
+    .line 326
     :try_start_1
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->listener:Lokhttp3/WebSocketListener;
 
     invoke-virtual {v0, p0, p1, p2}, Lokhttp3/WebSocketListener;->onClosing(Lokhttp3/WebSocket;ILjava/lang/String;)V
 
-    .line 364
+    .line 328
     if-eqz v1, :cond_2
 
-    .line 365
+    .line 329
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->listener:Lokhttp3/WebSocketListener;
 
     invoke-virtual {v0, p0, p1, p2}, Lokhttp3/WebSocketListener;->onClosed(Lokhttp3/WebSocket;ILjava/lang/String;)V
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_0
 
-    .line 368
+    .line 332
     :cond_2
     invoke-static {v1}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
 
-    .line 369
+    .line 333
     nop
 
-    .line 370
+    .line 334
     return-void
 
-    .line 368
+    .line 332
     :catchall_0
     move-exception v0
 
@@ -1269,7 +1302,7 @@
 
     throw v0
 
-    .line 350
+    .line 314
     :cond_3
     :try_start_2
     new-instance v0, Ljava/lang/IllegalStateException;
@@ -1283,7 +1316,7 @@
     .end local p2    # "reason":Ljava/lang/String;
     throw v0
 
-    .line 359
+    .line 323
     .restart local v1    # "toClose":Lokhttp3/internal/ws/RealWebSocket$Streams;
     .restart local p1    # "code":I
     .restart local p2    # "reason":Ljava/lang/String;
@@ -1296,7 +1329,7 @@
 
     throw v0
 
-    .line 346
+    .line 310
     .end local v1    # "toClose":Lokhttp3/internal/ws/RealWebSocket$Streams;
     :cond_4
     new-instance v0, Ljava/lang/IllegalArgumentException;
@@ -1315,12 +1348,12 @@
         }
     .end annotation
 
-    .line 323
+    .line 288
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->listener:Lokhttp3/WebSocketListener;
 
     invoke-virtual {v0, p0, p1}, Lokhttp3/WebSocketListener;->onMessage(Lokhttp3/WebSocket;Ljava/lang/String;)V
 
-    .line 324
+    .line 289
     return-void
 .end method
 
@@ -1333,12 +1366,12 @@
         }
     .end annotation
 
-    .line 327
+    .line 292
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->listener:Lokhttp3/WebSocketListener;
 
     invoke-virtual {v0, p0, p1}, Lokhttp3/WebSocketListener;->onMessage(Lokhttp3/WebSocket;Lokio/ByteString;)V
 
-    .line 328
+    .line 293
     return-void
 .end method
 
@@ -1348,7 +1381,7 @@
 
     monitor-enter p0
 
-    .line 332
+    .line 297
     :try_start_0
     iget-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->failed:Z
 
@@ -1368,38 +1401,38 @@
 
     goto :goto_0
 
-    .line 334
+    .line 299
     .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pongQueue:Ljava/util/ArrayDeque;
 
     invoke-virtual {v0, p1}, Ljava/util/ArrayDeque;->add(Ljava/lang/Object;)Z
 
-    .line 335
+    .line 300
     invoke-direct {p0}, Lokhttp3/internal/ws/RealWebSocket;->runWriter()V
 
-    .line 336
-    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedPingCount:I
+    .line 301
+    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pingCount:I
 
     add-int/lit8 v0, v0, 0x1
 
-    iput v0, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedPingCount:I
+    iput v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pingCount:I
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 337
+    .line 302
     monitor-exit p0
 
     return-void
 
-    .line 332
+    .line 297
     :cond_1
     :goto_0
     monitor-exit p0
 
     return-void
 
-    .line 331
+    .line 296
     .end local p1    # "payload":Lokio/ByteString;
     :catchall_0
     move-exception p1
@@ -1415,27 +1448,22 @@
 
     monitor-enter p0
 
-    .line 341
+    .line 306
     :try_start_0
-    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedPongCount:I
+    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pongCount:I
 
     add-int/lit8 v0, v0, 0x1
 
-    iput v0, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedPongCount:I
-
-    .line 342
-    const/4 v0, 0x0
-
-    iput-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->awaitingPong:Z
+    iput v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pongCount:I
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 343
+    .line 307
     monitor-exit p0
 
     return-void
 
-    .line 340
+    .line 305
     .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
     .end local p1    # "buffer":Lokio/ByteString;
     :catchall_0
@@ -1446,13 +1474,38 @@
     throw p1
 .end method
 
+.method declared-synchronized pingCount()I
+    .locals 1
+
+    monitor-enter p0
+
+    .line 280
+    :try_start_0
+    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pingCount:I
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    monitor-exit p0
+
+    return v0
+
+    .line 280
+    .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
+    :catchall_0
+    move-exception v0
+
+    monitor-exit p0
+
+    throw v0
+.end method
+
 .method declared-synchronized pong(Lokio/ByteString;)Z
     .locals 1
     .param p1, "payload"    # Lokio/ByteString;
 
     monitor-enter p0
 
-    .line 403
+    .line 367
     :try_start_0
     iget-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->failed:Z
 
@@ -1472,26 +1525,26 @@
 
     goto :goto_0
 
-    .line 405
+    .line 369
     .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
     :cond_0
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pongQueue:Ljava/util/ArrayDeque;
 
     invoke-virtual {v0, p1}, Ljava/util/ArrayDeque;->add(Ljava/lang/Object;)Z
 
-    .line 406
+    .line 370
     invoke-direct {p0}, Lokhttp3/internal/ws/RealWebSocket;->runWriter()V
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 407
+    .line 371
     const/4 v0, 0x1
 
     monitor-exit p0
 
     return v0
 
-    .line 403
+    .line 367
     :cond_1
     :goto_0
     const/4 v0, 0x0
@@ -1500,7 +1553,7 @@
 
     return v0
 
-    .line 402
+    .line 366
     .end local p1    # "payload":Lokio/ByteString;
     :catchall_0
     move-exception p1
@@ -1508,6 +1561,31 @@
     monitor-exit p0
 
     throw p1
+.end method
+
+.method declared-synchronized pongCount()I
+    .locals 1
+
+    monitor-enter p0
+
+    .line 284
+    :try_start_0
+    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->pongCount:I
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    monitor-exit p0
+
+    return v0
+
+    .line 284
+    .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
+    :catchall_0
+    move-exception v0
+
+    monitor-exit p0
+
+    throw v0
 .end method
 
 .method processNextFrame()Z
@@ -1518,7 +1596,7 @@
         }
     .end annotation
 
-    .line 284
+    .line 271
     const/4 v0, 0x0
 
     :try_start_0
@@ -1526,7 +1604,7 @@
 
     invoke-virtual {v1}, Lokhttp3/internal/ws/WebSocketReader;->processNextFrame()V
 
-    .line 285
+    .line 272
     iget v1, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedCloseCode:I
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
@@ -1540,17 +1618,17 @@
     :cond_0
     return v0
 
-    .line 286
+    .line 273
     :catch_0
     move-exception v1
 
-    .line 287
+    .line 274
     .local v1, "e":Ljava/lang/Exception;
     const/4 v2, 0x0
 
     invoke-virtual {p0, v1, v2}, Lokhttp3/internal/ws/RealWebSocket;->failWebSocket(Ljava/lang/Exception;Lokhttp3/Response;)V
 
-    .line 288
+    .line 275
     return v0
 .end method
 
@@ -1559,7 +1637,7 @@
 
     monitor-enter p0
 
-    .line 173
+    .line 160
     :try_start_0
     iget-wide v0, p0, Lokhttp3/internal/ws/RealWebSocket;->queueSize:J
     :try_end_0
@@ -1569,57 +1647,7 @@
 
     return-wide v0
 
-    .line 173
-    .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
-    :catchall_0
-    move-exception v0
-
-    monitor-exit p0
-
-    throw v0
-.end method
-
-.method declared-synchronized receivedPingCount()I
-    .locals 1
-
-    monitor-enter p0
-
-    .line 315
-    :try_start_0
-    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedPingCount:I
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
-
-    monitor-exit p0
-
-    return v0
-
-    .line 315
-    .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
-    :catchall_0
-    move-exception v0
-
-    monitor-exit p0
-
-    throw v0
-.end method
-
-.method declared-synchronized receivedPongCount()I
-    .locals 1
-
-    monitor-enter p0
-
-    .line 319
-    :try_start_0
-    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedPongCount:I
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
-
-    monitor-exit p0
-
-    return v0
-
-    .line 319
+    .line 160
     .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
     :catchall_0
     move-exception v0
@@ -1632,7 +1660,7 @@
 .method public request()Lokhttp3/Request;
     .locals 1
 
-    .line 169
+    .line 156
     iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->originalRequest:Lokhttp3/Request;
 
     return-object v0
@@ -1642,10 +1670,10 @@
     .locals 2
     .param p1, "text"    # Ljava/lang/String;
 
-    .line 375
+    .line 339
     if-eqz p1, :cond_0
 
-    .line 376
+    .line 340
     invoke-static {p1}, Lokio/ByteString;->encodeUtf8(Ljava/lang/String;)Lokio/ByteString;
 
     move-result-object v0
@@ -1658,7 +1686,7 @@
 
     return v0
 
-    .line 375
+    .line 339
     :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
@@ -1673,10 +1701,10 @@
     .locals 2
     .param p1, "bytes"    # Lokio/ByteString;
 
-    .line 380
+    .line 344
     if-eqz p1, :cond_0
 
-    .line 381
+    .line 345
     const/4 v0, 0x2
 
     invoke-direct {p0, p1, v0}, Lokhttp3/internal/ws/RealWebSocket;->send(Lokio/ByteString;I)Z
@@ -1685,7 +1713,7 @@
 
     return v0
 
-    .line 380
+    .line 344
     :cond_0
     new-instance v0, Ljava/lang/NullPointerException;
 
@@ -1696,68 +1724,6 @@
     throw v0
 .end method
 
-.method declared-synchronized sentPingCount()I
-    .locals 1
-
-    monitor-enter p0
-
-    .line 311
-    :try_start_0
-    iget v0, p0, Lokhttp3/internal/ws/RealWebSocket;->sentPingCount:I
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
-
-    monitor-exit p0
-
-    return v0
-
-    .line 311
-    .end local p0    # "this":Lokhttp3/internal/ws/RealWebSocket;
-    :catchall_0
-    move-exception v0
-
-    monitor-exit p0
-
-    throw v0
-.end method
-
-.method tearDown()V
-    .locals 4
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/InterruptedException;
-        }
-    .end annotation
-
-    .line 303
-    iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->cancelFuture:Ljava/util/concurrent/ScheduledFuture;
-
-    if-eqz v0, :cond_0
-
-    .line 304
-    const/4 v1, 0x0
-
-    invoke-interface {v0, v1}, Ljava/util/concurrent/ScheduledFuture;->cancel(Z)Z
-
-    .line 306
-    :cond_0
-    iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
-
-    invoke-interface {v0}, Ljava/util/concurrent/ScheduledExecutorService;->shutdown()V
-
-    .line 307
-    iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
-
-    const-wide/16 v1, 0xa
-
-    sget-object v3, Ljava/util/concurrent/TimeUnit;->SECONDS:Ljava/util/concurrent/TimeUnit;
-
-    invoke-interface {v0, v1, v2, v3}, Ljava/util/concurrent/ScheduledExecutorService;->awaitTermination(JLjava/util/concurrent/TimeUnit;)Z
-
-    .line 308
-    return-void
-.end method
-
 .method writeOneFrame()Z
     .locals 12
     .annotation system Ldalvik/annotation/Throws;
@@ -1766,26 +1732,26 @@
         }
     .end annotation
 
-    .line 460
+    .line 424
     const/4 v0, 0x0
 
-    .line 461
+    .line 425
     .local v0, "messageOrClose":Ljava/lang/Object;
     const/4 v1, -0x1
 
-    .line 462
+    .line 426
     .local v1, "receivedCloseCode":I
     const/4 v2, 0x0
 
-    .line 463
+    .line 427
     .local v2, "receivedCloseReason":Ljava/lang/String;
     const/4 v3, 0x0
 
-    .line 465
+    .line 429
     .local v3, "streamsToClose":Lokhttp3/internal/ws/RealWebSocket$Streams;
     monitor-enter p0
 
-    .line 466
+    .line 430
     :try_start_0
     iget-boolean v4, p0, Lokhttp3/internal/ws/RealWebSocket;->failed:Z
 
@@ -1793,16 +1759,16 @@
 
     if-eqz v4, :cond_0
 
-    .line 467
+    .line 431
     monitor-exit p0
 
     return v5
 
-    .line 470
+    .line 434
     :cond_0
     iget-object v4, p0, Lokhttp3/internal/ws/RealWebSocket;->writer:Lokhttp3/internal/ws/WebSocketWriter;
 
-    .line 471
+    .line 435
     .local v4, "writer":Lokhttp3/internal/ws/WebSocketWriter;
     iget-object v6, p0, Lokhttp3/internal/ws/RealWebSocket;->pongQueue:Ljava/util/ArrayDeque;
 
@@ -1812,11 +1778,11 @@
 
     check-cast v6, Lokio/ByteString;
 
-    .line 472
+    .line 436
     .local v6, "pong":Lokio/ByteString;
     if-nez v6, :cond_3
 
-    .line 473
+    .line 437
     iget-object v7, p0, Lokhttp3/internal/ws/RealWebSocket;->messageAndCloseQueue:Ljava/util/ArrayDeque;
 
     invoke-virtual {v7}, Ljava/util/ArrayDeque;->poll()Ljava/lang/Object;
@@ -1825,46 +1791,46 @@
 
     move-object v0, v7
 
-    .line 474
+    .line 438
     nop
 
     instance-of v7, v0, Lokhttp3/internal/ws/RealWebSocket$Close;
 
     if-eqz v7, :cond_2
 
-    .line 475
+    .line 439
     iget v5, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedCloseCode:I
 
     move v1, v5
 
-    .line 476
+    .line 440
     iget-object v5, p0, Lokhttp3/internal/ws/RealWebSocket;->receivedCloseReason:Ljava/lang/String;
 
     move-object v2, v5
 
-    .line 477
+    .line 441
     const/4 v5, -0x1
 
     if-eq v1, v5, :cond_1
 
-    .line 478
+    .line 442
     iget-object v5, p0, Lokhttp3/internal/ws/RealWebSocket;->streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
 
     move-object v3, v5
 
-    .line 479
+    .line 443
     const/4 v5, 0x0
 
     iput-object v5, p0, Lokhttp3/internal/ws/RealWebSocket;->streams:Lokhttp3/internal/ws/RealWebSocket$Streams;
 
-    .line 480
+    .line 444
     iget-object v5, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
 
     invoke-interface {v5}, Ljava/util/concurrent/ScheduledExecutorService;->shutdown()V
 
     goto :goto_0
 
-    .line 483
+    .line 447
     :cond_1
     iget-object v5, p0, Lokhttp3/internal/ws/RealWebSocket;->executor:Ljava/util/concurrent/ScheduledExecutorService;
 
@@ -1888,45 +1854,45 @@
 
     goto :goto_0
 
-    .line 486
+    .line 450
     :cond_2
     if-nez v0, :cond_3
 
-    .line 487
+    .line 451
     monitor-exit p0
 
     return v5
 
-    .line 490
+    .line 454
     :cond_3
     :goto_0
     monitor-exit p0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_2
 
-    .line 493
+    .line 457
     if-eqz v6, :cond_4
 
-    .line 494
+    .line 458
     :try_start_1
     invoke-virtual {v4, v6}, Lokhttp3/internal/ws/WebSocketWriter;->writePong(Lokio/ByteString;)V
 
     goto :goto_1
 
-    .line 496
+    .line 460
     :cond_4
     instance-of v5, v0, Lokhttp3/internal/ws/RealWebSocket$Message;
 
     if-eqz v5, :cond_5
 
-    .line 497
+    .line 461
     move-object v5, v0
 
     check-cast v5, Lokhttp3/internal/ws/RealWebSocket$Message;
 
     iget-object v5, v5, Lokhttp3/internal/ws/RealWebSocket$Message;->data:Lokio/ByteString;
 
-    .line 498
+    .line 462
     .local v5, "data":Lokio/ByteString;
     move-object v7, v0
 
@@ -1934,14 +1900,14 @@
 
     iget v7, v7, Lokhttp3/internal/ws/RealWebSocket$Message;->formatOpcode:I
 
-    .line 499
+    .line 463
     invoke-virtual {v5}, Lokio/ByteString;->size()I
 
     move-result v8
 
     int-to-long v8, v8
 
-    .line 498
+    .line 462
     invoke-virtual {v4, v7, v8, v9}, Lokhttp3/internal/ws/WebSocketWriter;->newMessageSink(IJ)Lokio/Sink;
 
     move-result-object v7
@@ -1950,19 +1916,19 @@
 
     move-result-object v7
 
-    .line 500
+    .line 464
     .local v7, "sink":Lokio/BufferedSink;
     invoke-interface {v7, v5}, Lokio/BufferedSink;->write(Lokio/ByteString;)Lokio/BufferedSink;
 
-    .line 501
+    .line 465
     invoke-interface {v7}, Lokio/BufferedSink;->close()V
 
-    .line 502
+    .line 466
     monitor-enter p0
     :try_end_1
     .catchall {:try_start_1 .. :try_end_1} :catchall_1
 
-    .line 503
+    .line 467
     :try_start_2
     iget-wide v8, p0, Lokhttp3/internal/ws/RealWebSocket;->queueSize:J
 
@@ -1976,15 +1942,15 @@
 
     iput-wide v8, p0, Lokhttp3/internal/ws/RealWebSocket;->queueSize:J
 
-    .line 504
+    .line 468
     monitor-exit p0
 
-    .line 506
+    .line 470
     .end local v5    # "data":Lokio/ByteString;
     .end local v7    # "sink":Lokio/BufferedSink;
     goto :goto_1
 
-    .line 504
+    .line 468
     .restart local v5    # "data":Lokio/ByteString;
     .restart local v7    # "sink":Lokio/BufferedSink;
     :catchall_0
@@ -2003,7 +1969,7 @@
     :try_start_3
     throw v8
 
-    .line 506
+    .line 470
     .end local v5    # "data":Lokio/ByteString;
     .end local v7    # "sink":Lokio/BufferedSink;
     .restart local v0    # "messageOrClose":Ljava/lang/Object;
@@ -2017,12 +1983,12 @@
 
     if-eqz v5, :cond_7
 
-    .line 507
+    .line 471
     move-object v5, v0
 
     check-cast v5, Lokhttp3/internal/ws/RealWebSocket$Close;
 
-    .line 508
+    .line 472
     .local v5, "close":Lokhttp3/internal/ws/RealWebSocket$Close;
     iget v7, v5, Lokhttp3/internal/ws/RealWebSocket$Close;->code:I
 
@@ -2030,32 +1996,32 @@
 
     invoke-virtual {v4, v7, v8}, Lokhttp3/internal/ws/WebSocketWriter;->writeClose(ILokio/ByteString;)V
 
-    .line 511
+    .line 475
     if-eqz v3, :cond_6
 
-    .line 512
+    .line 476
     iget-object v7, p0, Lokhttp3/internal/ws/RealWebSocket;->listener:Lokhttp3/WebSocketListener;
 
     invoke-virtual {v7, p0, v1, v2}, Lokhttp3/WebSocketListener;->onClosed(Lokhttp3/WebSocket;ILjava/lang/String;)V
     :try_end_3
     .catchall {:try_start_3 .. :try_end_3} :catchall_1
 
-    .line 515
+    .line 479
     .end local v5    # "close":Lokhttp3/internal/ws/RealWebSocket$Close;
     :cond_6
     nop
 
-    .line 519
+    .line 483
     :goto_1
     const/4 v5, 0x1
 
-    .line 521
+    .line 485
     invoke-static {v3}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
 
-    .line 519
+    .line 483
     return v5
 
-    .line 516
+    .line 480
     :cond_7
     :try_start_4
     new-instance v5, Ljava/lang/AssertionError;
@@ -2072,7 +2038,7 @@
     :try_end_4
     .catchall {:try_start_4 .. :try_end_4} :catchall_1
 
-    .line 521
+    .line 485
     .restart local v0    # "messageOrClose":Ljava/lang/Object;
     .restart local v1    # "receivedCloseCode":I
     .restart local v2    # "receivedCloseReason":Ljava/lang/String;
@@ -2086,7 +2052,7 @@
 
     throw v5
 
-    .line 490
+    .line 454
     .end local v4    # "writer":Lokhttp3/internal/ws/WebSocketWriter;
     .end local v6    # "pong":Lokio/ByteString;
     :catchall_2
@@ -2098,150 +2064,4 @@
     .catchall {:try_start_5 .. :try_end_5} :catchall_2
 
     throw v4
-.end method
-
-.method writePingFrame()V
-    .locals 7
-
-    .line 537
-    monitor-enter p0
-
-    .line 538
-    :try_start_0
-    iget-boolean v0, p0, Lokhttp3/internal/ws/RealWebSocket;->failed:Z
-
-    if-eqz v0, :cond_0
-
-    monitor-exit p0
-
-    return-void
-
-    .line 539
-    :cond_0
-    iget-object v0, p0, Lokhttp3/internal/ws/RealWebSocket;->writer:Lokhttp3/internal/ws/WebSocketWriter;
-
-    .line 540
-    .local v0, "writer":Lokhttp3/internal/ws/WebSocketWriter;
-    iget-boolean v1, p0, Lokhttp3/internal/ws/RealWebSocket;->awaitingPong:Z
-
-    const/4 v2, -0x1
-
-    if-eqz v1, :cond_1
-
-    iget v1, p0, Lokhttp3/internal/ws/RealWebSocket;->sentPingCount:I
-
-    goto :goto_0
-
-    :cond_1
-    const/4 v1, -0x1
-
-    .line 541
-    .local v1, "failedPing":I
-    :goto_0
-    iget v3, p0, Lokhttp3/internal/ws/RealWebSocket;->sentPingCount:I
-
-    const/4 v4, 0x1
-
-    add-int/2addr v3, v4
-
-    iput v3, p0, Lokhttp3/internal/ws/RealWebSocket;->sentPingCount:I
-
-    .line 542
-    iput-boolean v4, p0, Lokhttp3/internal/ws/RealWebSocket;->awaitingPong:Z
-
-    .line 543
-    monitor-exit p0
-    :try_end_0
-    .catchall {:try_start_0 .. :try_end_0} :catchall_0
-
-    .line 545
-    const/4 v3, 0x0
-
-    if-eq v1, v2, :cond_2
-
-    .line 546
-    new-instance v2, Ljava/net/SocketTimeoutException;
-
-    new-instance v4, Ljava/lang/StringBuilder;
-
-    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
-
-    const-string v5, "sent ping but didn\'t receive pong within "
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    iget-wide v5, p0, Lokhttp3/internal/ws/RealWebSocket;->pingIntervalMillis:J
-
-    invoke-virtual {v4, v5, v6}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    const-string v5, "ms (after "
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    add-int/lit8 v5, v1, -0x1
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    const-string v5, " successful ping/pongs)"
-
-    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    move-result-object v4
-
-    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v4
-
-    invoke-direct {v2, v4}, Ljava/net/SocketTimeoutException;-><init>(Ljava/lang/String;)V
-
-    invoke-virtual {p0, v2, v3}, Lokhttp3/internal/ws/RealWebSocket;->failWebSocket(Ljava/lang/Exception;Lokhttp3/Response;)V
-
-    .line 549
-    return-void
-
-    .line 553
-    :cond_2
-    :try_start_1
-    sget-object v2, Lokio/ByteString;->EMPTY:Lokio/ByteString;
-
-    invoke-virtual {v0, v2}, Lokhttp3/internal/ws/WebSocketWriter;->writePing(Lokio/ByteString;)V
-    :try_end_1
-    .catch Ljava/io/IOException; {:try_start_1 .. :try_end_1} :catch_0
-
-    .line 556
-    goto :goto_1
-
-    .line 554
-    :catch_0
-    move-exception v2
-
-    .line 555
-    .local v2, "e":Ljava/io/IOException;
-    invoke-virtual {p0, v2, v3}, Lokhttp3/internal/ws/RealWebSocket;->failWebSocket(Ljava/lang/Exception;Lokhttp3/Response;)V
-
-    .line 557
-    .end local v2    # "e":Ljava/io/IOException;
-    :goto_1
-    return-void
-
-    .line 543
-    .end local v0    # "writer":Lokhttp3/internal/ws/WebSocketWriter;
-    .end local v1    # "failedPing":I
-    :catchall_0
-    move-exception v0
-
-    :try_start_2
-    monitor-exit p0
-    :try_end_2
-    .catchall {:try_start_2 .. :try_end_2} :catchall_0
-
-    throw v0
 .end method

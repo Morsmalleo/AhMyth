@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/PollingXHR;
 
-    .line 51
+    .line 43
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$2;->this$0:Lio/socket/engineio/client/transports/PollingXHR;
 
     iput-object p2, p0, Lio/socket/engineio/client/transports/PollingXHR$2;->val$self:Lio/socket/engineio/client/transports/PollingXHR;
@@ -44,7 +44,7 @@
     .locals 4
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 55
+    .line 47
     iget-object v0, p0, Lio/socket/engineio/client/transports/PollingXHR$2;->val$self:Lio/socket/engineio/client/transports/PollingXHR;
 
     const/4 v1, 0x1
@@ -61,6 +61,6 @@
 
     invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/transports/PollingXHR;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 56
+    .line 48
     return-void
 .end method

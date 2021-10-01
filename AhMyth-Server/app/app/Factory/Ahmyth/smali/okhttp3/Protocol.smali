@@ -16,15 +16,11 @@
 # static fields
 .field private static final synthetic $VALUES:[Lokhttp3/Protocol;
 
-.field public static final enum H2_PRIOR_KNOWLEDGE:Lokhttp3/Protocol;
-
 .field public static final enum HTTP_1_0:Lokhttp3/Protocol;
 
 .field public static final enum HTTP_1_1:Lokhttp3/Protocol;
 
 .field public static final enum HTTP_2:Lokhttp3/Protocol;
-
-.field public static final enum QUIC:Lokhttp3/Protocol;
 
 .field public static final enum SPDY_3:Lokhttp3/Protocol;
 
@@ -35,7 +31,7 @@
 
 # direct methods
 .method static constructor <clinit>()V
-    .locals 14
+    .locals 10
 
     .line 33
     new-instance v0, Lokhttp3/Protocol;
@@ -89,50 +85,20 @@
 
     sput-object v5, Lokhttp3/Protocol;->HTTP_2:Lokhttp3/Protocol;
 
-    .line 71
-    new-instance v7, Lokhttp3/Protocol;
-
-    const-string v9, "H2_PRIOR_KNOWLEDGE"
-
-    const/4 v10, 0x4
-
-    const-string v11, "h2_prior_knowledge"
-
-    invoke-direct {v7, v9, v10, v11}, Lokhttp3/Protocol;-><init>(Ljava/lang/String;ILjava/lang/String;)V
-
-    sput-object v7, Lokhttp3/Protocol;->H2_PRIOR_KNOWLEDGE:Lokhttp3/Protocol;
-
-    .line 81
-    new-instance v9, Lokhttp3/Protocol;
-
-    const-string v11, "QUIC"
-
-    const/4 v12, 0x5
-
-    const-string v13, "quic"
-
-    invoke-direct {v9, v11, v12, v13}, Lokhttp3/Protocol;-><init>(Ljava/lang/String;ILjava/lang/String;)V
-
-    sput-object v9, Lokhttp3/Protocol;->QUIC:Lokhttp3/Protocol;
-
     .line 29
-    const/4 v11, 0x6
+    const/4 v7, 0x4
 
-    new-array v11, v11, [Lokhttp3/Protocol;
+    new-array v7, v7, [Lokhttp3/Protocol;
 
-    aput-object v0, v11, v2
+    aput-object v0, v7, v2
 
-    aput-object v1, v11, v4
+    aput-object v1, v7, v4
 
-    aput-object v3, v11, v6
+    aput-object v3, v7, v6
 
-    aput-object v5, v11, v8
+    aput-object v5, v7, v8
 
-    aput-object v7, v11, v10
-
-    aput-object v9, v11, v12
-
-    sput-object v11, Lokhttp3/Protocol;->$VALUES:[Lokhttp3/Protocol;
+    sput-object v7, Lokhttp3/Protocol;->$VALUES:[Lokhttp3/Protocol;
 
     return-void
 .end method
@@ -148,13 +114,13 @@
         }
     .end annotation
 
-    .line 85
+    .line 66
     invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
 
-    .line 86
+    .line 67
     iput-object p3, p0, Lokhttp3/Protocol;->protocol:Ljava/lang/String;
 
-    .line 87
+    .line 68
     return-void
 .end method
 
@@ -167,7 +133,7 @@
         }
     .end annotation
 
-    .line 96
+    .line 77
     sget-object v0, Lokhttp3/Protocol;->HTTP_1_0:Lokhttp3/Protocol;
 
     iget-object v1, v0, Lokhttp3/Protocol;->protocol:Ljava/lang/String;
@@ -180,7 +146,7 @@
 
     return-object v0
 
-    .line 97
+    .line 78
     :cond_0
     sget-object v0, Lokhttp3/Protocol;->HTTP_1_1:Lokhttp3/Protocol;
 
@@ -194,9 +160,9 @@
 
     return-object v0
 
-    .line 98
+    .line 79
     :cond_1
-    sget-object v0, Lokhttp3/Protocol;->H2_PRIOR_KNOWLEDGE:Lokhttp3/Protocol;
+    sget-object v0, Lokhttp3/Protocol;->HTTP_2:Lokhttp3/Protocol;
 
     iget-object v1, v0, Lokhttp3/Protocol;->protocol:Ljava/lang/String;
 
@@ -208,9 +174,9 @@
 
     return-object v0
 
-    .line 99
+    .line 80
     :cond_2
-    sget-object v0, Lokhttp3/Protocol;->HTTP_2:Lokhttp3/Protocol;
+    sget-object v0, Lokhttp3/Protocol;->SPDY_3:Lokhttp3/Protocol;
 
     iget-object v1, v0, Lokhttp3/Protocol;->protocol:Ljava/lang/String;
 
@@ -222,36 +188,8 @@
 
     return-object v0
 
-    .line 100
+    .line 81
     :cond_3
-    sget-object v0, Lokhttp3/Protocol;->SPDY_3:Lokhttp3/Protocol;
-
-    iget-object v1, v0, Lokhttp3/Protocol;->protocol:Ljava/lang/String;
-
-    invoke-virtual {p0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_4
-
-    return-object v0
-
-    .line 101
-    :cond_4
-    sget-object v0, Lokhttp3/Protocol;->QUIC:Lokhttp3/Protocol;
-
-    iget-object v1, v0, Lokhttp3/Protocol;->protocol:Ljava/lang/String;
-
-    invoke-virtual {p0, v1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_5
-
-    return-object v0
-
-    .line 102
-    :cond_5
     new-instance v0, Ljava/io/IOException;
 
     new-instance v1, Ljava/lang/StringBuilder;
@@ -313,7 +251,7 @@
 .method public toString()Ljava/lang/String;
     .locals 1
 
-    .line 113
+    .line 89
     iget-object v0, p0, Lokhttp3/Protocol;->protocol:Ljava/lang/String;
 
     return-object v0

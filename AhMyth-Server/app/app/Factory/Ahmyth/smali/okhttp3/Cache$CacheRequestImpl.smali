@@ -30,19 +30,19 @@
 
 
 # direct methods
-.method constructor <init>(Lokhttp3/Cache;Lokhttp3/internal/cache/DiskLruCache$Editor;)V
+.method public constructor <init>(Lokhttp3/Cache;Lokhttp3/internal/cache/DiskLruCache$Editor;)V
     .locals 2
     .param p2, "editor"    # Lokhttp3/internal/cache/DiskLruCache$Editor;
 
-    .line 440
+    .line 435
     iput-object p1, p0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 441
+    .line 436
     iput-object p2, p0, Lokhttp3/Cache$CacheRequestImpl;->editor:Lokhttp3/internal/cache/DiskLruCache$Editor;
 
-    .line 442
+    .line 437
     const/4 v0, 0x1
 
     invoke-virtual {p2, v0}, Lokhttp3/internal/cache/DiskLruCache$Editor;->newSink(I)Lokio/Sink;
@@ -51,7 +51,7 @@
 
     iput-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->cacheOut:Lokio/Sink;
 
-    .line 443
+    .line 438
     new-instance v0, Lokhttp3/Cache$CacheRequestImpl$1;
 
     iget-object v1, p0, Lokhttp3/Cache$CacheRequestImpl;->cacheOut:Lokio/Sink;
@@ -60,7 +60,7 @@
 
     iput-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->body:Lokio/Sink;
 
-    .line 456
+    .line 451
     return-void
 .end method
 
@@ -69,29 +69,29 @@
 .method public abort()V
     .locals 4
 
-    .line 459
+    .line 454
     iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
 
     monitor-enter v0
 
-    .line 460
+    .line 455
     :try_start_0
     iget-boolean v1, p0, Lokhttp3/Cache$CacheRequestImpl;->done:Z
 
     if-eqz v1, :cond_0
 
-    .line 461
+    .line 456
     monitor-exit v0
 
     return-void
 
-    .line 463
+    .line 458
     :cond_0
     const/4 v1, 0x1
 
     iput-boolean v1, p0, Lokhttp3/Cache$CacheRequestImpl;->done:Z
 
-    .line 464
+    .line 459
     iget-object v2, p0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
 
     iget v3, v2, Lokhttp3/Cache;->writeAbortCount:I
@@ -100,17 +100,17 @@
 
     iput v3, v2, Lokhttp3/Cache;->writeAbortCount:I
 
-    .line 465
+    .line 460
     monitor-exit v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 466
+    .line 461
     iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->cacheOut:Lokio/Sink;
 
     invoke-static {v0}, Lokhttp3/internal/Util;->closeQuietly(Ljava/io/Closeable;)V
 
-    .line 468
+    .line 463
     :try_start_1
     iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->editor:Lokhttp3/internal/cache/DiskLruCache$Editor;
 
@@ -118,18 +118,18 @@
     :try_end_1
     .catch Ljava/io/IOException; {:try_start_1 .. :try_end_1} :catch_0
 
-    .line 470
+    .line 465
     goto :goto_0
 
-    .line 469
+    .line 464
     :catch_0
     move-exception v0
 
-    .line 471
+    .line 466
     :goto_0
     return-void
 
-    .line 465
+    .line 460
     :catchall_0
     move-exception v1
 
@@ -144,7 +144,7 @@
 .method public body()Lokio/Sink;
     .locals 1
 
-    .line 474
+    .line 469
     iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl;->body:Lokio/Sink;
 
     return-object v0

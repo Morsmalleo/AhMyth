@@ -15,23 +15,15 @@
 
 
 # instance fields
-.field public callFactory:Lokhttp3/Call$Factory;
+.field public data:[B
 
-.field public data:Ljava/lang/String;
-
-.field public extraHeaders:Ljava/util/Map;
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "Ljava/util/Map<",
-            "Ljava/lang/String;",
-            "Ljava/util/List<",
-            "Ljava/lang/String;",
-            ">;>;"
-        }
-    .end annotation
-.end field
+.field public hostnameVerifier:Ljavax/net/ssl/HostnameVerifier;
 
 .field public method:Ljava/lang/String;
+
+.field public proxy:Ljava/net/Proxy;
+
+.field public sslContext:Ljavax/net/ssl/SSLContext;
 
 .field public uri:Ljava/lang/String;
 
@@ -40,7 +32,7 @@
 .method public constructor <init>()V
     .locals 0
 
-    .line 258
+    .line 314
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void

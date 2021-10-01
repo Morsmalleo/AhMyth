@@ -12,7 +12,7 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x0
+    accessFlags = 0x8
     name = null
 .end annotation
 
@@ -27,7 +27,7 @@
 .method constructor <init>(Lokio/Timeout;Ljava/io/InputStream;)V
     .locals 0
 
-    .line 132
+    .line 130
     iput-object p1, p0, Lokio/Okio$2;->val$timeout:Lokio/Timeout;
 
     iput-object p2, p0, Lokio/Okio$2;->val$in:Ljava/io/InputStream;
@@ -47,12 +47,12 @@
         }
     .end annotation
 
-    .line 152
+    .line 150
     iget-object v0, p0, Lokio/Okio$2;->val$in:Ljava/io/InputStream;
 
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
 
-    .line 153
+    .line 151
     return-void
 .end method
 
@@ -66,35 +66,35 @@
         }
     .end annotation
 
-    .line 134
+    .line 132
     const-wide/16 v0, 0x0
 
     cmp-long v2, p2, v0
 
     if-ltz v2, :cond_3
 
-    .line 135
+    .line 133
     cmp-long v2, p2, v0
 
     if-nez v2, :cond_0
 
     return-wide v0
 
-    .line 137
+    .line 135
     :cond_0
     :try_start_0
     iget-object v0, p0, Lokio/Okio$2;->val$timeout:Lokio/Timeout;
 
     invoke-virtual {v0}, Lokio/Timeout;->throwIfReached()V
 
-    .line 138
+    .line 136
     const/4 v0, 0x1
 
     invoke-virtual {p1, v0}, Lokio/Buffer;->writableSegment(I)Lokio/Segment;
 
     move-result-object v0
 
-    .line 139
+    .line 137
     .local v0, "tail":Lokio/Segment;
     iget v1, v0, Lokio/Segment;->limit:I
 
@@ -108,7 +108,7 @@
 
     long-to-int v2, v1
 
-    .line 140
+    .line 138
     .local v2, "maxToCopy":I
     iget-object v1, p0, Lokio/Okio$2;->val$in:Ljava/io/InputStream;
 
@@ -120,7 +120,7 @@
 
     move-result v1
 
-    .line 141
+    .line 139
     .local v1, "bytesRead":I
     const/4 v3, -0x1
 
@@ -130,7 +130,7 @@
 
     return-wide v3
 
-    .line 142
+    .line 140
     :cond_1
     iget v3, v0, Lokio/Segment;->limit:I
 
@@ -138,7 +138,7 @@
 
     iput v3, v0, Lokio/Segment;->limit:I
 
-    .line 143
+    .line 141
     iget-wide v3, p1, Lokio/Buffer;->size:J
 
     int-to-long v5, v1
@@ -149,19 +149,19 @@
     :try_end_0
     .catch Ljava/lang/AssertionError; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 144
+    .line 142
     int-to-long v3, v1
 
     return-wide v3
 
-    .line 145
+    .line 143
     .end local v0    # "tail":Lokio/Segment;
     .end local v1    # "bytesRead":I
     .end local v2    # "maxToCopy":I
     :catch_0
     move-exception v0
 
-    .line 146
+    .line 144
     .local v0, "e":Ljava/lang/AssertionError;
     invoke-static {v0}, Lokio/Okio;->isAndroidGetsocknameError(Ljava/lang/AssertionError;)Z
 
@@ -175,11 +175,11 @@
 
     throw v1
 
-    .line 147
+    .line 145
     :cond_2
     throw v0
 
-    .line 134
+    .line 132
     .end local v0    # "e":Ljava/lang/AssertionError;
     :cond_3
     new-instance v0, Ljava/lang/IllegalArgumentException;
@@ -210,7 +210,7 @@
 .method public timeout()Lokio/Timeout;
     .locals 1
 
-    .line 156
+    .line 154
     iget-object v0, p0, Lokio/Okio$2;->val$timeout:Lokio/Timeout;
 
     return-object v0
@@ -219,7 +219,7 @@
 .method public toString()Ljava/lang/String;
     .locals 2
 
-    .line 160
+    .line 158
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V

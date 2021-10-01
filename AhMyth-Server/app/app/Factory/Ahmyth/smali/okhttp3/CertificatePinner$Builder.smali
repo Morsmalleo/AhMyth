@@ -30,10 +30,10 @@
 .method public constructor <init>()V
     .locals 1
 
-    .line 320
+    .line 317
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 321
+    .line 318
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
@@ -50,10 +50,10 @@
     .param p1, "pattern"    # Ljava/lang/String;
     .param p2, "pins"    # [Ljava/lang/String;
 
-    .line 331
+    .line 328
     if-eqz p1, :cond_1
 
-    .line 333
+    .line 330
     array-length v0, p2
 
     const/4 v1, 0x0
@@ -63,7 +63,7 @@
 
     aget-object v2, p2, v1
 
-    .line 334
+    .line 331
     .local v2, "pin":Ljava/lang/String;
     iget-object v3, p0, Lokhttp3/CertificatePinner$Builder;->pins:Ljava/util/List;
 
@@ -73,17 +73,17 @@
 
     invoke-interface {v3, v4}, Ljava/util/List;->add(Ljava/lang/Object;)Z
 
-    .line 333
+    .line 330
     .end local v2    # "pin":Ljava/lang/String;
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
 
-    .line 337
+    .line 334
     :cond_0
     return-object p0
 
-    .line 331
+    .line 328
     :cond_1
     new-instance v0, Ljava/lang/NullPointerException;
 
@@ -103,7 +103,7 @@
 .method public build()Lokhttp3/CertificatePinner;
     .locals 3
 
-    .line 341
+    .line 338
     new-instance v0, Lokhttp3/CertificatePinner;
 
     new-instance v1, Ljava/util/LinkedHashSet;

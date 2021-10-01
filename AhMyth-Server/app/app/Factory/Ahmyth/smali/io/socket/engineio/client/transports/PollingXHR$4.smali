@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lio/socket/engineio/client/transports/PollingXHR;->doWrite(Ljava/lang/String;Ljava/lang/Runnable;)V
+    value = Lio/socket/engineio/client/transports/PollingXHR;->doWrite([BLjava/lang/Runnable;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/PollingXHR;
 
-    .line 90
+    .line 81
     iput-object p1, p0, Lio/socket/engineio/client/transports/PollingXHR$4;->this$0:Lio/socket/engineio/client/transports/PollingXHR;
 
     iput-object p2, p0, Lio/socket/engineio/client/transports/PollingXHR$4;->val$self:Lio/socket/engineio/client/transports/PollingXHR;
@@ -44,13 +44,13 @@
     .locals 1
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 93
+    .line 84
     new-instance v0, Lio/socket/engineio/client/transports/PollingXHR$4$1;
 
     invoke-direct {v0, p0, p1}, Lio/socket/engineio/client/transports/PollingXHR$4$1;-><init>(Lio/socket/engineio/client/transports/PollingXHR$4;[Ljava/lang/Object;)V
 
     invoke-static {v0}, Lio/socket/thread/EventThread;->exec(Ljava/lang/Runnable;)V
 
-    .line 100
+    .line 91
     return-void
 .end method

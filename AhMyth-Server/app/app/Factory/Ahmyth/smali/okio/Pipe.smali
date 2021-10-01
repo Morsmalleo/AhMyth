@@ -97,7 +97,7 @@
 
 
 # virtual methods
-.method public final sink()Lokio/Sink;
+.method public sink()Lokio/Sink;
     .locals 1
 
     .line 56
@@ -106,7 +106,7 @@
     return-object v0
 .end method
 
-.method public final source()Lokio/Source;
+.method public source()Lokio/Source;
     .locals 1
 
     .line 52

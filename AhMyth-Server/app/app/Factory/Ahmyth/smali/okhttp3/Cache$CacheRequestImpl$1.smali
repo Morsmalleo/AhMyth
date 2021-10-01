@@ -26,9 +26,9 @@
 .method constructor <init>(Lokhttp3/Cache$CacheRequestImpl;Lokio/Sink;Lokhttp3/Cache;Lokhttp3/internal/cache/DiskLruCache$Editor;)V
     .locals 0
     .param p1, "this$1"    # Lokhttp3/Cache$CacheRequestImpl;
-    .param p2, "arg0"    # Lokio/Sink;
+    .param p2, "x0"    # Lokio/Sink;
 
-    .line 443
+    .line 438
     iput-object p1, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
 
     iput-object p3, p0, Lokhttp3/Cache$CacheRequestImpl$1;->val$this$0:Lokhttp3/Cache;
@@ -50,14 +50,14 @@
         }
     .end annotation
 
-    .line 445
+    .line 440
     iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
 
     iget-object v0, v0, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
 
     monitor-enter v0
 
-    .line 446
+    .line 441
     :try_start_0
     iget-object v1, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
 
@@ -65,12 +65,12 @@
 
     if-eqz v1, :cond_0
 
-    .line 447
+    .line 442
     monitor-exit v0
 
     return-void
 
-    .line 449
+    .line 444
     :cond_0
     iget-object v1, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
 
@@ -78,7 +78,7 @@
 
     iput-boolean v2, v1, Lokhttp3/Cache$CacheRequestImpl;->done:Z
 
-    .line 450
+    .line 445
     iget-object v1, p0, Lokhttp3/Cache$CacheRequestImpl$1;->this$1:Lokhttp3/Cache$CacheRequestImpl;
 
     iget-object v1, v1, Lokhttp3/Cache$CacheRequestImpl;->this$0:Lokhttp3/Cache;
@@ -89,23 +89,23 @@
 
     iput v3, v1, Lokhttp3/Cache;->writeSuccessCount:I
 
-    .line 451
+    .line 446
     monitor-exit v0
     :try_end_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 452
+    .line 447
     invoke-super {p0}, Lokio/ForwardingSink;->close()V
 
-    .line 453
+    .line 448
     iget-object v0, p0, Lokhttp3/Cache$CacheRequestImpl$1;->val$editor:Lokhttp3/internal/cache/DiskLruCache$Editor;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache$Editor;->commit()V
 
-    .line 454
+    .line 449
     return-void
 
-    .line 451
+    .line 446
     :catchall_0
     move-exception v1
 

@@ -44,7 +44,7 @@
     return-void
 .end method
 
-.method constructor <init>(Lokio/BufferedSink;Z)V
+.method public constructor <init>(Lokio/BufferedSink;Z)V
     .locals 2
     .param p1, "sink"    # Lokio/BufferedSink;
     .param p2, "client"    # Z

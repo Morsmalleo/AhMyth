@@ -20,11 +20,15 @@
 
 .field static final B1_MASK_LENGTH:I = 0x7f
 
+.field static final CLOSE_ABNORMAL_TERMINATION:I = 0x3ee
+
 .field static final CLOSE_CLIENT_GOING_AWAY:I = 0x3e9
 
 .field static final CLOSE_MESSAGE_MAX:J = 0x7bL
 
 .field static final CLOSE_NO_STATUS_CODE:I = 0x3ed
+
+.field static final CLOSE_PROTOCOL_EXCEPTION:I = 0x3ea
 
 .field static final OPCODE_BINARY:I = 0x2
 
@@ -53,10 +57,10 @@
 .method private constructor <init>()V
     .locals 2
 
-    .line 126
+    .line 127
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 127
+    .line 128
     new-instance v0, Ljava/lang/AssertionError;
 
     const-string v1, "No instances."
@@ -70,7 +74,7 @@
     .locals 2
     .param p0, "key"    # Ljava/lang/String;
 
-    .line 123
+    .line 124
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -108,7 +112,7 @@
     .locals 2
     .param p0, "code"    # I
 
-    .line 108
+    .line 109
     const/16 v0, 0x3e8
 
     if-lt p0, v0, :cond_4
@@ -119,7 +123,7 @@
 
     goto :goto_0
 
-    .line 110
+    .line 111
     :cond_0
     const/16 v0, 0x3ec
 
@@ -138,7 +142,7 @@
 
     if-gt p0, v0, :cond_3
 
-    .line 111
+    .line 112
     :cond_2
     new-instance v0, Ljava/lang/StringBuilder;
 
@@ -166,13 +170,13 @@
 
     return-object v0
 
-    .line 113
+    .line 114
     :cond_3
     const/4 v0, 0x0
 
     return-object v0
 
-    .line 109
+    .line 110
     :cond_4
     :goto_0
     new-instance v0, Ljava/lang/StringBuilder;
@@ -196,93 +200,80 @@
     return-object v0
 .end method
 
-.method static toggleMask(Lokio/Buffer$UnsafeCursor;[B)V
-    .locals 7
-    .param p0, "cursor"    # Lokio/Buffer$UnsafeCursor;
-    .param p1, "key"    # [B
-
-    .line 96
-    const/4 v0, 0x0
-
-    .line 97
-    .local v0, "keyIndex":I
-    array-length v1, p1
-
-    .line 99
-    .local v1, "keyLength":I
-    :goto_0
-    iget-object v2, p0, Lokio/Buffer$UnsafeCursor;->data:[B
-
-    .line 100
-    .local v2, "buffer":[B
-    iget v3, p0, Lokio/Buffer$UnsafeCursor;->start:I
-
-    .local v3, "i":I
-    iget v4, p0, Lokio/Buffer$UnsafeCursor;->end:I
-
-    .local v4, "end":I
-    :goto_1
-    if-ge v3, v4, :cond_0
+.method static toggleMask([BJ[BJ)V
+    .locals 5
+    .param p0, "buffer"    # [B
+    .param p1, "byteCount"    # J
+    .param p3, "key"    # [B
+    .param p4, "frameBytesRead"    # J
 
     .line 101
-    rem-int/2addr v0, v1
+    array-length v0, p3
 
     .line 102
-    aget-byte v5, v2, v3
+    .local v0, "keyLength":I
+    const/4 v1, 0x0
 
-    aget-byte v6, p1, v0
+    .local v1, "i":I
+    :goto_0
+    int-to-long v2, v1
 
-    xor-int/2addr v5, v6
+    cmp-long v4, v2, p1
 
-    int-to-byte v5, v5
+    if-gez v4, :cond_0
 
-    aput-byte v5, v2, v3
+    .line 103
+    int-to-long v2, v0
 
-    .line 100
-    add-int/lit8 v3, v3, 0x1
+    rem-long v2, p4, v2
 
-    add-int/lit8 v0, v0, 0x1
-
-    goto :goto_1
-
-    .line 104
-    .end local v2    # "buffer":[B
-    .end local v3    # "i":I
-    .end local v4    # "end":I
-    :cond_0
-    invoke-virtual {p0}, Lokio/Buffer$UnsafeCursor;->next()I
-
-    move-result v2
-
-    const/4 v3, -0x1
-
-    if-ne v2, v3, :cond_1
-
-    .line 105
-    return-void
+    long-to-int v3, v2
 
     .line 104
-    :cond_1
+    .local v3, "keyIndex":I
+    aget-byte v2, p0, v1
+
+    aget-byte v4, p3, v3
+
+    xor-int/2addr v2, v4
+
+    int-to-byte v2, v2
+
+    aput-byte v2, p0, v1
+
+    .line 102
+    .end local v3    # "keyIndex":I
+    add-int/lit8 v1, v1, 0x1
+
+    const-wide/16 v2, 0x1
+
+    add-long/2addr p4, v2
+
     goto :goto_0
+
+    .line 106
+    .end local v1    # "i":I
+    :cond_0
+    return-void
 .end method
 
 .method static validateCloseCode(I)V
     .locals 2
     .param p0, "code"    # I
 
-    .line 118
+    .line 119
     invoke-static {p0}, Lokhttp3/internal/ws/WebSocketProtocol;->closeCodeExceptionMessage(I)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 119
+    .line 120
     .local v0, "message":Ljava/lang/String;
     if-nez v0, :cond_0
 
-    .line 120
+    .line 121
     return-void
 
-    .line 119
+    .line 120
     :cond_0
     new-instance v1, Ljava/lang/IllegalArgumentException;
 

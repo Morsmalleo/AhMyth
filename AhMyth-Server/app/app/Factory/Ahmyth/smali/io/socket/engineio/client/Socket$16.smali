@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lio/socket/engineio/client/Socket;->send(Ljava/lang/String;Ljava/lang/Runnable;)V
+    value = Lio/socket/engineio/client/Socket;->ping()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -20,22 +20,14 @@
 # instance fields
 .field final synthetic this$0:Lio/socket/engineio/client/Socket;
 
-.field final synthetic val$fn:Ljava/lang/Runnable;
-
-.field final synthetic val$msg:Ljava/lang/String;
-
 
 # direct methods
-.method constructor <init>(Lio/socket/engineio/client/Socket;Ljava/lang/String;Ljava/lang/Runnable;)V
+.method constructor <init>(Lio/socket/engineio/client/Socket;)V
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 667
+    .line 584
     iput-object p1, p0, Lio/socket/engineio/client/Socket$16;->this$0:Lio/socket/engineio/client/Socket;
-
-    iput-object p2, p0, Lio/socket/engineio/client/Socket$16;->val$msg:Ljava/lang/String;
-
-    iput-object p3, p0, Lio/socket/engineio/client/Socket$16;->val$fn:Ljava/lang/Runnable;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -45,19 +37,19 @@
 
 # virtual methods
 .method public run()V
-    .locals 4
+    .locals 3
 
-    .line 670
+    .line 587
     iget-object v0, p0, Lio/socket/engineio/client/Socket$16;->this$0:Lio/socket/engineio/client/Socket;
 
-    iget-object v1, p0, Lio/socket/engineio/client/Socket$16;->val$msg:Ljava/lang/String;
+    new-instance v1, Lio/socket/engineio/client/Socket$16$1;
 
-    iget-object v2, p0, Lio/socket/engineio/client/Socket$16;->val$fn:Ljava/lang/Runnable;
+    invoke-direct {v1, p0}, Lio/socket/engineio/client/Socket$16$1;-><init>(Lio/socket/engineio/client/Socket$16;)V
 
-    const-string v3, "message"
+    const-string v2, "ping"
 
-    invoke-static {v0, v3, v1, v2}, Lio/socket/engineio/client/Socket;->access$1600(Lio/socket/engineio/client/Socket;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Runnable;)V
+    invoke-static {v0, v2, v1}, Lio/socket/engineio/client/Socket;->access$1700(Lio/socket/engineio/client/Socket;Ljava/lang/String;Ljava/lang/Runnable;)V
 
-    .line 671
+    .line 593
     return-void
 .end method

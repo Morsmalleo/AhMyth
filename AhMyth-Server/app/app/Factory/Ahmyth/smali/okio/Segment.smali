@@ -29,78 +29,102 @@
 .method constructor <init>()V
     .locals 1
 
-    .line 62
+    .line 60
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 63
+    .line 61
     const/16 v0, 0x2000
 
     new-array v0, v0, [B
 
     iput-object v0, p0, Lokio/Segment;->data:[B
 
-    .line 64
+    .line 62
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokio/Segment;->owner:Z
 
-    .line 65
+    .line 63
     const/4 v0, 0x0
 
     iput-boolean v0, p0, Lokio/Segment;->shared:Z
 
-    .line 66
+    .line 64
     return-void
 .end method
 
-.method constructor <init>([BIIZZ)V
-    .locals 0
+.method constructor <init>(Lokio/Segment;)V
+    .locals 3
+    .param p1, "shareFrom"    # Lokio/Segment;
+
+    .line 67
+    iget-object v0, p1, Lokio/Segment;->data:[B
+
+    iget v1, p1, Lokio/Segment;->pos:I
+
+    iget v2, p1, Lokio/Segment;->limit:I
+
+    invoke-direct {p0, v0, v1, v2}, Lokio/Segment;-><init>([BII)V
+
+    .line 68
+    const/4 v0, 0x1
+
+    iput-boolean v0, p1, Lokio/Segment;->shared:Z
+
+    .line 69
+    return-void
+.end method
+
+.method constructor <init>([BII)V
+    .locals 1
     .param p1, "data"    # [B
     .param p2, "pos"    # I
     .param p3, "limit"    # I
-    .param p4, "shared"    # Z
-    .param p5, "owner"    # Z
-
-    .line 68
-    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
-
-    .line 69
-    iput-object p1, p0, Lokio/Segment;->data:[B
-
-    .line 70
-    iput p2, p0, Lokio/Segment;->pos:I
 
     .line 71
-    iput p3, p0, Lokio/Segment;->limit:I
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     .line 72
-    iput-boolean p4, p0, Lokio/Segment;->shared:Z
+    iput-object p1, p0, Lokio/Segment;->data:[B
 
     .line 73
-    iput-boolean p5, p0, Lokio/Segment;->owner:Z
+    iput p2, p0, Lokio/Segment;->pos:I
 
     .line 74
+    iput p3, p0, Lokio/Segment;->limit:I
+
+    .line 75
+    const/4 v0, 0x0
+
+    iput-boolean v0, p0, Lokio/Segment;->owner:Z
+
+    .line 76
+    const/4 v0, 0x1
+
+    iput-boolean v0, p0, Lokio/Segment;->shared:Z
+
+    .line 77
     return-void
 .end method
 
 
 # virtual methods
-.method public final compact()V
+.method public compact()V
     .locals 4
 
-    .line 151
+    .line 139
     iget-object v0, p0, Lokio/Segment;->prev:Lokio/Segment;
 
     if-eq v0, p0, :cond_3
 
-    .line 152
+    .line 140
     iget-boolean v1, v0, Lokio/Segment;->owner:Z
 
     if-nez v1, :cond_0
 
     return-void
 
-    .line 153
+    .line 141
     :cond_0
     iget v1, p0, Lokio/Segment;->limit:I
 
@@ -108,7 +132,7 @@
 
     sub-int/2addr v1, v2
 
-    .line 154
+    .line 142
     .local v1, "byteCount":I
     iget v2, v0, Lokio/Segment;->limit:I
 
@@ -128,26 +152,26 @@
     :goto_0
     add-int/2addr v2, v3
 
-    .line 155
+    .line 143
     .local v2, "availableByteCount":I
     if-le v1, v2, :cond_2
 
     return-void
 
-    .line 156
+    .line 144
     :cond_2
     invoke-virtual {p0, v0, v1}, Lokio/Segment;->writeTo(Lokio/Segment;I)V
 
-    .line 157
+    .line 145
     invoke-virtual {p0}, Lokio/Segment;->pop()Lokio/Segment;
 
-    .line 158
+    .line 146
     invoke-static {p0}, Lokio/SegmentPool;->recycle(Lokio/Segment;)V
 
-    .line 159
+    .line 147
     return-void
 
-    .line 151
+    .line 139
     .end local v1    # "byteCount":I
     .end local v2    # "availableByteCount":I
     :cond_3
@@ -158,12 +182,10 @@
     throw v0
 .end method
 
-.method public final pop()Lokio/Segment;
+.method public pop()Lokio/Segment;
     .locals 4
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
 
-    .line 96
+    .line 84
     iget-object v0, p0, Lokio/Segment;->next:Lokio/Segment;
 
     const/4 v1, 0x0
@@ -177,85 +199,57 @@
     :cond_0
     move-object v2, v1
 
-    .line 97
+    .line 85
     .local v2, "result":Lokio/Segment;
     :goto_0
     iget-object v3, p0, Lokio/Segment;->prev:Lokio/Segment;
 
     iput-object v0, v3, Lokio/Segment;->next:Lokio/Segment;
 
-    .line 98
+    .line 86
     iget-object v0, p0, Lokio/Segment;->next:Lokio/Segment;
 
     iput-object v3, v0, Lokio/Segment;->prev:Lokio/Segment;
 
-    .line 99
+    .line 87
     iput-object v1, p0, Lokio/Segment;->next:Lokio/Segment;
 
-    .line 100
+    .line 88
     iput-object v1, p0, Lokio/Segment;->prev:Lokio/Segment;
 
-    .line 101
+    .line 89
     return-object v2
 .end method
 
-.method public final push(Lokio/Segment;)Lokio/Segment;
+.method public push(Lokio/Segment;)Lokio/Segment;
     .locals 1
     .param p1, "segment"    # Lokio/Segment;
 
-    .line 109
+    .line 97
     iput-object p0, p1, Lokio/Segment;->prev:Lokio/Segment;
 
-    .line 110
+    .line 98
     iget-object v0, p0, Lokio/Segment;->next:Lokio/Segment;
 
     iput-object v0, p1, Lokio/Segment;->next:Lokio/Segment;
 
-    .line 111
+    .line 99
     iget-object v0, p0, Lokio/Segment;->next:Lokio/Segment;
 
     iput-object p1, v0, Lokio/Segment;->prev:Lokio/Segment;
 
-    .line 112
+    .line 100
     iput-object p1, p0, Lokio/Segment;->next:Lokio/Segment;
 
-    .line 113
+    .line 101
     return-object p1
 .end method
 
-.method final sharedCopy()Lokio/Segment;
-    .locals 7
-
-    .line 82
-    const/4 v0, 0x1
-
-    iput-boolean v0, p0, Lokio/Segment;->shared:Z
-
-    .line 83
-    new-instance v0, Lokio/Segment;
-
-    iget-object v2, p0, Lokio/Segment;->data:[B
-
-    iget v3, p0, Lokio/Segment;->pos:I
-
-    iget v4, p0, Lokio/Segment;->limit:I
-
-    const/4 v5, 0x1
-
-    const/4 v6, 0x0
-
-    move-object v1, v0
-
-    invoke-direct/range {v1 .. v6}, Lokio/Segment;-><init>([BIIZZ)V
-
-    return-object v0
-.end method
-
-.method public final split(I)Lokio/Segment;
+.method public split(I)Lokio/Segment;
     .locals 5
     .param p1, "byteCount"    # I
 
-    .line 125
+    .line 113
     if-lez p1, :cond_1
 
     iget v0, p0, Lokio/Segment;->limit:I
@@ -266,27 +260,27 @@
 
     if-gt p1, v0, :cond_1
 
-    .line 133
+    .line 121
     const/16 v0, 0x400
 
     if-lt p1, v0, :cond_0
 
-    .line 134
-    invoke-virtual {p0}, Lokio/Segment;->sharedCopy()Lokio/Segment;
+    .line 122
+    new-instance v0, Lokio/Segment;
 
-    move-result-object v0
+    invoke-direct {v0, p0}, Lokio/Segment;-><init>(Lokio/Segment;)V
 
     .local v0, "prefix":Lokio/Segment;
     goto :goto_0
 
-    .line 136
+    .line 124
     .end local v0    # "prefix":Lokio/Segment;
     :cond_0
     invoke-static {}, Lokio/SegmentPool;->take()Lokio/Segment;
 
     move-result-object v0
 
-    .line 137
+    .line 125
     .restart local v0    # "prefix":Lokio/Segment;
     iget-object v1, p0, Lokio/Segment;->data:[B
 
@@ -298,7 +292,7 @@
 
     invoke-static {v1, v2, v3, v4, p1}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 140
+    .line 128
     :goto_0
     iget v1, v0, Lokio/Segment;->pos:I
 
@@ -306,22 +300,22 @@
 
     iput v1, v0, Lokio/Segment;->limit:I
 
-    .line 141
+    .line 129
     iget v1, p0, Lokio/Segment;->pos:I
 
     add-int/2addr v1, p1
 
     iput v1, p0, Lokio/Segment;->pos:I
 
-    .line 142
+    .line 130
     iget-object v1, p0, Lokio/Segment;->prev:Lokio/Segment;
 
     invoke-virtual {v1, v0}, Lokio/Segment;->push(Lokio/Segment;)Lokio/Segment;
 
-    .line 143
+    .line 131
     return-object v0
 
-    .line 125
+    .line 113
     .end local v0    # "prefix":Lokio/Segment;
     :cond_1
     new-instance v0, Ljava/lang/IllegalArgumentException;
@@ -331,48 +325,17 @@
     throw v0
 .end method
 
-.method final unsharedCopy()Lokio/Segment;
-    .locals 7
-
-    .line 88
-    new-instance v6, Lokio/Segment;
-
-    iget-object v0, p0, Lokio/Segment;->data:[B
-
-    invoke-virtual {v0}, [B->clone()Ljava/lang/Object;
-
-    move-result-object v0
-
-    move-object v1, v0
-
-    check-cast v1, [B
-
-    iget v2, p0, Lokio/Segment;->pos:I
-
-    iget v3, p0, Lokio/Segment;->limit:I
-
-    const/4 v4, 0x0
-
-    const/4 v5, 0x1
-
-    move-object v0, v6
-
-    invoke-direct/range {v0 .. v5}, Lokio/Segment;-><init>([BIIZZ)V
-
-    return-object v6
-.end method
-
-.method public final writeTo(Lokio/Segment;I)V
+.method public writeTo(Lokio/Segment;I)V
     .locals 4
     .param p1, "sink"    # Lokio/Segment;
     .param p2, "byteCount"    # I
 
-    .line 163
+    .line 151
     iget-boolean v0, p1, Lokio/Segment;->owner:Z
 
     if-eqz v0, :cond_3
 
-    .line 164
+    .line 152
     iget v0, p1, Lokio/Segment;->limit:I
 
     add-int v1, v0, p2
@@ -381,12 +344,12 @@
 
     if-le v1, v2, :cond_2
 
-    .line 166
+    .line 154
     iget-boolean v1, p1, Lokio/Segment;->shared:Z
 
     if-nez v1, :cond_1
 
-    .line 167
+    .line 155
     add-int v1, v0, p2
 
     iget v3, p1, Lokio/Segment;->pos:I
@@ -395,7 +358,7 @@
 
     if-gt v1, v2, :cond_0
 
-    .line 168
+    .line 156
     iget-object v1, p1, Lokio/Segment;->data:[B
 
     sub-int/2addr v0, v3
@@ -404,7 +367,7 @@
 
     invoke-static {v1, v3, v1, v2, v0}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 169
+    .line 157
     iget v0, p1, Lokio/Segment;->limit:I
 
     iget v1, p1, Lokio/Segment;->pos:I
@@ -413,12 +376,12 @@
 
     iput v0, p1, Lokio/Segment;->limit:I
 
-    .line 170
+    .line 158
     iput v2, p1, Lokio/Segment;->pos:I
 
     goto :goto_0
 
-    .line 167
+    .line 155
     :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -426,7 +389,7 @@
 
     throw v0
 
-    .line 166
+    .line 154
     :cond_1
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -434,7 +397,7 @@
 
     throw v0
 
-    .line 173
+    .line 161
     :cond_2
     :goto_0
     iget-object v0, p0, Lokio/Segment;->data:[B
@@ -447,24 +410,24 @@
 
     invoke-static {v0, v1, v2, v3, p2}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 174
+    .line 162
     iget v0, p1, Lokio/Segment;->limit:I
 
     add-int/2addr v0, p2
 
     iput v0, p1, Lokio/Segment;->limit:I
 
-    .line 175
+    .line 163
     iget v0, p0, Lokio/Segment;->pos:I
 
     add-int/2addr v0, p2
 
     iput v0, p0, Lokio/Segment;->pos:I
 
-    .line 176
+    .line 164
     return-void
 
-    .line 163
+    .line 151
     :cond_3
     new-instance v0, Ljava/lang/IllegalArgumentException;
 

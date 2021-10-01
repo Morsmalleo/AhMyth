@@ -29,18 +29,18 @@
     .param p2, "reason"    # Lokio/ByteString;
     .param p3, "cancelAfterCloseMillis"    # J
 
-    .line 592
+    .line 542
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 593
+    .line 543
     iput p1, p0, Lokhttp3/internal/ws/RealWebSocket$Close;->code:I
 
-    .line 594
+    .line 544
     iput-object p2, p0, Lokhttp3/internal/ws/RealWebSocket$Close;->reason:Lokio/ByteString;
 
-    .line 595
+    .line 545
     iput-wide p3, p0, Lokhttp3/internal/ws/RealWebSocket$Close;->cancelAfterCloseMillis:J
 
-    .line 596
+    .line 546
     return-void
 .end method

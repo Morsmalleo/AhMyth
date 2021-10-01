@@ -23,7 +23,7 @@
     .locals 0
     .param p1, "this$0"    # Lokio/RealBufferedSink;
 
-    .line 191
+    .line 183
     iput-object p1, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     invoke-direct {p0}, Ljava/io/OutputStream;-><init>()V
@@ -41,12 +41,12 @@
         }
     .end annotation
 
-    .line 212
+    .line 204
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     invoke-virtual {v0}, Lokio/RealBufferedSink;->close()V
 
-    .line 213
+    .line 205
     return-void
 .end method
 
@@ -58,19 +58,19 @@
         }
     .end annotation
 
-    .line 206
+    .line 198
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-boolean v0, v0, Lokio/RealBufferedSink;->closed:Z
 
     if-nez v0, :cond_0
 
-    .line 207
+    .line 199
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     invoke-virtual {v0}, Lokio/RealBufferedSink;->flush()V
 
-    .line 209
+    .line 201
     :cond_0
     return-void
 .end method
@@ -78,7 +78,7 @@
 .method public toString()Ljava/lang/String;
     .locals 2
 
-    .line 216
+    .line 208
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -111,14 +111,14 @@
         }
     .end annotation
 
-    .line 193
+    .line 185
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-boolean v0, v0, Lokio/RealBufferedSink;->closed:Z
 
     if-nez v0, :cond_0
 
-    .line 194
+    .line 186
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-object v0, v0, Lokio/RealBufferedSink;->buffer:Lokio/Buffer;
@@ -127,15 +127,15 @@
 
     invoke-virtual {v0, v1}, Lokio/Buffer;->writeByte(I)Lokio/Buffer;
 
-    .line 195
+    .line 187
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     invoke-virtual {v0}, Lokio/RealBufferedSink;->emitCompleteSegments()Lokio/BufferedSink;
 
-    .line 196
+    .line 188
     return-void
 
-    .line 193
+    .line 185
     :cond_0
     new-instance v0, Ljava/io/IOException;
 
@@ -157,29 +157,29 @@
         }
     .end annotation
 
-    .line 199
+    .line 191
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-boolean v0, v0, Lokio/RealBufferedSink;->closed:Z
 
     if-nez v0, :cond_0
 
-    .line 200
+    .line 192
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     iget-object v0, v0, Lokio/RealBufferedSink;->buffer:Lokio/Buffer;
 
     invoke-virtual {v0, p1, p2, p3}, Lokio/Buffer;->write([BII)Lokio/Buffer;
 
-    .line 201
+    .line 193
     iget-object v0, p0, Lokio/RealBufferedSink$1;->this$0:Lokio/RealBufferedSink;
 
     invoke-virtual {v0}, Lokio/RealBufferedSink;->emitCompleteSegments()Lokio/BufferedSink;
 
-    .line 202
+    .line 194
     return-void
 
-    .line 199
+    .line 191
     :cond_0
     new-instance v0, Ljava/io/IOException;
 

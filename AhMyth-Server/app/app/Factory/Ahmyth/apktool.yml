@@ -4,6 +4,9 @@ compressionType: false
 doNotCompress:
 - resources.arsc
 - png
+- META-INF/androidx.versionedparcelable_versionedparcelable.version
+- META-INF/android.arch.lifecycle_runtime.version
+- META-INF/androidx.core_core.version
 isFrameworkApk: false
 packageInfo:
   forcedPackageId: '127'
@@ -13,8 +16,7 @@ sdkInfo:
   targetSdkVersion: '31'
 sharedLibrary: false
 sparseResources: false
-unknownFiles:
-  okhttp3/internal/publicsuffix/publicsuffixes.gz: '0'
+unknownFiles: {}
 usesFramework:
   ids:
   - 1

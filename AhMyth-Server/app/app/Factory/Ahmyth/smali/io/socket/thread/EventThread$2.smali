@@ -158,10 +158,8 @@
     :try_end_3
     .catchall {:try_start_3 .. :try_end_3} :catchall_3
 
-    .line 93
     throw v1
 
-    .line 92
     :catchall_3
     move-exception v0
 

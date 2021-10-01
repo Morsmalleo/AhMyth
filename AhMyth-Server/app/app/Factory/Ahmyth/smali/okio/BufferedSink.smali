@@ -4,7 +4,6 @@
 
 # interfaces
 .implements Lokio/Sink;
-.implements Ljava/nio/channels/WritableByteChannel;
 
 
 # virtual methods

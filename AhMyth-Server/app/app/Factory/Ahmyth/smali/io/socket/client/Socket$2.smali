@@ -33,14 +33,14 @@
     .locals 2
     .param p1, "this$0"    # Lio/socket/client/Socket;
 
-    .line 78
+    .line 101
     iput-object p1, p0, Lio/socket/client/Socket$2;->this$0:Lio/socket/client/Socket;
 
     iput-object p2, p0, Lio/socket/client/Socket$2;->val$io:Lio/socket/client/Manager;
 
     invoke-direct {p0}, Ljava/util/LinkedList;-><init>()V
 
-    .line 79
+    .line 102
     new-instance v0, Lio/socket/client/Socket$2$1;
 
     invoke-direct {v0, p0}, Lio/socket/client/Socket$2$1;-><init>(Lio/socket/client/Socket$2;)V
@@ -53,7 +53,7 @@
 
     invoke-virtual {p0, v0}, Lio/socket/client/Socket$2;->add(Ljava/lang/Object;)Z
 
-    .line 85
+    .line 108
     new-instance v0, Lio/socket/client/Socket$2$2;
 
     invoke-direct {v0, p0}, Lio/socket/client/Socket$2$2;-><init>(Lio/socket/client/Socket$2;)V
@@ -66,23 +66,10 @@
 
     invoke-virtual {p0, v0}, Lio/socket/client/Socket$2;->add(Ljava/lang/Object;)Z
 
-    .line 91
+    .line 114
     new-instance v0, Lio/socket/client/Socket$2$3;
 
     invoke-direct {v0, p0}, Lio/socket/client/Socket$2$3;-><init>(Lio/socket/client/Socket$2;)V
-
-    const-string v1, "error"
-
-    invoke-static {p2, v1, v0}, Lio/socket/client/On;->on(Lio/socket/emitter/Emitter;Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/client/On$Handle;
-
-    move-result-object v0
-
-    invoke-virtual {p0, v0}, Lio/socket/client/Socket$2;->add(Ljava/lang/Object;)Z
-
-    .line 99
-    new-instance v0, Lio/socket/client/Socket$2$4;
-
-    invoke-direct {v0, p0}, Lio/socket/client/Socket$2$4;-><init>(Lio/socket/client/Socket$2;)V
 
     const-string v1, "close"
 
@@ -92,6 +79,6 @@
 
     invoke-virtual {p0, p2}, Lio/socket/client/Socket$2;->add(Ljava/lang/Object;)Z
 
-    .line 105
+    .line 120
     return-void
 .end method

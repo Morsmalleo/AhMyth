@@ -24,7 +24,7 @@
     .param p1, "this$1"    # Lokhttp3/internal/cache/DiskLruCache$Editor;
     .param p2, "delegate"    # Lokio/Sink;
 
-    .line 904
+    .line 896
     iput-object p1, p0, Lokhttp3/internal/cache/DiskLruCache$Editor$1;->this$1:Lokhttp3/internal/cache/DiskLruCache$Editor;
 
     invoke-direct {p0, p2}, Lokhttp3/internal/cache/FaultHidingSink;-><init>(Lokio/Sink;)V
@@ -38,26 +38,26 @@
     .locals 2
     .param p1, "e"    # Ljava/io/IOException;
 
-    .line 906
+    .line 898
     iget-object v0, p0, Lokhttp3/internal/cache/DiskLruCache$Editor$1;->this$1:Lokhttp3/internal/cache/DiskLruCache$Editor;
 
     iget-object v0, v0, Lokhttp3/internal/cache/DiskLruCache$Editor;->this$0:Lokhttp3/internal/cache/DiskLruCache;
 
     monitor-enter v0
 
-    .line 907
+    .line 899
     :try_start_0
     iget-object v1, p0, Lokhttp3/internal/cache/DiskLruCache$Editor$1;->this$1:Lokhttp3/internal/cache/DiskLruCache$Editor;
 
     invoke-virtual {v1}, Lokhttp3/internal/cache/DiskLruCache$Editor;->detach()V
 
-    .line 908
+    .line 900
     monitor-exit v0
 
-    .line 909
+    .line 901
     return-void
 
-    .line 908
+    .line 900
     :catchall_0
     move-exception v1
 

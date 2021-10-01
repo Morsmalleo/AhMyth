@@ -16,9 +16,6 @@
 
 # instance fields
 .field domain:Ljava/lang/String;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 .field expiresAt:J
 
@@ -27,9 +24,6 @@
 .field httpOnly:Z
 
 .field name:Ljava/lang/String;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 .field path:Ljava/lang/String;
 
@@ -38,24 +32,21 @@
 .field secure:Z
 
 .field value:Ljava/lang/String;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 
 # direct methods
 .method public constructor <init>()V
     .locals 2
 
-    .line 460
+    .line 451
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 463
+    .line 454
     const-wide v0, 0xe677d21fdbffL
 
     iput-wide v0, p0, Lokhttp3/Cookie$Builder;->expiresAt:J
 
-    .line 465
+    .line 456
     const-string v0, "/"
 
     iput-object v0, p0, Lokhttp3/Cookie$Builder;->path:Ljava/lang/String;
@@ -68,28 +59,28 @@
     .param p1, "domain"    # Ljava/lang/String;
     .param p2, "hostOnly"    # Z
 
-    .line 510
+    .line 501
     if-eqz p1, :cond_1
 
-    .line 511
-    invoke-static {p1}, Lokhttp3/internal/Util;->canonicalizeHost(Ljava/lang/String;)Ljava/lang/String;
+    .line 502
+    invoke-static {p1}, Lokhttp3/internal/Util;->domainToAscii(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v0
 
-    .line 512
+    .line 503
     .local v0, "canonicalDomain":Ljava/lang/String;
     if-eqz v0, :cond_0
 
-    .line 515
+    .line 506
     iput-object v0, p0, Lokhttp3/Cookie$Builder;->domain:Ljava/lang/String;
 
-    .line 516
+    .line 507
     iput-boolean p2, p0, Lokhttp3/Cookie$Builder;->hostOnly:Z
 
-    .line 517
+    .line 508
     return-object p0
 
-    .line 513
+    .line 504
     :cond_0
     new-instance v1, Ljava/lang/IllegalArgumentException;
 
@@ -115,7 +106,7 @@
 
     throw v1
 
-    .line 510
+    .line 501
     .end local v0    # "canonicalDomain":Ljava/lang/String;
     :cond_1
     new-instance v0, Ljava/lang/NullPointerException;
@@ -132,7 +123,7 @@
 .method public build()Lokhttp3/Cookie;
     .locals 1
 
-    .line 537
+    .line 528
     new-instance v0, Lokhttp3/Cookie;
 
     invoke-direct {v0, p0}, Lokhttp3/Cookie;-><init>(Lokhttp3/Cookie$Builder;)V
@@ -144,7 +135,7 @@
     .locals 1
     .param p1, "domain"    # Ljava/lang/String;
 
-    .line 498
+    .line 489
     const/4 v0, 0x0
 
     invoke-direct {p0, p1, v0}, Lokhttp3/Cookie$Builder;->domain(Ljava/lang/String;Z)Lokhttp3/Cookie$Builder;
@@ -158,7 +149,7 @@
     .locals 3
     .param p1, "expiresAt"    # J
 
-    .line 486
+    .line 477
     const-wide/16 v0, 0x0
 
     cmp-long v2, p1, v0
@@ -167,7 +158,7 @@
 
     const-wide/high16 p1, -0x8000000000000000L
 
-    .line 487
+    .line 478
     :cond_0
     const-wide v0, 0xe677d21fdbffL
 
@@ -177,16 +168,16 @@
 
     const-wide p1, 0xe677d21fdbffL
 
-    .line 488
+    .line 479
     :cond_1
     iput-wide p1, p0, Lokhttp3/Cookie$Builder;->expiresAt:J
 
-    .line 489
+    .line 480
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokhttp3/Cookie$Builder;->persistent:Z
 
-    .line 490
+    .line 481
     return-object p0
 .end method
 
@@ -194,7 +185,7 @@
     .locals 1
     .param p1, "domain"    # Ljava/lang/String;
 
-    .line 506
+    .line 497
     const/4 v0, 0x1
 
     invoke-direct {p0, p1, v0}, Lokhttp3/Cookie$Builder;->domain(Ljava/lang/String;Z)Lokhttp3/Cookie$Builder;
@@ -207,12 +198,12 @@
 .method public httpOnly()Lokhttp3/Cookie$Builder;
     .locals 1
 
-    .line 532
+    .line 523
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokhttp3/Cookie$Builder;->httpOnly:Z
 
-    .line 533
+    .line 524
     return-object p0
 .end method
 
@@ -220,10 +211,10 @@
     .locals 2
     .param p1, "name"    # Ljava/lang/String;
 
-    .line 472
+    .line 463
     if-eqz p1, :cond_1
 
-    .line 473
+    .line 464
     invoke-virtual {p1}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v0
@@ -234,13 +225,13 @@
 
     if-eqz v0, :cond_0
 
-    .line 474
+    .line 465
     iput-object p1, p0, Lokhttp3/Cookie$Builder;->name:Ljava/lang/String;
 
-    .line 475
+    .line 466
     return-object p0
 
-    .line 473
+    .line 464
     :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -250,7 +241,7 @@
 
     throw v0
 
-    .line 472
+    .line 463
     :cond_1
     new-instance v0, Ljava/lang/NullPointerException;
 
@@ -265,7 +256,7 @@
     .locals 2
     .param p1, "path"    # Ljava/lang/String;
 
-    .line 521
+    .line 512
     const-string v0, "/"
 
     invoke-virtual {p1, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
@@ -274,13 +265,13 @@
 
     if-eqz v0, :cond_0
 
-    .line 522
+    .line 513
     iput-object p1, p0, Lokhttp3/Cookie$Builder;->path:Ljava/lang/String;
 
-    .line 523
+    .line 514
     return-object p0
 
-    .line 521
+    .line 512
     :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -294,12 +285,12 @@
 .method public secure()Lokhttp3/Cookie$Builder;
     .locals 1
 
-    .line 527
+    .line 518
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Lokhttp3/Cookie$Builder;->secure:Z
 
-    .line 528
+    .line 519
     return-object p0
 .end method
 
@@ -307,10 +298,10 @@
     .locals 2
     .param p1, "value"    # Ljava/lang/String;
 
-    .line 479
+    .line 470
     if-eqz p1, :cond_1
 
-    .line 480
+    .line 471
     invoke-virtual {p1}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v0
@@ -321,13 +312,13 @@
 
     if-eqz v0, :cond_0
 
-    .line 481
+    .line 472
     iput-object p1, p0, Lokhttp3/Cookie$Builder;->value:Ljava/lang/String;
 
-    .line 482
+    .line 473
     return-object p0
 
-    .line 480
+    .line 471
     :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -337,7 +328,7 @@
 
     throw v0
 
-    .line 479
+    .line 470
     :cond_1
     new-instance v0, Ljava/lang/NullPointerException;
 

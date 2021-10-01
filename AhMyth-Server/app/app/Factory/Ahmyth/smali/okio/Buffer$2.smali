@@ -23,7 +23,7 @@
     .locals 0
     .param p1, "this$0"    # Lokio/Buffer;
 
-    .line 117
+    .line 113
     iput-object p1, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
     invoke-direct {p0}, Ljava/io/InputStream;-><init>()V
@@ -36,7 +36,7 @@
 .method public available()I
     .locals 4
 
-    .line 128
+    .line 124
     iget-object v0, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
     iget-wide v0, v0, Lokio/Buffer;->size:J
@@ -55,14 +55,14 @@
 .method public close()V
     .locals 0
 
-    .line 132
+    .line 128
     return-void
 .end method
 
 .method public read()I
     .locals 5
 
-    .line 119
+    .line 115
     iget-object v0, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
     iget-wide v0, v0, Lokio/Buffer;->size:J
@@ -83,7 +83,7 @@
 
     return v0
 
-    .line 120
+    .line 116
     :cond_0
     const/4 v0, -0x1
 
@@ -96,7 +96,7 @@
     .param p2, "offset"    # I
     .param p3, "byteCount"    # I
 
-    .line 124
+    .line 120
     iget-object v0, p0, Lokio/Buffer$2;->this$0:Lokio/Buffer;
 
     invoke-virtual {v0, p1, p2, p3}, Lokio/Buffer;->read([BII)I
@@ -109,7 +109,7 @@
 .method public toString()Ljava/lang/String;
     .locals 2
 
-    .line 135
+    .line 131
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V

@@ -686,7 +686,7 @@
 
     sput-object v0, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
 
-    .line 354
+    .line 349
     invoke-static {}, Lokhttp3/internal/http2/Hpack;->nameToFirstIndex()Ljava/util/Map;
 
     move-result-object v0
@@ -715,7 +715,7 @@
         }
     .end annotation
 
-    .line 596
+    .line 591
     const/4 v0, 0x0
 
     .local v0, "i":I
@@ -727,12 +727,12 @@
     :goto_0
     if-ge v0, v1, :cond_2
 
-    .line 597
+    .line 592
     invoke-virtual {p0, v0}, Lokio/ByteString;->getByte(I)B
 
     move-result v2
 
-    .line 598
+    .line 593
     .local v2, "c":B
     const/16 v3, 0x41
 
@@ -744,7 +744,7 @@
 
     goto :goto_1
 
-    .line 599
+    .line 594
     :cond_0
     new-instance v3, Ljava/io/IOException;
 
@@ -774,7 +774,7 @@
 
     throw v3
 
-    .line 596
+    .line 591
     .end local v2    # "c":B
     :cond_1
     :goto_1
@@ -782,7 +782,7 @@
 
     goto :goto_0
 
-    .line 602
+    .line 597
     .end local v0    # "i":I
     .end local v1    # "length":I
     :cond_2
@@ -801,7 +801,7 @@
         }
     .end annotation
 
-    .line 357
+    .line 352
     new-instance v0, Ljava/util/LinkedHashMap;
 
     sget-object v1, Lokhttp3/internal/http2/Hpack;->STATIC_HEADER_TABLE:[Lokhttp3/internal/http2/Header;
@@ -810,7 +810,7 @@
 
     invoke-direct {v0, v1}, Ljava/util/LinkedHashMap;-><init>(I)V
 
-    .line 358
+    .line 353
     .local v0, "result":Ljava/util/Map;, "Ljava/util/Map<Lokio/ByteString;Ljava/lang/Integer;>;"
     const/4 v1, 0x0
 
@@ -822,7 +822,7 @@
 
     if-ge v1, v3, :cond_1
 
-    .line 359
+    .line 354
     aget-object v3, v2, v1
 
     iget-object v3, v3, Lokhttp3/internal/http2/Header;->name:Lokio/ByteString;
@@ -833,7 +833,7 @@
 
     if-nez v3, :cond_0
 
-    .line 360
+    .line 355
     aget-object v2, v2, v1
 
     iget-object v2, v2, Lokhttp3/internal/http2/Header;->name:Lokio/ByteString;
@@ -844,13 +844,13 @@
 
     invoke-interface {v0, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 
-    .line 358
+    .line 353
     :cond_0
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
 
-    .line 363
+    .line 358
     .end local v1    # "i":I
     :cond_1
     invoke-static {v0}, Ljava/util/Collections;->unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;

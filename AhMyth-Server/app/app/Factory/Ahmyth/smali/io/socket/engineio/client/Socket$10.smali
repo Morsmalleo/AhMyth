@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 463
+    .line 427
     iput-object p1, p0, Lio/socket/engineio/client/Socket$10;->this$0:Lio/socket/engineio/client/Socket;
 
     iput-object p2, p0, Lio/socket/engineio/client/Socket$10;->val$onerror:Lio/socket/emitter/Emitter$Listener;
@@ -44,7 +44,7 @@
     .locals 4
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 466
+    .line 430
     iget-object v0, p0, Lio/socket/engineio/client/Socket$10;->val$onerror:Lio/socket/emitter/Emitter$Listener;
 
     const/4 v1, 0x1
@@ -59,6 +59,6 @@
 
     invoke-interface {v0, v1}, Lio/socket/emitter/Emitter$Listener;->call([Ljava/lang/Object;)V
 
-    .line 467
+    .line 431
     return-void
 .end method

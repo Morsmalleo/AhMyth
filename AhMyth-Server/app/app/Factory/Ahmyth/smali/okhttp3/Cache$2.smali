@@ -40,9 +40,6 @@
 .end field
 
 .field nextUrl:Ljava/lang/String;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 .field final synthetic this$0:Lokhttp3/Cache;
 
@@ -57,12 +54,12 @@
         }
     .end annotation
 
-    .line 331
+    .line 327
     iput-object p1, p0, Lokhttp3/Cache$2;->this$0:Lokhttp3/Cache;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 332
+    .line 328
     iget-object v0, p1, Lokhttp3/Cache;->cache:Lokhttp3/internal/cache/DiskLruCache;
 
     invoke-virtual {v0}, Lokhttp3/internal/cache/DiskLruCache;->snapshots()Ljava/util/Iterator;
@@ -79,7 +76,7 @@
 .method public hasNext()Z
     .locals 5
 
-    .line 338
+    .line 334
     iget-object v0, p0, Lokhttp3/Cache$2;->nextUrl:Ljava/lang/String;
 
     const/4 v1, 0x1
@@ -88,13 +85,13 @@
 
     return v1
 
-    .line 340
+    .line 336
     :cond_0
     const/4 v0, 0x0
 
     iput-boolean v0, p0, Lokhttp3/Cache$2;->canRemove:Z
 
-    .line 341
+    .line 337
     :goto_0
     iget-object v2, p0, Lokhttp3/Cache$2;->delegate:Ljava/util/Iterator;
 
@@ -104,7 +101,7 @@
 
     if-eqz v2, :cond_1
 
-    .line 342
+    .line 338
     iget-object v2, p0, Lokhttp3/Cache$2;->delegate:Ljava/util/Iterator;
 
     invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
@@ -113,7 +110,7 @@
 
     check-cast v2, Lokhttp3/internal/cache/DiskLruCache$Snapshot;
 
-    .line 344
+    .line 340
     .local v2, "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
     :try_start_0
     invoke-virtual {v2, v0}, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->getSource(I)Lokio/Source;
@@ -124,7 +121,7 @@
 
     move-result-object v3
 
-    .line 345
+    .line 341
     .local v3, "metadata":Lokio/BufferedSource;
     invoke-interface {v3}, Lokio/BufferedSource;->readUtf8LineStrict()Ljava/lang/String;
 
@@ -135,16 +132,16 @@
     .catch Ljava/io/IOException; {:try_start_0 .. :try_end_0} :catch_0
     .catchall {:try_start_0 .. :try_end_0} :catchall_0
 
-    .line 346
+    .line 342
     nop
 
-    .line 351
+    .line 347
     invoke-virtual {v2}, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->close()V
 
-    .line 346
+    .line 342
     return v1
 
-    .line 351
+    .line 347
     .end local v3    # "metadata":Lokio/BufferedSource;
     :catchall_0
     move-exception v0
@@ -153,21 +150,21 @@
 
     throw v0
 
-    .line 347
+    .line 343
     :catch_0
     move-exception v3
 
-    .line 351
+    .line 347
     invoke-virtual {v2}, Lokhttp3/internal/cache/DiskLruCache$Snapshot;->close()V
 
-    .line 352
+    .line 348
     nop
 
-    .line 353
+    .line 349
     .end local v2    # "snapshot":Lokhttp3/internal/cache/DiskLruCache$Snapshot;
     goto :goto_0
 
-    .line 355
+    .line 351
     :cond_1
     return v0
 .end method
@@ -175,7 +172,7 @@
 .method public bridge synthetic next()Ljava/lang/Object;
     .locals 1
 
-    .line 331
+    .line 327
     invoke-virtual {p0}, Lokhttp3/Cache$2;->next()Ljava/lang/String;
 
     move-result-object v0
@@ -186,31 +183,31 @@
 .method public next()Ljava/lang/String;
     .locals 2
 
-    .line 359
+    .line 355
     invoke-virtual {p0}, Lokhttp3/Cache$2;->hasNext()Z
 
     move-result v0
 
     if-eqz v0, :cond_0
 
-    .line 360
+    .line 356
     iget-object v0, p0, Lokhttp3/Cache$2;->nextUrl:Ljava/lang/String;
 
-    .line 361
+    .line 357
     .local v0, "result":Ljava/lang/String;
     const/4 v1, 0x0
 
     iput-object v1, p0, Lokhttp3/Cache$2;->nextUrl:Ljava/lang/String;
 
-    .line 362
+    .line 358
     const/4 v1, 0x1
 
     iput-boolean v1, p0, Lokhttp3/Cache$2;->canRemove:Z
 
-    .line 363
+    .line 359
     return-object v0
 
-    .line 359
+    .line 355
     .end local v0    # "result":Ljava/lang/String;
     :cond_0
     new-instance v0, Ljava/util/NoSuchElementException;
@@ -223,20 +220,20 @@
 .method public remove()V
     .locals 2
 
-    .line 367
+    .line 363
     iget-boolean v0, p0, Lokhttp3/Cache$2;->canRemove:Z
 
     if-eqz v0, :cond_0
 
-    .line 368
+    .line 364
     iget-object v0, p0, Lokhttp3/Cache$2;->delegate:Ljava/util/Iterator;
 
     invoke-interface {v0}, Ljava/util/Iterator;->remove()V
 
-    .line 369
+    .line 365
     return-void
 
-    .line 367
+    .line 363
     :cond_0
     new-instance v0, Ljava/lang/IllegalStateException;
 

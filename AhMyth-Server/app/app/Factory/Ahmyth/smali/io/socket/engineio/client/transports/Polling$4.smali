@@ -28,7 +28,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/transports/Polling;
 
-    .line 172
+    .line 178
     iput-object p1, p0, Lio/socket/engineio/client/transports/Polling$4;->this$0:Lio/socket/engineio/client/transports/Polling;
 
     iput-object p2, p0, Lio/socket/engineio/client/transports/Polling$4;->val$self:Lio/socket/engineio/client/transports/Polling;
@@ -43,14 +43,14 @@
 .method public run()V
     .locals 3
 
-    .line 175
+    .line 181
     iget-object v0, p0, Lio/socket/engineio/client/transports/Polling$4;->val$self:Lio/socket/engineio/client/transports/Polling;
 
     const/4 v1, 0x1
 
     iput-boolean v1, v0, Lio/socket/engineio/client/transports/Polling;->writable:Z
 
-    .line 176
+    .line 182
     iget-object v0, p0, Lio/socket/engineio/client/transports/Polling$4;->val$self:Lio/socket/engineio/client/transports/Polling;
 
     const/4 v1, 0x0
@@ -61,6 +61,6 @@
 
     invoke-virtual {v0, v2, v1}, Lio/socket/engineio/client/transports/Polling;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 177
+    .line 183
     return-void
 .end method

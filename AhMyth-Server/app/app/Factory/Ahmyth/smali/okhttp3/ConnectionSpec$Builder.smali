@@ -16,18 +16,12 @@
 
 # instance fields
 .field cipherSuites:[Ljava/lang/String;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 .field supportsTlsExtensions:Z
 
 .field tls:Z
 
 .field tlsVersions:[Ljava/lang/String;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 
 # direct methods
@@ -35,30 +29,30 @@
     .locals 1
     .param p1, "connectionSpec"    # Lokhttp3/ConnectionSpec;
 
-    .line 269
+    .line 263
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 270
+    .line 264
     iget-boolean v0, p1, Lokhttp3/ConnectionSpec;->tls:Z
 
     iput-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    .line 271
+    .line 265
     iget-object v0, p1, Lokhttp3/ConnectionSpec;->cipherSuites:[Ljava/lang/String;
 
     iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->cipherSuites:[Ljava/lang/String;
 
-    .line 272
+    .line 266
     iget-object v0, p1, Lokhttp3/ConnectionSpec;->tlsVersions:[Ljava/lang/String;
 
     iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->tlsVersions:[Ljava/lang/String;
 
-    .line 273
+    .line 267
     iget-boolean v0, p1, Lokhttp3/ConnectionSpec;->supportsTlsExtensions:Z
 
     iput-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->supportsTlsExtensions:Z
 
-    .line 274
+    .line 268
     return-void
 .end method
 
@@ -66,13 +60,13 @@
     .locals 0
     .param p1, "tls"    # Z
 
-    .line 265
+    .line 259
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 266
+    .line 260
     iput-boolean p1, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
-    .line 267
+    .line 261
     return-void
 .end method
 
@@ -81,20 +75,20 @@
 .method public allEnabledCipherSuites()Lokhttp3/ConnectionSpec$Builder;
     .locals 2
 
-    .line 277
+    .line 271
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
     if-eqz v0, :cond_0
 
-    .line 278
+    .line 272
     const/4 v0, 0x0
 
     iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->cipherSuites:[Ljava/lang/String;
 
-    .line 279
+    .line 273
     return-object p0
 
-    .line 277
+    .line 271
     :cond_0
     new-instance v0, Ljava/lang/IllegalStateException;
 
@@ -108,20 +102,20 @@
 .method public allEnabledTlsVersions()Lokhttp3/ConnectionSpec$Builder;
     .locals 2
 
-    .line 304
+    .line 298
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
     if-eqz v0, :cond_0
 
-    .line 305
+    .line 299
     const/4 v0, 0x0
 
     iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->tlsVersions:[Ljava/lang/String;
 
-    .line 306
+    .line 300
     return-object p0
 
-    .line 304
+    .line 298
     :cond_0
     new-instance v0, Ljava/lang/IllegalStateException;
 
@@ -135,7 +129,7 @@
 .method public build()Lokhttp3/ConnectionSpec;
     .locals 1
 
-    .line 338
+    .line 332
     new-instance v0, Lokhttp3/ConnectionSpec;
 
     invoke-direct {v0, p0}, Lokhttp3/ConnectionSpec;-><init>(Lokhttp3/ConnectionSpec$Builder;)V
@@ -147,17 +141,17 @@
     .locals 2
     .param p1, "cipherSuites"    # [Ljava/lang/String;
 
-    .line 293
+    .line 287
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
     if-eqz v0, :cond_1
 
-    .line 295
+    .line 289
     array-length v0, p1
 
     if-eqz v0, :cond_0
 
-    .line 299
+    .line 293
     invoke-virtual {p1}, [Ljava/lang/String;->clone()Ljava/lang/Object;
 
     move-result-object v0
@@ -166,10 +160,10 @@
 
     iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->cipherSuites:[Ljava/lang/String;
 
-    .line 300
+    .line 294
     return-object p0
 
-    .line 296
+    .line 290
     :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -179,7 +173,7 @@
 
     throw v0
 
-    .line 293
+    .line 287
     :cond_1
     new-instance v0, Ljava/lang/IllegalStateException;
 
@@ -194,17 +188,17 @@
     .locals 3
     .param p1, "cipherSuites"    # [Lokhttp3/CipherSuite;
 
-    .line 283
+    .line 277
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
     if-eqz v0, :cond_1
 
-    .line 285
+    .line 279
     array-length v0, p1
 
     new-array v0, v0, [Ljava/lang/String;
 
-    .line 286
+    .line 280
     .local v0, "strings":[Ljava/lang/String;
     const/4 v1, 0x0
 
@@ -214,19 +208,19 @@
 
     if-ge v1, v2, :cond_0
 
-    .line 287
+    .line 281
     aget-object v2, p1, v1
 
     iget-object v2, v2, Lokhttp3/CipherSuite;->javaName:Ljava/lang/String;
 
     aput-object v2, v0, v1
 
-    .line 286
+    .line 280
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
 
-    .line 289
+    .line 283
     .end local v1    # "i":I
     :cond_0
     invoke-virtual {p0, v0}, Lokhttp3/ConnectionSpec$Builder;->cipherSuites([Ljava/lang/String;)Lokhttp3/ConnectionSpec$Builder;
@@ -235,7 +229,7 @@
 
     return-object v1
 
-    .line 283
+    .line 277
     .end local v0    # "strings":[Ljava/lang/String;
     :cond_1
     new-instance v0, Ljava/lang/IllegalStateException;
@@ -257,18 +251,18 @@
     .locals 2
     .param p1, "supportsTlsExtensions"    # Z
 
-    .line 332
+    .line 326
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
     if-eqz v0, :cond_0
 
-    .line 333
+    .line 327
     iput-boolean p1, p0, Lokhttp3/ConnectionSpec$Builder;->supportsTlsExtensions:Z
 
-    .line 334
+    .line 328
     return-object p0
 
-    .line 332
+    .line 326
     :cond_0
     new-instance v0, Ljava/lang/IllegalStateException;
 
@@ -283,17 +277,17 @@
     .locals 2
     .param p1, "tlsVersions"    # [Ljava/lang/String;
 
-    .line 321
+    .line 315
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
     if-eqz v0, :cond_1
 
-    .line 323
+    .line 317
     array-length v0, p1
 
     if-eqz v0, :cond_0
 
-    .line 327
+    .line 321
     invoke-virtual {p1}, [Ljava/lang/String;->clone()Ljava/lang/Object;
 
     move-result-object v0
@@ -302,10 +296,10 @@
 
     iput-object v0, p0, Lokhttp3/ConnectionSpec$Builder;->tlsVersions:[Ljava/lang/String;
 
-    .line 328
+    .line 322
     return-object p0
 
-    .line 324
+    .line 318
     :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -315,7 +309,7 @@
 
     throw v0
 
-    .line 321
+    .line 315
     :cond_1
     new-instance v0, Ljava/lang/IllegalStateException;
 
@@ -330,17 +324,17 @@
     .locals 3
     .param p1, "tlsVersions"    # [Lokhttp3/TlsVersion;
 
-    .line 310
+    .line 304
     iget-boolean v0, p0, Lokhttp3/ConnectionSpec$Builder;->tls:Z
 
     if-eqz v0, :cond_1
 
-    .line 312
+    .line 306
     array-length v0, p1
 
     new-array v0, v0, [Ljava/lang/String;
 
-    .line 313
+    .line 307
     .local v0, "strings":[Ljava/lang/String;
     const/4 v1, 0x0
 
@@ -350,19 +344,19 @@
 
     if-ge v1, v2, :cond_0
 
-    .line 314
+    .line 308
     aget-object v2, p1, v1
 
     iget-object v2, v2, Lokhttp3/TlsVersion;->javaName:Ljava/lang/String;
 
     aput-object v2, v0, v1
 
-    .line 313
+    .line 307
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
 
-    .line 317
+    .line 311
     .end local v1    # "i":I
     :cond_0
     invoke-virtual {p0, v0}, Lokhttp3/ConnectionSpec$Builder;->tlsVersions([Ljava/lang/String;)Lokhttp3/ConnectionSpec$Builder;
@@ -371,7 +365,7 @@
 
     return-object v1
 
-    .line 310
+    .line 304
     .end local v0    # "strings":[Ljava/lang/String;
     :cond_1
     new-instance v0, Ljava/lang/IllegalStateException;

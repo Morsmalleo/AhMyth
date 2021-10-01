@@ -18,45 +18,36 @@
 .field final body:Lokhttp3/RequestBody;
 
 .field final headers:Lokhttp3/Headers;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 
 # direct methods
 .method private constructor <init>(Lokhttp3/Headers;Lokhttp3/RequestBody;)V
     .locals 0
     .param p1, "headers"    # Lokhttp3/Headers;
-        .annotation runtime Ljavax/annotation/Nullable;
-        .end annotation
-    .end param
     .param p2, "body"    # Lokhttp3/RequestBody;
 
-    .line 269
+    .line 263
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 270
+    .line 264
     iput-object p1, p0, Lokhttp3/MultipartBody$Part;->headers:Lokhttp3/Headers;
 
-    .line 271
+    .line 265
     iput-object p2, p0, Lokhttp3/MultipartBody$Part;->body:Lokhttp3/RequestBody;
 
-    .line 272
+    .line 266
     return-void
 .end method
 
 .method public static create(Lokhttp3/Headers;Lokhttp3/RequestBody;)Lokhttp3/MultipartBody$Part;
     .locals 2
     .param p0, "headers"    # Lokhttp3/Headers;
-        .annotation runtime Ljavax/annotation/Nullable;
-        .end annotation
-    .end param
     .param p1, "body"    # Lokhttp3/RequestBody;
 
-    .line 231
+    .line 229
     if-eqz p1, :cond_4
 
-    .line 234
+    .line 232
     if-eqz p0, :cond_1
 
     const-string v0, "Content-Type"
@@ -69,7 +60,7 @@
 
     goto :goto_0
 
-    .line 235
+    .line 233
     :cond_0
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -79,7 +70,7 @@
 
     throw v0
 
-    .line 237
+    .line 235
     :cond_1
     :goto_0
     if-eqz p0, :cond_3
@@ -94,7 +85,7 @@
 
     goto :goto_1
 
-    .line 238
+    .line 236
     :cond_2
     new-instance v0, Ljava/lang/IllegalArgumentException;
 
@@ -104,7 +95,7 @@
 
     throw v0
 
-    .line 240
+    .line 238
     :cond_3
     :goto_1
     new-instance v0, Lokhttp3/MultipartBody$Part;
@@ -113,7 +104,7 @@
 
     return-object v0
 
-    .line 232
+    .line 230
     :cond_4
     new-instance v0, Ljava/lang/NullPointerException;
 
@@ -128,7 +119,7 @@
     .locals 1
     .param p0, "body"    # Lokhttp3/RequestBody;
 
-    .line 227
+    .line 225
     const/4 v0, 0x0
 
     invoke-static {v0, p0}, Lokhttp3/MultipartBody$Part;->create(Lokhttp3/Headers;Lokhttp3/RequestBody;)Lokhttp3/MultipartBody$Part;
@@ -143,7 +134,7 @@
     .param p0, "name"    # Ljava/lang/String;
     .param p1, "value"    # Ljava/lang/String;
 
-    .line 244
+    .line 242
     const/4 v0, 0x0
 
     invoke-static {v0, p1}, Lokhttp3/RequestBody;->create(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/RequestBody;
@@ -161,69 +152,65 @@
     .locals 4
     .param p0, "name"    # Ljava/lang/String;
     .param p1, "filename"    # Ljava/lang/String;
-        .annotation runtime Ljavax/annotation/Nullable;
-        .end annotation
-    .end param
     .param p2, "body"    # Lokhttp3/RequestBody;
 
-    .line 248
+    .line 246
     if-eqz p0, :cond_1
 
-    .line 251
+    .line 249
     new-instance v0, Ljava/lang/StringBuilder;
 
     const-string v1, "form-data; name="
 
     invoke-direct {v0, v1}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
 
-    .line 252
+    .line 250
     .local v0, "disposition":Ljava/lang/StringBuilder;
     invoke-static {v0, p0}, Lokhttp3/MultipartBody;->appendQuotedString(Ljava/lang/StringBuilder;Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 254
+    .line 252
     if-eqz p1, :cond_0
 
-    .line 255
+    .line 253
     const-string v1, "; filename="
 
     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 256
+    .line 254
     invoke-static {v0, p1}, Lokhttp3/MultipartBody;->appendQuotedString(Ljava/lang/StringBuilder;Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 259
+    .line 257
     :cond_0
-    new-instance v1, Lokhttp3/Headers$Builder;
+    const/4 v1, 0x2
 
-    invoke-direct {v1}, Lokhttp3/Headers$Builder;-><init>()V
+    new-array v1, v1, [Ljava/lang/String;
 
-    .line 260
-    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v2
+    const/4 v2, 0x0
 
     const-string v3, "Content-Disposition"
 
-    invoke-virtual {v1, v3, v2}, Lokhttp3/Headers$Builder;->addUnsafeNonAscii(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Headers$Builder;
+    aput-object v3, v1, v2
+
+    const/4 v2, 0x1
+
+    invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v3
+
+    aput-object v3, v1, v2
+
+    invoke-static {v1}, Lokhttp3/Headers;->of([Ljava/lang/String;)Lokhttp3/Headers;
 
     move-result-object v1
 
-    .line 261
-    invoke-virtual {v1}, Lokhttp3/Headers$Builder;->build()Lokhttp3/Headers;
-
-    move-result-object v1
-
-    .line 263
-    .local v1, "headers":Lokhttp3/Headers;
     invoke-static {v1, p2}, Lokhttp3/MultipartBody$Part;->create(Lokhttp3/Headers;Lokhttp3/RequestBody;)Lokhttp3/MultipartBody$Part;
 
-    move-result-object v2
+    move-result-object v1
 
-    return-object v2
+    return-object v1
 
-    .line 249
+    .line 247
     .end local v0    # "disposition":Ljava/lang/StringBuilder;
-    .end local v1    # "headers":Lokhttp3/Headers;
     :cond_1
     new-instance v0, Ljava/lang/NullPointerException;
 
@@ -239,7 +226,7 @@
 .method public body()Lokhttp3/RequestBody;
     .locals 1
 
-    .line 279
+    .line 273
     iget-object v0, p0, Lokhttp3/MultipartBody$Part;->body:Lokhttp3/RequestBody;
 
     return-object v0
@@ -247,10 +234,8 @@
 
 .method public headers()Lokhttp3/Headers;
     .locals 1
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
 
-    .line 275
+    .line 269
     iget-object v0, p0, Lokhttp3/MultipartBody$Part;->headers:Lokhttp3/Headers;
 
     return-object v0

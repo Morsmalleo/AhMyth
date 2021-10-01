@@ -20,7 +20,7 @@
 
 
 # direct methods
-.method constructor <init>(Ljavax/security/auth/x500/X500Principal;)V
+.method public constructor <init>(Ljavax/security/auth/x500/X500Principal;)V
     .locals 1
     .param p1, "principal"    # Ljavax/security/auth/x500/X500Principal;
 

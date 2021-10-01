@@ -322,7 +322,7 @@
     return-void
 .end method
 
-.method public final deflater()Ljava/util/zip/Deflater;
+.method public deflater()Ljava/util/zip/Deflater;
     .locals 1
 
     .line 118

@@ -13,14 +13,8 @@
 
 # instance fields
 .field public final cacheResponse:Lokhttp3/Response;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 .field public final networkRequest:Lokhttp3/Request;
-    .annotation runtime Ljavax/annotation/Nullable;
-    .end annotation
-.end field
 
 
 # direct methods
@@ -29,16 +23,16 @@
     .param p1, "networkRequest"    # Lokhttp3/Request;
     .param p2, "cacheResponse"    # Lokhttp3/Response;
 
-    .line 57
+    .line 56
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 58
+    .line 57
     iput-object p1, p0, Lokhttp3/internal/cache/CacheStrategy;->networkRequest:Lokhttp3/Request;
 
-    .line 59
+    .line 58
     iput-object p2, p0, Lokhttp3/internal/cache/CacheStrategy;->cacheResponse:Lokhttp3/Response;
 
-    .line 60
+    .line 59
     return-void
 .end method
 
@@ -47,7 +41,7 @@
     .param p0, "response"    # Lokhttp3/Response;
     .param p1, "request"    # Lokhttp3/Request;
 
-    .line 66
+    .line 65
     invoke-virtual {p0}, Lokhttp3/Response;->code()I
 
     move-result v0
@@ -98,7 +92,7 @@
 
     goto :goto_0
 
-    .line 86
+    .line 85
     :cond_0
     :pswitch_0
     const-string v0, "Expires"
@@ -109,7 +103,7 @@
 
     if-nez v0, :cond_3
 
-    .line 87
+    .line 86
     invoke-virtual {p0}, Lokhttp3/Response;->cacheControl()Lokhttp3/CacheControl;
 
     move-result-object v0
@@ -122,7 +116,7 @@
 
     if-ne v0, v1, :cond_3
 
-    .line 88
+    .line 87
     invoke-virtual {p0}, Lokhttp3/Response;->cacheControl()Lokhttp3/CacheControl;
 
     move-result-object v0
@@ -133,7 +127,7 @@
 
     if-nez v0, :cond_3
 
-    .line 89
+    .line 88
     invoke-virtual {p0}, Lokhttp3/Response;->cacheControl()Lokhttp3/CacheControl;
 
     move-result-object v0
@@ -144,20 +138,20 @@
 
     if-eqz v0, :cond_1
 
-    .line 90
+    .line 89
     goto :goto_1
 
-    .line 96
+    .line 95
     :cond_1
     :goto_0
     return v2
 
-    .line 79
+    .line 78
     :cond_2
     :pswitch_1
     nop
 
-    .line 100
+    .line 99
     :cond_3
     :goto_1
     invoke-virtual {p0}, Lokhttp3/Response;->cacheControl()Lokhttp3/CacheControl;

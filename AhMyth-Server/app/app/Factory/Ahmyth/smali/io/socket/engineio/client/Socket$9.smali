@@ -34,7 +34,7 @@
     .locals 0
     .param p1, "this$0"    # Lio/socket/engineio/client/Socket;
 
-    .line 439
+    .line 405
     iput-object p1, p0, Lio/socket/engineio/client/Socket$9;->this$0:Lio/socket/engineio/client/Socket;
 
     iput-object p2, p0, Lio/socket/engineio/client/Socket$9;->val$transport:[Lio/socket/engineio/client/Transport;
@@ -56,12 +56,12 @@
     .locals 7
     .param p1, "args"    # [Ljava/lang/Object;
 
-    .line 442
+    .line 408
     const/4 v0, 0x0
 
     aget-object v1, p1, v0
 
-    .line 444
+    .line 410
     .local v1, "err":Ljava/lang/Object;
     instance-of v2, v1, Ljava/lang/Exception;
 
@@ -69,7 +69,7 @@
 
     if-eqz v2, :cond_0
 
-    .line 445
+    .line 411
     new-instance v2, Lio/socket/engineio/client/EngineIOException;
 
     move-object v4, v1
@@ -81,14 +81,14 @@
     .local v2, "error":Lio/socket/engineio/client/EngineIOException;
     goto :goto_0
 
-    .line 446
+    .line 412
     .end local v2    # "error":Lio/socket/engineio/client/EngineIOException;
     :cond_0
     instance-of v2, v1, Ljava/lang/String;
 
     if-eqz v2, :cond_1
 
-    .line 447
+    .line 413
     new-instance v2, Lio/socket/engineio/client/EngineIOException;
 
     new-instance v3, Ljava/lang/StringBuilder;
@@ -118,14 +118,14 @@
     .restart local v2    # "error":Lio/socket/engineio/client/EngineIOException;
     goto :goto_0
 
-    .line 449
+    .line 415
     .end local v2    # "error":Lio/socket/engineio/client/EngineIOException;
     :cond_1
     new-instance v2, Lio/socket/engineio/client/EngineIOException;
 
     invoke-direct {v2, v3}, Lio/socket/engineio/client/EngineIOException;-><init>(Ljava/lang/String;)V
 
-    .line 451
+    .line 417
     .restart local v2    # "error":Lio/socket/engineio/client/EngineIOException;
     :goto_0
     iget-object v3, p0, Lio/socket/engineio/client/Socket$9;->val$transport:[Lio/socket/engineio/client/Transport;
@@ -136,56 +136,42 @@
 
     iput-object v3, v2, Lio/socket/engineio/client/EngineIOException;->transport:Ljava/lang/String;
 
-    .line 453
+    .line 419
     iget-object v3, p0, Lio/socket/engineio/client/Socket$9;->val$freezeTransport:Lio/socket/emitter/Emitter$Listener;
 
     new-array v4, v0, [Ljava/lang/Object;
 
     invoke-interface {v3, v4}, Lio/socket/emitter/Emitter$Listener;->call([Ljava/lang/Object;)V
 
-    .line 455
+    .line 421
     invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
 
     move-result-object v3
 
-    sget-object v4, Ljava/util/logging/Level;->FINE:Ljava/util/logging/Level;
+    const/4 v4, 0x2
 
-    invoke-virtual {v3, v4}, Ljava/util/logging/Logger;->isLoggable(Ljava/util/logging/Level;)Z
+    new-array v4, v4, [Ljava/lang/Object;
 
-    move-result v3
+    iget-object v5, p0, Lio/socket/engineio/client/Socket$9;->val$name:Ljava/lang/String;
 
-    const/4 v4, 0x1
+    aput-object v5, v4, v0
 
-    if-eqz v3, :cond_2
+    const/4 v5, 0x1
 
-    .line 456
-    invoke-static {}, Lio/socket/engineio/client/Socket;->access$1200()Ljava/util/logging/Logger;
-
-    move-result-object v3
-
-    const/4 v5, 0x2
-
-    new-array v5, v5, [Ljava/lang/Object;
-
-    iget-object v6, p0, Lio/socket/engineio/client/Socket$9;->val$name:Ljava/lang/String;
-
-    aput-object v6, v5, v0
-
-    aput-object v1, v5, v4
+    aput-object v1, v4, v5
 
     const-string v6, "probe transport \"%s\" failed because of error: %s"
 
-    invoke-static {v6, v5}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+    invoke-static {v6, v4}, Ljava/lang/String;->format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 
-    move-result-object v5
+    move-result-object v4
 
-    invoke-virtual {v3, v5}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
+    invoke-virtual {v3, v4}, Ljava/util/logging/Logger;->fine(Ljava/lang/String;)V
 
-    .line 459
-    :cond_2
+    .line 423
     iget-object v3, p0, Lio/socket/engineio/client/Socket$9;->val$self:Lio/socket/engineio/client/Socket;
 
-    new-array v4, v4, [Ljava/lang/Object;
+    new-array v4, v5, [Ljava/lang/Object;
 
     aput-object v2, v4, v0
 
@@ -193,6 +179,6 @@
 
     invoke-virtual {v3, v0, v4}, Lio/socket/engineio/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
 
-    .line 460
+    .line 424
     return-void
 .end method
