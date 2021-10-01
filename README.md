@@ -19,7 +19,7 @@ This tool is designed with a GUI interface and this makes one of the easiest RAT
     to any devices, you use this at your own risk, I also DO NOT OWN THIS PROJECT, I have just contributed 
     to it, this Android RAT application belongs to its creator AhMyth, his github can be found here - https://github.com/AhMyth
     
-Installation Instruction can be found in the [INSTRUCTIONS.md](https://github.com/Morsmalleo/AhMyth/master/INSTRUCTIONS.md)
+Installation Instruction can be found in the [INSTRUCTIONS.md](https://github.com/Morsmalleo/AhMyth/blob/master/INSTRUCTIONS.md)
 #
 # AhMyth: Android Remote Administration Tool
 As a remote administration tool, AhMyth has two parts which enable it to effectively perform its functions. It has a server-side which acts like a desktop application that is built on an electron framework. The server side is used by the attacker as the control panel through which connections are made to the AhMyth software that is installed on the victim’s Android device. The client-side of AhMyth works as the android application and can be used as a backdoor.
