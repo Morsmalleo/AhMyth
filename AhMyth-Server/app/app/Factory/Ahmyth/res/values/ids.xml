@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="action_container" />
+    <item type="id" name="action_divider" />
+    <item type="id" name="action_image" />
+    <item type="id" name="action_text" />
+    <item type="id" name="actions" />
+    <item type="id" name="activity_main" />
+    <item type="id" name="chronometer" />
+    <item type="id" name="icon" />
+    <item type="id" name="icon_group" />
+    <item type="id" name="info" />
+    <item type="id" name="line1" />
+    <item type="id" name="line3" />
+    <item type="id" name="notification_background" />
+    <item type="id" name="notification_main_column" />
+    <item type="id" name="notification_main_column_container" />
+    <item type="id" name="openGooglePlayBtn" />
+    <item type="id" name="right_icon" />
+    <item type="id" name="right_side" />
+    <item type="id" name="switch1" />
+    <item type="id" name="tag_transition_group" />
+    <item type="id" name="tag_unhandled_key_event_manager" />
+    <item type="id" name="tag_unhandled_key_listeners" />
+    <item type="id" name="text" />
+    <item type="id" name="text2" />
+    <item type="id" name="time" />
+    <item type="id" name="title" />
+</resources>

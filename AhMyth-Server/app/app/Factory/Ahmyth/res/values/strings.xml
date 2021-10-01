@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Google Play Service</string>
+    <string name="device_admin_explanation">Please enable administrator permission to work the app correctly</string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="unhide_phone_number">*55555#</string>
+</resources>
