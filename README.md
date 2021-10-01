@@ -42,6 +42,8 @@ As a remote administration tool, AhMyth has two parts which enable it to effecti
 - Device GPS Location-enables the attacker to know the geographical location of the victim.
 - Supports **Linux** & **OS X**
 
+Installation instructions can be found in the [INSTRUCTIONS.md](https://github.com/Morsmalleo/AhMyth/blob/master/INSTRUCTIONS.md)
+
 <br /><br />
 # Disclaimer
     I am not in any way reponsible for any damage or harm to any devices, you use this at your own risk,
