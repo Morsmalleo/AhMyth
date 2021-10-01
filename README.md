@@ -15,11 +15,15 @@ AhMyth is a powerful open-source remote administration tool that can be used to 
 
 This tool is designed with a GUI interface and this makes one of the easiest RATs to use. With this tool, you can easily log in and gain direct control to an android device as an administrator.
 
-    Disclaimer: AhMyth is designed solely for educational purposes.
-
+    AhMyth is designed solely for educational purposes. I am not in any way reponsible for any damage or harm 
+    to any devices, you use this at your own risk, I also DO NOT OWN THIS PROJECT, I have just contributed 
+    to it, this Android RAT application belongs to its creator AhMyth, his github can be found here - https://github.com/AhMyth
+    
+Installation Instruction can be found in the [INSTRUCTIONS.md](https://github.com/Morsmalleo/AhMyth/master/INSTRUCTIONS.md)
+#
 # AhMyth: Android Remote Administration Tool
 As a remote administration tool, AhMyth has two parts which enable it to effectively perform its functions. It has a server-side which acts like a desktop application that is built on an electron framework. The server side is used by the attacker as the control panel through which connections are made to the AhMyth software that is installed on the victim’s Android device. The client-side of AhMyth works as the android application and can be used as a backdoor.
-
+#
 # How it works?
     For this tool to be used to carry an attack, the client-side must be installed on the targeted 
     Android device. Installations can be achieved by sending the target a link that contains the 
@@ -33,7 +37,7 @@ As a remote administration tool, AhMyth has two parts which enable it to effecti
     cookies and know the web pages that have been visited using the device. Apart from allowing an 
     attacker to view the victim’s personal messages, AhMyth can also enable messages to be sent from 
     the victim’s Android device to another phone without the consent of the victim.
-
+#
 # Features:
 - File Manager – allows the attacker to view contents in the target device including the firmware.
 - Remote access to Mic and Camera.
@@ -41,14 +45,7 @@ As a remote administration tool, AhMyth has two parts which enable it to effecti
 - SMS access-allows the attacker to read and send messages from the target device.
 - Device GPS Location-enables the attacker to know the geographical location of the victim.
 - Supports **Linux** & **OS X**
-
-Installation instructions can be found in the [INSTRUCTIONS.md](https://github.com/Morsmalleo/AhMyth/blob/master/INSTRUCTIONS.md)
-
-<br /><br />
-# Disclaimer
-    I am not in any way reponsible for any damage or harm to any devices, you use this at your own risk,
-    I also DO NOT OWN THIS PROJECT, I have just contributed to it, this Android RAT application belongs to its 
-    creator AhMyth, his github can be found here - https://github.com/AhMyth
+#
 ---------------------------------------------------------------------------------------------------------------
 <p>
 
