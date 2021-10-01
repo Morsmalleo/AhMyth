@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# Ensure we are being ran as root
+if [ $(id -u) -ne 0 ]; then
+	echo "This script must be ran as root"
+	exit 1
+fi
+
+clear
+echo "Are you sure you want to uninstall AhMyth from your system?"
+echo ""
+echo ""
+echo "$cyan" "Choose y/n : "
+read -r cho
+case "$cho" in
+
+y|Y|Yes|yes|YES)
+clear 
+echo " |---------------------------------------------------| "
+echo " | Uninstalling AhMyth from your system, please wait | "
+echo " |---------------------------------------------------| "
+rm -f /usr/local/sbin/ahmyth
+rm /usr/share/applications/AhMyth.desktop
+rm /usr/share/icons/64x64.png
+rm -rf node_modules
+sleep 5
+
+clear
+echo " |-----------------------------------------------------------| "
+echo " | AhMyth has been successfully uninstalled from your system | "
+echo " |-----------------------------------------------------------| "
+sleep 2
+clear
+
+echo " |-----------------------------------------------------| "
+echo " | To reinstall AhMyth, run the 'autoinstaller' script | "
+echo " |-----------------------------------------------------| "
+sleep 3
+echo " |-----------------------------------------------------------------------------------| "
+echo " | or run 'npm install && npm audit fix' inside the 'AhMyth/AhMyth-Server' directory | "
+echo " |-----------------------------------------------------------------------------------| "
+sleep 5
+clear
+exit 0
+;;
+
+n|no|No|NO)
+clear
+echo " |----------------------------| "
+echo " | Aborting uninstall process | "
+echo " |----------------------------| "
+esac
+exit 0
+fi
+;; 
