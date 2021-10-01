@@ -50,7 +50,7 @@ As a remote administration tool, AhMyth has two parts which enable it to effecti
 ---------------------------------------------------------------------------------------------------------------
 <p>
 
-  <img width="300" src=https://user-images.githubusercontent.com/64344168/135562852-2c00f96f-67f2-49f4-8844-7a48512f70b4.png>
+  <img width="600" src=https://user-images.githubusercontent.com/64344168/135562852-2c00f96f-67f2-49f4-8844-7a48512f70b4.png>
 
 </p>
 
