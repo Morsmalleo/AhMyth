@@ -14,7 +14,7 @@ var PATTERN_TOKEN = CHAR_TOKEN_START + '\\d+:\\d+' + CHAR_TOKEN_END // «offset:
 var PATTERN_TOKEN_WITH_NAME = '\\w*?' + CHAR_TOKEN_START + '\\d+:\\d+' + CHAR_TOKEN_END // «offset:index»
 
 var REGEX_COMMENT = /\/\*[^]*?\*\//igm // none-greedy
-var REGEX_DIRECTIVE = /\/\*(?:!)?rtl:[^]*?\*\//img
+var REGEX_DIRECTIVE = /\/\*\s*(?:!)?\s*rtl:[^]*?\*\//img
 var REGEX_ESCAPE = /[.*+?^${}()|[\]\\]/g
 var REGEX_FUNCTION = /\([^\(\)]+\)/i
 var REGEX_HEX_COLOR = /#[a-f0-9]{3,6}/ig
@@ -108,6 +108,9 @@ module.exports = {
       return REGEX_TOKEN_REPLACEMENT.test(num) ? num.replace(REGEX_TOKEN_REPLACEMENT, function (m) { return '(100% - ' + m + ')' }) : 100 - parseFloat(num, 10)
     })
     return this.restoreTokens(state)
+  },
+  flipLength: function (value) {
+    return config.useCalc ? 'calc(100% - ' + value + ')' : value
   },
   save: function (what, who, replacement, restorer, exclude) {
     var state = {
@@ -205,7 +208,7 @@ module.exports = {
   regexCache: {},
   regexDirective: function (name) {
     // /(?:\/\*(?:!)?rtl:ignore(?::)?)([^]*?)(?:\*\/)/img
-    this.regexCache[name] = this.regexCache[name] || new RegExp('(?:\\/\\*(?:!)?rtl:' + (name ? escapeRegExp(name) + '(?::)?' : '') + ')([^]*?)(?:\\*\\/)', 'img')
+    this.regexCache[name] = this.regexCache[name] || new RegExp('(?:\\/\\*\\s*(?:!)?\\s*rtl:' + (name ? escapeRegExp(name) + '(?::)?' : '') + ')([^]*?)(?:\\*\\/)', 'img')
     return this.regexCache[name]
   },
   regex: function (what, options) {

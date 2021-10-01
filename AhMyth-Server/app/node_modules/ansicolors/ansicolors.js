@@ -37,19 +37,29 @@ var colorNums = {
     , bgBrightCyan    :  106
     , bgBrightWhite   :  107
     } 
-  , colors = {};
-
+  , open   =  {}
+  , close  =  {}
+  , colors =  {}
+  ;
 
 Object.keys(colorNums).forEach(function (k) {
+  var o =  open[k]  =  '\u001b[' + colorNums[k] + 'm';
+  var c =  close[k] =  '\u001b[39m';
+
   colors[k] = function (s) { 
-    return '\u001b[' + colorNums[k] + 'm' + s + '\u001b[39m';
+    return o + s + c;
   };
 });
 
 Object.keys(backgroundColorNums).forEach(function (k) {
+  var o =  open[k]  =  '\u001b[' + backgroundColorNums[k] + 'm';
+  var c =  close[k] =  '\u001b[49m';
+
   colors[k] = function (s) { 
-    return '\u001b[' + backgroundColorNums[k] + 'm' + s + '\u001b[49m';
+    return o + s + c;
   };
 });
 
-module.exports = colors;
+module.exports =  colors;
+colors.open    =  open;
+colors.close   =  close;

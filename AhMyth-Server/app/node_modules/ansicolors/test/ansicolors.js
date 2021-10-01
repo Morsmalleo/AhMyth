@@ -1,7 +1,9 @@
 'use strict';
 
 var assert = require('assert')
-  , colors = require('..');
+  , colors = require('..')
+  , open = colors.open
+  , close = colors.close
 
 console.log('Foreground colors ..');
 
@@ -51,5 +53,19 @@ assert.equal(
     colors.bgYellow(colors.blue('printed in blue with yellow background again'))
   , '\u001b[43m\u001b[34mprinted in blue with yellow background again\u001b[39m\u001b[49m'
 );
+
+console.log('OK');
+
+console.log('Open ...');
+
+assert.equal(open.black, '\u001b[30m');
+assert.equal(open.bgYellow, '\u001b[43m');
+
+console.log('OK');
+
+console.log('Close ...');
+
+assert.equal(close.black, '\u001b[39m');
+assert.equal(close.bgYellow, '\u001b[49m');
 
 console.log('OK');

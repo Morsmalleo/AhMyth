@@ -2,10 +2,11 @@
 
 var isUncPath = require('is-unc-path');
 
-module.exports = function isRelative(fp) {
-  if (typeof fp !== 'string') {
-    throw new TypeError('isRelative expects a string.');
+module.exports = function isRelative(filepath) {
+  if (typeof filepath !== 'string') {
+    throw new TypeError('expected filepath to be a string');
   }
+
   // Windows UNC paths are always considered to be absolute.
-  return !isUncPath(fp) && !/^([a-z]:)?[\\\/]/i.test(fp);
+  return !isUncPath(filepath) && !/^([a-z]:)?[\\\/]/i.test(filepath);
 };

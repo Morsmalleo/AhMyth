@@ -4,7 +4,8 @@
   </a>
 </p>
 
-# liftoff [![Build Status](https://secure.travis-ci.org/js-cli/js-liftoff.svg)](http://travis-ci.org/js-cli/js-liftoff) [![Build status](https://ci.appveyor.com/api/projects/status/5a6w8xuq8ed1ilc4/branch/master?svg=true)](https://ci.appveyor.com/project/js-cli/js-liftoff/branch/master)
+# liftoff [![Build Status](http://img.shields.io/travis/js-cli/js-liftoff.svg?label=travis-ci)](http://travis-ci.org/js-cli/js-liftoff) [![Build status](https://img.shields.io/appveyor/ci/phated/js-liftoff.svg?label=appveyor)](https://ci.appveyor.com/project/phated/js-liftoff)
+
 
 > Launch your command line tool with ease.
 
@@ -106,7 +107,7 @@ const MyApp = new Liftoff({
 });
 ```
 
-In this example, Liftoff will automatically attempt to load the correct module for any javascript variant supported by [node-interpret](https://github.com/tkellen/node-interpret) (as long as it does not require a register method).
+In this example, Liftoff will automatically attempt to load the correct module for any javascript variant supported by [interpret](https://github.com/js-cli/js-interpret) (as long as it does not require a register method).
 
 ```js
 const MyApp = new Liftoff({
@@ -116,7 +117,7 @@ const MyApp = new Liftoff({
 ```
 #### opts.v8flags
 
-Any flag specified here will be applied to node, not your program.  Useful for supporting invocations like `myapp --harmony command`, where `--harmony` should be passed to node, not your program. This functionality is implemented using [flagged-respawn](http://github.com/tkellen/node-flagged-respawn). To support all v8flags, see [node-v8flags](https://github.com/tkellen/node-v8flags).
+Any flag specified here will be applied to node, not your program.  Useful for supporting invocations like `myapp --harmony command`, where `--harmony` should be passed to node, not your program. This functionality is implemented using [flagged-respawn](http://github.com/js-cli/js-flagged-respawn). To support all v8flags, see [v8flags](https://github.com/js-cli/js-v8flags).
 
 Type: `Array|Function`  
 Default: `null`
@@ -356,6 +357,27 @@ MyApp.launch({
 myapp --require coffee-script/register
 ```
 
+#### opts.forcedFlags
+
+Allows you to force node or V8 flags during the launch. This is useful if you need to make sure certain flags will always be enabled or if you need to enable flags that don't show up in `opts.v8flags` (as these flags aren't validated against `opts.v8flags`).
+
+If this is specified as a function, it will receive the built `env` as its only argument and must return a string or array of flags to force.
+
+Type: `String|Array|Function`  
+Default: `null`
+
+**Example Configuration:**
+```js
+MyApp.launch({
+  forcedFlags: ['--trace-deprecation']
+}, invoke);
+```
+
+**Matching CLI Invocation:**
+```js
+myapp --trace-deprecation
+```
+
 #### callback(env)
 
 A function to start your application.  When invoked, `this` will be your instance of Liftoff. The `env` param will contain the following keys:
@@ -417,7 +439,7 @@ Event will be triggered for this command:
 
 ## Examples
 
-Check out how [gulp](https://github.com/gulpjs/gulp/blob/master/bin/gulp.js) uses Liftoff.
+Check out how [gulp](https://github.com/gulpjs/gulp-cli/blob/master/index.js) uses Liftoff.
 
 For a bare-bones example, try [the hacker project](https://github.com/js-cli/js-hacker/blob/master/bin/hacker.js).
 

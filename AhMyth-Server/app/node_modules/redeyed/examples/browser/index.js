@@ -1,33 +1,32 @@
+/* global $ redeyed */
 var $code   =  $('.code')
-  , $config =  $('.config')
-  , $result =  $('.result')
-  ;
+var $config =  $('.config')
+var $result =  $('.result')
 
-function go () {
-  var config;
+function go() {
+  var config
   try {
-     config = JSON.parse($config.val());
+     config = JSON.parse($config.val())
   } catch (e) {
-    $result.val('In "Redeyed Config": ' + e.toString());
-    return;
+    $result.val('In "Redeyed Config": ' + e.toString())
+    return
   }
 
   try {
     var code = $code.val()
-      , result = redeyed(code, config);
+    var result = redeyed(code, config)
 
-    $result.val(result.code);
+    $result.val(result.code)
   } catch (e) {
-    $result.val('In "Original Code": ' + e.toString());
+    $result.val('In "Original Code": ' + e.toString())
   }
 }
 
-$code.val(window.redeyed.toString());
+$code.val(window.redeyed.toString())
 
-$config.val(JSON.stringify(window.sampleConfig, false, 2));
+$config.val(JSON.stringify(window.sampleConfig, false, 2))
 
-$('.go').click(go);
+$('.go').click(go)
 
-go();
-
+go()
 

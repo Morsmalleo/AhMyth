@@ -74,7 +74,7 @@ v0.12.0:
 v0.11.3:
   date: 2014-06-09
   changes:
-    - Make cwd match configBase if cwd isn't explictly provided
+    - Make cwd match configBase if cwd isn't explicitly provided
 v0.11.2:
   date: 2014-06-04
   changes:

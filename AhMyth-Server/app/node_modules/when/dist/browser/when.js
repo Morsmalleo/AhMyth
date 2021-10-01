@@ -1087,13 +1087,23 @@ define(function(require) {
 		}
 
 		function settleOne(p) {
-			var h = Promise._handler(p);
-			if(h.state() === 0) {
+			// Optimize the case where we get an already-resolved when.js promise
+			//  by extracting its state:
+			var handler;
+			if (p instanceof Promise) {
+				// This is our own Promise type and we can reach its handler internals:
+				handler = p._handler.join();
+			}
+			if((handler && handler.state() === 0) || !handler) {
+				// Either still pending, or not a Promise at all:
 				return toPromise(p).then(state.fulfilled, state.rejected);
 			}
 
-			h._unreport();
-			return state.inspect(h);
+			// The promise is our own, but it is already resolved. Take a shortcut.
+			// Since we're not actually handling the resolution, we need to disable
+			// rejection reporting.
+			handler._unreport();
+			return state.inspect(handler);
 		}
 
 		/**
@@ -1700,8 +1710,8 @@ define(function(require) {
 	}
 
 	function hasMutationObserver () {
-		return (typeof MutationObserver === 'function' && MutationObserver) ||
-			(typeof WebKitMutationObserver === 'function' && WebKitMutationObserver);
+	    return (typeof MutationObserver !== 'undefined' && MutationObserver) ||
+			(typeof WebKitMutationObserver !== 'undefined' && WebKitMutationObserver);
 	}
 
 	function initMutationObserver(MutationObserver) {
@@ -2698,6 +2708,28 @@ define(function() {
 
 		function noop() {}
 
+		function hasCustomEvent() {
+			if(typeof CustomEvent === 'function') {
+				try {
+					var ev = new CustomEvent('unhandledRejection');
+					return ev instanceof CustomEvent;
+				} catch (ignoredException) {}
+			}
+			return false;
+		}
+
+		function hasInternetExplorerCustomEvent() {
+			if(typeof document !== 'undefined' && typeof document.createEvent === 'function') {
+				try {
+					// Try to create one event to make sure it's supported
+					var ev = document.createEvent('CustomEvent');
+					ev.initCustomEvent('eventType', false, true, {});
+					return true;
+				} catch (ignoredException) {}
+			}
+			return false;
+		}
+
 		function initEmitRejection() {
 			/*global process, self, CustomEvent*/
 			if(typeof process !== 'undefined' && process !== null
@@ -2711,15 +2743,9 @@ define(function() {
 						? process.emit(type, rejection.value, rejection)
 						: process.emit(type, rejection);
 				};
-			} else if(typeof self !== 'undefined' && typeof CustomEvent === 'function') {
-				return (function(noop, self, CustomEvent) {
-					var hasCustomEvent = false;
-					try {
-						var ev = new CustomEvent('unhandledRejection');
-						hasCustomEvent = ev instanceof CustomEvent;
-					} catch (e) {}
-
-					return !hasCustomEvent ? noop : function(type, rejection) {
+			} else if(typeof self !== 'undefined' && hasCustomEvent()) {
+				return (function (self, CustomEvent) {
+					return function (type, rejection) {
 						var ev = new CustomEvent(type, {
 							detail: {
 								reason: rejection.value,
@@ -2731,7 +2757,19 @@ define(function() {
 
 						return !self.dispatchEvent(ev);
 					};
-				}(noop, self, CustomEvent));
+				}(self, CustomEvent));
+			} else if(typeof self !== 'undefined' && hasInternetExplorerCustomEvent()) {
+				return (function(self, document) {
+					return function(type, rejection) {
+						var ev = document.createEvent('CustomEvent');
+						ev.initCustomEvent(type, false, true, {
+							reason: rejection.value,
+							key: rejection
+						});
+
+						return !self.dispatchEvent(ev);
+					};
+				}(self, document));
 			}
 
 			return noop;

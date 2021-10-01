@@ -1,7 +1,9 @@
 define( [
 	"./core",
+	"./core/toType",
+	"./var/isFunction",
 	"./var/rnothtmlwhite"
-], function( jQuery, rnothtmlwhite ) {
+], function( jQuery, toType, isFunction, rnothtmlwhite ) {
 
 "use strict";
 
@@ -69,7 +71,7 @@ jQuery.Callbacks = function( options ) {
 		fire = function() {
 
 			// Enforce single-firing
-			locked = options.once;
+			locked = locked || options.once;
 
 			// Execute callbacks for all pending executions,
 			// respecting firingIndex overrides and runtime changes
@@ -125,11 +127,11 @@ jQuery.Callbacks = function( options ) {
 
 					( function add( args ) {
 						jQuery.each( args, function( _, arg ) {
-							if ( jQuery.isFunction( arg ) ) {
+							if ( isFunction( arg ) ) {
 								if ( !options.unique || !self.has( arg ) ) {
 									list.push( arg );
 								}
-							} else if ( arg && arg.length && jQuery.type( arg ) !== "string" ) {
+							} else if ( arg && arg.length && toType( arg ) !== "string" ) {
 
 								// Inspect recursively
 								add( arg );

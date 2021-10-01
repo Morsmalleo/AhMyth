@@ -1,5 +1,5 @@
 /*
- * This config only contains ES5 tokens while the default config.js contains 
+ * This config only contains ES5 tokens while the default config.js contains
  * ES6 tokens as well.
  *
  * Copy this file and use it as a starting point for your redeyed config.
@@ -137,4 +137,4 @@ module.exports = {
     }
 
   , _default: undefined
-};
+}

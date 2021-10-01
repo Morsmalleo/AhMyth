@@ -48,13 +48,18 @@ Draws a table of data if a 2d array or object passed to it
 
 ### `console.time`
 
-Creates a new timer under the given name. Call console.timeEnd(name)`
+Creates a new timer under the given name. Call `console.timeEnd(name)`
  with the same name to stop the timer and print the time elapsed.
 
 ### `console.timeEnd`
 
 Stops a timer created by a call to console.time(name) and write the time
 
+### `console.trace`
+
+Prints a stack trace of JavaScript execution at the point
+where it is called. The stack trace details the functions on the stack,
+as well as the values that were passed as arguments to each function.
 
 ### `console.count`
 

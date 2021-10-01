@@ -9,6 +9,7 @@
  * [Deprecated] Can extend Node.js primitives (buffers, streams) to support all iconv-lite encodings.
  * In-browser usage via [Browserify](https://github.com/substack/node-browserify) (~180k gzip compressed with Buffer shim included).
  * Typescript [type definition file](https://github.com/ashtuchkin/iconv-lite/blob/master/lib/index.d.ts) included.
+ * React Native is supported (need to explicitly `npm install` two more modules: `buffer` and `stream`).
  * License: MIT.
 
 [![NPM Stats](https://nodei.co/npm/iconv-lite.png?downloads=true&downloadRank=true)](https://npmjs.org/packages/iconv-lite/)
@@ -19,7 +20,7 @@
 var iconv = require('iconv-lite');
 
 // Convert from an encoded buffer to js string.
-str = iconv.decode(new Buffer([0x68, 0x65, 0x6c, 0x6c, 0x6f]), 'win1251');
+str = iconv.decode(Buffer.from([0x68, 0x65, 0x6c, 0x6c, 0x6f]), 'win1251');
 
 // Convert from js string to an encoded buffer.
 buf = iconv.encode("Sample input string", 'win1251');
@@ -97,7 +98,7 @@ iconv.undoExtendNodeEncodings();
  *  All widespread singlebyte encodings: Windows 125x family, ISO-8859 family, 
     IBM/DOS codepages, Macintosh family, KOI8 family, all others supported by iconv library. 
     Aliases like 'latin1', 'us-ascii' also supported.
- *  All widespread multibyte encodings: CP932, CP936, CP949, CP950, GB2313, GBK, GB18030, Big5, Shift_JIS, EUC-JP.
+ *  All widespread multibyte encodings: CP932, CP936, CP949, CP950, GB2312, GBK, GB18030, Big5, Shift_JIS, EUC-JP.
 
 See [all supported encodings on wiki](https://github.com/ashtuchkin/iconv-lite/wiki/Supported-Encodings).
 
@@ -153,7 +154,3 @@ $ # To view test coverage:
 $ npm run coverage
 $ open coverage/lcov-report/index.html
 ```
-
-## Adoption
-[![NPM](https://nodei.co/npm-dl/iconv-lite.png)](https://nodei.co/npm/iconv-lite/)
-[![Codeship Status for ashtuchkin/iconv-lite](https://www.codeship.com/projects/81670840-fa72-0131-4520-4a01a6c01acc/status)](https://www.codeship.com/projects/29053)

@@ -85,7 +85,7 @@
 
   Declaration.hack(require('./hacks/text-emphasis-position'));
 
-  Value.hack(require('./hacks/fill'));
+  Value.hack(require('./hacks/stretch'));
 
   Value.hack(require('./hacks/gradient'));
 
@@ -328,7 +328,12 @@
     };
 
     Prefixes.prototype.unprefixed = function(prop) {
-      return this.normalize(vendor.unprefixed(prop));
+      var value;
+      value = this.normalize(vendor.unprefixed(prop));
+      if (value === 'flex-direction') {
+        value = 'flex-flow';
+      }
+      return value;
     };
 
     Prefixes.prototype.normalize = function(prop) {

@@ -1,10 +1,9 @@
 const rechoir = require('rechoir');
-const isString = require('lodash.isstring');
 
 module.exports = function(eventEmitter, extensions, configPath, cwd) {
   extensions = extensions || {};
 
-  if (!isString(configPath)) {
+  if (typeof configPath !== 'string') {
     return;
   }
 

@@ -2,14 +2,14 @@
 
 [Tom Wu's Original Website](http://www-cs-students.stanford.edu/~tjw/jsbn/)
 
-I felt compelled to put this on github and publish to npm. I haven't tested every other big integer library out there, but the few that I have tested in comparison to this one have not even come close in performance. I am aware of the `bi` module on npm, however it has been modified and I wanted to publish the original without modifications. This is jsbn and jsbn2 from Tom Wu's original website above, with the modular pattern applied to prevent global leaks and to allow for use with node.js on the server side.
+I felt compelled to put this on github and publish to npm. I haven't tested every other big integer library out there, but the few that I have tested in comparison to this one have not even come close in performance. I am aware of the `bi` module on npm, however it has been modified and I wanted to publish the original without modifications. This is jsbn and jsbn2 from Tom Wu's original website above, with the module pattern applied to prevent global leaks and to allow for use with node.js on the server side.
 
 ## usage
 
-    var BigInteger = require('jsbn');
-    
-    var a = new BigInteger('91823918239182398123');
-    alert(a.bitLength()); // 67
+    var BigInteger = require('jsbn').BigInteger;
+
+    var bi = new BigInteger('91823918239182398123');
+    console.log(bi.bitLength()); // 67
 
 
 ## API
@@ -171,5 +171,3 @@ returns new BI of absolute value
 
 
 ### bi.isProbablePrime
-
-

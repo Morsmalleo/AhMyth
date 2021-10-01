@@ -1,7 +1,8 @@
 define( [
 	"../core",
-	"../var/document"
-], function( jQuery, document ) {
+	"../var/document",
+	"../var/isFunction"
+], function( jQuery, document, isFunction ) {
 
 "use strict";
 
@@ -32,15 +33,6 @@ jQuery.extend( {
 	// the ready event fires. See #6781
 	readyWait: 1,
 
-	// Hold (or release) the ready event
-	holdReady: function( hold ) {
-		if ( hold ) {
-			jQuery.readyWait++;
-		} else {
-			jQuery.ready( true );
-		}
-	},
-
 	ready: function( wait ) {
 
 		// Abort if there are pending holds or we're already ready
@@ -61,7 +53,7 @@ jQuery.extend( {
 
 			while ( readyCallbacks.length ) {
 				fn = readyCallbacks.shift();
-				if ( jQuery.isFunction( fn ) ) {
+				if ( isFunction( fn ) ) {
 					executeReady( fn );
 				}
 			}

@@ -1,10 +1,6 @@
 #!/usr/bin/env node
-/*jshint strict:true node:true es5:true onevar:true laxcomma:true laxbreak:true eqeqeq:true immed:true latedef:true*/
-(function () {
-  "use strict";
+'use strict';
 
-  var atob = require('../index')
-    ;
-
-  console.log(atob(process.argv[2]));
-}());
+var atob = require('../node-atob');
+var str = process.argv[2];
+console.log(atob(str));

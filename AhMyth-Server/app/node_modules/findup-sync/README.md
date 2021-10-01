@@ -43,6 +43,8 @@ For bugs and feature requests, [please create an issue](https://github.com/cowbo
 
 ## Release History
 
+2017-08-07 - v2.0.0 - Drop node 0.8 support, Bump all dependencies (including some Majors)  
+2017-04-18 - v1.0.0 - Major bump from stable 0.4.3  
 2015-01-30 - v0.4.0 - Refactored, not also uses [micromatch][] instead of minimatch.  
 2015-09-14 - v0.3.0 - updated glob to ~5.0.  
 2014-12-17 - v0.2.1 - Updated to glob 4.3.  

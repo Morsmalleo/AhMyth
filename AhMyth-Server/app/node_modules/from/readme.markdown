@@ -1,3 +1,5 @@
+[![TravisCI Build Status](https://travis-ci.org/nmhnmh/from.svg?branch=master)](https://travis-ci.org/nmhnmh/from)
+
 # from
 
 An easy way to create a `readable Stream`.

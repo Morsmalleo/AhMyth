@@ -1,4 +1,6 @@
-# redeyed [![build status](https://secure.travis-ci.org/thlorenz/redeyed.png?branch=master)](http://travis-ci.org/thlorenz/redeyed)
+# redeyed [![build status](https://secure.travis-ci.org/thlorenz/redeyed.svg?branch=master)](http://travis-ci.org/thlorenz/redeyed)
+
+<a href="https://www.patreon.com/bePatron?u=8663953"><img alt="become a patron" src="https://c5.patreon.com/external/logo/become_a_patron_button.png" height="35px"></a>
 
 *Add color to your JavaScript!*
 
@@ -135,6 +137,11 @@ try {
   // if true `result.ast` property contains the abstract syntax tree of the code
   // if false (default) `result.ast` is not assigned and therefore `undefined`
   buildAst: true|false
+  // {Boolean}
+  // if `true`, jsx syntax is supported, default `false`
+  // due to how esprima works, the AST is built when this option is `true`, even if
+  // `buildAST` is `false`
+, jsx: true|false
   // {Boolean}
   // if true `result.code` is not assigned and therefore `undefined`
   // if false (default) `result.code` property contains the result of `split.join`

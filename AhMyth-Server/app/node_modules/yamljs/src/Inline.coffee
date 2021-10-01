@@ -4,6 +4,7 @@ Unescaper       = require './Unescaper'
 Escaper         = require './Escaper'
 Utils           = require './Utils'
 ParseException  = require './Exception/ParseException'
+ParseMore       = require './Exception/ParseMore'
 DumpException   = require './Exception/DumpException'
 
 # Inline YAML parsing and dumping
@@ -211,13 +212,13 @@ class Inline
     #
     # @return [String]  A YAML string
     #
-    # @throw [ParseException] When malformed inline YAML string is parsed
+    # @throw [ParseMore] When malformed inline YAML string is parsed
     #
     @parseQuotedScalar: (scalar, context) ->
         {i} = context
 
         unless match = @PATTERN_QUOTED_SCALAR.exec scalar[i..]
-            throw new ParseException 'Malformed inline YAML string ('+scalar[i..]+').'
+            throw new ParseMore 'Malformed inline YAML string ('+scalar[i..]+').'
 
         output = match[0].substr(1, match[0].length - 2)
 
@@ -239,7 +240,7 @@ class Inline
     #
     # @return [String]  A YAML string
     #
-    # @throw [ParseException] When malformed inline YAML string is parsed
+    # @throw [ParseMore] When malformed inline YAML string is parsed
     #
     @parseSequence: (sequence, context) ->
         output = []
@@ -282,7 +283,7 @@ class Inline
 
             ++i
 
-        throw new ParseException 'Malformed inline YAML string '+sequence
+        throw new ParseMore 'Malformed inline YAML string '+sequence
 
 
     # Parses a mapping to a YAML string.
@@ -292,7 +293,7 @@ class Inline
     #
     # @return [String]  A YAML string
     #
-    # @throw [ParseException] When malformed inline YAML string is parsed
+    # @throw [ParseMore] When malformed inline YAML string is parsed
     #
     @parseMapping: (mapping, context) ->
         output = {}
@@ -364,7 +365,7 @@ class Inline
                 if done
                     break
 
-        throw new ParseException 'Malformed inline YAML string '+mapping
+        throw new ParseMore 'Malformed inline YAML string '+mapping
 
 
     # Evaluates scalars and replaces magic values.

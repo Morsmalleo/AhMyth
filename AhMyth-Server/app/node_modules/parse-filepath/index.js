@@ -53,7 +53,12 @@ module.exports = function(filepath) {
     });
 
     define(obj, 'dir', function() {
-      return path.dirname(filepath);
+      var dir = path.dirname(filepath);
+      if (dir === '.') {
+        return (filepath[0] === '.') ? dir : '';
+      } else {
+        return dir;
+      }
     });
 
     define(obj, 'dirname', function() {

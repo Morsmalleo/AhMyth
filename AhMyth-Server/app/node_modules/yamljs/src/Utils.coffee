@@ -37,7 +37,6 @@ class Utils
     # @return [String] A trimmed string
     #
     @trim: (str, _char = '\\s') ->
-        return str.trim()
         regexLeft = @REGEX_LEFT_TRIM_BY_CHAR[_char]
         unless regexLeft?
             @REGEX_LEFT_TRIM_BY_CHAR[_char] = regexLeft = new RegExp '^'+_char+''+_char+'*'
@@ -79,15 +78,23 @@ class Utils
         return str.replace(regexRight, '')
 
 
-    # Checks if the given value is empty (null, undefined, empty string, string '0')
+    # Checks if the given value is empty (null, undefined, empty string, string '0', empty Array, empty Object)
     #
     # @param [Object] value The value to check
     #
     # @return [Boolean] true if the value is empty
     #
     @isEmpty: (value) ->
-        return not(value) or value is '' or value is '0' or (value instanceof Array and value.length is 0)
+        return not(value) or value is '' or value is '0' or (value instanceof Array and value.length is 0) or @isEmptyObject(value)
 
+    # Checks if the given value is an empty object
+    #
+    # @param [Object] value The value to check
+    #
+    # @return [Boolean] true if the value is empty and is an object
+    #
+    @isEmptyObject: (value) ->
+        return value instanceof Object and (k for own k of value).length is 0
 
     # Counts the number of occurences of subString inside string
     #
@@ -100,22 +107,22 @@ class Utils
     #
     @subStrCount: (string, subString, start, length) ->
         c = 0
-        
+
         string = '' + string
         subString = '' + subString
-        
+
         if start?
             string = string[start..]
         if length?
             string = string[0...length]
-        
+
         len = string.length
         sublen = subString.length
         for i in [0...len]
             if subString is string[i...sublen]
                 c++
                 i += sublen - 1
-        
+
         return c
 
 
@@ -258,7 +265,7 @@ class Utils
         # Compute date
         date = new Date Date.UTC(year, month, day, hour, minute, second, fraction)
         if tz_offset
-            date.setTime date.getTime() + tz_offset
+            date.setTime date.getTime() - tz_offset
 
         return date
 
@@ -308,7 +315,7 @@ class Utils
                             callback(null)
                 xhr.open 'GET', path, true
                 xhr.send null
-            
+
             else
                 # Sync
                 xhr.open 'GET', path, false

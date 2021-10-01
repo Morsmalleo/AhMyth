@@ -12,6 +12,10 @@ module.exports = {
 	mergeShallow: merge
 };
 
+function getProp(obj, p) {
+	return p === '__proto__' ? undefined : obj[p];
+}
+
 function clone(val) {
 	switch(typeOf(val)) {
 		case 'object':
@@ -54,7 +58,7 @@ function extend(a, b /*, [b2..n] */) {
 function deepExtend(a, b /*, [b2..n] */) {
 	slice.call(arguments, 1).forEach(function(b) {
 		Object.keys(b).forEach(function(p) {
-			if(typeOf(b[p]) === 'object' && typeOf(a[p]) === 'object')
+			if(typeOf(getProp(b, p)) === 'object' && typeOf(a[p]) === 'object')
 				deepExtend(a[p], b[p]);
 			else
 				a[p] = deepClone(b[p]);
@@ -108,7 +112,7 @@ function deepMerge(a, b /*, [b2..n] */) {
 		var ap, bp, ta, tb;
 		Object.keys(b).forEach(function(p) {
 			ap = a[p];
-			bp = b[p];
+			bp = getProp(b, p);
 			ta = typeOf(ap);
 			tb = typeOf(bp);
 			if(tb === 'object' && ta === 'object')

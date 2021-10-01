@@ -134,7 +134,7 @@ class Pattern
         count = 0
         while @regex.test(str) and (limit is 0 or count < limit)
             @regex.lastIndex = 0
-            str = str.replace @regex, ''
+            str = str.replace @regex, replacement
             count++
         
         return [str, count]

@@ -64,7 +64,7 @@ deap.merge(a, { name: 'Jack', age: 26, phone: '555-555-5555', address: { number:
 
 ### deap.update()
 
-Deep update.  Fill an object's existing properties from another object.
+Deep update.  Fill an object's existing properties from another object.  For nested objects, a deep update will only update existing properties.  Shallow updates will replace nested objects entirely.
 
 Takes *n* number of arguments, modifies the first argument and returns it.
 

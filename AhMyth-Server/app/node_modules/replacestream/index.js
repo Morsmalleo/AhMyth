@@ -53,7 +53,7 @@ module.exports = function ReplaceStream(search, replace, options) {
     }
 
     if (tail.length < 1)
-      tail = haystack.slice(lastPos) > options.maxMatchLen ? haystack.slice(lastPos).slice(0 - options.maxMatchLen) : haystack.slice(lastPos)
+      tail = haystack.slice(lastPos).length > options.maxMatchLen ? haystack.slice(lastPos).slice(0 - options.maxMatchLen) : haystack.slice(lastPos)
 
     var dataToQueue = getDataToQueue(matchCount,haystack,rewritten,lastPos);
     cb(null, dataToQueue);

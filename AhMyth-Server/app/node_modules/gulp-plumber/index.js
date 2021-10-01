@@ -2,7 +2,9 @@
 
 var through2 = require('through2');
 var EE = require('events').EventEmitter;
-var gutil = require('gulp-util');
+var fancyLog = require('fancy-log');
+var chalk = require('chalk');
+var PluginError = require('plugin-error');
 
 function removeDefaultHandler(stream, event) {
 	var found = false;
@@ -30,8 +32,8 @@ function wrapPanicOnErrorHandler(stream) {
 function defaultErrorHandler(error) {
 	// onerror2 and this handler
 	if (EE.listenerCount(this, 'error') < 3) {
-		gutil.log(
-			gutil.colors.cyan('Plumber') + gutil.colors.red(' found unhandled error:\n'),
+		fancyLog(
+			chalk.cyan('Plumber') + chalk.red(' found unhandled error:\n'),
 			error.toString()
 		);
 	}
@@ -64,7 +66,7 @@ function plumber(opts) {
 
 	through.pipe2 = function pipe2(dest) {
 		if (!dest) {
-			throw new gutil.PluginError('plumber', 'Can\'t pipe to undefined');
+			throw new PluginError('plumber', 'Can\'t pipe to undefined');
 		}
 
 		this._pipe.apply(this, arguments);

@@ -15,7 +15,6 @@ var Stream = require('stream').Stream
 module.exports = function (mapper, opts) {
 
   var stream = new Stream()
-    , self = this
     , inputs = 0
     , outputs = 0
     , ended = false
@@ -24,8 +23,8 @@ module.exports = function (mapper, opts) {
     , lastWritten = 0
     , inNext = false
 
-  this.opts = opts || {};
-  var errorEventName = this.opts.failures ? 'failure' : 'error';
+  opts = opts || {};
+  var errorEventName = opts.failures ? 'failure' : 'error';
 
   // Items that are not ready to be written yet (because they would come out of
   // order) get stuck in a queue for later.
@@ -67,7 +66,7 @@ module.exports = function (mapper, opts) {
     if(destroyed) return
     inNext = true
 
-    if (!err || self.opts.failures) {
+    if (!err || opts.failures) {
       queueData(data, number)
     }
 

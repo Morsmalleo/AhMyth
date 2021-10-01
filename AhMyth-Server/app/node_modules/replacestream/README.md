@@ -295,4 +295,5 @@ replacestream is only possible due to the excellent work of the following contri
 <tr><th align="left">Romain</th><td><a href="https://github.com/Filirom1">GitHub/Filirom1</a></td></tr>
 <tr><th align="left">Shinnosuke Watanabe</th><td><a href="https://github.com/shinnn">GitHub/shinnn</a></td></tr>
 <tr><th align="left">Steve Mao</th><td><a href="https://github.com/stevemao">GitHub/stevemao</a></td></tr>
+<tr><th align="left">Martin Petluš</th><td><a href="https://github.com/martinpetlus">GitHub/martinpetlus</a></td></tr>
 </tbody></table>

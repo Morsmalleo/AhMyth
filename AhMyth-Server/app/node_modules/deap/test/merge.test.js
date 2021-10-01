@@ -131,4 +131,14 @@ describe('deep merge', function() {
 		assert.notStrictEqual(result.nested[0], deeper);
 	});
 
+	// Vulnerability reported via hacker1: https://hackerone.com/reports/310446
+	it('should not modify Object prototype (hacker1 #310446)', function() {
+		var a = { foo: 'bar' },
+			b = JSON.parse('{ "__proto__": { "evilBad": "DANGER!!!" } }');
+
+		var result = deepMerge(a, b);
+
+		assert.isUndefined({}.evilBad);
+		assert.isUndefined(Object.prototype.evilBad);
+	});
 });

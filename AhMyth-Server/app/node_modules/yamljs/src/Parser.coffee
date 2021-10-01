@@ -3,6 +3,7 @@ Inline          = require './Inline'
 Pattern         = require './Pattern'
 Utils           = require './Utils'
 ParseException  = require './Exception/ParseException'
+ParseMore       = require './Exception/ParseMore'
 
 # Parser parses YAML strings to convert them to JavaScript objects.
 #
@@ -19,10 +20,10 @@ class Parser
     PATTERN_DECIMAL:                        new Pattern '\\d+'
     PATTERN_INDENT_SPACES:                  new Pattern '^ +'
     PATTERN_TRAILING_LINES:                 new Pattern '(\n*)$'
-    PATTERN_YAML_HEADER:                    new Pattern '^\\%YAML[: ][\\d\\.]+.*\n'
-    PATTERN_LEADING_COMMENTS:               new Pattern '^(\\#.*?\n)+'
-    PATTERN_DOCUMENT_MARKER_START:          new Pattern '^\\-\\-\\-.*?\n'
-    PATTERN_DOCUMENT_MARKER_END:            new Pattern '^\\.\\.\\.\\s*$'
+    PATTERN_YAML_HEADER:                    new Pattern '^\\%YAML[: ][\\d\\.]+.*\n', 'm'
+    PATTERN_LEADING_COMMENTS:               new Pattern '^(\\#.*?\n)+', 'm'
+    PATTERN_DOCUMENT_MARKER_START:          new Pattern '^\\-\\-\\-.*?\n', 'm'
+    PATTERN_DOCUMENT_MARKER_END:            new Pattern '^\\.\\.\\.\\s*$', 'm'
     PATTERN_FOLDED_SCALAR_BY_INDENTATION:   {}
 
     # Context types
@@ -333,17 +334,16 @@ class Parser
             if indent is newIndent
                 removeComments = not removeCommentsPattern.test @currentLine
 
-            if isItUnindentedCollection and not @isStringUnIndentedCollectionItem(@currentLine) and indent is newIndent
-                @moveToPreviousLine()
-                break
+            if removeComments and @isCurrentLineComment()
+                continue
 
             if @isCurrentLineBlank()
                 data.push @currentLine[newIndent..]
                 continue
 
-            if removeComments and @isCurrentLineComment()
-                if indent is newIndent
-                    continue
+            if isItUnindentedCollection and not @isStringUnIndentedCollectionItem(@currentLine) and indent is newIndent
+                @moveToPreviousLine()
+                break
 
             if indent >= newIndent
                 data.push @currentLine[newIndent..]
@@ -416,25 +416,22 @@ class Parser
             else
                 return val
 
-        try
-            return Inline.parse value, exceptionOnInvalidType, objectDecoder
-        catch e
-            # Try to parse multiline compact sequence or mapping
-            if value.charAt(0) in ['[', '{'] and e instanceof ParseException and @isNextLineIndented()
-                value += "\n" + @getNextEmbedBlock()
+        # Value can be multiline compact sequence or mapping or string
+        if value.charAt(0) in ['[', '{', '"', "'"]
+            while true
                 try
                     return Inline.parse value, exceptionOnInvalidType, objectDecoder
                 catch e
-                    e.parsedLine = @getRealCurrentLineNb() + 1
-                    e.snippet = @currentLine
-
-                    throw e
-
-            else
-                e.parsedLine = @getRealCurrentLineNb() + 1
-                e.snippet = @currentLine
-
-                throw e
+                    if e instanceof ParseMore and @moveToNextLine()
+                        value += "\n" + Utils.trim(@currentLine, ' ')
+                    else
+                        e.parsedLine = @getRealCurrentLineNb() + 1
+                        e.snippet = @currentLine
+                        throw e
+        else
+            if @isNextLineIndented()
+                value += "\n" + @getNextEmbedBlock()
+            return Inline.parse value, exceptionOnInvalidType, objectDecoder
 
         return
 

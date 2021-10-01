@@ -52,8 +52,8 @@ describe('gulp-clone', function() {
             }))
             .on('finish', function() {
                 expect(buffer).to.have.length(2);
-                expect(buffer).to.have.deep.property('0.path', 'afile.js');
-                expect(buffer).to.have.deep.property('1.path', 'afile.js');
+                expect(buffer).to.have.nested.property('[0].path', 'afile.js');
+                expect(buffer).to.have.nested.property('[1].path', 'afile.js');
                 done();
             });
 

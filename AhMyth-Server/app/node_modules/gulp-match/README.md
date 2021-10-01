@@ -101,7 +101,7 @@ If there's no matching rule from the rules above, it'll return `true` for truthy
 
 #### minimatch options object
 
-See [https://github.com/isaacs/minimatch](minimatch) for options docs.
+See <https://github.com/isaacs/minimatch> for options docs.
 
 
 LICENSE

@@ -5,11 +5,13 @@
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const execFile = require('child_process').execFile;
 const env = process.env;
-const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME;
-const configfile = '.v8flags.'+process.versions.v8+'.'+user+'.json';
+const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME || '';
 const exclusions = ['--help'];
+
+const configfile = '.v8flags.'+process.versions.v8+'.'+crypto.createHash('md5').update(user).digest('hex')+'.json';
 
 const failureMessage = [
   'Unable to cache a config file for v8flags to a your home directory',
@@ -42,7 +44,7 @@ function tryOpenConfig (configpath, cb) {
     // if the config file is valid, it should be json and therefore
     // node should be able to require it directly. if this doesn't
     // throw, we're done!
-    content = require(configpath);
+    var content = require(configpath);
     process.nextTick(function () {
       cb(null, content);
     });

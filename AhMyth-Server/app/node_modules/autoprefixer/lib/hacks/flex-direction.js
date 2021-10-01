@@ -23,7 +23,9 @@
     FlexDirection.prototype.insert = function(decl, prefix, prefixes) {
       var already, cloned, dir, orient, ref, spec, value;
       ref = flexSpec(prefix), spec = ref[0], prefix = ref[1];
-      if (spec === 2009) {
+      if (spec !== 2009) {
+        return FlexDirection.__super__.insert.apply(this, arguments);
+      } else {
         already = decl.parent.some(function(i) {
           return i.prop === prefix + 'box-orient' || i.prop === prefix + 'box-direction';
         });
@@ -47,8 +49,6 @@
           cloned.raws.before = this.calcBefore(prefixes, decl, prefix);
         }
         return decl.parent.insertBefore(decl, cloned);
-      } else {
-        return FlexDirection.__super__.insert.apply(this, arguments);
       }
     };
 

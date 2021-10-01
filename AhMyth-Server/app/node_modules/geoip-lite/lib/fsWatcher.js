@@ -1,6 +1,6 @@
 var fs = require('fs'),
-    path = require('path'),
-    FSWatcher = {};
+	path = require('path'),
+	FSWatcher = {};
 
 /**
  * Takes a directory/file and watch for change. Upon change, call the
@@ -25,6 +25,11 @@ function makeFsWatchFilter(name, directory, filename, cooldownDelay, callback) {
 	//This function is called when there is a change in the data directory
 	//It sets a timer to wait for the change to be completed
 	function onWatchEvent(event, changedFile) {
+		// check to make sure changedFile is not null
+		if (!changedFile) {
+			return;
+		}
+		
 		var filePath = path.join(directory, changedFile);
 
 		if (!filename || filename === changedFile) {

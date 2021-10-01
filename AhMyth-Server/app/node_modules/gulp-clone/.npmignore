@@ -3,3 +3,4 @@ node_modules
 .settings
 .idea
 npm-debug.log
+.history

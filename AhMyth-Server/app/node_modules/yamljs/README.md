@@ -129,7 +129,7 @@ Optional arguments:
 yaml2json myfile.yml
 
 # Store output inside a JSON file
-yaml2json myfile.yml > ouput.json
+yaml2json myfile.yml > output.json
 
 # Output "pretty" (indented) JSON
 yaml2json myfile.yml --pretty
@@ -141,7 +141,7 @@ yaml2json myfile.yml --pretty --save
 yaml2json mydirectory --pretty --save --recursive
 
 # Convert JSON to YAML and store output inside a JSON file
-json2yaml myfile.json > ouput.yml
+json2yaml myfile.json > output.yml
 
 # Output YAML that will be inlined only after 8 levels of indentation
 json2yaml myfile.json --depth 8

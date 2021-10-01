@@ -42,6 +42,74 @@ exports['inc'] = function (test) {
   })
 }
 
+exports['inc - async'] = function (test) {
+
+  var fs = from(function (i, next) {
+    this.emit('data', i)
+    if(i >= 99)
+      return this.emit('end')
+		next();
+  })
+
+  spec(fs).readable().validateOnExit() 
+
+  read(fs, function (err, arr) {
+    test.equal(arr.length, 100)
+    test.done()
+  })
+}
+
+exports['large stream - from an array'] = function (test) {
+
+  var l = 100000
+    , expected = [] 
+
+  while(l--) expected.push(l * Math.random())
+
+  var fs = from(expected.slice())
+
+  spec(fs).readable().validateOnExit() 
+
+  read(fs, function (err, arr) {
+		a.deepEqual(arr, expected)
+    test.done()
+  })
+}
+
+exports['large stream - callback return true'] = function (test) {
+
+  var fs = from(function (i, next) {
+    this.emit('data', i)
+    if(i >= 99999)
+      return this.emit('end')
+		return true;
+  })
+
+  spec(fs).readable().validateOnExit() 
+
+  read(fs, function (err, arr) {
+    test.equal(arr.length, 100000)
+    test.done()
+  })
+}
+
+exports['large stream - callback call next()'] = function (test) {
+
+  var fs = from(function (i, next) {
+    this.emit('data', i)
+    if(i >= 99999)
+      return this.emit('end')
+		next();
+  })
+
+  spec(fs).readable().validateOnExit() 
+
+  read(fs, function (err, arr) {
+    test.equal(arr.length, 100000)
+    test.done()
+  })
+}
+
 exports['simple'] = function (test) {
 
   var l = 1000
@@ -102,7 +170,8 @@ exports['simple (not strictly pausable) setTimeout'] = function (test) {
       if(_expected.length)
         self.emit('data', _expected.shift())
       else
-        self.emit('end') 
+        if(!self.ended)
+          self.emit('end')
       n()
     }, 3)
   })

@@ -1,5 +1,7 @@
 # cloneable-readable
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mcollina/cloneable-readable.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/mcollina/cloneable-readable.svg?branch=master)](https://travis-ci.org/mcollina/cloneable-readable)
 
 Clone a Readable stream, safely.

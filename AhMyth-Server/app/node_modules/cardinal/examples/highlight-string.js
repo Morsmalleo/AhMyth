@@ -1,14 +1,15 @@
 // This file will highlight the passed code using the custom theme when run via: "node highlight-string"
+'use strict'
 
-var cardinal = require('..');
+var cardinal = require('..')
 
-var code = '' + 
+var code = '' +
 
-function add (a, b) {
-  var sum = a + b;
-  return sum;
-} + 
-  
-'';
+function add(a, b) {
+  var sum = a + b
+  return sum
+} +
 
-console.log(cardinal.highlight(code));
+''
+
+console.log(cardinal.highlight(code))

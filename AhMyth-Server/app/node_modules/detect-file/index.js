@@ -1,18 +1,17 @@
 /*!
- * detect-file (https://github.com/doowb/detect-file)
+ * detect-file <https://github.com/doowb/detect-file>
  *
- * Copyright (c) 2016, Brian Woodward.
- * Licensed under the MIT License.
+ * Copyright (c) 2016-2017, Brian Woodward.
+ * Released under the MIT License.
  */
 
 'use strict';
 
 var fs = require('fs');
 var path = require('path');
-var exists = require('fs-exists-sync');
 
 /**
- * Resolve the given `filepath` if it exists.
+ * Detect the given `filepath` if it exists.
  *
  * ```js
  * var res = detect('package.json');
@@ -26,8 +25,8 @@ var exists = require('fs-exists-sync');
  *
  * @param  {String} `filepath` filepath to detect.
  * @param  {Object} `options` Additional options.
- * @param  {Boolean} `options.nocase` Set this to `true` force case-insensitive filename checks. This is useful on case sensitive file systems.
- * @return {String} Returns the resolved filepath if it exists, otherwise returns `null`.
+ * @param  {Boolean} `options.nocase` Set this to `true` to force case-insensitive filename checks. This is useful on case sensitive file systems.
+ * @return {String} Returns the detected filepath if it exists, otherwise returns `null`.
  * @api public
  */
 
@@ -35,7 +34,7 @@ module.exports = function detect(filepath, options) {
   if (!filepath || (typeof filepath !== 'string')) {
     return null;
   }
-  if (exists(filepath)) {
+  if (fs.existsSync(filepath)) {
     return path.resolve(filepath);
   }
 

@@ -162,7 +162,7 @@ function getWeek(date) {
   // Change date to Thursday same week
   firstThursday.setDate(firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7) + 3);
 
-  // Check if daylight-saving-time-switch occured and correct for it
+  // Check if daylight-saving-time-switch occurred and correct for it
   var ds = targetThursday.getTimezoneOffset() - firstThursday.getTimezoneOffset();
   targetThursday.setHours(targetThursday.getHours() - ds);
 

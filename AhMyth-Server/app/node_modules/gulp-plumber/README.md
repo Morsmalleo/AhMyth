@@ -46,13 +46,13 @@ Default: `true`
 Monkeypatch `pipe` functions in underlying streams in pipeline.
 
 #### options.errorHandler
-Type: `Boolean` / `Function`
+Type: `Boolean` / `Function` <br/>
 Default: `true`
 
 Handle errors in underlying streams and output them to console.
- * `function` passed - it will be attached to stream `on('error')`.
- * `false` passed - error handler will not be attached.
- * `undefined` - default error handler will be attached.
+ * `function` - it will be attached to stream `on('error')`.
+ * `false` - error handler will not be attached.
+ * `true` - default error handler will be attached.
 
 ### plumber.stop()
 

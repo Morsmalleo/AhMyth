@@ -28,31 +28,35 @@ var dataFiles = {
 };
 
 var privateRange4 = [
-		[utils.aton4('10.0.0.0'), utils.aton4('10.255.255.255')],
-		[utils.aton4('172.16.0.0'), utils.aton4('172.31.255.255')],
-		[utils.aton4('192.168.0.0'), utils.aton4('192.168.255.255')]
-	]
+	[utils.aton4('10.0.0.0'), utils.aton4('10.255.255.255')],
+	[utils.aton4('172.16.0.0'), utils.aton4('172.31.255.255')],
+	[utils.aton4('192.168.0.0'), utils.aton4('192.168.255.255')]
+];
 
-var cache4 = {
+var conf4 = {
 	firstIP: null,
 	lastIP: null,
 	lastLine: 0,
 	locationBuffer: null,
-	locationRecordSize: 64,
+	locationRecordSize: 88,
 	mainBuffer: null,
-	recordSize: 12
+	recordSize: 24
 };
 
-var cache6 = {
+var conf6 = {
 	firstIP: null,
 	lastIP: null,
 	lastLine: 0,
 	mainBuffer: null,
-	recordSize: 58
+	recordSize: 48
 };
 
+//copy original configs
+var cache4 = JSON.parse(JSON.stringify(conf4));
+var cache6 = JSON.parse(JSON.stringify(conf6));
+
 var RECORD_SIZE = 10;
-var RECORD_SIZE6 = 34
+var RECORD_SIZE6 = 34;
 
 function lookup4(ip) {
 	var fline = 0;
@@ -74,6 +78,8 @@ function lookup4(ip) {
 		range: '',
 		country: '',
 		region: '',
+		eu:'',
+		timezone:'',
 		city: '',
 		ll: [0, 0]
 	};
@@ -101,13 +107,17 @@ function lookup4(ip) {
 			if (recordSize === RECORD_SIZE) {
 				geodata.country = buffer.toString('utf8', (line * recordSize) + 8, (line * recordSize) + 10);
 			} else {
-				locId = buffer.readUInt32BE((line * recordSize) + 8) - 1;
+				locId = buffer.readUInt32BE((line * recordSize) + 8);
 
 				geodata.country = locBuffer.toString('utf8', (locId * locRecordSize) + 0, (locId * locRecordSize) + 2).replace(/\u0000.*/, '');
-				geodata.region = locBuffer.toString('utf8', (locId * locRecordSize) + 2, (locId * locRecordSize) + 4).replace(/\u0000.*/, '');
-				geodata.ll = [locBuffer.readInt32BE((locId * locRecordSize) + 4) / 10000, locBuffer.readInt32BE((locId * locRecordSize) + 8) / 10000];
-				geodata.metro = locBuffer.readInt32BE((locId * locRecordSize) + 12);
-				geodata.city = locBuffer.toString('utf8', (locId * locRecordSize) + 16, (locId * locRecordSize) + locRecordSize).replace(/\u0000.*/, '');
+				geodata.region = locBuffer.toString('utf8', (locId * locRecordSize) + 2, (locId * locRecordSize) + 5).replace(/\u0000.*/, '');
+				geodata.metro = locBuffer.readInt32BE((locId * locRecordSize) + 5);
+				geodata.ll[0] = buffer.readInt32BE((line * recordSize) + 12)/10000;//latitude
+				geodata.ll[1] = buffer.readInt32BE((line * recordSize) + 16)/10000; //longitude
+				geodata.area = buffer.readUInt32BE((line * recordSize) + 20); //longitude
+				geodata.eu = locBuffer.toString('utf8', (locId * locRecordSize) + 9, (locId * locRecordSize) + 10).replace(/\u0000.*/, '');
+				geodata.timezone = locBuffer.toString('utf8', (locId * locRecordSize) + 10, (locId * locRecordSize) + 42).replace(/\u0000.*/, '');
+				geodata.city = locBuffer.toString('utf8', (locId * locRecordSize) + 42, (locId * locRecordSize) + locRecordSize).replace(/\u0000.*/, '');
 			}
 
 			return geodata;
@@ -130,6 +140,8 @@ function lookup4(ip) {
 function lookup6(ip) {
 	var buffer = cache6.mainBuffer;
 	var recordSize = cache6.recordSize;
+	var locBuffer = cache4.locationBuffer;
+	var locRecordSize = cache4.locationRecordSize;
 
 	var geodata = {
 		range: '',
@@ -138,12 +150,6 @@ function lookup6(ip) {
 		city: '',
 		ll: [0, 0]
 	};
-
-	// XXX We only use the first 8 bytes of an IPv6 address
-	// This identifies the network, but not the host within
-	// the network.  Unless at some point of time we have a
-	// global peace treaty and single subnets span multiple
-	// countries, this should not be a problem.
 	function readip(line, offset) {
 		var ii = 0;
 		var ip = [];
@@ -163,6 +169,7 @@ function lookup6(ip) {
 	var cline = cache6.lastLine;
 	var ceil = cache6.firstIP;
 	var line;
+	var locId;
 
 	if (utils.cmp6(ip, cache6.lastIP) > 0 || utils.cmp6(ip, cache6.firstIP) < 0) {
 		return null;
@@ -177,13 +184,18 @@ function lookup6(ip) {
 			if (recordSize === RECORD_SIZE6) {
 				geodata.country = buffer.toString('utf8', (line * recordSize) + 32, (line * recordSize) + 34).replace(/\u0000.*/, '');
 			} else {
-				geodata.range = [floor, ceil];
-				geodata.country = buffer.toString('utf8', (line * recordSize) + 32, (line * recordSize) + 34).replace(/\u0000.*/, '');
-				geodata.region = buffer.toString('utf8', (line * recordSize) + 34, (line * recordSize) + 36).replace(/\u0000.*/, '');
-				geodata.ll = [buffer.readInt32BE((line * recordSize) + 36) / 10000, buffer.readInt32BE((line * recordSize) + 40) / 10000];
-				geodata.city = buffer.toString('utf8', (line * recordSize) + 44, (line * recordSize) + recordSize).replace(/\u0000.*/, '');
-			}
+				locId = buffer.readUInt32BE((line * recordSize) + 32);
 
+				geodata.country = locBuffer.toString('utf8', (locId * locRecordSize) + 0, (locId * locRecordSize) + 2).replace(/\u0000.*/, '');
+				geodata.region = locBuffer.toString('utf8', (locId * locRecordSize) + 2, (locId * locRecordSize) + 5).replace(/\u0000.*/, '');
+				geodata.metro = locBuffer.readInt32BE((locId * locRecordSize) + 5);
+				geodata.ll[0] = buffer.readInt32BE((line * recordSize) + 36)/10000;//latitude
+				geodata.ll[1] = buffer.readInt32BE((line * recordSize) + 40)/10000; //longitude
+				geodata.area = buffer.readUInt32BE((line * recordSize) + 44); //area
+				geodata.eu = locBuffer.toString('utf8', (locId * locRecordSize) + 9, (locId * locRecordSize) + 10).replace(/\u0000.*/, '');
+				geodata.timezone = locBuffer.toString('utf8', (locId * locRecordSize) + 10, (locId * locRecordSize) + 42).replace(/\u0000.*/, '');
+				geodata.city = locBuffer.toString('utf8', (locId * locRecordSize) + 42, (locId * locRecordSize) + locRecordSize).replace(/\u0000.*/, '');
+			}
 			// We do not currently have detailed region/city info for IPv6, but finally have coords
 			return geodata;
 		} else if (fline === cline) {
@@ -203,29 +215,21 @@ function lookup6(ip) {
 }
 
 function get4mapped(ip) {
-    var ipv6 = ip.toUpperCase();
-    var v6prefixes = ['0:0:0:0:0:FFFF:', '::FFFF:'];
-    for (var i = 0; i < v6prefixes.length; i++) {
-        var v6prefix = v6prefixes[i];
-        if (ipv6.indexOf(v6prefix) == 0) {
-            return ipv6.substring(v6prefix.length);
-        }
-    }
-    return null;
+	var ipv6 = ip.toUpperCase();
+	var v6prefixes = ['0:0:0:0:0:FFFF:', '::FFFF:'];
+	for (var i = 0; i < v6prefixes.length; i++) {
+		var v6prefix = v6prefixes[i];
+		if (ipv6.indexOf(v6prefix) == 0) {
+			return ipv6.substring(v6prefix.length);
+		}
+	}
+	return null;
 }
 
 function preload(callback) {
 	var datFile;
 	var datSize;
-	var asyncCache = {
-		firstIP: null,
-		lastIP: null,
-		lastLine: 0,
-		locationBuffer: null,
-		locationRecordSize: 64,
-		mainBuffer: null,
-		recordSize: 12
-	};
+	var asyncCache = JSON.parse(JSON.stringify(conf4));
 
 	//when the preload function receives a callback, do the task asynchronously
 	if (typeof arguments[0] === 'function') {
@@ -241,7 +245,7 @@ function preload(callback) {
 					function (cb2) {
 						fs.fstat(datFile, function (err, stats) {
 							datSize = stats.size;
-							asyncCache.locationBuffer = new Buffer(datSize);
+							asyncCache.locationBuffer = Buffer.alloc(datSize);
 							cb2(err);
 						});
 					},
@@ -289,7 +293,7 @@ function preload(callback) {
 				});
 			},
 			function () {
-				asyncCache.mainBuffer = new Buffer(datSize);
+				asyncCache.mainBuffer = Buffer.alloc(datSize);
 				
 				async.series([
 					function (cb2) {
@@ -304,6 +308,7 @@ function preload(callback) {
 					} else {
 						asyncCache.lastLine = (datSize / asyncCache.recordSize) - 1;
 						asyncCache.lastIP = asyncCache.mainBuffer.readUInt32BE((asyncCache.lastLine * asyncCache.recordSize) + 4);
+						asyncCache.firstIP = asyncCache.mainBuffer.readUInt32BE(0);
 						cache4 = asyncCache;
 					}
 					callback(err);
@@ -321,7 +326,7 @@ function preload(callback) {
 				};
 			}
 
-			cache4.locationBuffer = new Buffer(datSize);
+			cache4.locationBuffer = Buffer.alloc(datSize);
 			fs.readSync(datFile, cache4.locationBuffer, 0, datSize, 0);
 			fs.closeSync(datFile);
 
@@ -337,7 +342,7 @@ function preload(callback) {
 			cache4.recordSize = RECORD_SIZE;
 		}
 
-		cache4.mainBuffer = new Buffer(datSize);
+		cache4.mainBuffer = Buffer.alloc(datSize);
 		fs.readSync(datFile, cache4.mainBuffer, 0, datSize, 0);
 
 		fs.closeSync(datFile);
@@ -351,13 +356,7 @@ function preload(callback) {
 function preload6(callback) {
 	var datFile;
 	var datSize;
-	var asyncCache6 = {
-		firstIP: null,
-		lastIP: null,
-		lastLine: 0,
-		mainBuffer: null,
-		recordSize: 58
-	};
+	var asyncCache6 = JSON.parse(JSON.stringify(conf6));
 
 	//when the preload function receives a callback, do the task asynchronously
 	if (typeof arguments[0] === 'function') {
@@ -401,7 +400,7 @@ function preload6(callback) {
 				});
 			},
 			function () {
-				asyncCache6.mainBuffer = new Buffer(datSize);
+				asyncCache6.mainBuffer = Buffer.alloc(datSize);
 				
 				async.series([
 					function (cb2) {
@@ -441,7 +440,7 @@ function preload6(callback) {
 			cache6.recordSize = RECORD_SIZE6;
 		}
 
-		cache6.mainBuffer = new Buffer(datSize);
+		cache6.mainBuffer = Buffer.alloc(datSize);
 		fs.readSync(datFile, cache6.mainBuffer, 0, datSize, 0);
 
 		fs.closeSync(datFile);
@@ -503,7 +502,32 @@ module.exports = {
 	// Stop watching for data updates.
 	stopWatchingDataUpdate: function () {
 		fsWatcher.stopWatching(watcherName);
-	}
+	},
+    
+	//clear data
+	clear: function () {
+		cache4 = JSON.parse(JSON.stringify(conf4));
+		cache6 = JSON.parse(JSON.stringify(conf6));
+	},
+	
+	// Reload data synchronously
+	reloadDataSync: function () {
+		preload();
+		preload6();
+	},
+	
+	// Reload data asynchronously
+	reloadData: function (callback) {
+		//Reload data
+		async.series([
+			function (cb) {
+				preload(cb);
+			},
+			function (cb) {
+				preload6(cb);
+			}
+		], callback);
+	},
 };
 
 preload();

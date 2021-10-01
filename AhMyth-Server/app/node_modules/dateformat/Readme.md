@@ -37,8 +37,7 @@ dateFormat.masks.hammerTime = 'HH:MM! "Can\'t touch this!"';
 dateFormat(now, "hammerTime");
 // 17:46! Can't touch this!
 
-// When using the standalone dateFormat function,
-// you can also provide the date as a string
+// You can also provide the date as a string
 dateFormat("Jun 9 2007", "fullDate");
 // Saturday, June 9, 2007
 

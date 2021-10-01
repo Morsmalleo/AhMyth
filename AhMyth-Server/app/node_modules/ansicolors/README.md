@@ -2,6 +2,8 @@
 
 Functions that surround a string with ansicolor codes so it prints in color.
 
+In case you need styles, like `bold`, have a look at [ansistyles](https://github.com/thlorenz/ansistyles).
+
 ## Installation
 
     npm install ansicolors
@@ -28,6 +30,24 @@ console.log(colors.bgBrightBlue('printed on bright blue background'));
 // below two lines have same result (order in which bg and fg are combined doesn't matter)
 console.log(colors.bgYellow(colors.blue('printed on yellow background in blue')));
 console.log(colors.blue(colors.bgYellow('printed on yellow background in blue')));
+```
+
+## Advanced API
+
+**ansicolors** allows you to access opening and closing escape sequences separately.
+
+```js
+var colors = require('ansicolors');
+
+function inspect(obj, depth) {
+  return require('util').inspect(obj, false, depth || 5, true);
+}
+
+console.log('open blue', inspect(colors.open.blue));
+console.log('close bgBlack', inspect(colors.close.bgBlack));
+
+// => open blue '\u001b[34m'
+//    close bgBlack '\u001b[49m'
 ```
 
 ## Tests

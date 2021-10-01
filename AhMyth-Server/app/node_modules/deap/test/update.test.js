@@ -30,6 +30,26 @@ describe('shallow update', function() {
 		assert.isUndefined(a.grr);
 	});
 
+	it('should replace a top level property with an multi-level object', function() {
+		var a = { burp: 'adurp' },
+			b = { burp: { foo: 'bar', biz: { baz: 'buz', zing: 'zoing' } } };
+
+		var result = shallowUpdate(a, b);
+
+		assert.deepEqual(result, a);
+		assert.deepEqual(result.burp, b.burp);
+	});
+
+	it('should replace a top level object with a string', function() {
+		var a = { burp: { foo: 'bar' } },
+			b = { burp: 'adurp' };
+
+		var result = shallowUpdate(a, b);
+
+		assert.deepEqual(result, a);
+		assert.deepEqual(result.burp, b.burp);
+	});
+
 });
 
 describe('deep update', function() {
@@ -131,6 +151,17 @@ describe('deep update', function() {
 
 		assert.deepEqual(result.nested, b.nested);
 		assert.notStrictEqual(result.nested[0], deeper);
+	});
+
+	it('should only replace existing properties in nested objects', function() {
+		var a = { burp: { thing: 'thang', biz: { burp: 'adurp' } } },
+			b = { burp: { foo: 'bar', biz: { burp: 'boop', baz: 'buz', zing: 'zoing' } } };
+
+		var result = deepUpdate(a, b);
+
+		assert.deepEqual(result, a);
+		assert.deepEqual(result.burp.thing, 'thang');
+		assert.deepEqual(result.burp.biz.burp, 'boop');
 	});
 
 });

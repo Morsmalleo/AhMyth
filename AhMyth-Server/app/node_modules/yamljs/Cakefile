@@ -21,7 +21,7 @@ task 'build', 'build project', ->
             fs.mkdirSync libDir
         unless fs.existsSync libDir+'/Exception'
             fs.mkdirSync libDir+'/Exception'
-        toCompile = 'Yaml Utils Unescaper Pattern Parser Inline Escaper Dumper Exception/ParseException Exception/DumpException'.split ' '
+        toCompile = 'Yaml Utils Unescaper Pattern Parser Inline Escaper Dumper Exception/ParseException Exception/ParseMore Exception/DumpException'.split ' '
         do compileOne = ->
             name = toCompile.shift()
             outputDir = (if '/' in name then libDir+'/Exception' else libDir)
@@ -40,7 +40,7 @@ task 'build', 'build project', ->
             fs.mkdirSync libDebugDir
         unless fs.existsSync libDebugDir+'/Exception'
             fs.mkdirSync libDebugDir+'/Exception'
-        toCompile = 'Yaml Utils Unescaper Pattern Parser Inline Escaper Dumper Exception/ParseException Exception/DumpException'.split ' '
+        toCompile = 'Yaml Utils Unescaper Pattern Parser Inline Escaper Dumper Exception/ParseException Exception/ParseMore Exception/DumpException'.split ' '
         do compileOne = ->
             name = toCompile.shift()
             outputDir = (if '/' in name then libDebugDir+'/Exception' else libDebugDir)
