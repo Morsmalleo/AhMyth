@@ -1,4 +1,13 @@
 # AhMyth installation instructions
+## Prerequisites
+    1. nodejs
+    - sudo apt -y install nodejs
+    
+    2. Java 8/java 11 Development Kit
+    - sudo apt -y install openjdk-11-jdk
+    
+    3. electron-packager - to build binaries for Linux & OSX
+    - npm install -g electron-packager
 ## Linux
 ### Auto Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
