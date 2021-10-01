@@ -17,7 +17,7 @@ var http = require('http');
  * @api public
  */
 
-exports = module.exports = function() {
+exports = module.exports = function () {
   // backwards compatible use as `.attach`
   // if first argument is an http server
   if (arguments.length && arguments[0] instanceof http.Server) {
@@ -88,8 +88,8 @@ exports.parser = require('engine.io-parser');
 
 exports.listen = listen;
 
-function listen(port, options, fn) {
-  if ('function' == typeof options) {
+function listen (port, options, fn) {
+  if ('function' === typeof options) {
     fn = options;
     options = {};
   }
@@ -99,14 +99,14 @@ function listen(port, options, fn) {
     res.end('Not Implemented');
   });
 
-  server.listen(port, fn);
-
   // create engine server
   var engine = exports.attach(server, options);
   engine.httpServer = server;
 
+  server.listen(port, fn);
+
   return engine;
-};
+}
 
 /**
  * Captures upgrade requests for a http.Server.
@@ -119,8 +119,8 @@ function listen(port, options, fn) {
 
 exports.attach = attach;
 
-function attach(server, options) {
+function attach (server, options) {
   var engine = new exports.Server(options);
   engine.attach(server, options);
   return engine;
-};
+}
