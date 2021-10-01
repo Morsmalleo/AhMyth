@@ -15,7 +15,7 @@
         "graceful-fs": "^4.2.8",
         "homedir": "^0.6.0",
         "semantic-ui": "2.2.6",
-        "socket.io": "^2.0.2",
+        "socket.io": "^1.4.5",
         "socket.io-client": "^2.0.1"
     }
 }
