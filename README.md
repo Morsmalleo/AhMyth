@@ -1,68 +1,60 @@
 <p align="center">
 
-  <img width="700" src="https://user-images.githubusercontent.com/64344168/133610397-bafc580f-2f4b-4bd1-9273-a0216bcaac87.jpg" alt="AhMyth logo">
+  <img width="800" src="https://user-images.githubusercontent.com/64344168/135561288-0fbcd451-ade8-4087-a4e9-2e09edf7d4ff.jpg">
 
 </p>
 
-#
-## IMPORTANT NOTES PLEASE READ
-### AhMyth.deb packages removed
-    I have removed all the AhMyth Linux.deb setup files from versions 1.0-beta.2 & 1.0-beta.3
-    due to errors with AhMyth after having it packaged into .deb files for 64-Bit & 32-Bit 
-    Linux Machines, so the AhMyth_Linux.deb files have been removed from both releases and are 
-    now Source Code only to prevent anymore unwanted errors or problems until further notice. 
-    
-    You can still setup AhMyth with the source code the same way you would do it
-    if you git cloned it, just Download the Source Code from the releases page, 
-    then follow the steps below in the INSTALLATION section.
-<br /><br />
-### Windows Development Ceased
-    AhMyth development for Windows machines has ceased since v1.0-beta.3, due to to many errors 
-    and issues compared to that of Linux. AhMyth will now be developed and maintained for Linux 
-    Machines only. This Windows sub-section of the installation section of AhMyth will be removed 
-    in the next release of AhMyth Android RAT. 
-    
-    You will no longer find Windows Setup executables for AhMyth in versions 1.0-beta.2 & 1.0-beta.3, 
-    as well as future releases of AhMyth.
-<br /><br />
-#
-# Getting Started
-### The Application uses two parts:
-    The Server side - Control Panel
-    The Client side - Backdoor Payload
+AhMyth is a powerful open-source remote administration tool that can be used to access informational data from an android device. Through it, an attacker can access critical information such as the current geographical location of the device being attacked. In advanced use cases it can be used to hack the victim’s microphone and launch recordings, get camera snapshots and also read personal messages on the attacked device.
 
-### Prerequisits:
-    npm & nodejs 
-    electron (To start the app)
-    Java 11 openjdk (To generate backdoor)
-    electron packager (if you want to build binaries for Windows/Mac/Linux)
-<br /><br />
-#
-# INSTALLATION
-## Linux
-#### Auto install:
-    1. git clone https://github.com/Morsmalleo/AhMyth.git
-    2. cd AhMyth/AhMyth-Server
-    3. chmod +x autoinstall
-    4. sudo ./autoinstall
-    5. Select the corresponding number for openjdk-11-jdk when prompted - Example: 0
-    6. type 'ahmyth' anywhere in the terminal to auto-launch AhMyth
-       or you can launch AhMyth from your Applications Menu
+<p align="center">
+  
+  <img width="350" src="https://user-images.githubusercontent.com/64344168/135561002-a0f148ce-c841-4bf5-9cdb-a205297dd312.jpg">
 
-#### Manual Install:
-    1. git clone https://github.com/Morsmalleo/AhMyth.git
-    2. cd AhMyth/AhMyth-Server
-    3. npm install && npm audit
-    4. sudo apt install openjdk-11-jdk openjdk-11-jre
-    5. sudo update-alternatives --config java
-    6. Select the corresponding number for openjdk-11-jdk - Example: 0
-    7. npm start
+</p>
+
+
+This tool is designed with a GUI interface and this makes one of the easiest RATs to use. With this tool, you can easily log in and gain direct control to an android device as an administrator.
+
+    Disclaimer: AhMyth is designed solely for educational purposes.
+
+# AhMyth: Android Remote Administration Tool
+As a remote administration tool, AhMyth has two parts which enable it to effectively perform its functions. It has a server-side which acts like a desktop application that is built on an electron framework. The server side is used by the attacker as the control panel through which connections are made to the AhMyth software that is installed on the victim’s Android device. The client-side of AhMyth works as the android application and can be used as a backdoor.
+
+# How it works?
+    For this tool to be used to carry an attack, the client-side must be installed on the targeted 
+    Android device. Installations can be achieved by sending the target a link that contains the 
+    malicious software. Upon successful installation and launch by the victim, the attacker will 
+    be able to have a view of the victim’s device from the tool’s target menu. After this, the 
+    attacker simply selects a favorable port from which an attack can be launched and begins 
+    to listen on the targeted Android device.
+
+    When deployed on a target device this tool can be used to access personal information such as 
+    the victim’s passwords and call logs. The attacker can also gain access to the victim’s browser 
+    cookies and know the web pages that have been visited using the device. Apart from allowing an 
+    attacker to view the victim’s personal messages, AhMyth can also enable messages to be sent from 
+    the victim’s Android device to another phone without the consent of the victim.
+
+# Features:
+- File Manager – allows the attacker to view contents in the target device including the firmware.
+- Remote access to Mic and Camera.
+- Access to Call Logs.
+- SMS access-allows the attacker to read and send messages from the target device.
+- Device GPS Location-enables the attacker to know the geographical location of the victim.
+- Supports **Linux** & **OS X**
+
 <br /><br />
 # Disclaimer
     I am not in any way reponsible for any damage or harm to any devices, you use this at your own risk,
     I also DO NOT OWN THIS PROJECT, I have just contributed to it, this Android RAT application belongs to its 
     creator AhMyth, his github can be found here - https://github.com/AhMyth
 ---------------------------------------------------------------------------------------------------------------
-![splash](https://user-images.githubusercontent.com/64344168/133571994-7595c487-38a5-4c50-845c-597bb12ead94.jpg)
+<p>
+
+  <img width="300" src=https://user-images.githubusercontent.com/64344168/135562852-2c00f96f-67f2-49f4-8844-7a48512f70b4.png>
+
+</p>
+
+![download](https://user-images.githubusercontent.com/64344168/135561374-1cb99670-284d-4e77-92fb-0915a338181f.png)
+
 
 
