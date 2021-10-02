@@ -11,9 +11,6 @@
     
     4. android-framework-res
     - sudo apt -y install android-framework-res
-    
-    5. electron-packager - to build binaries for Linux & OSX
-    - npm install -g electron-packager
 ## Linux
 ### Auto Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
