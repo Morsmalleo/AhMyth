@@ -17,7 +17,9 @@ This tool is designed with a GUI interface and this makes one of the easiest RAT
 
     AhMyth is designed solely for educational purposes. I am not in any way reponsible for any damage or harm 
     to any devices, you use this at your own risk, I also DO NOT OWN THIS PROJECT, I have just contributed 
-    to it, this Android RAT application belongs to its creator AhMyth, his github can be found here - https://github.com/AhMyth
+    to it, this Android RAT application belongs to its creator AhMyth, his github can be found here
+    
+    - https://github.com/AhMyth
     
 Installation Instruction can be found in the [INSTRUCTIONS.md](https://github.com/Morsmalleo/AhMyth/blob/master/INSTRUCTIONS.md)
 #
