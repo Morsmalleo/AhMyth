@@ -14,18 +14,39 @@
 ## Linux
 ### Auto Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
-    2. cd AhMyth/AhMyth-Server
-    3. chmod +x autoinstall
-    4. sudo ./autoinstall
-    5. Type the number that corresponds to Java 11 or Java 8 when prompted
-    6. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
+![Step 1](https://user-images.githubusercontent.com/64344168/135712404-a84e04e1-5799-4e98-b887-9e039b6da048.png)
     
-    Do not remove the 'package-lock.json' file or the Autoinstaller wont work
+    2. cd AhMyth/AhMyth-Server
+![Step 2](https://user-images.githubusercontent.com/64344168/135712500-966e15a9-27d8-47eb-a1c8-52c528a600c3.png)
+
+    3. chmod +x autoinstall
+![step 3](https://user-images.githubusercontent.com/64344168/135712545-c8b8fee4-5c09-4a65-ad9f-e6b78ad2d63e.png)
+
+    4. sudo ./autoinstall
+![Step 4](https://user-images.githubusercontent.com/64344168/135712661-e45baf6a-2565-40f1-8e5b-607ca19af906.png)
+
+    5. Type the number that corresponds to Java 11 or Java 8 when prompted
+ ![Step 5](https://user-images.githubusercontent.com/64344168/135712665-5f5acd58-d23f-424f-8e02-b48161626e79.png)
+   
+    6. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
+ ![Step 6](https://user-images.githubusercontent.com/64344168/135712666-7eb2dc2e-098a-4323-8680-b97e8e44abd5.png)
+#
 ### Manual Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
+![Step 1](https://user-images.githubusercontent.com/64344168/135712703-a21c25bf-7c4a-409c-94d0-6e5d8942e4b8.png)
+
     2. cd AhMyth/AhMyth-Server
+![Step 2](https://user-images.githubusercontent.com/64344168/135712705-1fa84f97-d0d5-4615-bff4-b79795fa0f9c.png)
+
     3. npm install
+![Step 3](https://user-images.githubusercontent.com/64344168/135712709-e4b7d464-60e5-47b3-a13d-bf4d13939696.png)
+
     4. npm start
+![Step 4](https://user-images.githubusercontent.com/64344168/135712713-c0689728-f934-4e4f-b2df-2fb5e014be42.png)
+    
+    To fix the warning pictured below just simply upgrade to node 14.x
+![Warning fix](https://user-images.githubusercontent.com/64344168/135712747-8545bc2c-3ef9-4e5e-9890-f2d7f66e1534.png)    
+
 #
 # IMPORTANT RELEASE NOTES
 ## Windows CeaseDev Message
