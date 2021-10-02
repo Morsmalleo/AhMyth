@@ -44,8 +44,8 @@ As a remote administration tool, AhMyth has two parts which enable it to effecti
 - File Manager – allows the attacker to view contents in the target device including the firmware.
 - Remote access to Mic and Camera.
 - Access to Call Logs.
-- SMS access-allows the attacker to read and send messages from the target device.
-- Device GPS Location-enables the attacker to know the geographical location of the victim.
+- SMS access – allows the attacker to read and send messages from the target device.
+- Device GPS Location – enables the attacker to know the geographical location of the victim.
 - Supports **Linux** & **OS X**
 #
 ---------------------------------------------------------------------------------------------------------------
