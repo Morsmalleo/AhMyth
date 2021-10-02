@@ -6,7 +6,13 @@
     2. Java 8/java 11 Development Kit
     - sudo apt -y install openjdk-11-jdk
     
-    3. electron-packager - to build binaries for Linux & OSX
+    3. aapt
+    - sudo apt -y install aapt
+    
+    4. android-framework-res
+    - sudo apt -y install android-framework-res
+    
+    5. electron-packager - to build binaries for Linux & OSX
     - npm install -g electron-packager
 ## Linux
 ### Auto Installation
