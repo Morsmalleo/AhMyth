@@ -24,7 +24,7 @@
 ### Manual Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
     2. cd AhMyth/AhMyth-Server
-    3. npm install - NOTE: DO NOT 'npm install' ANYTHING ELSE LIKE ELECTRON-NIGHTLY, JUST RUN 'npm install'
+    3. npm install
     4. npm start
 #
 # IMPORTANT RELEASE NOTES
