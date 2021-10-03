@@ -20,8 +20,7 @@ This tool is designed with a GUI interface and this makes one of the easiest RAT
     to it, this Android RAT application belongs to its creator AhMyth, his github can be found here
     
     - https://github.com/AhMyth
-    
-Installation Instruction can be found in the [INSTRUCTIONS.md](https://github.com/Morsmalleo/AhMyth/blob/master/INSTRUCTIONS.md)
+
 #
 # AhMyth: Android Remote Administration Tool
 As a remote administration tool, AhMyth has two parts which enable it to effectively perform its functions. It has a server-side which acts like a desktop application that is built on an electron framework. The server side is used by the attacker as the control panel through which connections are made to the AhMyth software that is installed on the victim’s Android device. The client-side of AhMyth works as the android application and can be used as a backdoor.
@@ -39,6 +38,11 @@ As a remote administration tool, AhMyth has two parts which enable it to effecti
     cookies and know the web pages that have been visited using the device. Apart from allowing an 
     attacker to view the victim’s personal messages, AhMyth can also enable messages to be sent from 
     the victim’s Android device to another phone without the consent of the victim.
+    
+# Installation
+Installation Instruction can be found in the [INSTRUCTIONS.md](https://github.com/Morsmalleo/AhMyth/blob/master/INSTRUCTIONS.md)
+Join the development and upgrading of AhMyth at [AhMyth RAT Development](https://www.facebook.com/groups/396412025258492/?notif_id=1633235475450513&notif_t=group_milestone&ref=notif)
+
 #
 # Features:
 - File Manager – allows the attacker to view contents in the target device including the firmware.
@@ -48,7 +52,6 @@ As a remote administration tool, AhMyth has two parts which enable it to effecti
 - Device GPS Location – enables the attacker to know the geographical location of the victim.
 - Supports **Linux** & **OS X**
 #
----------------------------------------------------------------------------------------------------------------
 <p>
 
   <img width="600" src=https://user-images.githubusercontent.com/64344168/135562852-2c00f96f-67f2-49f4-8844-7a48512f70b4.png>
