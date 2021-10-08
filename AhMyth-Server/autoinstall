@@ -17,19 +17,22 @@ sleep 2
 # without having to manually add it to your sources.list
 apt-get install xterm -y 
 apt-get install npm nodejs -y
+apt-get install aapt android-framework-res
 clear
 sleep 1
 
 clear
 echo " |--------------------------------------------------------------------------| "
 echo " | AhMyth now supports Java 11 Development Kit, but it is still recommended | "
-echo " | to install Java 8 Development Kit in case of errors simply because       | "
+echo " | to install Java 8 Development Kit in case of errors, because             | "
 echo " | Java 11 support for AhMyth is still in beta phases                       | "
 echo " |--------------------------------------------------------------------------| "
 sleep 15
 clear
 
-echo " Do you want to install Java 8 Development Kit for AhMyth? "
+echo " |-----------------------------------------------------------| "
+echo " | Do you want to install Java 8 Development Kit for AhMyth? | "
+echo " |-----------------------------------------------------------| " 
 echo "$cyan" "Choose y/n : "
 read -r cho
 case "$cho" in
@@ -86,7 +89,7 @@ sleep 2
 echo " |-------------------| "
 echo " | Installing AhMyth | "
 echo " |-------------------| " 
-sudo su $USER -c "npm install"
+su -c "npm install" $USER
 # installs node_modules for User (Non-Root User)
 # using the Root User, currently works on both Kali
 # Linux and Parrot OS
