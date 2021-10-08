@@ -3,8 +3,11 @@
     1. nodejs
     - sudo apt -y install nodejs
     
-    2. Java 8/java 11 Development Kit
+    2. Java 11 Development Kit
     - sudo apt -y install openjdk-11-jdk
+    
+    (If you want to install openjdk-8-jdk 
+    then you'll need to run the autoinstaller)
     
     3. aapt
     - sudo apt -y install aapt
