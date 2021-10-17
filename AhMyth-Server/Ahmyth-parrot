@@ -16,7 +16,8 @@ sleep 2
 # Java 8 development kit from an older software Repo
 # without having to manually add it to your sources.list
 apt-get install xterm -y 
-apt-get install npm nodejs -y
+apt-get install nodejs -y
+apt-get install npm -y
 apt-get install aapt android-framework-res -y
 clear
 sleep 1
@@ -32,9 +33,9 @@ case "$cho" in
 # Creates an Ahmyth.list file inside the '/etc/apt/' 
 # directory for the Repo_Swap, more info on the Repo_Swap
 # here - https://github.com/Morsmalleo/Repo_Swap
-touch /etc/apt/sources.list/Ahmyth.list
-echo "deb http://deb.debian.org/debian stretch main contrib non-free" > /etc/apt/sources.list/Ahmyth.list
-mv /etc/apt/sources.list.d/parrot.list /etc/apt/sources.list.d/parrot.list.backup
+touch /etc/apt/Ahmyth.list
+mv /etc/apt/sources.list.d/parrot.list /etc/apt/sources.list.d/parrot.backup
+echo "deb http://deb.debian.org/debian stretch main contrib non-free" > /etc/apt/sources.list.d/Ahmyth.list
 xterm -T " Updating Repositories Debian Stretch " -geometry 100x30 -e "apt-get clean && apt-get clean cache && apt-get update -y"
 sleep 2
 
@@ -46,8 +47,8 @@ echo " | Removing Debian Stretch software repository | "
 echo " |---------------------------------------------| "
 sleep 5
 # Removes Ahmyth.list file in 'etc/apt/sources.list.d'
-rm -f /etc/apt/sources.list/Ahmyth.list
-mv /etc/apt/sources.list.d/parrot.list.backup /etc/apt/sources.list.d/parrot.list
+rm -f /etc/apt/sources.list.d/Ahmyth.list
+mv /etc/apt/sources.list.d/parrot.backup /etc/apt/sources.list.d/parrot.list
 clear
 # Now we can reactivate original software repositories without the stretch software repo interfering
 xterm -T " Updating Your Original/Current Repositories " -geometry 100x30 -e "apt-get update"
