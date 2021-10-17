@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=AhMyth 
 Comment=Advanced Android remote administration tool.
-Exec=ahmyth
+Exec=/usr/local/sbin/ahmyth
 Icon=/usr/share/icons/64x64.png
 Terminal=false
 Type=Application
