@@ -43,7 +43,7 @@ public class MyReceiver extends BroadcastReceiver {
                                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                                     PackageManager.DONT_KILL_APP);
 
-                    Toast.makeText(context, "AhMyth's icon has now unhidden!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "AhMyth's icon has been revealed!", Toast.LENGTH_SHORT).show();
                 }
             }
         }
