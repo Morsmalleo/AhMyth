@@ -64,10 +64,11 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot class="full-width">
+        <tfoot class="half-width">
             <tr class="center aligned">
                 <th colspan="2">
-                    <button ng-click="Build(srcIP,srcPort)" class="ui labeled icon red button"><i class="lab icon" ></i>Build</button>
+                    <button ng-click="Build(srcIP,srcPort)" ng-hide="bindApk.enable" ng-show="Build" class="ui labeled icon red button"><i class="lightning icon" ></i>Build</button>
+                    <button ng-click="Build(srcIP,srcPort)" ng-hide="Build" ng-show=bindApk.enable class="ui labeled icon green button"><i class="lab icon" ></i>Bind</button>
                 </th>
             </tr>
         </tfoot>
