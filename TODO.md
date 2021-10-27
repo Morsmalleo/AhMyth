@@ -1,0 +1,6 @@
+- Fix Live Camera Preview for the Camera option in the Victims Lab, controlled by the `CameraManager.java` - located @ `./AhMyth-Client/app/src/main/java/ahmyth/mine/king/ahmyth/`
+- Integrate Video Recording for the camera option in the Victims Lab
+- Integrate Call Notifications for Incoming and Outgoing Calls from and to the Victim
+- Migrate entire AhMyth project to AndroidX
+- Rewrite the AhMyth-Client `*.java` API files for AndroidX API's as they were written for a very old API - located @ `./AhMyth-Client/app/src/main/java/ahmyth/mine/king/ahmyth/` 
+- Find a `semantic-ui` alternative, as it is causing blocks in upgrading AhMyth's `node_modules` - Warning @ `npm install semantic-ui@latest`
