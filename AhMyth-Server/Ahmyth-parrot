@@ -87,8 +87,8 @@ echo " |-------------------| "
 echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sleep 2
-# Change 'user' username to match your own if you have changed username from default
-su -c "npm install" user
+# installs electron globally allowing AhMyth to start and operate with out running 'npm install'
+sh -c "npm install -g electron@9.4.1"
 sleep 5
 clear
 /usr/bin/update-alternatives --config java
