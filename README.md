@@ -4,6 +4,7 @@
 
 </p>
 
+#
 AhMyth is a powerful open-source remote administration tool that can be used to access informational data from an android device. Through it, an attacker can access critical information such as the current geographical location of the device being attacked. In advanced use cases it can be used to hack the victim’s microphone and launch recordings, get camera snapshots and also read personal messages on the attacked device.
 
 <p align="center">
@@ -12,12 +13,14 @@ AhMyth is a powerful open-source remote administration tool that can be used to 
 
 </p>
 
-
+#
 This tool is designed with a GUI interface and this makes one of the easiest RATs to use. With this tool, you can easily log in and gain direct control to an android device as an administrator.
 
-    AhMyth is designed solely for educational purposes. I am not in any way reponsible for any damage or harm 
-    to any devices, you use this at your own risk, I also DO NOT OWN THIS PROJECT, I have just contributed 
-    to it, this Android RAT application belongs to its creator AhMyth, his github can be found here
+#
+    AhMyth is designed solely for educational purposes. I am not in any way reponsible for any damage or 
+    harm to any devices, you use this at your own risk, I also DO NOT OWN THIS PROJECT, I have just 
+    contributed to it, this Android RAT application belongs to its creator AhMyth, his github 
+    can be found here in the link below.
     
     - https://github.com/AhMyth
 
