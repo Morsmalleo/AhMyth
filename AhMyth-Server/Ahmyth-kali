@@ -85,7 +85,7 @@ echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sleep 2
 # Change kali username to match your own if you have customized your system
-su -c "npm install" kali
+sh -c "npm install electron@9.4.1"
 sleep 5
 clear
 /usr/bin/update-alternatives --config java
