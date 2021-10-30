@@ -14,6 +14,9 @@
     
     4. android-framework-res
     - sudo apt -y install android-framework-res
+    
+    5. electron v9.4.1
+    - npm install -g electron@9.4.1
 ## Linux
 ### Auto Installation
     1. git clone https://github.com/Morsmalleo/AhMyth    
@@ -30,8 +33,9 @@ for example if your username was `bashful` you would change the username on `Lin
 ### Manual Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
     2. cd AhMyth/AhMyth-Server
-    3. npm install
+    3. npm install -g electron@9.4.1
     4. npm start    
+#
     If you run into the warning message pictured below, just simply upgrade to node 14.x
 ![Warning fix](https://user-images.githubusercontent.com/64344168/135712747-8545bc2c-3ef9-4e5e-9890-f2d7f66e1534.png)    
 
