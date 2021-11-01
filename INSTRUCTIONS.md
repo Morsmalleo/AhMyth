@@ -21,10 +21,9 @@
 ### Auto Installation
     1. git clone https://github.com/Morsmalleo/AhMyth    
     2. cd AhMyth/AhMyth-Server
-    3. chmod +x Ahmyth-kali | chmod +x Ahmyth-parrot
-    4. sudo ./Ahmyth-kali | sudo ./Ahmyth-parrot
-    5. Type the number that corresponds to Java 11 or Java 8 when prompted   
-    6. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
+    3. sudo ./autoinstall
+    4. Select Java 8, or Java 11, when prompted   
+    5. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
 #
 ### Manual Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
