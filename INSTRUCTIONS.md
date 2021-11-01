@@ -1,22 +1,5 @@
 # AhMyth installation instructions
-## Prerequisites
-    1. nodejs
-    - sudo apt -y install nodejs
-    
-    2. Java 11 Development Kit
-    - sudo apt -y install openjdk-11-jdk
-    
-    (If you want to install openjdk-8-jdk 
-    then you'll need to run the autoinstaller)
-    
-    3. aapt
-    - sudo apt -y install aapt
-    
-    4. android-framework-res
-    - sudo apt -y install android-framework-res
-    
-    5. electron v9.4.1
-    - npm install -g electron@9.4.1
+#
 ## Linux
 ### Auto Installation
     1. git clone https://github.com/Morsmalleo/AhMyth    
@@ -24,6 +7,10 @@
     3. sudo ./autoinstall
     4. Select Java 8, or Java 11, when prompted   
     5. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
+    
+    The autoinstall script has been coded to install all prerequisits for AhMyth
+    including aapt and android-framework-res, the script FINALLY works for both
+    Kali and Parrot.
 #
 ### Manual Installation
     1. git clone https://github.com/Morsmalleo/AhMyth
