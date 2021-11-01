@@ -7,7 +7,7 @@
     3. sudo ./autoinstall
     4. Select Java 8, or Java 11, when prompted   
     5. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
-    
+    ----------------------------------------------------------------
     The autoinstall script has been coded to install all prerequisits for AhMyth
     including aapt and android-framework-res, the script FINALLY works for both
     Kali and Parrot.
