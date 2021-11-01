@@ -1,6 +1,5 @@
 package ahmyth.mine.king.ahmyth;
 
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -14,8 +13,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
 
 public class MainService extends Service {
     private static Context contextOfApplication;

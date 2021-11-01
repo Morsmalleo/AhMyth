@@ -1,9 +1,7 @@
 package ahmyth.mine.king.ahmyth;
 
 import android.database.Cursor;
-import android.provider.CallLog;
 import android.provider.ContactsContract;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
