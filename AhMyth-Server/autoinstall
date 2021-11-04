@@ -21,14 +21,15 @@ apt-get install aapt android-framework-res -y
 clear
 sleep 1
 
-echo " |----------------------------------------------------------------------| "
-echo " | Do you want to install Java 8 opendjk or Java 11 opendjk for AhMyth? | "
-echo " |----------------------------------------------------------------------| " 
-echo "$cyan" "Choose 11/8 : "
+echo " |--------------------------------------------------------------------------| "
+echo " | Do you want to install Java 8 openjdk or Java 11 openjdk for AhMyth?     | "
+echo " | or choose 'Skip' if you already have one or both java versions installed | "
+echo " |--------------------------------------------------------------------------| " 
+echo "$cyan" "Choose 11/8/Skip : "
 read -r cho
 case "$cho" in
 
-8)
+8|eight)
 # Creates an Ahmyth.list file inside the 'sources.list.d' 
 # folder for the Repo_Swap, more info on the Repo_Swap
 # here - https://github.com/Morsmalleo/Repo_Swap
@@ -63,7 +64,7 @@ echo " |-------------------------------------------| "
 sleep 4
 ;;
 
-11)
+11|eleven)
 clear
 echo " |-----------------------------------------------------| "
 echo " | Ok, we will install Java 11 Development Kit for you | "
@@ -76,7 +77,6 @@ echo " | Installing Java 11 Development Kit | "
 echo " |------------------------------------| "
 
 apt-get install openjdk-11-jdk* openjdk-11-jre* -y
-esac
 
 clear
 echo " |--------------------------------------------| "
@@ -84,13 +84,16 @@ echo " | Java 11 Development Kit has been installed | "
 echo " |--------------------------------------------| "
 sleep 2
 clear
+;;
 
+Skip|S|skip|s)
+clear
 echo " |-------------------| "
 echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sleep 2
 # Install's electron globally, so you can operate ahmyth without needing to run 'npm install', works for both Kali and Parrot FINALLY!
-sh -c "npm install electron@9.4.1"
+sh -c "sudo npm install -g electron@9.4.1"
 sleep 5
 clear
 /usr/bin/update-alternatives --config java
@@ -115,6 +118,7 @@ echo " | or type 'npm start' inside the 'AhMyth/AhMyth-Server' directory | "
 echo " |-----------------------------------------------------------------| "
 sleep 5
 clear
+esac
 exit 0
 fi
-;; 
+ski 
