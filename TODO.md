@@ -37,3 +37,5 @@ Manual building was successful but failed to install on the victim Android Devic
 9. Find a way to add `RES_TYPE_STYLES2` plus other `RES_TYPE_STYLES` to Apktool via tweaking the settings of Apktool and building via `gradlew build shadowJar` as 
 these style's are used by most APK files today, namely by `Facebook`
 
+10. Find a way to successfully integrate AngeCryption into AhMyth for steganography builder
+
