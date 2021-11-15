@@ -62,6 +62,38 @@ echo " |-------------------------------------------| "
 echo " | Java 8 Development Kit has been installed | "
 echo " |-------------------------------------------| "
 sleep 4
+clear
+echo " |-------------------| "
+echo " | Installing AhMyth | "
+echo " |-------------------| " 
+sleep 2
+# Install's electron globally, so you can operate ahmyth without needing to run 'npm install', works for both Kali and Parrot FINALLY!
+sh -c "sudo npm install -g electron@9.4.1"
+sleep 5
+clear
+/usr/bin/update-alternatives --config java
+# Creates the 'ahmyth' system shortcut file 
+dir=`pwd`
+scrp="cd $dir && npm start"
+rm -f /usr/local/sbin/ahmyth
+touch /usr/local/sbin/ahmyth
+echo "#!/bin/bash" > /usr/local/sbin/ahmyth
+echo "$scrp" >> /usr/local/sbin/ahmyth
+cd .. && cp "Config/AhMyth.desktop" /usr/share/applications/AhMyth.desktop
+cp "AhMyth-Server/build/icons-inverted/64x64.png" /usr/share/icons/64x64.png
+chmod +x /usr/local/sbin/ahmyth
+
+clear
+echo " |------------------------------------------------------------------------------------| "
+echo " | Installation completed, To execute AhMyth, type 'ahmyth' anywhere in your terminal | "
+echo " |------------------------------------------------------------------------------------| "
+sleep 5
+echo " |-----------------------------------------------------------------| "
+echo " | or type 'npm start' inside the 'AhMyth/AhMyth-Server' directory | "
+echo " |-----------------------------------------------------------------| "
+sleep 5
+clear
+exit 0 
 ;;
 
 11|eleven)
@@ -84,6 +116,37 @@ echo " | Java 11 Development Kit has been installed | "
 echo " |--------------------------------------------| "
 sleep 2
 clear
+echo " |-------------------| "
+echo " | Installing AhMyth | "
+echo " |-------------------| " 
+sleep 2
+# Install's electron globally, so you can operate ahmyth without needing to run 'npm install', works for both Kali and Parrot FINALLY!
+sh -c "sudo npm install -g electron@9.4.1"
+sleep 5
+clear
+/usr/bin/update-alternatives --config java
+# Creates the 'ahmyth' system shortcut file 
+dir=`pwd`
+scrp="cd $dir && npm start"
+rm -f /usr/local/sbin/ahmyth
+touch /usr/local/sbin/ahmyth
+echo "#!/bin/bash" > /usr/local/sbin/ahmyth
+echo "$scrp" >> /usr/local/sbin/ahmyth
+cd .. && cp "Config/AhMyth.desktop" /usr/share/applications/AhMyth.desktop
+cp "AhMyth-Server/build/icons-inverted/64x64.png" /usr/share/icons/64x64.png
+chmod +x /usr/local/sbin/ahmyth
+
+clear
+echo " |------------------------------------------------------------------------------------| "
+echo " | Installation completed, To execute AhMyth, type 'ahmyth' anywhere in your terminal | "
+echo " |------------------------------------------------------------------------------------| "
+sleep 5
+echo " |-----------------------------------------------------------------| "
+echo " | or type 'npm start' inside the 'AhMyth/AhMyth-Server' directory | "
+echo " |-----------------------------------------------------------------| "
+sleep 5
+clear
+exit 0 
 ;;
 
 Skip|S|skip|s)
@@ -120,5 +183,4 @@ sleep 5
 clear
 esac
 exit 0
-fi
-ski 
+fi 
