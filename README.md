@@ -1,3 +1,9 @@
+## Created by 
+- [Ahmed Al 'AhMyth' Hajri](www.github.com/AhMyth)
+## Maintained by 
+- [Morsmalleo](https://github.com/Morsmalleo)
+- [YagamiLight17](https://github.com/YagamiLight17)
+#
 <p align="center">
 
   <img width="800" src="https://user-images.githubusercontent.com/64344168/135561288-0fbcd451-ade8-4087-a4e9-2e09edf7d4ff.jpg">
