@@ -23,8 +23,8 @@
                         <div class="ui black label">
                         Apk Icon
                         </div>
-                     <input ng-model="srcIcon" type="text" id="icon" name="icon" placeholder="Picutres/test.png">
-                     <input ng-model="SrcApkName" type="text" id="name" placeholder="default is AhRansom.apk">
+                     <input ng-model="srcIcon" type="text" id="icon" name="icon" placeholder="Picutres/test.png"onblur="this.value=removeSpaces(this.value);">
+                     <input ng-model="SrcApkName" type="text" id="name" placeholder="default is AhRansom.apk"onblur="this.value=removeSpaces(this.value);">
                      <div class="ui labeled fluid input">
                         <div class="ui black label">
                         Apk Name
@@ -35,8 +35,8 @@
                         <div class="ui black label">
                         Screen Title
                         </div>
-                     <input ng-model="srcTitle" type="text" id="title" name="title" placeholder="you've been locked out!">
-                     <input ng-model="srcMessage" type="text" id="desc" name="desc" placeholder="your files have been encrypted!">
+                     <input ng-model="srcTitle" type="text" id="title" name="title" placeholder="you've been locked out!"onblur="this.value=removeSpaces(this.value);">
+                     <input ng-model="srcMessage" type="text" id="desc" name="desc" placeholder="your files have been encrypted!"onblur="this.value=removeSpaces(this.value);">
                      <div class="ui labeled fluid input">
                         <div class="ui black label">
                         Screen Message
@@ -47,7 +47,7 @@
                         <div class="ui black label">
                         Key
                         </div>
-                     <input ng-model="srcKey" type="text" id="key" name="key" placeholder="yellow submarine">
+                     <input ng-model="srcKey" type="text" id="key" name="key" placeholder="yellow submarine"onblur="this.value=removeSpaces(this.value);">
                      <div class="ui icon labeled black label"><i class="key icon"></i>
                         </div>
                     <tfoot class="full-width">
@@ -59,3 +59,8 @@
             </tfoot>
         </table>
     </div>
+<script language="javascript" type="text/javascript">
+function removeSpaces(string) {
+ return string.split(' ').join('_');
+}
+</script>                         
