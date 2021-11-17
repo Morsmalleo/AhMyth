@@ -3,7 +3,7 @@
     <table class="ui very compact table">
         <thead>
             <tr class="center aligned">
-                <th colspan="2">Steganography Configuration</th>
+                <th colspan="2">Android Ransomware Configuration</th>
             </tr>
         </thead>
         <tbody>
@@ -11,7 +11,7 @@
         <thead>
             <tr class="center aligned">
                 <th colspan="2">
-                        <label>APK Steganography</label>
+                        <label>APK Ransomware</label>
                     </div>
                 </th>
             </tr>
@@ -19,16 +19,43 @@
         <tbody>
             <tr class="center aligned">
                 <td colspan="2">
-                    <button ng-click="BrowseApk()" class="ui black labeled icon button "><i class="file open icon" ></i>Choose APK</button>
-                    <button ng-click="BrowseApk()" class="ui black labeled icon button "><i class="image open icon" ></i>Choose Image</button>
+                    <div class="ui labeled fluid input">
+                        <div class="ui black label">
+                        Apk Icon
+                        </div>
+                     <input ng-model="srcIcon" type="text" id="icon" name="icon" placeholder="Picutres/test.png">
+                     <input ng-model="SrcApkName" type="text" id="name" placeholder="default is AhRansom.apk">
+                     <div class="ui labeled fluid input">
+                        <div class="ui black label">
+                        Apk Name
+                        </div>
                     <tr class="center aligned">
                 <td colspan="2">
-        <tfoot class="full-width">
-            <tr class="center aligned">
-                <th colspan="2">
-                    <button ng-click="Combine()" class="ui labeled icon blue button"><i class="shield icon"></i>Combine</button>
-                </th>
-            </tr>
-        </tfoot>
-    </table>
-</div>
+                    <div class="ui labeled fluid input">
+                        <div class="ui black label">
+                        Screen Title
+                        </div>
+                     <input ng-model="srcTitle" type="text" id="title" name="title" placeholder="you've been locked out!">
+                     <input ng-model="srcMessage" type="text" id="desc" name="desc" placeholder="your files have been encrypted!">
+                     <div class="ui labeled fluid input">
+                        <div class="ui black label">
+                        Screen Message
+                        </div>
+                    <tr class="center aligned">
+                <td colspan="2">
+                    <div class="ui labeled fluid input">
+                        <div class="ui black label">
+                        Key
+                        </div>
+                     <input ng-model="srcKey" type="text" id="key" name="key" placeholder="yellow submarine">
+                     <div class="ui icon labeled black label"><i class="key icon"></i>
+                        </div>
+                    <tfoot class="full-width">
+                <tr class="center aligned">
+                    <th colspan="2">
+                        <button ng-click="callpy(Build)" class="ui labeled icon black button"><i class="bug icon"></i>Build</button>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
