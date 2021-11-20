@@ -1,5 +1,5 @@
 ## Created by 
-- [Ahmed Al 'AhMyth' Hajri](www.github.com/AhMyth)
+- [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
 ## Maintained by 
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
