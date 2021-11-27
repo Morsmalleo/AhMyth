@@ -1,7 +1,7 @@
 # AhMyth installation instructions
 #
 ## Linux
-### Auto Installation
+### Auto Installation | Kali + Parrot OS
     1. git clone https://github.com/Morsmalleo/AhMyth    
     2. cd AhMyth/AhMyth-Server
     3. sudo ./autoinstall
@@ -13,7 +13,7 @@
     including aapt and android-framework-res, the script FINALLY works for both
     Kali and Parrot.
 #
-### Manual Installation
+### Manual Installation | All Linux platforms
     1. git clone https://github.com/Morsmalleo/AhMyth
     2. cd AhMyth/AhMyth-Server
     3. npm install -g electron@9.4.1
