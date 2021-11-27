@@ -27,12 +27,12 @@ i.e something like `smali2` or `smali_classes2` if the directory doesn't exist a
 When testing this method the results were successful, running the following commands allowed me to manually recompile the AhMyth binded APK that had failed to build before
 PS: The name of the APK was "DisneyPlus.apk"
 
-- `cd disneyplus && mkdir smali_classes5 && cd smali && sudo mv ahmyth android androidx io okhttp3 okio /$HOME/Downloads/Disneyplus/smali_classes5`
+- `cd disneyplus && mkdir smali_classes5 && cd smali && sudo mv ahmyth io okhttp3 okio /$HOME/Downloads/Disneyplus/smali_classes5`
 - `/usr/bin/update-alternatives --config java`
 - `0` - to switch to `java 11.0.3`
 - `apktool b disneyplus -o test.apk`
 
-Manual building was successful but failed to install on the victim Android Device, THIS IS GOOD!! this means I am getting closer to solving the `Building Failed` problem for AhMyth, as well as solving the problem of the payload not being installed on the victim Device.
+Manual building was successful with both java versions but failed to install on the victim Android Device, THIS IS GOOD!! this means I am getting closer to solving the `Building Failed` problem for AhMyth, as well as solving the problem of the payload not being installed on the victim Device. It's most likely due to the old signer so I will review this problem soon.
 #
 9. Find a way to add `RES_TYPE_STYLES2` plus other `RES_TYPE_STYLES` to Apktool via tweaking the settings of Apktool and building via `gradlew build shadowJar` as 
 these style's are used by most APK files today, namely by `Facebook`
