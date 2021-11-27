@@ -39,4 +39,5 @@ Manual building was successful with both java versions but failed to install on 
 these style's are used by most APK files today, namely by `Facebook`
 #
 10. Find a way to successfully integrate AngeCryption into AhMyth for steganography builder
-
+#
+11. Finish the Ransomware Builder and build a new Ransomware APK of our own. 
