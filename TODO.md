@@ -31,6 +31,7 @@ PS: The name of the APK was "DisneyPlus.apk"
 - `/usr/bin/update-alternatives --config java`
 - `0` - to switch to `java 11.0.3`
 - `apktool b disneyplus -o test.apk`
+- `java -jar sign.jar test.apk`
 
 Manual building was successful with both java versions but failed to install on the victim Android Device, THIS IS GOOD!! this means I am getting closer to solving the `Building Failed` problem for AhMyth, as well as solving the problem of the payload not being installed on the victim Device. It's most likely due to the old signer so I will review this problem soon.
 #
