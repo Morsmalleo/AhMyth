@@ -33,7 +33,9 @@ PS: The name of the APK was "DisneyPlus.apk"
 - `apktool b disneyplus -o test.apk`
 - `java -jar sign.jar test.apk`
 
-Manual building was successful with both java versions but failed to install on the victim Android Device, THIS IS GOOD!! this means I am getting closer to solving the `Building Failed` problem for AhMyth, as well as solving the problem of the payload not being installed on the victim Device. This problem was most likely due to the old signer before AhMyth migrated to Uber-apk-signer, so I will review this problem again soon.
+Manual building was successful with both java versions but failed to install on the victim Android Device, THIS IS GOOD!! this means I am getting closer to solving the `Building Failed` problem for AhMyth, as well as solving the problem of the payload not being installed on the victim Device. 
+
+This problem was most likely due to the old APK signer before AhMyth was using before we migrated the old APK signer to Uber-apk-signer, so I will review this problem again soon.
 #
 9. Find a way to add `RES_TYPE_STYLES2` plus other `RES_TYPE_STYLES` to Apktool via tweaking the settings of Apktool and building via `gradlew build shadowJar` as 
 these style's are used by most APK files today, namely by `Facebook`
