@@ -1,15 +1,16 @@
 # AhMyth installation instructions
 
 ## AhMyth Development for Windows Ceased!
-    As of v1.0-beta.3, AhMyth Android RAT is currently no longer being maintained for 
-    Windows Machines until further notice, so don't bother trying to post issues or 
-    errors related to Windows because they will be ignored and removed.
+    As of v1.0-beta.3, AhMyth Android RAT is currently no longer being maintained 
+    for Windows Machines until further notice, so don't bother trying to post 
+    issues or errors related to Windows because they will be ignored and removed.
     
 #
 ## Binary Setup Packages (BSP's) removed
     As of v1.0-beta.3, The binary setup files for installing AhMyth for both Linux 
-    and Windows have been removed due to packaging errors with electron-packager, 
-    you can still however download the source code from the releases section and 
+    and Windows have been removed due to packaging errors with electron-packager.
+ 
+    You can still however download the source code from the releases section and 
     follow either the Auto Installation or Manual Installation steps.
 
 #
