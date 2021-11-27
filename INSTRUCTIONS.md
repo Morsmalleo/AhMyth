@@ -1,5 +1,7 @@
-# Installation
-
+# INSTRUCTIONS
+#
+## Pre-install Notes | Read before installing
+#
 ## AhMyth Development for Windows Ceased!
     As of v1.0-beta.3, AhMyth Android RAT is no longer being maintained for Windows 
     Machines, so don't bother trying to post issues or errors related to AhMyth for 
@@ -14,8 +16,10 @@
     follow either the Auto Installation or Manual Installation steps.
 
 #
+## Installation
+#
 ## Linux
-### Auto Installation | Kali + Parrot OS
+### Auto Install | Kali + Parrot OS
     1. git clone https://github.com/Morsmalleo/AhMyth    
     2. cd AhMyth/AhMyth-Server
     3. sudo ./autoinstall
@@ -27,7 +31,7 @@
     including aapt and android-framework-res, the script FINALLY works for both
     Kali and Parrot.
 #
-### Manual Installation | All Linux platforms
+### Manual Install | All Linux platforms
     1. git clone https://github.com/Morsmalleo/AhMyth
     2. cd AhMyth/AhMyth-Server
     3. npm install -g electron@9.4.1
