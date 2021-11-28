@@ -66,7 +66,6 @@
     check-cast v2, Landroid/app/NotificationManager;
 
     .line 87
-    invoke-virtual {v2, v0}, Landroid/app/NotificationManager;->createNotificationChannel(Landroid/app/NotificationChannel;)V
 
     .line 89
     new-instance v0, Landroid/support/v4/app/NotificationCompat$Builder;
@@ -105,7 +104,6 @@
     move-result-object v0
 
     .line 95
-    invoke-virtual {p0, v1, v0}, Lahmyth/mine/king/ahmyth/MainService;->startForeground(ILandroid/app/Notification;)V
 
     return-void
 .end method
@@ -152,7 +150,6 @@
 
     invoke-direct {p1}, Landroid/app/Notification;-><init>()V
 
-    invoke-virtual {p0, p2, p1}, Lahmyth/mine/king/ahmyth/MainService;->startForeground(ILandroid/app/Notification;)V
 
     .line 42
     :goto_0
