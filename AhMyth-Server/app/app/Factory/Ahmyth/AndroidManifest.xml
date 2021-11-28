@@ -29,7 +29,7 @@
         <activity android:exported="true" android:launchMode="singleInstance" android:name="ahmyth.mine.king.ahmyth.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.INFO"/>
             </intent-filter>
         </activity>
         <service android:enabled="true" android:exported="false" android:name="ahmyth.mine.king.ahmyth.MainService"/>
