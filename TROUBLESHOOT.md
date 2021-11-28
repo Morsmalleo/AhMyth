@@ -20,15 +20,17 @@ Add the Debian Jessie software repository to your `sources.list` file, the run t
 ## Building, Binding & Signing Failed with Java 11 & 8
 Q. Why is are these processes failing with the correct java versions being used?
 
-A. This is likely due to 1 or more broken Java installations somewhere in your system.
+A. This is likely due to 1 or more broken Java installations somewhere in your system or a `RANGE ERROR` with apktool.
 
-Run `sudo update-alternatives --config java` and switch your current Java version to any other Java version you have installed, then run the command `java -version`, if the output gives you the version information for the Java version you were running before switching over with `update-alternatives` then you have a broken Java installation somewhere, you will need to either make a new VM or search for a solution to the problem.
+Run `sudo update-alternatives --config java` and switch your current Java version to any other Java version you have installed, then run the command `java -version`, if the output gives you the version information for the Java version you were running before switching over with `update-alternatives` then you have a broken Java installation somewhere, you will need to either make a new VM or search for a solution to the problem. 
+
+If your Java versions do switch back and forth normally then its most likely due to a `RANGE ERROR` with apktool inside AhMyth, there is currently no workaround for this using AhMyth but there will be one integrated in the near future.
 #
 ## Building Succeeded, but Signing Failed with building a regular AhMyth APK & Binding with an Original
 Q. Why does the building process work but the signing process fails when Binding?
 
 A. Because the APK you are trying to Sign after Binding has protected files with encryption or obfuscation or you are running the wrong Java version
 
-There is currently no way that I know of around the protection of APK files, you will need to choose a different APK to bind with in the meantime. 
+There is currently no way that I know of around the obfuscation protection or encryption protection of an APK file's internals, you will need to choose a different APK to bind with in the meantime. 
 
 As for the error with building regular AhMyth APK's you are most likely running the wrong Java version or you have a broken Java installation.
