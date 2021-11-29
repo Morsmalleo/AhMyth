@@ -24,7 +24,7 @@
     2. cd AhMyth/AhMyth-Server
     3. sudo ./autoinstall
     4. Choose the version of java you want installed - (type 11 or 8)
-    5. Select Java 8 or Java 11 when prompted, to change to the correct java version  
+    5. Select Java 8 or Java 11 when prompted to change to the correct java version  
     6. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
     ------------------------------------------------------------------------------
     The autoinstall script has been coded to install all prerequisits for AhMyth
