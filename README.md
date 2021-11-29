@@ -34,6 +34,7 @@ This tool is designed with a GUI interface which makes AhMyth one of the easiest
 # AhMyth
 As a remote administration tool, AhMyth has two parts which enable it to effectively perform its functions. 
 - The server-side which acts like a desktop application that is built on an electron framework, which is used by the attacker as the control panel through which connections are made to the AhMyth software that is installed on the victim’s Android device. 
+
 - The client-side of AhMyth works as the android application and can be used as a backdoor.
 #
 # How it works?
