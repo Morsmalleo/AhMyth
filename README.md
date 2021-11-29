@@ -54,14 +54,18 @@ Installation Instructions can be found in the [INSTRUCTIONS.md](https://github.c
 Join the development and upgrading of AhMyth at [AhMyth RAT Development](https://www.facebook.com/groups/396412025258492/?notif_id=1633235475450513&notif_t=group_milestone&ref=notif)
 
 #
-# Features:
+# Server Features:
 - File Manager – allows the attacker to view contents in the target device including the firmware.
 - Remote access to Mic and Camera.
 - Access to Call Logs.
 - SMS access – allows the attacker to read and send messages from the target device.
 - Device GPS Location – enables the attacker to know the geographical location of the victim.
+- Backdooring original applications, also referred to as "Binding"
 - Supports **Linux** & **OS X**
 #
+# Client (Ahmyth.apk) Features 
+- APK hides itself automatically upon installation
+- APK automatically grants all permissions during installation
 <p>
 
   <img width="600" src=https://user-images.githubusercontent.com/64344168/135562852-2c00f96f-67f2-49f4-8844-7a48512f70b4.png>
