@@ -198,7 +198,7 @@ app.controller("AppCtrl", ($scope) => {
                             if (err) throw err;
 
                             $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
-                            $appCtrl.Log("The apk has been built on " + path.join(outputPath), CONSTANTS.logStatus.SUCCESS);
+                            $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
 
                         });
                     });
