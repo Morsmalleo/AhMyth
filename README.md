@@ -20,7 +20,7 @@ AhMyth is a powerful open-source remote administration tool that can be used to 
 </p>
 
 #
-This tool is designed with a GUI interface and this makes one of the easiest RATs to use. With this tool, you can easily log in and gain direct control to an android device.
+This tool is designed with a GUI interface which makes AhMyth one of the easiest RATs to use. With this tool, you can easily log in and gain direct control to an android device.
 
 #
     AhMyth is designed solely for educational purposes. I am not in any way reponsible for any damage or 
