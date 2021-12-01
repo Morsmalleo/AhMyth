@@ -38,6 +38,7 @@
         <a class="item active notDraggable" data-tab="first">Victims</a>
         <a class="item notDraggable" data-tab="second">APK Builder</a>
         <a class="item notDraggable" data-tab="third">Ransomware Builder</a>
+        <a class="item notDraggable" data-tab="Forth">Payload Url Hider</a>
         <div class="ui right mini text menu notDraggable">
             <button class="ui circular orange button" ng-click="minimize()" style="font-size: 6px;height: 17px"></button>
             <button class="ui circular red button" ng-click="close()" style="font-size: 6px;height: 17px"></button>
@@ -112,7 +113,12 @@
     </div>
     <div class="ui bottom attached tab segment h60 notDraggable" data-tab="third">
         <div ng-include="'views/coming-soon.html'" class="full"></div>
+
     </div>
+    <div class="ui bottom attached tab segment h60 notDraggable" data-tab="Forth">
+        <div ng-include="'views/URLhider.html'" class="full"></div>
+        
+    </div>    
     <div class="ui bottom attached black message h25 notDraggable" id="log" style="overflow: scroll;">
         <div ng-repeat="log in logs" class="log">
             <div class="w30" style="display: inline-block" ng-bind="log.date"></div>
