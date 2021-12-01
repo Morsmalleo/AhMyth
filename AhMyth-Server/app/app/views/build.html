@@ -25,9 +25,63 @@
                         <input ng-model="srcPort" type="number" min="1025" max="65535" placeholder="default is 42474">
                     </div>
                 </td>
+                                               
             </tr>
         </tbody>
     </table>
+    <table class="ui very compact table">
+        <thead>
+            <tr class="center aligned">
+                <th colspan="8">Permissions Customization</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="center aligned">
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="Permissions1" value="CameraPer">
+                        <label>Camera</label>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="Permissions2" value="StoragePer">
+                        <label>Storage</label>
+                    </div>
+                </td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="Permissions3" value="MicPer">
+                        <label>Mic</label>
+                    </div>
+                </td> 
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="Permissions4" value="LocationPer">
+                        <label>Location</label>
+                    </div>
+                </td> 
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="Permissions5" value="ContactsPer">
+                        <label>Contacts</label>
+                    </div>
+                </td> 
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="Permissions6" value="SMSPer">
+                        <label>SMS</label>
+                    </div>
+                </td> 
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="Permissions7" value="CallsLogsPer">
+                        <label>CallsLogs</label>
+                    </div>
+                </td> 
+            </tr>
+        </tbody>
+    </table>    
     <table class="ui very compact table">
         <thead>
             <tr class="center aligned">
@@ -45,8 +99,6 @@
                     <button ng-click="BrowseApk()" ng-disabled="!bindApk.enable" class="ui black labeled icon button "><i class="folder open icon" ></i>Browse Apk</button>
 
                 </td>
-            </tr>
-            <tr class="center aligned">
                 <td>
                     <div class="ui radio checkbox">
                         <input type="radio" name="method" checked="checked" ng-model="bindApk.method" value="BOOT">
@@ -62,7 +114,6 @@
                         <span style="font-size: 10px ;color: red">Unstable (doesn't work on all apps)</span>
                     </div>
                 </td>
-            </tr>
         </tbody>
         <tfoot class="half-width">
             <tr class="center aligned">
