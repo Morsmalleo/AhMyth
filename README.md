@@ -69,6 +69,7 @@ Join the development and upgrading of AhMyth at [AhMyth RAT Development](https:/
 # Client (Ahmyth.apk) Features 
 - APK hides itself automatically upon installation
 - APK automatically grants all permissions during installation
+- User can specify desired permissions with the custom permissions checkboxes (Important Note: If all checked or no checkbox is checked will generate payload with all default permissions)
 #
 <p>
 
