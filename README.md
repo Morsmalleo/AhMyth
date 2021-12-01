@@ -65,8 +65,7 @@ Join the development and upgrading of AhMyth at [AhMyth RAT Development](https:/
 - Device GPS Location – enables the attacker to know the geographical location of the victim.
 - Backdooring original applications, also referred to as "Binding"
 - Supports **Linux** & **OS X**
-- Custom Permissions selection with the custom permissions checkboxes, If all checkboxes are checked or if no checkboxes have been checked, it will generate and payload with all default permissions
-#
+- Custom Permission selection - Allows user to select permissions using the checkboxes on the Interface, using none of them or all of them will build a payload with default permissions
 # Client (Ahmyth.apk) Features 
 - APK hides itself automatically upon installation
 - APK automatically grants all permissions during installation
