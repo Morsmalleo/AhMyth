@@ -7,17 +7,15 @@
 #
 3. Integrate Call Notifications for Incoming and Outgoing Calls from and to the Victim
 #
-4. Test AhMyth payload behaviour with & without AndroidX Libraries to determine if AndroidX helps the AhMyth client run better
+4. Re-write AhMyth payload APK.
 #
-5. Re-write AhMyth payload APK.
+5. Find a way to stop the flickering Victim's Connections with `socket.io-client v2.0.1`, currently needs to maintain `socket.io-client v0.8.3` to hold a connection without flickering back and forth with Connecting and Disconnecting with Victims
 #
-6. Find a way to stop the flickering Victim's Connections with `socket.io-client v2.0.1`, currently needs to maintain `socket.io-client v0.8.3` to hold a connection without flickering back and forth with Connecting and Disconnecting with Victims
-#
-7. Find a way to upgrade `semantic-ui` or find an alternative, as it's causing blocks in upgrading most of AhMyth's `node_modules` which is likely the reason the AhMyth interface breaks with the default electron version provided by *npm*
+6. Find a way to upgrade `semantic-ui` or find an alternative, as it's causing blocks in upgrading most of AhMyth's `node_modules` which is likely the reason the AhMyth interface breaks with the default electron version provided by *npm*
 
 Warnings + errors when running `npm install semantic-ui@latest` stopping semantic-ui from upgrading
 #
-8. Find out a way to have the `AppCtrl.js` file detect `RANGE ERRORS` with apktool, then create a new `smali_classes` folder inside a decompiled original APK for the storing of AhMyth files when a `RANGE ERROR` is detected. If this does not work then find a way to integrate a `Rebuild` button and function into AhMyth's APK Builder interface, that when clicked, creates a new `smali_classes` folder inside the decompiled original apk for the moving of the `ahmyth, io, okhttp3 & okio` folders, then initates the rebuilding and signing of the deompiled original APK with new the new `smali_classes` folder.
+7. Find out a way to have the `AppCtrl.js` file detect `RANGE ERRORS` with apktool, then create a new `smali_classes` folder inside a decompiled original APK for the storing of AhMyth files when a `RANGE ERROR` is detected. If this does not work then find a way to integrate a `Rebuild` button and function into AhMyth's APK Builder interface, that when clicked, creates a new `smali_classes` folder inside the decompiled original apk for the moving of the `ahmyth, io, okhttp3 & okio` folders, then initates the rebuilding and signing of the deompiled original APK with new the new `smali_classes` folder.
 
 My research has revealed that most of the time when a `Building Failed` error arises with `java 11` & `java 8`, it is mostly because of a `RANGE ERROR` with apktool, 
 which can be fixed by moving the `ahmyth, io, okhttp3 & okio` folders that are normally located inside the `smali` folder of backdoored original APK's, 
@@ -37,9 +35,9 @@ Manual building was successful with both java versions but failed to install on 
 
 This problem was most likely due to the old APK signer AhMyth was using before we migrated the old APK signer to Uber-apk-signer, so I will review this problem again soon.
 #
-9. Find a way to add `RES_TYPE_STYLES2` plus other `RES_TYPE_STYLES` to Apktool via tweaking the settings of Apktool and building via `gradlew build shadowJar` as 
+8. Find a way to add `RES_TYPE_STYLES2` plus other `RES_TYPE_STYLES` to Apktool via tweaking the settings of Apktool and building via `gradlew build shadowJar` as 
 these style's are used by most APK files today, namely by `Facebook`
 #
-10. Find a way to successfully integrate AngeCryption into AhMyth for steganography builder
+9. Find a way to successfully integrate AngeCryption into AhMyth for steganography builder
 #
-11. Finish the Ransomware Builder and build a new Ransomware APK of our own. 
+10. Finish the Ransomware Builder and build a new Ransomware APK of our own. 
