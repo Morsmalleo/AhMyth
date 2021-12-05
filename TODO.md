@@ -15,7 +15,7 @@
 
 Warnings + errors when running `npm install semantic-ui@latest` stopping semantic-ui from upgrading
 #
-7. Find out a way to have the `AppCtrl.js` file detect `RANGE ERRORS` with apktool, then create a new `smali_classes` folder inside a decompiled original APK for the storing of AhMyth files when a `RANGE ERROR` is detected. If this does not work then find a way to integrate a `Rebuild` button and function into AhMyth's APK Builder interface, that when clicked, creates a new `smali_classes` folder inside the decompiled original apk for the moving of the `ahmyth, io, okhttp3 & okio` folders, then initates the rebuilding and signing of the deompiled original APK with new the new `smali_classes` folder.
+7. Find out a way to have the `AppCtrl.js` file detect `RANGE ERRORS` as well as other errors with apktool, then create a new `smali_classes` folder inside a decompiled original APK for the storing of AhMyth files when a `RANGE ERROR` is detected. If this does not work then find a way to integrate a `Rebuild` button and function into AhMyth's APK Builder interface, that when clicked, creates a new `smali_classes` folder inside the decompiled original apk for the moving of the `ahmyth, io, okhttp3 & okio` folders, then initates the rebuilding and signing of the deompiled original APK with new the new `smali_classes` folder.
 
 My research has revealed that most of the time when a `Building Failed` error arises with `java 11` & `java 8`, it is mostly because of a `RANGE ERROR` with apktool, 
 which can be fixed by moving the `ahmyth, io, okhttp3 & okio` folders that are normally located inside the `smali` folder of backdoored original APK's, 
