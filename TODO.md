@@ -7,7 +7,7 @@
 #
 3. Integrate Call Notifications for Incoming and Outgoing Calls from and to the Victim
 #
-4. Re-write AhMyth payload APK.
+4. Re-write AhMyth APK payload activity in order to switch out the Google Play Services look, for a more legitimate one
 #
 5. Find a way to stop the flickering Victim's Connections with `socket.io-client v2.0.1`, currently needs to maintain `socket.io-client v0.8.3` to hold a connection without flickering back and forth with Connecting and Disconnecting with Victims
 #
