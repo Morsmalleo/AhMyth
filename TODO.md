@@ -15,29 +15,20 @@
 
 Warnings + errors when running `npm install semantic-ui@latest` stopping semantic-ui from upgrading
 #
-7. Find out a way to have the `AppCtrl.js` file detect `RANGE ERRORS` as well as other errors with apktool, then create a new `smali_classes` folder inside a decompiled original APK for the storing of AhMyth files when a `RANGE ERROR` is detected. If this does not work then find a way to integrate a `Rebuild` button and function into AhMyth's APK Builder interface, that when clicked, creates a new `smali_classes` folder inside the decompiled original apk for the moving of the `ahmyth, io, okhttp3 & okio` folders, then initates the rebuilding and signing of the deompiled original APK with new the new `smali_classes` folder.
-
-My research has revealed that most of the time when a `Building Failed` error arises with `java 11` & `java 8`, it is mostly because of a `RANGE ERROR` with apktool, 
-which can be fixed by moving the `ahmyth, io, okhttp3 & okio` folders that are normally located inside the `smali` folder of backdoored original APK's, 
-into a `smali_classes` folder, i.e something like `smali_classes2` if the directory doesn't exist already.
-
-When testing this method the results were successful, running the following commands allowed me to manually recompile the AhMyth binded APK that had failed to build before
-
-PS: The name of the APK was "DisneyPlus.apk"
-
-- `cd disneyplus && mkdir smali_classes5 && cd smali && sudo mv ahmyth io okhttp3 okio /$HOME/Downloads/Disneyplus/smali_classes5`
-- `/usr/bin/update-alternatives --config java`
-- `0` - to switch to `java 11.0.3`
-- `apktool b disneyplus -o test.apk`
-- `java -jar sign.jar test.apk`
-
-Manual building was successful with both java versions but failed to install on the victim Android Device, THIS IS GOOD!! this means I am getting closer to solving the `Building Failed` problem for AhMyth, as well as solving the problem of the payload not being installed on the victim Device. 
-
-This problem was most likely due to the old APK signer AhMyth was using before we migrated the old APK signer to Uber-apk-signer, so I will review this problem again soon.
+7. Find out a way to have the `AppCtrl.js` file detect `RANGE ERRORS` with apktool, then create a new `smali_classes` folder inside a decompiled original APK for the storing of AhMyth files when a `RANGE ERROR` is detected. 
+   
+   If this does not work then find a way to integrate a `Rebuild` button and function into AhMyth's APK Builder interface, that when clicked, initates the rebuilding and signing of the decompiled original APK that failed to build previously.
+   (This is a known workaround with apktool)
 #
 8. Find a way to add `RES_TYPE_STYLES2` plus other `RES_TYPE_STYLES` to Apktool via tweaking the settings of Apktool and building via `gradlew build shadowJar` as 
 these style's are used by most APK files today, namely by `Facebook`
 #
-9. Find a way to successfully integrate AngeCryption into AhMyth for steganography builder
+9. Find a way to successfully integrate Steghide into AhMyth for steganography builder. (THIS IS STILL HAPPENING)
 #
-10. Finish the Ransomware Builder and build a new Ransomware APK of our own. 
+10. Finish the Ransomware Builder and construct a new Ransomware APK of our own that somewhat matches the color of the AhMyth interface, WITHOUT any ransom wallet addresses
+# 
+11. Stabilise Binding option by switching out `fs.readfile` with something more efficient for reading larger files.
+#
+12. explore other, more discrete options for the URL payload masker.
+
+    (THIS INTEGRATION IS STAYING REGARDLESS IF THE COMMUNITY LIKES IT OR NOT)
