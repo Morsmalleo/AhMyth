@@ -3,10 +3,10 @@ This is a Troubleshoot file that lists known errors With AhMyth,
 but also lists solutions as well as answers about why these 
 errors occur.
 
-## Broken AhMyth Interface
-Q. Why isn't the AhMyth interface working?
+## Broken AhMyth Interface + "libva error: vaGetDriverNameByIndex()" terminal error
+Q. Why isn't the AhMyth interface working and why is the terminal giving me a `libva error: vaGetDriverNameByIndex()` error at the same time??
 
-A. Because you are running the wrong version of electron.
+A. These two problems are solely because you are running the wrong version of electron.
 
 Remove the `node-modules` folder from the `AhMyth/AhMyth-Server` directory, do not remove the `node-modules` folder from the `AhMyth/AhMyth-Server/app` directory, once you have done that go ahead and type the command `npm install -g electron@9.4.1`, this will fix the broken AhMyth interface.
 #
