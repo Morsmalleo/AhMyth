@@ -68,8 +68,8 @@ Join the development and upgrading of AhMyth at [AhMyth RAT Development](https:/
 - Custom Permission selection - Allows user to select permissions using the checkboxes on the Interface, using none of them or all of them will build a payload with default permissions
 # Client (Ahmyth.apk) Features 
 - APK auto-hides itself upon installation
-- APK automatically grants all permissions during installation
-- APK Launcher Activity method Persistence 
+- Android Permission are automatically granted upon installation
+- L.A.P (Launcher Activity Persistence) 
 #
 <p>
 
