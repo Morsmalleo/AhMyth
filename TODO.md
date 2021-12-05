@@ -35,6 +35,6 @@ these style's are used by most APK files today, namely by `Facebook`
 #
 13. Integrate telephone call recording for Victims Lab Audio Recording option with seperate button for recording calls
 #
-14. Figure out how to allow Client APK access to `storage/emulated/0/`
+14. Figure out how to allow Client APK access to `storage/emulated`
 #
 15. Integrate upload and execute capabilities for the File Manager option in the Victims Lab.
