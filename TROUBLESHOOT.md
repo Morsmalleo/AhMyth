@@ -8,7 +8,7 @@ Q. Why isn't the AhMyth interface working and why is the terminal giving me a `l
 
 A. These two problems are solely because you are running the wrong version of electron.
 
-Remove the `node-modules` folder from the `AhMyth/AhMyth-Server` directory, do not remove the `node-modules` folder from the `AhMyth/AhMyth-Server/app` directory, once you have done that go ahead and type the command `npm install -g electron@9.4.1`, this will fix the broken AhMyth interface.
+Remove the `node-modules` folder from the `AhMyth/AhMyth-Server` directory, do not remove the `node-modules` folder from the `AhMyth/AhMyth-Server/app` directory, once you have done that go ahead and type the command `npm install -g electron@9.4.1`, this will fix the broken AhMyth interface as well as the `libva error: vaGetDriverNameByIndex()` error.
 #
 ## Building, Binding & Signing Failed.
 Q. Why do these processes fail all the time?
