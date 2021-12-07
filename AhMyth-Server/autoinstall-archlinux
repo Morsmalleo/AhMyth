@@ -15,6 +15,7 @@ sleep 2
 # xterm is needed for the Repo_Swap in order to install
 # Java 8 development kit from an older software Repo
 # without having to manually add it to your sources.list
+pacman -S sudo pacman -S android-apktool -y
 pacman -S xterm -y
 pacman -S npm nodejs -y
 pacman -S aapt android-framework-res -y
