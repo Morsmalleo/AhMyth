@@ -27,11 +27,7 @@ these style's are used by most APK files today, namely by `Facebook`
 #
 10. Finish the Ransomware Builder and construct a new Ransomware APK of our own that somewhat matches the color of the AhMyth interface, WITHOUT any ransom wallet addresses
 # 
-11. Stabilise Binding option by adding the different names of `LAUNCHER` activity for APK's as AhMyth will not bind with an APK whose launcher activity is not called `LAUNCHER`
-
-An example on that would be like this;
-- 1.apk - launcher activity = `android.intent.category.LAUNCHER` - AhMyth WILL bind with this apk
-- 2.apk - launcher activity = `android.intent.category.INFO` - AhMyth WILL NOT bind with this apk
+11. Stabilise Binding option - figure out why the hell this is so unstable and fix it, problem is to do with the function to extract the launcher activity in the `AppCtrl.js` file
 
 This is why different launcher activity names need to be added.
 #
