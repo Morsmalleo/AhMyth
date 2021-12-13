@@ -27,9 +27,9 @@ these style's are used by most APK files today, namely by `Facebook`
 #
 10. Finish the Ransomware Builder and construct a new Ransomware APK of our own that somewhat matches the color of the AhMyth interface, WITHOUT any ransom wallet addresses
 # 
-11. Stabilise Binding option - figure out why the hell this is so unstable and fix it, problem is to do with the function to extract the launcher activity in the `AppCtrl.js` file
-
-This is why different launcher activity names need to be added.
+11. Stabilise Binding option. 
+figure out why the hell this is so unstable and fix it!!
+The problem so far, is to do with the function to extract the launcher activity in the `AppCtrl.js` file.
 #
 12. explore other, more discrete options for the URL payload masker.
 
