@@ -44,16 +44,13 @@ and building via `gradlew build shadowJar` as
 these style's are used by most APK files today, 
 namely by `Facebook`.
 #
-9. Integrate a copy function into "AppCtrl.js" 
-for the copying of the original AhMyth AndroidManifest 
-(before being edited with custom permissions) 
-into a backup file called "AndroidManifest.xml.ahmyth" 
-which will then be moved to a secure read-only 
-Directory called `Vault` just outside the 
-decompiled `Ahmyth` APK folder located inside 
-the `Factory` folder, instead of replacing the 
-AndroidManifest after it has been edited with 
-the custom permission with `wget https://raw.githubusercontent.com/Morsmalleo/AhMyth/master/AhMyth-Server/app/app/Factory/Ahmyth/AndroidManifest.xml`
+9. Create a copy of the original AhMyth AndroidManifest.xml
+and rename it to "AndroidManifest.xml.ahmyth
+and store it in a read-only directory called "Vault",
+then integrate a copy function to replace the AndroidManifest.xml
+after being edited with custom permissions, with the backup copy 
+stored in the "Vault" Directory, instead of replacing it
+With `wget.rawgithubusercontent.com/Morsmalleo/AhMyth/master/AhMyth-Server/app/app/Factory/Ahmyth/AndroidManifest.xml`
 #
 10. Finish the Ransomware Builder and construct 
 a new Ransomware APK of our own that somewhat 
