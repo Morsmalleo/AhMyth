@@ -45,7 +45,7 @@ these style's are used by most APK files today,
 namely by `Facebook`.
 #
 9. Integrate a copy function into "AppCtrl.js" 
-for the copyng of the original AhMyth AndroidManifest 
+for the copying of the original AhMyth AndroidManifest 
 (before being edited with custom permissions) 
 into a backup file called "AndroidManifest.xml.ahmyth" 
 which will then be moved to a secure read-only 
