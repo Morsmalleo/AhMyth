@@ -35,7 +35,7 @@ button and function into AhMyth's APK Builder
 interface, that when clicked, initates the rebuilding 
 and signing of the decompiled original APK that 
 failed to build previously but with the exception 
-of using the the added argument `--use-aapt` or `--use-aapt2`.
+of using the added argument for apktool `--use-aapt` or `--use-aapt2`.
 #
 8. Find a way to add `RES_TYPE_STYLES2` plus 
 other `RES_TYPE_STYLES` to Apktool via the tweaking 
