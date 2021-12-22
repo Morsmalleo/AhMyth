@@ -50,7 +50,7 @@ for the copying of the original AhMyth AndroidManifest
 into a backup file called "AndroidManifest.xml.ahmyth" 
 which will then be moved to a secure read-only 
 Directory called `Vault` just outside the 
-decopiled `Ahmyth` APK folder located inside 
+decompiled `Ahmyth` APK folder located inside 
 the `Factory` folder, instead of replacing the 
 AndroidManifest after it has been edited with 
 the custom permission with `wget https://raw.githubusercontent.com/Morsmalleo/AhMyth/master/AhMyth-Server/app/app/Factory/Ahmyth/AndroidManifest.xml`
@@ -65,7 +65,8 @@ the hell it's so unstable and fix it!!
 
 - The problem so far, is to do with the function 
 to extract the launcher activity in the `AppCtrl.js` 
-file.
+file, as well as reading the launcher activity from the 
+the original APK's smaliPath
 #
 12. explore other, more discrete options for the 
 URL payload masker.
