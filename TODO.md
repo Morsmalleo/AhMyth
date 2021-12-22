@@ -28,7 +28,7 @@ default electron version provided by **npm**.
 #
 7. Find out a way to have AhMyth detect errors 
 with apktool when `Decompiling Failed/Building Failed/Signing Failed` 
-errors then output said errors to a log file.
+errors arise, then output said errors to a log file.
    
 - If this does not work then integrate a `Rebuild` 
 button and function into AhMyth's APK Builder 
