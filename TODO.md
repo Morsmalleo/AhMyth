@@ -50,7 +50,7 @@ and store it in a read-only directory called "Vault",
 then integrate a copy function to replace the AndroidManifest.xml
 after being edited with custom permissions, with the backup copy 
 stored in the "Vault" Directory, instead of replacing it
-With `wget.rawgithubusercontent.com/Morsmalleo/AhMyth/master/AhMyth-Server/app/app/Factory/Ahmyth/AndroidManifest.xml`
+with `wget`
 #
 10. Finish the Ransomware Builder and construct 
 a new Ransomware APK of our own that somewhat 
