@@ -44,8 +44,8 @@ and building via `gradlew build shadowJar` as
 these style's are used by most APK files today, 
 namely by `Facebook`.
 #
-9. Create a copy of the original AhMyth AndroidManifest.xml
-and rename it to "AndroidManifest.xml.ahmyth
+9. Create a copy of the original AhMyth 
+AndroidManifest.xml and rename it to "AndroidManifest.xml.ahmyth" 
 and store it in a read-only directory called "Vault",
 then integrate a copy function to replace the AndroidManifest.xml
 after being edited with custom permissions, with the backup copy 
