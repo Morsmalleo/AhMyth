@@ -1,6 +1,8 @@
 
-1. Integrate Live Camera Preview for the Camera 
-option in the Victims Lab.
+1. Integrate Live Camera Stream from Client to Server
+in order to view a live camera preview for the Camera 
+option in the Victims Lab, without showing the Victim 
+a preview.
 #
 2. Integrate Video Recording for the camera 
 option in the Victims Lab.
