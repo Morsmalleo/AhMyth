@@ -5,7 +5,7 @@ option in the Victims Lab, without showing the Victim
 a preview.
 #
 2. Integrate Video Recording for the camera 
-option in the Victims Lab.
+option in the Server Victims Lab and the APK Client.
 #
 3. Integrate Call Notifications for Incoming and 
 Outgoing Calls from and to the Victim.
