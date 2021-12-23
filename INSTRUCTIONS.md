@@ -39,3 +39,60 @@
 #
     If you run into the warning message pictured below, just simply upgrade to node 14.x
 ![Warning fix](https://user-images.githubusercontent.com/64344168/135712747-8545bc2c-3ef9-4e5e-9890-f2d7f66e1534.png)    
+#
+# How to use AhMyth 
+## APK Builder
+Navigate to the APK builder by clicking on its 
+name at the top of the GUI.
+
+once you have done this you have two options,
+you can build a Standalone AhMyth payload, or
+you can Bind with an Original APK.
+
+### Standalone Payload 
+To build a Standalone AhMyth payload just simply
+type your IP address into the "Server IP" box, you 
+can acquire your IP address by typing `ifconfig` 
+in a terminal. 
+
+Once that's done, enter the port number you want to use
+into the "Server Port" box, once you've done that,
+You can go ahead and click the Red `Build` button. 
+
+Alternatively you can leave the "Server Port" box empty, 
+and AhMyth will build a Standalone payload using the default AhMyth 
+port, 42474. 
+
+If you face any errors with Decompiling, Building 
+or Signing, then refer to the TROUBLESHOOT.md
+
+### Binding
+To Bind with an original APK, or in other terms,
+Backdoor an original APK, just simply click the 
+checkbox with the label "Bind with an original APK"
+in the APK Builder tab.
+
+Once you have done that, you can go ahead and click
+the black "Browse APK" button, once you have done this
+a file browser will open, select the APK original APK
+you want to bind with by double clicking it.
+
+Once you have your Original APK selected, you can go 
+ahead and select a Binding method. 
+
+There are two binding methods available to choose from, 
+
+1. The Boot method 
+which allows the payload to activate when the victims phone 
+restarts or shuts down and reboots. 
+
+2. The Launcher Activity method 
+This which allows the payload to activate when the infected 
+APK is opened by the Victim, the Launcher Method is currently 
+still a bit unstable, won't work with all APK's.
+
+Once you have selected a Binding method, you can
+go ahead and click the Green `Bind` button.
+
+if you experience any problems with Binding, then
+Please refer to the TROUBLESHOOT.md file.
