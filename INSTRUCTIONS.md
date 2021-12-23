@@ -97,7 +97,7 @@ go ahead and click the Green `Bind` button.
 if you experience any problems with Binding, then
 Please refer to the TROUBLESHOOT.md file.
 
-# Listening
+## Listening
 Once you have your choice of payload type built, signed
 And installed on the target Android device, whether it
 be a Bound payload or a Standalone payload, you are ready
