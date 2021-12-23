@@ -96,3 +96,24 @@ go ahead and click the Green `Bind` button.
 
 if you experience any problems with Binding, then
 Please refer to the TROUBLESHOOT.md file.
+
+# Listening
+Once you have your choice of payload type built, signed
+And installed on the target Android device, whether it
+be a Bound payload or a Standalone payload, you are ready
+to listen for a Victim Connection.
+
+Click on the "Victims" tab to access the Listener,
+once you have done this you can go ahead and type in
+the port number to be listened on. 
+
+You must use the same port number that was used to Build 
+the APK payload in the APK Builder, otherwise it won't work.
+
+Once you are listening on the correct port, and the 
+payload becomes active, you will receive a Victims Connection
+with information about the device you've targeted, such
+as the make, model, country and android version.
+
+Receiving a Victims Connection will then allow you 
+to access the Victims Lab.
