@@ -61,17 +61,19 @@ WITHOUT any ransom wallet addresses
 
 - This is now half done, I have fixed the function
 to find the main Launchable Activity in an original 
-APK's AndroidManifest.xml file, as this was the reason the 
+decompiled APK's Manifest file, as this was the reason the 
 GUI error,
 
-`Cannot find Launchable Activity , please try the other binding method`
+    Cannot find Launchable Activity, please try the other binding method
 
-error was arising.
+was arising.
 
-- The problem now is just function to find and read
-the main launchable activity Smali file from an original
-APK's smaliPath as the code is very old and needs some
-tweaking and updating.
+- Now I just need to tweak and update the function to find 
+and read the main Launchable Activity Smali file from an original
+APK's smali path. This is the function responsible for injecting 
+the AhMyth payload hook, into an original APK's main Launchable
+Activity Smali file.
+
 
 - Take note that not all APK's contain a Launchable 
 Activity Smali file! for example Facebook-Lite doesn't
