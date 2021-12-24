@@ -57,13 +57,31 @@ a new Ransomware APK of our own that somewhat
 matches the color of the AhMyth interface, 
 WITHOUT any ransom wallet addresses
 # 
-11. Stabilise Binding option by figuring out why 
-the hell it's so unstable and fix it!!
+11. Stabilise Binding option
 
-- The problem so far, is to do with the function 
-to extract the launcher activity in the `AppCtrl.js` 
-file, as well as reading the launcher activity from the 
-the original APK's smaliPath
+- This is now half done, I have fixed the function
+to find the main Launchable Activity in an original 
+APK's AndroidManifest.xml file, as this was the reason the 
+GUI error,
+
+`Cannot find Launchable Activity , please try the other binding method`
+
+error was arising.
+
+- The problem now is just function to find and read
+the main launchable activity Smali file from an original
+APK's smaliPath as the code is very old and needs some
+tweaking and updating.
+
+- Take note that not all APK's contain a Launchable 
+Activity Smali file! for example Facebook-Lite doesn't
+have a MainActivity.smali file even know it's declared
+in its Manifest, this is most likely because it's split
+into seperate apk files, or because of proguard Protection.
+
+- I plan on building a Terminal based version of AhMyth
+so I can easily determine why further problems with
+Decompiling, Binding, Building & Signing are happening.
 #
 12. explore other, more discrete options for the 
 URL payload masker.
@@ -79,3 +97,7 @@ tab for call recording
 15. Integrate upload and execute capabilities 
 for the File Manager option in the Victims Lab.
 #
+16. Build a No-GUI/Terminal version of AhMyth
+for better understanding of errors with Decompiling,
+Binding, Building & Signing, my gut tells me this has 
+got a lot to do with Apktool.
