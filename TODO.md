@@ -62,11 +62,9 @@ WITHOUT any ransom wallet addresses
 - This is now half done, I have fixed the function
 to find the main Launchable Activity in an original 
 decompiled APK's Manifest file, as this was the reason the 
-GUI error,
-
-    Cannot find Launchable Activity, please try the other binding method
-
+GUI error, `Cannot find Launchable Activity, please try the other binding method`
 was arising.
+
 
 - Now I just need to tweak and update the function to find 
 and read the main Launchable Activity Smali file from an original
