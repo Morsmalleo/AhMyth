@@ -37,14 +37,7 @@ and signing of the decompiled original APK that
 failed to build previously but with the exception 
 of using the added argument for apktool `--use-aapt` or `--use-aapt2`.
 #
-8. Find a way to add `RES_TYPE_STYLES2` plus 
-other `RES_TYPE_STYLES` to Apktool via the tweaking 
-of Apktool's source code from [iBotPeaches/Apktool](https://GitHub.com/iBotPeaches/Apktool) 
-and building via `gradlew build shadowJar` as 
-these style's are used by most APK files today, 
-namely by `Facebook`.
-#
-9. Create a copy of the original AhMyth 
+8. Create a copy of the original AhMyth 
 AndroidManifest.xml and rename it to "AndroidManifest.xml.ahmyth" 
 and store it in a read-only directory called "Vault",
 then integrate a copy function to replace the AndroidManifest.xml
@@ -52,12 +45,12 @@ after being edited with custom permissions, with the backup copy
 stored in the "Vault" Directory, instead of replacing it
 with `wget`
 #
-10. Finish the Ransomware Builder and construct 
+9. Finish the Ransomware Builder and construct 
 a new Ransomware APK of our own that somewhat 
 matches the color of the AhMyth interface, 
 WITHOUT any ransom wallet addresses
 # 
-11. Stabilise Launcher Activity binding method (Half done)
+10. Stabilise Launcher Activity binding method (Half done)
 
 - Update function to find the correct Smali file for
 the main Launchable Activity, currently AhMyth now 
@@ -66,21 +59,21 @@ however some of these APK's don't work at all after
 the backdoor process is complete, so I will need to look
 into why this is happening.
 #
-12. explore other, more discrete options for the 
+11. explore other, more discrete options for the 
 URL payload masker.
 #
-13. Integrate telephone call recording for 
+12. Integrate telephone call recording for 
 Victims Lab Audio Recording option with seperate 
 button for recording calls, or create a separate
 tab for call recording
 #
-14. Figure out how to allow Client APK access to 
+13. Figure out how to allow Client APK access to 
 `storage/emulated`
 #
-15. Integrate upload and execute capabilities 
+14. Integrate upload and execute capabilities 
 for the File Manager option in the Victims Lab.
 #
-16. Build a No-GUI/Terminal version of AhMyth
+15. Build a No-GUI/Terminal version of AhMyth
 for better understanding of errors with Decompiling,
 Binding, Building & Signing, my gut tells me this has 
 got a lot to do with Apktool.
