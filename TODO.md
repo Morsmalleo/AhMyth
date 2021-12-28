@@ -42,6 +42,9 @@ then integrate a copy function to replace the AndroidManifest.xml
 after being edited with custom permissions, with the backup copy 
 stored in the "Vault" Directory, instead of replacing it
 with `wget`
+
+- This is done! It just needs to be updated to work with the
+Constants.js file
 #
 9. Finish the Ransomware Builder and construct 
 a new Ransomware APK of our own that somewhat 
