@@ -52,7 +52,7 @@ app.controller("AppCtrl", ($scope) => {
     }
 
 
-    // fired when main peoccess (main.js) send any new notification about new victim
+    // fired when main proccess (main.js) sends any new notification about new victim
     ipcRenderer.on('SocketIO:NewVictim', (event, index) => {
         // add the new victim to the list
         viclist[index] = victimsList.getVictim(index);
@@ -69,7 +69,7 @@ app.controller("AppCtrl", ($scope) => {
     });
 
 
-    // fired when main peoccess (main.js) send any new notification about disconnected victim
+    // fired when main proccess (main.js) send any new notification about disconnected victim
     ipcRenderer.on('SocketIO:RemoveVictim', (event, index) => {
         $appCtrl.Log("Victim disconnected " + viclist[index].ip);
         // delete him from list
@@ -124,6 +124,24 @@ app.controller("AppCtrl", ($scope) => {
             $appCtrl.$apply();
         }
     }
+
+    // function to select decompiled APK folder for retry
+    $appCtrl.BrowseFolder = () => dialog.showOpenDialog({
+        properties: ['openDirectory']
+        }).then(result => {
+            if(result.canceled) {
+                $appCtrl.Log("No APK folder selected");
+            } else {
+                $appCtrl.Log("APK Folder Chosen " + result.filePaths[0]);
+            }
+        }).catch(() => {
+            $appCtrl.Log("No APK folder chosen")
+        })
+
+        function readdir(filepath) {
+            $appCtrl.filePath = filepath
+            $appCtrl.$apply();
+        }
 
     // function to run sara python file
 
