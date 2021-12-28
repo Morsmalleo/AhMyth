@@ -26,16 +26,14 @@ most of AhMyth's `node_modules` which is likely
 the reason the AhMyth interface breaks with the 
 default electron version provided by **npm**.
 #
-7. Find out a way to have AhMyth detect errors 
-with apktool when `Decompiling Failed/Building Failed/Signing Failed` 
-errors arise, then output said errors to a log file.
-   
-- If this does not work then integrate a `Rebuild` 
-button and function into AhMyth's APK Builder 
-interface, that when clicked, initates the rebuilding 
-and signing of the decompiled original APK that 
-failed to build previously but with the exception 
-of using the added argument for apktool `--use-aapt` or `--use-aapt2`.
+7. integrate a `Retry` button and function into AhMyth's APK Builder 
+interface, that when clicked, initates the rebuilding and signing of 
+the decompiled original APK that failed to build previously but with 
+the exception of using the added argument for apktool `--use-aapt` or 
+`--use-aapt2`.
+
+- THIS IS HALF DONE! the rebuild function just needs to be 
+integrated.
 #
 8. Create a copy of the original AhMyth 
 AndroidManifest.xml and rename it to "AndroidManifest.xml.ahmyth" 
@@ -77,3 +75,6 @@ for the File Manager option in the Victims Lab.
 for better understanding of errors with Decompiling,
 Binding, Building & Signing, my gut tells me this has 
 got a lot to do with Apktool.
+#
+16. Integrate the function to Log apktool.jar and sign.jar 
+errors to a text file for the GUI version of AhMyth.
