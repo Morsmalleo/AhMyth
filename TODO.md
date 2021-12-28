@@ -51,11 +51,11 @@ a new Ransomware APK of our own that somewhat
 matches the color of the AhMyth interface, 
 WITHOUT any ransom wallet addresses
 # 
-10. Stabilise Launcher Activity binding method (Half done)
+10. Stabilise Launcher Activity binding method
 
-- Update function to find the correct Smali file for
-the main Launchable Activity, currently AhMyth now 
-binds with APK's that it couldn't bind with before, 
+- This is Half Done!! I just need to update the function to 
+find the correct Smali file for the main Launchable Activity, 
+currently AhMyth now binds with APK's that it couldn't bind with before, 
 however some of these APK's don't work at all after
 the backdoor process is complete, so I will need to look
 into why this is happening.
