@@ -74,7 +74,7 @@ in the APK Builder tab.
 
 Once you have done that, you can go ahead and click
 the black "Browse APK" button, once you have done this
-a file browser will open, select the APK original APK
+a file browser will open, select the original APK
 you want to bind with by double clicking it.
 
 Once you have your Original APK selected, you can go 
