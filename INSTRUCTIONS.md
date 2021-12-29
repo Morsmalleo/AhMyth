@@ -87,7 +87,7 @@ which allows the payload to activate when the victims phone
 restarts or shuts down and reboots. 
 
 2. The Launcher Activity method 
-This which allows the payload to activate when the infected 
+which allows the payload to activate when the infected 
 APK is opened by the Victim, the Launcher Method is currently 
 still a bit unstable, won't work with all APK's.
 
