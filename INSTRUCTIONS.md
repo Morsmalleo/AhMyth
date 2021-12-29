@@ -94,8 +94,8 @@ still a bit unstable, won't work with all APK's.
 Once you have selected a Binding method, you can
 go ahead and click the Green `Bind` button.
 
-if you experience any problems with Binding, then
-Please refer to the TROUBLESHOOT.md file.
+if you experience any problems with Decompiling, then
+Building and/or Signing, please refer to the TROUBLESHOOT.md file.
 #
 ## Listening
 Once you have your choice of payload type built, signed
