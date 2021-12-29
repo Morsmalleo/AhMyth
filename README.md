@@ -3,6 +3,9 @@
 ## Maintained by 
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
+
+Give this repository a ⭐ to support our work, 
+and please feel free to share it as much as you want/can.
 #
 <p align="center">
 
