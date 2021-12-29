@@ -63,7 +63,7 @@ Alternatively you can leave the "Server Port" box empty,
 and AhMyth will build a Standalone payload using the default AhMyth 
 port, 42474. 
 
-If you face any errors with Decompiling, Building 
+If you face any errors with Building 
 or Signing, then refer to the TROUBLESHOOT.md
 
 ### Binding
