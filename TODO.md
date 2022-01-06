@@ -68,8 +68,8 @@ Victims Lab Audio Recording option with seperate
 button for recording calls, or create a separate
 tab for call recording
 #
-13. Figure out how to allow Client APK access to 
-`storage/emulated`
+13. Figure out how to allow access to 
+`storage/emulated` when using the File Manager
 #
 14. Integrate upload and execute capabilities 
 for the File Manager option in the Victims Lab.
@@ -81,3 +81,10 @@ got a lot to do with Apktool.
 #
 16. Integrate the function to Log apktool.jar and sign.jar 
 errors to a text file for the GUI version of AhMyth.
+#
+17. Restyle the AhMyth Server using the following
+- Glassmorphism 
+- Side scrolling tabs instead of top scrolling tabs
+- Icons to replace the Tab names 
+- Settings menu for UI style adjustments
+- Dark theme
