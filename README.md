@@ -69,11 +69,6 @@ Join the development and upgrading of AhMyth at [AhMyth RAT Development](https:/
 - Backdooring original applications, also referred to as "Binding"
 - Supports **Linux** & **OS X**
 - Custom Permissions selection - Allows user to select specific permissions using the checkboxes on the Interface, ticking none, or all of the boxes, will generate a payload with all default permissions
-# Client (Ahmyth.apk) Features 
-- APK auto-hides itself upon installation
-- Android Permission are automatically granted upon installation
-- L.A.P (Launcher Activity Persistence) 
-#
 <p>
 
   <img width="600" src=https://user-images.githubusercontent.com/64344168/135562852-2c00f96f-67f2-49f4-8844-7a48512f70b4.png>
