@@ -88,3 +88,5 @@ errors to a text file for the GUI version of AhMyth.
 - Icons to replace the Tab names 
 - Settings menu for UI style adjustments
 - Dark theme
+- AhMyth user account login - Default username will be `ahmyth` 
+and the default password will be `trojan`
