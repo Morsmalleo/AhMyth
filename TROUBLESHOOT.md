@@ -29,7 +29,7 @@ installation.
 
 Run `sudo update-alternatives --config java` and switch your current Java version to any other Java version you have installed, then run the command `java -version`, if the output gives you the version information for the Java version you were running before switching over with `update-alternatives` then you have a broken Java installation somewhere, you will need to either make a new VM or search for a solution to the problem. 
 
-If your Java versions do switch back and forth normally then its most likely due to a `RANGE ERROR` with apktool inside AhMyth, there is currently no workaround for this using AhMyth but there will be one integrated in the near future.
+If your Java versions do switch back and forth normally then its most likely due to an error with apktool inside AhMyth, there is currently no workaround for this using AhMyth but there will be one integrated in the near future.
 #
 ## Building Succeeded, but Signing Failed with building a regular AhMyth APK & Binding with an Original
 Q. Why does the building process work but the signing process fails when Binding?
