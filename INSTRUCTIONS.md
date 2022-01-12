@@ -1,7 +1,6 @@
 # INSTRUCTIONS
 #
-## Pre-install Notes | Read before installing
-#
+# Pre-install Notes
 ## AhMyth Development for Windows Ceased!
     As of v1.0-beta.3, AhMyth Android RAT is no longer being maintained for Windows 
     Machines, so don't bother trying to post issues or errors related to AhMyth for 
@@ -14,10 +13,9 @@
  
     You can still however download the source code from the releases section and 
     follow either the Auto Installation or Manual Installation steps.
-
 #
-## Installation
 #
+# Installation
 ## Linux
 ### Auto Install | Kali + Parrot OS
     1. git clone https://github.com/Morsmalleo/AhMyth    
@@ -36,9 +34,6 @@
     2. npm install -g electron@9.4.1 (you only need to run this 1 time)
     3. cd AhMyth/AhMyth-Server
     4. npm start    
-#
-    If you run into the warning message pictured below, just simply upgrade to node 14.x
-![Warning fix](https://user-images.githubusercontent.com/64344168/135712747-8545bc2c-3ef9-4e5e-9890-f2d7f66e1534.png)    
 #
 # How to use AhMyth 
 ## APK Builder
