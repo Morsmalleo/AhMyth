@@ -33,8 +33,8 @@
 #
 ### Manual Install | All Linux platforms
     1. git clone https://github.com/Morsmalleo/AhMyth
-    2. cd AhMyth/AhMyth-Server
-    3. npm install -g electron@9.4.1
+    2. npm install -g electron@9.4.1 (you only need to run this 1 time)
+    3. cd AhMyth/AhMyth-Server
     4. npm start    
 #
     If you run into the warning message pictured below, just simply upgrade to node 14.x
