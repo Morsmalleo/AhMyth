@@ -15,8 +15,7 @@
     follow either the Auto Installation or Manual Installation steps.
 #
 #
-# Installation
-## Linux
+# Installation - Linux
 ### Auto Install | Kali + Parrot OS
     1. git clone https://github.com/Morsmalleo/AhMyth    
     2. cd AhMyth/AhMyth-Server
