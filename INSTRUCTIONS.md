@@ -30,7 +30,7 @@
 #
 ### Manual Install | All Linux platforms
     1. git clone https://github.com/Morsmalleo/AhMyth
-    2. npm install -g electron@9.4.1 (you only need to run this 1 time)
+    2. npm install -g electron@9.4.1 (AhMyth specifically needs electron v9.4.1 to run)
     3. cd AhMyth/AhMyth-Server
     4. npm start    
 #
