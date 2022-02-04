@@ -61,11 +61,10 @@ Join the development and upgrading of AhMyth at [AhMyth RAT Development](https:/
 
 #
 # Server Features:
-- File Manager – allows the attacker to view contents in the target device including the firmware.
-- Remote access to Mic and Camera.
+- File Manager – allows the attacker to view contents in the target device's storage.
 - Access to Call Logs.
 - SMS access – allows the attacker to read and send messages from the target device.
-- Device GPS Location – enables the attacker to know the geographical location of the victim.
+- Device GPS Location – enables the attacker to know the geographical location of the victim and also provides Longitude & Latitude.
 - Backdooring original applications, also referred to as "Binding"
 - Supports **Linux** & **OS X**
 - Custom Permissions selection - Allows user to select specific permissions using the checkboxes on the Interface, ticking none, or all of the boxes, will generate a payload with all default permissions
