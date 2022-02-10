@@ -60,8 +60,8 @@ function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     icon: __dirname + '/app/assets/img/icon.png',
-    width: 870,
-    height: 670,
+    width: 900,
+    height: 690,
     show: false,
     resizable: false,
     position: "center",
