@@ -118,7 +118,7 @@
                 <th colspan="3">
                     <button ng-click="Build(srcIP,srcPort)" ng-hide="bindApk.enable" ng-show="Build" class="ui labeled icon red button"><i class="lightning icon" ></i>Build</button>
                     <button ng-click="Build(srcIP,srcPort)" ng-hide="Build" ng-show=bindApk.enable class="ui labeled icon green button"><i class="lab icon" ></i>Bind</button>
-                    <button ng-click="Rebuild(path)" ng-hide="Build" ng-show=bindApk.enable class="ui labeled icon white button"><i class="refresh icon" ></i>Retry</button>
+                    <button ng-click="Retry(srcApkFolder)" ng-hide="Build" ng-show=bindApk.enable class="ui labeled icon white button"><i class="refresh icon" ></i>Retry</button>
                 </th>
             </tr>
         </tfoot>

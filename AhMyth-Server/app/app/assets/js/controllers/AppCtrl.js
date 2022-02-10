@@ -5694,4 +5694,44 @@ function GetLauncherPath(manifest, smaliPath) {
 
 
 
-}
+    }
+
+    // function to build the apk and sign it by clicking the Retry button
+    $appCtrl.RetryApk = (apkFolder) => {
+
+      $appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
+      var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
+          (error, stdout, stderr) => {
+              if (error !== null) {
+                  $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
+                  return;
+              }
+
+              $appCtrl.Log('Signing ' + CONSTANTS.apkName + '...');
+              var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(outputPath, CONSTANTS.apkName) + '"',
+                  (error, stdout, stderr) => {
+                      if (error !== null) {
+                          $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
+                          return;
+                      }
+
+
+                      fs.unlink(path.join(outputPath, CONSTANTS.apkName), (err) => {
+                          if (err) throw err;
+
+                          $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
+                          $appCtrl.Log("The apk has been built on " + path.join(outputPath), CONSTANTS.logStatus.SUCCESS);
+
+                      });
+                  });
+          });
+
+  }
+
+  $appCtrl.Retry = (apkFolder) => {
+    if (!apkFolder) {
+        $appCtrl.Log('Please Select a Decompiled APK folder to use.', CONSTANTS.logStatus.FAIL);
+        return;
+    }
+  }
+
