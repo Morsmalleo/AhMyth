@@ -12,12 +12,11 @@ echo " | Installing AhMyth Prerequisits | "
 echo " |--------------------------------| "
 sleep 2
 
-# xterm is needed for the Repo_Swap in order to install
-# Java 8 development kit from an older software Repo
-# without having to manually add it to your sources.list
-apt-get install xterm -y 
+apt-get install xterm* -y 
 apt-get install npm nodejs -y
 apt-get install aapt android-framework-res -y
+apt-get install python3-pip -y
+pip3 install -r requirements.txt
 clear
 sleep 1
 
