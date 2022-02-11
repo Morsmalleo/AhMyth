@@ -35,11 +35,12 @@
 
 
     <div class="ui top attached tabular menu">
-        <a class="item active notDraggable" data-tab="first">Victims</a>
-        <a class="item notDraggable" data-tab="second">APK Builder</a>
-        <a class="item notDraggable" data-tab="third">Payload Url Masker</a>
+        <a class="item active notDraggable" data-tab="first"><i class="large eye icon"></i>Victims</a>
+        <a class="item notDraggable" data-tab="second"><i class="large bug icon"></i>APK Builder</a>
+        <a class="item notDraggable" data-tab="third"><i class="large lab icon"></i>Payload Url Masker</a>
         <div class="ui right mini text menu notDraggable">
-            <button class="ui circular orange button" ng-click="minimize()" style="font-size: 6px;height: 17px"></button>
+            <button class=" ui circular orange button" ng-click="maximize()" style="font-size: 6px;height: 17px"></button>
+            <button class="ui circular green button" ng-click="maximize()" style="font-size: 6px;height: 17px"></button>
             <button class="ui circular red button" ng-click="close()" style="font-size: 6px;height: 17px"></button>
         </div>
     </div>
@@ -62,10 +63,9 @@
                                     <div class="ui label">
                                         Port
                                     </div>
-                                    <input ng-disabled="isListen" type="text" ng-model="port" placeholder="Deafult is 42474">
+                                    <input type="text" ng-model="port" placeholder="Deafult is 42474">
                                 </div>
-                                <button ng-disabled="isListen" ng-click="isListen=true;Listen(port);" class="ui labeled icon black  button"><i class="terminal icon" ></i>Listen</button>
-                                <button ng-disabled="!isListen" ng-click="isListen=false;Stop(port);" class="ui labeled icon black  button"><i class="terminal icon" ></i>Stop</button>
+                                <button ng-click="isListen=true;Listen(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Listen</button>
                             </div>
                         </div>
                     </div>

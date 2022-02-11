@@ -16,13 +16,13 @@
                         <input ng-model="srcIP" type="text" placeholder="188.132.xxx.xxx">
                     </div>
                 </td>
-
+                
                 <td>
                     <div class="ui labeled fluid input ">
-                        <div class="ui black label">
-                            Server Port
-                        </div>
                         <input ng-model="srcPort" type="number" min="1025" max="65535" placeholder="default is 42474">
+                            <div class="ui black label">
+                                Server Port
+                        </div>
                     </div>
                 </td>
                                                
@@ -103,7 +103,8 @@
                     </div>
                 </td>
                 <td>
-                    <button ng-click="BrowseApk()" ng-disabled="!bindApk.enable" class="ui black labeled icon button "><i class="folder open icon" ></i>Browse Apk</button><button ng-click="BrowseFolder()" ng-disabled="!bindApk.enable" class="ui black labeled icon button "><i class="folder open icon" ></i>Browse Folder</button>
+                    <button ng-click="BrowseApk()" ng-disabled="!bindApk.enable" class="ui black labeled icon button "><i class="folder open icon" ></i>Browse Apk</button>
+                    <button ng-click="BrowseFolder()" ng-disabled="!bindApk.enable" class="ui black labeled icon button "><i class="folder open icon" ></i>Browse Folder</button>
                     </td>
                 <td>
                     <div class="ui radio checkbox">
@@ -116,9 +117,9 @@
         <tfoot class="half-width">
             <tr class="center aligned">
                 <th colspan="3">
-                    <button ng-click="Build(srcIP,srcPort)" ng-hide="bindApk.enable" ng-show="Build" class="ui labeled icon red button"><i class="lightning icon" ></i>Build</button>
-                    <button ng-click="Build(srcIP,srcPort)" ng-hide="Build" ng-show=bindApk.enable class="ui labeled icon green button"><i class="lab icon" ></i>Bind</button>
-                    <button ng-click="Retry(srcApkFolder)" ng-hide="Build" ng-show=bindApk.enable class="ui labeled icon white button"><i class="refresh icon" ></i>Retry</button>
+                    <button ng-click="Build(srcIP,srcPort)" ng-hide="bindApk.enable" ng-show="Build" class="ui labeled icon red button"><i class="bug icon" ></i>Build</button>
+                    <button ng-click="Build(srcIP,srcPort)" ng-hide="Build" ng-show=bindApk.enable class="ui labeled icon green button"><i class="bug icon" ></i>Bind</button>
+                    <button ng-click="Retry()" ng-hide="Build" ng-show=bindApk.enable class="ui labeled icon orange button"><i class="refresh icon" ></i>Retry</button>
                 </th>
             </tr>
         </tfoot>
