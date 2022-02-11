@@ -46,10 +46,7 @@ with `wget`
 - This is done! It just needs to be updated to work with the
 Constants.js file
 #
-9. Finish the Ransomware Builder and construct 
-a new Ransomware APK of our own that somewhat 
-matches the color of the AhMyth interface, 
-WITHOUT any ransom wallet addresses
+9. Create persistence for the AhMyth payload
 # 
 10. Stabilise Launcher Activity binding method
 
