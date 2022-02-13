@@ -2870,7 +2870,7 @@ app.controller("AppCtrl", ($scope) => {
                 })
         })
         appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
-        var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '" --use-aapt "' + '"',
+        var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
             (error, stdout, stderr) => {
                 if (error !== null) {
                     $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
@@ -5711,10 +5711,10 @@ function GetLauncherPath(manifest, smaliPath) {
         indices.push(result.index);
     }
 
-    var indexOfLauncher = manifest.indexOf('<category android:name="android.intent.action.LAUNCHER" />'); 
+    var indexOfLauncher = manifest.indexOf('<category android:name="android.intent.category.LAUNCHER" />'); 
     var indexOfActivity = -1;
     if (indexOfLauncher != -1) {
-        var indexOfLauncher = manifest.indexOf('<category android:name="android.intent.action.INFO" />');
+        var indexOfLauncher = manifest.indexOf('<category android:name="android.intent.category.INFO" />');
         var indexOfActivity = -1
     }
 
