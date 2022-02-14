@@ -50,12 +50,19 @@ Constants.js file
 # 
 10. Stabilise Launcher Activity binding method
 
-- This is Half Done!! I just need to update the function to 
-find the correct Smali file for the main Launchable Activity, 
-currently AhMyth now binds with APK's that it couldn't bind with before, 
-however some of these APK's don't work at all after
-the backdoor process is complete, so I will need to look
-into why this is happening.
+- This is almost stable, there are currently two problems
+that arise with some APKs that have been Bound using 
+the `On Launch` method, they are as follows, please note 
+that I will find a way to fix these problems.
+    
+    1. Application is stuck on a white/black screen
+       After being opened on the victim device.
+    
+    2. Building fails because there is no launcher activity,
+       most likely because the APK is setup to call the launcher activity
+       from a server once the APK is installed, APKs such as `Facebook` 
+       use this.
+
 #
 11. explore other, more discrete options for the 
 URL payload masker.
