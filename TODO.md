@@ -10,6 +10,10 @@ payload from `v1.0-beta.2` as the starting point.
 #
 - [ ] Create persistence for the AhMyth payload
 #
+- [ ] Figure out how to give the client access to 
+`storage/emulated` so we can access it when using the
+FIle Manager in the AhMyth Server Victims Lab.
+#
 #
 ## Server Only TODO List:
 
@@ -79,9 +83,6 @@ currently needs to maintain `socket.io-client v0.8.3`
 to hold a connection without flickering back and 
 forth between Connecting and Disconnecting with 
 Victims.
-#
-- [ ] Figure out how to allow access to 
-`storage/emulated` when using the File Manager
 #
 - [ ] Integrate telephone call recording for 
 Victims Lab Audio Recording option with seperate 
