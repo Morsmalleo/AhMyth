@@ -28,7 +28,7 @@ the exception of using the added argument for apktool `--use-aapt` or
 - THIS IS HALF DONE! the rebuild function just needs to be 
 integrated.
 #
-- [ ] Create a copy of the original AhMyth 
+- [ x ] Create a copy of the original AhMyth 
 AndroidManifest.xml and rename it to "AndroidManifest.xml.ahmyth" 
 and store it in a read-only directory called "Vault",
 then integrate a copy function to replace the AndroidManifest.xml
