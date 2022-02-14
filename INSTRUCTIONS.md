@@ -30,9 +30,10 @@
 #
 ### Manual Install | All Linux platforms
     1. git clone https://github.com/Morsmalleo/AhMyth
-    2. npm install -g electron@9.4.1 (AhMyth specifically needs electron v9.4.1 to run)
-    3. cd AhMyth/AhMyth-Server
-    4. npm start    
+    2. npm install -g electron@9.4.1
+    3. sudo apt install python3* python3-pip*
+    4. cd AhMyth/AhMyth-Server
+    5. npm start    
 #
 # How to use AhMyth 
 ## APK Builder
@@ -76,14 +77,15 @@ ahead and select a Binding method.
 
 There are two binding methods available to choose from, 
 
-1. The Boot method 
-which allows the payload to activate when the victims phone 
-restarts or shuts down and reboots. 
+    1. The Boot method 
+       - This allows the payload to activate when the victims 
+         phone restarts or shuts down and reboots. 
 
-2. The Launcher Activity method 
-which allows the payload to activate when the infected 
-APK is opened by the Victim, the Launcher Method is currently 
-still a bit unstable, won't work with all APK's.
+    2. The Launcher Activity method
+       - This allows the payload to activate when the infected 
+         APK is opened by the Victim, the Launcher Method is currently 
+         still a bit unstable, it won't work with all APK's, 
+         this will be updated though.
 
 Once you have selected a Binding method, you can
 go ahead and click the Green `Bind` button.
@@ -111,3 +113,16 @@ as the make, model, country and android version.
 
 Receiving a Victims Connection will then allow you 
 to access the Victims Lab.
+#
+## Payload URL Masker
+This is a newer feature in AhMyth used to assist with installing
+the payload APK on the victim device remotely. You can 
+follow the steps below to learn how to use it.
+      
+    1. Build an AhMyth payload
+    2. Upload the payload to a download server or fileshare website
+    3. Copy the link to the part of the server or website that will initiate the download
+    4. Paste the copied download link into the text box on the left of the UI
+    5. Insert any link of your choice into the box on the right of the UI
+    6. Click the `Generate Link` button, then copy the generated link from the black UI terminal and send it to the victim
+
