@@ -75,18 +75,15 @@ tab for call recording
 13. Figure out how to allow access to 
 `storage/emulated` when using the File Manager
 #
-14. Integrate upload and execute capabilities 
-for the File Manager option in the Victims Lab.
-#
-15. Build a No-GUI/Terminal version of AhMyth
+14. Build a No-GUI/Terminal version of AhMyth
 for better understanding of errors with Decompiling,
 Binding, Building & Signing, my gut tells me this has 
 got a lot to do with Apktool.
 #
-16. Integrate the function to Log apktool.jar and sign.jar 
+15. Integrate the function to Log apktool.jar and sign.jar 
 errors to a text file for the GUI version of AhMyth.
 #
-17. Restyle the AhMyth Server using the following
+16. Restyle the AhMyth Server using the following
 - Glassmorphism 
 - Side scrolling tabs instead of top scrolling tabs
 - Icons to replace the Tab names 
