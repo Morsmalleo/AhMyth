@@ -124,5 +124,6 @@ follow the steps below to learn how to use it.
     3. Copy the link to the part of the server or website that will initiate the download
     4. Paste the copied download link into the text box on the left of the UI
     5. Insert any link of your choice into the box on the right of the UI
-    6. Click the `Generate Link` button, then copy the generated link from the black UI terminal and send it to the victim
+    6. Click the `Generate Link` button, then copy the generated link from 
+       the black UI terminal and send it to the victim
 
