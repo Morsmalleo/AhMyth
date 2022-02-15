@@ -73,12 +73,9 @@ errors to a text file for the GUI version of AhMyth.
 #
 ## Client & Server TODO List (TODO's for both the Client & Server)
 
-- [ ] 01: Find a way to stop the flickering Victim's 
-Connections with `socket.io-client v2.0.1`,
-currently needs to maintain `socket.io-client v0.8.3` 
-to hold a connection without flickering back and 
-forth between Connecting and Disconnecting with 
-Victims.
+- [ ] 01: Update `socket.io-client 0.8.3` to 
+`socket.io-client 2.0.1` for the AhMyth Client, 
+in order for connections to work with `socket.io 4x`
 #
 - [ ] 02: Integrate telephone call recording for 
 Victims Lab Audio Recording option with seperate 
