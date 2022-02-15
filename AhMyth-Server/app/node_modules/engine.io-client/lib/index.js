@@ -1,14 +1,10 @@
-const Socket = require("./socket");
 
-module.exports = (uri, opts) => new Socket(uri, opts);
+module.exports = require('./socket');
 
 /**
- * Expose deps for legacy compatibility
- * and standalone browser access.
+ * Exports parser
+ *
+ * @api public
+ *
  */
-
-module.exports.Socket = Socket;
-module.exports.protocol = Socket.protocol; // this is an int
-module.exports.Transport = require("./transport");
-module.exports.transports = require("./transports/index");
-module.exports.parser = require("engine.io-parser");
+module.exports.parser = require('engine.io-parser');

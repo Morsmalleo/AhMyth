@@ -1,7 +1,7 @@
 {
     "name": "iconv-lite",
     "description": "Convert character encodings in pure javascript.",
-    "version": "0.4.24",
+    "version": "0.6.3",
     "license": "MIT",
     "keywords": [
         "iconv",
@@ -22,25 +22,23 @@
         "node": ">=0.10.0"
     },
     "scripts": {
-        "coverage": "istanbul cover _mocha -- --grep .",
-        "coverage-open": "open coverage/lcov-report/index.html",
+        "coverage": "c8 _mocha --grep .",
         "test": "mocha --reporter spec --grep ."
     },
     "browser": {
-        "./lib/extend-node": false,
-        "./lib/streams": false
+        "stream": false
     },
     "devDependencies": {
-        "mocha": "^3.1.0",
-        "request": "~2.87.0",
-        "unorm": "*",
-        "errto": "*",
-        "async": "*",
-        "istanbul": "*",
-        "semver": "*",
-        "iconv": "*"
+        "async": "^3.2.0",
+        "c8": "^7.2.0",
+        "errto": "^0.2.1",
+        "iconv": "^2.3.5",
+        "mocha": "^3.5.3",
+        "request": "^2.88.2",
+        "semver": "^6.3.0",
+        "unorm": "^1.6.0"
     },
     "dependencies": {
-        "safer-buffer": ">= 2.1.2 < 3"
+        "safer-buffer": ">= 2.1.2 < 3.0.0"
     }
 }
