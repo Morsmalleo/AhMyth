@@ -1,29 +1,28 @@
 ## Client Only TODO List:
-- [ ] Integrate Live Camera Preview Stream for the Client. 
+- [ ] 01: Integrate Live Camera Preview Stream for the Client. 
 #
-- [ ] Integrate Video Recording for the Client. 
+- [ ] 02: Integrate Video Recording for the Client. 
 #
-- [ ] Rewrite AhMyth Client using the original 
+- [ ] 03: Rewrite AhMyth Client using the original 
 payload from `v1.0-beta.2` as the starting point.
 #
-- [ ] Figure out a way to bypass play protect. 
+- [ ] 04: Figure out a way to bypass play protect. 
 #
-- [ ] Create persistence for the AhMyth payload
+- [ ] 05: Create persistence for the AhMyth payload
 #
-- [ ] Figure out how to give the client access to 
+- [ ] 06: Figure out how to give the client access to 
 `storage/emulated` so we can access it when using the
 FIle Manager in the AhMyth Server Victims Lab.
 #
 #
 ## Server Only TODO List:
 
-- [ ] Find a way to upgrade `semantic-ui` or find an 
-alternative, as it's causing blocks in upgrading 
-most of AhMyth's `node_modules` which is likely 
-the reason the AhMyth interface breaks with the 
-default electron version provided by **npm**.
+- [ ] 01: Migrate AhMyth from `semantic-ui`, to `fomantic-ui`
+in order to achieve updating AhMyth's node_modules.
+This needs to be done as *semantic-ui* is blocking **npm**
+from updating AhMyth's node modules.
 #
-- [ ] integrate a `Retry` button and function into AhMyth's APK Builder 
+- [ ] 02: integrate a `Retry` button and function into AhMyth's APK Builder 
 interface, that when clicked, initates the rebuilding and signing of 
 the decompiled original APK that failed to build previously but with 
 the exception of using the added argument for apktool `--use-aapt` or 
@@ -32,7 +31,7 @@ the exception of using the added argument for apktool `--use-aapt` or
 - THIS IS HALF DONE! the rebuild function just needs to be 
 integrated.
 #
-- [x] Create a copy of the original AhMyth 
+- [x] 03: Create a copy of the original AhMyth 
 AndroidManifest.xml and rename it to "AndroidManifest.xml.ahmyth" 
 and store it in a read-only directory called "Vault",
 then integrate a copy function to replace the AndroidManifest.xml
@@ -43,7 +42,7 @@ with `wget`
 - This is done! It just needs to be updated to work with the
 Constants.js file
 # 
-- [ ] Stabilise Launcher Activity binding method
+- [ ] 04: Stabilise Launcher Activity binding method
 
 This is almost stable, there are currently two problems
 that arise with some APKs that have been Bound using 
@@ -58,13 +57,13 @@ that I will find a way to fix these problems.
        from a server once the APK is installed, APKs such as Facebook 
        use this.
 #
-- [ ] explore other, more discrete options for the 
+- [ ] 05: Explore other, more discrete options for the 
 URL payload masker.
 #
-- [ ] Integrate the function to Log apktool.jar and sign.jar 
+- [ ] 06: Integrate the function to Log apktool.jar and sign.jar 
 errors to a text file for the GUI version of AhMyth.
 #
-- [ ] Restyle the AhMyth Server using the following
+- [ ] 07: Restyle the AhMyth Server using the following
 
       1. Glassmorphism 
       2. Side scrolling tabs instead of top scrolling tabs
@@ -77,17 +76,17 @@ errors to a text file for the GUI version of AhMyth.
 #
 ## Client & Server TODO List (TODO's for both the Client & Server)
 
-- [ ] Find a way to stop the flickering Victim's 
+- [ ] 01: Find a way to stop the flickering Victim's 
 Connections with `socket.io-client v2.0.1`,
 currently needs to maintain `socket.io-client v0.8.3` 
 to hold a connection without flickering back and 
 forth between Connecting and Disconnecting with 
 Victims.
 #
-- [ ] Integrate telephone call recording for 
+- [ ] 02: Integrate telephone call recording for 
 Victims Lab Audio Recording option with seperate 
 button for recording calls, or create a separate
 tab for call recording
 #
-- [ ] Integrate Call Notifications for Incoming and 
+- [ ] 03: Integrate Call Notifications for Incoming and 
 Outgoing Calls from and to the Victim.
