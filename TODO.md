@@ -28,13 +28,11 @@ the exception of using the added argument for apktool `--use-aapt` or
 - THIS IS HALF DONE! the rebuild function just needs to be 
 integrated.
 #
-- [x] 03: Create a copy of the original AhMyth 
-AndroidManifest.xml and rename it to "AndroidManifest.xml.ahmyth" 
-and store it in a read-only directory called "Vault",
-then integrate a copy function to replace the AndroidManifest.xml
-after being edited with custom permissions, with the backup copy 
-stored in the "Vault" Directory, instead of replacing it
-with `wget` 
+- [x] 03: Create a backup copy of AhMyth's `AndroidManifest.xml`
+file, and store it in the newly created backup directory 
+`AhMyth/AhMyth-Server/app/app/Factory/Vault` in order to 
+restore AhMyth's original manifest file back to it's original 
+state after being edited with custom permissions.
 
 - This is done! It just needs to be updated to work with the
 Constants.js file
@@ -79,8 +77,12 @@ in order for *Victim connections* to work when
 updating `socket.io 2.4.2` to `socket.io 4.x` for
 the AhMyth Server.
 #
-- [ ] 02: Integrate telephone call recording for both
-the *AhMyth Client* & the *AhMyth Server*.
+- [ ] 02: Integrate phone call recording for both the 
+*AhMyth Client* & *AhMyth Server*, then find a way to
+to reject the request from the *Server* to the *Client*
+to record calls, only if there is no phone call in progress,
+then find out how to have AhMyth print the error message 
+`No phone call in progress!` when the request is rejected.
 #
-- [ ] 03: Integrate notifications for Incoming and 
-Outgoing Calls from and to the Victim.
+- [ ] 03: Integrate a keylogger for both the *AhMyth Client*
+& the *AhMyth-Server*
