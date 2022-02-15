@@ -75,12 +75,12 @@ errors to a text file for the GUI version of AhMyth.
 
 - [ ] 01: Update `socket.io-client 0.8.3` to 
 `socket.io-client 2.0.1` for the AhMyth Client, 
-in order for connections to work with `socket.io 4x`
+in order for *Victim connections* to work when
+updating `socket.io 2.4.2` to `socket.io 4.x` for
+the AhMyth Server.
 #
-- [ ] 02: Integrate telephone call recording for 
-Victims Lab Audio Recording option with seperate 
-button for recording calls, or create a separate
-tab for call recording
+- [ ] 02: Integrate telephone call recording for both
+the *AhMyth Client* & the *AhMyth Server*.
 #
-- [ ] 03: Integrate Call Notifications for Incoming and 
+- [ ] 03: Integrate notifications for Incoming and 
 Outgoing Calls from and to the Victim.
