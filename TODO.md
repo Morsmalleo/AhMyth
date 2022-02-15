@@ -17,10 +17,7 @@ FIle Manager in the AhMyth Server Victims Lab.
 #
 ## Server Only TODO List:
 
-- [ ] 01: Migrate AhMyth from `semantic-ui`, to `fomantic-ui`
-in order to achieve updating AhMyth's node_modules.
-This needs to be done as *semantic-ui* is blocking **npm**
-from updating AhMyth's node modules.
+- [ ] 01: Migrate AhMyth from `semantic-ui`, to `fomantic-ui`.
 #
 - [ ] 02: integrate a `Retry` button and function into AhMyth's APK Builder 
 interface, that when clicked, initates the rebuilding and signing of 
