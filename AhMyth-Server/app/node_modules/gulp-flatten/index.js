@@ -1,7 +1,7 @@
 var path = require('path');
 var through2 = require('through2');
 var flattenPath = require('./lib/flatten-path');
-var PluginError = require('gulp-util').PluginError;
+var PluginError = require('plugin-error');
 
 module.exports = function(opts) {
   opts = opts || {};

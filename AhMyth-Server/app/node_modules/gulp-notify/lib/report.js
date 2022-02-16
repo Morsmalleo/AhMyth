@@ -1,5 +1,5 @@
 var template = require("lodash.template");
-var gutil = require("gulp-util");
+var PluginError = require('plugin-error');
 var api = require("./extra_api");
 var extend = require("node.extend");
 var path = require("path");
@@ -20,7 +20,7 @@ var defaults = {
 module.exports = function (reporter, message, options, templateOptions, callback) {
   var self = this;
   callback = callback || function () {};
-  if (!reporter) return callback(new gutil.PluginError("gulp-notify", "No reporter specified."));
+  if (!reporter) return callback(new PluginError("gulp-notify", "No reporter specified."));
 
   // Try/catch the only way to go to ensure catching all errors? Domains?
   try {
@@ -30,11 +30,11 @@ module.exports = function (reporter, message, options, templateOptions, callback
     }
     api.logError(options, (message instanceof Error));
     reporter(options, function (err) {
-      if (err) return callback(new gutil.PluginError("gulp-notify", err));
+      if (err) return callback(new PluginError("gulp-notify", err));
       return callback();
     });
   } catch (err) {
-    return callback(new gutil.PluginError("gulp-notify", err));
+    return callback(new PluginError("gulp-notify", err));
   }
 };
 
@@ -66,11 +66,11 @@ function generate (outputData, object, title, message, subtitle, open, templateO
   }
 
   return extend(defaults.regular, outputData, {
-    title: gutil.template(title, {
+    title: template(title)({
       file: object,
       options: templateOptions
     }),
-    message: gutil.template(message, {
+    message: template(message)({
       file: object,
       options: templateOptions
     })
@@ -105,19 +105,19 @@ function constructOptions (options, object, templateOptions) {
     } else {
       title = outputData.title || title;
     }
-    
+
     if (typeof outputData.subtitle === "function") {
       subtitle = outputData.subtitle(object);
     } else {
       subtitle = outputData.subtitle || subtitle;
     }
-    
+
     if (typeof outputData.open === "function") {
       open = outputData.open(object);
     } else {
       open = outputData.open || open;
     }
-    
+
     if (typeof outputData.message === "function") {
       message = outputData.message(object);
       if (!message) {

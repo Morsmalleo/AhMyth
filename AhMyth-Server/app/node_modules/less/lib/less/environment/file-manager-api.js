@@ -1,11 +1,13 @@
-module.exports = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
     /**
      * Given the full path to a file, return the path component
      * Provided by AbstractFileManager
      * @param {string} filename
      * @returns {string}
      */
-    getPath: function(filename) {
+    getPath: function (filename) {
     },
     /**
      * Append a .less extension if appropriate. Only called if less thinks one could be added.
@@ -13,7 +15,7 @@ module.exports = {
      * @param filename
      * @returns {string}
      */
-    tryAppendLessExtension: function(filename) {
+    tryAppendLessExtension: function (filename) {
     },
     /**
      * Whether the rootpath should be converted to be absolute.
@@ -21,7 +23,7 @@ module.exports = {
      * Provided by AbstractFileManager (returns false)
      * @returns {bool}
      */
-    alwaysMakePathsAbsolute: function() {
+    alwaysMakePathsAbsolute: function () {
     },
     /**
      * Returns whether a path is absolute
@@ -29,7 +31,7 @@ module.exports = {
      * @param {string} path
      * @returns {bool}
      */
-    isPathAbsolute: function(path) {
+    isPathAbsolute: function (path) {
     },
     /**
      * joins together 2 paths
@@ -37,7 +39,7 @@ module.exports = {
      * @param {string} basePath
      * @param {string} laterPath
      */
-    join: function(basePath, laterPath) {
+    join: function (basePath, laterPath) {
     },
     /**
      * Returns the difference between 2 paths
@@ -48,7 +50,7 @@ module.exports = {
      * @param {string} baseUrl
      * @returns {string}
      */
-    pathDiff: function(url, baseUrl) {
+    pathDiff: function (url, baseUrl) {
     },
     /**
      * Returns whether this file manager supports this file for syncronous file retrieval
@@ -60,7 +62,7 @@ module.exports = {
      * @param {less.environment.environment} environment
      * @returns {bool}
      */
-    supportsSync: function(filename, currentDirectory, options, environment) {
+    supportsSync: function (filename, currentDirectory, options, environment) {
     },
     /**
      *
@@ -70,7 +72,7 @@ module.exports = {
      * @param {less.environment.environment} environment
      * @returns {bool}
      */
-    supports: function(filename, currentDirectory, options, environment) {
+    supports: function (filename, currentDirectory, options, environment) {
     },
     /**
      * Loads a file asynchronously. Expects a promise that either rejects with an error or fulfills with an
@@ -84,7 +86,7 @@ module.exports = {
      * @param {less.environment.environment} environment
      * @returns {Promise}
      */
-    loadFile: function(filename, currentDirectory, options, environment) {
+    loadFile: function (filename, currentDirectory, options, environment) {
     },
     /**
      * Loads a file synchronously. Expects an immediate return with an object containing
@@ -98,6 +100,7 @@ module.exports = {
      * @param {less.environment.environment} environment
      * @returns {object} should be an object containing error or contents and filename
      */
-    loadFileSync: function(filename, currentDirectory, options, environment) {
+    loadFileSync: function (filename, currentDirectory, options, environment) {
     }
 };
+//# sourceMappingURL=file-manager-api.js.map

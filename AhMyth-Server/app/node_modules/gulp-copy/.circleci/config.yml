@@ -1,0 +1,23 @@
+version: 2
+
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run: npm install
+  test:
+    machine: true
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run lint
+      - run: npm run prettier-check
+      - run: npm test
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test

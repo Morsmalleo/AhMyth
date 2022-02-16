@@ -1,0 +1,85 @@
+{
+  "name": "fomantic-ui",
+  "version": "2.8.8",
+  "description": "Fomantic empowers designers and developers by creating a shared vocabulary for UI.",
+  "keywords": [
+    "fomantic-ui",
+    "fomantic",
+    "semantic-ui",
+    "semantic",
+    "ui",
+    "css3",
+    "framework"
+  ],
+  "homepage": "http://fomantic-ui.com",
+  "bugs": {
+    "url": "https://github.com/fomantic/Fomantic-UI/issues",
+    "email": "contact@fomantic-ui.com"
+  },
+  "license": "MIT",
+  "author": "Jack Lukic <jack@semantic-ui.com>",
+  "main": "dist/semantic.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fomantic/Fomantic-UI.git"
+  },
+  "scripts": {
+    "install": "gulp install",
+    "build": "gulp build",
+    "changelog": "auto-changelog -p"
+  },
+  "dependencies": {
+    "jquery": "^3.4.0",
+    "@octokit/rest": "^16.16.0",
+    "gulp-concat-filenames": "^1.2.0",
+    "gulp-debug": "^4.0.0",
+    "gulp-git": "^2.9.0",
+    "gulp-tap": "^1.0.1",
+    "less": "^3.7.1 || ^4.0.0",
+    "merge-stream": "^2.0.0",
+    "better-console": "1.0.1",
+    "del": "^3.0.0",
+    "extend": "^3.0.2",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-chmod": "^2.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-clone": "^2.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-concat-css": "^3.1.0",
+    "gulp-copy": "^4.0.0",
+    "gulp-dedupe": "0.0.2",
+    "gulp-flatten": "^0.4.0",
+    "gulp-header": "^2.0.5",
+    "gulp-if": "^2.0.2",
+    "gulp-json-editor": "^2.4.3",
+    "gulp-less": "^5.0.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-print": "^5.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-rtlcss": "^1.3.0",
+    "gulp-uglify": "^3.0.1",
+    "inquirer": "^6.2.1",
+    "map-stream": "^0.1.0",
+    "mkdirp": "^0.5.1",
+    "normalize-path": "^3.0.0",
+    "replace-ext": "^1.0.0",
+    "require-dot-file": "^0.4.0",
+    "wrench-sui": "^0.0.3",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "all-contributors-cli": "^6.7.0",
+    "auto-changelog": "^1.15.0",
+    "node-fetch": "^2.6.0",
+    "semver": "^6.3.0"
+  },
+  "engines": {
+    "node": ">=10.15.3",
+    "npm": ">=6.4.1"
+  },
+  "title": "Fomantic UI",
+  "style": "dist/semantic.css"
+}

@@ -70,17 +70,6 @@ Yaml = (function() {
     return yaml.dump(input, inline, 0, exceptionOnInvalidType, objectEncoder);
   };
 
-  Yaml.register = function() {
-    var require_handler;
-    require_handler = function(module, filename) {
-      return module.exports = YAML.parseFile(filename);
-    };
-    if ((typeof require !== "undefined" && require !== null ? require.extensions : void 0) != null) {
-      require.extensions['.yml'] = require_handler;
-      return require.extensions['.yaml'] = require_handler;
-    }
-  };
-
   Yaml.stringify = function(input, inline, indent, exceptionOnInvalidType, objectEncoder) {
     return this.dump(input, inline, indent, exceptionOnInvalidType, objectEncoder);
   };

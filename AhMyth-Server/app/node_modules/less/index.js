@@ -1,1 +1,1 @@
-module.exports = require('./lib/less-node');
+module.exports = require('./lib/less-node').default;

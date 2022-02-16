@@ -1,7 +1,7 @@
-console.warn("start spec");
-describe("less.js main tests", function() {
+console.warn('start spec');
+describe('less.js main tests', function() {
     testLessEqualsInDocument();
-    it("the global environment", function() {
-        expect(window.require).toBe(undefined);
+    it('the global environment', function() {
+        expect(window.require).to.be.undefined;
     });
 });

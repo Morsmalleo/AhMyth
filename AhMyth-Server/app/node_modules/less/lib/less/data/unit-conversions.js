@@ -1,4 +1,6 @@
-module.exports = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
     length: {
         'm': 1,
         'cm': 0.01,
@@ -19,3 +21,4 @@ module.exports = {
         'turn': 1
     }
 };
+//# sourceMappingURL=unit-conversions.js.map

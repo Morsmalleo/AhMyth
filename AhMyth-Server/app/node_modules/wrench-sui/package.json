@@ -1,0 +1,39 @@
+{
+  "name": "wrench-sui",
+  "description": "A forked version of wrenchjs that includes a critical recursive file fix. Credits to the original author(s) Ryan McGrath.",
+  "version": "0.0.3",
+  "author": "Jack Lukic <jack@semantic-ui.com>",
+
+  "repository": {
+    "type" : "git",
+    "url": "https://github.com/Semantic-Org/wrench-js.git"
+  },
+
+  "bugs": {
+    "url": "http://github.com/Semantic-Org/Wrench-JS/issues"
+  },
+
+  "directories": {
+    "lib": "./lib/"
+  },
+
+  "dependencies": {
+  },
+
+  "devDependencies": {
+      "nodeunit": ">= 0.6.4"
+  },
+
+  "main": "./lib/wrench",
+
+  "engines": {
+    "node": ">=0.1.97"
+  },
+
+  "scripts": { "test": "nodeunit tests/runner.js" },
+
+  "licenses": [{
+    "type" : "MIT",
+    "url" : "http://github.com/ryanmcgrath/wrench-js/raw/master/LICENSE"
+  }]
+}

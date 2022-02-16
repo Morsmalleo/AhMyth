@@ -1,14 +1,13 @@
 'use strict';
-var firstChunk = require('first-chunk-stream');
-var stripBom = require('strip-bom');
+const firstChunk = require('first-chunk-stream');
+const stripBomBuf = require('strip-bom-buf');
 
-module.exports = function () {
-	return firstChunk({chunkLength: 3}, function (err, chunk, enc, cb) {
+module.exports = () =>
+	firstChunk({chunkLength: 3}, (err, chunk, enc, cb) => {
 		if (err) {
 			cb(err);
 			return;
 		}
 
-		cb(null, stripBom(chunk));
+		cb(null, stripBomBuf(chunk));
 	});
-};

@@ -82,20 +82,6 @@ class Yaml
         return yaml.dump(input, inline, 0, exceptionOnInvalidType, objectEncoder)
 
 
-    # Registers .yml extension to work with node's require() function.
-    #
-    @register: ->
-        require_handler = (module, filename) ->
-            # Fill in result
-            module.exports = YAML.parseFile filename
-
-        # Register require extensions only if we're on node.js
-        # hack for browserify
-        if require?.extensions?
-            require.extensions['.yml'] = require_handler
-            require.extensions['.yaml'] = require_handler
-
-
     # Alias of dump() method for compatibility reasons.
     #
     @stringify: (input, inline, indent, exceptionOnInvalidType, objectEncoder) ->

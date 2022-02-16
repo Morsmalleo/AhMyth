@@ -1,9 +1,9 @@
-var gutil = require("gulp-util");
+var PluginError = require('plugin-error');
 var api = require("./extra_api");
 var notify = require("./notify");
 
 module.exports = function (reporter) {
-  if (!reporter) throw new gutil.PluginError("gulp-notify", "No custom reporter defined.");
+  if (!reporter) throw new PluginError("gulp-notify", "No custom reporter defined.");
 
   var inner = function (options) {
     options = setOptions(options, reporter);

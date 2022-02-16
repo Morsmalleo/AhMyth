@@ -9,10 +9,10 @@
     "dependencies": {
         "angular": "^1.8.2",
         "angular-route": "^1.8.2",
+        "fomantic-ui": "^2.8.8",
         "fs-extra": "^10.0.0",
         "geoip-lite": "^1.4.3",
         "node-homedir": "^1.1.1",
-        "semantic-ui": "2.2.6",
         "socket.io": "^2.4.1"
     }
 }

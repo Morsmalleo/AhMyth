@@ -4,7 +4,9 @@ build: off
 
 environment:
   matrix:
-    #- nodejs_version: "15"
+    #- nodejs_version: "17"
+    - nodejs_version: "16"
+    - nodejs_version: "15"
     - nodejs_version: "14"
     - nodejs_version: "13"
     - nodejs_version: "12"
@@ -26,7 +28,6 @@ environment:
 matrix:
   # fast_finish: true
   allow_failures:
-    - nodejs_version: "5" # due to windows npm bug, registry-side
     - nodejs_version: "0.8"
       # platform: x86 # x64 has started failing on the registry side, around early November 2020
     - nodejs_version: "0.6"
@@ -60,6 +61,7 @@ install:
   - IF %nodejs_version% EQU 13 npm -g install npm@7
   - IF %nodejs_version% EQU 14 npm -g install npm@7
   - IF %nodejs_version% EQU 15 npm -g install npm@7
+  - IF %nodejs_version% EQU 16 npm -g install npm@7
   - set PATH=%APPDATA%\npm;%PATH%
   #- IF %nodejs_version% NEQ 0.6 AND %nodejs_version% NEQ 0.8 npm -g install npm
   # install modules

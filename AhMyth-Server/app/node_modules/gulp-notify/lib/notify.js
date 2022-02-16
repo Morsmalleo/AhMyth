@@ -17,9 +17,9 @@ module.exports = function (options) {
   } else {
     if (options.host || options.appName || options.port) {
       notifier = new notifier.Notification({
-        host: options.host,
-        appName: options.appName,
-        port: options.port
+        host: options.host || 'localhost',
+        appName: options.appName || 'gulp-notify',
+        port: options.port || '23053'
       });
     }
     reporter = notifier.notify.bind(notifier);

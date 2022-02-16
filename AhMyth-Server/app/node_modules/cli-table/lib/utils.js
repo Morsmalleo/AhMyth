@@ -1,4 +1,3 @@
-
 /**
  * Repeats a string.
  *

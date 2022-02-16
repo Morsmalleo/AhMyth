@@ -1,7 +1,7 @@
 'use strict';
 
-var through = require('through2'),
-    gutil   = require('gulp-util');
+var through = require('through2')
+var PluginError = require('plugin-error')
 
 var cloneStream = function() {
     return through.obj(function(file, enc, cb) {
@@ -14,7 +14,7 @@ var cloneSink = function() {
 
     var stream = through.obj(function(file, enc, cb) {
         if (file.isStream()) {
-            this.emit('error', new gutil.PluginError('gulp-clone', 'Streaming not supported'));
+            this.emit('error', new PluginError('gulp-clone', 'Streaming not supported'));
             return cb();
         }
 

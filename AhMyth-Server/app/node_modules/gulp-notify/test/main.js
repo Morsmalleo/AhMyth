@@ -5,7 +5,8 @@ var gulp = require('gulp'),
     should = require('should'),
     through = require('through2'),
     plumber = require('gulp-plumber'),
-    gutil = require('gulp-util'),
+    PluginError = require('plugin-error'),
+    Vinyl = require('vinyl'),
     join = require('path').join,
     fs = require('fs'),
     notify = require('../');
@@ -52,7 +53,7 @@ describe('gulp output stream', function() {
       var testString = "this is a test";
       var expectedIcon = join(__dirname, '..', 'assets', 'gulp.png');
 
-      var expectedFile = new gutil.File({
+      var expectedFile = new Vinyl({
         path: "test/fixtures/1.txt",
         cwd: "test/",
         base: "test/fixtures/",
@@ -79,7 +80,7 @@ describe('gulp output stream', function() {
       var testString = "this is a test";
       var expectedIcon = "testIcon";
 
-      var expectedFile = new gutil.File({
+      var expectedFile = new Vinyl({
         path: "test/fixtures/1.txt",
         cwd: "test/",
         base: "test/fixtures/",
@@ -257,7 +258,7 @@ describe('gulp output stream', function() {
       });
 
       var testString = "some exception",
-          expectedFile = new gutil.File({
+          expectedFile = new Vinyl({
             path: "test/fixtures/1.txt",
             cwd: "test/",
             base: "test/fixtures/",
@@ -378,7 +379,7 @@ describe('gulp output stream', function() {
     });
 
     it('should handle streamed files', function (done) {
-      var expectedFile = new gutil.File({
+      var expectedFile = new Vinyl({
         path: "test/fixtures/1.txt",
         cwd: "test/",
         base: "test/fixtures/",
@@ -413,7 +414,7 @@ describe('gulp output stream', function() {
     });
 
     it('should support lodash template for titles and messages', function (done) {
-      var expectedFile = new gutil.File({
+      var expectedFile = new Vinyl({
         path: "test/fixtures/1.txt",
         cwd: "test/",
         base: "test/fixtures/",
@@ -572,7 +573,7 @@ describe('gulp output stream', function() {
 
       gulp.src(srcFile)
         .pipe(through.obj(function (file, enc, cb) {
-          this.emit("error", new gutil.PluginError("testPlugin", "foo"));
+          this.emit("error", new PluginError("testPlugin", "foo"));
           cb();
         }))
         .on("error", notifier.onError())
@@ -596,7 +597,7 @@ describe('gulp output stream', function() {
 
       gulp.src(srcFile)
         .pipe(through.obj(function (file, enc, cb) {
-          this.emit("error", new gutil.PluginError("testPlugin", "foo"));
+          this.emit("error", new PluginError("testPlugin", "foo"));
           cb();
         }))
         .on("error", notifier.onError())
@@ -649,7 +650,7 @@ describe('gulp output stream', function() {
 
       gulp.src(srcFile)
         .pipe(through.obj(function (file, enc, cb) {
-          this.emit("error", new gutil.PluginError("testPlugin", testMessage));
+          this.emit("error", new PluginError("testPlugin", testMessage));
           cb();
         }))
         .on("error", onError)
@@ -673,7 +674,7 @@ describe('gulp output stream', function() {
 
       gulp.src(srcFile)
         .pipe(through.obj(function (file, enc, cb) {
-          this.emit("error", new gutil.PluginError("testPlugin", testMessage));
+          this.emit("error", new PluginError("testPlugin", testMessage));
           cb();
         }))
         .on("error", custom.onError())
@@ -699,7 +700,7 @@ describe('gulp output stream', function() {
 
       gulp.src(srcFile)
         .pipe(through.obj(function (file, enc, cb) {
-          this.emit("error", new gutil.PluginError("testPlugin", testMessage));
+          this.emit("error", new PluginError("testPlugin", testMessage));
           cb();
         }))
         .on("error", custom.onError())
@@ -722,7 +723,7 @@ describe('gulp output stream', function() {
 
       custom.onError({
           icon: expectedIcon,
-      })(new gutil.PluginError("testPlugin", testMessage));
+      })(new PluginError("testPlugin", testMessage));
     });
 
     it('should have Frog sound per default onError', function (done) {
@@ -738,7 +739,7 @@ describe('gulp output stream', function() {
 
       custom.onError({
           icon: expectedIcon,
-      })(new gutil.PluginError("testPlugin", testMessage));
+      })(new PluginError("testPlugin", testMessage));
     });
 
     it('should support lodash template for titles and messages on onError', function (done) {
@@ -760,7 +761,7 @@ describe('gulp output stream', function() {
 
       gulp.src(srcFile)
         .pipe(through.obj(function (file, enc, cb) {
-          this.emit("error", new gutil.PluginError("testPlugin", "test"));
+          this.emit("error", new PluginError("testPlugin", "test"));
           cb();
         }))
         .on('error', onError);

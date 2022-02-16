@@ -11,6 +11,7 @@ npm install --save-dev gulp-clone
 ```
 
 ## Changelog
+* 2.0.0: **Possible Breaking change** - The dependency from gutil has been dropped, this has been reported to cause a breaking change in some circumstances. Please continue to use the 1.0 branch if that would cause problems in your setup.
 * 1.0.0: **Breaking change** - There is a new operating mode, as explained in the 1st example. The old
  operating mode is still available under the `clone.sink()` property.
 

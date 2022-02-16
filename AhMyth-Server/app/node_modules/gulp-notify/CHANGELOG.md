@@ -1,6 +1,12 @@
 Changelog
 ===
 
+#### `v3.0.0`
+
+##### Breaking Changes
+
+1. Updates to `node-notifier@v5.0.0` and the the [breaking changes from that](https://github.com/mikaelbr/node-notifier/blob/master/CHANGELOG.md#v500) applies to gulp-notify.
+
 #### `v2.2.0`
 1. Adds support for changing host, port and appName for Growl.
 2. Adds support for templating on subtitle and open (for Notification Center).

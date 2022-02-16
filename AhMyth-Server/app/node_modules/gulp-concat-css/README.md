@@ -37,6 +37,7 @@ gulp.task('default', function () {
     * `inlineImports`: (default `true`) Inline any local import statement found
     * `rebaseUrls`: (default `true`) Adjust any relative URL to the location of the target file.
     * `includePaths`: (default `[]`) Include additional paths when inlining imports
+    * `commonBase`: (default to the `base` property of the first file) Common base path from wich resolving files and urls
 
 ## License
 

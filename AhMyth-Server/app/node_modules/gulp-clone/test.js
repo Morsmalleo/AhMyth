@@ -1,7 +1,7 @@
-var expect  = require('chai').expect,
-    through = require('through2'),
-    gutil   = require('gulp-util'),
-    clone   = require('./');
+var expect  = require('chai').expect
+var through = require('through2')
+var Vinyl = require('vinyl')
+clone = require('./')
 
 describe('gulp-clone', function() {
     it('should clone files in the stream', function(done) {
@@ -28,7 +28,7 @@ describe('gulp-clone', function() {
             count++;
         });
 
-        sourceStream.write(new gutil.File({
+        sourceStream.write(new Vinyl({
             path: 'file.js',
             contents: new Buffer('source stream')
         }));
@@ -57,7 +57,7 @@ describe('gulp-clone', function() {
                 done();
             });
 
-        sink.write(new gutil.File({
+        sink.write(new Vinyl({
             path: 'afile.js',
             contents: new Buffer("")
         }));

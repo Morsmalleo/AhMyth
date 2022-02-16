@@ -1,0 +1,7 @@
+{
+    "extends": "kentcdodds",
+    "rules": {
+        "no-magic-numbers": 0,
+        "valid-jsdoc": 0
+    }
+}
