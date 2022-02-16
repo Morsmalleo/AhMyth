@@ -17,9 +17,7 @@ FIle Manager in the AhMyth Server Victims Lab.
 #
 ## Server Only TODO List:
 
-- [ ] 01: Migrate AhMyth from `semantic-ui`, to `fomantic-ui`.
-#
-- [ ] 02: integrate a `Retry` button and function into AhMyth's APK Builder 
+- [ ] 01: integrate a `Retry` button and function into AhMyth's APK Builder 
 interface, that when clicked, initates the rebuilding and signing of 
 the decompiled original APK that failed to build previously but with 
 the exception of using the added argument for apktool `--use-aapt` or 
@@ -28,7 +26,7 @@ the exception of using the added argument for apktool `--use-aapt` or
 - THIS IS HALF DONE! the rebuild function just needs to be 
 integrated.
 #
-- [x] 03: Create a backup copy of AhMyth's `AndroidManifest.xml`
+- [x] 02: Create a backup copy of AhMyth's `AndroidManifest.xml`
 file, and store it in the newly created backup directory 
 `AhMyth/AhMyth-Server/app/app/Factory/Vault` in order to 
 restore AhMyth's original manifest file back to it's original 
@@ -37,7 +35,7 @@ state after being edited with custom permissions.
 - This is done! It just needs to be updated to work with the
 Constants.js file
 # 
-- [ ] 04: Stabilise Launcher Activity binding method
+- [ ] 03: Stabilise Launcher Activity binding method
 
 This is almost stable, there are currently two problems
 that arise with some APKs that have been Bound using 
@@ -52,13 +50,13 @@ that I will find a way to fix these problems.
        from a server once the APK is installed, APKs such as Facebook 
        use this.
 #
-- [ ] 05: Explore other, more discrete options for the 
+- [ ] 04: Explore other, more discrete options for the 
 URL payload masker.
 #
-- [ ] 06: Integrate the function to Log apktool.jar and sign.jar 
+- [ ] 05: Integrate the function to Log apktool.jar and sign.jar 
 errors to a text file for the GUI version of AhMyth.
 #
-- [ ] 07: Restyle the AhMyth Server using the following
+- [ ] 06: Restyle the AhMyth Server using the following
 
       1. Glassmorphism 
       2. Side scrolling tabs instead of top scrolling tabs
