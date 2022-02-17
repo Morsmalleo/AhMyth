@@ -84,5 +84,5 @@ to record calls, only if there is no phone call in progress,
 then find out how to have AhMyth print the error message 
 `No phone call in progress!` when the request is rejected.
 #
-- [ ] 03: Integrate a keylogger for the *AhMyth Client*
-& then integrate a Keystroke receiver for the *AhMyth Server*
+- [ ] 03: Integrate a keylogger as an option in the Victims Lab
+for AhMyth.
