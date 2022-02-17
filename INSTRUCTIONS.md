@@ -8,9 +8,12 @@
     
 #
 ## Binary Setup Packages (BSP's) removed
-    As of v1.0-beta.3, The binary setup files for installing AhMyth for both Linux 
-    and Windows have been removed due to packaging errors with electron-packager.
- 
+    As of v1.0-beta.3, the BSP's have been removed
+    due to a requirement that is no longer available,
+    this requirement is 'libappindicator3-1', without
+    this, AhMyth binaries for windows and Linux, won't 
+    install, and if they do, they will not operate properly.
+
     You can still however download the source code from the releases section and 
     follow either the Auto Installation or Manual Installation steps.
 #
