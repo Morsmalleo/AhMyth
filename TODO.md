@@ -66,6 +66,8 @@ errors to a text file for the GUI version of AhMyth.
       6. AhMyth user account login - Default username will be `ahmyth` 
       and the default password will be `trojan`
 #
+- [ ] 07: Figure out why AhMyth is so unstable on 
+Windows machines!
 #
 ## Client & Server TODO List (TODO's for both the Client & Server)
 
