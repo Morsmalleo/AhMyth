@@ -1,16 +1,14 @@
 ## Client Only TODO List:
 - [ ] 01: Integrate Live Camera Preview Stream for the Client. 
 #
-- [ ] 02: Integrate Video Recording for the Client. 
-#
-- [ ] 03: Rewrite AhMyth Client using the original 
+- [ ] 02: Rewrite AhMyth Client using the original 
 payload from `v1.0-beta.2` as the starting point.
 #
-- [ ] 04: Figure out a way to bypass play protect. 
+- [ ] 03: Figure out a way to bypass play protect. 
 #
-- [ ] 05: Create persistence for the AhMyth payload
+- [ ] 04: Create persistence for the AhMyth payload
 #
-- [ ] 06: Figure out how to give the client access to 
+- [ ] 05: Figure out how to give the client access to 
 `storage/emulated` so we can access it when using the
 FIle Manager in the AhMyth Server Victims Lab.
 #
@@ -86,3 +84,6 @@ then find out how to have AhMyth print the error message
 #
 - [ ] 03: Integrate a keylogger as an option in the Victims Lab
 for AhMyth.
+#
+- [ ] 04: Integrate Video Recording for the Client & Server. 
+
