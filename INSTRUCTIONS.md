@@ -9,7 +9,7 @@
 #
 ## Binary Setup Packages (BSP's) re-added
     As of v1.0-beta.4, the BSP's for Linux have been re-added,
-    the dependancy required for AhMyth `libappinricator3-1` 
+    the dependency required for AhMyth `libappinricator3-1` 
     can be installed from the `Debian Buster` apt repositories, 
     Or you can just ignore it completely, AhMyth seems to run fine
     without it.
