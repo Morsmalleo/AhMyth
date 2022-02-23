@@ -1,56 +1,45 @@
 # INSTRUCTIONS
 #
-# Pre-install Notes
-## AhMyth Windows Development Ceased!
-    As of v1.0-beta.3, AhMyth Android RAT is no longer being maintained for Windows 
-    Machines, so don't bother trying to post issues or errors related to AhMyth for 
-    Windows because they will be ignored and removed.
-    
-#
-## Binary Setup Packages (BSP's) re-added
-    As of v1.0-beta.4, the BSP's for Linux have been re-added,
-    the dependency required for AhMyth `libappindicator3-1` 
-    can be installed from the `Debian Buster` apt repositories, 
-    Or you can just ignore it completely, AhMyth seems to run fine
-    without it.
-    
-#
-#
-# Source Installations - Linux
-### Auto Install | Kali + Parrot OS
-    1. git clone https://github.com/Morsmalleo/AhMyth    
-    2. cd AhMyth/AhMyth-Server
-    3. sudo ./autoinstall
-    4. Choose the version of java you want installed - (type 11 or 8)
-    5. Select Java 8 or Java 11 when prompted to change to the correct java version  
-    6. Type `ahmyth` anywhere in the terminal to auto-launch AhMyth
-    ------------------------------------------------------------------------------
-    The autoinstall script has been coded to install all prerequisits for AhMyth
-    including aapt and android-framework-res, the script FINALLY works for both
-    Kali and Parrot.
-#
-### Manual Install | All Linux platforms
+# Source Installation - Linux
+### Root Install
     1. git clone https://github.com/Morsmalleo/AhMyth
     2. npm install -g electron@9.4.1
-    3. sudo apt install python3* python3-pip*
+    3. apt-get install python3* python3-pip*
     4. cd AhMyth/AhMyth-Server
     5. pip3 install -r requirements.txt
-    6. npm start    
-#
-# Binary Installation - Linux - Root Required
-    1. Download one of the `AhMyth_1.0.0.deb` packages
-    2. Open a terminal and navigate to where you downloaded the package
-    3. sudo apt install /path/to/./AhMyth.deb
-    4. Click the Applications menu and find AhMyth's Launcher
-    5. Right click the launcher and click `Edit Launcher`
-    6. In the `Launcher Command` box add the following line
-       `/opt/AhMyth/AhMyth --no-sandbox %U`
-    7. Run AhMyth with root account
+    6. npx electron ./app --no-sandbox start
 
-If using a non-root account with sudo, then you'll need to launch AhMyth
-from the terminal With the command `sudo ahmyth --no-sandbox` 
-or you can edit the launcher and click the `run in terminal` checkbox.
+### User Install 
+    1. git clone https://github.com/Morsmalleo/AhMyth
+    2. npm install -g electron@9.4.1
+    3. sudo apt-get install python3* python3-pip*
+    4. cd AhMyth/AhMyth-Server
+    5. pip3 install -r requirements.txt
+    6. npm start
 #
+# Binary Installation - Linux
+### Root Install
+1. Download one of the AhMyth .deb packages from [the release section](https://github.com/Morsmalleo/AhMyth/releases)
+2. `apt-get install /path/to/./AhMyth_1.0-beta.4.deb`
+3. Click the Applications menu and find AhMyth's Launcher
+4. Right click the launcher and click `Edit Launcher`
+5. In the `Launcher Command` box add the following line
+   `/opt/AhMyth/ahmyth --no-sandbox %U`
+6. Run AhMyth with root account
+
+### User Install
+1. Download one of the AhMyth .deb packages from [the release section](https://github.com/Morsmalleo/AhMyth/releases)
+2. `sudo apt-get install /path/to/./AhMyth_1.0-beta.4.deb`
+3. Click the Applications menu and find AhMyth's Launcher
+4. Right click the launcher and click `Edit Launcher`
+5. In the `Launcher Command` box add the following line `sudo /opt/AhMyth/ahmyth %U` 
+   then click the `Run in terminal` checkbox
+
+6. Run AhMyth from the terminal with `sudo ahmyth --no-sandbox`
+
+Alternatively you can add AhMyth to your Linux's trusted apps group
+#
+# AhMyth User Guide
 ## APK Builder
 Navigate to the APK builder by clicking on its 
 name at the top of the GUI.
