@@ -7,18 +7,16 @@
     Windows because they will be ignored and removed.
     
 #
-## Binary Setup Packages (BSP's) removed
-    As of v1.0-beta.3, the BSP's have been removed
-    due to a requirement that is no longer available,
-    this requirement is 'libappindicator3-1', without
-    this, AhMyth binaries for windows and Linux, won't 
-    install, and if they do, they will not operate properly.
-
-    You can still however download the source code from the releases section and 
-    follow either the Auto Installation or Manual Installation steps.
+## Binary Setup Packages (BSP's) re-added
+    As of v1.0-beta.4, the BSP's for Linux have been re-added,
+    the dependancy required for AhMyth `libappinricator3-1` 
+    can be installed from the `Debian Buster` apt repositories, 
+    Or you can just ignore it completely, AhMyth seems to run fine
+    without it.
+    
 #
 #
-# Installation - Linux
+# Source Installations - Linux
 ### Auto Install | Kali + Parrot OS
     1. git clone https://github.com/Morsmalleo/AhMyth    
     2. cd AhMyth/AhMyth-Server
@@ -39,7 +37,20 @@
     5. pip3 install -r requirements.txt
     6. npm start    
 #
-# How to use AhMyth 
+# Binary Installation - Linux (ROOT access required)
+    1. Download one of the `AhMyth_1.0.0.deb` packages
+    2. Open a terminal and navigate to where you downloaded the package
+    3. sudo apt install /path/to/./AhMyth.deb
+    4. Click the Applications menu and find AhMyth's Launcher
+    5. Right click the launcher and click `Edit Launcher`
+    6. In the `Launcher Command` box add the following line
+       `/opt/AhMyth/AhMyth --no-sandbox %U`
+    7. Run AhMyth with root account
+
+If using a non-root account with sudo, then you'll need to launch AhMyth
+from the terminal With the command `sudo ahmyth --no-sandbox` 
+or you can edit the launcher and click the `run in terminal` checkbox.
+#
 ## APK Builder
 Navigate to the APK builder by clicking on its 
 name at the top of the GUI.
