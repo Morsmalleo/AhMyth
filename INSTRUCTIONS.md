@@ -37,7 +37,7 @@
     5. pip3 install -r requirements.txt
     6. npm start    
 #
-# Binary Installation - Linux (ROOT access required)
+# Binary Installation - Linux - Root Required
     1. Download one of the `AhMyth_1.0.0.deb` packages
     2. Open a terminal and navigate to where you downloaded the package
     3. sudo apt install /path/to/./AhMyth.deb
