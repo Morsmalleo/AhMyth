@@ -12,6 +12,8 @@ payload from `v1.0-beta.2` as the starting point.
 `storage/emulated` so we can access it when using the
 FIle Manager in the AhMyth Server Victims Lab.
 #
+- [ ] 06: Add the function & permissions to delete files from Storage
+on the Victim Device.
 #
 ## Server Only TODO List:
 
