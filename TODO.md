@@ -1,4 +1,4 @@
-## Client Only TODO List:
+## Client-Side TODO List:
 - [ ] 01: Integrate Live Camera Preview Stream for the Client. 
 #
 - [ ] 02: Rewrite AhMyth Client using the original 
@@ -12,10 +12,8 @@ payload from `v1.0-beta.2` as the starting point.
 `storage/emulated` so we can access it when using the
 FIle Manager in the AhMyth Server Victims Lab.
 #
-- [ ] 06: Add the function & permissions to delete files from Storage
-on the Victim Device.
 #
-## Server Only TODO List:
+## Server-Side TODO List:
 
 - [ ] 01: integrate a `Retry` button and function into AhMyth's APK Builder 
 interface, that when clicked, initates the rebuilding and signing of 
@@ -69,7 +67,7 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 07: Figure out why AhMyth is so unstable on 
 Windows machines!
 #
-## Client & Server TODO List (TODO's for both the Client & Server)
+## Client & Server TODO List (TODO's to be for both the Client & Server)
 
 - [ ] 01: Update `socket.io-client 0.8.3` to 
 `socket.io-client 2.0.1` for the AhMyth Client, 
@@ -88,4 +86,7 @@ then find out how to have AhMyth print the error message
 for AhMyth.
 #
 - [ ] 04: Integrate Video Recording for the Client & Server. 
-
+#
+- [ ] 05: Add the function & permissions to delete files from Storage
+on the Victim Device to the Client, then add the function & button to 
+request the deletion of selected files from the Storage on the victim device.
