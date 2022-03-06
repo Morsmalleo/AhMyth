@@ -15,7 +15,7 @@ Q. Why do these processes fail all the time?
 
 A. Because you are most likely running the wrong Java version, you need either Java 11.0.13 or Java 1.8.0 8u252 for Linux
 
-Add the Debian Jessie software repository to your `sources.list` file, the run the command `sudo apt update && sudo apt install -t jessie openjdk-8-jdk* -y` this will install the correct version of java 8, or you cann run `sudo apt install openjdk-11-jdk*/kali-rolling -y` for Java 11
+Add the Debian Jessie software repository to your `sources.list` file, the run the command `sudo apt update && sudo apt install -t jessie openjdk-8-jdk* -y` this will install the correct version of java 8, or you can run `sudo apt install openjdk-11-jdk*/kali-rolling -y` for Java 11
 #
 ## Decompiling, Building, & Signing Failed with Java 11 & 8
 Q. Why is are these processes failing with the correct java versions being used?
