@@ -11,7 +11,7 @@
 
 ### User Install 
     1. git clone https://github.com/Morsmalleo/AhMyth
-    2. npm install -g electron@9.4.1
+    2. sudo npm install -g electron@9.4.1
     3. sudo apt-get install python3* python3-pip*
     4. cd AhMyth/AhMyth-Server
     5. pip3 install -r requirements.txt
