@@ -67,7 +67,7 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 07: Figure out why AhMyth is so unstable on 
 Windows machines!
 #
-## Client & Server TODO List (TODO's to be for both the Client & Server)
+## Client-Server TODO List:
 
 - [ ] 01: Update `socket.io-client 0.8.3` to 
 `socket.io-client 2.0.1` for the AhMyth Client, 
