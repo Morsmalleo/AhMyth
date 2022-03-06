@@ -2,22 +2,22 @@
 #
 # Source Installation - Linux
 ### Root Install
-    1. git clone https://github.com/Morsmalleo/AhMyth
-    2. npm install -g electron@9.4.4
-    3. apt-get install python3* python3-pip*
-    4. cd AhMyth/AhMyth-Server
-    5. pip3 install -r requirements.txt
-    6. npx electron ./app --no-sandbox start
+    $ git clone https://github.com/Morsmalleo/AhMyth
+    $ npm install -g electron@9.4.4
+    $ apt-get install python3* python3-pip*
+    $ cd AhMyth/AhMyth-Server
+    $ pip3 install -r requirements.txt
+    $ npx electron ./app --no-sandbox start
 
 ### User Install 
-    1. git clone https://github.com/Morsmalleo/AhMyth
-    2. sudo npm install -g electron@9.4.4
-    3. sudo apt-get install python3* python3-pip*
-    4. cd AhMyth/AhMyth-Server
-    5. pip3 install -r requirements.txt
-    6. npm start
+    $ git clone https://github.com/Morsmalleo/AhMyth
+    $ sudo npm install -g electron@9.4.4
+    $ sudo apt-get install python3* python3-pip*
+    $ cd AhMyth/AhMyth-Server
+    $ pip3 install -r requirements.txt
+    $ npm start
 #
-# Binary Installation - Linux - COMING SOON!
+# Binary Installation - Linux
 ### Root Install
 1. Wait patiently, binaries for `Root` will be back soon!
 
