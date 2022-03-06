@@ -3,7 +3,7 @@
 # Source Installation - Linux
 ### Root Install
     1. git clone https://github.com/Morsmalleo/AhMyth
-    2. npm install -g electron@9.4.1
+    2. npm install -g electron@9.4.4
     3. apt-get install python3* python3-pip*
     4. cd AhMyth/AhMyth-Server
     5. pip3 install -r requirements.txt
@@ -11,7 +11,7 @@
 
 ### User Install 
     1. git clone https://github.com/Morsmalleo/AhMyth
-    2. sudo npm install -g electron@9.4.1
+    2. sudo npm install -g electron@9.4.4
     3. sudo apt-get install python3* python3-pip*
     4. cd AhMyth/AhMyth-Server
     5. pip3 install -r requirements.txt
@@ -19,25 +19,10 @@
 #
 # Binary Installation - Linux - COMING SOON!
 ### Root Install
-1. Download one of the AhMyth .deb packages from [the release section](https://github.com/Morsmalleo/AhMyth/releases)
-2. `apt-get install /path/to/./AhMyth_1.0-beta.4.deb`
-3. Click the Applications menu and find AhMyth's Launcher
-4. Right click the launcher and click `Edit Launcher`
-5. In the `Launcher Command` box add the following line
-   `/opt/AhMyth/ahmyth --no-sandbox %U`
-6. Run AhMyth with root account
+1. Wait patiently, binaries for `Root` will be back soon!
 
 ### User Install
-1. Download one of the AhMyth .deb packages from [the release section](https://github.com/Morsmalleo/AhMyth/releases)
-2. `sudo apt-get install /path/to/./AhMyth_1.0-beta.4.deb`
-3. Click the Applications menu and find AhMyth's Launcher
-4. Right click the launcher and click `Edit Launcher`
-5. In the `Launcher Command` box add the following line `sudo /opt/AhMyth/ahmyth %U` 
-   then click the `Run in terminal` checkbox
-
-6. Run AhMyth from the terminal with `sudo ahmyth --no-sandbox`
-
-Alternatively you can add AhMyth to your Linux's trusted apps group
+1. Wait patiently, binaries for `User` will be back soon!
 #
 # AhMyth User Guide
 ## APK Builder
