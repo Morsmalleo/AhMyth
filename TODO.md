@@ -12,7 +12,7 @@ payload from `v1.0-beta.2` as the starting point.
 `storage/emulated` so we can access it when using the
 FIle Manager in the AhMyth Server Victims Lab.
 #
-- [ ] 06: add USSD dialing and response viewing feature for the 
+- [ ] 06: add USSD dialing and response view feature for the 
 AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/AhMyth/issues/97)
 #
 - [ ] 07: Add the ability to screenshot victim device screen
