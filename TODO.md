@@ -13,7 +13,7 @@ payload from `v1.0-beta.2` as the starting point.
 FIle Manager in the AhMyth Server Victims Lab.
 #
 - [ ] 06: add USSD dialing and preview feature for the 
-AhMyth client, requested by user from issue #97.
+AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/AhMyth/issues/97)
 #
 - [ ] 07: Add the ability to screenshot victim device screen
 to the AhMyth Client.
