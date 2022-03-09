@@ -1,27 +1,47 @@
 # INSTRUCTIONS
 #
 # Source Installation - Linux
-### Root Install
+### Manual Install - Root + User
+#
+### Root
     $ git clone https://github.com/Morsmalleo/AhMyth
     $ npm install -g electron@9.4.4
-    $ apt-get install python3* python3-pip*
+    $ apt-get install python3* python3-pip* aapt* android-framework-res* zipalign* -y
     $ cd AhMyth/AhMyth-Server
     $ pip3 install -r requirements.txt
     $ npx electron ./app --no-sandbox start
-
-### User Install 
+#
+### User
     $ git clone https://github.com/Morsmalleo/AhMyth
     $ sudo npm install -g electron@9.4.4
-    $ sudo apt-get install python3* python3-pip*
+    $ sudo apt-get install python3* python3-pip* aapt* android-framework-res* zipalign* -y
     $ cd AhMyth/AhMyth-Server
     $ pip3 install -r requirements.txt
     $ npm start
 #
+### Autoinstall - Kali/Parrot - Root + User
+#
+### Root
+    $ git clone https://github.com/Morsmalleo/AhMyth
+    $ cd AhMyth/AhMyth-Server/
+    $ ./autoinstall
+    $ npx electron ./app --no-sandbox start
+
+Alternatively edit the `ahmyth` script at `/use/local/sbin/`
+and replace `npm start` with `npx electron ./app --no-sandbox start`
+the type `ahmyth` anywhere in the terminal to launch AhMyth at will.
+#
+### User
+    $ git clone https://github.com/Morsmalleo/AhMyth
+    $ cd AhMyth/AhMyth-Server/
+    $ sudo ./autoinstall
+    $ ahmyth (shortcut command to launch AhMyth anywhere in the terminal)
+#
 # Binary Installation - Linux
-### Root Install
+### Root
 1. Wait patiently, binaries for `Root` will be back soon!
 
-### User Install
+### User
 1. Wait patiently, binaries for `User` will be back soon!
 #
 # AhMyth User Guide
