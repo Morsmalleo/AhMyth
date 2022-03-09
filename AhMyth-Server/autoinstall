@@ -13,8 +13,8 @@ echo " |--------------------------------| "
 sleep 2
 
 apt-get install xterm* -y 
-apt-get install npm nodejs -y
-apt-get install aapt android-framework-res -y
+apt-get install npm* nodejs* -y
+apt-get install aapt* android-framework-res* zipalign* -y
 apt-get install python3-pip -y
 pip3 install -r requirements.txt
 clear
