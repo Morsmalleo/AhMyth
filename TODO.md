@@ -12,6 +12,16 @@ payload from `v1.0-beta.2` as the starting point.
 `storage/emulated` so we can access it when using the
 FIle Manager in the AhMyth Server Victims Lab.
 #
+- [ ] 06: add USSD dialong and preview feature for the 
+AhMyth client.
+#
+- [ ] 07: Add the ability to screenshot victim device screen
+to the AhMyth Client.
+#
+- [ ] 08: Add the ability to view the victim devices screen in 
+real-time as well as the ability and option to screen record the live
+victim screen view.
+#
 #
 ## Server-Side TODO List:
 
@@ -35,18 +45,10 @@ Constants.js file
 # 
 - [ ] 03: Stabilise Launcher Activity binding method
 
-This is almost stable, there are currently two problems
-that arise with some APKs that have been Bound using 
-the `On Launch` method, they are as follows, please note 
-that I will find a way to fix these problems.
-    
-     1. Application is stuck on a white/black screen
-       After being opened on the victim device.
-    
-     2. Building fails because there is no launcher activity,
-       most likely because the APK is setup to call the launcher activity
-       from a server once the APK is installed, APKs such as Facebook 
-       use this.
+This is almost stable, just need to code in some functions
+taken from *msfvenom*, then add a way to hook smali files that use the
+`super` method instead of the `OnCreate` method. This shouldn't be to hard
+thanks to `dana-at-cp/backdoor-apk`.
 #
 - [ ] 04: Explore other, more discrete options for the 
 URL payload masker.
