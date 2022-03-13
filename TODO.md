@@ -70,7 +70,7 @@ errors to a text file for the GUI version of AhMyth.
 Windows machines!
 #
 - [ ] 08: Build the Super hook, as well as the super hooking function for AhMyth
-so AhMyth can backdoor APK's usi g the `super` method instead of
+so AhMyth can backdoor APK's using the `super` method instead of
 `OnCreate`
 #
 ## Client-Server TODO List:
