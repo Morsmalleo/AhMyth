@@ -69,6 +69,10 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 07: Figure out why AhMyth is so unstable on 
 Windows machines!
 #
+- [ ] 08: Build the Super hook, as well as the super hooking function for AhMyth
+so AhMyth can backdoor APK's usi g the `super` method instead of
+`OnCreate`
+#
 ## Client-Server TODO List:
 
 - [ ] 01: Update `socket.io-client 0.8.3` to 
