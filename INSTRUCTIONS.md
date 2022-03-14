@@ -6,9 +6,9 @@ AhMyth with ease, there are also instructions on how to use AhMyth
 once setup is finished.
 #
 # SETUP GUIDE
-### Section for Linux Setup
+## Setup for Linux Machines
 #
-### Setup from Source
+### From Source
 ### • Root
     $ git clone https://github.com/Morsmalleo/AhMyth
     $ npm install -g electron@9.4.4
@@ -25,7 +25,7 @@ once setup is finished.
     $ pip3 install -r requirements.txt
     $ npm start
 #
-### Setup from Source {Automatic} (kali/Parrot)
+### From Source {Automatic} (kali/Parrot)
 ### • Root
     $ git clone https://github.com/Morsmalleo/AhMyth
     $ cd AhMyth/AhMyth-Server/
@@ -42,12 +42,16 @@ the type `ahmyth` anywhere in the terminal to launch AhMyth at will as root.
     $ sudo ./autoinstall
     $ ahmyth (shortcut command to launch AhMyth anywhere in the terminal)
 #
-### Binary Install
+### From Binary
 ### • Root
 1. Wait patiently, binaries for `Root` will be back soon!
 
 ### • User
 1. Wait patiently, binaries for `User` will be back soon!
+# 
+## Setup for Windows Machines
+#
+• Windows Setup Instructions Coming Soon
 #
 # User Guide
 ## APK Builder
