@@ -1,17 +1,23 @@
-# INSTRUCTIONS
+AhMyth Instructions Manual
+--------------------------
+This manual is a guide for those who are new to using
+AhMyth, following this guide will help you obtain and setup
+AhMyth with ease, there are also instructions on how to use AhMyth
+once setup is finished.
 #
-# Source Installation - Linux
-### Manual Install - Root + User
+# SETUP GUIDE
+### Section for Linux Setup
 #
-### Root
+### Setup from Source
+### • Root
     $ git clone https://github.com/Morsmalleo/AhMyth
     $ npm install -g electron@9.4.4
     $ apt-get install python3* python3-pip* aapt* android-framework-res* zipalign* -y
     $ cd AhMyth/AhMyth-Server
     $ pip3 install -r requirements.txt
     $ npx electron ./app --no-sandbox start
-#
-### User
+
+### • User
     $ git clone https://github.com/Morsmalleo/AhMyth
     $ sudo npm install -g electron@9.4.4
     $ sudo apt-get install python3* python3-pip* aapt* android-framework-res* zipalign* -y
@@ -19,9 +25,8 @@
     $ pip3 install -r requirements.txt
     $ npm start
 #
-### Autoinstall - Kali/Parrot - Root + User
-#
-### Root
+### Setup from Source {Automatic} (kali/Parrot)
+### • Root
     $ git clone https://github.com/Morsmalleo/AhMyth
     $ cd AhMyth/AhMyth-Server/
     $ ./autoinstall
@@ -29,22 +34,22 @@
 
 Alternatively edit the `ahmyth` script at `/use/local/sbin/`
 and replace `npm start` with `npx electron ./app --no-sandbox start`
-the type `ahmyth` anywhere in the terminal to launch AhMyth at will.
-#
-### User
+the type `ahmyth` anywhere in the terminal to launch AhMyth at will as root.
+
+### • User
     $ git clone https://github.com/Morsmalleo/AhMyth
     $ cd AhMyth/AhMyth-Server/
     $ sudo ./autoinstall
     $ ahmyth (shortcut command to launch AhMyth anywhere in the terminal)
 #
-# Binary Installation - Linux
-### Root
+### Binary Install
+### • Root
 1. Wait patiently, binaries for `Root` will be back soon!
 
-### User
+### • User
 1. Wait patiently, binaries for `User` will be back soon!
 #
-# AhMyth User Guide
+# User Guide
 ## APK Builder
 Navigate to the APK builder by clicking on its 
 name at the top of the GUI.
