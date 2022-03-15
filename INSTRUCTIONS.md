@@ -139,7 +139,7 @@ follow the steps below to learn how to use it.
       
     1. Build an AhMyth payload
     2. Upload the payload to a download server or fileshare website
-    3. Copy the link to the part of the server/website that will start the download
+    3. Copy the the download link to the server/fileshare site
     4. Paste the copied download link into the text box on the left of the UI
     5. Insert any link of your choice into the box on the right of the UI
     6. Click the `Generate Link` button, then copy the generated link from 
