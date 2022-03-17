@@ -14,7 +14,7 @@ in the following languages;
 
 This is for further development
 of the open source AhMyth project, I don't intend on paying people for open source development either
-so don't emailing me asking me to pay for development, this is what closed source development is for, 
+so don't bother emailing me asking me to pay for development, this is what closed source development is for, 
 closed source is paid, open source is free!
 #
 Give this repository a ⭐ to support our work, 
