@@ -62,8 +62,8 @@ Join the development and upgrading of AhMyth at [AhMyth RAT Development](https:/
 #
 # Main Features:
 - Multi-port Listener
-- APK Payload builder W/ payload binding capabilities
-- Custom Permissions Selection
+- APK Payload builder W/ payload binding capabilities 
+& Custom APK Permissions Selection
 - Payload URL Masker
 
 # Lab Features:
@@ -75,7 +75,7 @@ Join the development and upgrading of AhMyth at [AhMyth RAT Development](https:/
 - Supports **Linux** & **OS X**
 
 # Features Coming Soon:
-- EXE Builder
+- AhMyth EXE Builder (may only work from source)
 - Payload obfusction
 - Payload Persistence
 #
