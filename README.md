@@ -3,7 +3,20 @@
 ## Maintained by 
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
+## Hiring for further AhMyth Development
+I am currently looking for an open source developer who is proficient 
+in the following languages;
+- Pure JavaScript (NodeJS)
+- Android XML
+- HTML
+- CSS
+- Ruby
 
+This for further development
+of the open source AhMyth project, I don't intend on paying people for open source development either
+so don't emailing me asking me to pay for development, this is what closed source development is for, 
+closed source is paid, open source is free!
+#
 Give this repository a ⭐ to support our work, 
 and please feel free to share it as much as you want/can.
 #
