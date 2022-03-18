@@ -5,5 +5,5 @@ resumed for bug & error testing & fixing.
 
 ### • Binary Setup Packages Re-added
 
-As `AhMytn v1.0-beta.4 (currently un-released)`, the 
+As of `AhMytn v1.0-beta.4 (currently un-released)`, the 
 Binary Setup Packages for Linux have been re-added.
