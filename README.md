@@ -72,26 +72,6 @@ Installation Instructions can be found in the setup sections of the [AhMhth Wiki
 
 Join the development and upgrading of AhMyth at [AhMyth RAT Development](https://www.facebook.com/groups/396412025258492/?notif_id=1633235475450513&notif_t=group_milestone&ref=notif)
 
-#
-# Main Features:
-- Multi-port Listener
-- APK Payload builder W/ payload binding capabilities 
-& Custom APK Permissions Selection
-- Payload URL Masker
-
-# Lab Features:
-- File Manager – allows the attacker to view contents in the target device's storage.
-- Access to Call Logs.
-- SMS access – allows the attacker to read and send messages from the target device.
-- Device GPS Location – enables the attacker to know the geographical location of the victim and also provides Longitude & Latitude.
-- Backdooring original applications, also referred to as "Binding"
-- Supports **Linux** & **OS X**
-
-# Features Coming Soon:
-- AhMyth EXE Builder (may only work from source)
-- Payload obfusction
-- Payload Persistence
-#
 <p>
 
   <img width="600" src=https://user-images.githubusercontent.com/64344168/135562852-2c00f96f-67f2-49f4-8844-7a48512f70b4.png>
