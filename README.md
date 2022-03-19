@@ -52,33 +52,8 @@ As a remote administration tool, AhMyth has two parts which enable it to effecti
 - The server-side which acts like a desktop application that is built on an electron framework, which is used by the attacker as the control panel through which connections are made to the AhMyth software that is installed on the victim’s Android device. 
 
 - The client-side of AhMyth works as the android application and can be used as a backdoor.
-#
-# How it works?
-    For this tool to be used to carry an attack, the client-side must be installed on the targeted 
-    Android device. Installations can be achieved by sending the target a link that contains the 
-    malicious software. Upon successful installation and launch by the victim, the attacker will 
-    be able to have a view of the victim’s device from the tool’s target menu. After this, the 
-    attacker simply selects a favorable port from which an attack can be launched and begins 
-    to listen on the targeted Android device.
 
-    When deployed on a target device this tool can be used to access personal information such as 
-    the victim’s passwords and call logs. The attacker can also gain access to the victim’s browser 
-    cookies and know the web pages that have been visited using the device. Apart from allowing an 
-    attacker to view the victim’s personal messages, AhMyth can also enable messages to be sent from 
-    the victim’s Android device to another phone without the consent of the victim.
-    
 # Installation
-Installation Instructions can be found in the setup sections of the [AhMhth Wiki](https://github.com/Morsmalleo/AhMyth/wiki)
+Installation Instructions & detailed AhMyth information, can be found in the setup sections of the [AhMhth Wiki](https://github.com/Morsmalleo/AhMyth/wiki)
 
 Join the development and upgrading of AhMyth at [AhMyth RAT Development](https://www.facebook.com/groups/396412025258492/?notif_id=1633235475450513&notif_t=group_milestone&ref=notif)
-
-<p>
-
-  <img width="600" src=https://user-images.githubusercontent.com/64344168/135562852-2c00f96f-67f2-49f4-8844-7a48512f70b4.png>
-
-</p>
-
-![download](https://user-images.githubusercontent.com/64344168/135561374-1cb99670-284d-4e77-92fb-0915a338181f.png)
-
-
-
