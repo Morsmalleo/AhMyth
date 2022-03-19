@@ -3,7 +3,7 @@
 ## Maintained by 
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
-## Hiring for further AhMyth Development
+## Hiring for further Development
 I am currently looking for an open source developer who is proficient 
 in the following languages;
 - Pure JavaScript (NodeJS)
