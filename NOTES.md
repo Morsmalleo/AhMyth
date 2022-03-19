@@ -5,5 +5,5 @@ resumed, we are currently in the process of repairing AhMyth for Windows machine
 
 ### • Binary Setup Packages Re-added
 
-As of `AhMytn v1.0-beta.4 (currently un-released)`, the 
+As of `AhMyth v1.0-beta.4 (currently un-released)`, the 
 Binary Setup Packages for Linux have been re-added.
