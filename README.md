@@ -8,20 +8,7 @@
 Give this repository a ⭐ to support our work, 
 and please feel free to share it as much as you want/can.
 #
-<p align="center">
-
-  <img width="800" src="https://user-images.githubusercontent.com/64344168/135561288-0fbcd451-ade8-4087-a4e9-2e09edf7d4ff.jpg">
-
-</p>
-
-#
 AhMyth is a powerful open-source remote administration tool that can be used to access informational data from an android device. Through it, an attacker can access critical information such as the current geographical location of the device being attacked. In advanced use cases it can be used to hack the victim’s microphone and launch recordings, get camera snapshots and also read personal messages on the attacked device.
-
-<p align="center">
-  
-  <img width="350" src="https://user-images.githubusercontent.com/64344168/135561002-a0f148ce-c841-4bf5-9cdb-a205297dd312.jpg">
-
-</p>
 
 # Installation
 Installation Instructions & detailed AhMyth information, can be found in the newly written [AhMhth Wiki](https://github.com/Morsmalleo/AhMyth/wiki).
