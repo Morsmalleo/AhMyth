@@ -3,6 +3,7 @@
 ## Maintained by 
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
+- Join the development to have your name put here!
 #
 Give this repository a ⭐ to support our work, 
 and please feel free to share it as much as you want/can.
