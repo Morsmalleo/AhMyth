@@ -35,7 +35,7 @@ The Setup Guide falls into 3 different sections;
 - [Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Windows) (Not written yet)
 #
 # Information
-For those of you looking to study AhMyth and it's payload, you can find all the information you'll need to know about AhMyth in the following AhMyth Wiki pages;
+For those of you looking to study AhMyth and it's payload, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki pages;
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Dissecting-a-RAT-%7C-Analysis-of-AhMyth)
 #
