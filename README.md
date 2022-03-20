@@ -41,12 +41,13 @@ For those of you looking to study AhMyth and it's payload, you can find all the 
 #
 # Join the Development of AhMyth
 If you wish to help with the development of AhMyth, then you'll need to do have experience in the following languages
-
 - Pure JavaScript (NodeJS)
-- Android XML
 - HTML
 - CSS
 - Ruby
+- Android XML
+- Java
+- Smali
 
 If you have experience with these languages then all you need to do is
 
