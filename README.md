@@ -23,9 +23,6 @@ AhMyth is a powerful open-source remote administration tool that can be used to 
 
 </p>
 
-#
-This tool is designed with a GUI interface which makes AhMyth one of the easiest RATs to use.
-
 # Installation
 Installation Instructions & detailed AhMyth information, can be found in the newly written [AhMhth Wiki](https://github.com/Morsmalleo/AhMyth/wiki).
 The Setup Guide falls into 3 different sections;
