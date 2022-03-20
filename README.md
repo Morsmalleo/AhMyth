@@ -45,8 +45,9 @@ If you wish to help with the development of AhMyth, then you'll need to do have 
 
 If you have experience with these languages then all you need to do is
 
-- Join the development and upgrading of AhMyth at [AhMyth RAT Development](https://www.facebook.com/groups/396412025258492/?notif_id=1633235475450513&notif_t=group_milestone&ref=notif), this doubles down as an issues group as well!
+- Join the development and upgrading of AhMyth at [AhMyth RAT Development, Issues & Discussions](https://www.facebook.com/groups/396412025258492/?notif_id=1633235475450513&notif_t=group_milestone&ref=notif)
 - Create a fork of this repository 
 - Get to work on AhMyth using the TODO lists contained in the [TODO.md](https://GitHub.com/Morsmalleo/AhMyth/tree/master/TODO.md)
 - Create a pull request of your updates so they can be merged with this repository
+- Detail your updates in the AhMyth Development Group
 - Enjoy your name being mentioned in the *Maintained By* Section above
