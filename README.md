@@ -40,4 +40,4 @@ If you have experience with these languages then all you need to do is
 - Get to work on AhMyth using the TODO lists contained in the [TODO.md](https://GitHub.com/Morsmalleo/AhMyth/tree/master/TODO.md)
 - Create a pull request of your updates so they can be merged with this repository
 - Detail your updates in the AhMyth Development Group
-- Enjoy your name being mentioned in the *Maintained By* Section above
+- Enjoy your name being mentioned in the *"Maintained By"* Section above
