@@ -33,7 +33,7 @@ The Setup Guide falls into 3 different sections;
 - [Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Linux)
 - [Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-OS-X) (Not written yet)
 - [Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Windows) (Not written yet)
-
+#
 # Join the Development of AhMyth
 If you wish to help with the development of AhMyth, then you'll need to do have experience in the following languages
 
