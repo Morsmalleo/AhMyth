@@ -3,19 +3,6 @@
 ## Maintained by 
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
-## Hiring for further Development
-I am currently looking for an open source developer who is proficient 
-in the following languages;
-- Pure JavaScript (NodeJS)
-- Android XML
-- HTML
-- CSS
-- Ruby
-
-This is for further development
-of the open source AhMyth project, I don't intend on paying people for open source development either
-so don't bother emailing me asking me to pay for development, this is what closed source development is for, 
-closed source is paid, open source is free!
 #
 Give this repository a ⭐ to support our work, 
 and please feel free to share it as much as you want/can.
@@ -46,4 +33,19 @@ The Setup Guide falls into 3 different sections;
 - [Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-OS-X) (Not written yet)
 - [Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Windows) (Not written yet)
 
-If you wish to help with the development of AhMyth, then Join the development and upgrading of AhMyth at [AhMyth RAT Development](https://www.facebook.com/groups/396412025258492/?notif_id=1633235475450513&notif_t=group_milestone&ref=notif)
+# Join the AhMyth Development Team
+If you wish to help with the development of AhMyth, then you'll need to do have experience in the following languages
+
+- Pure JavaScript (NodeJS)
+- Android XML
+- HTML
+- CSS
+- Ruby
+
+If you have experience with these languages then all you need to do is
+
+- Join the development and upgrading of AhMyth at [AhMyth RAT Development](https://www.facebook.com/groups/396412025258492/?notif_id=1633235475450513&notif_t=group_milestone&ref=notif)
+- Create a fork of this repository 
+- Get to work on AhMyth using the TODO lists contained in the [TODO.md](https://GitHub.com/Morsmalleo/AhMyth/tree/master/TODO.md)
+- Create a pull request of your updates so they can be merged with this repository
+- Enjoy your name being mentioned in the *Maintained By* Section above
