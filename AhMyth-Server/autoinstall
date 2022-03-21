@@ -67,7 +67,7 @@ echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sleep 2
 # Install's electron globally, so you can operate ahmyth without needing to run 'npm install', works for both Kali and Parrot FINALLY!
-sh -c "sudo npm install -g electron@9.4.1"
+sh -c "npm install -g electron@9.4.1"
 sleep 5
 clear
 /usr/bin/update-alternatives --config java
@@ -120,7 +120,7 @@ echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sleep 2
 # Install's electron globally, so you can operate ahmyth without needing to run 'npm install', works for both Kali and Parrot FINALLY!
-sh -c "sudo npm install -g electron@9.4.1"
+sh -c "npm install -g electron@9.4.1"
 sleep 5
 clear
 /usr/bin/update-alternatives --config java
@@ -155,7 +155,7 @@ echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sleep 2
 # Install's electron globally, so you can operate ahmyth without needing to run 'npm install', works for both Kali and Parrot FINALLY!
-sh -c "sudo npm install -g electron@9.4.1"
+sh -c "npm install -g electron@9.4.1"
 sleep 5
 clear
 /usr/bin/update-alternatives --config java
