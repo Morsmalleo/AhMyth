@@ -1,3 +1,5 @@
+[![GitHub issues](https://img.shields.io/github/issues/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/issues) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
+
 ## Created by 
 - [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
 ## Maintained by 
