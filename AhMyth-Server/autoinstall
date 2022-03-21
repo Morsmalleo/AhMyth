@@ -73,7 +73,7 @@ clear
 /usr/bin/update-alternatives --config java
 # Creates the 'ahmyth' system shortcut file 
 dir=`pwd`
-scrp="cd $dir && npm start"
+scrp="cd $dir && npx electron ./app --no-sandbox start"
 rm -f /usr/local/sbin/ahmyth
 touch /usr/local/sbin/ahmyth
 echo "#!/bin/bash" > /usr/local/sbin/ahmyth
@@ -126,7 +126,7 @@ clear
 /usr/bin/update-alternatives --config java
 # Creates the 'ahmyth' system shortcut file 
 dir=`pwd`
-scrp="cd $dir && npm start"
+scrp="cd $dir && npx electron ./app --no-sandbox start"
 rm -f /usr/local/sbin/ahmyth
 touch /usr/local/sbin/ahmyth
 echo "#!/bin/bash" > /usr/local/sbin/ahmyth
@@ -161,7 +161,7 @@ clear
 /usr/bin/update-alternatives --config java
 # Creates the 'ahmyth' system shortcut file 
 dir=`pwd`
-scrp="cd $dir && npm start"
+scrp="cd $dir && npx electron ./app --no-sandbox start"
 rm -f /usr/local/sbin/ahmyth
 touch /usr/local/sbin/ahmyth
 echo "#!/bin/bash" > /usr/local/sbin/ahmyth
