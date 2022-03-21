@@ -18,12 +18,21 @@ For those of you looking to study AhMyth, you can find all the information you'l
 - [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Dissecting-a-RAT-%7C-Analysis-of-AhMyth)
 #
 # Installation
-Installation Instructions & detailed AhMyth information, can be found in the newly written [AhMhth Wiki](https://github.com/Morsmalleo/AhMyth/wiki) Setup Sections.
+Installation Instructions can be found in the newly written [AhMhth Wiki](https://github.com/Morsmalleo/AhMyth/wiki) Setup Sections.
 The Setup Guide falls into 3 different sections;
 
 - [Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Linux)
 - [Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-OS-X) (Not written yet)
 - [Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Windows) (Not written yet)
+
+If you are new to AhMyth, It is highly recommended to read the **Getting Started** sections listed below before reading the Setup Sections.
+
+- [Getting Started | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-Linux-*Being-Written*) (Being Written)
+- [Getting Started | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-OS-X-*Being-Written*) (Being Written)
+- [Getting Started | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-Windows-*Being-Written*) (Being Written)
+
+
+
 #
 # Join the development
 If you wish to help with the development of AhMyth, 
