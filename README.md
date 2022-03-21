@@ -3,7 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/issues) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
 
 Give this repository a ⭐ to support our work, 
-and please feel free to share it as much as you want/can.
+and please feel free to share it as much as you can.
 #
 # Usage
 AhMyth is a powerful open-source remote administration tool that can be used to access informational data from an android device. Through it, an attacker can 
