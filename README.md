@@ -2,13 +2,6 @@
 
 [![GitHub issues](https://img.shields.io/github/issues/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/issues) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
 
-## Created by 
-- [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
-## Maintained by 
-- [Morsmalleo](https://github.com/Morsmalleo)
-- [YagamiLight17](https://github.com/YagamiLight17)
-- Join the development to have your name put here!
-#
 Give this repository a ⭐ to support our work, 
 and please feel free to share it as much as you want/can.
 #
@@ -51,3 +44,11 @@ If you have experience with these languages, then all you need to do is the foll
 - Create a pull request of your updates so they can be merged with this repository
 - Detail your updates in the AhMyth Development Group
 - Enjoy your name being mentioned in the *"Maintained By"* Section above
+#
+# Credits
+## Created by 
+- [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
+## Maintained by 
+- [Morsmalleo](https://github.com/Morsmalleo)
+- [YagamiLight17](https://github.com/YagamiLight17)
+- Join the development to have your name put here!
