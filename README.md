@@ -19,17 +19,7 @@ For those of you looking to study AhMyth, you can find all the information you'l
 - [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Dissecting-a-RAT-%7C-Analysis-of-AhMyth)
 #
 # Installation
-### Getting Started
-If you are new to AhMyth, It is highly recommended to read the *"Getting Started"* sections listed below before reading the Setup Sections.
-
-- [AhMyth Wiki: Getting Started | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-Linux-*Being-Written*) (Not Written Yet)
-- [AhMyth Wiki: Getting Started | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-OS-X-*Being-Written*) (Not Written Yet)
-- [AhMyth Wiki: Getting Started | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-Windows-*Being-Written*) (Not Written Yet)
-
-If you already know how to get started with AhMyth you can go ahead and skip this part.
-
-### Setup
-Installation Instructions can be found in the newly written [AhMhth Wiki](https://github.com/Morsmalleo/AhMyth/wiki) Setup Sections.
+Installation Instructions can be found in the AhMhth Wiki Setup Sections.
 The Setup Guide falls into 3 different sections;
 
 - [AhMyth Wiki: Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Linux)
