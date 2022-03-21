@@ -47,9 +47,9 @@ If you have experience with these languages, then all you need to do is the foll
 - Enjoy your name being mentioned in the *"Maintained By"* Section above
 #
 # Credits
-## Created by 
+### Created by 
 - [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
-## Maintained by 
+### Maintained by 
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
 - Join the development to have your name put here!
