@@ -19,7 +19,7 @@ For those of you looking to study AhMyth, you can find all the information you'l
 - [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Dissecting-a-RAT-%7C-Analysis-of-AhMyth)
 #
 # Installation
-Installation Instructions can be found in the AhMhth Wiki Setup Sections.
+Instructions for installing AhMyth can be found in the AhMhth Wiki Setup Sections.
 The Setup Guide falls into 3 different sections;
 
 - [AhMyth Wiki: Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Linux)
