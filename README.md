@@ -10,7 +10,7 @@ AhMyth is a powerful open-source remote administration tool that can be used to 
 access critical information such as the current geographical location of the device being attacked. In advanced use cases it can be used to hack the victim’s 
 microphone and launch recordings, get camera snapshots and also read personal messages on the attacked device.
 
-A full User Manual for new users of AhMyth, can be found in the [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) 
+A full User Manual for new users of AhMyth, can be found in the [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) ( Not Written Yet)
 #
 # Information
 For those of you looking to study AhMyth, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
@@ -18,21 +18,22 @@ For those of you looking to study AhMyth, you can find all the information you'l
 - [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Dissecting-a-RAT-%7C-Analysis-of-AhMyth)
 #
 # Installation
+### Getting Started
+If you are new to AhMyth, It is highly recommended to read the *"Getting Started"* sections listed below before reading the Setup Sections.
+
+- [AhMyth Wiki: Getting Started | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-Linux-*Being-Written*) (Not Written Yet)
+- [AhMyth Wiki: Getting Started | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-OS-X-*Being-Written*) (Not Written Yet)
+- [AhMyth Wiki: Getting Started | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-Windows-*Being-Written*) (Not Written Yet)
+
+If you already know how to get started with AhMyth you can go ahead and skip this part.
+
+### Setup
 Installation Instructions can be found in the newly written [AhMhth Wiki](https://github.com/Morsmalleo/AhMyth/wiki) Setup Sections.
 The Setup Guide falls into 3 different sections;
 
-- [Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Linux)
-- [Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-OS-X) (Not written yet)
-- [Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Windows) (Not written yet)
-
-If you are new to AhMyth, It is highly recommended to read the **Getting Started** sections listed below before reading the Setup Sections.
-
-- [Getting Started | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-Linux-*Being-Written*) (Being Written)
-- [Getting Started | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-OS-X-*Being-Written*) (Being Written)
-- [Getting Started | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Getting-Started-%7C-Windows-*Being-Written*) (Being Written)
-
-
-
+- [AhMyth Wiki: Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Linux)
+- [AhMyth Wiki: Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-OS-X) (Not written yet)
+- [AhMyth Wiki: Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Windows) (Not written yet)
 #
 # Join the development
 If you wish to help with the development of AhMyth, 
