@@ -10,7 +10,7 @@ AhMyth is a powerful open-source remote administration tool that can be used to 
 access critical information such as the current geographical location of the device being attacked. In advanced use cases it can be used to hack the victim’s 
 microphone and launch recordings, get camera snapshots and also read personal messages on the attacked device.
 
-A full User Manual for new users of AhMyth, can be found in the AhMyth Wiki, under the [User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Usage-Guide) Section.
+A full User Manual for new users of AhMyth, can be found in the [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) 
 #
 # Information
 For those of you looking to study AhMyth, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
