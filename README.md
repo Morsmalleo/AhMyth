@@ -9,7 +9,11 @@ and please feel free to share it as much as you can.
 01. Build an AhMyth Payload, or bind an AhMyth payload with an original APK using the *APK Builder*
 02. install the AhMyth payload onto the Victim Android Device using the *Payload URL Masker*, or some other means of social engineering
 03. Take Control of the Victim Android Device
-
+#
+A full User Manual for new users of AhMyth, can be found in the following AhMyth Wiki page. 
+- [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) ( Not Written Yet)
+#
+# What is AhMyth?
 AhMyth is a powerful open-source tool that can be used to access informational data from an android device. 
 
 Using this tool, you can can access critical information such as the current geographical location of the 
@@ -19,9 +23,6 @@ In advanced use cases it can be used to hack the victim’s microphone and launc
 get camera snapshots and also read and send personal messages on the attacked device.
 
 AhMyth's payload is completely custom, meaning that it does not use anything related to *Metasploit Framework*.
-#
-A full User Manual for new users of AhMyth, can be found in the following AhMyth Wiki page. 
-- [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) ( Not Written Yet)
 #
 # Information
 For those of you looking to study AhMyth, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
