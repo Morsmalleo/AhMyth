@@ -6,7 +6,7 @@ Give this repository a ⭐ to support our work,
 and please feel free to share it as much as you can.
 #
 # Usage
-AhMyth is a powerful open-source remote administration tool that can be used to access informational data from an android device. Through it, an attacker can 
+AhMyth is a powerful open-source tool that can be used to access informational data from an android device. Through it, an attacker can 
 access critical information such as the current geographical location of the device being attacked. In advanced use cases it can be used to hack the victim’s 
 microphone and launch recordings, get camera snapshots and also read personal messages on the attacked device.
 
