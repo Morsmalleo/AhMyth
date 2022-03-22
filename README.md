@@ -1,4 +1,4 @@
-<img src="https://github.com/Morsmalleo/AhMyth/blob/master/AhMyth-Server/app/app/assets/img/AhMyth-style.png.jpg" alt="Splash.png" />
+<img src="https://github.com/Morsmalleo/AhMyth/blob/master/AhMyth-Server/app/app/assets/img/AhMyth-Banner.jpg" alt="Banner.png" />
 
 [![GitHub issues](https://img.shields.io/github/issues/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/issues) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
 
