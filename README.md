@@ -13,8 +13,8 @@ and please feel free to share it as much as you can.
 A full User Manual for new users of AhMyth, can be found in the following AhMyth Wiki page. 
 - [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) ( Not Written Yet)
 #
-# What is AhMyth?
-AhMyth is a powerful open-source tool that can be used to access informational data from an android device. 
+# Information
+AhMyth is a powerful open-source tool that can be used to access informational data from an android device.
 
 Using this tool, you can can access critical information such as the current geographical location of the 
 device being attacked. 
@@ -22,10 +22,7 @@ device being attacked.
 In advanced use cases it can be used to hack the victim’s microphone and launch recordings, 
 get camera snapshots and also read and send personal messages on the attacked device.
 
-AhMyth's payload is completely custom, meaning that it does not use anything related to *Metasploit Framework*.
-#
-# Information
-For those of you looking to study AhMyth, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
+For those looking to study AhMyth further, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Dissecting-a-RAT-%7C-Analysis-of-AhMyth)
 #
