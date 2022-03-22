@@ -6,7 +6,6 @@ Give this repository a ⭐ to support our work,
 and please feel free to share it as much as you can.
 #
 # Usage
-
 01. Build an AhMyth Payload, or bind an AhMyth payload with an original APK using the *APK Builder*
 02. install the AhMyth payload onto the Victim Android Device using the *Payload URL Masker*, or some other means of social engineering
 03. Take Control of the Victim Android Device
@@ -19,7 +18,7 @@ device being attacked.
 In advanced use cases it can be used to hack the victim’s microphone and launch recordings, 
 get camera snapshots and also read and send personal messages on the attacked device.
 
-AhMyth's payload is completely custom, meaning that it does not use anything related to *Metasploit* or *msfvenom*.
+AhMyth's payload is completely custom, meaning that it does not use anything related to *Metasploit Framework*.
 #
 A full User Manual for new users of AhMyth, can be found in the following AhMyth Wiki page. 
 - [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) ( Not Written Yet)
