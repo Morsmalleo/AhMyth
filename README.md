@@ -10,7 +10,7 @@ and please feel free to share it as much as you can.
 02. install the AhMyth payload onto the Victim Android Device using the *Payload URL Masker*, or some other means of social engineering
 03. Take Control of the Victim Android Device
 #
-A full User Manual for new users of AhMyth, can be found in the following AhMyth Wiki page. 
+A full User Manual for new users of AhMyth, can be found in the following Wiki page. 
 - [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) ( Not Written Yet)
 #
 # Information
