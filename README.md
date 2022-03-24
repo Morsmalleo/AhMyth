@@ -1,6 +1,6 @@
 <img src=".github/AhMyth-Banner.png" alt="Banner.png" />
 
-[![GitHub issues](https://img.shields.io/github/issues/Morsmalleo/AhMyth?color=red)](https://github.com/Morsmalleo/AhMyth/issues) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub Discussions](https://img.shields.io/github/discussions/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/discussions) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
+[![GitHub issues](https://img.shields.io/github/issues/Morsmalleo/AhMyth?color=red)](https://github.com/Morsmalleo/AhMyth/issues) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
 
 Give this repository a ⭐ to support our work, 
 and please feel free to share it as much as you can.
