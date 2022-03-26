@@ -62,7 +62,6 @@ function createWindow() {
     icon: __dirname + '/app/assets/img/icon.png',
     width: 900,
     height: 690,
-    backgroundColor: '#f9f2ee',
     show: false,
     resizable: true,
     position: "center",
@@ -156,7 +155,6 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
       show: false,
       width: 280,
       height: 78,
-      backgroundColor: '#f9f2ee',
       resizable: false,
       toolbar: false,
       webPreferences: {
@@ -220,7 +218,6 @@ ipcMain.on('openLabWindow', function (e, page, index) {
     parent: win,
     width: 700,
     height: 750,
-    backgroundColor: '#f9f2ee',
     darkTheme: true,
     transparent: true,
     resizable: false,
