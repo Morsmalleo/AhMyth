@@ -11,7 +11,7 @@ and please feel free to share it as much as you can.
 03. Take Control of the Victim Android Device
 #
 A full User Manual for new users of AhMyth is currently being written and will be found in the following Wiki page when it's finished. 
-- [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual) (Not Written Yet)
+- [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/User-Manual-*Being-Written*) (Not Written Yet)
 #
 # Information
 AhMyth is a powerful open-source tool that can be used to access informational data from an android device.
