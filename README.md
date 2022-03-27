@@ -1,4 +1,3 @@
-
 <img src=".github/AhMyth-Banner.jpg" alt="Banner.png" />
 
 [![GitHub issues](https://img.shields.io/github/issues/Morsmalleo/AhMyth?color=red)](https://github.com/Morsmalleo/AhMyth/issues) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
@@ -62,5 +61,3 @@ If you have experience with these languages, then all you need to do is the foll
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
 - Join the development to have your name put here!
-#
-![IMG_20220327_122547](https://user-images.githubusercontent.com/64344168/160266645-2946912b-48b8-490a-a5b8-2c1861429fdc.png)
