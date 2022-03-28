@@ -30,9 +30,9 @@ For those looking to study AhMyth further, you can find all the information you'
 Instructions for installing AhMyth can be found in the AhMhth Wiki Setup Sections.
 The Setup Guide falls into 3 different sections;
 
-- [AhMyth Wiki: Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Linux)
-- [AhMyth Wiki: Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-OS-X) (Being Written)
-- [AhMyth Wiki: Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Setup-%7C-Windows-*Being-Written*) (Being written)
+- [AhMyth Wiki: Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/01.-Setup-%7C-Linux)
+- [AhMyth Wiki: Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/02.-Setup-%7C-OS-X) (Being Written)
+- [AhMyth Wiki: Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/03.-Setup-%7C-Windows-*Being-Written*) (Being written)
 #
 # Join the development
 If you wish to help with the development of AhMyth, 
