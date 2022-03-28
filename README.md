@@ -31,7 +31,7 @@ get camera snapshots and also read and send personal messages on the attacked de
 
 For those looking to study AhMyth further, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
-- [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/P5.-Dissecting-a-RAT:-Analysis-of-AhMyth)
+- [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/P6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
 
 Installation
