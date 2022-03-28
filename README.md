@@ -5,7 +5,9 @@
 Give this repository a ⭐ to support our work
 and please feel free to share it as much as you can.
 #
-# Usage
+
+Usage
+=====
 01. Build an AhMyth Payload, or bind an AhMyth payload with an original APK using the *APK Builder*
 02. Install the AhMyth payload onto the Victim Android Device using the *Payload URL Masker*, or some other means of social engineering
 03. Take Control of the Victim Android Device
@@ -13,7 +15,9 @@ and please feel free to share it as much as you can.
 A full User Manual for new users of AhMyth can be found in the following Wiki page; 
 - [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/04.-User-Manual)
 #
-# Information
+
+Information
+=============
 AhMyth is a powerful open-source tool that can be used to access informational data from an android device.
 
 Using this tool, you can can access critical information such as the current geographical location of the 
@@ -26,7 +30,9 @@ For those looking to study AhMyth further, you can find all the information you'
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
-# Installation
+
+Installation
+============
 Instructions for installing AhMyth can be found in the AhMhth Wiki Setup Sections.
 The Setup Guide falls into 3 different sections;
 
@@ -34,7 +40,9 @@ The Setup Guide falls into 3 different sections;
 - [AhMyth Wiki: Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/02.-Setup-%7C-OS-X) (Being Written)
 - [AhMyth Wiki: Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/03.-Setup-%7C-Windows-*Being-Written*) (Being written)
 #
-# Join the development
+
+Join the development
+====================
 If you wish to help with the development of AhMyth, 
 then you'll need to do have experience in the following languages;
 - Pure JavaScript (NodeJS)
@@ -54,10 +62,14 @@ If you have experience with these languages, then all you need to do is the foll
 - Detail your updates in the AhMyth Development Group
 - Enjoy your name being mentioned in the *"Maintained By"* Section above
 #
-# Credits
-### Created by 
+
+Credits
+=========
+
+Created by
 - [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
-### Maintained by 
+
+Maintained by
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
 - Join the development to have your name put here!
