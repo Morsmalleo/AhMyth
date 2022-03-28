@@ -16,7 +16,7 @@ Usage
 User Manual
 ===========
 A full User Manual for new users of AhMyth can be found in the following Wiki page; 
-- [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/04.-User-Manual)
+- [AhMyth Wiki: User Manual](https://github.com/Morsmalleo/AhMyth/wiki/P5.-User-Manual)
 #
 
 Information
@@ -31,7 +31,7 @@ get camera snapshots and also read and send personal messages on the attacked de
 
 For those looking to study AhMyth further, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
-- [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Dissecting-a-RAT:-Analysis-of-AhMyth)
+- [AhMyth Wiki: Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/P6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
 
 Installation
@@ -39,9 +39,9 @@ Installation
 Instructions for installing AhMyth can be found in the AhMhth Wiki Setup Sections.
 The Setup Guide falls into 3 different sections;
 
-- [AhMyth Wiki: Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/01.-Setup-%7C-Linux)
-- [AhMyth Wiki: Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/02.-Setup-%7C-OS-X) (Being Written)
-- [AhMyth Wiki: Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/03.-Setup-%7C-Windows-*Being-Written*) (Being written)
+- [AhMyth Wiki: Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/P2.-Setup-%7C-Linux)
+- [AhMyth Wiki: Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/P3.-Setup-%7C-OS-X) (Being Written)
+- [AhMyth Wiki: Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/P4.-Setup-%7C-Windows-*Being-Written*) (Being written)
 #
 
 Join the development
