@@ -47,7 +47,7 @@ The Setup Guide falls into 3 different sections;
 Join the development
 ====================
 If you wish to help with the development of AhMyth, 
-then you'll need to do have experience in the following languages;
+then you'll need to have experience in the following languages;
 - Pure JavaScript (NodeJS)
 - HTML
 - CSS
