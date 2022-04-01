@@ -4,6 +4,9 @@
 
 Give this repository a ⭐ to support our work
 and please feel free to share it as much as you can.
+
+Read the Instruction in the AhMyth wiki before setting this up!
+I'm getting tired of people posting duplicate issue all of having trouble setting this up because they're simply Newbs and have no idea what they're doing!!
 #
 
 Usage
