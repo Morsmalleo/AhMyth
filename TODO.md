@@ -4,7 +4,7 @@
 - [ ] 02: Rewrite AhMyth Client using the original 
 payload from `v1.0-beta.2` as the starting point.
 #
-- [ ] 03: Figure out a way to bypass play protect. 
+- [ ] 03: Generate a valid signing certificate to bypass Play Protect. 
 #
 - [ ] 04: Create persistence for the AhMyth payload
 #
