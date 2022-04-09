@@ -5,8 +5,8 @@
 Give this repository a ⭐ to support our work
 and please feel free to share it as much as you can.
 
-Read the Instruction in the AhMyth wiki before setting this up!
-I'm getting tired of people posting duplicate issues of having 
+Read the Instruction in the AhMyth wiki before setting this up please!
+I'm getting tired of people posting duplicate issues about having 
 trouble setting this up or having errors while running it because 
 they're simply Newbs and have no idea what they're doing!! 
 
