@@ -5,13 +5,13 @@
 Give this repository a ⭐ to support our work
 and please feel free to share it as much as you can.
 
-Read the Instruction in the AhMyth wiki before setting this up please!
-I'm getting tired of people posting duplicate issues about having 
-trouble setting this up or having errors while running it because 
-they're simply Newbs and have no idea what they're doing!! 
+Read the Instruction in the AhMyth Wiki before setting this up please!
 
-If people would actually take the time to read up on how to set this up using the Wiki
-I created or take the time to watch my AhMyth videos on YouTube, you'd have no trouble with this at all!!
+I'm getting tired of people posting duplicate issues about having 
+trouble setting this up or about having errors while running it.
+
+If people would actually take the time to read up on how to set this up as well as how to use it properly using the Wiki
+I created or my AhMyth videos on YouTube, you'd have no trouble with this at all!!
 #
 
 Usage
