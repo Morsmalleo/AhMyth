@@ -15,7 +15,7 @@ Usage
 
 Installation
 ============
-Instructions for installing AhMyth can be found in the AhMhth Wiki Setup Sections.
+Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Sections.
 The Setup Guide falls into 3 different sections;
 
 - [AhMyth Wiki: Page 1. Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/P1.-Setup-%7C-Linux)
