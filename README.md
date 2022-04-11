@@ -31,7 +31,7 @@ A full User Manual for new users of AhMyth can be found in the following Wiki pa
 
 Troubleshoot
 ============
-A Troubleshoot wiki page is currently in the works, please be patient and refer to the [README.md](#readme)
+A Troubleshoot wiki page is currently in the works, please be patient and refer to the [TROUBLESHOOT.md](#troubleshoot)
 
 Information
 ===========
