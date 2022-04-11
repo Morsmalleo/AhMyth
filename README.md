@@ -29,9 +29,13 @@ A full User Manual for new users of AhMyth can be found in the following Wiki pa
 - [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/P4.-User-Manual)
 #
 
+Troubleshoot
+============
+A Troubleshoot wiki page is currently in the works, please be patient and refer to the [README.md](#readme)
+
 Information
 ===========
-For those looking to study this RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
+For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/P6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
