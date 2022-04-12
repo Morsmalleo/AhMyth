@@ -31,7 +31,8 @@ A full User Manual for new users of AhMyth can be found in the following Wiki pa
 
 Troubleshoot
 ============
-A Troubleshoot wiki page is available for troubleshooting your AhMyth errors, you can find the Troubleshoot in the following AhMyth wiki page.
+A full Troubleshoot Wiki page is available for troubleshooting your AhMyth errors, 
+you can find the Troubleshoot Section in the following AhMyth Wiki page.
 - [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/P5.-Troubleshoot)
 #
 
