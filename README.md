@@ -18,29 +18,29 @@ Installation
 Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Sections.
 The Setup Guide falls into 3 different sections;
 
-- [AhMyth Wiki: Page 1 - Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/P1.-Setup-%7C-Linux)
-- [AhMyth Wiki: Page 2 - Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/P2.-Setup-%7C-OS-X-*Being-Written*) (Being Written)
-- [AhMyth Wiki: Page 3 - Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/P3.-Setup-%7C-Windows-*Being-Written*) (Being written)
+- [AhMyth Wiki: Page 1 - Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Setup-%7C-Linux)
+- [AhMyth Wiki: Page 2 - Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Setup-%7C-OS-X-*Being-Written*) (Being Written)
+- [AhMyth Wiki: Page 3 - Setup | Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Setup-%7C-Windows-*Being-Written*) (Being written)
 #
 
 User Manual
 ===========
 A full User Manual for new users of AhMyth can be found in the following Wiki page; 
-- [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/P4.-User-Manual)
+- [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-User-Manual)
 #
 
 Troubleshoot
 ============
 A full Troubleshoot Wiki page is available for troubleshooting your AhMyth errors, 
 you can find the Troubleshoot Section in the following AhMyth Wiki page.
-- [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/P5.-Troubleshoot)
+- [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
 #
 
 Information
 ===========
 For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
-- [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
-- [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/P6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
+- [AhMyth Wiki: Introduction](https://github.com/Morsmalleo/AhMyth/wiki)
+- [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
 
 Credits
