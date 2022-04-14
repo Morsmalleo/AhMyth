@@ -39,7 +39,7 @@ you can find the Troubleshoot Section in the following AhMyth Wiki page.
 Information
 ===========
 For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
-- [AhMyth Wiki: Introduction](https://github.com/Morsmalleo/AhMyth/wiki)
+- [AhMyth Wiki: Introduction](https://github.com/Morsmalleo/AhMyth/wiki/Introduction)
 - [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
 
