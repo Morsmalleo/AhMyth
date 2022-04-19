@@ -8,7 +8,7 @@ and please feel free to share it as much as you can.
 
 Usage
 =====
-01. Build or Bind an AhMyth Payload using the *APK Builder*
+01. Bind or Build an AhMyth Payload
 02. Install the AhMyth payload on the victim android device
 03. Take Control of the Victim Android Device using the *Victims Lab*
 #
