@@ -9,7 +9,7 @@ and please feel free to share it as much as you can.
 Usage
 =====
 01. Bind or Build an AhMyth Payload
-02. Install the AhMyth payload on the victim android device
+02. Install the payload on the Victim Android Device
 03. Take Control of the Victim Android Device using the *Victims Lab*
 #
 
