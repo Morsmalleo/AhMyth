@@ -20,8 +20,8 @@ Running this command Decompiled the Telegram APK into a readable state, once thi
 
 
 
-Finding the Hookable Launcher Activity
-================================
+READING THE ANDROID MANIFEST
+============================
 So the next thing I did after accessing the "AndroidManifest.xml" file, was search for the launcher activity. the way this was done was by first searching for `<application` attribute in the Manifest file.
 
 Once the `<application` attribute was found, all I had to do was search for the class name attribute, which is usually 1 of the following;
@@ -35,6 +35,8 @@ A an example of what I mean is below;
 
     <application android:name="org.telegram.messenger.ApplicationLoader"
 
+Finding the Hookable Launcher Activity
+======================================
 Next all I had to do was;
 
 - Copy the "org.telegram.messenger.ApplicationLauncher" text from the Manifest file
@@ -70,8 +72,8 @@ Upon locating the 2nd method mention above, all I had to do from there was injec
 Below you will see two pieces of coding, the 1st piece is the AhMyth payload hook BEFORE it's injected into the Telegram.apk Launcher Activity smali file, and the 2nd one is the AhMyth payload hook AFTER it was injected into the telegram.apk Launcher Activity smali file.
 
 BEFORE
--------------
+------
 
 
 AFTER
-------------
+------
