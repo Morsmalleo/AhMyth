@@ -26,8 +26,8 @@ So the next thing I did after accessing the "AndroidManifest.xml" file, was sear
 
 Once the `<application` attribute was found, all I had to do was search for the class name attribute, which is usually 1 of the following;
 
-- android:name"
-- android:targetActivity="
+- `android:name"`
+- `android:targetActivity="`
 
 Upon locating the `android:name="` attribute, which is 1 of the 2 class name attributes mentioned above, the path to the Hookable launcher activity was sectioned next to it wrapped in Quotes.
 
@@ -46,7 +46,7 @@ Next all I had to do was;
 
 - Paste the copied text into a terminal
 
-- Change the " . " symbols to " / " symbols
+- Change the `.` symbols to `/` symbols
 
 - Add the `.smali` attribute to the end of "ApplicationLoader". 
 
@@ -65,8 +65,8 @@ Once the Hookable Launcher Activity smali file was located, I then copied the te
 
 Once opened, I then used the VSCode's "find" tool to locate two types of Launcher methods, the methods I was looking for are the following below;
 
-1. ;->onCreate(Landroid/is/Bundle;)V
-2. ;->OnCreate()V
+1. `;->onCreate(Landroid/is/Bundle;)V`
+2. `;->OnCreate()V`
 
 Upon locating the 2nd method mention above, all I had to do from there was inject AhMyth's payload hook.
 
