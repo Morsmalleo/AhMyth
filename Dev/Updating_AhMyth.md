@@ -48,7 +48,7 @@ Next all I had to do was;
 
 - Change the `.` symbols to `/` symbols
 
-- Add the `.smali` attribute to the end of "ApplicationLoader". 
+- Add the `.smali` attribute to the end of `ApplicationLoader`. 
 
 Once I had done that quickly, I then added the `find -name` syntax command, and ran it to locate the Hookable Launcher Activity smali file.
 
