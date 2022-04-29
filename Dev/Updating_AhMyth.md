@@ -40,7 +40,7 @@ Fetching the Launcher Activity
 ==============================
 Next all I had to do was;
 
-- Copy the `org.telegram.messenger.ApplicationLauncher` text from the Manifest file
+- Copy the `org.telegram.messenger.ApplicationLauncher` code from the Manifest file
 
 - cd into the Decompiled Telegram APK folder
 
