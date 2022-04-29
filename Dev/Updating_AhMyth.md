@@ -49,7 +49,7 @@ Next all I had to do was;
 
 - Add the `.smali` attribute to the end of "ApplicationLoader". 
 
-Once I had do that quickly, I then added the `find -name` syntax command, and ran it to locate the Hookable Launcher Activity smali file.
+Once I had done that quickly, I then added the `find -name` syntax command, and ran it to locate the Hookable Launcher Activity smali file.
 
 The full command used to locate the Hookable Launcher Activity smali file.
     
