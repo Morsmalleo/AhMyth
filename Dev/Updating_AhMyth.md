@@ -4,7 +4,8 @@ Updating AhMyth
 This section will further describe how AhMyth should operate
 in terms of Binding with an Original APK when using the "On Launch" method.
 
-I have needed a complex APK for this so I used Telegram.
+I needed a complex APK for this so I used Telegram, which was obtained from
+apkpure.com
 
 DISSECTING TELEGRAM
 ====================
