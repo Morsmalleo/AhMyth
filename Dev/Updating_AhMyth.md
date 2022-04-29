@@ -70,7 +70,8 @@ Once opened, I then used the VSCode's "find" tool to locate two types of Launche
 
 Upon locating the 2nd method mention above, all I had to do from there was inject AhMyth's payload hook.
 
-Below you will see two pieces of coding, the 1st piece is the AhMyth payload hook BEFORE it's injected into the Telegram.apk Launcher Activity smali file, and the 2nd one is the AhMyth payload hook AFTER it was injected into the telegram.apk Launcher Activity smali file.
+Below you will see two pieces of coding, the 1st piece is the AhMyth payload hook BEFORE it's injected into Telegram's Launcher Activity smali file, 
+and the 2nd one is the AhMyth payload hook AFTER it was injected into the telegram.apk Launcher Activity smali file.
 
 BEFORE
 ------
