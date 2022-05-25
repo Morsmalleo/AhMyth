@@ -150,8 +150,6 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
     // create the Notification window
     let notification = new BrowserWindow({
       frame: false,
-      x: display.bounds.width - 280,
-      y: display.bounds.height - 78,
       show: false,
       width: 280,
       height: 78,
