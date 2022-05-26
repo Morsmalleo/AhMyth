@@ -36,13 +36,14 @@ function createWindow() {
     toolbar: false,
     fullscreen: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true,
     }
   });
 
 
   // load splash file
-  splashWin.loadURL('file://' + __dirname + '/app/splash.html');
+  splashWin.loadFile(__dirname + '/app/splash.html');
 
   splashWin.webContents.on('did-finish-load', function () {
     splashWin.show(); //close splash
@@ -70,11 +71,12 @@ function createWindow() {
     transparent: true,
     frame: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 
-  win.loadURL('file://' + __dirname + '/app/index.html');
+  win.loadFile(__dirname + '/app/index.html');
   //open dev tools
   //win.webContents.openDevTools()
 
@@ -158,7 +160,8 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
       resizable: false,
       toolbar: false,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        enableRemoteModule: true
       }
     });
 
@@ -169,7 +172,7 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
     });
 
     notification.webContents.victim = victimsList.getVictim(index);
-    notification.loadURL('file://' + __dirname + '/app/notification.html');
+    notification.loadFile(__dirname + '/app/notification.html');
 
 
 
@@ -223,7 +226,8 @@ ipcMain.on('openLabWindow', function (e, page, index) {
     resizable: false,
     frame: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   })
 
@@ -233,7 +237,7 @@ ipcMain.on('openLabWindow', function (e, page, index) {
 
   // pass the victim info to this victim lab
   child.webContents.victim = victimsList.getVictim(index).socket;
-  child.loadURL('file://' + __dirname + '/app/' + page)
+  child.loadFile(__dirname + '/app/' + page)
 
   child.once('ready-to-show', () => {
     child.show();
