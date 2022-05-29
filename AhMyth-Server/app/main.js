@@ -60,7 +60,7 @@ function createWindow() {
   //------------------------Main SCREEN INIT------------------------------------
   // Create the browser window.
   win = new BrowserWindow({
-    icon: __dirname + '/app/assets/img/icon.png',
+    icon: __dirname + '/app/assets/img/icon.png', 
     width: 900,
     height: 690,
     show: false,
@@ -221,6 +221,7 @@ ipcMain.on('openLabWindow', function (e, page, index) {
     parent: win,
     width: 700,
     height: 750,
+    show: false,
     darkTheme: true,
     transparent: true,
     resizable: false,
