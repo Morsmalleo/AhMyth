@@ -7,9 +7,9 @@
 #
 - [ ] 04: Integrate persistence for the AhMyth payload.
 #
-- [ ] 05: Integrate real-time viewing of the victim device screen.
+- [ ] 05: Integrate real-time viewing of victim device screens.
 #
-- [ ] 06: Integrate screen recording for real time viewing device screens.
+- [ ] 06: Integrate screen recording for real time viewing of victim device screens.
 #
 - [ ] 07: Integrate USSD dialing and response view feature for the 
 AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/AhMyth/issues/97)
