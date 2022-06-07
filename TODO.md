@@ -58,8 +58,6 @@ to control a range of devices by hooking their web browser - inspired by [beEF](
 #
 - [ ] 8: Update *socket.io 2.4.2* to *socket.io 4.x*
 #
-- [ ] 9: Figure out how to gain access to root storage without the victim device being rooted.
-#
 #
 # Stability TODO's
 
