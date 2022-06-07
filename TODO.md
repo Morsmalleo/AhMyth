@@ -18,9 +18,7 @@ AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/
 #
 - [ ] 09: Integrate access to the victim device SD Card.
 #
-- [ ] 10: Figure out how to gain access to root storage without the victim device being rooted.
-#
-- [ ] 11: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1*
+- [ ] 10: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1*
 #
 #
 ## Server-Side TODO List:
@@ -59,6 +57,8 @@ errors to a text file for the GUI version of AhMyth.
 to control a range of devices by hooking their web browser - inspired by [beEF](https://GitHub.com/beefproject/beef)
 #
 - [ ] 8: Update *socket.io 2.4.2* to *socket.io 4.x*
+#
+- [ ] 9: Figure out how to gain access to root storage without the victim device being rooted.
 #
 #
 # Stability TODO's
