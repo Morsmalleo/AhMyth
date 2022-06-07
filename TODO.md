@@ -1,24 +1,22 @@
 ## Client-Side TODO List:
 - [ ] 01: Integrate Live Camera Preview Stream for the Client. 
 #
-- [ ] 02: Hijack a legitimate APK and configure it as a standalone Payload for AhMyth.
+- [ ] 02: Integrate a valid signing certificate to bypass Play Protect. 
 #
-- [ ] 03: Integrate a valid signing certificate to bypass Play Protect. 
+- [ ] 03: Integrate persistence for the AhMyth payload.
 #
-- [ ] 04: Integrate persistence for the AhMyth payload.
+- [ ] 04: Integrate real-time viewing of victim device screens.
 #
-- [ ] 05: Integrate real-time viewing of victim device screens.
+- [ ] 05: Integrate screen recording for real time viewing of victim device screens.
 #
-- [ ] 06: Integrate screen recording for real time viewing of victim device screens.
-#
-- [ ] 07: Integrate USSD dialing and response view feature for the 
+- [ ] 06: Integrate USSD dialing and response view feature for the 
 AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/AhMyth/issues/97)
 #
-- [ ] 08: Integrate screenshot for real time viewing of victim device screens.
+- [ ] 07: Integrate screenshot for real time viewing of victim device screens.
 #
-- [ ] 09: Integrate access to the victim device SD Card.
+- [ ] 08: Integrate access to the victim device SD Card.
 #
-- [ ] 10: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1*
+- [ ] 09: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1*
 #
 #
 ## Server-Side TODO List:
@@ -56,7 +54,10 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 07: Explore the possibility of adding Browser Hook feature 
 to control a range of devices by hooking their web browser - inspired by [beEF](https://GitHub.com/beefproject/beef)
 #
-- [ ] 8: Update *socket.io 2.4.2* to *socket.io 4.x*
+- [ ] 08: Update *socket.io 2.4.2* to *socket.io 4.x*
+#
+- [ ] 09: Hijack a legitimate APK and configure it to be built as a standalone
+AhMyth payload.
 #
 #
 # Stability TODO's
