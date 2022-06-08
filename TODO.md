@@ -22,7 +22,7 @@ AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/
 ## Server-Side TODO List:
 
 - [ ] 01: integrate a `Retry` function to be called so apktool
-can be executed a second time, but with the added flag *--use-aapt* if building an APK fails
+can be executed a second time, but with the added flag `--use-aapt` if building an APK fails
 the first time.
 #
 - [x] 02: Create a backup copy of AhMyth's `AndroidManifest.xml`
