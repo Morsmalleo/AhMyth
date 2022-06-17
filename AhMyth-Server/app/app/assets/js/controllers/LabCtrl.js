@@ -83,6 +83,13 @@ app.controller("LabCtrl", function($scope, $rootScope, $location) {
     });
 
 
+    //fired when notified from the Main Process (main.js) about
+    // the Server disconnection
+
+
+
+
+
     // to move from view to another
     $labCtrl.goToPage = (page) => {
         $location.path('/' + page);
