@@ -1,4 +1,4 @@
-Launcher Extraction for "<application" attribute | AppCtrl.js = Line 5658 --> 5707 |
+Launcher Extraction for `<application"` attribute | AppCtrl.js = Line 5658 --> 5707 |
 ```javascript
 function GetLauncherPath(manifest, smaliPath) {
 
