@@ -1,5 +1,6 @@
 // Launcher Extraction for "<application" attribute | AppCtrl.js = Line 5658 --> 5707 |
 // ================================================ | =============================== |
+```JavaScript
 function GetLauncherPath(manifest, smaliPath) {
 
 
@@ -59,7 +60,7 @@ function GetLauncherPath(manifest, smaliPath) {
 
 
   }
-
+```
   
 
 // OrgAppKey2 | Constants.js = Line 32 |
