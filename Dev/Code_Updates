@@ -1,6 +1,6 @@
 // Launcher Extraction for "<application" attribute | AppCtrl.js = Line 5658 --> 5707 |
 // ================================================ | =============================== |
-```JavaScript
+```javascript
 function GetLauncherPath(manifest, smaliPath) {
 
 
