@@ -136,33 +136,6 @@ app.controller("AppCtrl", ($scope) => {
       }
   }
 
-  // function to select decompiled APK folder for retry function
-  $appCtrl.BrowseFolder = () => { 
-      dialog.showOpenDialog({
-          properties: ['openDirectory'],
-          title: 'Choose decompiled APK folder',
-          buttonLabel: 'Select Folder',
-          filters: [
-              { name: 'Folders', extensions: ['*'] }
-          ]
-      }).then(result => {
-          if(result.canceled) {
-              $appCtrl.Log("No folder selected");
-          } else {
-              $appCtrl.Log("Folder choosen " + result.filePaths[0]); //if user selects a Decompiled APK file
-              readFile(result.filePaths[0]);
-          }
-      }).catch(() => {
-          $appCtrl.Log("No folder selected");
-      })
-      
-      function readFile(filepath) {
-        $appCtrl.filePath = filepath;
-        $appCtrl.$apply();
-    }
-
-  }
-
     // function to run mask python file
     $appCtrl.callmaskpy = () => {
           var targetmask = document.getElementById('targeturl').value
