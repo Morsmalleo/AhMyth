@@ -44,12 +44,15 @@ For those looking to study this unique RAT, you can find all the information you
 #
 
 Credits
-=========
+=======
 
 Created by
 - [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
 
-Maintained by
+Maintained with ❤️ by
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
-- Join the development to have your name put here!
+#
+
+Screenshots
+===========
