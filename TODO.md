@@ -30,8 +30,7 @@ file, and store it in the newly created backup directory
 `Vault` in order to restore AhMyth's original manifest file back to 
 it's original state after being edited with custom permissions.
 
-- This is done! It just needs to be updated to work with the
-Constants.js file
+- DONE!
 #
 - [ ] 03: Explore other, more discrete options for the 
 URL payload masker.
