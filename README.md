@@ -43,6 +43,10 @@ For those looking to study this unique RAT, you can find all the information you
 - [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
 
+Screenshots
+===========
+#
+
 Credits
 =======
 
@@ -52,7 +56,3 @@ Created by
 Maintained with ❤️ by
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
-#
-
-Screenshots
-===========
