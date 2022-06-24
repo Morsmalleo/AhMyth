@@ -16,7 +16,7 @@ AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/
 #
 - [ ] 08: Integrate access to the victim device SD Card.
 #
-- [ ] 09: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1*
+- [ ] 09: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1* and build the newly updated APK for AhMyth
 #
 #
 ## Server-Side TODO List:
