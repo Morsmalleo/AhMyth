@@ -2807,8 +2807,7 @@ app.controller("AppCtrl", ($scope) => {
             (error, stdout, stderr) => {
                 if (error !== null) {
                     $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
-                    fs.writeFile(path.join(logPath, 'Building.log'), error, 'utf8'); // logs errors from apktool to a log file
-                    $appCtrl.Log();
+                    fs.writeFile(path.join(logPath, 'Building.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');                    $appCtrl.Log();
                     return;                 
                 }
 
@@ -2818,8 +2817,7 @@ app.controller("AppCtrl", ($scope) => {
                     (error, stdout, stderr) => {
                         if (error !== null) {
                             $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
-                            fs.writeFile(path.join(logPath, 'Signing.log'), error, 'utf8'); // logs errors from signing to a log file
-                            $appCtrl.Log();
+                            fs.writeFile(path.join(logPath, 'Signing.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');                            $appCtrl.Log();
                             return;
                         }
 
