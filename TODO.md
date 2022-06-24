@@ -57,8 +57,6 @@ to control a range of devices by hooking their web browser - inspired by [beEF](
 #
 - [ ] 09: Hijack a legitimate APK and configure it to be built as a standalone
 AhMyth payload.
-
-May possibly be going with a System Application found on all Androids like *Google Play Carrier Services* or something like that.
 #
 #
 # Stability TODO's
@@ -67,7 +65,6 @@ May possibly be going with a System Application found on all Androids like *Goog
 Windows machines!
 # 
 - [ ] 02: Stabilise Launcher Activity binding method
-
 This is almost stable, just need to code in some functions
 taken from *msfvenom*, then add a way to hook smali files that use the
 `super` method instead of the `OnCreate` method. This shouldn't be to hard
