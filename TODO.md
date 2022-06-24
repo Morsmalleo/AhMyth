@@ -53,7 +53,7 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 07: Explore the possibility of adding Browser Hook feature 
 to control a range of devices by hooking their web browser - inspired by [beEF](https://GitHub.com/beefproject/beef)
 #
-- [ ] 08: Update *socket.io 2.4.2* to *socket.io 4.x*
+- [ ] 08: Update *socket.io 2.4.2* to *socket.io 4.x* (after updating the client with *socket.io-client java 2.0.1*)
 #
 - [ ] 09: Hijack a legitimate APK and configure it to be built as a standalone
 AhMyth payload.
