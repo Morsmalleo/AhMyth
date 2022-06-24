@@ -14,6 +14,7 @@ var viclist = {};
 var dataPath = path.join(homedir(), CONSTANTS.dataDir);
 var downloadsPath = path.join(dataPath, CONSTANTS.downloadPath);
 var outputPath = path.join(dataPath, CONSTANTS.outputApkPath);
+var logPath = path.join(dataPath, CONSTANTS.outputLogsPath);
 //--------------------------------------------------------------
 
 
@@ -2806,8 +2807,9 @@ app.controller("AppCtrl", ($scope) => {
             (error, stdout, stderr) => {
                 if (error !== null) {
                     $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
+                    fs.writeFile(path.join(logPath, 'Building.log'), error, 'utf8'); // logs errors from apktool to a log file
                     $appCtrl.Log();
-                    return;
+                    return;                 
                 }
 
                 $appCtrl.Log('Signing ' + CONSTANTS.apkName + '...');
@@ -2816,6 +2818,7 @@ app.controller("AppCtrl", ($scope) => {
                     (error, stdout, stderr) => {
                         if (error !== null) {
                             $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
+                            fs.writeFile(path.join(logPath, 'Signing.log'), error, 'utf8'); // logs errors from signing to a log file
                             $appCtrl.Log();
                             return;
                         }
@@ -2827,6 +2830,7 @@ app.controller("AppCtrl", ($scope) => {
                             $appCtrl.Log('Apk built successfully', CONSTANTS.logStatus.SUCCESS);
                             $appCtrl.Log("The apk has been built on " + path.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);   
                             $appCtrl.Log();                     
+                            
                             fs.copyFile(path.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), path.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
                               if (err) throw err;
 

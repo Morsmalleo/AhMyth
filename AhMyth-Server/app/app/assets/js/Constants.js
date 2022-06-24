@@ -13,6 +13,7 @@ exports.maskUrlPython = path.join(__dirname, '..', '..', 'Factory/maskUrl.py').r
 exports.dataDir = 'AhMyth'
 exports.downloadPath = 'Downloads';
 exports.outputApkPath = 'Output';
+exports.outputLogsPath = 'Logs';
 exports.logColors = { RED: "red",  GREEN: "lime", YELLOW: "yellow", DEFAULT: "#82eefd" };
 exports.logStatus = { SUCCESS: 1, FAIL: 0, INFO: 2 };
 exports.defaultPort = 42474;
