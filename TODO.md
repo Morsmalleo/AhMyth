@@ -57,6 +57,8 @@ to control a range of devices by hooking their web browser - inspired by [beEF](
 #
 - [ ] 09: Hijack a legitimate APK and configure it to be built as a standalone
 AhMyth payload.
+
+May possibly be going with a System Application found on all Androids like *Google Play Carrier Services* or something like that.
 #
 #
 # Stability TODO's
