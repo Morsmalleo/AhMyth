@@ -36,6 +36,12 @@ you can find the Troubleshoot Section in the following AhMyth Wiki page.
 - [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
 #
 
+Issues
+======
+Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the [Issue Templates](https://GitHub.com/Morsmalleo/AhMyth/.github/Issue_Templates).
+Any issues posted that do not use the Templates will be roved without question!
+#
+
 Information
 ===========
 For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
