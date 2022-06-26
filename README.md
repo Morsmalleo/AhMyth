@@ -38,8 +38,9 @@ you can find the Troubleshoot Section in the following AhMyth Wiki page.
 
 Issues
 ======
-Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the [Issue Templates](https://GitHub.com/Morsmalleo/AhMyth/.github/Issue_Templates).
-Any issues posted that do not use the Templates will be roved without question!
+Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the [Issue Templates](https://github.com/Morsmalleo/AhMyth/tree/master/.github/Issue%20Templates).
+
+Any issues posted that do not use the Templates will be removed without question as we work to keep the issues section as clean and as understanding as possible.
 #
 
 Information
