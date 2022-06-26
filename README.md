@@ -40,7 +40,10 @@ Issues
 ======
 Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the [Issue Templates](https://github.com/Morsmalleo/AhMyth/tree/master/.github/Issue%20Templates).
 
-Any issues posted that does not use the Templates will be removed without question as we work to keep the issues section as clean and as understanding as possible.
+Any issues that are posted, that do not use the Issue Templates, will be removed without question! We work hard here to keep the issues section as clean and as understanding as possible,
+so please help us to do that by using the Issue Templates for your issues.
+
+Duplicate Issues will also be removed without question if I can see that the user was to lazy to check the closed issues.
 #
 
 Information
