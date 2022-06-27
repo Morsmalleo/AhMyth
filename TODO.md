@@ -35,8 +35,9 @@ it's original state after being edited with custom permissions.
 - [ ] 03: Explore other, more discrete options for the 
 URL payload masker.
 #
-- [ ] 04: Integrate the function to Log apktool.jar and sign.jar 
+- [x] 04: Integrate the function to Log apktool.jar and sign.jar 
 errors to a text file for the GUI version of AhMyth.
+- DONE!
 #
 - [ ] 05: Restyle the AhMyth Server using the following
 
@@ -57,6 +58,8 @@ to control a range of devices by hooking their web browser - inspired by [beEF](
 #
 - [ ] 09: Hijack a legitimate APK and configure it to be built as a standalone
 AhMyth payload.
+#
+- [ ] 10: Figure out how to implement string encryption for when we are building a payload.
 #
 #
 # Stability TODO's
