@@ -26,7 +26,7 @@ A clear and concise description of what you expected to happen.
 Always add the error logs to help explain your problem.
 
 ## **Server Issue**
-*"please complete the following information:**
+**please complete the following information:**
  - OS: [e.g. Linux, Mac OS-X]
  - OS Version: [e.g. Ubuntu, Kali]
 
