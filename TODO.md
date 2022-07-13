@@ -61,6 +61,7 @@ AhMyth payload.
 #
 - [ ] 10: Figure out how to implement string encryption for when we are building a payload.
 #
+- [ ] 11: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory 
 #
 # Stability TODO's
 
