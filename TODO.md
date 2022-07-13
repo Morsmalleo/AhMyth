@@ -67,11 +67,9 @@ AhMyth payload.
 - [ ] 01: Figure out why AhMyth is so unstable on 
 Windows machines!
 # 
-- [ ] 02: Stabilise Launcher Activity binding method
-This is almost stable, just need to code in some functions
-taken from *msfvenom*, then add a way to hook smali files that use the
-`super` method instead of the `OnCreate` method. This shouldn't be to hard
-thanks to `dana-at-cp/backdoor-apk`.
+- [ ] 02: Stabilise `On Launch` binding method by effectively 
+allowing AhMyth to search for the `onCreate()V` method if the `onCreate(Landroid/os/Bundle;)V` 
+method is not found in the **Launcher Activity**.
 #
 - [ ] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory 
 
