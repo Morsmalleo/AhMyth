@@ -61,7 +61,6 @@ AhMyth payload.
 #
 - [ ] 10: Figure out how to implement string encryption for when we are building a payload.
 #
-- [ ] 11: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory 
 #
 # Stability TODO's
 
@@ -73,3 +72,6 @@ This is almost stable, just need to code in some functions
 taken from *msfvenom*, then add a way to hook smali files that use the
 `super` method instead of the `OnCreate` method. This shouldn't be to hard
 thanks to `dana-at-cp/backdoor-apk`.
+#
+- [ ] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory 
+
