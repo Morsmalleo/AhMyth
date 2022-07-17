@@ -2808,7 +2808,8 @@ app.controller("AppCtrl", ($scope) => {
                 if (error !== null) {
                     $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
                     fs.writeFile(path.join(logPath, 'Building.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
-                    $appCtrl.Log('Building Error written to Building.log on ', path.join(dataPath, logPath), CONSTANTS.logStatus.INFO);
+                    $appCtrl.Log('Building Error written to "Building.log" on...', CONSTANTS.logStatus.INFO)
+                    $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                     $appCtrl.Log();
                     return;                 
                 }
