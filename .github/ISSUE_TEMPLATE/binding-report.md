@@ -21,6 +21,9 @@ Steps to reproduce the behavior:
 4. '...'
 5. '...'
 
+## Logs
+Always add the log files located at `AhMyth/Logs` based on your problem.
+
 ## **Binding Issue**
 **please complete the following information:**
  - OS: [e.g. Linux, Mac OS-X]
