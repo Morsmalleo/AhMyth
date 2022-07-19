@@ -7,16 +7,9 @@ assignees: Morsmalleo
 
 ---
 
----
-name: Bind APK Bug report
-about: Create a report to help us improve
-title: ''
-labels: bug
-
----
-
 **This is an issue with**
-- [x] Binding On Launch
+- [ ] Binding On Launch
+- [ ] Binding On Boot
 
 ## **APK Name & Origin**
 Please post the name of the APK as well the the site you obtained it from.
