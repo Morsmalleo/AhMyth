@@ -41,7 +41,7 @@ Issues
 Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the *Issue Templates*, if you don't use the *Issue Templates* please post the Issues with enough valid information.
 
 We work hard here to keep the issues section as clean and as understanding as possible,
-so please help us to do that by using the Issue Templates or providing non-template issue with decent information.
+so please help us to do that by using the Issue Templates or providing non-template Issues with decent information.
 
 Duplicate Issues will also be removed without question if I can see that the user was to lazy to check the closed issues.
 #
