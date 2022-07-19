@@ -18,6 +18,8 @@ Steps to reproduce the behavior:
 1. '...'
 2. '....'
 3. '...'
+4. '...'
+5. '...'
 
 ## **Binding Issue**
 **please complete the following information:**
