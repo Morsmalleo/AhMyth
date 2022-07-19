@@ -7,17 +7,8 @@ assignees: Morsmalleo
 
 ---
 
----
-name: Client Bug report
-about: Create a report to help us improve
-title: ''
-labels: bug
-assignees: ''
-
----
-
 **This is an issue with the**
-- [x] Client
+- [x] AhMyth Client
 
 ## **Describe the bug**
 A clear and concise description of what the bug is.
