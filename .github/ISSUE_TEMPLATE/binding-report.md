@@ -19,7 +19,7 @@ Steps to reproduce the behavior:
 2. '....'
 3. '...'
 
-## **Bind On Launch Issue**
+## **Binding Issue**
 **please complete the following information:**
  - OS: [e.g. Linux, Mac OS-X]
  - OS Version: [e.g. Ubuntu, Kali]
