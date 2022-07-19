@@ -7,16 +7,8 @@ assignees: Morsmalleo
 
 ---
 
----
-name: Server Bug report
-about: Create a report about the server to help us improve
-title: 
-labels: bug
-
----
-
 **This is an issue with the**
-- [x] Server
+- [x] AhMyth Server
 
 ## **Describe the bug**
 A clear and concise description of what the bug is.
@@ -31,8 +23,7 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 ## **Logs**
-Always add the error logs to help explain your problem.
-
+Always post the logs files found at `AhMyth/Logs` to help us determine the problem further.
 ## **Server Issue**
 **please complete the following information:**
  - OS: [e.g. Linux, Mac OS-X]
