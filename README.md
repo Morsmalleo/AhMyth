@@ -1,5 +1,5 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/AhMyth-Banner.jpg">
+  <source media="(prefers-color-scheme: light)" srcset=".github/AhMyth-Banner.jpg">
   <img alt="switches banner from light to dark" src=".github/AhMyth-Banner-dark.png">
 </picture>
 
