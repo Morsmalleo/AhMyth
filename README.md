@@ -1,6 +1,6 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/AhMyth-Banner.jpg">
-  <img alt="switches banner from light to dark" src=".github/Ahmyth-Banner-dark.jpg">
+  <img alt="switches banner from light to dark" src=".github/Ahmyth-Banner-dark.png">
 </picture>
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Morsmalleo/AhMyth?color=crimson&include_prereleases) ![GitHub issues](https://img.shields.io/github/issues-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Morsmalleo/AhMyth?color=light%20green) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Morsmalleo/AhMyth?color=light-green) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub discussions](https://img.shields.io/github/discussions/Morsmalleo/AhMyth)](https://GitHub.com/Morsmalleo/AhMyth/discussions) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
