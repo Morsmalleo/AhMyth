@@ -12,7 +12,7 @@ and please feel free to share it as much as you can.
 Usage
 =====
 01. Build an AhMyth APK Payload or Template an Original APK 
-02. Install the payload on the Victim Android Device
+02. Install the Payload on the Victim Android Device
 03. Take Control of the Victim Android Device with the *Victim's Lab*
 #
 
