@@ -59,6 +59,7 @@ For those looking to study this unique RAT, you can find all the information you
 
 Screenshots
 ===========
+Coming Soon.
 #
 
 Credits
