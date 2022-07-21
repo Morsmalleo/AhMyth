@@ -5643,6 +5643,9 @@ app.controller("AppCtrl", ($scope) => {
                         (error, stdout, stderr) => {
                             if (error !== null) {
                                 $appCtrl.Log('Decompilation Failed', CONSTANTS.logStatus.FAIL);
+                                fs.writeFile(path.join(logPath, 'Decompiling.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                                $appCtrl.Log('Decompiling Error written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
+                                $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                                 $appCtrl.Log();
                                 return;
                             }
