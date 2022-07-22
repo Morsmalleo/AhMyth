@@ -8,11 +8,12 @@ assignees: Morsmalleo
 ---
 
 **This is an issue with**
-- [ ] Binding On Launch
-- [ ] Binding On Boot
+- [x] Binding On Launch
+- [x] Binding On Boot
 
 ## **APK Name & Origin**
-Please post the name of the APK as well the the site you obtained it from.
+APK Name: 
+APK Origin:
 ## **To Reproduce**
 Steps to reproduce the behavior:
 1. '...'
