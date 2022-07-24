@@ -59,11 +59,11 @@ For those looking to study this unique RAT, you can find all the information you
 
 Notes
 =====
-Attention everyone! 
+Please don't think that because of a lack activity on the repository, that the AhMyth project is dead, because I can assure each and everyone of you that it's not!
 
-Don't ever think that because of a lack activity on the repository, that the AhMyth project is dead, because IT IS NOT!
-I assure everyone that I will finish this project if it kills me! My team and I, we will stabilise it, we will upgrade it,
-and we will give it the glory it deserves.
+I assure everyone that this project will be fully finished even if it kills me! 
+My team and I, we will finish this project no matter what it takes, 
+we will give it the glory it deserves.
 
 If you don't see much activity on the repository that's because we are busy working on AhMyth.
 #
