@@ -26,6 +26,16 @@ Steps to reproduce the behavior:
 ## Logs
 Always add the log files located at `AhMyth/Logs` based on your problem.
 
-## **OS**
+## **OS Info**
  - OS: [e.g. Debian, macOS]
  - OS Version: [e.g. Kali 2022.4, macOS 12.0 Monterey]
+
+## Dependencies Check
+1. Checked dependencies by running...
+```zsh 
+apt-cache policy openjdk-11-jdk aapt android-framework-res zipalign
+```
+2. See the results below.
+```zsh
+Paste the full output of the above command here
+```
