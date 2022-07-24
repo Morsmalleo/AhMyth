@@ -8,24 +8,24 @@ assignees: Morsmalleo
 ---
 
 **This is an issue with**
-- [x] Binding On Launch
-- [x] Binding On Boot
+- [] Binding On Launch
+- [] Binding On Boot
 
 ## **APK Name & Origin**
 APK Name: 
-APK Origin:
+APK Origin: [APK Pure || APK Name](link to the APK)
 ## **To Reproduce**
 Steps to reproduce the behavior:
-1. '...'
-2. '....'
-3. '...'
-4. '...'
-5. '...'
+1. Click the `APK Builder` Tab
+2. ...
+3. ...
+4. ...
+5. ...
+6. ...
 
 ## Logs
 Always add the log files located at `AhMyth/Logs` based on your problem.
 
-## **Binding Issue**
-**please complete the following information:**
- - OS: [e.g. Linux, Mac OS-X]
- - OS Version: [e.g. Ubuntu, Kali]
+## **OS**
+ - OS: [e.g. Debian, macOS]
+ - OS Version: [e.g. Kali 2022.4, macOS 12.0 Monterey]
