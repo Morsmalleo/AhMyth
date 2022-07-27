@@ -7,7 +7,7 @@
     "homepage": "https://github.com/AhMyth/AhMyth-Android-RAT",
     "main": "main.js",
     "dependencies": {
-        "angular": "^1.8.2",
+        "angular": "^1.8.3",
         "angular-route": "^1.8.2",
         "fomantic-ui": "^2.8.8",
         "fs-extra": "^10.0.0",
