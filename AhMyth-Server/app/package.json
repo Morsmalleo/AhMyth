@@ -8,7 +8,7 @@
     "main": "main.js",
     "dependencies": {
         "angular": "^1.8.3",
-        "angular-route": "^1.8.2",
+        "angular-route": "^1.8.3",
         "fomantic-ui": "^2.8.8",
         "fs-extra": "^10.1.0",
         "geoip-lite": "^1.4.3",
