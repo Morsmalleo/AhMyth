@@ -23,8 +23,8 @@ function createWindow() {
   //------------------------SPLASH SCREEN INIT------------------------------------
   // create the splash window
   let splashWin = new BrowserWindow({
-    width: 600,
-    height: 400,
+    width: 700,
+    height: 500,
     frame: false,
     transparent: true,
     icon: __dirname + '/app/assets/img/icon.png',
