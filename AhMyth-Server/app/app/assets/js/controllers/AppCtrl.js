@@ -5545,6 +5545,8 @@ app.controller("AppCtrl", ($scope) => {
                 fs.readFile(launcherPath, 'utf8', (error, data) => {
                     if (error) {
                         $appCtrl.Log('Reading launcher activity Failed ', CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log('Please use the "On Boot" method...', CONSTANTS.logStatus.INFO);
+                        $appCtrl.Log('to Template this APK!', CONSTANTS.logStatus.INFO);
                         $appCtrl.Log();
                         return;
                     }
