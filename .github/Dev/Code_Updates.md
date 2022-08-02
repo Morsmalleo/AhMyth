@@ -169,14 +169,14 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 
 code utilising `shelljs` from npm to find the correct launcher activity
 ```javascript
-                    var smaliPath = stdout.substring(stdout.indexOf('./') + 2).split(apkFolder).pop(".smali");
-                    $appCtrl.Log("smali File to hook " + smaliPath); // this returns full path of smali file from apkfolder, need to implement it for launcherPath var
-                    $appCtrl.Log();
-                    fs.readFile(path.join(smaliPath, launcherPath), 'utf8', (error, data) => {
-                        if (error) {
-                            $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
-                            $appCtrl.Log();
-                            return;
-                        }
-                      });
+var smaliPath = stdout.substring(stdout.indexOf('./') + 2);
+$appCtrl.Log("smali File to hook " + smaliPath); // this returns full path of smali file from apkfolder, need to implement it for launcherPath var
+$appCtrl.Log();
+fs.readFile(path.join(smaliPath), 'utf8', (error, data) => {
+    if (error) {
+        $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
+        $appCtrl.Log();
+        return;
+    }
+  });
 ``` 
