@@ -169,6 +169,13 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 
 code utilising `unix "find"` command to find the correct launcher activity
 ```javascript
+                exec('find -name "' + launcherPath.substring(launcherPath.lastIndexOf('/') + 1) + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
+                    if (error) {
+                      // do something
+                        return;
+                      }
+                      
+
                     var smaliPath = stdout.substring(stdout.indexOf('./') + 2);
                     $appCtrl.Log("smali File to hook: " + smaliPath); // this returns full path of smali file from apkfolder, need to implement it for launcherPath var
                     $appCtrl.Log();
@@ -178,5 +185,5 @@ code utilising `unix "find"` command to find the correct launcher activity
                             $appCtrl.Log();
                             return;
                         }
-                      });
+                    }); // throw this at the bottom
 ``` 
