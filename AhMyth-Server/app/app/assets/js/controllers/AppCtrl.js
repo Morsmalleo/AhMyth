@@ -5517,9 +5517,8 @@ app.controller("AppCtrl", ($scope) => {
 
             var launcherPath = GetLauncherPath(data, path.join(apkFolder, "smali/"));
             if (launcherPath == -1) {
-                $appCtrl.Log("Cannot find the launcher activity!", CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log("Please use the 'Bind On Boot' method", CONSTANTS.logStatus.INFO);
-                $appCtrl.Log("to Template the original APK", CONSTANTS.logStatus.INFO);
+                $appCtrl.Log("Cannot find the launcher activity in the Manifest!", CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log("Please Template Another APK.", CONSTANTS.logStatus.INFO);
                 $appCtrl.Log();
                 return;
             }
