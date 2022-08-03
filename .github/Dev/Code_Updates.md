@@ -11,13 +11,10 @@ function GetLauncherPath(manifest, smaliPath) {
 
     var indexOfLauncher = manifest.indexOf(
         'android.intent.action.MAIN'
-        'android.intent.category.DEFAULT',
+        'android.intent.category.LAUNCHER',
         +
         'android.intent.action.MAIN'
         'android.intent.category.INFO',
-        +
-        'android.intent.action.MAIN'
-        'android.intent.category.LAUNCHER'
         );
     var indexOfApplication = -1;
     
