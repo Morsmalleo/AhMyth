@@ -56,17 +56,6 @@ For those looking to study this unique RAT, you can find all the information you
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
-
-Notes
-=====
-Please don't think that because of a lack activity on the repository, that the AhMyth project is dead, because I can assure each and everyone of you that it's not!
-
-I assure everyone that this project will be fully finished even if it kills me! 
-My team and I, we will finish this project no matter what it takes, 
-we will give it the glory it deserves.
-
-If you don't see much activity on the repository that's because we are busy working on AhMyth.
-#
 Screenshots
 ===========
 Coming Soon.
