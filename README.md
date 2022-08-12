@@ -7,8 +7,8 @@
 
 Give this repository a ⭐ to support our work.
 
-Contributions are more than welcome, as this repository will continue
-to be maintained until AhMyth has reached its goal of complete cross-platfotm stability.
+Contributions are more than welcome, as this repository will continue to be 
+maintained until AhMyth has reached its goal of complete cross-platform stability.
 #
 
 Usage
