@@ -61,8 +61,13 @@ to control a range of devices by hooking their web browser - inspired by [beEF](
 - [ ] 09: Hijack a legitimate APK and configure it to be built as a standalone
 AhMyth payload.
 #
-- [ ] 10: Figure out how to implement string encryption for when we are building a payload.
+- [ ] 10: Integrate APK obfuscation to avoid the payload being decompiled after deployment.
 #
+- [ ] 12: Add High contrast theme
+#
+- [ ] 13: Add Dark Theme
+#
+- [ ] 14: Add Settings Menu to switch between theme looks
 #
 ## Stability TODO List:
 
