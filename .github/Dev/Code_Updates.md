@@ -35,10 +35,9 @@ function GetLauncherPath(manifest, smaliPath) {
                 manifest = manifest.substring(manifest.indexOf('android:targetActivity="') + 24);
                 manifest = manifest.substring(1, manifest.indexOf('"'))
                 manifest = path.join(smaliPath, manifest) + '.smali';
-                var files = fs.walkSync(smaliPath);
-                for (var i = 0; i < files.length; i++) {
-                    if (files[i].substring(files[i].lastIndexOf("/") + 1) == manifest)
-                        return files[i];
+                manifest = path.join(smaliPath, manifest) + ".smali"
+                return manifest;
+
                 }
 
             } else {
