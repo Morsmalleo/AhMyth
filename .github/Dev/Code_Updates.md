@@ -164,9 +164,8 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
 
-code utilising `unix "find"` command to find the correct launcher activity
-this is currently half working with apks whose launcher activity is in a smali_classes directory
-only problem is an error is still thrown when it shouldn't be indicating that i am doing something wrong some where
+code utilising `unix "find"` command to find the launcher activity in the correct path.
+For some reason with this, it fails to read the file, but from what I can see it's definitely locating it.
 ```javascript
                 // this returns full path of smali file starting from the users home directory
                 $appCtrl.Log("Locating Launcher Activity...")
