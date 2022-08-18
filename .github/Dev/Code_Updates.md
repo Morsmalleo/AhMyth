@@ -164,9 +164,8 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
 
-code utilising `unix "find"` command to find the correct launcher activity
-this is currently half working with apks whose launcher activity is in a smali_classes directory
-only problem is an error is still thrown when it shouldn't be indicating that i am doing something wrong some where
+code utilising `unix "find"` command to find the correct launcher activity | AppCtrl.js | FINALLY FUCKING WORKS!!!!!
+need to implement ShellJS for cross-platform operation of this function now
 ```javascript
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
