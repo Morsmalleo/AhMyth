@@ -240,7 +240,7 @@ need to implement ShellJS for cross-platform operation of this function now
     }
 
 |---------------------------------------------|
-function GetLauncherPath(manifest) {
+function GetLauncherActivity(manifest) {
 
 
     var regex = /<activity/gi,
