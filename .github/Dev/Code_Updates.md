@@ -262,7 +262,7 @@ process.on('uncaughtException', function (error) {
 
     }
 ``` 
-## New "GetLauncherActivity" function | supersedes the old "GetLauncherPath" function
+## New `GetLauncherActivity` function | supersedes the old `GetLauncherPath` function
 ```js
 function GetLauncherActivity(manifest) {
 
