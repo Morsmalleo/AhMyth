@@ -1,4 +1,4 @@
-## Launcher Extraction for `<application"` attribute | AppCtrl.js |
+## Launcher Extraction for `<application` attribute | AppCtrl.js |
 - Need to figure out how to add a secondary `<activity` regex if the `<application` regex returns -1
 - Need to figure out how to add third subsidiary `<activity-alias` regex for the `manifest.index("android:targetActivity")` section of this function if the first 2 regex's return -1
 ```javascript
