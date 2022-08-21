@@ -73,7 +73,7 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
     }
 ```
     
-## Code Sets for function to stop listening | main.js + AppCtrl.js + build.html |
+## Code Sets for function to stop listening | AppCtrl.js + main.js + build.html |
 ```javascript
     // when user clicks Disconnect Button
     $appCtrl.Stop = (port) => {
