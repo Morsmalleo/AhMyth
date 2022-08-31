@@ -21,9 +21,9 @@ sleep 1
 
 echo " |----------------------------------------------------| "
 echo " | Do you want to install Java 11 openjdk for AhMyth? | "
-echo " | or choose 'Skip' if you already have it installed  | "
+echo " | choose 'Skip' if you already have it installed.    | "
 echo " |----------------------------------------------------| " 
-echo "$cyan" "Choose install/Install/skip/Skip : "
+echo "$cyan" "Choose Install/Skip : "
 read -r cho
 case "$cho" in
 
