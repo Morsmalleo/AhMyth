@@ -8,7 +8,8 @@
 Give this repository a ⭐ to support our work.
 
 Contributions are more than welcome, as this repository will continue to be 
-maintained until AhMyth has reached its goal of complete cross-platform stability.
+maintained until AhMyth has reached its goal of being a complete cross platform RAT 
+with payload options for multiple platforms other than just Android.
 #
 
 Usage
