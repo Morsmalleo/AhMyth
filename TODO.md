@@ -78,5 +78,6 @@ Windows machines!
 allowing AhMyth to search for the `onCreate()V` method if the `onCreate(Landroid/os/Bundle;)V` 
 method is not found in the **Launcher Activity**.
 #
-- [ ] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory 
+- [x] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory
+Done! Need to figure out the new hook method as well as make a few updates to the client first before it's integrated. 
 
