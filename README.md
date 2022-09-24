@@ -14,8 +14,8 @@ with payload options for multiple platforms other than just Android.
 
 Usage
 =====
-01. Build an AhMyth APK Payload or Template an Original APK 
-02. Install the Payload on the Victim Android Device
+01. Build a standalone APK Payload or use an original APK as a Template
+02. Install the APK Payload on the Victim Android Device
 03. Take Control of the Victim Android Device with the *Victim's Lab*
 #
 
