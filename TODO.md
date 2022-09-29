@@ -82,4 +82,5 @@ method is not found in the **Launcher Activity**.
 - [x] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory
 
 - Done! Need to figure out the new hook method as well as make a few updates to the client first before it's integrated. 
-
+#
+- [] 04. Stabilise the SMS feature as I've been told there are some minor bugs
