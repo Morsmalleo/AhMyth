@@ -83,4 +83,4 @@ method is not found in the **Launcher Activity**.
 
 - Done! Need to figure out the new hook method as well as make a few updates to the client first before it's integrated. 
 #
-- [ ] 04. Stabilise the SMS feature as I've been told there are some minor bugs, mentioned here in the [Discussion Chat](https://github.com/Morsmalleo/AhMyth/discussions/149?sort=new#discussioncomment-3757440)
+- [ ] 04. Stabilise the SMS feature as I've been told there are some minor bugs, mentioned here in the [Development Chat](https://github.com/Morsmalleo/AhMyth/discussions/149?sort=new#discussioncomment-3757440)
