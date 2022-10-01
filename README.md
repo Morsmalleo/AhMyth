@@ -75,3 +75,7 @@ Created by
 Maintained with ❤️ by
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
+
+Special Thanks
+==============
+- [HiddenPirates](https://GitHub.com/HiddenPirates) - For his work on the client on a seperate repository
