@@ -24,7 +24,7 @@ Installation
 Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Pages.
 
 
-The Setup Page's fall into 3 seperate AhMyth Setup Guides;
+The Setup Page's fall into 3 seperate OS Specific Setup Guides;
 
 - [AhMyth Wiki: Page 1 - Setup | Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Setup-%7C-Linux)
 - [AhMyth Wiki: Page 2 - Setup | OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Setup-%7C-OS-X)
