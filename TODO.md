@@ -76,7 +76,7 @@ method is not found in the **Launcher Activity**.
 #
 - [x] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory
 
-- Done! Need to figure out the new hook method as well as make a few updates to the client first before it's integrated. 
+- Done For Linux & macOS! Just need to implement a Windows function for the same thing.
 #
 - [ ] 04. Stabilise the SMS feature by adding the ability to view sent SMS's and possibly Conversation lists.
 #
