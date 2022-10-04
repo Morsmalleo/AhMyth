@@ -81,3 +81,4 @@ Maintained with ❤️ by
 Special Thanks
 ==============
 - [HiddenPirates](https://GitHub.com/HiddenPirates) - For his work on the client on a seperate repository
+- [yogeshwaran01](https://github.com/yogeshwaran01) - For his creation of the URL Masker, which was modified for AhMyth.
