@@ -14,7 +14,7 @@ AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/
 #
 - [ ] 07: Integrate screenshot for real time viewing of victim device screens.
 #
-- [ ] 08: Integrate access to the victim device SD Card.
+- [ ] 08: Integrate proper storage access for the client.
 #
 ## Server Upgrades:
 
