@@ -75,10 +75,7 @@ Created by
 Maintained with ❤️ by
 - [Morsmalleo](https://github.com/Morsmalleo)
 - [YagamiLight17](https://github.com/YagamiLight17)
-#
 
-
-Special Thanks
-==============
+Special Thanks to
 - [HiddenPirates](https://GitHub.com/HiddenPirates) - For his work on the client on a seperate repository
 - [yogeshwaran01](https://github.com/yogeshwaran01) - For his creation of the URL Masker, which was modified for AhMyth.
