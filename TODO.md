@@ -1,4 +1,4 @@
-## Client-Side TODO List:
+## Client Upgrades:
 - [ ] 01: Integrate Live Camera Preview Stream for the Client. 
 #
 - [ ] 02: Integrate a valid signing certificate to bypass Play Protect. 
@@ -16,12 +16,7 @@ AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/
 #
 - [ ] 08: Integrate access to the victim device SD Card.
 #
-- [ ] 09: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1* and build the newly updated APK for AhMyth
-#
-- [ ] 10: Convert the Client from *Java* to *Kotlin* and test to see if
-it performs better with *Kotlin* instead of *Java* 
-#
-## Server-Side TODO List:
+## Server Upgrades:
 
 - [ ] 01: integrate a `Retry` function to be called so apktool
 can be executed a second time, but with the added flag `--use-aapt` if building an APK fails
@@ -83,4 +78,9 @@ method is not found in the **Launcher Activity**.
 
 - Done! Need to figure out the new hook method as well as make a few updates to the client first before it's integrated. 
 #
-- [ ] 04. Stabilise the SMS feature as I've been told there are some minor bugs, mentioned here in the [Development Chat](https://github.com/Morsmalleo/AhMyth/discussions/149?sort=new#discussioncomment-3757440)
+- [ ] 04. Stabilise the SMS feature by adding the ability to view sent SMS's and possibly Conversation lists.
+#
+- [ ] 05: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1* and build the newly updated APK for AhMyth
+#
+- [ ] 06: Convert the AhMyth Client from *Java* to *Kotlin* and test to see if
+it performs better with *Kotlin* instead of *Java* 
