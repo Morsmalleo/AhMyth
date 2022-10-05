@@ -40,12 +40,13 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 05: Restyle the AhMyth Server using the following
 
       1. Glassmorphism 
-      2. Side scrolling tabs instead of top scrolling tabs
-      3. Icons to replace the Tab names
-      4. Settings menu for UI style adjustments
-      5. Dark theme
-      6. AhMyth user account login - Default username will be `ahmyth` 
-      and the default password will be `trojan`
+      2. Icons next to Tab Names
+      3. Dark Theme 
+      4. Light Theme
+      5. High Contrast Theme
+      6. Settings Tab for UI Theme preferences
+      7. Payload Options Tab for when other payload options have been built into AhMyth.
+
 #
 - [ ] 06: Integrate an EXE Builder for an AhMyth Windows client.
 #
