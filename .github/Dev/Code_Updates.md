@@ -188,8 +188,9 @@ process.on('uncaughtException', function (error) {
                     return;
                 }
         
-                // This works Linux and OS X, need to implement a Windows equivalent a long with it,
-                // As well as OS detection, in order to run the suited to the users OS.
+                // This works Linux and OS X!
+                // need to implement a Windows equivalent for it
+                // As well as OS detection, in order to run the correct command based on the users OS.
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
                 exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
