@@ -159,7 +159,6 @@ process.on('uncaughtException', function (error) {
 ```js
     $appCtrl.BindOnLauncher = (apkFolder) => {
 
-        // This works Linux and OS X, need to implement a Windows equivalent a long with it
         $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
         $appCtrl.Log();
         fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
@@ -188,7 +187,9 @@ process.on('uncaughtException', function (error) {
                     $appCtrl.Log();
                     return;
                 }
-
+        
+                // This works Linux and OS X, need to implement a Windows equivalent a long with it,
+                // As well as OS detection, in order to run the suited to the users OS.
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
                 exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
