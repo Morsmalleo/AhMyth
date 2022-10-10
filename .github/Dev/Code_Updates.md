@@ -188,7 +188,7 @@ process.on('uncaughtException', function (error) {
                     return;
                 }
         
-                // This works Linux and OS X!
+                // This works on Linux and OS X!
                 // need to implement a Windows equivalent for it
                 // As well as OS detection, in order to run the correct command based on the users OS.
                 $appCtrl.Log("Locating Launcher Activity...")
