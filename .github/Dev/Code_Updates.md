@@ -155,10 +155,11 @@ process.on('uncaughtException', function (error) {
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
-## New complete Bind on Launch function
+## New Bind on Launch function
 ```js
     $appCtrl.BindOnLauncher = (apkFolder) => {
 
+        // This works Linux and OS X, need to implement a Windows equivalent a long with it
         $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
         $appCtrl.Log();
         fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
