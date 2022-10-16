@@ -66,7 +66,7 @@ AhMyth payload.
 #
 - [ ] 14: Add Settings Menu to switch between theme looks
 #
-## Stability TODO List:
+## Stability Upgrades:
 
 - [ ] 01: Figure out why AhMyth is so unstable on 
 Windows machines!
