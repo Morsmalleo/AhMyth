@@ -87,4 +87,4 @@ method is not found in the **Launcher Activity**.
 it performs better with *Kotlin* instead of *Java* 
 #
 - [ ] 07: Figure out why the client disconnects when the victim 
-device, is in sleep mode.
+device is in sleep mode.
