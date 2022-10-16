@@ -77,5 +77,5 @@ Maintained with ❤️ by
 - [YagamiLight17](https://github.com/YagamiLight17)
 
 Special Thanks to
-- [HiddenPirates](https://GitHub.com/HiddenPirates) - For his work on the client on a seperate repository
+- [HiddenPirates](https://GitHub.com/HiddenPirates) - For his work on the client on a seperate AhMyth repository
 - [yogeshwaran01](https://github.com/yogeshwaran01) - For his creation of the URL Masker, which was modified for AhMyth.
