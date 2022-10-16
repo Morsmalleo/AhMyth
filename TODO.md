@@ -85,3 +85,6 @@ method is not found in the **Launcher Activity**.
 #
 - [ ] 06: Convert the AhMyth Client from *Java* to *Kotlin* and test to see if
 it performs better with *Kotlin* instead of *Java* 
+#
+- [ ] 07: Figure out why the client disconnects when the victim 
+device, is in sleep mode.
