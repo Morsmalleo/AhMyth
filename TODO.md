@@ -40,7 +40,7 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 05: Restyle the AhMyth Server using the following
 
       1. Glassmorphism 
-      2. Icons next to Tab Names
+      2. Icons next to Tab Names ✔️
       3. Dark Theme 
       4. Light Theme
       5. High Contrast Theme
