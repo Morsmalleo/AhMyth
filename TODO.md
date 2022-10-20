@@ -16,6 +16,9 @@ AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/
 #
 - [ ] 08: Integrate proper storage access for the client.
 #
+- [ ] 09: Implement full ignorance of Battery Optimisation for longer connections
+while the Victim Device is in Sleep Mode.
+#
 ## Server Upgrades:
 
 - [ ] 01: integrate a `Retry` function to be called so apktool
