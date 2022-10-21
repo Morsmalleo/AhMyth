@@ -188,9 +188,8 @@ process.on('uncaughtException', function (error) {
                     return;
                 }
         
-                // This works on Linux and OS X!
-                // need to implement a Windows equivalent for it
-                // As well as OS detection, in order to run the correct command based on the users OS.
+                // This returns the absolute path of any apk's launcher activity file for Linux
+                // Need to implement OS detection for in order for a Windows equivalent of this function to work
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
                 exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
