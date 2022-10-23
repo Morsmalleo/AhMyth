@@ -21,9 +21,7 @@ while the Victim Device is in Sleep Mode.
 #
 ## Server Upgrades:
 
-- [ ] 01: integrate a `Retry` function to be called so apktool
-can be executed a second time, but with the added flag `--use-aapt` if building an APK fails
-the first time.
+- [ ] 01: Figure out a new hook method for the new Bind on Launch function.
 #
 - [x] 02: Create a backup copy of AhMyth's `AndroidManifest.xml`
 file, and store it in the newly created backup directory 
@@ -89,5 +87,4 @@ method is not found in the **Launcher Activity**.
 - [ ] 06: Convert the AhMyth Client from *Java* to *Kotlin* and test to see if
 it performs better with *Kotlin* instead of *Java* 
 #
-- [ ] 07: Figure out why the client disconnects when the victim 
-device is in sleep mode.
+- [ ] 07: Implement battery ignorance as well as proper background activity for longer connections while the client is in sleep mode.
