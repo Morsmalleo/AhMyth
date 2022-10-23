@@ -10,7 +10,7 @@
 - [ ] 05: Integrate screen recording for real time viewing of victim device screens.
 #
 - [ ] 06: Integrate USSD dialing and response view feature for the 
-AhMyth client, requested by user from Issue [#97](https://github.com/Morsmalleo/AhMyth/issues/97)
+AhMyth client
 #
 - [ ] 07: Integrate screenshot for real time viewing of victim device screens.
 #
