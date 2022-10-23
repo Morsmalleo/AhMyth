@@ -16,8 +16,7 @@ AhMyth client
 #
 - [ ] 08: Integrate proper storage access for the client.
 #
-- [ ] 09: Implement full ignorance of Battery Optimisation for longer connections
-while the Victim Device is in Sleep Mode.
+- [ ] 09: Implement notification listening, a feature from L3MON.
 #
 ## Server Upgrades:
 
