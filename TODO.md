@@ -21,7 +21,7 @@ while the Victim Device is in Sleep Mode.
 #
 ## Server Upgrades:
 
-- [ ] 01: Figure out a new hook method for the new Bind on Launch function.
+- [ ] 01: Figure out a new hook method for the new Bind On Launch functions.
 #
 - [x] 02: Create a backup copy of AhMyth's `AndroidManifest.xml`
 file, and store it in the newly created backup directory 
