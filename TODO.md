@@ -64,7 +64,7 @@ AhMyth payload.
 #
 - [ ] 13: Add Dark Theme
 #
-- [ ] 14: Add Settings Menu to switch between theme looks
+- [ ] 14: Add Settings Menu to switch between UI themes
 #
 ## Stability Upgrades:
 
