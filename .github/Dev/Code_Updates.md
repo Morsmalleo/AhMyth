@@ -263,6 +263,19 @@ process.on('uncaughtException', function (error) {
 
     }
 ``` 
+## Launcher Activity location function for Windows, still needs work!
+```js
+
+                exec('where /r ' + apkFolder + " " + launcherActivity, (error, stdout, stderr) => {
+                  var launcherPath = stdout;
+                  if (error !== null) {
+                      $appCtrl.Log("Cannot Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                      $appCtrl.Log('Please use the "On Boot" Method', CONSTANTS.logStatus.INFO);
+                      $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO)
+                      $appCtrl.Log(error);
+                      return;
+                    }
+```
 ## New `GetLauncherActivity` function | supersedes the old `GetLauncherPath` function
 ```js
 function GetLauncherActivity(manifest) {
@@ -319,17 +332,4 @@ function GetLauncherActivity(manifest) {
 
 
   }
-```
-Launcher Activity location for Windows, still needs work
-```js
-
-                exec('where /r ' + apkFolder + " " + launcherActivity, (error, stdout, stderr) => {
-                  var launcherPath = stdout;
-                  if (error !== null) {
-                      $appCtrl.Log("Cannot Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                      $appCtrl.Log('Please use the "On Boot" Method', CONSTANTS.logStatus.INFO);
-                      $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO)
-                      $appCtrl.Log(error);
-                      return;
-                    }
 ```
