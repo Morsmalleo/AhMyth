@@ -267,7 +267,7 @@ process.on('uncaughtException', function (error) {
 ```js
 
                 exec('where /r ' + apkFolder + " " + launcherActivity, (error, stdout, stderr) => {
-                  var launcherPath = stdout;
+                  var launcherPath = stdout.split(apkFolder).pop();
                   if (error !== null) {
                       $appCtrl.Log("Cannot Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
                       $appCtrl.Log('Please use the "On Boot" Method', CONSTANTS.logStatus.INFO);
