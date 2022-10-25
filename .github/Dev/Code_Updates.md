@@ -189,7 +189,6 @@ process.on('uncaughtException', function (error) {
                 }
         
                 // This returns the absolute path of any apk's launcher activity file for Linux
-                // Need to implement OS detection for in order for a Windows equivalent of this function to work
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
                 exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
@@ -320,4 +319,17 @@ function GetLauncherActivity(manifest) {
 
 
   }
+```
+Launcher Activity location for Windows, still needs work
+```js
+
+                exec('where /r ' + apkFolder + " " + launcherActivity, (error, stdout, stderr) => {
+                  var launcherPath = stdout;
+                  if (error !== null) {
+                      $appCtrl.Log("Cannot Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                      $appCtrl.Log('Please use the "On Boot" Method', CONSTANTS.logStatus.INFO);
+                      $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO)
+                      $appCtrl.Log(error);
+                      return;
+                    }
 ```
