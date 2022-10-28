@@ -295,8 +295,6 @@ process.on('uncaughtException', function (error) {
                     $appCtrl.Log();
                     return;
                 }
-
-                $appCtrl.Log(apkFolder + ' ' + launcherActivity)
         
                 // makes use of the Windows Powershell 'set-location' & 'gci' commands to locate the Launcher Activity
                 $appCtrl.Log("Locating Launcher Activity...");
