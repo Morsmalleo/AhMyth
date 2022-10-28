@@ -155,7 +155,7 @@ process.on('uncaughtException', function (error) {
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
-## New Bind on Launch function
+## New Bind on Launch function for Linux & Mac
 ```js
     $appCtrl.BindOnLauncher = (apkFolder) => {
 
