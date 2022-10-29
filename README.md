@@ -7,9 +7,9 @@
 
 Give this repository a ⭐ to support our work.
 
-Contributions are more than welcome, as AhMyth will continue to be maintained until it has reached its goal 
-of being a complete cross platform *(Windows, Linux & mac)* RAT, 
-with payloads options for multiple platforms other than just Android.
+Contributions are more than welcome, as AhMyth will continue to be maintained 
+until it has reached its goal of being a multipayload RAT (i.e a RAT with more payload 
+options for multiple platforms other than just Android)
 #
 
 Usage
