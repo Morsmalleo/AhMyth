@@ -68,8 +68,10 @@ AhMyth payload.
 #
 ## Stability Upgrades:
 
-- [ ] 01: Figure out why AhMyth is so unstable on 
+- [x] 01: Figure out why AhMyth is so unstable on 
 Windows machines!
+
+Done, was due to outdated coding and an old electron version.
 # 
 - [ ] 02: Stabilise `On Launch` binding method by effectively 
 allowing AhMyth to search for the `->onCreate()V` method if the `->onCreate(Landroid/os/Bundle;)V` 
