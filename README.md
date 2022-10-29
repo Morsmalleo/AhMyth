@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/AhMyth-Banner.png">
-  <img alt="shows the AhMyth-Banner.png on dark colour mode and the AhMyth-Banner-dark.png on light colour mode" src=".github/AhMyth-Banner-dark.png">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/IMG/AhMyth-Banner.png">
+  <img alt="shows the AhMyth-Banner.png on dark colour mode and the AhMyth-Banner-dark.png on light colour mode" src=".github/IMG/AhMyth-Banner-dark.png">
 </picture>
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Morsmalleo/AhMyth?color=crimson&include_prereleases) ![GitHub issues](https://img.shields.io/github/issues-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Morsmalleo/AhMyth?color=light%20green) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Morsmalleo/AhMyth?color=light-green) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub discussions](https://img.shields.io/github/discussions/Morsmalleo/AhMyth)](https://GitHub.com/Morsmalleo/AhMyth/discussions) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
@@ -65,8 +65,8 @@ Screenshots
 ===========
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/MainScreen.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/MainScreen.PNG"> Main Screen</a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/ApkBuilder(Standalone).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/ApkBuilder(Standalone).PNG"> Standalone APK Builder </a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/ApkBuilder(Bound).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/ApkBuilder(Bound).PNG"> APK Payload Binder  </a> | 
-<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/VictimsLab.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/VictimsLab.PNG"> Victims Lab </a> | <a> COMING SOON! </a> | <a> COMING SOON! </a> |
+|<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> Main Screen</a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> Standalone APK Builder </a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> APK Payload Binder  </a> | 
+<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> Victims Lab </a> | <a> COMING SOON! </a> | <a> COMING SOON! </a> |
 
 
 
