@@ -5,11 +5,14 @@
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Morsmalleo/AhMyth?color=crimson&include_prereleases) ![GitHub issues](https://img.shields.io/github/issues-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Morsmalleo/AhMyth?color=light%20green) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Morsmalleo/AhMyth?color=light-green) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub discussions](https://img.shields.io/github/discussions/Morsmalleo/AhMyth)](https://GitHub.com/Morsmalleo/AhMyth/discussions) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
 
+#
+### Now Available for *Windows* ! 
+#
 Give this repository a ⭐ to support our work.
 
 Contributions are more than welcome, as AhMyth will continue to be maintained 
-until it has reached its goal of being a multipayload RAT (i.e a RAT with more payload 
-options for multiple platforms other than just Android)
+until it has reached its goal of being of being to provide more payload options
+for multiple platforms other than just Android (i.e EXE/MSI, PHP etc).
 #
 
 Usage
