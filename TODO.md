@@ -72,7 +72,7 @@ AhMyth payload.
 Windows machines!
 # 
 - [ ] 02: Stabilise `On Launch` binding method by effectively 
-allowing AhMyth to search for the `onCreate()V` method if the `onCreate(Landroid/os/Bundle;)V` 
+allowing AhMyth to search for the `->onCreate()V` method if the `->onCreate(Landroid/os/Bundle;)V` 
 method is not found in the **Launcher Activity**.
 #
 - [x] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory
