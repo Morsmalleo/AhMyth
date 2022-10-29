@@ -155,7 +155,7 @@ process.on('uncaughtException', function (error) {
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
-## New Bind on Launch function for Linux & Mac
+## New Complete Bind on Launch function for Linux & OS X
 ```js
     $appCtrl.BindOnLauncher = (apkFolder) => {
 
@@ -188,7 +188,7 @@ process.on('uncaughtException', function (error) {
                     return;
                 }
         
-                // This returns the absolute path of any apk's launcher activity file for Linux
+                // This makes use of the Unix 'find' command in order to locate an APK's launcher activity
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
                 exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
@@ -296,7 +296,8 @@ process.on('uncaughtException', function (error) {
                     return;
                 }
         
-                // makes use of the Windows Powershell 'set-location' & 'gci' commands to locate the Launcher Activity
+                // This makes use of the 'set-location' & 'gci' PowerShell 
+                // commands to locate the Launcher Activity
                 $appCtrl.Log("Locating Launcher Activity...");
                 $appCtrl.Log();
                 exec('set-location ' + apkFolder + ';' + ' gci -path ' + apkFolder + ' -recurse -filter ' + launcherActivity + 
