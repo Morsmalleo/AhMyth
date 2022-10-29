@@ -76,8 +76,8 @@ allowing AhMyth to search for the `->onCreate()V` method if the `->onCreate(Land
 method is not found in the **Launcher Activity**.
 #
 - [x] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory
+Done For Windows, Linux & macOS FINALLY!!
 #
-- Done For Windows, Linux & macOS FINALLY!!
 - [ ] 04. Stabilise the SMS feature by adding the ability to view sent SMS's and possibly Conversation lists.
 #
 - [ ] 05: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1* and build the newly updated APK for AhMyth
