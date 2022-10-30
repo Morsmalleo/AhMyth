@@ -7,7 +7,7 @@ Done, was due to outdated coding and an old electron version.
 # 
 - [ ] 02: Fully stabilise `On Launch` binding method by effectively 
 allowing AhMyth to search for the `->onCreate()V` method if the `->onCreate(Landroid/os/Bundle;)V` 
-method is not found in the **Launcher Activity**.
+method is not found in the **Launcher Activity**, and throw an error if both methods aren't found..
 #
 - [x] 03: Figure out how to allow AhMyth to search `smali_classes` directories, if the launcher activity is not present anywhere in the `smali` directory
 
@@ -21,3 +21,4 @@ Done For Windows, Linux & macOS FINALLY!!
 it performs better with *Kotlin* instead of *Java* 
 #
 - [ ] 07: Implement battery ignorance as well as proper background activity for longer connections while the client is in sleep mode.
+#
