@@ -22,8 +22,15 @@ it performs better with *Kotlin* instead of *Java*
 #
 - [ ] 07: Implement battery ignorance as well as proper background activity for longer connections while the client is in sleep mode.
 #
-- [ ] 08: Update Bind On Launch function to also search for the first instance of <category android:name="android.intent.category.INFO" 
-if a first instance of <category android:name="android.intent.category.LAUNCHER" is not found anywhere in the original APK's Manifest file.
+- [ ] 08: Update Bind On Launch function to also search for the first instance of...
+```xml
+<category android:name="android.intent.category.INFO"
+```
+if a first instance of...
+```xml
+<category android:name="android.intent.category.LAUNCHER"
+```
+...is not found anywhere in the original APK's Manifest file.
 #
 - [ ] 09: Update the autoinstall script to install AhMyth based on the current supported OS's if they're detected after running the script,
 The script should also check to see if the required dependencies are installed, and install them if they're aren't.
