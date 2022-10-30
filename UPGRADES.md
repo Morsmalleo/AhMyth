@@ -53,15 +53,13 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 07: Explore the possibility of adding Browser Hook feature 
 to control a range of devices by hooking their web browser - inspired by [beEF](https://GitHub.com/beefproject/beef)
 #
-- [ ] 08: Update *socket.io 2.4.2* to *socket.io 4.x* (after updating the client with *socket.io-client java 2.0.1*)
-#
-- [ ] 09: Hijack a legitimate APK and configure it to be built as a standalone
+- [ ] 08: Hijack a legitimate APK and configure it to be built as a standalone
 AhMyth payload.
 #
-- [ ] 10: Integrate APK obfuscation to avoid the payload being decompiled after deployment.
+- [ ] 09: Integrate APK obfuscation to avoid the payload being decompiled after deployment.
 #
-- [ ] 12: Add High contrast theme
+- [ ] 10: Add High contrast theme
 #
-- [ ] 13: Add Dark Theme
+- [ ] 11: Add Dark Theme
 #
-- [ ] 14: Add Settings Menu to switch between UI themes
+- [ ] 12: Add Settings Menu to switch between UI themes
