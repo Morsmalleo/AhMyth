@@ -11,7 +11,7 @@
 Give this repository a ⭐ to support our work.
 
 Contributions are more than welcome, as AhMyth will continue to be maintained 
-until it has reached its goal of being of being to provide more payload options
+until it has reached its goal of being able to provide more payload options
 for multiple platforms other than just Android (i.e `.exe/.msi`, `.php` etc).
 #
 
