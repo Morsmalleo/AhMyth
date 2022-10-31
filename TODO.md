@@ -3,7 +3,7 @@
 - [x] 01: Figure out why AhMyth is so unstable on 
 Windows machines!
 
-Done, was due to outdated coding and an old electron version.
+Done, was due to outdated coding in `main.js` + and an old electron version (`electron v9.0.0`).
 # 
 - [ ] 02: Fully stabilise `On Launch` binding method by effectively 
 allowing AhMyth to search for the `->onCreate()V` method if the 
@@ -14,6 +14,13 @@ allowing AhMyth to search for the `->onCreate()V` method if the
 if the launcher activity is not present anywhere in the `smali` directory.
 
 Done For Windows, Linux & macOS FINALLY!!
+
+For Windows, we've made use of the `set-location` & `gci (get-childItem)` commands
+to recursively locate the launcher activity and return a RELATIVE (NOT ABSOLUTE) path 
+to the launcher activity from inside the selected decompiled APK.
+
+The Linux & macOS variant does the same thing, it just utilises the Unix `find` command
+to achieve the same output.
 #
 - [ ] 04. Stabilise the SMS feature by adding the ability to view sent SMS's 
 with inbox SMS's, and possibly view Conversation lists as well.
