@@ -235,9 +235,10 @@ process.on('uncaughtException', function (error) {
 
     }
 ``` 
-## New Complete Bind On Launch function for Windows, Linux & macOS
-### I had no idea that PowerShell was installable for most Linux distributions!
-### the same commands here for windows PowerShell, work the same for Linux PowerShell!
+## New Almost Complete Bind On Launch function for Windows, Linux & macOS
+I had no idea that PowerShell was installable for most Linux distributions!
+the same commands here for windows PowerShell, work the same for Linux PowerShell,
+just need to figure out how to run PowerShell for Linux/Unix & Windows!
 ```js  
                 // This makes use of the 'set-location' & 'gci' PowerShell 
                 // commands to locate the Launcher Activity
