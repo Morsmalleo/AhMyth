@@ -157,7 +157,7 @@ process.on('uncaughtException', function (error) {
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
-## New Complete Bind on Launch function for Linux & OS X
+## New Complete Bind on Launch function for Linux & OS X | DEPRECATED (but stored just incase)
 ```js
 
                 // This makes use of the Unix 'find' command in order to locate an APK's launcher activity
@@ -235,7 +235,9 @@ process.on('uncaughtException', function (error) {
 
     }
 ``` 
-## New Complete Bind On Launch function for Windows
+## New Complete Bind On Launch function for Windows, Linux & macOS
+### I had no idea that PowerShell was installable for most Linux distributions!
+### the same commands here for windows PowerShell, work the same for Linux PowerShell!
 ```js  
                 // This makes use of the 'set-location' & 'gci' PowerShell 
                 // commands to locate the Launcher Activity
