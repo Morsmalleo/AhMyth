@@ -162,7 +162,8 @@ process.on('uncaughtException', function (error) {
 I had no idea that PowerShell was installable for most Linux distributions!
 
 the same commands here for windows PowerShell, work the same for Linux PowerShell,
-just need to figure out how to run PowerShell for Linux/Unix & Windows!
+just need to figure out how to run PowerShell Cross-Platform using OS detection because running the Windows
+Variant of this function executes `powershell.exe`, whereas the Linux/OSX variant executes `pwsh`!
 ```js  
                 // This makes use of the 'set-location' & 'gci' PowerShell 
                 // commands to locate the Launcher Activity
