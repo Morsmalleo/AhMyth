@@ -247,16 +247,6 @@
 
     };
 ```
-## New `GetLauncherActivity` function | supersedes the old `GetLauncherPath` function
-```js
-var launcherActivity = GetLauncherActivity(data, apkFolder);
-if (launcherActivity == -1) {
-    $appCtrl.Log("Cannot find the launcher activity in the Manifest!", CONSTANTS.logStatus.FAIL);
-    $appCtrl.Log("Please Template Another APK.", CONSTANTS.logStatus.INFO);
-    $appCtrl.Log();
-    return;
-}
-```
 ```js
 function GetLauncherActivity(manifest) {
 
@@ -313,6 +303,8 @@ function GetLauncherActivity(manifest) {
 
   }
 ```
+
+Code Updates that Still needs work
 ------------------------------------------------------------------
 ## Launcher Extraction for `<application` attribute | AppCtrl.js |
 ```javascript
