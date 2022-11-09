@@ -32,7 +32,6 @@ The Linux variant utilises GNU findUtil's "find" command
 to recursively locate the launcher activity and return a RELATIVE (NOT ABSOLUTE) path 
 to the launcher activity from inside the selected decompiled APK.
 
-
 macOS variant utilises the Apple's built in BSD findUtils `find` command
 to recursively locate the launcher activity and return a RELATIVE (NOT ABSOLUTE) path 
 to the launcher activity from inside the selected decompiled APK.
