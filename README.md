@@ -6,7 +6,7 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Morsmalleo/AhMyth?color=crimson&include_prereleases) ![GitHub issues](https://img.shields.io/github/issues-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Morsmalleo/AhMyth?color=light%20green) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Morsmalleo/AhMyth?color=light-green) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub discussions](https://img.shields.io/github/discussions/Morsmalleo/AhMyth)](https://GitHub.com/Morsmalleo/AhMyth/discussions) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
 
 #
-### Now Available for *Windows* ! 
+### <div align="center">Now Available for *Windows* !</div> 
 #
 Give this repository a ⭐ to support our work.
 
@@ -15,15 +15,15 @@ until it has reached its goal of being able to provide more payload options
 for multiple platforms other than just Android (i.e `.exe/.msi`, `.php` etc).
 #
 
-Usage
-=====
+## <div align="center">Usage</div>
+
 01. Build a standalone APK Payload or use an original APK as a Template
 02. Install the APK Payload on the Victim Android Device
 03. Take Control of the Victim Android Device with the *Victim's Lab*
 #
 
-Installation
-============
+## <div align="center">Installation</div>
+
 Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Pages.
 
 
@@ -34,21 +34,21 @@ The Setup Page's fall into 3 seperate OS Specific Setup Guides;
 - [AhMyth Wiki: Page 3 - Setup: Win](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Setup:-Windows)
 #
 
-User Manual
-===========
+## <div align="center">User Manual</div>
+
 A full User Manual for new users of AhMyth can be found in the following Wiki page; 
 - [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-User-Manual)
 #
 
-Troubleshoot
-============
+## <div align="center">Troubleshoot</div>
+
 A full Troubleshoot manual is available in the AhMyth Wiki for troubleshooting your errors, 
 you can find the Troubleshoot Section in the following AhMyth Wiki page.
 - [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
 #
 
-Issues
-======
+## <div align="center">Issues</div>
+
 Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the *Issue Templates*.
 If you don't use the *Issue Templates*, please start a blank non-template issue, and post it with enough valid information about the problem.
 
@@ -58,14 +58,14 @@ so please help us to do that by using the *Issue Templates* or by providing non-
 Duplicate Issues will also be removed without question if I can see that the user was to lazy to check the closed issues.
 #
 
-Information
-===========
+## <div align="center">Information</div>
+
 For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
-Screenshots
-===========
+## <div align="center">Screenshots</div>
+
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> Main Screen</a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> Standalone APK Builder </a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> APK Payload Binder  </a> | 
@@ -73,8 +73,8 @@ Screenshots
 
 
 
-Credits
-=======
+## <div align="center">Credits</div>
+
 
 Created by
 - [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
