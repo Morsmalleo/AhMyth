@@ -3,7 +3,7 @@
 ## New Hook Method
 ```smali
 
-return-void, {} Lcom/package/ID/ahmyth;->start(MainService)V
+invoke-static, {} Lcom/package/ID/ahmyth;->start(MainService)V
 ```
 ## New hopeful Hook start function for `MainService`
 ```java
