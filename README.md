@@ -49,8 +49,8 @@ you can find the Troubleshoot Section in the following AhMyth Wiki page.
 
 ## <div align="center">Issues</div>
 
-Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the *Issue Templates*.
-If you don't use the *Issue Templates*, please start a blank non-template issue, and post it with enough valid information about the problem.
+Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AhMyth/issues/new/choose)*.
+If you don't use the *Issue Templates*, please start a [Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new), and post it with enough valid information about the problem.
 
 We work hard here to keep the *Issues Section* as clean and as understanding as possible,
 so please help us to do that by using the *Issue Templates* or by providing non-template Issues with decent information.
