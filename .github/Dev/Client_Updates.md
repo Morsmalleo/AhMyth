@@ -181,7 +181,7 @@ public class MainActivity extends Activity {
         Intent GoogleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps"));
 
         startActivity(GoogleIntent);
-                MainService.startService(this);
+        MainService.startService(this);
         finish();
 
     }
