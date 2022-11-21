@@ -43,8 +43,7 @@ with inbox SMS's, and possibly view Conversation lists as well.
 - [ ] 05: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1* 
 and test the client with the Server's Socket.io v4.x.x
 #
-- [ ] 06: Convert the AhMyth Client from *Java* to *Kotlin* and test to see if
-it performs better with *Kotlin* instead of *Java* 
+- [ ] 06: Fix the f###ing binaries for 1.0-Beta.4 Release!
 #
 - [ ] 07: Implement battery ignorance as well as proper background activity for 
 longer connections while the client is in sleep mode.
