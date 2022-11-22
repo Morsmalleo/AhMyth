@@ -13,6 +13,6 @@
         "fs-extra": "^10.1.0",
         "geoip-lite": "^1.4.6",
         "node-homedir": "^1.1.1",
-        "socket.io": "^2.4.1"
+        "socket.io": "^2.5.0"
     }
 }
