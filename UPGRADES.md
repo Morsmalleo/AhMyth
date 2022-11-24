@@ -63,3 +63,5 @@ AhMyth payload.
 - [ ] 11: Add Dark Theme
 #
 - [ ] 12: Add Settings Menu to switch between UI themes
+#
+- [ ] 13. Test AhMyth on Android via the use of apache cordova considering that apache cordova uses electron to produce mobile apps
