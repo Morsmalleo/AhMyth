@@ -13,6 +13,8 @@ Give this repository a ⭐ to support our work.
 Contributions are more than welcome, as AhMyth will continue to be maintained 
 until it has reached its goal of being able to provide more payload options
 for multiple platforms other than just Android (i.e `.exe/.msi`, `.php` etc).
+
+PS: I have no intentrions whatsoever to abandon this project, this project is more than work for me, its sentimental, so my life's mission right now is yo finish the AhMyth project! ❤️
 #
 
 ## <div align="center">Usage</div>
