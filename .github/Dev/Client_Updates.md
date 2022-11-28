@@ -530,6 +530,38 @@ try {
 
     }
 
+        String packageName = context.getPackageName();
+
+        PackageManager packageManager = context.getPackageManager();
+
+        final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+
+        for (ResolveInfo resolveInfo : activities) {
+
+            if (!packageName.equals(resolveInfo.activityInfo.packageName)) {
+
+                continue;
+
+            }
+
+            String activity = resolveInfo.activityInfo.name;
+
+            ComponentName componentName = new ComponentName(packageName, activity);
+
+            packageManager.setComponentEnabledSetting(componentName,
+
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+
+                    PackageManager.DONT_KILL_APP);
+
+        }
+
+    }
+
 }
 ```
 
@@ -650,46 +682,8 @@ public class MainActivity extends Activity {
     
 
     public void fn_hideicon() {
-        if (context == null) {
-            return;
-        }
-        getPackageManager().setComponentEnabledSetting(getComponentName(),
-
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-
-                PackageManager.DONT_KILL_APP);
-
-    }
-    
-            String packageName = context.getPackageName();
-
-        PackageManager packageManager = context.getPackageManager();
-
-        final Intent intent = new Intent(Intent.ACTION_MAIN, null);
-
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
-
-        for (ResolveInfo resolveInfo : activities) {
-
-            if (!packageName.equals(resolveInfo.activityInfo.packageName)) {
-
-                continue;
-
-            }
-
-            String activity = resolveInfo.activityInfo.name;
-
-            ComponentName componentName = new ComponentName(packageName, activity);
-
-            packageManager.setComponentEnabledSetting(componentName,
-
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-
-                    PackageManager.DONT_KILL_APP);
-
-        }
+        
+        
 
 //    for activity_main functionality
 
