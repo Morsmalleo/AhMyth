@@ -162,7 +162,6 @@ public class MyReceiver extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-
             MainService.startService(context);
 
         } else {
