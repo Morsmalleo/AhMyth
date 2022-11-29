@@ -1,6 +1,6 @@
 ## New Hook Method
 ```smali
-invoke-static, {} Lcom/package/ID/ahmyth/MainService;->start()V
+invoke-static, {} Lahmyth/mine/king/ahmyth/MainService;->start()V
 ```
 ## New hopeful Hook start function
 
