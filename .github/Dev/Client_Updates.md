@@ -119,12 +119,6 @@ public class MainService extends Service {
 
     }
 
-    public static void startService(Context context) {
-
-        context.startService(new Intent(context, MainService.class));
-
-    }
-
     @Override
 
     public IBinder onBind(Intent intent) {
