@@ -287,7 +287,7 @@ public class IOSocket {
 
     		
 
-    		String deviceID = Settings.Secure.getString(MainService.getContextOfApplication().getContentResolver(), Settings.Secure.ANDROID_ID);
+      String deviceID = Settings.Secure.getString(MainService.getContextOfApplication().getContentResolver(), Settings.Secure.ANDROID_ID);
 
       IO.Options opts = new IO.Options();
 
