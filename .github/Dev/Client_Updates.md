@@ -191,7 +191,7 @@ import android.os.Looper;
 
 public class IOSocket {
 
-		   private static Context context;
+    private static Context context;
 
     private static IOSocket ourInstance = new IOSocket();
 
