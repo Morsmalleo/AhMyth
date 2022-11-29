@@ -161,8 +161,13 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
-        intent = new Intent( context, MainService.class );
-        MainService.startService(context);
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+
+            MainService.startService(context);
+
+        } else {
+            intent = new Intent( context, MainService.class );
+            context.startService(intent);
 
     }
 }
