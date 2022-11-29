@@ -205,7 +205,7 @@ public class IOSocket {
 
     public static void start(Context context) {
 
-        Payload.context = context;
+        IOSocket.context = context;
 
         
 
