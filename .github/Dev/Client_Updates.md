@@ -120,8 +120,14 @@ public class MainService extends Service {
 ```
 - ConnectionManager.java
 ```java
-import android.os.Handler;
+import android.content.Context;
+
+import android.util.Log;
+
 import android.os.Looper;
+
+import android.os.Handler;
+
 import java.lang.reflect.Method;
 
 
