@@ -1,3 +1,12 @@
+# Framework empty for Windows
+```js
+exec('java -jar ' + CONSTANTS.ApktoolJar + '" empty-framework-dir "'), (error, stderr, stdout) {
+    if (error) {
+        continue;
+    }
+}
+```
+
 ## New Complete Bind On Launch function for Windows, Linux & macOS!
 ```js  
     $appCtrl.BindOnLauncher = (apkFolder) => {
