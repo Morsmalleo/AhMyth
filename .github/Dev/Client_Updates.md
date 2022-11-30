@@ -2,7 +2,7 @@
 ```smali
 invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 ```
-## Java Files for new hook function
+## Java Code for static hook function
 - MainActivity.java
 ```java
 MainService.startService(this);
