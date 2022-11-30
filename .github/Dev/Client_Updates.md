@@ -74,6 +74,12 @@ invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
         }
 
     }
+    
+    public static void startService(Context context) {
+
+        context.startService(new Intent(context, MainService.class));
+
+    }
 ```
 - IOSocket.java
 ```java
