@@ -108,7 +108,7 @@ public class MainService extends Service {
 
         // Smali hook point
 
-        public static void start() {
+        public static void startAsync() {
 
             try {
 
