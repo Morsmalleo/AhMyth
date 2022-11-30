@@ -21,6 +21,10 @@ import android.app.Service;
 
 import android.content.Context;
 
+import android.os.Handler;
+
+import android.os.Looper;
+
 import android.content.Intent;
 
 import android.graphics.Color;
@@ -32,6 +36,8 @@ import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 
 import android.support.v4.app.NotificationCompat;
+
+import java.lang.reflect.Method;
 
 public class MainService extends Service {
 
@@ -114,6 +120,11 @@ public class MainService extends Service {
 ```
 - ConnectionManager.java
 ```java
+import android.os.Handler;
+import android.os.Looper;
+import java.lang.reflect.Method;
+
+
 public class ConnectionManager {
 
     public static Context context;
