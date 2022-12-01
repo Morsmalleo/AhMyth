@@ -14,7 +14,7 @@ invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 ```
 - Service Start for MainActivity.java File
 ```java
-MainService.startService(this); File
+MainService.startService(this);
 ```
 - Service start for MyReciever.java Code
 ```java
