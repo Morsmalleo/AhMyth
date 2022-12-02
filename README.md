@@ -10,7 +10,7 @@
 #
 Give this repository a ⭐ to support our work.
 
-Support through TeamViewer is available for free for everyone that has persistent errors, dont offer me money because I wont accept it, AhMyth is free and open source and it will stay like that for all of eternity.
+Support through TeamViewer is available to everyone for free.
 
 Contributions are more than welcome, as AhMyth will continue to be maintained 
 until it has reached its goal of being able to provide more payload options
