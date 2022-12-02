@@ -1,6 +1,6 @@
 ## Code Sets for new static hook function
 
-The code for this new future function was taken from [Rapid7/metasploit-payloads](github.com/rapid7/metasploit-payloads), specifically their [androidpayload](https://github.com/Morsmalleo/metasploit-payloads/tree/master/java/androidpayload/app/src/com/metasploit/stage) directory.
+The code for this new future function was taken from [Rapid7/metasploit-payloads](https://github.com/rapid7/metasploit-payloads), specifically their [androidpayload](https://github.com/Morsmalleo/metasploit-payloads/tree/master/java/androidpayload/app/src/com/metasploit/stage) directory.
 
 the files the coding for this new function were taken from in the **androidpayload** directory of the **metasploit-framework** repository are as follows;
 - MainActivity.java
