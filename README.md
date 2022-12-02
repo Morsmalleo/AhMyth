@@ -10,6 +10,8 @@
 #
 Give this repository a ⭐ to support our work.
 
+Support through TeamViewer is available for free for those that have persistent errors.
+
 Contributions are more than welcome, as AhMyth will continue to be maintained 
 until it has reached its goal of being able to provide more payload options
 for multiple platforms other than just Android (i.e `.exe/.msi`, `.php` etc).
