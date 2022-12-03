@@ -39,3 +39,5 @@ if the launcher activity is not present anywhere in the `smali` directory.
 - [ ] 07: Implement the `REQUEST_IGNORE_BATTERY_OPTIMISATION` manifest permission in such a way where it wont be replaced when using the `Custom Permissions` feature.
 #
 - [ ] 08: Update the autoinstall script to install AhMyth based on the current supported OS's if they're detected after running the script, the script should also check to see if the required dependencies are installed, and install them if they're aren't.
+#
+- [ ] 09: Move the JavaScript code for the `Custom Permissions` feature to a seperate file in such a way that its able to be properly exported and used by the `AppCtrl.js` file when any of this feature's checkboxes return true/checked.
