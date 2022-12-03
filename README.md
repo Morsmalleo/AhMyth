@@ -16,14 +16,14 @@
 
 #
 
-## <div align="center">Usage</div>
+### <div align="center"><ins>Usage</ins></div>
 
 01. Build a standalone APK Payload or use an original APK as a Template
 02. Install the APK Payload on the Victim Android Device
 03. Take Control of the Victim Android Device with the *Victim's Lab*
 #
 
-## <div align="center">Installation</div>
+### <div align="center"><ins>Installation</ins></div>
 
 Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Pages.
 
@@ -35,20 +35,20 @@ The Setup Page's fall into 3 seperate OS Specific Setup Guides;
 - [AhMyth Wiki: Page 3 - Setup: Win](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Setup:-Windows)
 #
 
-## <div align="center">User Manual</div>
+### <div align="center"><ins>User Manual</ins></div>
 
 A full User Manual for new users of AhMyth can be found in the following Wiki page; 
 - [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-User-Manual)
 #
 
-## <div align="center">Troubleshoot</div>
+### <div align="center"><ins>Troubleshoot</ins></div>
 
 A full Troubleshoot manual is available in the AhMyth Wiki for troubleshooting your errors, 
 you can find the Troubleshoot Section in the following AhMyth Wiki page.
 - [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
 #
 
-## <div align="center">Issues</div>
+### <div align="center"><ins>Issues</ins></div>
 
 Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AhMyth/issues/new/choose)*.
 If you don't use the *Issue Templates*, please start a [Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new), and post it with enough valid information about the problem.
@@ -59,23 +59,22 @@ so please help us to do that by using the *Issue Templates* or by providing non-
 Duplicate Issues will also be removed without question if I can see that the user was to lazy to check the closed issues.
 #
 
-## <div align="center">Information</div>
+### <div align="center"><ins>Information</ins></div>
 
 For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
-## <div align="center">Screenshots</div>
+
+### <div align="center"><ins>Screenshots</ins></div>
 
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> Main Screen</a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> Standalone APK Builder </a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> APK Payload Binder  </a> | 
 <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> Victims Lab </a> | <a> COMING SOON! </a> | <a> COMING SOON! </a> |
+#
 
-
-
-## <div align="center">Credits</div>
-
+### <div align="center"><ins>Credits & Specials Thank's</ins></div>
 
 Created by
 - [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
