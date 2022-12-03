@@ -28,7 +28,7 @@
 
 ### <div align="center"><ins>Installation</ins></div>
 
-Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Pages
+Instructions for installing AhMyth can be found in the Setup Wiki Pages
 
 <div align="center">The Setup Page's fall into 3 seperate OS Specific Setup Guides;</div>
 <p>&nbsp;</p>
