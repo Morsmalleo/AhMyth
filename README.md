@@ -18,17 +18,20 @@
 
 ### <div align="center"><ins>Usage</ins></div>
 
-01. Build a standalone APK Payload or use an original APK as a Template
-02. Install the APK Payload on the Victim Android Device
-03. Take Control of the Victim Android Device with the *Victim's Lab*
+<div align="center">01. Build a standalone APK Payload or use an original APK as a Template.</div>
+<p>&nbsp;</p>
+<div align="center">02. Install the APK Payload on the Victim Android Device.</div>
+<p>&nbsp;</p>
+<div align="center">03. Take Control of the Victim Android Device by using the "Victim's Lab".</div>
+
 #
 
 ### <div align="center"><ins>Installation</ins></div>
 
-Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Pages.
-
-
-The Setup Page's fall into 3 seperate OS Specific Setup Guides;
+<div align="center">Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Pages.</div>
+<p>&nbsp;</p>
+<div align="center">The Setup Page's fall into 3 seperate OS Specific Setup Guides;</div>
+<p>&nbsp;</p>
 
 - [AhMyth Wiki: Page 1 - Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Setup:-Linux)
 - [AhMyth Wiki: Page 2 - Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Setup:-OS-X)
@@ -37,31 +40,37 @@ The Setup Page's fall into 3 seperate OS Specific Setup Guides;
 
 ### <div align="center"><ins>User Manual</ins></div>
 
-A full User Manual for new users of AhMyth can be found in the following Wiki page; 
+<div align="center">A full User Manual for new users of AhMyth can be found in the following Wiki page;</div>
+<p>&nbsp;</p>
+
 - [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-User-Manual)
 #
 
 ### <div align="center"><ins>Troubleshoot</ins></div>
 
-A full Troubleshoot manual is available in the AhMyth Wiki for troubleshooting your errors, 
-you can find the Troubleshoot Section in the following AhMyth Wiki page.
+<div align="center">A full Troubleshoot manual is available in the AhMyth Wiki for troubleshooting your errors, 
+you can find the Troubleshoot Section in the following AhMyth Wiki page.</div>
+<p>&nbsp;</p>
+
 - [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
 #
 
 ### <div align="center"><ins>Issues</ins></div>
 
 Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AhMyth/issues/new/choose)*.
-If you don't use the *Issue Templates*, please start a [Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new), and post it with enough valid information about the problem.
 
-We work hard here to keep the *Issues Section* as clean and as understanding as possible,
-so please help us to do that by using the *Issue Templates* or by providing non-template Issues with decent information.
+If you don't use the *Issue Templates*, please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new)*, and post it with enough valid information about the problem.
+
+We work hard here to keep the *Issues Section* as clean and as understanding as possible, so please help us to do that by using the *Issue Templates* or by providing non-template Issues with decent information.
 
 Duplicate Issues will also be removed without question if I can see that the user was to lazy to check the closed issues.
 #
 
 ### <div align="center"><ins>Information</ins></div>
 
-For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
+<div align="center">For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;</div>
+<p>&nbsp;</p>
+
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
