@@ -37,14 +37,12 @@ errors to a text file for the GUI version of AhMyth.
 
 - DONE!
 #
-- [ ] 05: Restyle the AhMyth Server using the following
-
-      1. Glassmorphism 
-      2. Icons next to Tab Names ✓
-      3. Dark Theme 
-      4. Light Theme ✓
-      5. Settings Tab for the AhMyth GUI's Light/Dark Theme preference + a GUI background change option
-      6. Payload Options Tab for when other payload options have been built into AhMyth. <-- This will tale a while!
+- [ ] 05: Restyle the AhMyth Server using the following...
+- Icons next to Tab Names ✓
+- Dark Theme 
+- Light Theme ✓
+- Settings Tab for the AhMyth GUI's Light/Dark Theme preference + a GUI background change option
+- Payload Options Tab for when other payload options have been built into AhMyth. ⬅️ This will tale a while!
 
 #
 - [ ] 06: Integrate a Windows `.exe` Builder for an AhMyth Windows client.
