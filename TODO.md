@@ -28,10 +28,9 @@ if the launcher activity is not present anywhere in the `smali` directory.
 #
 - [ ] 05. Stabilise the SMS feature by adding the ability to view sent SMS's in an `Outbox SMS` sub-tab next to a separate `Inbox SMS` sub-tab when using the Victims Lab's SMS feature, a small example of this can be seen below.
 ```
-| SMS |
-|_____| Send an SMS |
-|___________| Inbox |
-|___________| Outbox|
+|--| SMS |
+|----| Send an SMS |
+|------| Inbox || Outbox |
 ```
 #
 - [ ] 06: Fix the binaries for 1.0-Beta.4 Release!
