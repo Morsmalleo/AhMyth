@@ -6,13 +6,11 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Morsmalleo/AhMyth?color=crimson&include_prereleases) ![GitHub issues](https://img.shields.io/github/issues-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Morsmalleo/AhMyth?color=light%20green) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Morsmalleo/AhMyth?color=light-green) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub discussions](https://img.shields.io/github/discussions/Morsmalleo/AhMyth)](https://GitHub.com/Morsmalleo/AhMyth/discussions) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
 
 #
-<div align="center">Give this repository a 💫 to support our work.</div>
-<p>&nbsp;</p>
+Give this repository a 💫 to support our work.
 
-<div align="center">Support through TeamViewer is available to everyone for free.</div>
-<p>&nbsp;</p>
+Support through TeamViewer is available to everyone for free.
 
-<div align="center">Contributions are more than welcome as this repository will continue to be maintained.</div>
+Contributions are more than welcome as this repository will continue to be maintained.
 
 #
 
@@ -28,10 +26,9 @@
 
 ### <div align="center"><ins>Installation</ins></div>
 
-Instructions for installing AhMyth can be found in the Setup Wiki Pages
+Instructions for installing AhMyth can be found in the Setup Wiki Pages.
 
-<div align="center">The Setup Page's fall into 3 seperate OS Specific Setup Guides;</div>
-<p>&nbsp;</p>
+The Setup Page's fall into 3 seperate OS Specific Setup Guides;
 
 - [AhMyth Wiki: Page 1 - Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Setup:-Linux)
 - [AhMyth Wiki: Page 2 - Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Setup:-OS-X)
@@ -40,17 +37,14 @@ Instructions for installing AhMyth can be found in the Setup Wiki Pages
 
 ### <div align="center"><ins>User Manual</ins></div>
 
-<div align="center">A full User Manual for new users of AhMyth can be found in the following Wiki page;</div>
-<p>&nbsp;</p>
+A full User Manual for new users of AhMyth can be found in the following Wiki pages;
 
 - [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-User-Manual)
 #
 
 ### <div align="center"><ins>Troubleshoot</ins></div>
 
-<div align="center">A full Troubleshoot manual is available in the AhMyth Wiki for troubleshooting your errors, 
-you can find the Troubleshoot Section in the following AhMyth Wiki page.</div>
-<p>&nbsp;</p>
+A full Troubleshoot page is available in the AhMyth Wiki, you can find this Section in the following AhMyth Wiki page;
 
 - [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
 #
