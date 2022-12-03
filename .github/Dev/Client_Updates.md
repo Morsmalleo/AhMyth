@@ -75,7 +75,10 @@ public class MainService extends Service {
             }
         }
 
-        // Smali hook point
+ 
+
+        // static smali hook that gets injected into 
+        // an original, legit APK
         public static void start() {
             try {
                 findContext();
@@ -141,8 +144,6 @@ public class ConnectionManager {
         ConnectionManager.context = context;
     }
 
-    // static smali hook that gets injected into 
-    // an original, legit APK
     public static void startContext() {
 
         try {
