@@ -8,13 +8,12 @@
 #
 ### <div align="center">Now Available for *Windows* !</div> 
 #
-Give this repository a ⭐ to support our work.
+<div align="center">Give this repository a ⭐ to support our work.</div>
+<p>&nbsp;</p>
+<div align="center">Support through TeamViewer is available to everyone for free.</div>
+<p>&nbsp;</p>
+<div align="center">Contributions are more than welcome as this repository will continue to be maintained.</div>
 
-Support through TeamViewer is available to everyone for free.
-
-Contributions are more than welcome, as AhMyth will continue to be maintained 
-until it has reached its goal of being able to provide more payload options
-for multiple platforms other than just Android (i.e `.exe/.msi`, `.php` etc).
 #
 
 ## <div align="center">Usage</div>
