@@ -68,8 +68,7 @@ Duplicate Issues will also be removed without question if I can see that the use
 
 ### <div align="center"><ins>Information</ins></div>
 
-<div align="center">For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;</div>
-<p>&nbsp;</p>
+For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
 - [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
