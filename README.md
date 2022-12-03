@@ -8,28 +8,28 @@
 #
 ### <div align="center">Now Available for *Windows* !</div> 
 #
-<div align="center">Give this repository a ⭐ to support our work.</div>
-<p>&nbsp;</p>
-<div align="center">Support through TeamViewer is available to everyone for free.</div>
-<p>&nbsp;</p>
-<div align="center">Contributions are more than welcome as this repository will continue to be maintained.</div>
+Give this repository a ⭐ to support our work.
+
+Support through TeamViewer is available to everyone for free.
+
+Contributions are more than welcome as this repository will continue to be maintained.
 
 #
 
 ### <div align="center"><ins>Usage</ins></div>
 
-<div align="center">01. Build a standalone APK Payload or use an original APK as a Template.</div>
-<p>&nbsp;</p>
-<div align="center">02. Install the APK Payload on the Victim Android Device.</div>
-<p>&nbsp;</p>
-<div align="center">03. Take Control of the Victim Android Device by using the "Victim's Lab".</div>
+01. Build a standalone APK Payload or use an original APK as a Template.
+
+02. Install the APK Payload on the Victim Android Device.
+
+03. Take Control of the Victim Android Device by using the *Victim's Lab*.
 
 #
 
 ### <div align="center"><ins>Installation</ins></div>
 
-<div align="center">Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Pages.</div>
-<p>&nbsp;</p>
+Instructions for installing AhMyth can be found in the AhMyth Wiki Setup Pages
+
 <div align="center">The Setup Page's fall into 3 seperate OS Specific Setup Guides;</div>
 <p>&nbsp;</p>
 
