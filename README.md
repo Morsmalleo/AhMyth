@@ -28,7 +28,7 @@ Contributions are more than welcome as this repository will continue to be maint
 
 Instructions for installing AhMyth can be found in the Setup Wiki Pages.
 
-The Setup Page's fall into 3 seperate OS Specific Setup Guides;
+The Setup Page's fall into 3 seperate OS Specific Setup Guides.
 
 - [AhMyth Wiki: Page 1 - Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Setup:-Linux)
 - [AhMyth Wiki: Page 2 - Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Setup:-OS-X)
@@ -37,14 +37,14 @@ The Setup Page's fall into 3 seperate OS Specific Setup Guides;
 
 ## <div align="center"><ins>User Manual</ins></div>
 
-A full User Manual for new users of AhMyth can be found in the following Wiki pages;
+A full User Manual for new users of AhMyth can be found in the following Wiki pages.
 
 - [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-User-Manual)
 #
 
 ## <div align="center"><ins>Troubleshoot</ins></div>
 
-A full Troubleshoot page detailing know AhMyth errors can be found available in the AhMyth Wiki, you can find the Troubleshoot Section in the following AhMyth Wiki page;
+A full Troubleshoot page detailing know AhMyth errors can be found available in the AhMyth Wiki, you can find the Troubleshoot Section in the following AhMyth Wiki page.
 
 - [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
 #
