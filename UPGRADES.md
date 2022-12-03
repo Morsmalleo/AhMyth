@@ -1,26 +1,26 @@
-## Client Upgrades:
+### <div align="center"><ins>Client Upgrades</ins></div>
 - [ ] 01: Integrate Live Camera Preview Stream for the Client. 
 #
 - [ ] 02: Integrate a valid signing certificate to bypass Play Protect. 
 #
-- [ ] 03: Integrate persistence for the AhMyth payload.
+- [ ] 03: Integrate real-time viewing of victim device screens.
 #
-- [ ] 04: Integrate real-time viewing of victim device screens.
+- [ ] 04: Integrate screen recording for real time viewing of victim device screens.
 #
-- [ ] 05: Integrate screen recording for real time viewing of victim device screens.
-#
-- [ ] 06: Integrate USSD dialing and response view feature for the 
+- [ ] 05: Integrate USSD dialing and response view feature for the 
 AhMyth client
 #
-- [ ] 07: Integrate screenshot for real time viewing of victim device screens.
+- [ ] 06: Integrate screenshot for real time viewing of victim device screens.
 #
-- [ ] 08: Integrate proper storage access for the client.
+- [ ] 07: Integrate proper storage access for the client.
 #
-- [ ] 09: Implement notification listening, a feature from L3MON.
+- [ ] 08: Implement notification listening, a feature from L3MON.
 #
-## Server Upgrades:
+### <div align="center"><ins>Server Upgrades</ins></div>
 
-- [ ] 01: Figure out a new hook method for the new Bind On Launch functions.
+- [x] 01: Figure out a new hook method for the new Bind On Launch functions.
+
+- DONE!
 #
 - [x] 02: Create a backup copy of AhMyth's `AndroidManifest.xml`
 file, and store it in the newly created backup directory 
@@ -40,28 +40,19 @@ errors to a text file for the GUI version of AhMyth.
 - [ ] 05: Restyle the AhMyth Server using the following
 
       1. Glassmorphism 
-      2. Icons next to Tab Names ✔️
+      2. Icons next to Tab Names ✓
       3. Dark Theme 
-      4. Light Theme
-      5. High Contrast Theme
-      6. Settings Tab for UI Theme preferences
-      7. Payload Options Tab for when other payload options have been built into AhMyth.
+      4. Light Theme ✓
+      5. Settings Tab for the AhMyth GUI's Light/Dark Theme preference + a GUI background change option
+      6. Payload Options Tab for when other payload options have been built into AhMyth. <-- This will tale a while!
 
 #
-- [ ] 06: Integrate an EXE Builder for an AhMyth Windows client.
+- [ ] 06: Integrate a Windows `.exe` Builder for an AhMyth Windows client.
 #
-- [ ] 07: Explore the possibility of adding Browser Hook feature 
-to control a range of devices by hooking their web browser - inspired by [beEF](https://GitHub.com/beefproject/beef)
+- [ ] 07: Integrate APK obfuscation to avoid the payload being decompiled after deployment.
 #
-- [ ] 08: Hijack a legitimate APK and configure it to be built as a standalone
-AhMyth payload.
-#
-- [ ] 09: Integrate APK obfuscation to avoid the payload being decompiled after deployment.
-#
-- [ ] 10: Add High contrast theme
-#
-- [ ] 11: Add Dark Theme
-#
-- [ ] 12: Add Settings Menu to switch between UI themes
+- [ ] 10: Add a Settings Tab to contain functions for...
+- Changing the Background of the Users AhMyth GUI using suitable images 
+- Switching Between a the current Light Theme and a new Dark Theme
 #
 - [ ] 13. Test AhMyth on Android via the use of apache cordova considering that apache cordova uses electron to produce mobile apps
