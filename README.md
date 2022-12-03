@@ -89,8 +89,9 @@ Created by
 
 Maintained with ❤️ by
 - [Morsmalleo](https://github.com/Morsmalleo)
-- [YagamiLight17](https://github.com/YagamiLight17)
+
 
 Special Thanks to
-- [HiddenPirates](https://GitHub.com/HiddenPirates) - For his work on the client on a seperate AhMyth repository
-- [yogeshwaran01](https://github.com/yogeshwaran01) - For his creation of the URL Masker, which was modified for AhMyth.
+- [HiddenPirates](https://GitHub.com/HiddenPirates) - For his brilliant amount of work on upgrading the Client & the Server
+- [YagamiLight17](https://github.com/YagamiLight17) - For his brilliant contributions towards upgrading the Server & for integrating the *Customs Permissions*  feature
+- [yogeshwaran01](https://github.com/yogeshwaran01) - For his creation of the URL Masker, which was modified by YagamiLight for AhMyth.
