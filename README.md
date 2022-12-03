@@ -8,11 +8,13 @@
 #
 ### <div align="center">Now Available for *Windows* !</div>
 #
-Give this repository a ⭐ to support our work.
+<div align="center">Give this repository a ⭐ to support our work.</div>
+<p>&nbsp;</p>
 
-Support through TeamViewer is available to everyone for free.
+<div align="center">Support through TeamViewer is available to everyone for free.</div>
+<p>&nbsp;</p>
 
-Contributions are more than welcome as this repository will continue to be maintained.
+<div align="center">Contributions are more than welcome as this repository will continue to be maintained.</div>
 
 #
 
