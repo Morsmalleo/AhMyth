@@ -2,7 +2,7 @@
 
 - [x] 01: Figure out why AhMyth is so unstable on Windows machines!
 
-- Done! Was due to outdated coding in the `main.js` file, as well as a bug in the Modification of a legit APK files Launcher Activity when utilising the `On Launch` binding method.
+- Done! Was due to outdated coding in the `main.js` file, as well as a bug in the Modification of a legit APK file's Launcher Activity when utilising the `On Launch` binding method, the framework directory for Apktool was also causing problems as well, so this has been fixed using a child process before building each APK Payload.
 #
 - [ ] 02: Merge Client & Server upgrades from [@HiddenPirates](https://github.com/HiddenPirates) and then integrate the Java code responisble for allowing the new hook function to work
 #
