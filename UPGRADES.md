@@ -1,4 +1,4 @@
-### <div align="center"><ins>Client Upgrades</ins></div>
+## <div align="center"><ins>Client Upgrades</ins></div>
 - [ ] 01: Integrate Live Camera Preview Stream for the Client. 
 #
 - [ ] 02: Integrate a valid signing certificate to bypass Play Protect. 
@@ -16,7 +16,7 @@ AhMyth client
 #
 - [ ] 08: Implement notification listening, a feature from L3MON.
 #
-### <div align="center"><ins>Server Upgrades</ins></div>
+## <div align="center"><ins>Server Upgrades</ins></div>
 
 - [x] 01: Figure out a new hook method for the new Bind On Launch functions.
 
@@ -42,7 +42,7 @@ errors to a text file for the GUI version of AhMyth.
 - Dark Theme 
 - Light Theme ✓
 - Settings Tab for the AhMyth GUI's Light/Dark Theme preference + a GUI background change option
-- Payload Options Tab for when other payload options have been built into AhMyth. ⬅️ This will tale a while!
+- Payload Options Tab for when other payload options have been built into AhMyth. ⬅️ This will take a while!
 
 #
 - [ ] 06: Integrate a Windows `.exe` Builder for an AhMyth Windows client.
