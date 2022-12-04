@@ -1,10 +1,16 @@
-# Empty the Framework Dir
+# Function to Empty the Apktool Framework Directory
 This Code will reduce building failed errors with both Standalone APK payloads and Bound APK Payloads, it empties the apktool framework directory before building any payload everytime
 ```js
-exec('java -jar ' + CONSTANTS.ApktoolJar + '" empty-framework-dir "'), (error, stderr, stdout) {
-    if (error) {
-        continue;
-    }
+
+try {
+    exec('java -jar ' + '" CONSTANTS.apktoolJar "' + ' empty-framework-dir', (error, stderr, stdout) => {
+        if (error) {
+           throw error;
+           return; 	    
+        }    
+    });
+} catch (error) {
+    // Building function here
 }
 ```
 
