@@ -12,12 +12,12 @@ exports.hookPoint = "return-void";
 ```
 ...then replace the exported `serviceSrc` variable in the `Constants.js` & `AppCtrl` files, with the new static hook metbod...
 ```js
-exports.serviceSrc = '/n/n invoke-static {}, Lahmyth/mine/king/ahmyth/';
+exports.serviceSrc = '\n\n invoke-static {}, Lahmyth/mine/king/ahmyth/'';
 ```
 ...then replace the exported `serviceStart` variable in the `Constants.js` & `AppCtrl` files.
 ```js
 exports.serviceStart = 'MainService;->start()V' +
-'/n/n' +
+'\n\n' +
 'return-void';
 ```
 #
