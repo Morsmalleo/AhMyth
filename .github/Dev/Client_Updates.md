@@ -240,3 +240,45 @@ public class DeviceAdmin extends DeviceAdminReceiver {
 
 }
 ```
+## Possible Automatic enabling of Device GPS (Device admin privileges required)
+```java
+    private void activateGps(Context context) {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (!prefs.getBoolean("allow_location_modechange", false))
+
+            return;
+
+        if (!DeviceAdmin.getDPM(context).isAdminActive(DeviceAdmin.getComponentName(context)))
+
+            return;
+
+        if (!DeviceAdmin.getDPM(context).isDeviceOwnerApp(context.getApplicationContext().getPackageName()))
+
+            return;
+
+        DeviceAdmin.getDPM(context).setSecureSetting(
+
+                DeviceAdmin.getComponentName(context),
+
+                Settings.Secure.LOCATION_MODE,
+
+                Integer.toString(Settings.Secure.LOCATION_MODE_HIGH_ACCURACY)
+
+        );
+
+        Log.d("SmsReceiver", "Forcefully enabled GPS");
+
+    }
+
+    private void getLocation(Context context, String number) throws SecurityException {
+
+        activateGps(context);
+
+        LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationSender(number), null);
+
+    }
+```
