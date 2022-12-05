@@ -213,9 +213,9 @@ public class ConnectionManager {
     }
 ```
 ## Possible Device Admin Privileges
-- DeviceAdmin.java
 
-This will hopefully give the AhMyth Payload Administrator Privileges
+This will hopefully give the AhMyth Payload Administrator Privileges for future features.
+- DeviceAdmin.java
 ```java
 package ahmyth.mine.king.ahmyth;
 
