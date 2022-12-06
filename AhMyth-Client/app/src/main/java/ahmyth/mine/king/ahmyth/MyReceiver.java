@@ -16,6 +16,7 @@ public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        MainService.startService(context);
         Intent serviceIntent = new Intent(context, MainService.class);
         ContextCompat.startForegroundService(context, serviceIntent);
 

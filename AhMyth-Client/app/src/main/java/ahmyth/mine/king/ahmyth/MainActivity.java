@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
         ContextCompat.startForegroundService(this, serviceIntent);
 //        --------------------------------------------------------------------------------------------
 
-//        startService(new Intent(this, MainService.class));
+        MainService.startService(this);
 //        finish();
 
         if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.P){
@@ -104,4 +104,5 @@ public class MainActivity extends Activity {
         Intent GoogleIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps"));
         startActivity(GoogleIntent);
     }
+
 }
