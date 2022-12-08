@@ -8,13 +8,11 @@
 #
 - [ ] 03: Replace the exported `orgAppKey` variable in the `Constants.js` file, with the new hook point variable...
 ```js
-exports.hookPoint = '\n\n' + 
-'return-void";
+exports.hookPoint = 'return-void';
 ```
 ...then replace the exported `serviceSrc` variable in the `Constants.js` file, with the new static hook metbod...
 ```js
-exports.serviceSrc = '\n\n' +
-'invoke-static {}, L';
+exports.serviceSrc = 'invoke-static {}, L';
 ```
 ...then replace the exported `serviceStart` variable in the `Constants.js` file....
 ```js
