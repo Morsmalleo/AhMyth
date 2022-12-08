@@ -1,5 +1,5 @@
 !!brut.androlib.meta.MetaInfo
-apkFileName: Ahmyth.apk
+apkFileName: app-release-unsigned.apk
 compressionType: false
 doNotCompress:
 - resources.arsc
@@ -13,7 +13,7 @@ packageInfo:
   renameManifestPackage: null
 sdkInfo:
   minSdkVersion: '16'
-  targetSdkVersion: '22'
+  targetSdkVersion: '30'
 sharedLibrary: false
 sparseResources: false
 unknownFiles: {}
@@ -21,7 +21,7 @@ usesFramework:
   ids:
   - 1
   tag: null
-version: 2.6.0
+version: 2.6.1-86856a-SNAPSHOT
 versionInfo:
   versionCode: '1'
   versionName: '1.0'

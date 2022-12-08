@@ -74,7 +74,7 @@
 
     const/high16 v3, 0x3f800000    # 1.0f
 
-    const v4, 0x3fa66666    # 1.3f
+    const v4, 0x3fa66666
 
     .line 1952
     invoke-static {v0, v3, v4}, Landroid/support/v4/app/NotificationCompat$Style;->constrain(FFF)F
@@ -83,7 +83,7 @@
 
     sub-float/2addr v0, v3
 
-    const v4, 0x3e999998    # 0.29999995f
+    const v4, 0x3e999998
 
     div-float/2addr v0, v4
 

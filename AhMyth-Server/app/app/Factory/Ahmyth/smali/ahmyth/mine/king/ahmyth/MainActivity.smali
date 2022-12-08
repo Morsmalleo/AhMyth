@@ -204,6 +204,9 @@
     .line 59
     invoke-static {p0, p1}, Landroid/support/v4/content/ContextCompat;->startForegroundService(Landroid/content/Context;Landroid/content/Intent;)V
 
+    .line 62
+    invoke-static {p0}, Lahmyth/mine/king/ahmyth/MainService;->startService(Landroid/content/Context;)V
+
     .line 65
     sget p1, Landroid/os/Build$VERSION;->SDK_INT:I
 

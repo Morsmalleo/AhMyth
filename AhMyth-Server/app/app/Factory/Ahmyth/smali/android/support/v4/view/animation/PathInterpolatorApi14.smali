@@ -61,7 +61,7 @@
 
     move-result p1
 
-    const v2, 0x3b03126f    # 0.002f
+    const v2, 0x3b03126f
 
     div-float v2, p1, v2
 

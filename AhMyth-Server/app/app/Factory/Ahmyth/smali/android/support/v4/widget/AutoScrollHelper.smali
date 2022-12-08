@@ -214,7 +214,7 @@
     .line 220
     invoke-virtual {p0, p1, p1}, Landroid/support/v4/widget/AutoScrollHelper;->setMaximumEdges(FF)Landroid/support/v4/widget/AutoScrollHelper;
 
-    const p1, 0x3e4ccccd    # 0.2f
+    const p1, 0x3e4ccccd
 
     .line 221
     invoke-virtual {p0, p1, p1}, Landroid/support/v4/widget/AutoScrollHelper;->setRelativeEdges(FF)Landroid/support/v4/widget/AutoScrollHelper;

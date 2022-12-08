@@ -168,7 +168,7 @@
 .method private static isGreaterThanZero(F)Z
     .locals 1
 
-    const v0, 0x3d4ccccd    # 0.05f
+    const v0, 0x3d4ccccd
 
     cmpl-float p0, p0, v0
 

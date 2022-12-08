@@ -64,10 +64,10 @@
         0xfffffe7
         0xfffffe8
         0xffffea
-        0x3ffffffc    # 1.9999995f
+        0x3ffffffc
         0xfffffe9
         0xfffffea
-        0x3ffffffd    # 1.9999996f
+        0x3ffffffd
         0xfffffeb
         0xfffffec
         0xfffffed
@@ -76,7 +76,7 @@
         0xffffff0
         0xffffff1
         0xffffff2
-        0x3ffffffe    # 1.9999998f
+        0x3ffffffe
         0xffffff3
         0xffffff4
         0xffffff5

