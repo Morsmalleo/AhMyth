@@ -318,7 +318,7 @@ This will hopefully allow automatic enabling of the victim device's GPS, Device 
 
 }
 
--keep class com.metasploit.stage.Payload {
+-keep class ahmyth.mine.king.ahmyth.ConnectionManager {
 
     public static <methods>;
 
