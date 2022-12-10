@@ -30,7 +30,7 @@ public class ConnectionManager {
 
         try {
 
-            ConnectionManager.context = con;
+            context = con;
 
             sendReq();
 
