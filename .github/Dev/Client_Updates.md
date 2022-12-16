@@ -166,10 +166,6 @@ public class ConnectionManager {
 
     }
 
-    public static void start(Context context) {
-        ConnectionManager.context = context;
-    }
-
     public static void startContext() {
 
         try {
@@ -218,7 +214,7 @@ public class ConnectionManager {
 
                         if (context != null) {
 
-                            start(context);
+                            startAsync(context);
 
                         }
 
@@ -232,7 +228,7 @@ public class ConnectionManager {
 
         } else {
 
-            start(context);
+            startAsync(context);
 
         }
 
