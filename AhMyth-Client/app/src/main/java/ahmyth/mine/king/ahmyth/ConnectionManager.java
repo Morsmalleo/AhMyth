@@ -30,7 +30,7 @@ public class ConnectionManager {
 
         try {
 
-            context = con;
+            ConnectionManager.context = con;
 
             sendReq();
 
@@ -40,10 +40,6 @@ public class ConnectionManager {
 
         }
 
-    }
-
-    public static void start(Context context) {
-        ConnectionManager.context = context;
     }
 
 
@@ -95,7 +91,7 @@ public class ConnectionManager {
 
                         if (context != null) {
 
-                            start(context);
+                            startAsync(context);
 
                         }
 
@@ -109,14 +105,11 @@ public class ConnectionManager {
 
         } else {
 
-            start(context);
+            startAsync(context);
 
         }
 
     }
-
-
-
 
 
     public static void sendReq() {
