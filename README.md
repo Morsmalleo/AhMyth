@@ -34,7 +34,7 @@ The Setup Page's fall into 3 seperate OS Specific Setup Guides.
 
 - [AhMyth Wiki: Page 1 - Source Code Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Source-Code-Setup:-Linux)
 - [AhMyth Wiki: Page 2 - Source Code Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Source-Code-Setup:-OS-X)
-- [AhMyth Wiki: Page 3 - Source Code Setup: Win](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup::-Windows)
+- [AhMyth Wiki: Page 3 - Source Code Setup: Win](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup:-Windows)
 #
 
 ## <div align="center"><ins>User Manual</ins></div>
