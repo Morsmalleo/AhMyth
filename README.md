@@ -55,9 +55,28 @@ A full Troubleshoot page detailing know AhMyth errors can be found available in 
 
 ## <div align="center"><ins>Issues</ins></div>
 
-Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AhMyth/issues/new/choose)*.
+Any issues with AhMyth, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AMyth/issues/new/choose)* accordingly.
 
-If you don't use the *Issue Templates*, please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new)*, and post it with enough valid information about the problem.
+The following list will help users determine which Issue Template is suitable for their problem.
+#
+### <div align="center"><ins>Issue Templates</ins></div>
+- [Server Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-bug-report.md&title=)
+
+Use this issue Template if you experience problems like Buggy/Unusable Victim's Lab Features, or `Building Failed` errors with Standalone APK Payloads.
+#
+- [Client Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-bug-report.md&title=)
+
+Use this Issue Template if you experience things such as Flickering Victim Connections.
+#
+- [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
+
+Use this Issue Template when you are greeted with any errors when using the Binding Features.
+#
+- [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=feature-request.md&title=)
+
+Use this Template uf you wish to request an upgrade that hasnt already been integrated.
+#
+If you experience errors that arent related to any of the *Issue Templates*, or if you cant seem to fix your problem using the *Troubleshoot Manual*, then please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new) and post it with enough valid information about the problem.
 
 We work hard here to keep the *Issues Section* as clean and as understanding as possible, so please help us to do that by using the *Issue Templates* or by providing non-template Issues with decent information.
 
