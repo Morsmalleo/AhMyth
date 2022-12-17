@@ -10,15 +10,13 @@ Give this repository a 💫 to support our work.
 
 Support through TeamViewer is available to everyone for free.
 
-Do not Git Clone the Development Branch, always Git Clone the Master Branch.
-
 Contributions are more than welcome as this repository will continue to be maintained.
 
 #
 
 ## <div align="center"><ins>Usage</ins></div>
 
-01. Build a standalone APK Payload or use an original APK as a Template.
+01. Build a standalone APK Payload or use an original APK as a Payload Template.
 
 02. Install the APK Payload on the Victim Android Device.
 
