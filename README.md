@@ -58,7 +58,7 @@ A full Troubleshoot page detailing know AhMyth errors can be found available in 
 Any issues with AhMyth, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AMyth/issues/new/choose)* accordingly.
 
 The following list will help users determine which Issue Template is suitable for their problem.
-#
+
 ### <div align="center"><ins>Issue Templates</ins></div>
 - [Server Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-bug-report.md&title=)
 
