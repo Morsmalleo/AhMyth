@@ -72,7 +72,7 @@ Use this Issue Template if you experience things such as Flickering Victim Conne
 
 Use this Issue Template when you are greeted with any errors when using the Binding Features.
 
-- [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=feature-request.md&title=)
+- [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
 
 Use this Template if you wish to request an upgrade that hasnt already been integrated.
 
