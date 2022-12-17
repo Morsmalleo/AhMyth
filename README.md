@@ -74,9 +74,10 @@ Use this Issue Template when you are greeted with any errors when using the Bind
 
 - [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=feature-request.md&title=)
 
-Use this Template uf you wish to request an upgrade that hasnt already been integrated.
+Use this Template if you wish to request an upgrade that hasnt already been integrated.
 
-If you experience errors that arent related to any of the *Issue Templates*, or if you cant seem to fix your problem using the *Troubleshoot Manual*, then please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new) and post it with enough valid information about the problem.
+### <div align="center"><ins>Blank Issues</ins></div>
+If you experience errors that arent related to any of the *Issue Templates*, or if you cant seem to fix your problem using the *Troubleshoot Manual*, then please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new)* and post it with enough valid information about the problem.
 
 We work hard here to keep the *Issues Section* as clean and as understanding as possible, so please help us to do that by using the *Issue Templates* or by providing non-template Issues with decent information.
 
