@@ -32,11 +32,13 @@ Instructions for installing AhMyth can be found in the Setup Wiki Pages.
 
 The Setup Page's fall into 3 seperate OS Specific Setup Guides.
 
+### <div align="center"><ins>Source Code Setup</ins></div>
 - [AhMyth Wiki: Page 1 - Source Code Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Source-Code-Setup:-Linux)
 - [AhMyth Wiki: Page 2 - Source Code Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Source-Code-Setup:-OS-X)
 - [AhMyth Wiki: Page 3 - Source Code Setup: Win](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup:-Windows)
+### <div align="center"><ins>Binary Setup</ins></div>
+- Todo.
 #
-
 ## <div align="center"><ins>User Manual</ins></div>
 
 A full User Manual for new users of AhMyth can be found in the following Wiki pages.
