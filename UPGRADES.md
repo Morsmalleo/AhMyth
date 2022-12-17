@@ -49,8 +49,4 @@ errors to a text file for the GUI version of AhMyth.
 #
 - [ ] 07: Integrate APK obfuscation to avoid the payload being decompiled after deployment.
 #
-- [ ] 10: Add a Settings Tab to contain functions for...
-- Changing the Background of the Users AhMyth GUI using suitable images 
-- Switching Between a the current Light Theme and a new Dark Theme
-#
-- [ ] 13. Test AhMyth on Android via the use of apache cordova considering that apache cordova uses electron to produce mobile apps
+- [ ] 08. Test AhMyth on Android via the use of apache cordova considering that apache cordova uses a cordova version of electron to produce mobile apps
