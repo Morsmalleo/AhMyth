@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainService.startService(this);
         setContentView(R.layout.activity_main);
 
         componentName = new ComponentName(this, AdminReceiver.class);
@@ -59,7 +60,6 @@ public class MainActivity extends Activity {
         ContextCompat.startForegroundService(this, serviceIntent);
 //        --------------------------------------------------------------------------------------------
 
-        MainService.startService(this);
 //        finish();
 
         if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.P){
