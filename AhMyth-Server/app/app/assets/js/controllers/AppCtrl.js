@@ -125,7 +125,7 @@ app.controller("AppCtrl", ($scope) => {
           if(result.canceled) {
               $appCtrl.Log("No APK Was Selected as a Template", CONSTANTS.logStatus.FAIL); //if user cancels the dialog
           } else {
-            var apkName = result.filePaths[0].split('/').pop(); //get the name of the apk
+            var apkName = result.filePaths[0].replace(/\\/g, "/").split('/').pop(); //get the name of the apk
             $appCtrl.Log('"'+apkName+'"' + " Was Chosen as a Template", CONSTANTS.logStatus.INFO); //when the user selects an apk
               $appCtrl.Log(); // Empty log line for space between logs
               readFile(result.filePaths[0]); 
