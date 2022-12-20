@@ -51,7 +51,7 @@ A full Troubleshoot page detailing know AhMyth errors can be found available in 
 - [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
 #
 
-## <div align="center"><ins>Issues</ins></div>
+## <div align="center"><ins>Posting Issues</ins></div>
 
 Any issues with AhMyth, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AMyth/issues/new/choose)* accordingly.
 
