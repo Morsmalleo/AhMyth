@@ -28,7 +28,7 @@ This Code will reduce building failed errors with both Standalone APK payloads a
         try {
           $appCtrl.Log("Emptying the Apktool Framework Directory")
           $appCtrl.Log();
-          exec('java -jar ' + CONSTANTS.apktoolJar + '" empty-framework-directory "', (error, stderr, stdout) => {
+          exec('java -jar ' + CONSTANTS.apktoolJar + '" empty-framework-dir "', (error, stderr, stdout) => {
             if (error) {
               throw error;
             };
