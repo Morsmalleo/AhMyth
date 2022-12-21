@@ -22,6 +22,7 @@ fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
 ```
 # Function to Empty the Apktool Framework Directory
 This Code will reduce building failed errors with both Standalone APK payloads and Bound APK Payloads, it empties the apktool framework directory before building any payload everytime
+- AppCtrl.js
 ```js
 
         // empty the framework directory
@@ -45,7 +46,7 @@ This Code will reduce building failed errors with both Standalone APK payloads a
 This one was a bit of a pain to manage, but it was done in the end, this future update will be used in the next release until something using `fs` can be constructed, in order to use less coding.
 
 This new function also fixes a bug that was recently discovered when running AhMyth on Windows machines.
-
+- AppCtrl.js
 ```js  
     $appCtrl.BindOnLauncher = (apkFolder) => {
 
@@ -294,7 +295,7 @@ This new function also fixes a bug that was recently discovered when running AhM
 
     };
 ```
-- Backup Cross Platform Bind On Launch function
+### Backup Cross Platform Bind On Launch function
 ```js
 $appCtrl.BindOnLauncher = (apkFolder) => {
 
