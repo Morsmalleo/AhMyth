@@ -1,6 +1,6 @@
-# Sdk change for `Apktool.yml`
+# Sdk change for apktool.yml
 This code snippet is responsible for automatically changing the `apktool.yml` file's sdk version to `22`
-in order for the payload to work after binding.
+in order for the post-exoloitation features of the payload to work after after installing a Bound apk payload.
 - AppCtrl.js
 ```js
 fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
