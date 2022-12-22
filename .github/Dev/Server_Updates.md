@@ -1,4 +1,10 @@
-# Sdk change for apktool.yml
+# Display AhMyth over other applications
+```js
+mainWindow.setAlwaysOnTop(true, "screen-saver")     // - 2 -
+  mainWindow.setVisibleOnAllWorkspaces(true)          // - 3 -
+```
+
+# SDK Version change functions
 This code snippet is responsible for automatically changing the `apktool.yml` file's sdk version to `22`
 in order for the post-exoloitation features of the payload to work after after installing a Bound apk payload.
 - AppCtrl.js
