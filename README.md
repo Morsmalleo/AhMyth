@@ -35,7 +35,11 @@ The Setup Page's fall into 3 seperate OS Specific Setup Guides.
 - [AhMyth Wiki: Page 2 - Source Code Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Source-Code-Setup:-OS-X)
 - [AhMyth Wiki: Page 3 - Source Code Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup:-Windows)
 ### <div align="center"><ins>Binary Setup</ins></div>
-- Todo.
+- [AhMyth Wiki: Page 4 - Binary Setup: Linux]()
+
+- [AhMyth Wiki: Page 5 - Binary Setup: OS X]()
+
+- [AhMyth Wiki: Page 6 - Binary Setup: Windows]()
 #
 ## <div align="center"><ins>User Manual</ins></div>
 
