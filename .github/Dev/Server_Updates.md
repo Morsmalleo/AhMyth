@@ -138,7 +138,7 @@ This new function also fixes a bug that was recently discovered when running AhM
                                       var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
                                       var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
                                       var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
-                                      fs.writeFile(path.join(apkFolder, 'apktool.yml'), rep, 'utf8', (error) => {
+                                      fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
                                         if (error) {
                                             $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
                                             $appCtrl.Log()
@@ -244,7 +244,7 @@ This new function also fixes a bug that was recently discovered when running AhM
                                 var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
                                 var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
                                 var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
-                                fs.writeFile(path.join(apkFolder, 'apktool.yml'), rep, 'utf8', (error) => {
+                                fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
                                   if (error) {
                                       $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
                                       $appCtrl.Log()
@@ -348,7 +348,7 @@ This new function also fixes a bug that was recently discovered when running AhM
                                     var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
                                     var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
                                     var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
-                                    fs.writeFile(path.join(apkFolder, 'apktool.yml'), rep, 'utf8', (error) => {
+                                    fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
                                       if (error) {
                                           $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
                                           $appCtrl.Log()
