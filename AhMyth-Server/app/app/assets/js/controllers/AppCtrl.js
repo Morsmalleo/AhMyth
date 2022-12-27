@@ -5628,7 +5628,7 @@ app.controller("AppCtrl", ($scope) => {
 
                                       var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
                                       var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
-                                      var repYmlSdk = data.replace(minSdkRegex, "$116'").replace(tarSdkRegex, "$122'");
+                                      var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
                                       fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
                                         if (error) {
                                             $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
