@@ -2808,9 +2808,7 @@ app.controller("AppCtrl", ($scope) => {
           $appCtrl.Log("Emptying the Apktool Framework Directory")
           $appCtrl.Log();
           exec('java -jar "' + CONSTANTS.apktoolJar + '" empty-framework-dir --force "' + '"', (error, stderr, stdout) => {
-            if (error) {
-              throw error;
-            };
+            if (error) throw error;
           });
         } catch (error) {
           // ignore the error by doing nothing!
@@ -2823,6 +2821,7 @@ app.controller("AppCtrl", ($scope) => {
             (error, stdout, stderr) => {
                 if (error !== null) {
                     $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
+                    fs.mkdir(logPath);
                     fs.writeFile(path.join(logPath, 'Building.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
                     $appCtrl.Log('Building Error written to "Building.log" on...', CONSTANTS.logStatus.INFO)
                     $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
@@ -2836,8 +2835,10 @@ app.controller("AppCtrl", ($scope) => {
                     (error, stdout, stderr) => {
                         if (error !== null) {
                             $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
+                            fs.mkdir(logPath);
                             fs.writeFile(path.join(logPath, 'Signing.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
-                            $appCtrl.Log('Signing Error written to Signing.log on ', path.join(dataPath, logPath), CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log('Signing Error written to "Signing.log" on... ', CONSTANTS.logStatus.INFO); 
+                            $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                             $appCtrl.Log();
                             return;
                         }
@@ -5954,6 +5955,7 @@ app.controller("AppCtrl", ($scope) => {
                         (error, stdout, stderr) => {
                             if (error !== null) {
                                 $appCtrl.Log('Decompilation Failed', CONSTANTS.logStatus.FAIL);
+                                fs.mkdir(logPath);
                                 fs.writeFile(path.join(logPath, 'Decompiling.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
                                 $appCtrl.Log('Decompiling Error written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
                                 $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
@@ -5991,7 +5993,7 @@ app.controller("AppCtrl", ($scope) => {
 function GetLauncherActivity(manifest) {
 
 
-    var regex = /<activity/gi,
+    var regex = /(<activity)/gi,
         result, indices = [];
     while ((result = regex.exec(manifest))) {
         indices.push(result.index);
