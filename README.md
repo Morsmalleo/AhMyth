@@ -45,14 +45,14 @@ The Setup Page's fall into 3 seperate OS Specific Setup Guides.
 
 A full User Manual for new users of AhMyth can be found in the following Wiki pages.
 
-- [AhMyth Wiki: Page 7 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-User-Manual)
+- [AhMyth Wiki: Page 7 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-7.-User-Manual)
 #
 
 ## <div align="center"><ins>Troubleshoot</ins></div>
 
 A full Troubleshoot page detailing know AhMyth errors can be found available in the AhMyth Wiki, you can find the Troubleshoot Section in the following AhMyth Wiki page.
 
-- [AhMyth Wiki: Page 8 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
+- [AhMyth Wiki: Page 8 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-8.-Troubleshoot)
 #
 
 ## <div align="center"><ins>Posting Issues</ins></div>
@@ -91,7 +91,7 @@ Duplicate Issues will also be removed without question if I can see that the use
 For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
-- [AhMyth Wiki: Page 9 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
+- [AhMyth Wiki: Page 9 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-9.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
 
 ## <div align="center"><ins>Screenshots</ins></div>
