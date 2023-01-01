@@ -36,6 +36,8 @@ if the launcher activity is not present anywhere in the `smali` directory.
 |------| Inbox || Outbox |
 ```
 #
-- [ ] 06: Fix the binaries for 1.0-Beta.4 Release!
+- [x] 06: Fix the binaries for 1.0-Beta.4 Release!
+
+Done!
 #
 - [ ] 07: Implement the `REQUEST_IGNORE_BATTERY_OPTIMISATION` manifest permission in such a way where it wont be replaced when using the `Custom Permissions` feature.
