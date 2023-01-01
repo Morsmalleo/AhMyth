@@ -40,7 +40,7 @@ The Setup Page's fall into 3 seperate OS Specific Setup Guides.
 ### <div align="center"><ins>Binary Setup</ins></div>
 
 - [AhMyth Wiki: Page 4 - Binary Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-Binary-Setup:-Linux)
-- [AhMyth Wiki: Page 5 - Binary Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Binary-Setup:-OS-X)
+- [AhMyth Wiki: Page 5 - Binary Setup: OS X (Being Written)](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Binary-Setup:-OS-X)
 - [AhMyth Wiki: Page 6 - Binary Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Binary-Setup:-Windows)
 #
 
