@@ -10,8 +10,6 @@ Give this repository a 💫 to support our work.
 
 Support through TeamViewer is available to everyone for free.
 
-Do not Git Clone the Development Branch, always Git Clone the Master Branch.
-
 Contributions are more than welcome as this repository will continue to be maintained.
 
 #
