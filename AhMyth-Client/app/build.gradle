@@ -6,6 +6,7 @@ android {
     defaultConfig {
         applicationId "ahmyth.mine.king.ahmyth"
         minSdkVersion 16
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -15,7 +16,7 @@ android {
         }
         buildTypes {
             release {
-                minifyEnabled false
+                minifyEnabled true
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
         }
@@ -28,7 +29,7 @@ android {
         androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
             exclude group: 'com.android.support', module: 'support-annotations'
         })
-        implementation('io.socket:socket.io-client:2.0.1') {
+        implementation('io.socket:socket.io-client:0.8.3') {
             // excluding org.json which is provided by Android
             exclude group: 'org.json', module: 'json'
         }

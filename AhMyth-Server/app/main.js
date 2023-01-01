@@ -64,7 +64,7 @@ function createWindow() {
     width: 900,
     height: 690,
     show: false,
-    resizable: true,
+    resizable: false,
     position: "center",
     toolbar: false,
     fullscreen: false,

@@ -15,11 +15,14 @@ public class MyReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         Intent serviceIntent = new Intent(context, MainService.class);
         ContextCompat.startForegroundService(context, serviceIntent);
 
 //        Toast.makeText(context,intent.getAction(),Toast.LENGTH_LONG).show();
+
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            MainService.startService(context);
+        }
 
         if (intent.getAction().equalsIgnoreCase(Intent.ACTION_NEW_OUTGOING_CALL)){
 

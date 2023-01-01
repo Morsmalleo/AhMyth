@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/IMG/AhMyth-Banner.png">
-  <img alt="shows the AhMyth-Banner.png on dark colour mode and the AhMyth-Banner-dark.png on light colour mode" src=".github/IMG/AhMyth-Banner-dark.png">
+  <source media="(prefers-color-scheme: dark)" srcset=".github/IMG/AhMyth-light-banner.png">
+  <img alt="AhMyth" src=".github/IMG/AhMyth-dark-banner.png">
 </picture>
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Morsmalleo/AhMyth?color=crimson&include_prereleases) ![GitHub issues](https://img.shields.io/github/issues-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Morsmalleo/AhMyth?color=light%20green) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Morsmalleo/AhMyth?color=light-green) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub discussions](https://img.shields.io/github/discussions/Morsmalleo/AhMyth)](https://GitHub.com/Morsmalleo/AhMyth/discussions) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
@@ -18,7 +18,7 @@ Contributions are more than welcome as this repository will continue to be maint
 
 ## <div align="center"><ins>Usage</ins></div>
 
-01. Build a standalone APK Payload or use an original APK as a Template.
+01. Build a standalone APK Payload or use an original APK as a Payload Template.
 
 02. Install the APK Payload on the Victim Android Device.
 
@@ -32,30 +32,57 @@ Instructions for installing AhMyth can be found in the Setup Wiki Pages.
 
 The Setup Page's fall into 3 seperate OS Specific Setup Guides.
 
+### <div align="center"><ins>Source Code Setup</ins></div>
 - [AhMyth Wiki: Page 1 - Source Code Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Source-Code-Setup:-Linux)
 - [AhMyth Wiki: Page 2 - Source Code Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Source-Code-Setup:-OS-X)
-- [AhMyth Wiki: Page 3 - Source Code Setup: Win](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup:-Windows)
+- [AhMyth Wiki: Page 3 - Source Code Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup:-Windows)
+
+### <div align="center"><ins>Binary Setup</ins></div>
+
+- [AhMyth Wiki: Page 4 - Binary Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-Binary-Setup:-Linux)
+- [AhMyth Wiki: Page 5 - Binary Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Binary-Setup:-OS-X)
+- [AhMyth Wiki: Page 6 - Binary Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Binary-Setup:-Windows)
 #
 
 ## <div align="center"><ins>User Manual</ins></div>
 
 A full User Manual for new users of AhMyth can be found in the following Wiki pages.
 
-- [AhMyth Wiki: Page 4 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-User-Manual)
+- [AhMyth Wiki: Page 7 - User Manual](https://github.com/Morsmalleo/AhMyth/wiki/Page-7.-User-Manual)
 #
 
 ## <div align="center"><ins>Troubleshoot</ins></div>
 
 A full Troubleshoot page detailing know AhMyth errors can be found available in the AhMyth Wiki, you can find the Troubleshoot Section in the following AhMyth Wiki page.
 
-- [AhMyth Wiki: Page 5 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Troubleshoot)
+- [AhMyth Wiki: Page 8 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-8.-Troubleshoot)
 #
 
-## <div align="center"><ins>Issues</ins></div>
+## <div align="center"><ins>Posting Issues</ins></div>
 
-Any issue regarding the AhMyth Server or the AhMyth Client, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AhMyth/issues/new/choose)*.
+Any issues with AhMyth, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AMyth/issues/new/choose)* accordingly.
 
-If you don't use the *Issue Templates*, please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new)*, and post it with enough valid information about the problem.
+The following list will help users determine which Issue Template is suitable for their problem.
+
+### <div align="center"><ins>Issue Templates</ins></div>
+- [Server Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-bug-report.md&title=)
+
+Use this issue Template if you experience problems like Buggy/Unusable Victim's Lab Features, or `Building Failed` errors with Standalone APK Payloads.
+
+- [Client Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-bug-report.md&title=)
+
+Use this Issue Template if you experience things such as Flickering Victim Connections.
+
+- [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
+
+Use this Issue Template when you are greeted with any errors when using the Binding Features.
+
+- [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
+
+Use this Template if you wish to request an upgrade that hasnt already been integrated.
+
+### <div align="center"><ins>Blank Issues</ins></div>
+If you experience errors that arent related to any of the *Issue Templates*, or if you cant seem to fix your problem using the *Troubleshoot Manual*, then please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new)* and post it with enough valid information about the problem.
 
 We work hard here to keep the *Issues Section* as clean and as understanding as possible, so please help us to do that by using the *Issue Templates* or by providing non-template Issues with decent information.
 
@@ -67,7 +94,7 @@ Duplicate Issues will also be removed without question if I can see that the use
 For those looking to study this unique RAT, you can find all the information you'll need to know about AhMyth and it's payload in the following AhMyth Wiki sections;
 
 - [AhMyth Wiki: Home](https://github.com/Morsmalleo/AhMyth/wiki)
-- [AhMyth Wiki: Page 6 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Dissecting-a-RAT:-Analysis-of-AhMyth)
+- [AhMyth Wiki: Page 9 - Dissecting a RAT: Analysis of AhMyth](https://github.com/Morsmalleo/AhMyth/wiki/Page-9.-Dissecting-a-RAT:-Analysis-of-AhMyth)
 #
 
 ## <div align="center"><ins>Screenshots</ins></div>

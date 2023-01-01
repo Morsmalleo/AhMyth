@@ -1,4 +1,4 @@
-<div class="ui {{load}} basic segment h100 ">
+<div class="ui {{load}} basic segment h100 " style="overflow-y:auto;overflow-x: auto;white-space:nowrap; height: 400px;">
     <div class="ui grid center aligned h100">
         <div class="row h20">
             <div class="sixteen wide column">
@@ -7,12 +7,12 @@
             </div>
         </div>
         <div class="row h80">
-            <div class="sixteen wide column h100">
-                <div class="ui h100 w100 image ">
+            <div class="sixteen wide column h100" style="display: flex; justify-content: center;">
+                <div class="ui h100 image ">
                     <a class="ui red ribbon label" ng-show="isSaveShown" ng-click="savePhoto()">
                         <i class="save icon"></i> Save
                     </a>
-                    <img style="height: 68%; width: 100%;" src="./assets/img/imageHolder.png" ng-src="{{imgUrl}}"></img>
+                    <img style="height: 100%;" src="./assets/img/imageHolder.png" ng-src="{{imgUrl}}"></img>
                 </div>
             </div>
         </div>

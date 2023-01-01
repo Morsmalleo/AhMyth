@@ -13,7 +13,7 @@ echo " |--------------------------------| "
 sleep 2
  
 apt-get install npm nodejs -y
-apt-get install aapt android-framework-res zipalign -y
+apt-get install zipalign -y
 apt-get install python3 python3-pip -y
 clear
 sleep 1

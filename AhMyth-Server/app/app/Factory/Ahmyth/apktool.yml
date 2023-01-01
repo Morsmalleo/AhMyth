@@ -4,9 +4,6 @@ compressionType: false
 doNotCompress:
 - resources.arsc
 - png
-- META-INF/androidx.versionedparcelable_versionedparcelable.version
-- META-INF/android.arch.lifecycle_runtime.version
-- META-INF/androidx.core_core.version
 isFrameworkApk: false
 packageInfo:
   forcedPackageId: '127'
@@ -21,7 +18,7 @@ usesFramework:
   ids:
   - 1
   tag: null
-version: 2.6.0
+version: 2.6.1-86856a-SNAPSHOT
 versionInfo:
   versionCode: '1'
   versionName: '1.0'

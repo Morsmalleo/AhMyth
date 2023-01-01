@@ -1,11 +1,8 @@
 .class public interface abstract Landroid/arch/lifecycle/GenericLifecycleObserver;
 .super Ljava/lang/Object;
-.source "GenericLifecycleObserver.java"
-
-# interfaces
-.implements Landroid/arch/lifecycle/LifecycleObserver;
+.source ""
 
 
 # virtual methods
-.method public abstract onStateChanged(Landroid/arch/lifecycle/LifecycleOwner;Landroid/arch/lifecycle/Lifecycle$Event;)V
+.method public abstract a(Landroid/arch/lifecycle/d;Landroid/arch/lifecycle/c$a;)V
 .end method

