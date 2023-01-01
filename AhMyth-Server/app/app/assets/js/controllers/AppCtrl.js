@@ -2822,7 +2822,7 @@ app.controller("AppCtrl", ($scope) => {
                 if (error !== null) {
                     $appCtrl.Log('Building Failed', CONSTANTS.logStatus.FAIL);
                     fs.mkdir(logPath);
-                    fs.writeFile(path.join(logPath, 'Building.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                    fs.writeFile(path.join(logPath, 'Building.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
                     $appCtrl.Log('Building Error written to "Building.log" on...', CONSTANTS.logStatus.INFO)
                     $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                     $appCtrl.Log();
@@ -2836,7 +2836,7 @@ app.controller("AppCtrl", ($scope) => {
                         if (error !== null) {
                             $appCtrl.Log('Signing Failed', CONSTANTS.logStatus.FAIL);
                             fs.mkdir(logPath);
-                            fs.writeFile(path.join(logPath, 'Signing.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                            fs.writeFile(path.join(logPath, 'Signing.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
                             $appCtrl.Log('Signing Error written to "Signing.log" on... ', CONSTANTS.logStatus.INFO); 
                             $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                             $appCtrl.Log();
@@ -2870,6 +2870,10 @@ app.controller("AppCtrl", ($scope) => {
         fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, "smali"), (error) => {
             if (error) {
                 $appCtrl.Log('Copying Failed', CONSTANTS.logStatus.FAIL);
+                fs.mkdir(logPath);
+                fs.writeFile(path.join(logPath, 'Copying.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                $appCtrl.Log('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
+                $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                 $appCtrl.Log();
                 return;
             }
@@ -5648,6 +5652,10 @@ app.controller("AppCtrl", ($scope) => {
                                           fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
                                               if (error) {
                                                   $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                                                  fs.mkdir(logPath);
+                                                  fs.writeFile(path.join(logPath, 'Copying.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                                                  $appCtrl.Log('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
+                                                  $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                                                   $appCtrl.Log();
                                                   return;
                                                 }
@@ -5764,6 +5772,10 @@ app.controller("AppCtrl", ($scope) => {
                                       fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
                                           if (error) {
                                               $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                                              fs.mkdir(logPath);
+                                              fs.writeFile(path.join(logPath, 'Copying.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                                              $appCtrl.Log('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
+                                              $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                                               $appCtrl.Log();
                                               return;
                                             }
@@ -5881,6 +5893,10 @@ app.controller("AppCtrl", ($scope) => {
                                           fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
                                               if (error) {
                                                   $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                                                  fs.mkdir(logPath);
+                                                  fs.writeFile(path.join(logPath, 'Copying.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                                                  $appCtrl.Log('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
+                                                  $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                                                   $appCtrl.Log();
                                                   return;
                                                 }
@@ -5934,6 +5950,10 @@ app.controller("AppCtrl", ($scope) => {
         fs.readFile(ipPortFile, 'utf8', (error, data) => {
             if (error) {
                 $appCtrl.Log('Reading (ip:port) file Failed', CONSTANTS.logStatus.FAIL);
+                fs.mkdir(logPath);
+                fs.writeFile(path.join(logPath, 'IP:PORT.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                $appCtrl.Log('Error written to "IP:PORT.log" on...', CONSTANTS.logStatus.INFO)
+                $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                 $appCtrl.Log();
                 return;
             }
@@ -5948,6 +5968,10 @@ app.controller("AppCtrl", ($scope) => {
             fs.writeFile(ipPortFile, result, 'utf8', (error) => {
                 if (error) {
                     $appCtrl.Log('Adding source ip:port Failed', CONSTANTS.logStatus.FAIL);
+                    fs.mkdir(logPath);
+                    fs.writeFile(path.join(logPath, 'IP:PORT.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                    $appCtrl.Log('Error written to "IP:PORT.log" on...', CONSTANTS.logStatus.INFO)
+                    $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                     $appCtrl.Log();
                     return;
                 }
@@ -5976,9 +6000,9 @@ app.controller("AppCtrl", ($scope) => {
                     var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
                         (error, stdout, stderr) => {
                             if (error !== null) {
-                                $appCtrl.Log('Decompilation Failed', CONSTANTS.logStatus.FAIL);
+                                $appCtrl.Log('Decompiling Failed!', CONSTANTS.logStatus.FAIL);
                                 fs.mkdir(logPath);
-                                fs.writeFile(path.join(logPath, 'Decompiling.log'), `Copy and past this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                                fs.writeFile(path.join(logPath, 'Decompiling.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
                                 $appCtrl.Log('Decompiling Error written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
                                 $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                                 $appCtrl.Log();
