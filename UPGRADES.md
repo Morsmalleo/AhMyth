@@ -47,6 +47,8 @@ errors to a text file for the GUI version of AhMyth.
 #
 - [ ] 06: Integrate a Windows `.exe` Builder for an AhMyth Windows client.
 #
-- [ ] 07: Integrate APK obfuscation to avoid the payload being decompiled after deployment.
+- [x] 07: Integrate APK obfuscation to avoid the payload being decompiled after deployment.
+
+Done with progaurd!
 #
 - [ ] 08. Test AhMyth on Android via the use of apache cordova considering that apache cordova uses a cordova version of electron to produce mobile apps
