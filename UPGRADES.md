@@ -13,7 +13,7 @@ AhMyth client
 - [ ] 06: Integrate proper storage access for the client.
 #
 - [ ] 07: Implement notification listening, a feature from L3MON.
-#
+<br>
 ## <div align="center"><ins>Server Upgrades</ins></div>
 
 - [ ] 01: Explore other, more discrete options for the 
