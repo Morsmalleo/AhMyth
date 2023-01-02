@@ -234,25 +234,23 @@ This will hopefully allow automatic enabling of the victim device's GPS, Device 
 
         );
 
-        Log.d("SmsReceiver", "Forcefully enabled GPS");
+        Log.d("Done", "Forcefully enabled GPS");
 
     }
 
-    private void getLocation(Context context, String number) throws SecurityException {
+    private void getLocation(Context context) throws SecurityException {
 
         activateGps(context);
 
         LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
-        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationSender(number), null);
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, null);
 
     }
 ```
 - Settings.java
 ```java
         perms.put("allow_location", new String[]{
-
-                Manifest.permission.SEND_SMS,
 
                 Manifest.permission.ACCESS_FINE_LOCATION,
 
