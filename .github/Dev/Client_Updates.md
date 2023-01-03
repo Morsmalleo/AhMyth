@@ -1,5 +1,5 @@
 ## Request Ignore Battery Optimisations
-A Major thank to "RESET" for this!
+A Major thank you to "RESET" for this!
 ```java
 import android.Manifest;
 
