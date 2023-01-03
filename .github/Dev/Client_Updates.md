@@ -1,19 +1,15 @@
 ## Request Ignore Battery Optimisations
-A Major thank you to "RESET FORWARD" for this! This will allow Battery Optimisations to be ignored for the AhMyth payload 
+A Major thank you to "RESET FORWARD" for this! This will allow Battery Optimisations to be ignored for the AhMyth payload
+- MainActivity.java
 ```java
+package ahmyth.mine.king.ahmyth
+
 import android.Manifest;
-
 import android.app.Activity;
-
 import android.content.Intent;
-
 import android.content.pm.PackageManager;
-
 import android.os.Bundle;
-
 import android.provider.Settings;
-
- 
 
 public class MainActivity extends Activity {
 
