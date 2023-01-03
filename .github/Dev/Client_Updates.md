@@ -1,3 +1,61 @@
+## Request Ignore Battery Optimisations
+A Major thank to "RESET" for this!
+```java
+import android.Manifest;
+
+import android.app.Activity;
+
+import android.content.Intent;
+
+import android.content.pm.PackageManager;
+
+import android.os.Bundle;
+
+import android.provider.Settings;
+
+ 
+
+public class MainActivity extends Activity {
+
+ 
+
+  @Override
+
+  protected void onCreate(Bundle savedInstanceState) {
+
+    super.onCreate(savedInstanceState);
+
+   
+
+               
+
+    requestIgnoreBatteryOptimizationPermission();
+
+  }
+
+ 
+
+  private void requestIgnoreBatteryOptimizationPermission() {
+
+    if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)) {
+
+      String packageName = getPackageName();
+
+      Intent intent = new Intent();
+
+      intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+
+      intent.setData(Uri.parse("package:" + packageName));
+
+      startActivity(intent);
+
+    }
+
+  }
+
+}
+```
+
 ## Updated SMS Manager.
 ```java
 public static JSONObject getSMSInboxList(){
