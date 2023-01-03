@@ -56,7 +56,8 @@ public class MainActivity extends Activity {
 }
 ```
 
-## Updated SMS Manager.
+## Updated SMS Manager
+This should hopefully allow viewing of both inbox and outbox messages when using the Victims Lab SMS feature, Server Updates also required to allow this to work.
 ```java
 public static JSONObject getSMSInboxList(){
 
