@@ -67,7 +67,7 @@ Any issues with AhMyth, must be posted using the *[Issue Templates](https://gith
 
 The following list will help users determine which Issue Template is suitable for their problem.
 
-<br></br>
+<br>
 
 ### <div align="center"><ins>Issue Templates</ins></div>
 - [Server Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-bug-report.md&title=)
