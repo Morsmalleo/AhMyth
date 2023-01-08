@@ -64,6 +64,8 @@ Any issues with AhMyth, must be posted using the *[Issue Templates](https://gith
 
 The following list will help users determine which Issue Template is suitable for their problem.
 
+<br></br>
+
 ### <div align="center"><ins>Issue Templates</ins></div>
 - [Server Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-bug-report.md&title=)
 
@@ -80,6 +82,8 @@ Use this Issue Template when you are greeted with any errors when using the Bind
 - [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
 
 Use this Template if you wish to request an upgrade that hasnt already been integrated.
+
+<br></br>
 
 ### <div align="center"><ins>Blank Issues</ins></div>
 If you experience errors that arent related to any of the *Issue Templates*, or if you cant seem to fix your problem using the *Troubleshoot Manual*, then please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new)* and post it with enough valid information about the problem.
