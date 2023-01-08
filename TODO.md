@@ -12,3 +12,5 @@
 ```
 #
 - [ ] 04: Implement the `REQUEST_IGNORE_BATTERY_OPTIMISATION` manifest permission in such a way where it wont be replaced when using the `Custom Permissions` feature.
+#
+- [ ] 05: Add **Zipalign* for 32bit linux based operating systems as well as the JavaScript code to execute it before signing. 
