@@ -21,7 +21,6 @@ Contributions are more than welcome as this repository will continue to be maint
 02. Install the APK Payload on the Victim Android Device.
 
 03. Take Control of the Victim Android Device by using the *Victim's Lab*.
-
 #
 
 ## <div align="center"><ins>Installation</ins></div>
@@ -30,10 +29,14 @@ You can install AhMyth by using either the *Source code*, or by using the *Binar
 
 Instructions for installing AhMyth using either the *Source Code* or the *Binary Files*, can be found in the following Setup Wiki Pages.
 
+<br></br>
+
 ### <div align="center"><ins>Source Code Setup</ins></div>
 - [AhMyth Wiki: Page 1 - Source Code Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Source-Code-Setup:-Linux)
 - [AhMyth Wiki: Page 2 - Source Code Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Source-Code-Setup:-OS-X)
 - [AhMyth Wiki: Page 3 - Source Code Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup:-Windows)
+
+<br></br>
 
 ### <div align="center"><ins>Binary Setup</ins></div>
 
