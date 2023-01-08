@@ -29,7 +29,7 @@ You can install AhMyth by using either the *Source code*, or by using the *Binar
 
 Instructions for installing AhMyth using either the *Source Code* or the *Binary Files*, can be found in the following Setup Wiki Pages.
 
-<br></br>
+<br>
 
 ### <div align="center"><ins>Source Code Setup</ins></div>
 - [AhMyth Wiki: Page 1 - Source Code Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Source-Code-Setup:-Linux)
