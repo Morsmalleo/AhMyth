@@ -36,7 +36,7 @@ Instructions for installing AhMyth using either the *Source Code* or the *Binary
 - [AhMyth Wiki: Page 2 - Source Code Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Source-Code-Setup:-OS-X)
 - [AhMyth Wiki: Page 3 - Source Code Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup:-Windows)
 
-<br></br>
+<br>
 
 ### <div align="center"><ins>Binary Setup</ins></div>
 
