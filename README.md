@@ -51,7 +51,9 @@ A full User Manual for new users of AhMyth can be found in the following Wiki pa
 
 ## <div align="center"><ins>Troubleshoot</ins></div>
 
-A full Troubleshoot page detailing know AhMyth errors can be found available in the AhMyth Wiki, you can find the Troubleshoot Section in the following AhMyth Wiki page.
+A full Troubleshoot page detailing known errors when running AhMyth using either the *Source Code* or the *Binary Files*, can be found in the AhMyth Wiki. 
+
+You can find the Troubleshoot Sections for both Source Code Usage errors and Binary Usage errors, in the following AhMyth Wiki page.
 
 - [AhMyth Wiki: Page 8 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-8.-Troubleshoot)
 #
