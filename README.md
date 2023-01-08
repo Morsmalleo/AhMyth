@@ -86,7 +86,7 @@ Use this Issue Template when you are greeted with any errors when using the Bind
 
 Use this Template if you wish to request an upgrade that hasnt already been integrated.
 
-<br></br>
+<br>
 
 ### <div align="center"><ins>Blank Issues</ins></div>
 If you experience errors that arent related to any of the *Issue Templates*, or if you cant seem to fix your problem using the *Troubleshoot Manual*, then please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new)* and post it with enough valid information about the problem.
