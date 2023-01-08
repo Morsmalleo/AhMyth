@@ -72,7 +72,7 @@ The following list will help users determine which Issue Template is suitable fo
 ### <div align="center"><ins>Issue Templates</ins></div>
 - [Server Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-bug-report.md&title=)
 
-Use this issue Template if you experience problems like Buggy/Unusable Victim's Lab Features, or `Building Failed` errors with Standalone APK Payloads.
+Use this issue Template if you experience problems like Buggy/Unusable Victim's Lab Features, or `Building Failed errors with Standalone APK Payloads`.
 
 - [Client Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-bug-report.md&title=)
 
