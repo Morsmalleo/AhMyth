@@ -26,7 +26,7 @@ Contributions are more than welcome as this repository will continue to be maint
 
 ## <div align="center"><ins>Installation</ins></div>
 
-Instructions for installing AhMyth can be found in the following AhMyth Setup Wiki Pages.
+Instructions for installing AhMyth can be found in the following Setup Wiki Pages.
 
 You can either install AhMyth by using the source code, or by using the Binary files.
 
