@@ -26,7 +26,7 @@ Contributions are more than welcome as this repository will continue to be maint
 
 ## <div align="center"><ins>Installation</ins></div>
 
-You can either install AhMyth by using the source code, or by using the Binary files.
+You can install AhMyth by using either the *Source code*, or by using the *Binary files*.
 
 Instructions for installing AhMyth using either the *Source Code* or the *Binary Files*, can be found in the following Setup Wiki Pages.
 
