@@ -28,7 +28,7 @@ Contributions are more than welcome as this repository will continue to be maint
 
 Instructions for installing AhMyth can be found in the following AhMyth Setup Wiki Pages.
 
-You can either install AhMyth using the source code, or using the Binary files.
+You can either install AhMyth by using the source code, or by using the Binary files.
 
 ### <div align="center"><ins>Source Code Setup</ins></div>
 - [AhMyth Wiki: Page 1 - Source Code Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Source-Code-Setup:-Linux)
