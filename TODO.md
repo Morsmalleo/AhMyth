@@ -17,9 +17,9 @@
 #
 - [ ] 06: write a JavaScript function with `fs.readdir` so AhMyth is able to read an Apk folder and determine how many `"smali_classes**"` folders we have present. 
 
-So basically if only the `"smali"` folder is present and returns as the last folder inside the apk folder, the function should always create a `"smali_classes2"` folder! 
+> So basically if only the `"smali"` folder is present and returns as the last folder inside the apk folder, the function should always create a `"smali_classes2"` folder! 
 
-But if we have multiple `"smali_classes**"` folders present, then the function should return the last `"smali_classes**"` folder and create a new one next to it following the number pattern in the folder title. Examples below. Newly created folders in the examples are wrapped in `[]`.
+> But if we have multiple `"smali_classes**"` folders present, then the function should return the last `"smali_classes**"` folder and create a new one next to it following the number pattern in the folder title. Examples below. Newly created folders in the examples are wrapped in `[]`.
 - Example 1
 ```
 <apkFolder>
