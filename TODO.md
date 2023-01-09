@@ -30,8 +30,8 @@
  | original
  | res
  | build
- | smali <= This returns as the last smali folder
- | [smali_classes2] <= So This folder is created in this instance
+ | smali <= If this returns as the last smali folder
+ | [smali_classes2] <= This exact folder should always be created in this instance
 ```
 - Example 2
 ```
@@ -44,6 +44,6 @@
  | smali
  | smali_classes2
  | smali_classes3
- | smali_classes4 <= This returns as the last smali folder
- | [smali_classes5] <= So this folder is created following the number pattern in the previous folder's title.
+ | smali_classes4 <= If this returns as the last smali folder
+ | [smali_classes5] <= then this folder is created following the number pattern in the previous folder's title.
 ```
