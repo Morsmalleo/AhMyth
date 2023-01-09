@@ -6,3 +6,5 @@ dist
 #files
 *.tgz
 *.log
+#node modules of ahmyth server
+AhMyth-Server/app/node_modules
