@@ -14,7 +14,6 @@ sleep 2
  
 apt-get install npm nodejs -y
 apt-get install zipalign -y
-apt-get install python3 python3-pip -y
 clear
 sleep 1
 
@@ -45,7 +44,7 @@ echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sleep 2
 # Install's electron globally, so you can operate ahmyth without needing to run 'npm install', works for both Kali and Parrot FINALLY!
-sh -c "npm install -g electron@11.5.0"
+sh -c "npm install -g electron@11.0.0"
 sleep 5
 clear
 /usr/bin/update-alternatives --config java
@@ -80,7 +79,7 @@ echo " | Installing AhMyth | "
 echo " |-------------------| " 
 sleep 2
 # Install's electron globally, so you can operate ahmyth without needing to run 'npm install', works for both Kali and Parrot FINALLY!
-sh -c "npm install -g electron@11.5.0"
+sh -c "npm install -g electron@11.0.0"
 sleep 5
 clear
 /usr/bin/update-alternatives --config java
