@@ -36,9 +36,9 @@ echo " |-----------------------------------------------------| "
 echo " | To reinstall AhMyth, run the 'autoinstaller' script | "
 echo " |-----------------------------------------------------| "
 sleep 3
-echo " |-----------------------------------------------------------------------------------| "
-echo " | or run 'npm install && npm audit fix' inside the 'AhMyth/AhMyth-Server' directory | "
-echo " |-----------------------------------------------------------------------------------| "
+echo " |-----------------------------------------------------------| "
+echo " | or run 'npm install' inside the 'AhMyth-Server' directory | "
+echo " |-----------------------------------------------------------| "
 sleep 5
 clear
 exit 0
