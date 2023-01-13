@@ -20,8 +20,8 @@ echo " |---------------------------------------------------| "
 echo " | Uninstalling AhMyth from your system, please wait | "
 echo " |---------------------------------------------------| "
 rm -f /usr/local/sbin/ahmyth
-rm /usr/share/applications/AhMyth.desktop
-rm /usr/share/icons/64x64.png
+rm -f /usr/share/applications/AhMyth.desktop
+rm -f /usr/share/icons/64x64.png
 rm -rf node_modules
 sleep 5
 
