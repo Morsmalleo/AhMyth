@@ -76,7 +76,7 @@ Use this issue Template if you experience problems like Buggy/Unusable Victim's 
 
 - [Client Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-bug-report.md&title=)
 
-Use this Issue Template if you experience things such as Flickering Victim Connections with Standalone APK Payloads, or any sort of bug or instability.
+Use this Issue Template if you experience things such as Flickering Victim Connections with Standalone APK Payloads, or any sort of bug or instability with Standalone APK payloads.
 
 - [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
 
