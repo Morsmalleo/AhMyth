@@ -33,7 +33,7 @@ Instructions for installing AhMyth using either the *Source Code* or the *Binary
 
 ### <div align="center"><ins>Source Code Setup</ins></div>
 - [AhMyth Wiki: Page 1 - Source Code Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-1.-Source-Code-Setup:-Linux)
-- [AhMyth Wiki: Page 2 - Source Code Setup: OS X](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Source-Code-Setup:-OS-X)
+- [AhMyth Wiki: Page 2 - Source Code Setup: macOS](https://github.com/Morsmalleo/AhMyth/wiki/Page-2.-Source-Code-Setup:-macOS)
 - [AhMyth Wiki: Page 3 - Source Code Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-3.-Source-Code-Setup:-Windows)
 
 <br>
@@ -41,7 +41,7 @@ Instructions for installing AhMyth using either the *Source Code* or the *Binary
 ### <div align="center"><ins>Binary Setup</ins></div>
 
 - [AhMyth Wiki: Page 4 - Binary Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-Binary-Setup:-Linux)
-- [AhMyth Wiki: Page 5 - Binary Setup: OS X (Being Written)](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Binary-Setup:-OS-X)
+- [AhMyth Wiki: Page 5 - Binary Setup: macOS (Being Written)](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Binary-Setup:-macOS)
 - [AhMyth Wiki: Page 6 - Binary Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Binary-Setup:-Windows)
 #
 
