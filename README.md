@@ -76,11 +76,11 @@ Use this issue Template if you experience problems like Buggy/Unusable Victim's 
 
 - [Client Bug Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-bug-report.md&title=)
 
-Use this Issue Template if you experience things such as Flickering Victim Connections, or applications that break/crash after Binding.
+Use this Issue Template if you experience things such as Flickering Victim Connections with Standalone APK Payloads
 
 - [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
 
-Use this Issue Template when you are greeted with any errors when using the Binding Features.
+Use this Issue Template when you are greeted with any errors when using the Binding Features, Flickering Connections after Binding, or if any applications break/crash after Binding.
 
 - [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
 
