@@ -15,7 +15,7 @@
 #
 - [ ] 05: Add *Zipalign* for 32bit linux based operating systems as well as the JavaScript code to execute it before signing.
 #
-- [ ] 06: write a JavaScript function with `fs.readdir` so AhMyth is able to read an Apk folder and determine how many `"smali_classes**"` folders we have present in order to create a new one for the AhMyth payload files to be copied into inatead of copying them to them same smali folder containing the path to the Launcher Activity.
+- [ ] 06: write a JavaScript function with `fs.readdir` so AhMyth is able to read an Apk folder and determine how many `"smali_classes**"` folders we have present in order to create a new one for the AhMyth payload files to be copied into instead of copying them to them same smali folder containing the path to the Launcher Activity.
 
 > So basically, if the `"smali"` folder is the last subfolder inside the decompiled APK folder, then the  function should always create a `"smali_classes2"` folder in this instance, see Example 1 below...
 
