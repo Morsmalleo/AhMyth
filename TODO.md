@@ -15,11 +15,11 @@
 #
 - [ ] 05: Add *Zipalign* for 32bit linux based operating systems as well as the JavaScript code to execute it before signing.
 #
-- [ ] 06: write a JavaScript function with `fs.readdir` so AhMyth is able to read an Apk folder and determine how many `"smali_classes**"` folders we have present in order to create a new one for the AhMyth payload files to be copied into instead of copying them to them same smali folder containing the path to the Launcher Activity.
+- [ ] 06: write a JavaScript function with `fs.readdir` so AhMyth is able to read an Apk folder and determine how many `"smali_classes**"` folders we have present in order to create a new one for the AhMyth payload files to be copied into instead of copying them to the same smali folder containing the path to the Launcher Activity.
 
-> So basically, if the `"smali"` folder is the last subfolder inside the decompiled APK folder, then the  function should always create a `"smali_classes2"` folder in this instance, see Example 1 below...
+> So basically, if the `"smali"` folder is the only subfolder inside the decompiled APK that handles `*.smali` files, then the function should always create a `"smali_classes2"` folder in this instance, see Example 1 below...
 
-> However if we have multiple `"smali_classes**"` folders present, this wont be the case, the function would then have to find the last `"smali_classes**"` subfolder, and then create a new `"smali_classes**"` subfolder next to it following the number pattern from the previous `"smali_classes**"` subfolder, see Example 2 below.
+> However if we have multiple `"smali_classes**"` subfolders present, this wont be the case, because each of these `"smali_classes**"` subfolders is numbered, so the function in this instance would have to find the very last `"smali_classes**"` subfolder, and then create a new `"smali_classes**"` subfolder next to it following the number pattern from the previous `"smali_classes**"` subfolder, see Example 2 below.
 
 > The function should also ignore any folder that is not named `"smali"` or `"smali_classes"`.
 
