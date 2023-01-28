@@ -1,3 +1,24 @@
+# Function to create a new smali folder inside an original APK when Binding.
+```js
+// This gives us a list of the smali directories 
+// present inside an APK folder
+
+fs.readdir(apkFolder, function (err, filesPath) {
+
+    if (err) throw err;
+    
+    var result = [];
+    result = filesPath.map(function (filePath) {
+
+        return filePath;
+
+    });
+
+    console.log(result);
+
+});
+```
+
 # Display AhMyth over other applications
 ```js
 mainWindow.setAlwaysOnTop(true, "screen-saver")     // - 2 -
