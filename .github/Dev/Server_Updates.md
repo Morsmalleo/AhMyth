@@ -2,21 +2,27 @@
 ```js
 // This gives us a list of the smali directories 
 // present inside an APK folder
+// we use hoisting to run this
 
-fs.readdir(apkFolder, function (err, filesPath) {
+var GetSmaliList = GetSmaliList(apkFolder);
 
-    if (err) throw err;
-    
-    var result = [];
-    result = filesPath.map(function (filePath) {
+function GetSmaliList(apkFolder) {
+    fs.readdir(apkFolder, function (err, filesPath) {
 
-        return filePath;
+        if (err) throw err;
+
+        var result = [];
+        result =  filesPath.map(function (filePath) {
+
+            return filePath;
+
+        });
+
+        console.log(result);
 
     });
 
-    console.log(result);
-
-});
+};
 ```
 
 # Display AhMyth over other applications
