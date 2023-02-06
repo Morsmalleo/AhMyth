@@ -5,6 +5,7 @@ var GetSmaliList = GetSmaliList(apkFolder);
 function GetSmaliList(apkFolder) {
     fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
         if (error) throw error;
+        
         var smaliList = files
             .filter((item) => item.isDirectory())
             .map((item) => item.name);
