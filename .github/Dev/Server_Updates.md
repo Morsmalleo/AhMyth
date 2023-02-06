@@ -25,12 +25,6 @@ function GetSmaliList(apkFolder) {
 
  };
 ```
-
-# Display AhMyth over other applications
-```js
-mainWindow.setAlwaysOnTop(true, "screen-saver")     // - 2 -
-  mainWindow.setVisibleOnAllWorkspaces(true)          // - 3 -
-```
 # Backup Cross Platform Bind On Launch function
 Stored just in case of problems with the original Cross platform bind on launch function
 ```js
