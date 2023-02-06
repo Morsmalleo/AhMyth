@@ -16,13 +16,14 @@ function GetSmaliList(apkFolder) {
 
             return filePath;
 
-        });
+        })
 
-        console.log(result);
+        var lastSmali = result[result.length -1];
+        console.log(lastSmali);
 
     });
 
-};
+ };
 ```
 
 # Display AhMyth over other applications
