@@ -1,10 +1,12 @@
 # Function to create a new smali folder inside an original APK when Binding.
 ```js
-fs.readdir(apkFolder, { withFileTypes: true }, (error>
+fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) throw error;
     var smaliList = files
-        .filter((item) => item.isDirectory())                 .map((item) => item.name);
-                                                              var lastSmali = smaliList[smaliList.length -1>
+        .filter((item) => item.isDirectory())
+        .map((item) => item.name);
+        
+        var lastSmali = smaliList[smaliList.length -1>
         console.log(lastSmali);
 });
 ```
