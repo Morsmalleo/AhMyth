@@ -3,15 +3,21 @@
 var GetSmaliList = GetSmaliList(apkFolder);
 
 function GetSmaliList(apkFolder) {
-    fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
-        if (error) throw error;
-        
-        var smaliList = files
-            .filter((item) => item.isDirectory())
-            .map((item) => item.name);
+	
+    fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => 
+        if (error) {
+            console.log('Failed Reding the Decompiled')
+            return;
+            
+        } else {
+            var smaliList = files
+                .filter((item) => item.isDirectory())
+                .map((item) => item.name);
 
             var lastSmali = smaliList[smaliList.length -1];
             console.log(lastSmali);
+        };
+
     });
 
 };
