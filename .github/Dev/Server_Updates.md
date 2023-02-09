@@ -22,28 +22,6 @@ function GetSmaliList(apkFolder) {
 
 };
 ```
-```js
-var GetSmaliList = GetSmaliList(apkFolder);
-
-function GetSmaliList(apkFolder) {
-    fs.readdir(apkFolder, function (err, filesPath) {
-
-        if (err) throw err;
-
-        var result = [];
-        result =  filesPath.map(function (filePath) {
-
-            return filePath;
-
-        });
-
-        var lastSmali = result[result.length -1];
-        console.log(lastSmali);
-
-    });
-
- };
-```
 # Backup Cross Platform Bind On Launch function
 Stored just in case of problems with the original Cross platform bind on launch function
 ```js
