@@ -6,7 +6,8 @@ function GetSmaliList(apkFolder) {
 	
     fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
         if (error) {
-            console.log('Reding the Decompiled APK Failed!')
+            $appCtrl.Log('Reding the Decompiled APK Failed!')
+	    $appCtrl.Log();
             return;
             
         } else {
@@ -15,7 +16,7 @@ function GetSmaliList(apkFolder) {
                 .map((item) => item.name);
 
             var lastSmali = smaliList[smaliList.length -1];
-            console.log(lastSmali);
+            $appCtrl.Log(lastSmali);
         };
 
     });
