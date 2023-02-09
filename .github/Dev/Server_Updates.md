@@ -6,7 +6,7 @@ function GetSmaliList(apkFolder) {
 	
     fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => 
         if (error) {
-            console.log('Failed Reding the Decompiled')
+            console.log('Reding the Decompiled APK Failed!')
             return;
             
         } else {
