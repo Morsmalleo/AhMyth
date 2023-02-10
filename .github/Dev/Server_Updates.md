@@ -13,8 +13,13 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
         var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
         var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
         var newSmaliNumber = lastSmaliNumber+1;
-	console.log(`${newSmaliNumber}`);    
-
+        var payloadSmaliFolder = ('/smali_classes'+newSmaliNumber);
+        fs.mkdir(apkFolder + payloadSmaliFolder, { recursive: true }, error => {
+            if (error) {
+                throw error;
+            };
+            
+        });
     };
 
 });
