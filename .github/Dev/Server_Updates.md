@@ -1,27 +1,25 @@
 # Function to create a new smali folder inside an original APK when Binding.
 ```js
-var GetSmaliList = GetSmaliList(apkFolder);
+fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
+    if (error) {
+        console.log('Reding the Decompiled APK Failed!')
+	console.log();
+        return;
 
-function GetSmaliList(apkFolder) {
-	
-    fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
-        if (error) {
-            $appCtrl.Log('Reding the Decompiled APK Failed!')
-	    $appCtrl.Log();
-            return;
-            
-        } else {
-            var smaliList = files
-                .filter((item) => item.isDirectory())
-                .map((item) => item.name);
+    } else {
+    
+        var smaliList = files
+            .filter((item) => item.isDirectory())
+            .map((item) => item.name);
+        var lastSmali = smaliList[smaliList.length -1];
+        var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
+        var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
+        var newSmaliNumber = lastSmaliNumber+1;
+	console.log(`${newSmaliNumber}`);    
 
-            var lastSmali = smaliList[smaliList.length -1];
-            $appCtrl.Log(lastSmali);
-        };
+    };
 
-    });
-
-};
+});
 ```
 # Backup Cross Platform Bind On Launch function
 Stored just in case of problems with the original Cross platform bind on launch function
