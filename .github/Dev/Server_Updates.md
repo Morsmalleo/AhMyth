@@ -5,9 +5,7 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
         console.log('Reding the Decompiled APK Failed!')
 	console.log();
         return;
-
     } else {
-    
         var smaliList = files
             .filter((item) => item.isDirectory())
             .map((item) => item.name);
