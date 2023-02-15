@@ -1,15 +1,15 @@
 # Function to create a new smali folder inside an original APK when Binding.
 ```js
-fs.readdir(apkFolder, { withFileTypes: true fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
+fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) {
         console.log('Reding the Decompiled APK Failed!')
-	       console.log();
+	console.log();
         return;
     } else {
-    	   var ignoreDirs = ['original', 'res', 'build'];
+    	var ignoreDirs = ['original', 'res', 'build'];
         var smaliList = files
             .filter((item) => item.isDirectory() &&
-            !(unwantedDirs.includes(item.name)))
+            !(ignoreDirs.includes(item.name)))
             .map((item) => item.name);
         var lastSmali = smaliList[smaliList.length -1];
         var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
