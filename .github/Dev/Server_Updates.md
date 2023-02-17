@@ -2,11 +2,11 @@
 ```js
 fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) {
-        console.log('Reding the Decompiled APK Failed!')
+        console.log('Reading the Decompiled APK Failed!')
 	console.log();
         return;
     } else {
-    	var ignoreDirs = ['original', 'res', 'build'];
+    	var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
         var smaliList = files
             .filter((item) => item.isDirectory() &&
             !(ignoreDirs.includes(item.name)))
