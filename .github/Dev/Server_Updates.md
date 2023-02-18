@@ -1,27 +1,44 @@
 # Function to create a new smali folder inside an original APK when Binding.
 ```js
-fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
+fs.readdirSync(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) {
         console.log('Reading the Decompiled APK Failed!')
-	console.log();
+        console.log();
         return;
     } else {
-    	var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
+        var smali_classes1 = 'smali';
+        var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
         var smaliList = files
             .filter((item) => item.isDirectory() &&
             !(ignoreDirs.includes(item.name)))
             .map((item) => item.name);
         var lastSmali = smaliList[smaliList.length -1];
-        var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
-        var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
-        var newSmaliNumber = lastSmaliNumber+1;
-        var payloadSmaliFolder = ('/smali_classes'+newSmaliNumber);
-        fs.mkdir(apkFolder + payloadSmaliFolder, { recursive: true }, error => {
-            if (error) {
-                throw error;
-            };
-            
-        });
+        if (lastSmali == smali_classes1) {
+            fs.mkdir(apkFolder + '/smali_classes2', { recursive: true }, (error) => {
+                if (error) {
+                    throw error;
+                };
+            });
+
+        } else if (lastSmali == 'smali_classes10') {
+            fs.mkdir(apkFolder + '/smali_classes11', { recursive: true }, (error) => {
+                if (error) {
+                    throw error;
+                }
+            });
+        } else {
+            var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
+            var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
+            var newSmaliNumber = lastSmaliNumber+1;
+            var payloadSmaliFolder = ('/smali_classes'+newSmaliNumber);
+            fs.mkdir(apkFolder + payloadSmaliFolder, { recursive: true }, error => {
+                if (error) {
+                    throw error;
+                };
+
+            });
+        };
+
     };
 
 });
