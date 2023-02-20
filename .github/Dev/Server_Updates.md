@@ -1,30 +1,24 @@
 # Function to create a new smali folder inside an original APK when Binding.
 ```js
-fs.readdirSync(apkFolder, { withFileTypes: true }, (error, files) => {
+fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) {
         console.log('Reading the Decompiled APK Failed!')
         console.log();
         return;
     } else {
-        var smali_classes1 = 'smali';
-        var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
+        var ignoreDirs = ['original', 'res', 'build'];
         var smaliList = files
             .filter((item) => item.isDirectory() &&
             !(ignoreDirs.includes(item.name)))
             .map((item) => item.name);
         var lastSmali = smaliList[smaliList.length -1];
-        if (lastSmali == smali_classes1) {
+        if (lastSmali == "smali") {
             fs.mkdir(apkFolder + '/smali_classes2', { recursive: true }, (error) => {
                 if (error) {
-                    throw error;
+                    console.log("Unable to create the smali payload directory");
+                    console.log();
+                    return;
                 };
-            });
-
-        } else if (lastSmali == 'smali_classes10') {
-            fs.mkdir(apkFolder + '/smali_classes11', { recursive: true }, (error) => {
-                if (error) {
-                    throw error;
-                }
             });
         } else {
             var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
@@ -33,14 +27,13 @@ fs.readdirSync(apkFolder, { withFileTypes: true }, (error, files) => {
             var payloadSmaliFolder = ('/smali_classes'+newSmaliNumber);
             fs.mkdir(apkFolder + payloadSmaliFolder, { recursive: true }, error => {
                 if (error) {
-                    throw error;
+                    console.log("Unable to create the smali Payload Directory");
+                    console.log();
+                    return;
                 };
-
             });
         };
-
     };
-
 });
 ```
 # Backup Cross Platform Bind On Launch function
