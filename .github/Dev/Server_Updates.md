@@ -6,7 +6,7 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
         console.log();
         return;
     } else {
-        var ignoreDirs = ['original', 'res', 'build'];
+        var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
         var smaliList = files
             .filter((item) => item.isDirectory() &&
             !(ignoreDirs.includes(item.name)))
