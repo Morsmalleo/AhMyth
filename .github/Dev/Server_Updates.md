@@ -13,6 +13,7 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
         } else {
 
             $appCtrl.Log("Sorting the List of Smali Directories...")
+            $appCtrl.Log();
             var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
             var smaliList = files
                 .filter((item) => item.isDirectory() +
