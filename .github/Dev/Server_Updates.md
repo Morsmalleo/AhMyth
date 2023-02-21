@@ -1,4 +1,4 @@
-# Function to create a new smali folder inside an original APK when Binding.
+# Smali Payload Directory Creation Function 
 ```js
 fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) {
