@@ -2,15 +2,19 @@
 ```js
 fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) {
-        console.log('Reading the Decompiled APK Failed!')
+        console.log('Reding the Decompiled APK Failed!')
         console.log();
         return;
+
     } else {
+
         var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
         var smaliList = files
-            .filter((item) => item.isDirectory() &&
+            .filter((item) => item.isDirectory() +
             !(ignoreDirs.includes(item.name)))
-            .map((item) => item.name);
+            .map((item) => item.name)
+        var collator = new Intl.Collator([], {numeric: true});
+        smaliList.sort((a, b) => collator.compare(a, b));
         var lastSmali = smaliList[smaliList.length -1];
         if (lastSmali == "smali") {
             fs.mkdir(apkFolder + '/smali_classes2', { recursive: true }, (error) => {
@@ -19,8 +23,11 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
                     console.log();
                     return;
                 };
+
             });
+
         } else {
+
             var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
             var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
             var newSmaliNumber = lastSmaliNumber+1;
@@ -31,9 +38,13 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
                     console.log();
                     return;
                 };
+
             });
+
         };
+
     };
+
 });
 ```
 # Backup Cross Platform Bind On Launch function
