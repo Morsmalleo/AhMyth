@@ -2,7 +2,7 @@
 ```js
 fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
     if (error) {
-        console.log('Reding the Decompiled APK Failed!')
+        console.log('Reading the Decompiled APK Failed!')
         console.log();
         return;
 
