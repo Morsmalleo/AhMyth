@@ -19,7 +19,7 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
                 .filter((item) => item.isDirectory() +
                 !(ignoreDirs.includes(item.name)))
                 .map((item) => item.name)
-            var collator = Intl.Collator({numeric: true});
+            var collator = Intl.Collator([], {numeric: true});
             smaliList.sort((a, b) => collator.compare(a, b));
             var lastSmali = smaliList[smaliList.length -1];
             if (lastSmali == "smali") {
@@ -110,7 +110,7 @@ fs.readdir(apkFolder, { withFileTypes: true }, (error, files) => {
             .filter((item) => item.isDirectory() +
             !(ignoreDirs.includes(item.name)))
             .map((item) => item.name)
-        var collator = new Intl.Collator([], {numeric: true});
+        var collator = Intl.Collator([], {numeric: true});
         smaliList.sort((a, b) => collator.compare(a, b));
         var lastSmali = smaliList[smaliList.length -1];
         if (lastSmali == "smali") {
