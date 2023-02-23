@@ -14,7 +14,7 @@
   
           $appCtrl.Log("Sorting the List of Smali Directories...")
           $appCtrl.Log();
-          var ignoreDirs = ['original', 'res', 'build', 'kotlin', 'lib', 'META-INF', 'unknown'];
+          var ignoreDirs = ['original', 'res', 'build', 'kotlin', 'lib', 'assets', 'META-INF', 'unknown'];
           var smaliList = files
               .filter((item) => item.isDirectory() &&
               !(ignoreDirs.includes(item.name)))
