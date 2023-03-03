@@ -112,7 +112,7 @@ For those looking to study this unique RAT, you can find all the information you
 <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> Victims Lab </a> | <a> COMING SOON! </a> | <a> COMING SOON! </a> |
 #
 
-## <div align="center"><ins>Credits & Specials Thank's</ins></div>
+## <div align="center"><ins>Credits</ins></div>
 
 Created by
 - [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
