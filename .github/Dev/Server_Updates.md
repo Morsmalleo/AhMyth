@@ -1,3 +1,11 @@
+# Recursive file search function
+> readdirp required!
+```js
+readdirp(apkFolder, {fileFilter: launcherActivity, alwaysStat: true})
+  .on('data', (entry) => {
+    var {path, stats: {size}} = entry;
+  });
+```
 # Smali Payload Directory Creation Function 
 ```js
     $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
