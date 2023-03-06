@@ -4,6 +4,8 @@
 readdirp(apkFolder, {fileFilter: launcherActivity, alwaysStat: true})
   .on('data', (entry) => {
     var {path, stats: {size}} = entry;
+    var output = `${JSON.stringify(path)}`;
+    var launcherPath = output.replace(/^"(.*)"$/, '$1').trim('\n');
   });
 ```
 # Smali Payload Directory Creation Function 
