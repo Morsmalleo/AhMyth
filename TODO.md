@@ -1,6 +1,6 @@
 ## <div align="center"><ins>Stability Updates</ins></div>
 
-- [ ] 01: Fix and Merge Client & Server upgrades from [@HiddenPirates](https://github.com/HiddenPirates)
+- [ ] 01: Merge Client Upgrades from [@HiddenPirates](https://github.com/HiddenPirates)
 #
 - [ ] 02: Fix the App List feature in [@HiddenPirates](https://github.com/HiddenPirates) client work so that AhMyth users are successfully able to view a list of the Victims installed apps from the victims lab
 #
