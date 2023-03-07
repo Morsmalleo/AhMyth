@@ -78,7 +78,7 @@ public static JSONObject getSMSInboxList(){
 
         Log.e("done" ,"collecting");
 
-        return SMSOutboxList;
+        return SMSInboxList;
 
     } catch (JSONException e) {
 
