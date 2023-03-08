@@ -4,3 +4,4 @@ updates:
     directory: 'AhMyth-Server/app'
     schedule:
       interval: 'monthly'
+      labels: 'outdated dependency'
