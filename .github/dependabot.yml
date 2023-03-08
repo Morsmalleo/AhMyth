@@ -4,4 +4,5 @@ updates:
     directory: 'AhMyth-Server/app'
     schedule:
       interval: 'monthly'
-      labels: 'outdated dependency'
+    labels:
+    - 'outdated npm package'
