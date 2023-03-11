@@ -1,5 +1,5 @@
 ---
-name: Client Bug Report
+name: Client Report
 about: Create a report about the client to help us improve
 title: ''
 labels: bug
@@ -8,7 +8,7 @@ assignees: Morsmalleo
 ---
 
 **This is an issue with the**
-- [x] AhMyth Client
+- [x] Standalone AhMyth Client/Payload
 
 ## **Describe the bug**
 A clear and concise description of what the bug is.
