@@ -8,12 +8,12 @@ assignees: Morsmalleo
 ---
 
 **This is an issue with**
-- [] Binding On Launch
-- [] Binding On Boot
+- [ ] Binding On Launch
+- [ ] Binding On Boot
 
 ## **APK Name & Origin**
 APK Name: 
-APK Origin: [APK Pure || APK Name](link to the APK)
+APK Origin: [Website Name || APK Name](link to the APK)
 ## **To Reproduce**
 Steps to reproduce the behavior:
 1. Click the `APK Builder` Tab
@@ -33,7 +33,7 @@ Always add the log files located at `AhMyth/Logs` based on your problem.
 ## Dependencies Check
 1. Checked dependencies by running...
 ```zsh 
-apt-cache policy openjdk-11-jdk aapt android-framework-res zipalign
+apt-cache policy openjdk-11-jdk zipalign
 ```
 2. See the results below.
 ```zsh
