@@ -87,9 +87,13 @@ Use this Issue Template if you experience any of the following issues
 - Applications Crashing after Binding
 - Victims connections dont return despite successful binding & installation as well as proper IP & PORT configuration
 
+<br></br>
+
 - [x] [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
 
 Use this Issue Template when you are greeted with any errors when using the Binding Features.
+
+<br></br>
 
 - [x] [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
 
