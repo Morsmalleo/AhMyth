@@ -70,19 +70,28 @@ The following list will help users determine which Issue Template is suitable fo
 <br>
 
 ### <div align="center"><ins>Issue Templates</ins></div>
-- [Server Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-report.md&title=)
+- [x] [Server Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-report.md&title=)
 
-Use this issue Template if you experience problems like Buggy/Unusable Victim's Lab Features, or `Building Failed errors with Standalone APK Payloads`.
+Use this issue Template if you experience the following problems;
+- Building & Signing Errors with Standalone APK payloads
+- Unstable Victim's Lab Features
+- User Interface Problems
+- IP & PORT configuration problems
 
-- [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.md&title=)
+<br></br>
 
-Use this Issue Template if you experience things such as Flickering Victim Connections with Standalone APK Payloads, or any sort of bug or instability with Standalone APK payloads.
+- [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.md&title=)
 
-- [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
+Use this Issue Template if you experience any of the following issues
+- Unstable Victim's Conmections
+- Applications Crashing after Binding
+- Victims connections dont return despite successful binding & installation as well as proper IP & PORT configuration
 
-Use this Issue Template when you are greeted with any errors when using the Binding Features, Flickering Connections after Binding, or if any applications break/crash after Binding.
+- [x] [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
 
-- [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
+Use this Issue Template when you are greeted with any errors when using the Binding Features.
+
+- [x] [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
 
 Use this Template if you wish to request an upgrade that hasnt already been integrated.
 
