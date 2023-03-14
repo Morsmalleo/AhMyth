@@ -13,7 +13,7 @@ assignees: Morsmalleo
 
 ## **APK Name & Origin**
 APK Name: 
-APK Origin: [Website Name || APK Name](link to the APK)
+APK Origin: [Website Name](APK link)
 ## **To Reproduce**
 Steps to reproduce the behavior:
 1. Click the `APK Builder` Tab
