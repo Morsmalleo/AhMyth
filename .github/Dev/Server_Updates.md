@@ -3,9 +3,16 @@
 ```js
 readdirp(apkFolder, {fileFilter: launcherActivity, alwaysStat: true})
   .on('data', (entry) => {
-    var {path, stats: {size}} = entry;
+    var {path, stats: {}} = entry;
     var output = `${JSON.stringify(path)}`;
-    var launcherPath = output.replace(/^"(.*)"$/, '$1').trim('\n');
+    if (process.platform === 'win32') {
+      var launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").trim('\n');
+      console.log(launcherPath);
+    } else {
+      (process.platform === 'linux' || process.platform === 'darwin');
+      var launcherPath = output.replace(/^"(.*)"$/, '$1').trim('\n');
+      console.log(launcherPath);
+    }
   });
 ```
 # Smali Payload Directory Creation Function 
