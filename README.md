@@ -10,9 +10,7 @@
 
 #
 Give this repository a 💫 to support the project.
-
-<br></br>
-
+#
 ### <div align="center">Announcement</div>
 AhMyth is currently in the process of a complete rebuild! 
 
