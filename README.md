@@ -16,7 +16,7 @@ AhMyth is currently in the process of a complete rebuild!
 
 Don't worry, we are not abandoning the project, we are just rewriting it with modern up to date dependecies, specifically modern versions of electron.
 
-Please keep using this repository until further notice, updates to this repository will also still continue to happen as well so dont stress, AhMyth isn't going anywhere 😁.
+Please keep using this repository until further notice, updates to this repository will also still continue to happen as well so dont stress, AhMyth isn't going anywhere
 
 #
 
