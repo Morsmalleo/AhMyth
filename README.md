@@ -11,7 +11,7 @@
 #
 Give this repository a 💫 to support the project.
 #
-### <div align="center">Announcement</div>
+## <div align="center">Announcement</div>
 AhMyth is currently in the process of a complete rebuild! 
 
 Don't worry, we are not abandoning the project, we are just rewriting it with modern up to date dependecies, specifically modern versions of electron.
