@@ -5,4 +5,4 @@ updates:
     schedule:
       interval: 'monthly'
     labels:
-    - 'outdated npm package'
+    - 'Outdated npm Dependency'
