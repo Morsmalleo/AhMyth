@@ -19,3 +19,5 @@
 - Done ✅ 
 #
 - [ ] 07: Build an Android Client Manager with Victims Lab access so users can at least have some sort of AhMyth functionality on Android
+# 
+- [ ] 08: Build a seperate payload with no activity for binding
