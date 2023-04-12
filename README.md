@@ -10,6 +10,12 @@
 
 #
 Give this repository a 💫 to support the project.
+
+Posting Issues with a failure to properly read and follow the things listed below first, will result in a temporary ban from the repository, WITHOUT WARNING! 
+- *Setup Instructions*
+- *User Manual*
+- *Troubleshoot Sections* 
+- *Issue Rules* 
 #
 ## <div align="center">Announcement</div>
 AhMyth is currently in the process of a complete rebuild! 
