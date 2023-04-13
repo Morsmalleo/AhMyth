@@ -4,15 +4,29 @@ const fs = require('fs');
 
 const { parseString } = require('xml2js');
 
-var getMainApplicationClass = getMainApplicationClass('AndroidManifest.xml');
+const ERROR_FILE_NOT_FOUND = 'Error: AndroidManifest.xml not found';
 
-function getMainApplicationClass(manifestFilePath) {
+const ERROR_MAIN_APP_CLASS_NOT_FOUND = 'Unable to find main application class or launcher activity in AndroidManifest.xml';
+
+const launcherActivity = GetLauncherActivity('AndroidManifest.xml');
+
+if (launcherActivity) {
+
+  console.log(`The launcher activity is ${launcherActivity}`);
+
+} else {
+
+  console.error(ERROR_MAIN_APP_CLASS_NOT_FOUND);
+
+}
+
+function GetLauncherActivity(manifestFilePath) {
 
   // Check if the AndroidManifest.xml file exists
 
   if (!fs.existsSync(manifestFilePath)) {
 
-    throw new Error(`Error: ${manifestFilePath} not found`);
+    throw new Error(ERROR_FILE_NOT_FOUND);
 
   }
 
@@ -22,13 +36,15 @@ function getMainApplicationClass(manifestFilePath) {
 
   // Parse the XML data using xml2js
 
-  let mainApplicationClass;
+  let launcherActivity;
 
   parseString(manifestData, (err, result) => {
 
     if (err) {
 
-      throw new Error(`Error parsing ${manifestFilePath}: ${err}`);
+      console.error(`Error parsing ${manifestFilePath}: ${err}`);
+
+      return;
 
     }
 
@@ -38,7 +54,7 @@ function getMainApplicationClass(manifestFilePath) {
 
       const application = result.manifest.application[0];
 
-      mainApplicationClass = application['$']['android:name'].replace(/^\./, '');
+      launcherActivity = application['$']['android:name'].replace(/^\./, '');
 
     } catch {
 
@@ -66,7 +82,7 @@ function getMainApplicationClass(manifestFilePath) {
 
       if (activity) {
 
-        mainApplicationClass = activity['$']['android:name'];
+        launcherActivity = activity['$']['android:name'];
 
       }
 
@@ -74,15 +90,7 @@ function getMainApplicationClass(manifestFilePath) {
 
   });
 
-  if (mainApplicationClass) {
-
-    console.log(`The main application class is ${mainApplicationClass}`);
-
-  } else {
-
-    console.error(`Unable to find main application class or launcher activity in ${manifestFilePath}`);
-
-  }
+  return launcherActivity;
 
 }
 ```
