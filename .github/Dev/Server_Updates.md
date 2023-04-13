@@ -124,9 +124,6 @@ readdirp(apkFolder, {fileFilter: launcherActivity, alwaysStat: true})
     }
 
   });
-
-
-
 ```
 # Smali Payload Directory Creation Function 
 ```js
