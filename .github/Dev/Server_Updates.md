@@ -2,87 +2,91 @@
 ```js
 const fs = require('fs');
 
-const { parseString } = require('xml2js');
+const xml2js = require('xml2js');
 
-const ERROR_FILE_NOT_FOUND = 'Error: AndroidManifest.xml not found';
+// Read the AndroidManifest.xml file
 
-const ERROR_MAIN_APP_CLASS_NOT_FOUND = 'Unable to find main application class or launcher activity in AndroidManifest.xml';
+fs.readFile('path/to/AndroidManifest.xml', (err, data) => {
 
-const launcherActivity = GetLauncherActivity('AndroidManifest.xml');
+  if (err) {
 
-if (launcherActivity) {
+    console.error(err);
 
-  console.log(`The launcher activity is ${launcherActivity}`);
-
-} else {
-
-  console.error(ERROR_MAIN_APP_CLASS_NOT_FOUND);
-
-}
-
-function GetLauncherActivity(manifestFilePath) {
-
-  // Check if the AndroidManifest.xml file exists
-
-  if (!fs.existsSync(manifestFilePath)) {
-
-    throw new Error(ERROR_FILE_NOT_FOUND);
+    return;
 
   }
 
-  // Read the AndroidManifest.xml file
-
-  const manifestData = fs.readFileSync(manifestFilePath);
-
   // Parse the XML data using xml2js
 
-  let launcherActivity;
-
-  parseString(manifestData, (err, result) => {
+  xml2js.parseString(data, (err, result) => {
 
     if (err) {
 
-      console.error(`Error parsing ${manifestFilePath}: ${err}`);
+      console.error(err);
 
       return;
 
     }
 
-    // Extract the name of the main application class
+    // Extract the name of the main application class from the manifest
 
-    try {
+    const application = result['manifest']['application'][0];
 
-      const application = result.manifest.application[0];
+    let mainApplicationClassName = application && application['$'] && application['$']['android:name'];
 
-      launcherActivity = application['$']['android:name'].replace(/^\./, '');
+    if (mainApplicationClassName) {
 
-    } catch {
+      // Remove the package name if it's present
 
-      // If the main application class is not found, extract the main launcher activity name
+      mainApplicationClassName = mainApplicationClassName.split('.').pop();
 
-      const activity = result.manifest.activity.find((activity) => {
+      if (mainApplicationClassName.startsWith('.')) {
+
+        mainApplicationClassName = mainApplicationClassName.slice(1);
+
+      }
+
+      console.log('Main application class: ' + mainApplicationClassName);
+
+    } else {
+
+      // Extract the class name of the main launcher activity from the manifest
+
+      const activity = application && application['activity'] && application['activity'].find(activity => {
 
         const intentFilter = activity['intent-filter'];
 
-        return intentFilter && intentFilter.some((filter) => {
+        if (intentFilter) {
 
-          return filter.action && filter.action.some((action) => {
+          return intentFilter.some(filter => filter['action'].some(action => action['$']['android:name'] === 'android.intent.action.MAIN') && filter['category'].some(category => category['$']['android:name'] === 'android.intent.category.LAUNCHER'));
 
-            return action['$']['android:name'] === 'android.intent.action.MAIN';
+        }
 
-          }) && filter.category && filter.category.some((category) => {
-
-            return category['$']['android:name'] === 'android.intent.category.LAUNCHER';
-
-          });
-
-        });
+        return false;
 
       });
 
-      if (activity) {
+      let mainActivityClassName = activity && activity['$'] && activity['$']['android:name'];
 
-        launcherActivity = activity['$']['android:name'];
+      
+
+      if (mainActivityClassName) {
+
+        // Remove the package name if it's present
+
+        mainActivityClassName = mainActivityClassName.split('.').pop();
+
+        if (mainActivityClassName.startsWith('.')) {
+
+          mainActivityClassName = mainActivityClassName.slice(1);
+
+        }
+
+        console.log('Main activity class: ' + mainActivityClassName);
+
+      } else {
+
+        console.log('Main application class and main launcher activity not found');
 
       }
 
@@ -90,9 +94,9 @@ function GetLauncherActivity(manifestFilePath) {
 
   });
 
-  return launcherActivity;
+});
 
-}
+
 ```
 
 
