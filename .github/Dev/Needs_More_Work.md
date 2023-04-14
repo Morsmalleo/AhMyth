@@ -2,66 +2,9 @@
 
 All of the following code updates for the server, currently need more work done on them before they can be integrated.
 
-# Launcher Extraction for `<application` attribute | AppCtrl.js |
-```javascript
-function GetLauncherActivity(manifest) {
-
-
-    var regex = /(<application)/gi,
-        result, indices = [];
-    while ((result = regex.exec(manifest))) {
-        indices.push(result.index);
-    }
-
-    var indexOfLauncher = manifest.indexOf(
-        'android.intent.action.MAIN'
-        'android.intent.category.LAUNCHER',
-        +
-        'android.intent.action.MAIN'
-        'android.intent.category.INFO',
-        );
-    var indexOfActivity = -1;
-    
-    if (indexOfLauncher != -1) {
-        manifest = manifest.substring(0, indexOfLauncher);
-        for (var i = indices.length - 1; i >= 0; i--) {
-            if (indices[i] < indexOfLauncher) {
-                indexOfActivity = indices[i];
-                manifest = manifest.substring(indexOfActivity, manifest.length);
-                break;
-            }
-        }
-
-
-        if (indexOfActivity != -1) {
-
-            if (manifest.indexOf('android:targetActivity="') != -1) {
-                manifest = manifest.substring(manifest.indexOf('android:targetActivity="') + 24);
-                manifest = manifest.substring(0, manifest.indexOf('"'))
-                manifest = manifest.replace(/\./g, "/");
-                manifest = manifest.substring(manifest.lastIndexOf("/") + 1) + ".smali"
-                return manifest;
-
-            } else {
-                manifest = manifest.substring(manifest.indexOf('android:name="') + 14);
-                manifest = manifest.substring(0, manifest.indexOf('"'))
-                manifest = manifest.replace(/\./g, "/");
-                manifest = manifest.substring(manifest.lastIndexOf("/") + 1) + ".smali"
-                return manifest;
-            }
-
-        }
-    }
-    return -1;
-
-
-
-  }
-```
-# Code for Disconnect function
+## Code for Disconnect function
+> Once this is done it will alow users to disconnect their own victim connections via the click of a `Disconnect` button
 - AppCtrl.js
-
-Once this is done it will alow users to disconnect their own victim connections via the click of a `Disconnect` button
 ```javascript
     // when user clicks Disconnect Button
     $appCtrl.Stop = (port) => {
