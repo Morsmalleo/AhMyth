@@ -1,4 +1,4 @@
-## Mew Hookable Main Class Name Extraction
+## New Hookable Main Class Name Extraction
 ```js
 const fs = require('fs');
 
