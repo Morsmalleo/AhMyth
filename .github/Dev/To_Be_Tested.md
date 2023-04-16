@@ -22,7 +22,7 @@ fs.readFile(path.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) =
     const launcherActivity = getLauncherActivity(result, apkFolder);
     
     if (launcherActivity === -1) {
-      console.log('Cannot Find the Launcher Activity in the Manifest!');
+      console.log('Cannot Find a Suitable Class for Hooking in the Manifest!');
       console.log('Please use Another APK as a Template!.');
       console.log();
       return;
