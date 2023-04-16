@@ -1,149 +1,159 @@
-## New Launcher Extraction function using xml2js
+## New Main class extraction function 
 
 ```js
 const fs = require('fs-extra');
 
 const xml2js = require('xml2js');
 
-var path = require('path');
+const path = require('path');
 
-var apkFolder = '/data/data/com.termux/files/home/test'
+const apkFolder = '/data/data/com.termux/files/home/test';
 
-fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
+fs.readFile(path.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) => {
 
-    if (error) {
+  if (error) {
 
-        console.log('Reading AndroidManifest.xml Failed!');
+    console.log('Reading AndroidManifest.xml Failed!');
 
-        console.log();
+    console.log();
 
-        return;
+    return;
 
-    }
+  }
 
-   xml2js.parseString(data, (err, result) => {
+  xml2js.parseString(data, (err, result) => {
 
-       if (err) {
+    if (err) {
 
-           console.error(err);
+      console.error(err);
 
-           return;
-
-       }
-
-       var launcherActivity = GetLauncherActivity(result, apkFolder);
-
-           if (launcherActivity == -1) {
-
-               console.log("Cannot Find the Launcher Activity in the Manifest!");
-
-               console.log("Please use Another APK as a Template!.");
-
-               console.log();
-
-               return;
-
-           }
-
-           console.log(launcherActivity);
-
-       });
-
-   });
-
-function GetLauncherActivity(manifest) {
-
-    // Extract the name of the main application class from the manifest
-
-    const application = manifest['manifest']['application'][0];
-
-    let mainApplicationClassName = application && application['$'] && application['$']['android:name'];
-
-    if (mainApplicationClassName) {
-
-        // Remove the package name if it's present
-
-        mainApplicationClassName = mainApplicationClassName.split('.').pop();
-
-        if (mainApplicationClassName.startsWith('.')) {
-
-            mainApplicationClassName = mainApplicationClassName.slice(1);
-
-        }
-
-        return mainApplicationClassName + '.smali';
+      return;
 
     }
 
-    // Extract the class name of the main launcher activity from the manifest
+    const launcherActivity = getLauncherActivity(result, apkFolder);
 
-    const activity = application && application['activity'] && application['activity'].find(activity => {
+    if (launcherActivity === -1) {
 
-        const intentFilter = activity['intent-filter'];
+      console.log('Cannot Find the Launcher Activity in the Manifest!');
 
-        if (intentFilter) {
+      console.log('Please use Another APK as a Template!.');
 
-            return intentFilter.some(filter => filter['action'].some(action => action['$']['android:name'] === 'android.intent.action.MAIN') && filter['category'].some(category => category['$']['android:name'] === 'android.intent.category.LAUNCHER'));
+      console.log();
 
-        }
-
-        return false;
-
-    });
-
-    let mainActivityClassName;
-
-    if (activity) {
-
-        mainActivityClassName = activity['$'] && activity['$']['android:name'];
-
-        // Remove the package name if it's present
-
-        mainActivityClassName = mainActivityClassName.split('.').pop();
-
-        if (mainActivityClassName.startsWith('.')) {
-
-            mainActivityClassName = mainActivityClassName.slice(1);
-
-        }
-
-        return mainActivityClassName + '.smali';
+      return;
 
     }
 
-    // Extract the class name of the main launcher activity from the manifest
+    console.log(launcherActivity);
 
-    const activityAlias = application && application['activity-alias'] && application['activity-alias'].find(activityAlias => {
+  });
 
-        const intentFilter = activityAlias['intent-filter'];
+});
 
-        if (intentFilter) {
+function getLauncherActivity(manifest) {
 
-            return intentFilter.some(filter => filter['action'].some(action => action['$']['android:name'] === 'android.intent.action.MAIN') && filter['category'].some(category => category['$']['android:name'] === 'android.intent.category.LAUNCHER'));
+  const application = manifest['manifest']['application'][0];
 
-        }
+  let mainApplicationClassName = application && application['$'] && application['$']['android:name'];
 
-        return false;
+  if (mainApplicationClassName) {
 
-    });
+    mainApplicationClassName = mainApplicationClassName.split('.').pop();
 
-    if (activityAlias) {
+    if (mainApplicationClassName.startsWith('.')) {
 
-        const targetActivityName = activityAlias['$'] && activityAlias['$']['android:targetActivity'];
-
-        mainActivityClassName = targetActivityName.split('.').pop();
-
-        if (mainActivityClassName.startsWith('.')) {
-
-            mainActivityClassName = mainActivityClassName.slice(1);
-
-        }
-
-        return mainActivityClassName + '.smali';
+      mainApplicationClassName = mainApplicationClassName.slice(1);
 
     }
 
-    return -1;
+    return mainApplicationClassName + '.smali';
+
+  }
+
+  const activity = application && application['activity'] && application['activity'].find((activity) => {
+
+    const intentFilter = activity['intent-filter'];
+
+    if (intentFilter) {
+
+      return intentFilter.some((filter) =>
+
+        filter['action'] &&
+
+        filter['action'].some((action) => action['$']['android:name'] === 'android.intent.action.MAIN') &&
+
+        filter['category'] &&
+
+        filter['category'].some((category) => category['$']['android:name'] === 'android.intent.category.LAUNCHER' || category['$']['android:name'] === 'android.intent.category.DEFAULT')
+
+      );
+
+    }
+
+    return false;
+
+  });
+
+  if (activity) {
+
+    let mainActivityClassName = activity['$'] && activity['$']['android:name'];
+
+    mainActivityClassName = mainActivityClassName.split('.').pop();
+
+    if (mainActivityClassName.startsWith('.')) {
+
+      mainActivityClassName = mainActivityClassName.slice(1);
+
+    }
+
+    return mainActivityClassName + '.smali';
+
+  }
+
+  const activityAlias = application && application['activity-alias'] && application['activity-alias'].find((activityAlias) => {
+
+    const intentFilter = activityAlias['intent-filter'];
+
+    if (intentFilter) {
+
+      return intentFilter.some((filter) =>
+
+        filter['action'] &&
+
+        filter['action'].some((action) => action['$']['android:name'] === 'android.intent.action.MAIN') &&
+
+        filter['category'] &&
+
+        filter['category'].some((category) => category['$']['android:name'] === 'android.intent.category.LAUNCHER' || category['$']['android:name'] === 'android.intent.category.DEFAULT')
+
+      );
+
+    }
+
+    return false;
+
+  });
+
+  if (activityAlias) {
+
+    let targetActivityName = activityAlias['$'] && activityAlias['$']['android:targetActivity'];
+
+    targetActivityName = targetActivityName.split('.').pop();
+
+    if (targetActivityName.startsWith('.')) {
+
+      targetActivityName = targetActivityName.slice(1);
+
+    }
+
+    return targetActivityName + '.smali';
+
+  }
+
+  return -1;
 
 }
+
+
 ```
