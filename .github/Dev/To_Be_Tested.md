@@ -181,7 +181,9 @@ var copyPermissions = (manifest) => { // $appCtrl.copyPermissions = (manifest) =
 
                             setTimeout(() => {
 
-                            	console.log('[★] Determining Target SDK Version...\n');                              fs.readFile(dir.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
+                            	console.log('[★] Determining Target SDK Version...\n');
+                                
+                                fs.readFile(dir.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
 
                                 if (error) {
 
