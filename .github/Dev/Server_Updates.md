@@ -1,5 +1,44 @@
+## Main Class File Location function
+> uses the output from the new GetLauncherActivity function to find the Main Hookable Smali Class file of an APK.
+```js
+const launcherPath = GetLauncherPath(launcherActivity, apkFolder, (err, launcherPath) => {
+  if (err) {
+    console.log('No Launcher Activity!');
+  } else {
+    console.log('Launcher Activity Found: ' + launcherPath);
+  }
+});
+
+function GetLauncherPath(launcherActivity, apkFolder, callback) {
+  let found = false;
+  let launcherPath = null;
+  readdirp(apkFolder, { fileFilter: launcherActivity, alwaysStat: true })
+    .on('data', (entry) => {
+      found = true;
+      var { path, stats: {} } = entry;
+      var output = `${JSON.stringify(path)}`;
+      if (process.platform === 'win32') {
+        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").replace(/\n$/, '');
+      } else {
+        (process.platform === 'linux' || process.platform === 'darwin');
+        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
+      }
+    })
+    .on('end', () => {
+      if (!found) {
+        callback(`The LauncherActivity was not found in ${apkFolder}`);
+      } else {
+        callback(null, launcherPath);
+      }
+    })
+    .on('error', (err) => {
+      callback(err);
+    });
+}
+```
+
 ## Main Class Extraction Function
-> Supersedes the old GetLauncherActivity function by uysing xml2js
+> Supersedes the old GetLauncherActivity function by uysing xml2js to extract the name of the main hookable class and return it as a smali file
 ```js
 //function to extract the launcher activity from the orginal app
 function GetLauncherActivity(manifest) {
