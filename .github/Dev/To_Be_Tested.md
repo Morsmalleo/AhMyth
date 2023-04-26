@@ -1,5 +1,5 @@
 ## New Bind on Launch function
-> In the testing phases, if tests prove successful, this will be the new bindOnLaunch function.
+> In the testing phases, if tests prove successful, this will be the new bindOnLaunch function, which will also make use of an Updated `copyPermissions` function as well.
 ```javascript
 const fs = require('fs-extra');
 const xml2js = require('xml2js');
