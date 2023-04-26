@@ -78,8 +78,6 @@ const xml2js = require('xml2js');
 const fs = require('fs-extra');
 const dir = require('path');
 
-
-
 console.log('[★] Reading the Android Manifest file...\n');
 fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) => {
   if (error) {
