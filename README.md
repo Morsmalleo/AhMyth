@@ -75,7 +75,7 @@ You can find the Troubleshoot Sections for both Source Code Usage errors and Bin
 
 ## <div align="center"><ins>Posting Issues</ins></div>
 
-Any issues with AhMyth, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AMyth/issues/new/choose)* accordingly.
+Any issues with AhMyth, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AhMyth/issues/new/choose)* accordingly.
 
 The following list will help users determine which Issue Template is suitable for their problem.
 
