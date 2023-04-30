@@ -21,3 +21,5 @@
 - [ ] 07: Build an Android Client Manager with Victims Lab access so users can at least have some sort of AhMyth functionality on Android
 # 
 - [ ] 08: Build a seperate payload with no activity for binding
+#
+- [ ] 09: Update the newly created JavaScript function stated completed in TODO No. 6, to split up the payload folders and sort them into seperate smali folders in hopes to bypass the *64K Dalvik Method*
