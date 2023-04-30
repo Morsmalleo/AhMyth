@@ -39,7 +39,7 @@ function GetLauncherPath(launcherActivity, apkFolder, callback) {
 ```
 
 ## Main Class Extraction Function
-> Supersedes the old GetLauncherActivity function by uysing xml2js to extract the name of the main hookable class and return it as a smali file
+> Supersedes the old GetLauncherActivity function by using xml2js to extract the name of the main hookable class and return it as a smali file
 > > Used with the Recursive File Search function below.
 ```js
 function GetLauncherActivity(manifest) {
