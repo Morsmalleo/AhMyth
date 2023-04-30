@@ -8,8 +8,7 @@ const readdirp = require('readdirp');
 var CONSTANTS = require('/data/data/com.termux/files/home/test/Constants.js');
 const apkFolder = '/data/data/com.termux/files/home/flappy';
 
-var copyPermissions = (manifest) => {
-    // $appCtrl.copyPermissions = (manifest) => {
+$appCtrl.copyPermissions = (manifest) => {
     var firstPart = manifest.substring(0, manifest.indexOf("<application"));
     var lastPart = manifest.substring(manifest.indexOf("<application"));
 
