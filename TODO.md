@@ -16,7 +16,8 @@
 - [ ] 05: Add *Zipalign* for 32bit linux based operating systems as well as the JavaScript code to execute it before signing.
 #
 - [x] 06: write a JavaScript function with `fs.readdir` so AhMyth is able to read an Apk folder and determine how many `"smali_classes**"` folders we have present in order to create a new one for the AhMyth payload files to be copied into instead of copying them to the same smali folder containing the path to the Launcher Activity.
-- Done ✅ 
+> Done, the function is called the *Payload Directory Creator* ✅
+>> The function makes use of `readdirp`, a third party recursive version of `fs`, this works great because its cross platform and A LOT less code greedy!
 #
 - [ ] 07: Build an Android Client Manager with Victims Lab access so users can at least have some sort of AhMyth functionality on Android
 # 
