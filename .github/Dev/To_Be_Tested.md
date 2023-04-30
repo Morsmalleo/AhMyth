@@ -277,7 +277,7 @@ function GetLauncherPath(launcherActivity, apkFolder, callback) {
 }
 ```
 ## New 'AppCtrl.js' File
-```
+```js
 var app = angular.module('myapp', []);
 const {
     remote
