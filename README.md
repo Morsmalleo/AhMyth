@@ -18,11 +18,9 @@ Posting Issues with a failure to properly read and follow the things listed belo
 - *Issue Rules* 
 #
 ## <div align="center">Announcement</div>
-AhMyth is currently in the process of a complete rebuild! 
+AhMyth is currently in the process of a complete migration from [electron](https://github.com/electron/electron) to [tauri](https://github.com/tauri-apps/tauri) as well as a complete rebuild! 
 
-Don't worry, we are not abandoning the project, we are just rewriting it with modern up to date dependecies, specifically modern versions of electron.
-
-Please keep using this repository until further notice, updates to this repository will also still continue to happen as well so dont stress, AhMyth isn't going anywhere.
+Please keep using this repository until further notice, updates to this repository will also still continue to happen until the migration and rebuild has finished, so dont stress, AhMyth isn't going anywhere.
 
 #
 
