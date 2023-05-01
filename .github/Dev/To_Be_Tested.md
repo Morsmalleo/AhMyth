@@ -58,7 +58,7 @@ $appCtrl.BindOnLaunch = (apkFolder) => {
                     return;
                 }
 
-                delayedLog('[★] Searching for a Hookable Class in the Android Manifest...\n')
+                delayedLog('[★] Searching for a Hookable Main Class in the Android Manifest...\n')
                 const launcherActivity = GetLauncherActivity(result, apkFolder);
                 if (launcherActivity === -1) {
                     delayedLog('[x] Cannot Find a Suitable Class for Hooking in the Manifest!');
@@ -66,21 +66,21 @@ $appCtrl.BindOnLaunch = (apkFolder) => {
                     return;
                 }
 
-                delayedLog('[★] Locating the Hookable Smali Class File...\n');
+                delayedLog('[★] Locating the Hookable Main Class File...\n');
                 const launcherPath = GetLauncherPath(launcherActivity, apkFolder, (err, launcherPath) => {
                     if (err) {
-                        delayedLog('[x] Unable to Locate the Hookable Smali Class File!');
+                        delayedLog('[x] Unable to Locate the Hookable Main Class File!');
                         delayedLog('[x] Please Use the "On Boot" Method!\n');
                         return;
                     } else {
-                        delayedLog('[¡] Hookable Smali Class File Found: ' + launcherPath + '\n');
+                        delayedLog('[¡] Hookable Main Class File Found: ' + launcherPath + '\n');
                     }
 
 
-                    delayedLog('[★] Reading the Hookable Smali Class File...\n');
+                    delayedLog('[★] Reading the Hookable Main Class File...\n');
                     fs.readFile(dir.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                         if (error) {
-                            delayedLog('[x] Unable to Read the Hookable Smali Class File!\n');
+                            delayedLog('[x] Unable to Read the Hookable Main Class File!\n');
                             return;
                         }
 
@@ -88,12 +88,12 @@ $appCtrl.BindOnLaunch = (apkFolder) => {
                         var hook = CONSTANTS.hookPoint;
 
 
-                        delayedLog('[★] Hooking the Smali Class File...\n');
+                        delayedLog('[★] Hooking the Class File...\n');
 
                         var output = data.replace(hook, startService);
                         fs.writeFile(dir.join(apkFolder, launcherPath), output, 'utf8', (error) => {
                             if (error) {
-                                delayedLog('[x] Modifying the Hookable Smali Class File Failed!\n', CONSTANTS.logStatus.FAIL);
+                                delayedLog('[x] Modifying the Hookable Main Class File Failed!\n', CONSTANTS.logStatus.FAIL);
                                 return;
                             }
 
@@ -260,7 +260,7 @@ function GetLauncherPath(launcherActivity, apkFolder, callback) {
     .on('end',
         () => {
             if (!found) {
-                callback('[x] Unable to Locate the Hookable Smali Class File!');
+                callback('[x] Unable to Locate the Hookable Main Class File!');
                 callback('[x] Please Use the "On Boot" Method!\n');
             } else {
                 callback(null, launcherPath);
