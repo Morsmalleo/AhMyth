@@ -150,7 +150,7 @@ $appCtrl.BindOnLaunch = (apkFolder) => {
 
                                                 return;
                                             }
-                                            // $appCtrl.copyAhmythFilesAndGenerateApk
+                                            $appCtrl.copyAhmythFilesAndGenerateApk
                                         });
                                     });
                                 });
@@ -187,7 +187,7 @@ function GetLauncherActivity(manifest) {
         if (mainApplicationClassName.startsWith('.')) {
             mainApplicationClassName = mainApplicationClassName.slice(1);
         }
-        delayedLog('[¡] Scoped the Main App Class for Hooking...\n');
+        delayedLog('[¡] Scoped the Main App Class for Hooking...', CONSTANTS.logStatus.INFO);
         return mainApplicationClassName + '.smali';
     }
 
@@ -206,12 +206,14 @@ function GetLauncherActivity(manifest) {
 
     if (activity) {
         let mainActivityClassName = activity['$'] && activity['$']['android:name'];
-        mainActivityClassName = mainActivityClassName.split('.').pop();
-        if (mainActivityClassName.startsWith('.')) {
-            mainActivityClassName = mainActivityClassName.slice(1);
+        if (!mainActivityClassName.startsWith('android.app')) {
+            mainActivityClassName = mainActivityClassName.split('.').pop();
+            if (mainActivityClassName.startsWith('.')) {
+                mainActivityClassName = mainActivityClassName.slice(1);
+            }
+            delayedLog('[¡] Scoped the Main Launcher Activity Class for Hooking...', CONSTANTS.logStatus.INFO);
+            return mainActivityClassName + '.smali';
         }
-        delayedLog('[¡] Scoped the Main Launcher Activity for Hooking...\n');
-        return mainActivityClassName + '.smali';
     }
 
     const activityAlias = application && application['activity-alias'] && application['activity-alias'].find((activityAlias) => {
@@ -233,7 +235,7 @@ function GetLauncherActivity(manifest) {
         if (targetActivityName.startsWith('.')) {
             targetActivityName = targetActivityName.slice(1);
         }
-        delayedLog('[¡] Scoped the Main Launcher Activity in an Alias for Hooking...\n');
+        delayedLog('[¡] Scoped the Main Launcher Activity Class in an Alias for Hooking...', CONSTANTS.logStatus.INFO);
         return targetActivityName + '.smali';
     }
 
