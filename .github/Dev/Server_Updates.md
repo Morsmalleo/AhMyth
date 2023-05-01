@@ -140,7 +140,7 @@ fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) =>
 
     const launcherPath = GetLauncherPath(launcherActivity, apkFolder, (err, launcherPath) => {
       if (err) {
-        console.log('No Launcher Activity!');
+        console.log(err);
       } else {
         console.log('Launcher Activity Found: ' + launcherPath);
       }
