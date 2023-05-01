@@ -272,3 +272,71 @@ function GetLauncherPath(launcherActivity, apkFolder, callback) {
         });
 }
 ```
+## Disconnect Function
+```javascript
+
+/* main */
+
+ipcMain.on('SocketIO:Stop', function () {
+
+    stopServer();
+
+});
+
+function stopServer() {
+
+    if (IO) {
+
+        // close all connected sockets
+
+        Object.values(IO.sockets.sockets).forEach(socket => {
+
+            socket.close();
+
+        });
+
+        // stop listening
+
+        IO.close();
+
+        IO = null;
+
+    }
+
+}
+
+```
+
+```javascript
+
+/* AppCtrl (Renderer) */
+
+$appCtrl.Stop = (port) => {
+
+    if (!port) {
+
+        port = CONSTANTS.defaultPort;
+
+    }
+
+    // notify the main process about the port and let it stop listening
+
+    ipcRenderer.send("SocketIO:Stop", port);
+
+    
+
+    // optionally, log a message to the console or UI
+
+    $appCtrl.Log('[✓] Stopped Listening on Port: ' + port, CONSTANTS.logStatus.SUCCESS);
+
+};
+
+```
+
+```html
+
+<!-- index.js -->
+
+<button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon"></i>Stop</button>d
+
+```
