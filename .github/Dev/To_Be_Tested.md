@@ -255,12 +255,7 @@ function GetLauncherPath(launcherActivity, apkFolder, callback) {
             path, stats: {}
         } = entry;
         var output = `${JSON.stringify(path)}`;
-        if (process.platform === 'win32') {
-            launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\\/g, "/").replace(/\n$/, '');
-        } else {
-            (process.platform === 'linux' || process.platform === 'darwin');
-            launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
-        }
+        launcherPath = output.replace(/^"(.*)"$/, '$1').replace(/\n$/, '');
     })
     .on('end',
         () => {
