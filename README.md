@@ -83,7 +83,7 @@ The following list will help users determine which Issue Template is suitable fo
 - [x] [Server Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-report.md&title=)
 
 Use this issue Template if you experience the following problems;
-- Building & Signing Errors with Standalone APK payloads
+- Building & Signing Errors with Standalone APK payloads (Not Binding)
 - Unstable Victim's Lab Features
 - User Interface Problems
 - IP & PORT configuration problems
@@ -93,7 +93,7 @@ Use this issue Template if you experience the following problems;
 - [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.md&title=)
 
 Use this Issue Template if you experience any of the following issues
-- Unstable Victim's Conmections
+- Unstable Victim's Connections
 - Applications Crashing after Binding
 - Victims connections dont return despite successful binding & installation as well as proper IP & PORT configuration
 
