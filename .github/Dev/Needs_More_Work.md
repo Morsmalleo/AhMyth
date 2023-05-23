@@ -1,7 +1,3 @@
-# Server Updates that still need work
-
-All of the following code updates for the server, currently need more work done on them before they can be integrated.
-
 ## Code for Disconnect function
 > Once this is done it will alow users to disconnect their own victim connections via the click of a `Disconnect` button
 - AppCtrl.js
