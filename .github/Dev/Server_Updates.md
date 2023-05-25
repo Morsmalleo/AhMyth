@@ -362,7 +362,7 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
 
 ## Updated `Build` function
 ```js
-    $appCtrl.Build = (ip, port, clearLogs = true) => {
+    $appCtrl.Build = (ip, port) => {
         
         if (!ip) {
             $appCtrl.Log('[x] IP Address Cannot Be Empty.', CONSTANTS.logStatus.FAIL);
