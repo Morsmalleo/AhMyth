@@ -72,7 +72,7 @@
                                     </div>
                                     <input type="text" ng-model="port" placeholder="Default is 42474">
                                 </div>
-                                <button ng-click="isListen=true;Listen(port);" class="ui labeled icon black button"><i class="terminal icon"></i>Listen</button>
+                                <button ng-click="clearLogs(); isListen=true;Listen(port)" class="ui labeled icon black button"><i class="terminal icon"></i>Listen</button>
                             </div>
                         </div>
                     </div>
@@ -196,25 +196,25 @@
         <div class="row h15 notDraggable">
             <div class="sixteen wide column">
                 <div class="ui mini borderless labeled icon fluid seven item menu">
-                    <a class="item" ng-click="goToPage('camera')">
+                    <a class="item" ng-click="clearLogs(); goToPage('camera')">
                         <i class="red photo icon"></i> Camera
                     </a>
-                    <a class="item" ng-click="goToPage('fileManager')">
+                    <a class="item" ng-click="clearLogs(); goToPage('fileManager')">
                         <i class=" teal folder icon "></i> File Manager
                     </a>
-                    <a class="item" ng-click="goToPage('mic')">
+                    <a class="item" ng-click="clearLogs(); goToPage('mic')">
                         <i class="blue unmute icon "></i> Mic
                     </a>
-                    <a class="item " ng-click="goToPage('location')">
+                    <a class="item " ng-click="clearLogs(); goToPage('location')">
                         <i class="violet marker icon "></i> Location
                     </a>
-                    <a class="item " ng-click="goToPage('contacts')">
+                    <a class="item " ng-click="clearLogs(); goToPage('contacts')">
                         <i class="purple users icon "></i> contacts
                     </a>
-                    <a class="item " ng-click="goToPage('smsManager')">
+                    <a class="item " ng-click="clearLogs(); goToPage('smsManager')">
                         <i class="grey talk outline icon "></i> SMS
                     </a>
-                    <a class="item " ng-click="goToPage('callsLogs')">
+                    <a class="item " ng-click="clearLogs(); goToPage('callsLogs')">
                         <i class="black call icon "></i> Calls Logs
                     </a>
                 </div>
@@ -259,7 +259,6 @@ exports.ahmythApkFolderPath = path.join(__dirname, '..', '..', 'Factory/Ahmyth')
 exports.vaultFolderPath = path.join(__dirname, '..', '..', 'Factory/Vault').replace("app.asar", "app.asar.unpacked");
 exports.apktoolJar = path.join(__dirname, '..', '..', 'Factory/apktool.jar').replace("app.asar", "app.asar.unpacked");
 exports.signApkJar = path.join(__dirname, '..', '..', 'Factory/sign.jar').replace("app.asar", "app.asar.unpacked");
-exports.maskUrlPython = path.join(__dirname, '..', '..', 'Factory/maskUrl.py').replace("app.asar", "app.asar.unpacked");
 exports.dataDir = 'AhMyth'
 exports.downloadPath = 'Downloads';
 exports.outputApkPath = 'Output';
