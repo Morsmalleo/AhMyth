@@ -1,4 +1,4 @@
-## `clearLogs` function for the `AppCtrl.js` file as well as the 3 `*.html` files below
+## `clearLogs` function for the `AppCtrl.js` file as well as the 2 of the `*.html` files below
 ```javascript
   // function to clear the logs each time a button is clicked,
   // this is done to keep things clean.
@@ -146,7 +146,7 @@
 
 </html>
 ```
-## Updated `lab.html` file with correct log screen height & `clearLogs()` function
+## Updated `lab.html` file with correct log screen height
 ```html
 <!DOCTYPE html>
 <html ng-app="myappy">
@@ -207,25 +207,25 @@
         <div class="row h15 notDraggable">
             <div class="sixteen wide column">
                 <div class="ui mini borderless labeled icon fluid seven item menu">
-                    <a class="item" ng-click="clearLogs(); goToPage('camera')">
+                    <a class="item" ng-click="goToPage('camera')">
                         <i class="red photo icon"></i> Camera
                     </a>
-                    <a class="item" ng-click="clearLogs(); goToPage('fileManager')">
+                    <a class="item" ng-click="goToPage('fileManager')">
                         <i class=" teal folder icon "></i> File Manager
                     </a>
-                    <a class="item" ng-click="clearLogs(); goToPage('mic')">
+                    <a class="item" ng-click="goToPage('mic')">
                         <i class="blue unmute icon "></i> Mic
                     </a>
-                    <a class="item " ng-click="clearLogs(); goToPage('location')">
+                    <a class="item " ng-click="goToPage('location')">
                         <i class="violet marker icon "></i> Location
                     </a>
-                    <a class="item " ng-click="clearLogs(); goToPage('contacts')">
+                    <a class="item " ng-click="goToPage('contacts')">
                         <i class="purple users icon "></i> contacts
                     </a>
-                    <a class="item " ng-click="clearLogs(); goToPage('smsManager')">
+                    <a class="item " ng-click="goToPage('smsManager')">
                         <i class="grey talk outline icon "></i> SMS
                     </a>
-                    <a class="item " ng-click="clearLogs(); goToPage('callsLogs')">
+                    <a class="item " ng-click="goToPage('callsLogs')">
                         <i class="black call icon "></i> Calls Logs
                     </a>
                 </div>
