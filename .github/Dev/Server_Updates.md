@@ -1,3 +1,14 @@
+## `clearLogs` function for the `AppCtrl.js` file as well as the 3 `*.html` files below
+```javascript
+  // function to clear the logs each time a button is clicked,
+  // this is done to keep things clean.
+  $appCtrl.clearLogs = () => {
+    if ($appCtrl.logs.length !== 0) {
+      $appCtrl.logs = [];
+    }
+  }
+```
+
 ## Updated `index.html` file with correct log screen height & `clearLogs()` function
 ```html
 <!DOCTYPE html>
