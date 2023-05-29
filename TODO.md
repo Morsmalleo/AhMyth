@@ -23,4 +23,5 @@
 - [ ] 08: Build a seperate payload with no activity for binding
 #
 - [ ] 09: Update the newly created JavaScript function completed in TODO No. 6, to split up the payload folders and sort them into seperate smali folders in hopes to bypass the *64K Dalvik Method*
+#
 - [ ] 10: Bump apktool version from `2.6.1_snapshot-*.jar` to apktool `2.7.0.jar` and add `res styles` 2 through 10
