@@ -17,10 +17,10 @@
 #
 - [x] 06: write a JavaScript function with `fs.readdir` so AhMyth is able to read an Apk folder and determine how many `"smali_classes**"` folders we have present in order to create a new one for the AhMyth payload files to be copied into instead of copying them to the same smali folder containing the path to the Launcher Activity.
 > Done, the function is called the *Payload Directory Creator* ✅
->> The function makes use of `readdirp`, a third party recursive version of `fs`, this works great because its cross platform and A LOT less code greedy!
 #
 - [ ] 07: Build an Android Client Manager with Victims Lab access so users can at least have some sort of AhMyth functionality on Android
 # 
 - [ ] 08: Build a seperate payload with no activity for binding
 #
 - [ ] 09: Update the newly created JavaScript function completed in TODO No. 6, to split up the payload folders and sort them into seperate smali folders in hopes to bypass the *64K Dalvik Method*
+- [ ] 10: Bump apktool version from `2.6.1_snapshot-*.jar` to apktool `2.7.0.jar` and add `res styles` 2 through 10
