@@ -22,6 +22,7 @@ AhMyth is currently in the process of a complete migration from [electron](https
 
 Please keep using this repository until further notice, updates to this repository will also still continue to happen until the migration and rebuild has finished, so dont stress, AhMyth isn't going anywhere.
 
+If you make YT Videos with this updated repository, then I want credit given to AhMyth's creator (Ahmed Al Hajri) and its maintainer which is me!
 #
 
 ## <div align="center"><ins>Usage</ins></div>
