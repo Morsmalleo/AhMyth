@@ -25,6 +25,26 @@ Please keep using this repository until further notice, updates to this reposito
 If you make YT Videos with this updated repository, then I want credit given to AhMyth's creator (Ahmed Al Hajri) and its maintainer which is me!
 #
 
+# <div align="center">Contents</div>
+
+<!--ts-->
+
+* [Usage](#usage)
+* [Installation](#installation)
+    * [Source Code Setup](#source-code-setup)
+    * [Binary Setup](#binary-setup)
+* [User Manual](#user-manual)
+* [Troubleshoot](#troubleshoot)
+* [Posting Issues](#posting-issues)
+    * [Issue Templates](#issue-templates)
+    * [Blank Issues](#blank-issues)
+* [Information](#information)
+* [Screenshots](#screenshots)
+* [Credits](#credits)
+
+<!--te-->
+#
+
 ## <div align="center"><ins>Usage</ins></div>
 
 01. Build a standalone APK Payload or use an original APK as a Payload Template.
