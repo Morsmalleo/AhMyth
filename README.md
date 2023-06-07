@@ -25,7 +25,7 @@ Please keep using this repository until further notice, updates to this reposito
 If you make YT Videos with this updated repository, then I want credit given to AhMyth's creator (Ahmed Al Hajri) and its maintainer which is me!
 #
 
-# <div align="center">Contents</div>
+## <div align="center">Contents</div>
 
 <!--ts-->
 
