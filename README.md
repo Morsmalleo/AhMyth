@@ -27,6 +27,7 @@ If you make YT Videos with this updated repository, then I want credit given to 
 
 ## <div align="center">Contents</div>
 
+Use the Contents to quick skip to any part of this README, such as installation, troubleshoot, etc etc.
 <!--ts-->
 
 * [Usage](#usage)
