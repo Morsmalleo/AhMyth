@@ -159,14 +159,15 @@ For those looking to study this unique RAT, you can find all the information you
 
 ## <div align="center"><ins>Credits</ins></div>
 
-Created by
+Created by:
 - [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth)
 
-Maintained with ❤️ by
+Maintained with ❤️ by:
 - [Morsmalleo](https://github.com/Morsmalleo)
 
 
-Special Thanks to
+Special Thanks to:
 - [HiddenPirates](https://GitHub.com/HiddenPirates) - For his brilliant amount of work on upgrading the Client & the Server
 - [YagamiLight17](https://github.com/YagamiLight17) - For his brilliant contributions towards upgrading the Server & for integrating the *Customs Permissions*  feature
 - [yogeshwaran01](https://github.com/yogeshwaran01) - For his creation of the URL Masker, which was modified by YagamiLight for AhMyth.
+- [vUdav](https://github.com/vUdav) - For providing the fix for the APK Browser dialog released with v1.0-beta.2 on this repository, in an issue on the Legacy Repository for AhMyth [here.](https://github.com/AhMyth/AhMyth-Android-RAT/issues/272#issuecomment-804932876)
