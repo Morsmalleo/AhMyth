@@ -17,14 +17,6 @@ Posting Issues with a failure to properly read and follow the things listed belo
 - *Troubleshoot Sections* 
 - *Issue Rules* 
 #
-## <div align="center">Announcement</div>
-AhMyth is currently in the process of a complete migration from [electron](https://github.com/electron/electron) to [tauri](https://github.com/tauri-apps/tauri) as well as a complete rebuild! 
-
-Please keep using this repository until further notice, updates to this repository will also still continue to happen until the migration and rebuild has finished, so dont stress, AhMyth isn't going anywhere.
-
-If you make YT Videos with this updated repository, then I want credit given to AhMyth's creator (Ahmed Al Hajri) and its maintainer which is me!
-#
-
 ## <div align="center">Contents</div>
 
 Use the Table of Contents below to quick skip to any part of this README such as installation, troubleshoot, etc.
