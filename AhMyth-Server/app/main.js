@@ -207,7 +207,7 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
 
   });
 
-  event.reply('SocketIO:Listen', '[✓] Started Listening on Port: ' + port);
+  event.reply('SocketIO:Listen', '[✓] Started Listening on all Ports');
   isListening = true;
 
 });
