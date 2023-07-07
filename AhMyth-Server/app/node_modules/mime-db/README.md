@@ -6,7 +6,7 @@
 [![Build Status][ci-image]][ci-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 
-This is a database of all mime types.
+This is a large database of mime types and information about them.
 It consists of a single, public JSON file and does not include any logic,
 allowing it to remain as un-opinionated as possible with an API.
 It aggregates data from the following sources:

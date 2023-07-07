@@ -239,6 +239,9 @@ Emitter(Decoder.prototype);
 Decoder.prototype.add = function(obj) {
   var packet;
   if (typeof obj === 'string') {
+    if (this.reconstructor) {
+      throw new Error("got plaintext data when reconstructing a packet");
+    }
     packet = decodeString(obj);
     if (exports.BINARY_EVENT === packet.type || exports.BINARY_ACK === packet.type) { // binary packet's json
       this.reconstructor = new BinaryReconstructor(packet);
