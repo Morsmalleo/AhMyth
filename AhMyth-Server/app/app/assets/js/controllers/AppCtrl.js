@@ -306,7 +306,7 @@ app.controller("AppCtrl", ($scope) => {
       (error, stdout, stderr) => {
         if (error !== null) {
           delayedLog('[x] Building Failed', CONSTANTS.logStatus.FAIL);
-          WriteErrorLog(error, 'Building.log');
+          WriteErrorLog(error, 'Building');
           delayedLog('[x] Building Error written to "Building.log" on...', CONSTANTS.logStatus.INFO);
           delayedLog(logPath, CONSTANTS.logStatus.INFO);
           return;
@@ -318,7 +318,7 @@ app.controller("AppCtrl", ($scope) => {
           (error, stdout, stderr) => {
             if (error !== null) {
               delayedLog('[x] Signing Failed', CONSTANTS.logStatus.FAIL);
-              WriteErrorLog(error, 'Signing.log');
+              WriteErrorLog(error, 'Signing');
               delayedLog('[x] Signing Error written to "Signing.log" on... ', CONSTANTS.logStatus.INFO);
               delayedLog(logPath, CONSTANTS.logStatus.INFO);
               return;
@@ -386,7 +386,7 @@ app.controller("AppCtrl", ($scope) => {
             dir.join(apkFolder, "smali_classes2"), (error) => {
               if (error) {
                 delayedLog('[x] Copying Failed!', CONSTANTS.logStatus.FAIL);
-                WriteErrorLog(error, 'Copying.log');
+                WriteErrorLog(error, 'Copying');
                 delayedLog('[¡] Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
                 delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
                 return;
@@ -427,7 +427,7 @@ app.controller("AppCtrl", ($scope) => {
             dir.join(apkFolder, payloadSmaliFolder), (error) => {
               if (error) {
                 delayedLog('[x] Copying Failed!', CONSTANTS.logStatus.FAIL);
-                WriteErrorLog(error, 'Copying.log');
+                WriteErrorLog(error, 'Copying');
                 delayedLog('[¡] Error written to "Copying.log" on...', CONSTANTS.logStatus.INFO);
                 delayedLog('[¡] ' + logPath, CONSTANTS.logStatus.INFO);
                 return;
@@ -915,8 +915,8 @@ app.controller("AppCtrl", ($scope) => {
     fs.readFile(ipPortFile, 'utf8', (error, data) => {
       if (error) {
         $appCtrl.Log('[x] ' + 'Reading (IP:PORT) File Failed', CONSTANTS.logStatus.FAIL);
-        WriteErrorLog(error, 'IP-PORT.log')
-        $appCtrl.Log('[¡] ' + 'Error written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
+        WriteErrorLog(error, 'IP:PORT')
+        $appCtrl.Log('[¡] ' + 'Error Written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
         $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
         return;
       }
@@ -929,8 +929,8 @@ app.controller("AppCtrl", ($scope) => {
       fs.writeFile(ipPortFile, result, 'utf8', (error) => {
         if (error) {
           $appCtrl.Log('[x] ' + 'Adding User IP:PORT Input Failed', CONSTANTS.logStatus.FAIL);
-          WriteErrorLog(error, 'IP-PORT.log')
-          $appCtrl.Log('[¡] ' + 'Error written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
+          WriteErrorLog(error, 'IP:PORT')
+          $appCtrl.Log('[¡] ' + 'Error Written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
           $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
           return;
         }
@@ -957,8 +957,8 @@ app.controller("AppCtrl", ($scope) => {
             (error, stdout, stderr) => {
               if (error !== null) {
                 $appCtrl.Log('[x] ' + 'Decompiling Failed!', CONSTANTS.logStatus.FAIL);
-                WriteErrorLog(error, 'Decompiling.log')
-                $appCtrl.Log('[¡] ' + 'Decompiling Error written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
+                WriteErrorLog(error, 'Decompiling')
+                $appCtrl.Log('[¡] ' + 'Error Written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
                 $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
                 return;
               }
