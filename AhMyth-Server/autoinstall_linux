@@ -1,0 +1,126 @@
+#!/bin/sh
+
+# Check package manager
+if [ -x "$(command -v apt-get)" ]; then
+    PACKAGE_MANAGER="apt-get"
+elif [ -x "$(command -v pacman)" ]; then
+    PACKAGE_MANAGER="pacman"
+else
+    echo -e "Unsupported package manager.\nThis script currently supports APT and Pacman-based systems."
+    exit 1
+fi
+
+java_install() {
+    echo -e "\nInstalling Java 11...\n"
+    if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+        apt-get install -y openjdk-11-jdk
+        update-java-alternatives -s java-11-openjdk-amd64
+        update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/jre/bin/java
+        update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+        update-alternatives --set javaws /usr/lib/jvm/java-11-openjdk-amd64/jre/bin/javaws
+    elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
+        pacman -Sy jdk11-openjdk
+    fi
+    echo -e "\nJava 11 has been installed successfully."
+    sleep 2
+    clear
+}
+
+nodejs_install() {
+    echo -e "\nInstalling Node.js...\n"
+    if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+        apt-get install -y nodejs
+    elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
+        pacman -Sy nodejs
+    fi
+    echo -e "\nNode.js has been installed successfully."
+    sleep 2
+    clear
+}
+
+npm_install() {
+    echo -e "\nInstalling npm...\n"
+    if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+        apt-get install -y npm
+    elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
+        pacman -Sy npm
+    fi
+    echo -e "\nnpm has been installed successfully."
+    sleep 2
+    clear
+}
+
+git_install() {
+    echo -e "\nInstalling Git...\n"
+    if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+        apt-get install -y git
+    elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
+        pacman -Sy git
+    fi
+    echo -e "\nGit has been installed successfully."
+    sleep 2
+    clear
+}
+
+dependencies_install() {
+    echo -e "\nInstalling Electron v11.0.0...\n"
+    npm i -g electron@11.0.0
+    echo -e "\nDone."
+    sleep 2
+    clear
+}
+
+# Check if user is root
+if [ "$(id -u)" != "0" ]; then
+    echo -e "This script must be run as root!" 1>&2
+    exit 1
+fi
+
+# Update and upgrade
+clear
+echo -e "Updating and upgrading...\n"
+if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+    apt-get update && apt-get upgrade -y
+elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    pacman -Syu --noconfirm
+fi
+echo -e "\nUpdate and Upgrade done."
+sleep 2
+clear
+
+# Check if Java 11 is installed
+if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+    if [ -z "$(dpkg -l | grep openjdk-11)" ]; then
+        echo -e "Java 11 is not installed!"
+        java_install
+    fi
+elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
+    if ! pacman -Qi jdk11-openjdk >/dev/null 2>&1; then
+        echo -e "Java 11 is not installed!"
+        java_install
+    fi
+fi
+
+# Check if nodejs is installed
+if [ -z "$(command -v node)" ]; then
+    echo -e "Node.js is not installed!" 1>&2
+    nodejs_install
+fi
+
+# Check if npm is installed
+if [ -z "$(command -v npm)" ]; then
+    echo -e "npm is not installed!" 1>&2
+    npm_install
+fi
+
+# Check if git is installed
+if [ -z "$(command -v git)" ]; then
+    echo -e "Git is not installed!" 1>&2
+    git_install
+fi
+
+# Check if electron v11 is installed
+if [ -z "$(command -v electron)" ]; then
+    echo -e "electron has not been installed by npm!\n" 1>&2
+    dependencies_install
+fi

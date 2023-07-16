@@ -1,0 +1,8 @@
+#/bin/sh
+
+# check if user is root
+if [ "$(id -u)" != "0" ]; then
+    npx electron ./app --no-sandbox start
+else
+  npm start
+fi

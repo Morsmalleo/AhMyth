@@ -27,23 +27,29 @@
 
     <link rel="stylesheet" href="assets/css/mystyle.css">
     <link rel="stylesheet" href="../node_modules/fomantic-ui/dist/semantic.min.css" />
-
+    <style>
+        #log {
+            height: 198px;
+            /* Adjust the height value as per your preference */
+            overflow: scroll;
+        }
+    </style>
 
 </head>
 
 <body ng-controller="AppCtrl" class="draggable">
 
-
     <div class="ui top attached tabular menu">
         <a class="item active notDraggable" data-tab="first"><i class="large eye icon"></i>Victims</a>
         <a class="item notDraggable" data-tab="second"><i class="large green android icon"></i>APK Builder</a>
-        <a class="item notDraggable" data-tab="third"><i class="large blue cloud icon"></i>Payload Url Masker</a>
         <div class="ui right mini text menu notDraggable">
-            <button class=" ui circular orange button" ng-click="minimize()" style="font-size: 6px;height: 17px"></button>
+            <button class=" ui circular orange button" ng-click="minimize()"
+                style="font-size: 6px;height: 17px"></button>
             <button class="ui circular green button" ng-click="maximize()" style="font-size: 6px;height: 17px"></button>
             <button class="ui circular red button" ng-click="close()" style="font-size: 6px;height: 17px"></button>
         </div>
     </div>
+
     <div class="ui bottom attached tab segment active h60 notDraggable" data-tab="first">
         <div class="ui grid h100">
             <div class="row h30">
@@ -63,9 +69,12 @@
                                     <div class="ui label">
                                         Port
                                     </div>
-                                    <input type="text" ng-model="port" placeholder="Deafult is 42474">
+                                    <input type="text" ng-model="port" placeholder="Default is 42474">
                                 </div>
-                                <button ng-click="isListen=true;Listen(port);" class="ui labeled icon black button"><i class="terminal icon" ></i>Listen</button>
+                                <button ng-click="clearLogs(); isListen=true;Listen(port)"
+                                    class="ui labeled icon black button"><i class="terminal icon"></i>Listen</button>
+                                <button ng-click="clearLogs(); StopListening()"
+                                    class="ui labeled icon black button"><i class="terminal icon"></i>Stop</button>
                             </div>
                         </div>
                     </div>
@@ -77,7 +86,7 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>country</th>
+                                <th>Country</th>
                                 <th>Manuf.</th>
                                 <th>Model</th>
                                 <th>Release</th>
@@ -90,7 +99,7 @@
                         <tbody>
 
                             <tr ng-repeat="(key, victim) in victims">
-                                <td> <a class="ui black ribbon label" ng-click="openLab(key)">Open The Lab</a></td>
+                                <td><a class="ui black ribbon label" ng-click="openLab(key)">Open The Lab</a></td>
                                 <td ng-if="victim.country != null"><i class="{{victim.country}} flag"></i></td>
                                 <td ng-if="victim.country == null"><i class="help circle icon"></i></td>
                                 <td ng-bind="victim.manf"></td>
@@ -108,20 +117,17 @@
 
         </div>
     </div>
+
     <div class="ui bottom attached tab segment h60 notDraggable" data-tab="second">
         <div ng-include="'views/build.html'" class="full"></div>
     </div>
-    <div class="ui bottom attached tab segment h60 notDraggable" data-tab="third">
-        <div ng-include="'views/unavailable.html'" class="full"></div>
-        
-    </div>    
-    <div class="ui bottom attached black message h25 notDraggable" id="log" style="overflow: scroll;">
+
+    <div class="ui bottom attached black message notDraggable" id="log">
         <div ng-repeat="log in logs" class="log">
             <div class="w30" style="display: inline-block" ng-bind="log.date"></div>
             <div class="w65" style="display: inline-block" ng-style="{'color':log.color}" ng-bind="log.msg"></div>
         </div>
     </div>
-
 
 </body>
 

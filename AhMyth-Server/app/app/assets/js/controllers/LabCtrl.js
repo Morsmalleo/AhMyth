@@ -13,7 +13,7 @@ var downloadsPath = path.join(dataPath, CONSTANTS.downloadPath);
 var outputPath = path.join(dataPath, CONSTANTS.outputApkPath);
 
 //-----------------------Routing Config------------------------
-app.config(function($routeProvider) {
+app.config(function ($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl: "./views/main.html"
@@ -52,7 +52,7 @@ app.config(function($routeProvider) {
 
 //-----------------------LAB Controller (lab.htm)------------------------
 // controller for Lab.html and its views mic.html,camera.html..etc
-app.controller("LabCtrl", function($scope, $rootScope, $location) {
+app.controller("LabCtrl", function ($scope, $rootScope, $location) {
     $labCtrl = $scope;
     var log = document.getElementById("logy");
     $labCtrl.logs = [];
@@ -60,6 +60,14 @@ app.controller("LabCtrl", function($scope, $rootScope, $location) {
     const window = remote.getCurrentWindow();
     $labCtrl.close = () => {
         window.close();
+    };
+
+    $labCtrl.maximize = () => {
+        if (window.isMaximized()) {
+            window.unmaximize(); // Restore the window size
+        } else {
+            window.maximize(); // Maximize the window
+        }
     };
 
 
@@ -85,7 +93,9 @@ app.controller("LabCtrl", function($scope, $rootScope, $location) {
 
     //fired when notified from the Main Process (main.js) about
     // the Server disconnection
-
+    ipcRenderer.on('SocketIO:ServerDisconnected', (event) => {
+        $rootScope.Log('[¡] Server Disconnected', CONSTANTS.logStatus.INFO);
+    });
 
 
 
@@ -108,7 +118,7 @@ app.controller("LabCtrl", function($scope, $rootScope, $location) {
 
 //-----------------------Camera Controller (camera.htm)------------------------
 // camera controller
-app.controller("CamCtrl", function($scope, $rootScope) {
+app.controller("CamCtrl", function ($scope, $rootScope) {
     $camCtrl = $scope;
     $camCtrl.isSaveShown = false;
     var camera = CONSTANTS.orders.camera;
@@ -186,7 +196,7 @@ app.controller("CamCtrl", function($scope, $rootScope) {
 
 //-----------------------File Controller (fileManager.htm)------------------------
 // File controller
-app.controller("FmCtrl", function($scope, $rootScope) {
+app.controller("FmCtrl", function ($scope, $rootScope) {
     $fmCtrl = $scope;
     $fmCtrl.load = 'loading';
     $fmCtrl.files = [];
@@ -264,7 +274,7 @@ app.controller("FmCtrl", function($scope, $rootScope) {
 
 //-----------------------SMS Controller (sms.htm)------------------------
 // SMS controller
-app.controller("SMSCtrl", function($scope, $rootScope) {
+app.controller("SMSCtrl", function ($scope, $rootScope) {
     $SMSCtrl = $scope;
     var sms = CONSTANTS.orders.sms;
     $SMSCtrl.smsList = [];
@@ -352,7 +362,7 @@ app.controller("SMSCtrl", function($scope, $rootScope) {
 
 //-----------------------Calls Controller (callslogs.htm)------------------------
 // Calls controller
-app.controller("CallsCtrl", function($scope, $rootScope) {
+app.controller("CallsCtrl", function ($scope, $rootScope) {
     $CallsCtrl = $scope;
     $CallsCtrl.callsList = [];
     var calls = CONSTANTS.orders.calls;
@@ -417,7 +427,7 @@ app.controller("CallsCtrl", function($scope, $rootScope) {
 
 //-----------------------Contacts Controller (contacts.htm)------------------------
 // Contacts controller
-app.controller("ContCtrl", function($scope, $rootScope) {
+app.controller("ContCtrl", function ($scope, $rootScope) {
     $ContCtrl = $scope;
     $ContCtrl.contactsList = [];
     var contacts = CONSTANTS.orders.contacts;
@@ -480,12 +490,12 @@ app.controller("ContCtrl", function($scope, $rootScope) {
 
 //-----------------------Mic Controller (mic.htm)------------------------
 // Mic controller
-app.controller("MicCtrl", function($scope, $rootScope) {
+app.controller("MicCtrl", function ($scope, $rootScope) {
     $MicCtrl = $scope;
     $MicCtrl.isAudio = true;
     var mic = CONSTANTS.orders.mic;
 
-    $MicCtrl.$on('$destroy', function() {
+    $MicCtrl.$on('$destroy', function () {
         // release resources, cancel Listner...
         socket.removeAllListeners(mic);
     });
@@ -549,7 +559,7 @@ app.controller("MicCtrl", function($scope, $rootScope) {
 
 //-----------------------Location Controller (location.htm)------------------------
 // Location controller
-app.controller("LocCtrl", function($scope, $rootScope) {
+app.controller("LocCtrl", function ($scope, $rootScope) {
     $LocCtrl = $scope;
     var location = CONSTANTS.orders.location;
 

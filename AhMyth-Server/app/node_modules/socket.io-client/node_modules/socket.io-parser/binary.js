@@ -70,8 +70,16 @@ exports.reconstructPacket = function(packet, buffers) {
 function _reconstructPacket(data, buffers) {
   if (!data) return data;
 
-  if (data && data._placeholder) {
-    return buffers[data.num]; // appropriate buffer (should be natural order anyway)
+  if (data && data._placeholder === true) {
+    var isIndexValid =
+      typeof data.num === "number" &&
+      data.num >= 0 &&
+      data.num < buffers.length;
+    if (isIndexValid) {
+      return buffers[data.num]; // appropriate buffer (should be natural order anyway)
+    } else {
+      throw new Error("illegal attachments");
+    }
   } else if (isArray(data)) {
     for (var i = 0; i < data.length; i++) {
       data[i] = _reconstructPacket(data[i], buffers);

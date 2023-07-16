@@ -1,3 +1,12 @@
+## [3.5.3](https://github.com/socketio/engine.io-client/compare/3.5.2...3.5.3) (2022-09-07)
+
+
+### Bug Fixes
+
+* fix usage with vite ([280de36](https://github.com/socketio/engine.io-client/commit/280de368092b17648b59b7467fa49f2425edcd45))
+
+
+
 ## [3.5.2](https://github.com/socketio/engine.io-client/compare/3.5.1...3.5.2) (2021-05-05)
 
 This release only contains a bump of `xmlhttprequest-ssl`, in order to fix the following vulnerability: https://www.npmjs.com/advisories/1665.

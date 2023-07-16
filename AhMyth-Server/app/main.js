@@ -127,9 +127,15 @@ app.on('activate', () => {
 
 
 
+let isListening = false;
+
 // fired when start listening
 // It will be fired when AppCtrl emit this event
 ipcMain.on('SocketIO:Listen', function (event, port) {
+  if (isListening) {
+    event.reply('SocketIO:ListenError', '[x] Already Listening on Port: ' + port);
+    return;
+  }
 
   IO = io.listen(port);
   IO.sockets.pingInterval = 10000;
@@ -192,22 +198,38 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
         //delete the window from windowsList
         delete windows[index]
       }
+
+      if (windows[index]) {
+        BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:ServerDisconnected");
+        delete windows[index]
+      }
     });
 
   });
 
+  event.reply('SocketIO:Listen', '[✓] Started Listening on Port: ' + port);
+  isListening = true;
+
 });
 
-
-//handle the Uncaught Exceptions
-process.on('uncaughtException', function (error) {
-
-  if (error.code == "EADDRINUSE") {
-    win.webContents.send('SocketIO:Listen', "Address Already in Use");
+// fired when the stop button is clicked
+ipcMain.on('SocketIO:Stop', function (event, port) {
+  if (IO) {
+      IO.close();
+      IO = null;
+      event.reply('SocketIO:Stop', '[✓] Stopped Listening on all Ports');
+      isListening = false;
   } else {
-    electron.dialog.showErrorBox("ERROR", JSON.stringify(error));
+      event.reply('SocketIO:StopError', '[x] The Server is not Currently Listening');
   }
+});
 
+process.on('uncaughtException', function (error) {
+  if (error.code == "EADDRINUSE") {
+      win.webContents.send('SocketIO:ListenError', "Address Already in Use");
+  } else {
+      electron.dialog.showErrorBox("ERROR", JSON.stringify(error));
+  }
 });
 
 

@@ -4,7 +4,7 @@
  * Module requirements.
  */
 
-var XMLHttpRequest = require('xmlhttprequest-ssl');
+var XMLHttpRequest = require('./xmlhttprequest');
 var Polling = require('./polling');
 var Emitter = require('component-emitter');
 var inherit = require('component-inherit');

