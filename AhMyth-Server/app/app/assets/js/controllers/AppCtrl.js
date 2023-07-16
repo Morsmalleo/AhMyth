@@ -676,7 +676,7 @@ app.controller("AppCtrl", ($scope) => {
 
     delayedLog('[★] Reading the Android Manifest XML File...')
     fs.readFile(manifestPath, 'utf8', (error, data) => {
-      if (err) {
+      if (error) {
         delayedLog('[x] Unable to Read the Android Manifest XML File!', CONSTANTS.logStatus.FAIL);
         WriteErrorLog(error, 'Reading.log');
         delayedLog('[¡] Error written to "Reading.log" on... ', CONSTANTS.logStatus.INFO);
