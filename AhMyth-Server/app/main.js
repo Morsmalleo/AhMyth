@@ -127,11 +127,12 @@ app.on('activate', () => {
 
 
 
-let isListening = false;
 
 // fired when start listening
 // It will be fired when AppCtrl emit this event
 ipcMain.on('SocketIO:Listen', function (event, port) {
+  let isListening = false;
+  
   if (isListening) {
     event.reply('SocketIO:ListenError', '[x] Already Listening on Port: ' + port);
     return;
