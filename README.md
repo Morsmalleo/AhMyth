@@ -143,10 +143,10 @@ For those looking to study this unique RAT, you can find all the information you
 
 ## <div align="center"><ins>Screenshots</ins></div>
 
-| | | |
-|:-------------------------:|:-------------------------:|:-------------------------:|
-|<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> Main Screen</a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> Standalone APK Builder </a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> APK Payload Binder  </a> | 
-<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> Victims Lab </a> | <a> COMING SOON! </a> | <a> COMING SOON! </a> |
+|                           |                           |                           |                           |
+|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
+|<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/splash.jpg"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/splash.jpg"> Splash Screen</a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/MainScreen.PNG"> Main Screen </a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Standalone).PNG"> Standalone APK Builder </a> | <a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/ApkBuilder(Bound).PNG"> APK Payload Binder  </a> |
+<a href="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> <img width="875" src="https://github.com/Morsmalleo/AhMyth/blob/master/.github/IMG/VictimsLab.PNG"> Victims Lab </a> | <a> COMING SOON! </a> | <a> COMING SOON! </a> | <a> N/A </a>
 #
 
 ## <div align="center"><ins>Credits</ins></div>
