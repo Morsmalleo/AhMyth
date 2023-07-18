@@ -1,81 +1,81 @@
 #!/bin/sh
 
 # Get the path to the script's directory
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR = "$(cd "$(dirname "$0")" && pwd)"
 
 # Check package manager
-if [ -x "$(command -v apt-get)" ]; then
-    PACKAGE_MANAGER="apt-get"
-elif [ -x "$(command -v pacman)" ]; then
-    PACKAGE_MANAGER="pacman"
+if [-x "$(command -v apt-get)"]; then
+PACKAGE_MANAGER = "apt-get"
+elif [-x "$(command -v pacman)"]; then
+PACKAGE_MANAGER = "pacman"
 else
-    echo -e "Unsupported package manager.\nThis script currently supports APT and Pacman-based systems."
-    exit 1
+    echo "Unsupported package manager.\nThis script currently supports APT and Pacman-based systems."
+exit 1
 fi
 
 java_install() {
-    echo -e "\nInstalling Java 11...\n"
-    if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
-        apt-get install -y openjdk-11-jdk
-        update-java-alternatives -s java-11-openjdk-amd64
-        update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/jre/bin/java
-        update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
-        update-alternatives --set javaws /usr/lib/jvm/java-11-openjdk-amd64/jre/bin/javaws
-    elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-        pacman -Sy jdk11-openjdk
+    echo "Installing Java 11...\n"
+    if ["$PACKAGE_MANAGER" = "apt-get"]; then
+    apt-get install -y openjdk-11-jdk
+    update-java-alternatives -s java-11-openjdk-amd64
+    update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/jre/bin/java
+    update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+    update-alternatives --set javaws /usr/lib/jvm/java-11-openjdk-amd64/jre/bin/javaws
+    elif ["$PACKAGE_MANAGER" = "pacman"]; then
+    pacman -Sy jdk11-openjdk
     fi
-    echo -e "\nJava 11 has been installed successfully."
+    echo "\nJava 11 has been installed successfully."
     sleep 2
     clear
 }
 
 nodejs_install() {
-    echo -e "\nInstalling Node.js...\n"
-    if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
-        apt-get install -y nodejs
-    elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-        pacman -Sy nodejs
+    echo "Installing Node.js...\n"
+    if ["$PACKAGE_MANAGER" = "apt-get"]; then
+    apt-get install -y nodejs
+    elif ["$PACKAGE_MANAGER" = "pacman"]; then
+    pacman -Sy nodejs
     fi
-    echo -e "\nNode.js has been installed successfully."
+    echo "\nNode.js has been installed successfully."
     sleep 2
     clear
 }
 
 npm_install() {
-    echo -e "\nInstalling npm...\n"
-    if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
-        apt-get install -y npm
-    elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-        pacman -Sy npm
+    echo "Installing npm...\n"
+    if ["$PACKAGE_MANAGER" = "apt-get"]; then
+    apt-get install -y npm
+    elif ["$PACKAGE_MANAGER" = "pacman"]; then
+    pacman -Sy npm
     fi
-    echo -e "\nnpm has been installed successfully."
+    echo "\nnpm has been installed successfully."
     sleep 2
     clear
 }
 
 git_install() {
-    echo -e "\nInstalling Git...\n"
-    if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
-        apt-get install -y git
-    elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-        pacman -Sy git
+    echo "Installing Git...\n"
+    if ["$PACKAGE_MANAGER" = "apt-get"]; then
+    apt-get install -y git
+    elif ["$PACKAGE_MANAGER" = "pacman"]; then
+    pacman -Sy git
     fi
-    echo -e "\nGit has been installed successfully."
+    echo "\nGit has been installed successfully."
     sleep 2
     clear
 }
 
 electron_install() {
-    echo -e "\nInstalling Electron v11.0.0...\n"
+    echo "Installing Electron v11.0.0...\n"
     npm i -g electron@11.0.0
-    echo -e "\nDone."
+    echo "\nDone."
     sleep 2
     clear
 }
 
 create_system_shortcut() {
     # Create ahmyth file and grant executable permissions
-    echo -e "\nCreating ahmyth file and granting executable permissions...\n"
+    echo "Creating ahmyth file and granting executable permissions...\n"
     echo '#!/bin/sh' > ahmyth
     echo "if [ \"\$(id -u)\" = \"0\" ]; then" >> ahmyth
     echo "    npx electron \"$SCRIPT_DIR/app\" --no-sandbox start" >> ahmyth
@@ -83,85 +83,85 @@ create_system_shortcut() {
     echo "    npm start --prefix \"$SCRIPT_DIR\"" >> ahmyth
     echo "fi" >> ahmyth
     chmod +x ahmyth
-    echo -e "\nahmyth file has been created and executable permissions have been granted."
+    echo "ahmyth file has been created and executable permissions have been granted."
     sleep 2
     clear
 
     # Move ahmyth file to /usr/local/sbin
-    echo -e "\nMoving ahmyth file to /usr/local/sbin...\n"
-    if [ -d "/usr/local/sbin" ]; then
-        mv ahmyth /usr/local/sbin
-        echo -e "\nahmyth file has been moved to /usr/local/sbin."
+    echo "Moving ahmyth file to /usr/local/sbin...\n"
+    if [-d "/usr/local/sbin"]; then
+    mv ahmyth /usr/local/sbin
+    echo "ahmyth file has been moved to /usr/local/sbin."
     else
-        echo -e "/usr/local/sbin directory not found! Unable to move ahmyth file."
+        echo "/usr/local/sbin directory not found! Unable to move ahmyth file."
     fi
     sleep 2
     clear
 }
 
 # Check if user is root
-if [ "$(id -u)" != "0" ]; then
-    echo -e "This script must be run as root!" >&2
-    exit 1
+if ["$(id -u)" != "0"]; then
+echo "This script must be run as root!" > &2
+exit 1
 fi
 
 # Update and upgrade
 clear
-echo -e "Updating and upgrading...\n"
-if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
-    apt-get update && apt-get upgrade -y
-elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    pacman -Syu --noconfirm
+echo "Updating and Upgrading...\n"
+if ["$PACKAGE_MANAGER" = "apt-get"]; then
+apt-get update && apt-get upgrade -y
+elif ["$PACKAGE_MANAGER" = "pacman"]; then
+pacman -Syu --noconfirm
 fi
-echo -e "\nUpdate and Upgrade done."
+echo "\nUpdate and Upgrade done."
 sleep 2
 clear
 
 # Check if Java 11 is installed
-if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
-    if [ -z "$(dpkg -l | grep openjdk-11)" ]; then
-        echo -e "Java 11 is not installed!"
-        java_install
-    fi
-elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
-    if ! pacman -Qi jdk11-openjdk >/dev/null 2>&1; then
-        echo -e "Java 11 is not installed!"
-        java_install
-    fi
+if ["$PACKAGE_MANAGER" = "apt-get"]; then
+if [-z "$(dpkg -l | grep openjdk-11)"]; then
+echo "Java 11 is not installed!"
+java_install
+fi
+elif ["$PACKAGE_MANAGER" = "pacman"]; then
+if ! pacman -Qi jdk11-openjdk >/dev/null 2 > &1; then
+echo "Java 11 is not installed!"
+java_install
+fi
 fi
 
 # Check if nodejs is installed
-if [ -z "$(command -v node)" ]; then
-    echo -e "Node.js is not installed!" >&2
-    nodejs_install
+if [-z "$(command -v node)"]; then
+echo "Node.js is not installed!" > &2
+nodejs_install
 fi
 
 # Check if npm is installed
-if [ -z "$(command -v npm)" ]; then
-    echo -e "npm is not installed!" >&2
-    npm_install
+if [-z "$(command -v npm)"]; then
+echo "npm is not installed!" > &2
+npm_install
 fi
 
 # Check if git is installed
-if [ -z "$(command -v git)" ]; then
-    echo -e "Git is not installed!" >&2
-    git_install
+if [-z "$(command -v git)"]; then
+echo "Git is not installed!" > &2
+git_install
 fi
 
 # Check if electron v11 is installed
-if [ -z "$(command -v electron)" ]; then
-    echo -e "electron has not been installed by npm!\n" >&2
-    electron_install
+if [-z "$(command -v electron)"]; then
+echo "electron has not been installed by npm!" > &2
+electron_install
 fi
 
 # Check if ahmyth system shortcut exists, create it if not
-if [ -z "$(command -v ahmyth)" ]; then
-    echo -e "\nahmyth system shortcut doesn't exist. Creating..."
-    create_system_shortcut
+if [-z "$(command -v ahmyth)"]; then
+echo "ahmyth system shortcut doesn't exist!"
+create_system_shortcut
 fi
 
 # Check if all dependencies are installed
-if [ -x "$(command -v electron)" ] && [ -x "$(command -v node)" ] && [ -x "$(command -v npm)" ] && [ -x "$(command -v git)" ] && [ -f "/usr/local/sbin/ahmyth" ]; then
-    echo -e "\nAll Dependencies are Installed\n"
-    exit 0
+if [-x "$(command -v electron)"] && [-x "$(command -v node)"] && [-x "$(command -v npm)"] && [-x "$(command -v git)"] && [-f "/usr/local/sbin/ahmyth"]; then
+echo "All Dependencies are Installed."
+exit 0
 fi
