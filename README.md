@@ -18,7 +18,7 @@ Posting Issues with a failure to properly read and follow the things listed belo
 - *Troubleshoot Sections* 
 - *Issue Rules*
 
-TL;DR? no worries, let me put it in terms you will understand... Read the fucking parts of this repository stated above before posting *Issues* otherwise you can enjoy a fucking ban from the Repo Temporarily! I have no time for lazy, impatient people, if you are that impatient that you cannot read up on a fuckong Install Guide or Issues Rules or for that matter a TROUBLESHOOT guide for errors, then you aren't welcome here!
+TL;DR? no worries, let me put it in terms you will understand... Read the fucking parts of this repository stated above before posting *Issues* otherwise you can enjoy a fucking ban from the Repo Temporarily! I have no time for lazy, impatient people, if you are that impatient that you cannot read up on a fucking Install Guide or Issues Rules or for that matter a TROUBLESHOOT guide for errors, then you aren't welcome here!
 #
 ## <div align="center">Contents</div>
 
