@@ -11,15 +11,16 @@
 #
 Give this repository a 💫 to support the project.
 
+Basic knowledge of IP Addressing & Port allocation is required when using AhMyth, so this tool is NOT recommended for newbs.
+
 Posting Issues with a failure to properly read and follow the things listed below first, will result in a temporary ban from the repository, WITHOUT WARNING! 
 
 - *Setup Instructions*
 - *User Manual*
 - *Troubleshoot Sections* 
 - *Issue Rules*
-
-TL;DR? no worries, let me put it in terms you will understand... Read the fucking parts of this repository stated above before posting *Issues* otherwise you can enjoy a fucking ban from the Repo Temporarily! I have no time for lazy, impatient people, if you are that impatient that you cannot read up on a fucking Install Guide or Issues Rules or for that matter a TROUBLESHOOT guide for errors, then you aren't welcome here!
 #
+
 ## <div align="center">Contents</div>
 
 Use the Table of Contents below to quick skip to any part of this README such as installation, troubleshoot, etc.
