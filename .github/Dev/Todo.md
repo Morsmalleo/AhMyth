@@ -1,0 +1,16 @@
+# <div align="center"><ins>v1.0-beta.5a / v1.0-beta.5 (Rev 1)</div></ins>
+- [ ] 01. Update the callback error mwssage for Parsing in the `$appCtrl.modifyManifest` function.
+<br></br>
+- [ ] 02. Add a callback for the Parsing function after reading the payload manifest file in the `$appCtrl.generateApk` function.
+<br></br>
+- [ ] 03. Clean up the code so it all conforms to proper *JavaScript* function naming (i.e `$appCtrl.CopyAhmythFilesAndGenerateApk` should be `$appCtrl.copyAhmythFilesAndGenerateApk` and so on).
+<br></br>
+- [ ] 04. Update the *auotinstall_linux* file, to install ahmyth and dependencies for *Blackarch*.
+<br></br>
+- [ ] 05. Wrap the code for the `payload directory creator` utilised inside the `$appCtrl.CopyAhmythFilesAndGenerateApk` function, in a function of its own so it can be called with a Callback, and give the function the name `$appCtrl.createPayloadDirectory`
+<br></br>
+- [ ] 06. Update the `$appCtrl.createPayloadDirectory` function itself to seperate the Ahmyth payload folders stored inside the *smali* folder of the decompiled Ahmyth payload the server copies from (located within the *"Factory"* of the source code) into their own `smali_classesX` folder (where *X* represents the folders respective numbering).
+<br></br>
+- [ ] 07. Create a function to check the users current Java version and prevent any process from running if the users current applied *JDK* version is anything but *JDK11*.
+<br></br>
+- [ ] 08. Add a function to throw a Deprecention Warning for 32bit users stating the AhMyth will cease support for Operating Systems running 32bit architecture as soon as *Apktool* reaches *v3.0.0*.
