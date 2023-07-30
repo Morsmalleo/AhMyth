@@ -7,17 +7,25 @@ assignees: 'Morsmalleo'
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. 
+## <div align="center">**Is your feature request related to a problem?**</div>
 
+- [ ] Yes
+- [ ] No
+<br></br>
 
-EXAMPLE: I'm always frustrated when [...]
-
-**Describe the solution you'd like**
+## <div align="center">**Describe the solution or enhancement you'd like**</div>
 A clear and concise description of what you want to happen.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+- DESCRIPTION HERE
+<br></br>
 
-**Additional context**
+## <div align="center">**Describe alternatives you've considered**</div>
+A clear and concise description of any alternative solutions or features you've considered (if any).
+
+- DESCRIPTION HERE
+<br></br>
+
+## <div align="center">**Additional context**</div>
 Add any other context or screenshots about the feature request here.
+
+- INFO HERE
