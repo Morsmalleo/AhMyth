@@ -27,7 +27,7 @@ Use the Table of Contents below to quick skip to any part of this README such as
 <!--ts-->
 
 * [Usage](#usage)
-* [Installation](#installation)
+* [Setup](#setup)
     * [Source Code Setup](#source-code-setup)
     * [Binary Setup](#binary-setup)
 * [User Manual](#user-manual)
@@ -51,7 +51,7 @@ Use the Table of Contents below to quick skip to any part of this README such as
 03. Take Control of the Victim Android Device by using the *Victim's Lab*.
 #
 
-## <div align="center"><ins>Installation</ins></div>
+## <div align="center"><ins>Setup</ins></div>
 
 You can install AhMyth by using either the *Source code*, or by using the *Binary files*.
 
@@ -93,41 +93,36 @@ You can find the Troubleshoot Sections for both Source Code Usage errors and Bin
 
 Any issues with AhMyth, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AhMyth/issues/new/choose)* accordingly.
 
-The following list will help users determine which Issue Template is suitable for their problem.
+The following list will help users determine which *Issue Template* is suitable for their problem.
 
 <br>
 
 ### <div align="center"><ins>Issue Templates</ins></div>
 - [x] [Server Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-report.md&title=)
 
-Use this issue Template if you experience the following problems;
-- Building & Signing Errors with Standalone APK payloads (Not Binding)
-- Unstable Victim's Lab Features
+Use this *Issue Template* if you experience the following problems:
+- Unstable/Unusable Victim's Lab Features
 - User Interface Problems
-- IP & PORT configuration problems
-
 <br></br>
 
 - [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.md&title=)
 
-Use this Issue Template if you experience any of the following issues
-- Unstable Victim's Connections
-- Applications Crashing after Binding
-- Victims connections dont return despite successful binding & installation as well as proper IP & PORT configuration
-
+Use this *Issue Template* if you experience any of the following issues:
+- Unstable Victim Connections
+- No Victim Connections Returning
+- Backdoored Payload Applications Crashing
+- Standalone Payload Applications Crashing
 <br></br>
 
 - [x] [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
 
-Use this Issue Template when you are greeted with any errors when using the Binding Features.
-
+Use this *Issue Template* if you can't successfully backdoor an original application.
 <br></br>
 
 - [x] [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
 
-Use this Template if you wish to request an upgrade that hasnt already been integrated.
-
-<br>
+Use this Template if you wish to request an upgrade that hasnt already been implemented.
+<br></br>
 
 ### <div align="center"><ins>Blank Issues</ins></div>
 If you experience errors that arent related to any of the *Issue Templates*, or if you cant seem to fix your problem using the *Troubleshoot Manual*, then please start a *[Blank Issue](https://github.com/Morsmalleo/AhMyth/issues/new)* and post it with enough valid information about the problem.
