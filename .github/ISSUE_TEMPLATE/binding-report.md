@@ -1,6 +1,6 @@
 ---
 name: Binding Report
-about: Create a report to alert us about bugs and errors when binding.
+about: Create a report to alert us about bugs and errors with the binding features.
 title: ''
 labels: apktool error, server error
 assignees: Morsmalleo
