@@ -115,7 +115,7 @@ Use this *Issue Template* if you experience any of the following issues on the v
 - Payload Permissions not being Set for Backdoored Applications
 <br></br>
 
-- [x] [B&B (Building & Binding) Report](https://github.com/Morsmalleo/AhMyth/blob/v1.0-beta.5-(Rev-1)/.github/ISSUE_TEMPLATE/b%26b-report.md)
+- [x] [B&B (Building & Binding) Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=apktool+error%2C+server+error%2C+apktool+bug%2C+server+bug&projects=&template=b%26b-report.md&title=)
 
 Use this *Issue Template* if you experience issues building a standalone payload, or backdooring an original application.
 <br></br>
