@@ -107,7 +107,7 @@ Use this *Issue Template* if you experience the following problems:
 
 - [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.md&title=)
 
-Use this *Issue Template* if you experience any of the following issues:
+Use this *Issue Template* if you experience any of the following issues on the victim's end:
 - Unstable Victim Connections
 - No Victim Connections Returning
 - Backdoored Payload Applications Crashing after Installation
