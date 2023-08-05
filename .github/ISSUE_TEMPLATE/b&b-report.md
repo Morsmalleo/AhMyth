@@ -1,18 +1,20 @@
 ---
-name: Payload Report
-about: Create a report about original applications that can't be backdoored
+name: B&B (Building & Binding) Report
+about: Create a report about problems with building standalone payloads, or original applications that can't be backdoored.
 title: ''
-labels: apktool error, server error
+labels: apktool error, server error, apktool bug, server bug
 assignees: Morsmalleo
 
 ---
 
 **This is an issue with**
+- [ ] Standalone Payload
 - [ ] Binding On Launch
 - [ ] Binding On Boot
 <br></br>
 
 ## <div align="center">**APK Name & Origin**</div>
+> Remove this section if the problem is with building a standalone payload
 - APK Name: APK NAME HERE
 - APK Origin: [WEBSITE NAME HERE](LINK TO THE APK HERE)
 <br></br>
