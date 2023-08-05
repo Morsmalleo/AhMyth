@@ -1,6 +1,6 @@
 ---
 name: Client Report
-about: Create a report about errors and/or bugs with either a standalone client or a bound client.
+about: Create a report about problems or bugs with the client on the Victim's end.
 title: ''
 labels: client error, client bug
 assignees: Morsmalleo
@@ -8,7 +8,7 @@ assignees: Morsmalleo
 ---
 
 **This is an issue with the**
-- [x] AhMyth Client/Payload
+- [x] AhMyth Client
 <br></br>
 
 ## <div align="center">**Describe the bug**</div>
