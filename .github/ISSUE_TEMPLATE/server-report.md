@@ -29,17 +29,14 @@ A clear and concise description of what you expected to happen.
 - DESCRIPTION HERE
 <br></br>
 
-## <div align="center">**Logs**</div>
-Always post the log files found at `AhMyth/Logs` to help us determine the problem further.
-```zsh
-PASTE LOG FILE CONTENTS HERE
-```
-if no logs are generated then erase this and just leave the comment (`N/A`) next to a bulletin (`-`) in this section.
-<br></br>
-
 ## <div align="center">**OS Information**</div>
- - OS Name: e.g. Windows, Kali Linux/Ubuntu/Mint, macOS
-- OS Version: e.g. 11, 2022.4, Catalina 10.15.7
+1. OS: e.g. Debian, macOS
+<br></br>
+2. OS Version: e.g. Kali 2022.4, macOS 12.0 Monterey
+<br></br>
+3. OS Architecture:
+ - [ ] 32bit
+ - [ ] 64bit
 <br></br>
 
 ## <div align="center">**Checklist**</div>
