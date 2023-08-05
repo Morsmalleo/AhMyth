@@ -1,18 +1,20 @@
 ---
-name: Binding Report
-about: Create a report about original applications that can't be backdoored
+name: B&B (Building & Binding) Report
+about: Create a report about problems with building standalone payloads, or original applications that can't be backdoored.
 title: ''
-labels: apktool error, server error
+labels: apktool error, server error, apktool bug, server bug
 assignees: Morsmalleo
 
 ---
 
 **This is an issue with**
+- [ ] Standalone Payload
 - [ ] Binding On Launch
 - [ ] Binding On Boot
 <br></br>
 
 ## <div align="center">**APK Name & Origin**</div>
+> Remove this section if the problem is with building a standalone payload
 - APK Name: APK NAME HERE
 - APK Origin: [WEBSITE NAME HERE](LINK TO THE APK HERE)
 <br></br>
@@ -36,8 +38,13 @@ PASTE LOGS HERE
 <br></br>
 
 ## <div align="center">**OS Info**</div>
- - OS: e.g. Debian, macOS
- - OS Version: e.g. Kali 2022.4, macOS 12.0 Monterey
+1. OS: e.g. Debian, macOS
+<br></br>
+2. OS Version: e.g. Kali 2022.4, macOS 12.0 Monterey
+<br></br>
+3. OS Architecture:
+ - [ ] 32bit
+ - [ ] 64bit
 <br></br>
 
 ## Dependencies Check
@@ -45,7 +52,7 @@ PASTE LOGS HERE
 ```zsh 
 apt-cache policy openjdk-11-jdk
 ```
-- If on 32bit linux then run...
+> If on 32bit linux then run...
 ```zsh
 apt-cache policy openjdk-11-jdk zipalign
 ```

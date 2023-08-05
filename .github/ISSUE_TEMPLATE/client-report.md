@@ -1,27 +1,36 @@
 ---
 name: Client Report
-about: Create a report about the client to help us improve
+about: Create a report about problems or bugs with the client on the Victim's end.
 title: ''
-labels: bug
+labels: client error, client bug
 assignees: Morsmalleo
 
 ---
 
 **This is an issue with the**
-- [x] Standalone AhMyth Client/Payload
+- [x] AhMyth Client
+<br></br>
 
-## **Describe the bug**
+## <div align="center">**Describe the bug**</div>
+
 A clear and concise description of what the bug is.
 
-## **To Reproduce**
-Steps to reproduce the behavior:
-1. ....
-2. ....
-3. ....
+- DESCRIPTION HERE
+<br></br>
 
-## **Expected behavior**
+## <div align="center">**To Reproduce**</div>
+Steps to reproduce the behavior:
+1. 
+2. 
+3. 
+<br></br>
+
+## <div align="center">**Expected behavior**</div>
 A clear and concise description of what you expected to happen.
 
-## **Android Info**
+- DESCRIPTION HERE
+<br></br>
+
+## <div align="center">**Android OS Info**</div>
  - Android Version: e.g 11/12/13
  - Manufacturer: e.g Samsung/Vivo

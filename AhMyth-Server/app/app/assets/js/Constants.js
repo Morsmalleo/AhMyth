@@ -1,4 +1,4 @@
-var path = require("path");
+const path = require('path');
 
 
 //---------------------App Controller Vars----------------------------------
@@ -13,8 +13,8 @@ exports.dataDir = 'AhMyth'
 exports.downloadPath = 'Downloads';
 exports.outputApkPath = 'Output';
 exports.outputLogsPath = 'Logs';
-exports.logColors = { RED: "red", GREEN: "lime", YELLOW: "yellow", DEFAULT: "#82eefd" };
-exports.logStatus = { SUCCESS: 1, FAIL: 0, INFO: 2 };
+exports.logColors = { RED: "red", GREEN: "lime", ORANGE: "orange", YELLOW: "yellow", DEFAULT: "#82eefd" };
+exports.logStatus = { SUCCESS: 1, FAIL: 0, INFO: 2, WARNING: 3 };
 exports.defaultPort = 42474;
 exports.IOSocketPath = 'smali' + path.sep + 'ahmyth' + path.sep + 'mine' + path.sep + 'king' + path.sep + 'ahmyth' + path.sep + 'e.smali';
 exports.ahmythService = 'ahmyth.mine.king.ahmyth.MainService';
