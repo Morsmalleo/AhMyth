@@ -1,5 +1,5 @@
 ---
-name: Binding Report
+name: Payload Report
 about: Create a report about original applications that can't be backdoored
 title: ''
 labels: apktool error, server error
