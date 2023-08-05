@@ -36,8 +36,13 @@ PASTE LOGS HERE
 <br></br>
 
 ## <div align="center">**OS Info**</div>
- - OS: e.g. Debian, macOS
- - OS Version: e.g. Kali 2022.4, macOS 12.0 Monterey
+1. OS: e.g. Debian, macOS
+<br></br>
+2. OS Version: e.g. Kali 2022.4, macOS 12.0 Monterey
+<br></br>
+3. OS Architecture:
+ - [ ] 32bit
+ - [ ] 64bit
 <br></br>
 
 ## Dependencies Check
@@ -45,7 +50,7 @@ PASTE LOGS HERE
 ```zsh 
 apt-cache policy openjdk-11-jdk
 ```
-- If on 32bit linux then run...
+> If on 32bit linux then run...
 ```zsh
 apt-cache policy openjdk-11-jdk zipalign
 ```
