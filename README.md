@@ -110,13 +110,14 @@ Use this *Issue Template* if you experience the following problems:
 Use this *Issue Template* if you experience any of the following issues:
 - Unstable Victim Connections
 - No Victim Connections Returning
-- Backdoored Payload Applications Crashing
-- Standalone Payload Applications Crashing
+- Backdoored Payload Applications Crashing after Installation
+- Standalone Payload Applications Crashing Installation
+- Payload Permissions not being Set for Backdoored Applications
 <br></br>
 
-- [x] [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=binding-report.md&title=)
+- [x] [B&B (Building & Binding) Report](https://github.com/Morsmalleo/AhMyth/blob/v1.0-beta.5-(Rev-1)/.github/ISSUE_TEMPLATE/b%26b-report.md)
 
-Use this *Issue Template* if you can't successfully backdoor an original application.
+Use this *Issue Template* if you experience issues building a standalone payload, or backdooring an original application.
 <br></br>
 
 - [x] [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
