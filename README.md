@@ -11,7 +11,7 @@
 #
 Give this repository a 💫 to support the project.
 
-Basic knowledge of IP Addressing & Port allocation is required when using AhMyth, so this tool is NOT recommended for newbs, or people that can't understand basic English.
+This tool is recommended for professionals who know what they are doing.
 
 Posting Issues with a failure to properly read and follow the things listed below first, will result in a temporary ban from the repository, WITHOUT WARNING! 
 
