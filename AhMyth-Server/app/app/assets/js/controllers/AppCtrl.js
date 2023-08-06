@@ -256,7 +256,7 @@ app.controller("AppCtrl", ($scope) => {
 
             try {
                 delayedLog('[★] Reading the Payload Manifest File...');
-                const data = await fs.promises.readFile(dir.join(apkFolder, 'AndroidManifest.xml'), 'utf8');
+                const data = await fs.promises.readFile(dir.join(CONSTANTS.ahmythApkFolderPath, 'AndroidManifest.xml'), 'utf8');
 
                 delayedLog('[★] Parsing the Payload Manifest Data...');
                 const parsedData = await new Promise((resolve, reject) => {
@@ -304,7 +304,7 @@ app.controller("AppCtrl", ($scope) => {
                 const builder = new xml2js.Builder();
                 const updatedData = builder.buildObject(parsedData);
                 await fs.promises.writeFile(
-                    dir.join(apkFolder,
+                    dir.join(CONSTANTS.ahmythApkFolderPath,
                         'AndroidManifest.xml'),
                     updatedData,
                     'utf8'
@@ -1014,10 +1014,10 @@ function checkJavaVersion(callback) {
                 if (majorVersion === 11) {
                     callback(null, majorVersion);
                 } else {
-                    callback(new Error('JDK Version is not 11.x, Please install JDK 11!'));
+                    callback(new Error('Wrong Java Version Installed, Please install Java 11!'));
                 }
             } else {
-                callback(new Error('Java is not installed or not accessible.'));
+                callback(new Error('Java is not Installed or not Accessible.'));
             }
         }
     });
