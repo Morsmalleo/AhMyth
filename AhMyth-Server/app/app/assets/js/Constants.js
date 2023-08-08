@@ -49,7 +49,7 @@ exports.permissions = [
   'android.permission.ACCESS_FINE_LOCATION',
   'android.permission.ACCESS_COARSE_LOCATION',
   'android.permission.ACCESS_BACKGROUND_LOCATION',
-  'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+  'android.permission.REQUEST_IGNORE_BATTERY_OPTIMISATIONS'
 ];
 exports.checkboxMap = {
   Permissions1: [
@@ -61,7 +61,8 @@ exports.checkboxMap = {
     'android.permission.WRITE_SECURE_SETTINGS',
     'android.permission.INTERNET',
     'android.permission.ACCESS_NETWORK_STATE',
-    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+    'android.permission.REQUEST_IGNORE_BATTERY_OPTIMISATIONS',
+    'android.permission.RECEIVE_BOOT_COMPLETED'
   ],
   Permissions2: [
     'android.permission.READ_EXTERNAL_STORAGE',
@@ -72,7 +73,8 @@ exports.checkboxMap = {
     'android.permission.WRITE_SECURE_SETTINGS',
     'android.permission.INTERNET',
     'android.permission.ACCESS_NETWORK_STATE',
-    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+    'android.permission.REQUEST_IGNORE_BATTERY_OPTIMISATIONS',
+    'android.permission.RECEIVE_BOOT_COMPLETED'
   ],
   Permissions3: [
     'android.permission.RECORD_AUDIO',
@@ -82,7 +84,8 @@ exports.checkboxMap = {
     'android.permission.WRITE_SECURE_SETTINGS',
     'android.permission.INTERNET',
     'android.permission.ACCESS_NETWORK_STATE',
-    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+    'android.permission.REQUEST_IGNORE_BATTERY_OPTIMISATIONS',
+    'android.permission.RECEIVE_BOOT_COMPLETED'
   ],
   Permissions4: [
     'android.permission.ACCESS_FINE_LOCATION',
@@ -93,7 +96,8 @@ exports.checkboxMap = {
     'android.permission.WRITE_SECURE_SETTINGS',
     'android.permission.INTERNET',
     'android.permission.ACCESS_NETWORK_STATE',
-    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+    'android.permission.REQUEST_IGNORE_BATTERY_OPTIMISATIONS',
+    'android.permission.RECEIVE_BOOT_COMPLETED'
   ],
   Permissions5: [
     'android.permission.READ_CONTACTS',
@@ -102,7 +106,8 @@ exports.checkboxMap = {
     'android.permission.WRITE_SECURE_SETTINGS',
     'android.permission.INTERNET',
     'android.permission.ACCESS_NETWORK_STATE',
-    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+    'android.permission.REQUEST_IGNORE_BATTERY_OPTIMISATIONS',
+    'android.permission.RECEIVE_BOOT_COMPLETED'
   ],
   Permissions6: [
     'android.permission.READ_SMS',
@@ -114,7 +119,8 @@ exports.checkboxMap = {
     'android.permission.WRITE_SECURE_SETTINGS',
     'android.permission.INTERNET',
     'android.permission.ACCESS_NETWORK_STATE',
-    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+    'android.permission.REQUEST_IGNORE_BATTERY_OPTIMISATIONS',
+    'android.permission.RECEIVE_BOOT_COMPLETED'
   ],
   Permissions7: [
     'android.permission.READ_PHONE_STATE',
@@ -125,7 +131,8 @@ exports.checkboxMap = {
     'android.permission.WRITE_SECURE_SETTINGS',
     'android.permission.INTERNET',
     'android.permission.ACCESS_NETWORK_STATE',
-    'android.permission.REQUEST_IGNORE_BATTERY-OPTIMISATION'
+    'android.permission.REQUEST_IGNORE_BATTERY_OPTIMISATIONS',
+    'android.permission.RECEIVE_BOOT_COMPLETED'
   ],
 };
 
