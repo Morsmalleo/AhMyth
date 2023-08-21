@@ -71,9 +71,9 @@
                                     </div>
                                     <input type="text" ng-model="port" placeholder="Default is 42474">
                                 </div>
-                                <button ng-click="clearLogs(); isListen=true;Listen(port)"
+                                <button ng-click="clearLogs(); Listen(port)"
                                     class="ui labeled icon black button"><i class="terminal icon"></i>Listen</button>
-                                <button ng-click="clearLogs(); StopListening()"
+                                <button ng-click="clearLogs(); StopListening(port)"
                                     class="ui labeled icon black button"><i class="terminal icon"></i>Stop</button>
                             </div>
                         </div>
