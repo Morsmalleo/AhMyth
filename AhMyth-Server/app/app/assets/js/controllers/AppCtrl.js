@@ -154,7 +154,7 @@ app.controller("AppCtrl", ($scope) => {
 
     const architecture = process.arch;
     if (architecture === 'ia32') {
-        delayedLog('[!] WARNING: AhMyth will be deprecated for all Operating Systems using 32bit architectures when Apktool reaches v3.0.0.', CONSTANTS.logStatus.WARNING);
+        delayedLog('[!] WARNING: AhMyth wWill Cease Support for All 32bit Systems Once Apktool reaches v3.0.0.', CONSTANTS.logStatus.WARNING);
     } else {
         delayedLog('[★] Welcome to AhMyth Android R.A.T', CONSTANTS.logStatus.SUCCESS);
         delayedLog('————————————————————————————————————', CONSTANTS.logStatus.SUCCESS);
@@ -313,9 +313,8 @@ app.controller("AppCtrl", ($scope) => {
             } catch (error) {
                 delayedLog('[x] Error occurred while processing the Payload Manifest:',
                     CONSTANTS.logStatus.FAIL);
-                writeErrorLog(error,
-                    'Parsing');
-                delayedLog('[¡] Error written to "Parsing.log" on',
+                writeErrorLog(error);
+                delayedLog('[¡] Error written to "Error.log" on',
                     CONSTANTS.logStatus.INFO);
                 delayedLog(logPath,
                     CONSTANTS.logStatus.INFO);
@@ -800,8 +799,6 @@ app.controller("AppCtrl", ($scope) => {
                                 delayedLog(logPath, CONSTANTS.logStatus.INFO);
                                 return;
                             }
-
-                            delayedLog('[★] Searching the Modified Android Manifest for a Suitable Main Class...');
 
                             const launcherActivity = getLauncherActivity(result, apkFolder);
                             if (launcherActivity === -1) {
