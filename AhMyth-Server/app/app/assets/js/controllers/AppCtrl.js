@@ -918,9 +918,11 @@ app.controller("AppCtrl", ($scope) => {
         checkJavaVersion((error, javaVersion) => {
             if (error) {
                 $appCtrl.Log('[x] ' + error.message, CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log('[¡] AhMyth Requires Java 11 to Decompile, Build and Sign Payloads.', CONSTANTS.logStatus.INFO);
                 return;
             } else if (javaVersion !== 11) {
                 $appCtrl.Log(`[x] Wrong Java Version Installed, Detected Version "${javaVersion}"`, CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log('[¡] AhMyth Requires Java 11 to Decompile, Build and Sign Payloads.', CONSTANTS.logStatus.INFO);
                 return;
             } else {
                 if (!ip) {
