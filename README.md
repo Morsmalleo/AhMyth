@@ -103,6 +103,7 @@ The following list will help users determine which *Issue Template* is suitable 
 Use this *Issue Template* if you experience the following problems:
 - Unstable/Unusable Victim's Lab Features
 - User Interface Problems
+- No Victim Connections Returning
 <br></br>
 
 - [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.md&title=)
