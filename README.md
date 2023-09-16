@@ -160,6 +160,8 @@ Maintained with ❤️ by:
 
 
 Special Thanks to:
-- [vUdav](https://github.com/vUdav) - For providing the fix for the APK Browser dialog in an issue on the Legacy Repository for AhMyth [here,](https://github.com/AhMyth/AhMyth-Android-RAT/issues/272#issuecomment-804932876) which was released with *v1.0-beta.2*.
-- [YagamiLight17](https://github.com/YagamiLight17) - For his brilliant contributions towards upgrading the Server & for integrating the original *Customs Permissions*  feature.
-- [HiddenPirates](https://GitHub.com/HiddenPirates) - For his brilliant amount of work on upgrading the Client.
+- [Ahmed Al 'AhMyth' Hajri](https://github.com/AhMyth) - For the creation of the project.
+- [vUdav](https://github.com/vUdav) - For providing the fix for the APK Browser dialog in an issue on the Legacy Repository for AhMyth [here,](https://github.com/AhMyth/AhMyth-Android-RAT/issues/272#issuecomment-804932876) which was released with *v1.0-beta.2* on this repository.
+- [YagamiLight17](https://github.com/YagamiLight17) - For his brilliant contributions to the AhMyth Server as well as the integration of the original *Customs Permissions*  feature. 
+- [HiddenPirates](https://GitHub.com/HiddenPirates) - For his brilliant amount work that went into upgrading the AhMyth Client and parts of the Server.
+- [Contributers in General](https://github.com/Morsmalleo/AhMyth/graphs/contributors) - a MAJOR Thank you to everyone who contributed to the AhMyth project in general.
