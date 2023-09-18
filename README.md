@@ -21,6 +21,7 @@ Read the following Sections before Posting Issues!
 - *User Manual*
 - *Troubleshoot Sections* 
 - *Issue Rules*
+- *Closed Issues*
 #
 
 ## <div align="center">Contents</div>
