@@ -13,7 +13,9 @@ Give this repository a 💫 to support the project.
 
 This tool is recommended for professionals who know what they are doing.
 
-Posting Issues with a failure to properly read and follow the things listed below first, will result in a temporary ban from the repository, WITHOUT WARNING! 
+Posting Blank Issues or Blank Issue Templates is not allowed and WILL result in a temporary ban from the repository, WITHOUT WARNING!
+
+Read the following Sections before Posting Issues!
 
 - *Setup Instructions*
 - *User Manual*
