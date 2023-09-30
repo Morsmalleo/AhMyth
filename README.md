@@ -13,7 +13,7 @@ Give this repository a 💫 to support the project.
 
 This tool is recommended for professionals who know what they are doing.
 
-Posting Blank Issues, Blank or Improperly Fill Out Issue Reports, and Posting Seperate Issues on other Peoples Issue Posts, is not allowed and WILL result in a temporary ban from the repository, WITHOUT WARNING!
+Posting *Blank Issues*, *Blank or Improperly filled out Issue Reports*, and *Posting Seperate Issues on other Peoples Issue Posts*, is not allowed and WILL result in a temporary ban from the repository, WITHOUT WARNING!
 
 Read the following Sections before Posting Issues!
 
