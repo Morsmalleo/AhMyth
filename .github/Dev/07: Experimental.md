@@ -7,7 +7,7 @@ This feature would differ from *AndroidMeterpreter* in the sense that it would r
 <details>
   <summary>Code</summary>
 
-- ClassGenLoad.java
+- ClassGen.java
 > Responsible for Dynamically both Generating and Loading the Camera Manager Class at runtime completely in-memory.
 ```java
 package ahmyth.mine.king.ahmyth;
