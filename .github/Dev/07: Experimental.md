@@ -1,8 +1,8 @@
-## <div align="center">Dynamic In-Memory Camera Class Generation & Loading</div>
+## <div align="center">Dynamic "In-Memory at Runtime" Camera Class Generation & Loading</div>
 > A feature inspired by Metasploit Framework's Android Meterpreter payload.
 
-If this ever does become a reality this will allow AhMyth to both dynamically generate and load Classes such as its *CameraManager* class, all completely in-memory.
-This feature would differ from *AndroidMeterpreter* in the sense that it would rely on a Class Template file to dynamically generate the Camera Class and then Dynamically load it at runtime, this feature would/should/could also allow for a much much smaller payload.
+If this ever does become a reality this will allow AhMyth to both dynamically generate and load Classes such as its *CameraManager* class, all completely in-memory at runtime.
+This feature would differ from *AndroidMeterpreter* in the sense that it would rely on a Template file to both dynamically generate and dynamically load the Camera Class in-memory at runtime, this feature would/should/could also allow for a much much smaller payload.
 
 <details>
   <summary>Code</summary>
