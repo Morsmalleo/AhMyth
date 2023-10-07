@@ -6,10 +6,11 @@ If this ever does become a reality it will aid GREATLY in minimising the payload
 <details>
   <summary>Experminetal Code Explanation</summary>
   <br>
-  
+
 The provided code in the dropdown tab below this one, performs the following operations listed below, all in memory, except for the part responsible for the generation of the "CameraManager.java" file, which is later used for dynamic in memory compilation, but even there, nothing is physically written to disk at all, Everything else, including compilation, loading, and instance creation, occurs entirely in memory.
-  
-**Generation Phase (In Memory):**
+  <br>
+
+### <div align="center"><ins>Generation Phase (In Memory):</div></ins>
 
 1. **Retrieve Source Code (In Memory):**
    - The source code is retrieved from `CamTemp.CAMERA_SOURCE_CODE` and stored in the `camTempSourceCode` variable, all in memory.
@@ -23,7 +24,7 @@ The provided code in the dropdown tab below this one, performs the following ope
 4. **Write Java Code to a File (On Disk):**
    - The generated Java code is written to a file named "CameraManager.java" using a `FileWriter`, but this file is also created in memory and later used for compilation. No physical file is written to disk during this phase.
 
-**Loading Phase (In Memory):**
+### <div align="center"><ins>Loading Phase (In Memory):</div></ins>
 
 1. **Compilation (In Memory):**
    - The generated Java code in "CameraManager.java" is compiled entirely in memory using the Java Compiler API (`JavaCompiler`). This means the compilation result is held in memory.
@@ -43,7 +44,7 @@ The provided code in the dropdown tab below this one, performs the following ope
   <summary>Code</summary>
 
 - ClassGen.java
-> Responsible for Dynamically both Generating and Loading the Camera Manager Class at runtime completely in-memory.
+> Responsible for Generating and Loading the "CameraManager.java" Class at runtime completely in-memory.
 ```java
 package ahmyth.mine.king.ahmyth;
 
@@ -105,7 +106,7 @@ public class ClassGen {
 }
 ```
 - CamTemp.java
-> Template file for the Camera Manager Class needed for dynamic generation
+> "CameraManger" Template file required for class file generation.
 ```java
 package ahmyth.mine.king.ahmyth;
 
