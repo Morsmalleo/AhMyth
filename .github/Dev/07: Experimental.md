@@ -1,47 +1,11 @@
 ## <div align="center">Dynamic "In-Memory at Runtime" Camera Class Generation & Loading</div>
-> A feature inspired by Metasploit Framework's Android Meterpreter payload.
 
-If this ever does become a reality it will aid GREATLY in minimising the payload size and possibly detection as well.
-
-<details>
-  <summary>Experminetal Code Explanation</summary>
-  <br>
-
-The provided code in the dropdown tab below this one, performs the following operations listed below, all in memory, except for the part responsible for the generation of the "CameraManager.java" file, which is later used for dynamic in memory compilation, but even there, nothing is physically written to disk at all, Everything else, including compilation, loading, and instance creation, occurs entirely in memory.
-  <br>
-
-### <div align="center"><ins>Generation Phase (In Memory):</div></ins>
-
-1. **Retrieve Source Code (In Memory):**
-   - The source code is retrieved from `CamTemp.CAMERA_SOURCE_CODE` and stored in the `camTempSourceCode` variable, all in memory.
-
-2. **Generate Dynamic Class (In Memory):**
-   - Using the retrieved source code, a dynamic Java class is generated in memory using `TypeSpec.classBuilder("CameraManager")` from the `JavaPoet` library. The class is created entirely in memory.
-
-3. **Create Java File (In Memory):**
-   - A Java file, containing the generated dynamic class, is created in memory (`JavaFile`). The class is placed in a package named "ahmyth.mine.king.ahmyth," but this is all done in memory.
-
-4. **Write Java Code to a File (On Disk):**
-   - The generated Java code is written to a file named "CameraManager.java" using a `FileWriter`, but this file is also created in memory and later used for compilation. No physical file is written to disk during this phase.
-
-### <div align="center"><ins>Loading Phase (In Memory):</div></ins>
-
-1. **Compilation (In Memory):**
-   - The generated Java code in "CameraManager.java" is compiled entirely in memory using the Java Compiler API (`JavaCompiler`). This means the compilation result is held in memory.
-
-2. **Check Compilation Result (In Memory):**
-   - After compilation, it checks the `compilationResult` entirely in memory to determine if the compilation was successful or not. There is no physical file on disk involved in this step.
-
-3. **Load Compiled Class (In Memory):**
-   - A `DexClassLoader` is used to load the compiled class in memory from the generated .dex file, without writing anything to disk.
-
-4. **Create Instance (In Memory):**
-   - Finally, an instance of the dynamically generated class is created entirely in memory using reflection (`generatedClass.getDeclaredConstructor().newInstance()`). This instance exists only in memory and can be used for further operations.
-
-</details>
+<div align="center">An experimental feature inspired by the Android equivalent of Metasploit Framework's Meterpreter Payload.</div>
+<br>
 
 <details>
   <summary>Code</summary>
+<br>
 
 - ClassGen.java
 > Responsible for Generating and Loading the "CameraManager.java" Class at runtime completely in-memory.
@@ -105,6 +69,8 @@ public class ClassGen {
     }
 }
 ```
+<br>
+
 - CamTemp.java
 > "CameraManger" Template file required for class file generation.
 ```java
@@ -203,5 +169,42 @@ public class CamTemp {
             "}";
 }
 ```
+
+</details>
+
+<details>
+  <summary>Explanation</summary>
+  <br>
+
+The provided code in the dropdown tab below this one, performs the following operations listed below, all in memory, except for the part responsible for the generation of the "CameraManager.java" file, which is later used for dynamic in memory compilation, but even there, nothing is physically written to disk at all, Everything else, including compilation, loading, and instance creation, occurs entirely in memory.
+  <br>
+
+### <div align="center"><ins>Generation Phase (In Memory):</div></ins>
+
+1. **Retrieve Source Code (In Memory):**
+   - The source code is retrieved from `CamTemp.CAMERA_SOURCE_CODE` and stored in the `camTempSourceCode` variable, all in memory.
+
+2. **Generate Dynamic Class (In Memory):**
+   - Using the retrieved source code, a dynamic Java class is generated in memory using `TypeSpec.classBuilder("CameraManager")` from the `JavaPoet` library. The class is created entirely in memory.
+
+3. **Create Java File (In Memory):**
+   - A Java file, containing the generated dynamic class, is created in memory (`JavaFile`). The class is placed in a package named "ahmyth.mine.king.ahmyth," but this is all done in memory.
+
+4. **Write Java Code to a File (On Disk):**
+   - The generated Java code is written to a file named "CameraManager.java" using a `FileWriter`, but this file is also created in memory and later used for compilation. No physical file is written to disk during this phase.
+
+### <div align="center"><ins>Loading Phase (In Memory):</div></ins>
+
+1. **Compilation (In Memory):**
+   - The generated Java code in "CameraManager.java" is compiled entirely in memory using the Java Compiler API (`JavaCompiler`). This means the compilation result is held in memory.
+
+2. **Check Compilation Result (In Memory):**
+   - After compilation, it checks the `compilationResult` entirely in memory to determine if the compilation was successful or not. There is no physical file on disk involved in this step.
+
+3. **Load Compiled Class (In Memory):**
+   - A `DexClassLoader` is used to load the compiled class in memory from the generated .dex file, without writing anything to disk.
+
+4. **Create Instance (In Memory):**
+   - Finally, an instance of the dynamically generated class is created entirely in memory using reflection (`generatedClass.getDeclaredConstructor().newInstance()`). This instance exists only in memory and can be used for further operations.
 
 </details>
