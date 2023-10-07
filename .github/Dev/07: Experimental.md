@@ -7,7 +7,7 @@ If this ever does become a reality it will aid GREATLY in minimising the payload
   <summary>Experminetal Code Explanation</summary>
   <br>
   
-This code is responsible for Generating and Loading the *CameraManager* class file used by the AhMyth payload to aquire Camera Access, all dynamically in memory without anything being written to disk.
+The provided code in the dropdown tab below this one, performs the following operations listed below, all in memory, except for the part responsible for the generation of the "CameraManager.java" file, which is later used for dynamic in memory compilation, but even there, nothing is physically written to disk at all, Everything else, including compilation, loading, and instance creation, occurs entirely in memory.
   
 **Generation Phase (In Memory):**
 
@@ -36,8 +36,6 @@ This code is responsible for Generating and Loading the *CameraManager* class fi
 
 4. **Create Instance (In Memory):**
    - Finally, an instance of the dynamically generated class is created entirely in memory using reflection (`generatedClass.getDeclaredConstructor().newInstance()`). This instance exists only in memory and can be used for further operations.
-
-So, to reiterate, the provided code performs all of these operations in memory, except for generating the "CameraManager.java" file, which is later used for compilation but is not written to physical disk. Everything else, including class generation, compilation, loading, and instance creation, occurs entirely in memory.
 
 </details>
 
