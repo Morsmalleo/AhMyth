@@ -1,4 +1,9 @@
-# <div align="center">Experminetal Client Features</div>
+# <div align="center">Experminetal Features</div>
+
+A file used to store code for experimental client and server features that could be released with future releases if they prove successful.
+
+<details>
+  <summary>Experimental Client Features</summary>
 
 ## <div align="center">Dynamic "In-Memory at Runtime" Camera Class Generation & Loading</div>
 
@@ -328,4 +333,13 @@ This will hopefully allow automatic enabling of the victim device's GPS, Device 
 
         });
 ```
+</details>
+
+</details>
+
+<details>
+  <summary>Experminetal Server Features</summary>
+
+### Nothing to show.
+
 </details>
