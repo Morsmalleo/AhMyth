@@ -178,36 +178,30 @@ public class CamTemp {
   <summary>Explanation</summary>
   <br>
 
-The provided code in the dropdown tab below this one, performs the following operations listed below, all in memory, except for the part responsible for the generation of the "CameraManager.java" file, which is later used for dynamic in memory compilation, but even there, nothing is physically written to disk at all, Everything else, including compilation, loading, and instance creation, occurs entirely in memory.
+The provided code in the dropdown tab below this one, performs all of the following operations listed below, dynamically in memory, meaning that nothing gets written to disk (aka the Android fileSystem)
+  
   <br>
 
-### <div align="center"><ins>Generation Phase (In Memory):</div></ins>
+## <div align="center"><ins>Generation Phase</div></ins>
+1. **In memory:** Creates an in-memory file system manager with the *RamFileProvider*.
+2. **In memory:** Defines the path to the in-memory Java source file `("ram:///CameraManager.java")`.
+3. **In memory:** Retrieves the source code for the `"CameraManager"` class from `"CamTemp.CAMERA_SOURCE_CODE."`
+4. **In memory:** Creates an in-memory file to store the Java source code.
+5. **In memory:** Writes the generated Java source code to the in-memory file.
 
-1. **Retrieve Source Code (In Memory):**
-   - The source code is retrieved from `CamTemp.CAMERA_SOURCE_CODE` and stored in the `camTempSourceCode` variable, all in memory.
+## <div align="center"><ins>Loading Phase</div></ins>
+6. **In memory:** Defines the path to the in-memory *.dex* file `("ram:///CameraManager.dex")`.
+7. **In memory:** Creates an in-memory file to store the compiled *.dex* file.
+8. **In memory:** Defines the structure and content of the `"CameraManager"` class using *JavaPoet*.
+9. **In memory:** Converts the JavaPoet representation of the class to a string.
+10. **In memory:** Compiles the in-memory Java source code into a .dex file using the *Java Compiler*.
+11. **In memory:** Checks the compilation result, and if successful, prints "Compilation succeeded."
+12. **In memory:** Loads the compiled .dex file into memory using a *DexClassLoader*.
+13. **In memory:** Attempts to create an instance of the dynamically generated `"CameraManager"` class in memory.
 
-2. **Generate Dynamic Class (In Memory):**
-   - Using the retrieved source code, a dynamic Java class is generated in memory using `TypeSpec.classBuilder("CameraManager")` from the `JavaPoet` library. The class is created entirely in memory.
+**Reiteration:**
 
-3. **Create Java File (In Memory):**
-   - A Java file, containing the generated dynamic class, is created in memory (`JavaFile`). The class is placed in a package named "ahmyth.mine.king.ahmyth," but this is all done in memory.
-
-4. **Write Java Code to a File (On Disk):**
-   - The generated Java code is written to a file named "CameraManager.java" using a `FileWriter`, but this file is also created in memory and later used for compilation. No physical file is written to disk during this phase.
-
-### <div align="center"><ins>Loading Phase (In Memory):</div></ins>
-
-1. **Compilation (In Memory):**
-   - The generated Java code in "CameraManager.java" is compiled entirely in memory using the Java Compiler API (`JavaCompiler`). This means the compilation result is held in memory.
-
-2. **Check Compilation Result (In Memory):**
-   - After compilation, it checks the `compilationResult` entirely in memory to determine if the compilation was successful or not. There is no physical file on disk involved in this step.
-
-3. **Load Compiled Class (In Memory):**
-   - A `DexClassLoader` is used to load the compiled class in memory from the generated .dex file, without writing anything to disk.
-
-4. **Create Instance (In Memory):**
-   - Finally, an instance of the dynamically generated class is created entirely in memory using reflection (`generatedClass.getDeclaredConstructor().newInstance()`). This instance exists only in memory and can be used for further operations.
+In both the Generation and Loading Phases, most actions are performed in memory. The code dynamically generates, compiles, and loads the `"CameraManager"` class along with its source code and compiled *.dex* file, all within the program's memory space. The only actions not performed in memory are related to the file system, where it writes the generated Java source code and reads the compiled *.dex* file.
 
 </details>
 <br>
