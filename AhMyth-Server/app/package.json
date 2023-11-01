@@ -12,7 +12,7 @@
         "fomantic-ui": "^2.8.8",
         "fs-extra": "^11.1.0",
         "geoip-lite": "^1.4.6",
-        "node-homedir": "^1.1.1",
+        "node-homedir": "^2.0.0",
         "readdirp": "^3.6.0",
         "socket.io": "^2.5.0",
         "xml2js": "^0.6.0"
