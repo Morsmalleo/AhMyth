@@ -106,16 +106,16 @@ The following list will help users determine which *Issue Template* is suitable 
 Use this *Issue Template* if you experience the following problems:
 - Unstable/Unusable Victim's Lab Features
 - User Interface Problems
-- No Victim Connections Returning
+- No Victim Connections Returning (if you're positive this issue is on the Server's side)
 <br></br>
 
 - [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.md&title=)
 
 Use this *Issue Template* if you experience any of the following issues on the victim's end:
 - Unstable Victim Connections
-- No Victim Connections Returning
+- No Victim Connections Returning (if you're positive this issue on the payload's/client's side)
 - Backdoored Payload Applications Crashing after Installation
-- Standalone Payload Applications Crashing Installation
+- Standalone Payload Applications Crashing after Installation
 - Payload Permissions not being Set for Backdoored Applications
 <br></br>
 
