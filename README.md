@@ -92,7 +92,7 @@ You can find the Troubleshoot Sections for both Source Code Usage errors and Bin
 - [AhMyth Wiki: Page 8 - Troubleshoot](https://github.com/Morsmalleo/AhMyth/wiki/Page-8.-Troubleshoot)
 #
 
-## <div align="center"><ins>Posting Issues</ins></div>
+## <div align="center"><ins>Issue Rules</ins></div>
 
 Any issues with AhMyth, must be posted using the *[Issue Templates](https://github.com/Morsmalleo/AhMyth/issues/new/choose)* accordingly.
 
