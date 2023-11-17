@@ -113,7 +113,7 @@ Use this *Issue Template* if you experience the following problems:
 
 Use this *Issue Template* if you experience any of the following issues on the victim's end:
 - Unstable Victim Connections
-- No Victim Connections Returning (if you're positive this issue on the payload's/client's side)
+- No Victim Connections Returning (if you're positive this issue is on the payload's/client's side)
 - Backdoored Payload Applications Crashing after Installation
 - Standalone Payload Applications Crashing after Installation
 - Payload Permissions not being Set for Backdoored Applications
