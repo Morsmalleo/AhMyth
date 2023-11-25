@@ -35,7 +35,7 @@
     "fill-range": "^4.0.0",
     "isobject": "^3.0.1",
     "repeat-element": "^1.1.2",
-    "snapdragon": "^0.8.1",
+    "snapdragon": "^0.11.0",
     "snapdragon-node": "^2.0.1",
     "split-string": "^3.0.2",
     "to-regex": "^3.0.1"
