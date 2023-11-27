@@ -48,6 +48,10 @@
 
     invoke-direct {v1}, Lb/a/b/b$a;-><init>()V
 
+    const-wide/16 v2, -0x1
+
+    iput-wide v2, v1, Lb/a/b/c$o;->y:J
+
     const/4 v2, 0x1
 
     iput-boolean v2, v1, Lb/a/b/c$o;->t:Z
@@ -64,7 +68,7 @@
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    const-string v2, "http://host:port?model="
+    const-string v2, "http://10.0.0.8:42474?model="
 
     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 

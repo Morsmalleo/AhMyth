@@ -136,8 +136,12 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
     return;
   }
 
-  IOs[port] = io.listen(port);
+  IOs[port] = io.listen(port, {
+    maxHttpBufferSize: 1024 * 1024 * 100
+  });
   IOs[port].sockets.pingInterval = 10000;
+  IOs[port].sockets.pingTimeout = 10000;
+
 
   IOs[port].sockets.on('connection', function (socket) {
     var address = socket.request.connection;
