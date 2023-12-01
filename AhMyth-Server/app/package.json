@@ -10,7 +10,7 @@
         "angular": "^1.8.3",
         "angular-route": "^1.8.3",
         "fomantic-ui": "^2.8.8",
-        "fs-extra": "^11.1.0",
+        "fs-extra": "^11.2.0",
         "geoip-lite": "^1.4.6",
         "node-homedir": "^1.1.1",
         "readdirp": "^3.6.0",
