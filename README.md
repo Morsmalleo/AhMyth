@@ -11,7 +11,7 @@
 #
 There is a poll currently available below for users to vote on whether or not AhMyth should drop payload support for older android versions and focus on newer android versions
 
-[Drop Payload Support for Older Android Versions?](https://github.com/Morsmalleo/AhMyth/discussions/400)
+[Poll: Drop Payload Support for Android Versions below 12](https://github.com/Morsmalleo/AhMyth/discussions/400)
 #
 Give this repository a 💫 to support the project.
 
