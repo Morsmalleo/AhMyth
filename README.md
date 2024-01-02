@@ -172,3 +172,8 @@ Special Thanks to:
 - [YagamiLight17](https://github.com/YagamiLight17) - For his brilliant contributions to the AhMyth Server as well as the integration of the original *Customs Permissions*  feature. 
 - [HiddenPirates](https://GitHub.com/HiddenPirates) - For his brilliant amount work that went into upgrading the AhMyth Client and parts of the Server.
 - [Contributers in General](https://github.com/Morsmalleo/AhMyth/graphs/contributors) - a MAJOR Thank you to everyone who contributed to the AhMyth project in general.
+#
+
+## <div align="center"><ins>Callouts</ins></div>
+
+- [AuxGrep](https://github.com/AuxGrep) - I callout this loser because he thinks can take credit for all the work that I did on the [AhMyth v1.0-beta.3b release](https://github.com/Morsmalleo/AhMyth/releases/tag/v1.0-beta.3b) with his bullshit "AhMyth-Fixed" repo [Here](https://github.com/AuxGrep/Ahmyth-FIXED?tab=readme-ov-file) containing a link to a renamed Zip file containing MY work on [AhMyth v1.0-beta.3b](https://github.com/Morsmalleo/AhMyth/releases/tag/v1.0-beta.3b)
