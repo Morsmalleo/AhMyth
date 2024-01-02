@@ -176,4 +176,4 @@ Special Thanks to:
 
 ## <div align="center"><ins>Callouts</ins></div>
 
-- [AuxGrep](https://github.com/AuxGrep) - I callout this loser because he thinks can take credit for all the work that I did on the [AhMyth v1.0-beta.3b release](https://github.com/Morsmalleo/AhMyth/releases/tag/v1.0-beta.3b) with his bullshit "AhMyth-Fixed" repo [Here](https://github.com/AuxGrep/Ahmyth-FIXED?tab=readme-ov-file) containing a link to a renamed Zip file containing MY work from the [AhMyth v1.0-beta.3b](https://github.com/Morsmalleo/AhMyth/releases/tag/v1.0-beta.3b) release.
+- [AuxGrep](https://github.com/AuxGrep) - I callout this liar because he thinks can take credit for all the work that I did on the [AhMyth v1.0-beta.3b release](https://github.com/Morsmalleo/AhMyth/releases/tag/v1.0-beta.3b) with his bullshit "AhMyth-Fixed" repo [Here](https://github.com/AuxGrep/Ahmyth-FIXED?tab=readme-ov-file) containing a link to a renamed Zip file containing MY work from the [AhMyth v1.0-beta.3b](https://github.com/Morsmalleo/AhMyth/releases/tag/v1.0-beta.3b) release.
