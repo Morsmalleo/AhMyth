@@ -31,17 +31,17 @@ body:
   - type: textarea
     attributes:
       label: binding issue description
-     - type: checkboxes
-       options:
-        - label: Activity-method bound payload
-        - label: Boot-method bound payload
-      description: |
-        - Describe your binding issue in detail
-        - Add steps to reproduce the binding issue if possible (Step 1. ... Step 2. ...)
-        - Add images and videos if possible
-        - List used patches if applicable
+  - type: checkboxes  # Moved this line to the correct indentation level
+    options:
+      - label: Activity-method bound payload
+      - label: Boot-method bound payload
+    description: |
+      - Describe your binding issue in detail
+      - Add steps to reproduce the binding issue if possible (Step 1. ... Step 2. ...)
+      - Add images and videos if possible
+      - List used patches if applicable
     validations:
-        required: true
+      required: true
   - type: textarea
     attributes:
       label: Error logs
