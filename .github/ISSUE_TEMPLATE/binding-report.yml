@@ -1,0 +1,75 @@
+name: Binding report
+description: Report an issue bound with the AhMyth Client.
+title: 'binding report: '
+labels: ['binding error']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        <p align="center">
+          <picture>
+            <source
+              width="356px"
+              media="(prefers-color-scheme: dark)"
+              srcset="https://raw.githubusercontent.com/Morsmalleo/AhMyth/Development/.github/IMG/Circle-Logo.png"
+            >
+            <img 
+              width="356px"
+              src="https://raw.githubusercontent.com/Morsmalleo/AhMyth/Development/.github/IMG/Circle-Logo.png"
+            >
+          </picture>
+           <br>
+           Continuing the legacy of the AhMyth R.A.T Project
+        </p>
+
+        # AhMyth binding report
+
+        Before creating a new binding report, please keep the following in mind:
+
+        - **Do not submit a duplicate binding report**: You can review existing binding reports [here](https://github.com/Morsmalleo/AhMyth/labels/binding%20Error).
+        - **Review the Issue Rules**: Make sure your binding report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
+    - type: checkboxes
+    attributes:
+    id: this is an issue with...
+      label: This is an Issue With...
+      description: Describe the type of Payload you are having an issue with.
+      options:
+        - label: Activity-Method Bound Payload  
+          required: false
+        - label: Boot-Method Bound Payload
+          required: false
+  - type: textarea
+    attributes:
+      label: binding issue description
+      description: |
+        - Describe your binding issue in detail
+        - Add steps to reproduce the binding issue if possible (Step 1. ... Step 2. ...)
+        - Add images and videos if possible
+        - List used patches if applicable
+    validations:
+        required: true
+  - type: textarea
+    attributes:
+      label: Error logs
+      description: If applicable, please post the error logs that are generated `C:\yourUserName\AhMyth\Logs | /home/youUserName/AhMyth/Logs`.
+      render: shell
+  - type: textarea
+    attributes:
+      label: Solution
+      description: If applicable, add a possible solution to the binding issue.
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Add additional context here.
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Acknowledgements
+      description: Your binding report will be closed if you don't follow the checklist below.
+      options:
+        - label: This issue is not a duplicate of an existing binding report.
+          required: true
+        - label: I have chosen an appropriate title.
+          required: true
+        - label: All requested information has been provided properly.
+          required: true
