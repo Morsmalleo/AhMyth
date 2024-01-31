@@ -2,6 +2,7 @@ name: Server report
 description: Report an issue with the AhMyth Server.
 title: 'server report: '
 labels: ['server error']
+Assignees: @Morsmalleo
 body:
   - type: markdown
     attributes:
