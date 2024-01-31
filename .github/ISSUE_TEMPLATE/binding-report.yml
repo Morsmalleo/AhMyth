@@ -34,9 +34,9 @@ body:
       label: Payload Options
       options:
         - label: Activity-method bound payload
-        required: false
+        default: false
         - label: Boot-method bound payload
-        required: false
+        default: false
     validations:
       required: true
   - type: textarea
