@@ -1,7 +1,7 @@
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset=".github/IMG/Circle-Logo.png">
-    <img alt="AhMyth" src=".github/IMG/AhMyth-dark-banner.png" width="356">
+    <img alt="AhMyth" src=".github/IMG/AhMyth-dark-banner.png" width="256">
   </picture>
 </div>
 
