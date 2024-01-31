@@ -11,11 +11,11 @@ body:
             <source
               width="256px"
               media="(prefers-color-scheme: dark)"
-              srcset="logo here"
+              srcset="https://raw.githubusercontent.com/Morsmalleo/AhMyth/Development/.github/IMG/Circle-Logo.png"
             >
             <img 
               width="256px"
-              src="logo"
+              src="https://raw.githubusercontent.com/Morsmalleo/AhMyth/Development/.github/IMG/Circle-Logo.png"
             >
           </picture>
           <br>
