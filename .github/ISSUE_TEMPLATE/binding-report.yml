@@ -39,7 +39,11 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: binding issue description
+      label: binding issue description 
+      description: |
+        - Describe your server issue in detail
+        - Add steps to reproduce the server issue if possible (Step 1. ... Step 2. ...)
+        - Add images and videos if possible
   - type: textarea
     attributes:
       label: Error logs
