@@ -25,7 +25,7 @@ body:
         # AhMyth Client Report
 
         Before creating a new client report, please keep the following in mind:
-
+        - **Do not use this report for bound clients/payloads, only use this report for standalone clients/payloads
         - **Do not submit a duplicate client report**: You can review existing client reports [here](https://github.com/Morsmalleo/AhMyth/labels/client%20Error).
         - **Review the Issue Rules**: Make sure your client report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
   - type: textarea
