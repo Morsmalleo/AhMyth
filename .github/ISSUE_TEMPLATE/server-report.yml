@@ -35,7 +35,6 @@ body:
         - Describe your server issue in detail
         - Add steps to reproduce the server issue if possible (Step 1. ... Step 2. ...)
         - Add images and videos if possible
-        - List used patches if applicable
     validations:
         required: true
   - type: textarea
