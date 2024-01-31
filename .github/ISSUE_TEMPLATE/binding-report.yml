@@ -28,16 +28,6 @@ body:
 
         - **Do not submit a duplicate binding report**: You can review existing binding reports [here](https://github.com/Morsmalleo/AhMyth/labels/binding%20Error).
         - **Review the Issue Rules**: Make sure your binding report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
-    - type: checkboxes
-    attributes:
-    id: this is an issue with...
-      label: This is an Issue With...
-      description: Describe the type of Payload you are having an issue with.
-      options:
-        - label: Activity-Method Bound Payload  
-          required: false
-        - label: Boot-Method Bound Payload
-          required: false
   - type: textarea
     attributes:
       label: binding issue description
