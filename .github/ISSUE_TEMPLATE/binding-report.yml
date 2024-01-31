@@ -31,7 +31,7 @@ body:
   - type: textarea
     attributes:
       label: binding issue description
-      type: checkboxes
+     - type: checkboxes
         - label: Activity-method bound payload
         - label: Boot-method bound payload
       description: |
