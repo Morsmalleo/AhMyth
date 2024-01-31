@@ -28,9 +28,6 @@ body:
 
         - **Do not submit a duplicate binding report**: You can review existing binding reports [here](https://github.com/Morsmalleo/AhMyth/labels/binding%20Error).
         - **Review the Issue Rules**: Make sure your binding report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
-  - type: textarea
-    attributes:
-      label: binding issue description
   - type: checkboxes
     id: payloadOptions
     attributes:
@@ -40,6 +37,9 @@ body:
         - label: Boot-method bound payload
     validations:
       required: true
+  - type: textarea
+    attributes:
+      label: binding issue description
   - type: textarea
     attributes:
       label: Error logs
