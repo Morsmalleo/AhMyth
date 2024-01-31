@@ -9,12 +9,12 @@ body:
         <p align="center">
           <picture>
             <source
-              width="256px"
+              width="356px"
               media="(prefers-color-scheme: dark)"
               srcset="https://raw.githubusercontent.com/Morsmalleo/AhMyth/Development/.github/IMG/Circle-Logo.png"
             >
             <img 
-              width="256px"
+              width="356px"
               src="https://raw.githubusercontent.com/Morsmalleo/AhMyth/Development/.github/IMG/Circle-Logo.png"
             >
           </picture>
