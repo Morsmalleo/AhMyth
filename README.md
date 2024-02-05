@@ -1,7 +1,9 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/IMG/AhMyth-light-banner.png">
-  <img alt="AhMyth" src=".github/IMG/AhMyth-dark-banner.png">
-</picture>
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/IMG/Oval-logo.png">
+    <img alt="AhMyth" src=".github/IMG/Oval-logo dark.png" width="556">
+  </picture>
+</div>
 
 <br>
 </br>
@@ -35,7 +37,7 @@ Use the Table of Contents below to quick skip to any part of this README such as
     * [Binary Setup](#binary-setup)
 * [User Manual](#user-manual)
 * [Troubleshoot](#troubleshoot)
-* [Posting Issues](#posting-issues)
+* [Issues Rules](#issue-rules)
     * [Issue Templates](#issue-templates)
     * [Blank Issues](#blank-issues)
 * [Information](#information)
@@ -72,7 +74,7 @@ Instructions for installing AhMyth using either the *Source Code* or the *Binary
 ### <div align="center"><ins>Binary Setup</ins></div>
 
 - [AhMyth Wiki: Page 4 - Binary Setup: Linux](https://github.com/Morsmalleo/AhMyth/wiki/Page-4.-Binary-Setup:-Linux)
-- [AhMyth Wiki: Page 5 - Binary Setup: macOS (Being Written)](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Binary-Setup:-macOS)
+- [AhMyth Wiki: Page 5 - Binary Setup: macOS (Under Maintenance)](https://github.com/Morsmalleo/AhMyth/wiki/Page-5.-Binary-Setup:-macOS)
 - [AhMyth Wiki: Page 6 - Binary Setup: Windows](https://github.com/Morsmalleo/AhMyth/wiki/Page-6.-Binary-Setup:-Windows)
 #
 
@@ -101,7 +103,7 @@ The following list will help users determine which *Issue Template* is suitable 
 <br>
 
 ### <div align="center"><ins>Issue Templates</ins></div>
-- [x] [Server Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-report.md&title=)
+- [x] [Server Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-report.yml&title=)
 
 Use this *Issue Template* if you experience the following problems:
 - Unstable/Unusable Victim's Lab Features
@@ -109,22 +111,21 @@ Use this *Issue Template* if you experience the following problems:
 - No Victim Connections Returning (if you're positive this issue is on the Server's side)
 <br></br>
 
-- [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.md&title=)
+- [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.yml&title=)
 
 Use this *Issue Template* if you experience any of the following issues on the victim's end:
 - Unstable Victim Connections
 - No Victim Connections Returning (if you're positive this issue is on the payload's/client's side)
-- Backdoored Payload Applications Crashing after Installation
 - Standalone Payload Applications Crashing after Installation
 - Payload Permissions not being Set for Backdoored Applications
 <br></br>
 
-- [x] [B&B (Building & Binding) Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=apktool+error%2C+server+error%2C+apktool+bug%2C+server+bug&projects=&template=b%26b-report.md&title=)
+- [x] [Binding Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=apktool+error%2C+server+error%2C+apktool+bug%2C+server+bug&projects=&template=binding-report.yml&title=)
 
-Use this *Issue Template* if you experience issues building a standalone payload, or backdooring an original application.
+Use this *Issue Template* if you experience issues backdooring an original application or after using a backdoored application.
 <br></br>
 
-- [x] [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.md&title=)
+- [x] [Feature Request](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=enhancememt&template=feature_request.yml&title=)
 
 Use this Template if you wish to request an upgrade that hasnt already been implemented.
 <br></br>
