@@ -1,5 +1,5 @@
 name: Binding report
-description: Report an issue bound with the AhMyth Client.
+description: Report an issue with a bound AhMyth Client.
 title: 'binding report: '
 labels: ['binding error']
 body:
