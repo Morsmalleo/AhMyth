@@ -1,5 +1,69 @@
 #!/bin/sh
 
+echo -e "Checking if the script is running as root!"
+
+# Check if script is running as root user
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root. Please use 'sudo' e.g., 'sudo ./autoinstall_linux' or login as root."
+    exit 1
+fi
+
+# Check if Python is available
+if command -v python &> /dev/null; then
+    python - <<END
+try:
+    import subprocess
+    from colorama import init, Fore
+    import time
+    print(Fore.LIGHTMAGENTA_EX + "Colorama has been already installed, And we have initialized it for you :)")
+    time.sleep(2)
+except ImportError:
+    print(Fore.RED + "Colorama has not been installed. Installing it...")
+    subprocess.run(["pip", "install", "colorama"], check=True)
+    from colorama import init, Fore
+    print(Fore.LIGHTMAGENTA_EX + "Done, Colorama has been installed.")
+    time.sleep(2)
+END
+fi
+
+# Initialize colorama
+python - <<END
+from colorama import init
+init(autoreset=True)
+END
+
+# Install requirements to Show 3D banner
+apt install figlet lolcat -y
+
+# Clear the terminal screen
+clear
+sleep 0.7
+
+# Create 3D banner for showcase
+create_3d_banner() {
+    # Banner text
+    banner_text="   AhMyth"
+
+    # Check if figlet and lolcat are installed
+    if command -v figlet &> /dev/null && command -v lolcat &> /dev/null; then
+        # Use figlet to create ASCII art with mono9 font
+        figlet_output=$(figlet -f mono9 "$banner_text")
+
+        # Use lolcat to add color to the ASCII art
+        banner_output=$(echo "$figlet_output" | lolcat)
+
+        # Print the result
+        echo -e "$banner_output"
+    else
+        # Print an error message if figlet or lolcat are not installed
+        echo -e "\033[91mError: Make sure 'figlet' and 'lolcat' are installed on your system.\033[0m"
+        sleep 2
+    fi
+}
+
+# Run the function
+create_3d_banner
+
 # Get the path to the script's directory
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -9,12 +73,12 @@ if [ -x "$(command -v apt-get)" ]; then
 elif [ -x "$(command -v pacman)" ]; then
     PACKAGE_MANAGER="pacman"
 else
-    echo "Unsupported package manager.\nThis script currently supports APT and Pacman-based systems."
+    echo -e "\e[32mUnsupported package manager.\nThis script currently supports APT and Pacman-based systems{\033[92m}.\e[0m"
     exit 1
 fi
 
 java_install() {
-    echo "Installing Java 11...\n"
+    echo "\033[32mInstalling Java 11...\n\e[0m"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         apt-get install -y openjdk-11-jdk
         update-java-alternatives -s java-11-openjdk-amd64
@@ -24,58 +88,53 @@ java_install() {
     elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
         pacman -Sy jdk11-openjdk
     fi
-    echo "\nJava 11 has been installed successfully."
+    echo "\033[34m\nJava 11 has been installed successfully.\e[0m"
     sleep 2
-    clear
 }
 
 nodejs_install() {
-    echo "Installing Node.js...\n"
+    echo "\033[36mInstalling Node.js...\n\e[0m"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         apt-get install -y nodejs
     elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
         pacman -Sy nodejs
     fi
-    echo "\nNode.js has been installed successfully."
+    echo "\033[33m\nNode.js has been installed successfully.\e[0m"
     sleep 2
-    clear
 }
 
 npm_install() {
-    echo "Installing npm...\n"
+    echo "\033[34mInstalling npm...\n\e[0m"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         apt-get install -y npm
     elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
         pacman -Sy npm
     fi
-    echo "\nnpm has been installed successfully."
+    echo "\033[32m\nnpm has been installed successfully.\e[0m"
     sleep 2
-    clear
 }
 
 git_install() {
-    echo "Installing Git...\n"
+    echo "\033[35mInstalling Git...\n\e[0m"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         apt-get install -y git
     elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
         pacman -Sy git
     fi
-    echo "\nGit has been installed successfully."
+    echo "\033[32m\nGit has been installed successfully.\e[0m"
     sleep 2
-    clear
 }
 
 electron_install() {
-    echo "Installing Electron v11.0.0...\n"
+    echo "\033[93mInstalling Electron v11.0.0...\n\e[0m"
     npm i -g electron@11.0.0
-    echo "\nDone."
+    echo "\033[92m\nDone.\e[0m"
     sleep 2
-    clear
 }
 
 create_system_shortcut() {
     # Create ahmyth file and grant executable permissions
-    echo "Creating ahmyth file and granting executable permissions...\n"
+    echo "\033[96mCreating ahmyth file and granting executable permissions...\n\e[0m"
     echo '#!/bin/sh' > ahmyth
     echo "if [ \"\$(id -u)\" = \"0\" ]; then" >> ahmyth
     echo "    npx electron \"$SCRIPT_DIR/app\" --no-sandbox start" >> ahmyth
@@ -83,85 +142,75 @@ create_system_shortcut() {
     echo "    npm start --prefix \"$SCRIPT_DIR\"" >> ahmyth
     echo "fi" >> ahmyth
     chmod +x ahmyth
-    echo "ahmyth file has been created and executable permissions have been granted."
+    echo "\033[92mahmyth file has been created and executable permissions have been granted.\e[0m"
     sleep 2
-    clear
 
     # Move ahmyth file to /usr/local/sbin
-    echo "Moving ahmyth file to /usr/local/sbin...\n"
+    echo "\033[95mMoving ahmyth file to /usr/local/sbin...\n\e[0m"
     if [ -d "/usr/local/sbin" ]; then
         mv ahmyth /usr/local/sbin
-        echo "\nahmyth file has been moved to /usr/local/sbin."
+        echo "\033[92m\nahmyth file has been moved to /usr/local/sbin{\033[96m}.\e[0m"
     else
-        echo "/usr/local/sbin directory not found! Unable to move ahmyth file."
+        echo "\033[31m/usr/local/sbin directory not found! Unable to move ahmyth file.\e[0m"
     fi
-    sleep 2
-    clear
+    sleep 1
 }
 
-# Check if user is root
-if [ "$(id -u)" != "0" ]; then
-    echo -e "This script must be run as root!" >&2
-    exit 1
-fi
-
 # Update and upgrade
-clear
-echo "Updating and Upgrading...\n"
+echo "\033[35mUpdating and Upgrading...\n\e[0m"
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get update && apt-get upgrade -y
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
     pacman -Syu --noconfirm
 fi
-echo "\nUpdate and Upgrade done."
+echo "\033[92m\nUpdate and Upgrade done.\e[0m"
 sleep 2
-clear
 
 # Check if Java 11 is installed
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     if [ -z "$(dpkg -l | grep openjdk-11)" ]; then
-        echo "Java 11 is not installed!\n"
+        echo "\033[91mJava 11 is not installed!\n\e[0m"
         java_install
     fi
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
     if ! pacman -Qi jdk11-openjdk >/dev/null 2>&1; then
-        echo "Java 11 is not installed!\n"
+        echo "\033[91mJava 11 is not installed!\n\e[0m"
         java_install
     fi
 fi
 
 # Check if nodejs is installed
 if [ -z "$(command -v node)" ]; then
-    echo "Node.js is not installed!\n" >&2
+    echo "\033[91mNode.js is not installed!\n\e[0m" >&2
     nodejs_install
 fi
 
 # Check if npm is installed
 if [ -z "$(command -v npm)" ]; then
-    echo "npm is not installed!\n" >&2
+    echo "\033[91mnpm is not installed!\n\e[0m" >&2
     npm_install
 fi
 
 # Check if git is installed
 if [ -z "$(command -v git)" ]; then
-    echo "Git is not installed!\n" >&2
+    echo "\033[91mGit is not installed!\n\e[0m" >&2
     git_install
 fi
 
 # Check if electron v11 is installed
 if [ -z "$(command -v electron)" ]; then
-    echo "electron has not been installed by npm!\n" >&2
+    echo "\033[91melectron has not been installed by npm!\n\e[0m" >&2
     electron_install
 fi
 
 # Check if ahmyth system shortcut exists, create it if not
 if [ -z "$(command -v ahmyth)" ]; then
-    echo "ahmyth system shortcut doesn't exist!\n"
+    echo "\033[91mahmyth system shortcut doesn't exist!\n\e[0m"
     create_system_shortcut
 fi
 
 # Check if all dependencies are installed
 if [ -x "$(command -v electron)" ] && [ -x "$(command -v node)" ] && [ -x "$(command -v npm)" ] && [ -x "$(command -v git)" ] && [ -f "/usr/local/sbin/ahmyth" ]; then
-    echo "All Dependencies are Installed.\nExiting."
+    echo "\033[92mDone! All Dependencies has been Installed.\nExiting.\e[0m"
     exit 0
 fi
