@@ -14,7 +14,7 @@
         "geoip-lite": "^1.4.6",
         "node-homedir": "^1.1.1",
         "readdirp": "^3.6.0",
-        "socket.io": "^2.5.0",
+        "socket.io": "^4.7.5",
         "xml2js": "^0.6.0"
     }
 }
