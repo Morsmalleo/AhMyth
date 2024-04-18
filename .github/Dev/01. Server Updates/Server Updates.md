@@ -1,5 +1,68 @@
 <details>
-    <summary>Updated Main & Render Processes for Electron 29.2.0 Migration</summary>
+    <summary>Updated Package.json Files</summary>
+    <br>
+
+- `AhMyth-Server/App` Directory package.json
+```json
+{
+    "name": "AhMyth",
+    "description": "Android Remote Administration Tool",
+    "author": "AhMyth <AhMyth@protonmail.com>",
+    "productName": "AhMyth",
+    "version": "1.0-beta.6",
+    "homepage": "https://github.com/AhMyth/AhMyth-Android-RAT",
+    "main": "main.js",
+    "dependencies": {
+        "@electron/remote": "^2.1.2",
+        "angular": "^1.8.3",
+        "angular-route": "^1.8.3",
+        "fomantic-ui": "^2.8.8",
+        "fs-extra": "^11.1.0",
+        "geoip-lite": "^1.4.6",
+        "readdirp": "^3.6.0",
+        "socket.io": "^2.5.0",
+        "xml2js": "^0.6.0"
+    }
+}
+```
+
+- `AhMyth-Server` directory package.json
+```json
+{
+    "main": "./app/main.js",
+    "devDependencies": {
+      "electron": "^29.2.0",
+      "electron-builder": "^22.11.7",
+      "electron-packager": "^15.4.0"
+    },
+    "license": "GNU GPLv3",
+    "build": {
+      "appId": "Ahmyth.android.rat",
+      "win": {
+        "publisherName": "AhMyth",
+        "icon": "build/icon.ico"
+      },
+      "asarUnpack": "**/app/Factory/**/*"
+    },
+    "scripts": {
+      "start": "npx electron ./app",
+      "clean": "rm -rf ./dist",
+      "prepack": "rm -rf ./node_modules && rm -rf ./app/node_modules",
+      "build": "npm run prepack && npm run build:linux && npm run build:win",
+      "build:linux": "npm run prepack && npm run build:linux32 && npm run build:linux64",
+      "build:linux32": "npm run prepack && npx electron-builder --linux deb --ia32",
+      "build:linux64": "npm run prepack && npx electron-builder --linux deb --x64",
+      "build:win": "npm run prepack && npm run build:win32 && npm run build:win64",
+      "build:win32": "npm run prepack && npx electron-builder --win --ia32",
+      "build:win64": "npm run prepack && npx electron-builder --win --x64"
+    }
+  }  
+```
+</details>
+<br>
+
+<details>
+    <summary>Updated Main & Render Processes for Electron 29.2.0 Migration + 32bit </summary>
     <br>
 
 <details>
@@ -57,7 +120,7 @@ function createWindow() {
   splashWin.webContents.on('did-finish-load', function () {
     splashWin.show(); // Show splash screen
 
-    // Check CPU architecture after a delay
+    // 32bit Arch Check and deprecation message
     setTimeout(() => {
       const architecture = process.arch;
       if (architecture === 'ia32') {
@@ -990,115 +1053,6 @@ app.controller("NotifiCtrl", function($scope, $location) {
 ```
 </details>
 
-</details>
-<br>
-
-<details>
-    <summary>32bit Arch Check for main process</summary>
-
-1. Adds a 32bit arch check and displays a 32bit deprecation warning message for the future
-
-```js
-initialize();
-
-function createWindow() {
-
-    // get Display Sizes ( x , y , width , height)
-    display = screen.getPrimaryDisplay();
-
-  //------------------------SPLASH SCREEN INIT------------------------------------
-  // create the splash window
-  let splashWin = new BrowserWindow({
-    width: 700,
-    height: 500,
-    frame: false,
-    transparent: true,
-    icon: __dirname + '/app/assets/img/icon.png',
-    type: "splash",
-    alwaysOnTop: true,
-    show: false,
-    position: "center",
-    resizable: false,
-    toolbar: false,
-    fullscreen: false,
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
-      contextIsolation: false
-    }
-  });
-
-  // load splash file
-  splashWin.loadFile(__dirname + '/app/splash.html');
-
-  splashWin.webContents.on('did-finish-load', function () {
-    splashWin.show(); // Show splash screen
-
-    // Check CPU architecture after a delay
-    setTimeout(() => {
-      const architecture = process.arch;
-      if (architecture === 'ia32') {
-        // If not 64-bit architecture, show message box
-        dialog.showMessageBoxSync(splashWin, {
-          type: 'info',
-          title: 'Architecture Check',
-          message: 'AhMyth will soon be dropping support for Operating Systems running 32bit Architecture, sorry for any inconvenience.',
-          buttons: ['OK']
-        });
-      }
-    }, 500); // Adjust the delay as needed
-  });
-
-  // Emitted when the window is closed.
-  splashWin.on('closed', () => {
-    // Dereference the window object
-    splashWin = null
-  })
-
-  //------------------------Main SCREEN INIT------------------------------------
-  // Create the browser window.
-  win = new BrowserWindow({
-    icon: __dirname + '/app/assets/img/icon.png',
-    width: 900,
-    height: 690,
-    show: false,
-    resizable: false,
-    position: "center",
-    toolbar: false,
-    fullscreen: false,
-    transparent: true,
-    frame: false,
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
-      contextIsolation: false,
-      //preload: __dirname + '\\preload'
-    }
-  });
-
-  win.loadFile(__dirname + '/app/index.html');
-
-  enable(win.webContents);
-
-  win.webContents.openDevTools();
-
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-  });
-
-  // Emitted when the window is finished loading.
-  win.webContents.on('did-finish-load', function () {
-    setTimeout(() => {
-      splashWin.close(); // Close splash screen
-      win.show(); // Show main UI
-    }, 2000);
-  });
-}
-```
 </details>
 <br>
 
