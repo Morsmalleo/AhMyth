@@ -49,7 +49,7 @@
         "angular-route": "^1.8.3",
         "fomantic-ui": "^2.8.8",
         "fs-extra": "^11.1.0",
-        "geoip-lite": "^1.4.6",
+        "geoip-lite2": "^2.1.32",
         "readdirp": "^3.6.0",
         "socket.io": "^2.5.0",
         "xml2js": "^0.6.0"
