@@ -62,7 +62,7 @@
 <br>
 
 <details>
-    <summary>Updated Main & Render Processes for Electron 29.2.0 Migration + 32bit </summary>
+    <summary>Updated Main & Render Processes for Electron 29.2.0 Migration + 32bit Arch check and message</summary>
     <br>
 
 <details>
