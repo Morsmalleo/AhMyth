@@ -1,4 +1,35 @@
 <details>
+    <summary>Updated HTML Scripts</summary>
+    <br>
+
+- index.html
+```html
+    <script type="text/javascript" src="assets/js/lib/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../node_modules/fomantic-ui/dist/semantic.min.js"></script>
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/AppCtrl.js"></script>
+```
+- lab.html
+```html
+    <script type="text/javascript" src="assets/js/lib/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../node_modules/fomantic-ui/dist/semantic.min.js"></script>
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+    <script type="text/javascript" src="../node_modules/angular-route/angular-route.min.js"></script>
+    <script type='text/javascript' src='assets/js/lib/ng-infinite-scroll.min.js'></script>
+    <script type="text/javascript" src="assets/js/lib/leaflet.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/LabCtrl.js"></script>
+```
+  
+- notification.html
+```html
+    <script type="text/javascript" src="assets/js/lib/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/NotifiCtrl.js"></script>
+```
+</details>
+<br>
+
+<details>
     <summary>Updated Package.json Files</summary>
     <br>
 
