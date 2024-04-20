@@ -1,7 +1,63 @@
 #!/bin/sh
 
+# Create 3D banner for showcase
+create_3d_banner() {
+    
+    # Reset color code
+    reset_color="\033[0m"
+    
+    # Banner color code
+    blue="\033[34m"
+    
+    # Banner text
+    banner_text="   AhMyth"
+
+    # Check if figlet and lolcat are installed
+    if command -v figlet > /dev/null 2>&1; then
+        # Use figlet to create ASCII art with mono9 font
+        figlet_output=$(figlet -f mono9 "$banner_text")
+
+        # Use lolcat to add color to the ASCII art
+        banner_output=$(echo "$figlet_output")
+
+        # Print the result
+        echo "${blue}${banner_output}${reset_color}"
+    else
+        if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
+            apt-get install -y figlet
+        elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
+            pacman -Sy figlet
+            
+            # Reset color code
+            reset_color="\033[0m"
+    
+            # Banner color code
+            cyan="\033[36m"
+    
+            # Banner text
+            banner_text="   AhMyth"
+           
+            # Use figlet to create ASCII art with mono9 font
+            figlet_output=$(figlet -f mono9 "$banner_text")
+
+            # Use lolcat to add color to the ASCII art
+            banner_output=$(echo "$figlet_output")
+
+            # Print the result
+            echo -e "${blue}${banner_output}${reset_color}"
+
+        fi
+    fi
+}
+
 # Get the path to the script's directory
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# String color codes
+reset_color="\033[0m"
+red="\033[31m"
+green="\033[32m"
+yellow="\033[33m"
 
 # Check package manager
 if [ -x "$(command -v apt-get)" ]; then
@@ -9,60 +65,60 @@ if [ -x "$(command -v apt-get)" ]; then
 elif [ -x "$(command -v pacman)" ]; then
     PACKAGE_MANAGER="pacman"
 else
-    echo "Unsupported package manager.\nThis script currently supports APT and Pacman-based systems."
+    echo "${red}[x] Unsupported package manager.\nThis script currently supports APT and Pacman-based systems.${reset_color}"
     exit 1
 fi
 
 java_install() {
-    echo "Installing default JDK..."
+    echo "${yellow}[i] Installing default JDK...${reset_color}\n"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         apt-get install -y default-jdk
     elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
         pacman -Sy jdk-openjdk
     fi
-    echo "Default JDK has been installed successfully."
+    echo "\n${green}[✔] Default JDK has been installed successfully.${reset_color}"
     sleep 2
 }
 
 nodejs_install() {
-    echo "Installing Node.js...\n"
+    echo "${yellow}[i] Installing Node.js...${reset_color}\n"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         apt-get install -y nodejs
     elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
         pacman -Sy nodejs
     fi
-    echo "\nNode.js has been installed successfully."
+    echo "\n${green}[✔] Node.js has been installed successfully.${reset_color}"
     sleep 2
     clear
 }
 
 npm_install() {
-    echo "Installing npm...\n"
+    echo "${yellow}[i] Installing npm...${reset_color}\n"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         apt-get install -y npm
     elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
         pacman -Sy npm
     fi
-    echo "\nnpm has been installed successfully."
+    echo "\n${green}[✔] npm has been installed successfully.${reset_color}"
     sleep 2
     clear
 }
 
 git_install() {
-    echo "Installing Git...\n"
+    echo "${yellow}[i] Installing Git...${reset_color}\n"
     if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
         apt-get install -y git
     elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
         pacman -Sy git
     fi
-    echo "\nGit has been installed successfully."
+    echo "\n${green}[✔] Git has been installed successfully.${reset_color}"
     sleep 2
     clear
 }
 
 create_system_shortcut() {
     # Create ahmyth file and grant executable permissions
-    echo "Creating ahmyth file and granting executable permissions...\n"
+    echo "${yellow}[i] Creating ahmyth file and granting executable permissions...${reset_color}\n"
     echo '#!/bin/sh' > ahmyth
     echo "if [ \"\$(id -u)\" = \"0\" ]; then" >> ahmyth
     echo "    npx electron \"$SCRIPT_DIR/app\" --no-sandbox start" >> ahmyth
@@ -70,17 +126,16 @@ create_system_shortcut() {
     echo "    npm start --prefix \"$SCRIPT_DIR\"" >> ahmyth
     echo "fi" >> ahmyth
     chmod +x ahmyth
-    echo "ahmyth file has been created and executable permissions have been granted."
     sleep 2
     clear
 
     # Move ahmyth file to /usr/local/sbin
-    echo "Moving ahmyth file to /usr/local/sbin...\n"
+    echo "${yellow}[i] Moving ahmyth file to /usr/local/sbin...${reset_color}\n"
     if [ -d "/usr/local/sbin" ]; then
         mv ahmyth /usr/local/sbin
-        echo "\nahmyth file has been moved to /usr/local/sbin."
+        echo "\n${green}[✔] ahmyth file has been moved to /usr/local/sbin."
     else
-        echo "/usr/local/sbin directory not found! Unable to move ahmyth file."
+        echo "${red}[x] /usr/local/sbin directory not found! Unable to move ahmyth file.${reset_color}"
     fi
     sleep 2
     clear
@@ -88,61 +143,67 @@ create_system_shortcut() {
 
 # Check if user is root
 if [ "$(id -u)" != "0" ]; then
-    echo "This script must be run as root!" >&2
+    clear
+    echo "${red}[x] This script must be run as root!${reset_color}" >&2
     exit 1
 fi
 
+# Run the function
+clear
+create_3d_banner
+sleep 2
+
 # Update and upgrade
 clear
-echo "Updating and Upgrading...\n"
+echo "${yellow}[i] Updating and Upgrading...${reset_color}\n"
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     apt-get update #&& apt-get upgrade -y
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
     pacman -Syu --noconfirm
 fi
-echo "\nUpdate and Upgrade done."
+echo "\n${green}[✔] Update and Upgrade done.${reset_color}"
 sleep 2
 clear
 
 # Check if any version of java 8 through 21 is installed
 if [ "$PACKAGE_MANAGER" = "apt-get" ]; then
     if [ -z "$(dpkg -l | grep openjdk- | grep -E '8|9|10|11|12|13|14|15|16|17|18|19|20|21')" ]; then
-        echo "Java is not installed!\n"
+        echo "${red}[x] Java is not installed!${reset_color}\n"
         java_install
     fi
 elif [ "$PACKAGE_MANAGER" = "pacman" ]; then
     if ! pacman -Qi jdk-openjdk >/dev/null 2>&1; then
-        echo "Java is not installed!\n"
+        echo "${red}[x] Java is not installed!${reset_color}\n"
         java_install
     fi
 fi
 
 # Check if nodejs is installed
 if [ -z "$(command -v node)" ]; then
-    echo "Node.js is not installed!\n" >&2
+    echo "${red}[x] Node.js is not installed!${reset_color}\n" >&2
     nodejs_install
 fi
 
 # Check if npm is installed
 if [ -z "$(command -v npm)" ]; then
-    echo "npm is not installed!\n" >&2
+    echo "${red}[x] npm is not installed!${reset_color}\n" >&2
     npm_install
 fi
 
 # Check if git is installed
 if [ -z "$(command -v git)" ]; then
-    echo "Git is not installed!\n" >&2
+    echo "${red}[x] Git is not installed!${reset_color}\n" >&2
     git_install
 fi
 
 # Check if ahmyth system shortcut exists, create it if not
 if [ -z "$(command -v ahmyth)" ]; then
-    echo "ahmyth system shortcut doesn't exist!\n"
+    echo "${red}[x] ahmyth system shortcut doesn't exist!${reset_color}\n"
     create_system_shortcut
 fi
 
 # Check if all dependencies are installed
 if [ -x "$(command -v node)" ] && [ -x "$(command -v npm)" ] && [ -x "$(command -v git)" ] && [ -f "/usr/local/sbin/ahmyth" ]; then
-    echo "All Dependencies are Installed.\nExiting."
+    echo "${green}[✔] All Dependencies are Installed, Exiting.${reset_color}"
     exit 0
 fi
