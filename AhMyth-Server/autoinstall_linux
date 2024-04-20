@@ -32,7 +32,7 @@ create_3d_banner() {
             reset_color="\033[0m"
     
             # Banner color code
-            cyan="\033[36m"
+            blue="\033[34m"
     
             # Banner text
             banner_text="   AhMyth"
@@ -44,7 +44,7 @@ create_3d_banner() {
             banner_output=$(echo "$figlet_output")
 
             # Print the result
-            echo -e "${blue}${banner_output}${reset_color}"
+            echo "${blue}${banner_output}${reset_color}"
 
         fi
     fi
