@@ -119,11 +119,16 @@ git_install() {
 create_system_shortcut() {
     # Create ahmyth file and grant executable permissions
     echo "${yellow}[i] Creating ahmyth file and granting executable permissions...${reset_color}\n"
-    echo '#!/bin/sh' > ahmyth
+    echo '#!/bin/sh \n' > ahmyth
+    echo "# String color codes" >> ahmyth
+    echo "reset_color="\033[0m"" >> ahmyth
+    echo "yellow="\033[33m"\n" >> ahmyth
     echo "if [ \"\$(id -u)\" = \"0\" ]; then" >> ahmyth
+    echo "    echo "${yellow}[i] Initialising AhMyth as Root...${reset_color}"" >> ahmyth
     echo "    npx electron \"$SCRIPT_DIR/app\" --no-sandbox start" >> ahmyth
     echo "else" >> ahmyth
-    echo "    npm start --prefix \"$SCRIPT_DIR\"" >> ahmyth
+    echo "    echo "${yellow}[i] Initialising AhMyth...${reset_color}"" >> ahmyth
+    echo "    npx electron \"$SCRIPT_DIR\" start" >> ahmyth
     echo "fi" >> ahmyth
     chmod +x ahmyth
     sleep 2
