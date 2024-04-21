@@ -124,10 +124,10 @@ create_system_shortcut() {
     echo "reset_color="\033[0m"" >> ahmyth
     echo "yellow="\033[33m"\n" >> ahmyth
     echo "if [ \"\$(id -u)\" = \"0\" ]; then" >> ahmyth
-    echo "    echo "${yellow}[i] Initialising AhMyth as Root...${reset_color}"" >> ahmyth
+    echo "    echo "${yellow}[i] Initializing AhMyth as Root...${reset_color}"" >> ahmyth
     echo "    npx electron \"$SCRIPT_DIR/app\" --no-sandbox start" >> ahmyth
     echo "else" >> ahmyth
-    echo "    echo "${yellow}[i] Initialising AhMyth...${reset_color}"" >> ahmyth
+    echo "    echo "${yellow}[i] Initializing AhMyth...${reset_color}"" >> ahmyth
     echo "    npx electron \"$SCRIPT_DIR\" start" >> ahmyth
     echo "fi" >> ahmyth
     chmod +x ahmyth
