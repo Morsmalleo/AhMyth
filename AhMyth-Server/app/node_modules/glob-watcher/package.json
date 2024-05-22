@@ -23,7 +23,7 @@
   "dependencies": {
     "anymatch": "^2.0.0",
     "async-done": "^1.2.0",
-    "chokidar": "^2.0.0",
+    "chokidar": "^3.0.0",
     "is-negated-glob": "^1.0.0",
     "just-debounce": "^1.0.0",
     "normalize-path": "^3.0.0",
