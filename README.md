@@ -50,10 +50,11 @@ Use the Table of Contents below to quick skip to any part of this README such as
 ## <div align="center"><ins>Usage</ins></div>
 
 01. Build a standalone APK Payload or use an original APK as a Payload Template.
+    - NOTE: The current Android payload that AhMyth builds is currently only configured for Android 4.1 (SDK 16) upto Android 5.1 (SDK 22) this is due to major security changes made to SDK 23 and above.
 
-02. Install the APK Payload on the Victim Android Device.
+2. Install the APK Payload on the Victim Android Device.
 
-03. Take Control of the Victim Android Device by using the *Victim's Lab*.
+3. Take Control of the Victim Android Device by using the *Victim's Lab*.
 #
 
 ## <div align="center"><ins>Setup</ins></div>
