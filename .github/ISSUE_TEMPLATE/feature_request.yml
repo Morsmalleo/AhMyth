@@ -26,8 +26,8 @@ body:
 
         Before creating a new feature request, please keep the following in mind:
 
-        - **Do not submit a duplicate client report**: You can review existing client reports [here](https://github.com/Morsmalleo/AhMyth/labels/Enhancement).
-        - **Review the Issue Rules**: Make sure your client report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
+        - **Do not submit a duplicate feature request**: You can review existing feature requests [here](https://github.com/Morsmalleo/AhMyth/labels/Enhancement).
+        - **Review the Issue Rules**: Make sure your feature request adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
   - type: textarea
     attributes:
       label: Feature description
