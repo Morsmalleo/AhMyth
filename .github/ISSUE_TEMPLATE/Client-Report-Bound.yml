@@ -1,6 +1,6 @@
 name: Client Report - Bound
 description: Report an issue with a deployed bound AhMyth Client.
-title: 'binding report: '
+title: 'client report - bound: '
 labels: ['binding error']
 body:
   - type: markdown
@@ -22,7 +22,7 @@ body:
            Continuing the legacy of the AhMyth R.A.T Project
         </p>
 
-        # AhMyth Binding Report
+        # AhMyth Bound Client Report
 
         Before creating a new bound client report, please keep the following in mind:
 
@@ -41,9 +41,9 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: binding issue description 
+      label: bound client issue description 
       description: |
-        - Describe your issue with your bound client in detail
+        - Describe your issue with a deployed bound client in detail
         - Add steps to reproduce the issue with the bound client if possible (Step 1. ... Step 2. ...)
         - Add images and videos if possible
   - type: textarea
