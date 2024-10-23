@@ -40,7 +40,7 @@ body:
   - type: textarea
     attributes:
       label: Solution
-      description: If applicable, add a possible solution to the client issue. Otherwise just mark this section as "N/a"
+      description: If applicable, add a possible solution to the standalone client issue. Otherwise just mark this section as "N/a"
   - type: textarea
     attributes:
       label: Additional context
