@@ -40,7 +40,7 @@ body:
   - type: textarea
     attributes:
       label: Error logs
-      description: If applicable, please post the error logs that are generated `C:\yourUserName\AhMyth\Logs | /home/youUserName/AhMyth/Logs`.
+      description: Please post the error logs that are generated `C:\yourUserName\AhMyth\Logs | /home/youUserName/AhMyth/Logs`.
       render: shell
   - type: textarea
     attributes:
