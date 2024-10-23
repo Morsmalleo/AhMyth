@@ -1,5 +1,5 @@
 name: client report
-description: Report an issue with the AhMyth Client.
+description: Report an issue with a Standalone AhMyth Client/Payload.
 title: 'client report: '
 labels: ['client error']
 body:
@@ -40,7 +40,7 @@ body:
   - type: textarea
     attributes:
       label: Solution
-      description: If applicable, add a possible solution to the client issue.
+      description: If applicable, add a possible solution to the client issue. Otherwise just mark this section as "N/a"
   - type: textarea
     attributes:
       label: Additional context
