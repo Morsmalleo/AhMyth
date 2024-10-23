@@ -30,7 +30,7 @@ body:
         - **Review the Issue Rules**: Make sure your standalone client report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
   - type: textarea
     attributes:
-      label: client issue description
+      label: standalone client issue description
       description: |
         - Describe your standalone client issue in detail
         - Add steps to reproduce the standalone client issue if possible (Step 1. ... Step 2. ...)
