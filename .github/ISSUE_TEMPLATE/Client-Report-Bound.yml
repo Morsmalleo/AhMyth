@@ -1,4 +1,4 @@
-name: Binding report
+name: Client Report: Bound
 description: Report an issue with a bound AhMyth Client.
 title: 'binding report: '
 labels: ['binding error']
