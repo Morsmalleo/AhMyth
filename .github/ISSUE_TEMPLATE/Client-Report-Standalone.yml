@@ -1,5 +1,5 @@
 name: Client Report - Standalone
-description: Report an issue with a Standalone AhMyth Client/Payload.
+description: Report an issue with a deployed Standalone AhMyth Client/Payload.
 title: 'client report: '
 labels: ['client error']
 body:
