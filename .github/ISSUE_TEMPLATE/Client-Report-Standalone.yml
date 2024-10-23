@@ -25,8 +25,8 @@ body:
         # AhMyth Client Report
 
         Before creating a new standalone client report, please keep the following in mind:
-        - **Do not use this report for bound clients/payloads, only use this report for standalone clients/payloads**
-        - **Do not submit a duplicate standalone client report**: You can review existing standalone client reports [here](https://github.com/Morsmalleo/AhMyth/labels/client%20Error) & [here](https://github.com/Morsmalleo/AhMyth/labels/Client%20Bug).
+        - **Do not use this to report problems with deployed bound clients/payloads, only use this report for problems with deployed standalone clients/payloads**
+        - **Do not submit a duplicate standalone client reports**: You can review existing standalone client reports [here](https://github.com/Morsmalleo/AhMyth/labels/client%20Error) & [here](https://github.com/Morsmalleo/AhMyth/labels/Client%20Bug).
         - **Review the Issue Rules**: Make sure your standalone client report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
   - type: textarea
     attributes:
