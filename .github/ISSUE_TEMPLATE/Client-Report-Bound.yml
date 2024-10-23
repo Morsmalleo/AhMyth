@@ -33,10 +33,10 @@ body:
   - type: checkboxes
     id: payloadOptions
     attributes:
-      label: Payload Options
+      label: Bound Client Type
       options:
-        - label: Activity-method bound payload
-        - label: Boot-method bound payload
+        - label: Activity-method based payload
+        - label: Boot-method based payload
     validations:
       required: true
   - type: textarea
