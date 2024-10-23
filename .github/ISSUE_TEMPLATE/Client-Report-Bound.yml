@@ -26,8 +26,8 @@ body:
 
         Before creating a new bound client report, please keep the following in mind:
 
-        - **Do not use this report for errors that arise during the Binding Processes, only use this report for bound clients/payloads that have been deployed**
-        - **Do not use this report for standalone clients/payloads, only use this report for bound clients/payloads that have been deployed**
+        - **Do not use this to report errors that arise during the Binding Processes, only use this report for bound clients/payloads that have been deployed**
+        - **Do not use this to report problems with deployed standalone clients/payloads, only use this report for bound clients/payloads that have been deployed**
         - **Do not submit a duplicate bound client report**: You can review existing bound client reports [here](https://github.com/Morsmalleo/AhMyth/labels/binding).
         - **Review the Issue Rules**: Make sure your bound client report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
   - type: checkboxes
