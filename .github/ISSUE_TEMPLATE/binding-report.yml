@@ -41,7 +41,7 @@ body:
     attributes:
       label: binding issue description 
       description: |
-        - Describe your server issue in detail
+        - Describe your issue with Binding in detail
         - Add steps to reproduce the server issue if possible (Step 1. ... Step 2. ...)
         - Add images and videos if possible
   - type: textarea
@@ -52,7 +52,7 @@ body:
   - type: textarea
     attributes:
       label: Solution
-      description: If applicable, add a possible solution to the binding issue.
+      description: If applicable, add a possible solution to the binding issue. Otherwise just mark this as "N/A"
   - type: textarea
     attributes:
       label: Additional context
