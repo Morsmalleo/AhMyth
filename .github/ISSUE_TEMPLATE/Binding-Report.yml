@@ -26,7 +26,7 @@ body:
 
         Before creating a new binding process report, please keep the following in mind:
 
-        - **Do not use this to report problems with a deployed standalone client, only use this report for when problems during the binding process arise**
+        - **Do not use this to report problems with a deployed standalone or bound clients, only use this report for when problems during the binding process arise**
         - **Do not submit a duplicate binding process report**: You can review existing binding process reports [here](https://github.com/Morsmalleo/AhMyth/labels/binding).
         - **Review the Issue Rules**: Make sure your binding process report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
   - type: checkboxes
