@@ -1,5 +1,5 @@
 name: Client Report - Bound
-description: Report an issue with a bound AhMyth Client.
+description: Report an issue with a deployed bound AhMyth Client.
 title: 'binding report: '
 labels: ['binding error']
 body:
@@ -24,10 +24,10 @@ body:
 
         # AhMyth Binding Report
 
-        Before creating a new binding report, please keep the following in mind:
+        Before creating a new bound client report, please keep the following in mind:
 
-        - **Do not submit a duplicate binding report**: You can review existing binding reports [here](https://github.com/Morsmalleo/AhMyth/labels/binding).
-        - **Review the Issue Rules**: Make sure your binding report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
+        - **Do not submit a duplicate bound client report**: You can review existing bound client reports [here](https://github.com/Morsmalleo/AhMyth/labels/binding).
+        - **Review the Issue Rules**: Make sure your bound client report adheres to these rules. You can find the guidelines [here](https://github.com/Morsmalleo/AhMyth/#Issue-Rules).
   - type: checkboxes
     id: payloadOptions
     attributes:
@@ -41,18 +41,13 @@ body:
     attributes:
       label: binding issue description 
       description: |
-        - Describe your issue with Binding in detail
-        - Add steps to reproduce the server issue if possible (Step 1. ... Step 2. ...)
+        - Describe your issue with your bound client in detail
+        - Add steps to reproduce the issue with the bound client if possible (Step 1. ... Step 2. ...)
         - Add images and videos if possible
   - type: textarea
     attributes:
-      label: Error logs
-      description: If applicable, please post the error logs that are generated at "C:\yourUserName\AhMyth\Logs || /home/youUserName/AhMyth/Logs."
-      render: shell
-  - type: textarea
-    attributes:
       label: Solution
-      description: If applicable, add a possible solution to the binding issue. Otherwise just mark this as "N/A"
+      description: If applicable, add a possible solution to the bound client issue. Otherwise just mark this as "N/A"
   - type: textarea
     attributes:
       label: Additional context
@@ -61,9 +56,9 @@ body:
     id: acknowledgements
     attributes:
       label: Acknowledgements
-      description: Your binding report will be closed if you don't follow the checklist below.
+      description: Your bound client report will be closed if you don't follow the checklist below.
       options:
-        - label: This issue is not a duplicate of an existing binding report.
+        - label: This issue is not a duplicate of an existing bound client report.
           required: true
         - label: I have chosen an appropriate title.
           required: true
