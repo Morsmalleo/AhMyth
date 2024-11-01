@@ -13,7 +13,7 @@
         "fs-extra": "^11.1.0",
         "geoip-lite": "^1.4.6",
         "node-homedir": "^1.1.1",
-        "readdirp": "^3.6.0",
+        "readdirp": "^4.0.2",
         "socket.io": "^2.5.0",
         "xml2js": "^0.6.0"
     }
