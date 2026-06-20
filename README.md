@@ -11,6 +11,11 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Morsmalleo/AhMyth?color=crimson&include_prereleases) ![GitHub issues](https://img.shields.io/github/issues-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Morsmalleo/AhMyth?color=light%20green) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/Morsmalleo/AhMyth?color=red) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/Morsmalleo/AhMyth?color=light-green) [![GitHub forks](https://img.shields.io/github/forks/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/network) [![GitHub stars](https://img.shields.io/github/stars/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/stargazers) [![GitHub discussions](https://img.shields.io/github/discussions/Morsmalleo/AhMyth)](https://GitHub.com/Morsmalleo/AhMyth/discussions) ![GitHub repo size](https://img.shields.io/github/repo-size/Morsmalleo/AhMyth) [![GitHub license](https://img.shields.io/github/license/Morsmalleo/AhMyth)](https://github.com/Morsmalleo/AhMyth/blob/master/LICENSE.md)
 
 #
+
+# <div align=center>Disclaimer</div>
+I am not responsible for any harm that may happed due to misuse of this project, this project is soley being maintained for educational and informative purposes for people who wish to study obselete Android security and how easy it was to exploit it, and how some older payloads can still pose a threat to even newer android versions today.
+#
+
 Give this repository a 💫 to support the project.
 
 This tool is recommended for professionals who know what they are doing.
@@ -52,9 +57,9 @@ Use the Table of Contents below to quick skip to any part of this README such as
 01. Build a standalone APK Payload or use an original APK as a Payload Template.
     - NOTE: The current Android payload that AhMyth builds is currently only configured for Android 4.1 (SDK 16) upto Android 5.1 (SDK 22) this is due to major security changes made to SDK 23 and above.
 
-2. Install the APK Payload on the Victim Android Device.
+2. Install the APK Payload on the Remote Android Device.
 
-3. Take Control of the Victim Android Device by using the *Victim's Lab*.
+3. Take Control of the Remote Android Device by using the *Laboratory*.
 #
 
 ## <div align="center"><ins>Setup</ins></div>
@@ -107,16 +112,16 @@ The following list will help users determine which *Issue Template* is suitable 
 - [x] [Server Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=server-report.yml&title=)
 
 Use this *Issue Template* if you experience the following problems:
-- Unstable/Unusable Victim's Lab Features
+- Unstable/Unusable Lab Features
 - User Interface Problems
-- No Victim Connections Returning (if you're positive this issue is on the Server's side)
+- No Client Connections Returning (if you're positive this issue is on the Server's side)
 <br></br>
 
 - [x] [Client Report](https://github.com/Morsmalleo/AhMyth/issues/new?assignees=Morsmalleo&labels=bug%2C+error&template=client-report.yml&title=)
 
-Use this *Issue Template* if you experience any of the following issues on the victim's end:
-- Unstable Victim Connections
-- No Victim Connections Returning (if you're positive this issue is on the payload's/client's side)
+Use this *Issue Template* if you experience any of the following issues on the remote Client's end:
+- Unstable Client Connections
+- No Client Connections Returning (if you're positive this issue is on the payload's/client's side)
 - Standalone Payload Applications Crashing after Installation
 - Payload Permissions not being Set for Backdoored Applications
 <br></br>
@@ -174,4 +179,4 @@ Special Thanks to:
 
 ## <div align="center"><ins>Callouts</ins></div>
 
-- [AuxGrep](https://github.com/AuxGrep) - I callout this liar because he thinks he can take credit for all the work that I did on the [AhMyth v1.0-beta.3b release](https://github.com/Morsmalleo/AhMyth/releases/tag/v1.0-beta.3b) with his bullshit "AhMyth-Fixed" repo [Here](https://github.com/AuxGrep/Ahmyth-FIXED?tab=readme-ov-file) containing a link to a renamed Zip file containing MY work from the [AhMyth v1.0-beta.3b](https://github.com/Morsmalleo/AhMyth/releases/tag/v1.0-beta.3b) release.
+- None to show. But if anyone ever takes credit for the work I've put into this, I won't hesitate to put your username here.
