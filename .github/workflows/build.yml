@@ -1,4 +1,3 @@
-
 # This is a basic workflow to help you get started with Actions
 
 name: CI
@@ -10,9 +9,16 @@ on:
     branches:
       - feature/githubActionsBuild 
       - master
+      - main
+      - development
+  pull_request:
+    branches:
+      - master
+      - main
       - development
   release:
     types: [created]
+
 jobs:
   build:
     defaults:   
@@ -21,15 +27,19 @@ jobs:
           AhMyth-Server
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - name: Cache Electron
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/.cache/electron
           key: ${{ runner.os }}-electron-cache-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
@@ -37,36 +47,44 @@ jobs:
             ${{ runner.os }}-electron-cache-
 
       - name: Cache Electron-Builder
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/.cache/electron-builder
           key: ${{ runner.os }}-electron-builder-cache-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
           restore-keys: |
             ${{ runner.os }}-electron-builder-cache-
-      - uses: actions/checkout@v2
-      - name: Install deps
+
+      - name: Install dependencies
         run: |
           sudo dpkg --add-architecture i386 
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y wine32 wine64 gcc-multilib g++-multilib
-      - uses: actions/checkout@v2
+
       - name: Setup Node.js environment
-        uses: actions/setup-node@v1.4.3
+        uses: actions/setup-node@v4
         with:
-          node-version: 10.x
+          node-version: 20.x
+          cache: 'npm'
+
       - name: Install dependencies
         run: |
-          npm i
+          npm ci
+
       - name: Build Linux app (32 bit)
         run: npm run build:linux32
+
       - name: Build Linux app (64 bit)
         run: npm run build:linux64
+
       - name: Build Windows App (32 bit)
         run: npm run build:win32
+
       - name: Build Windows App (64 bit)
         run: npm run build:win64
-      - name: Upload - push to artifact files
-        uses: actions/upload-artifact@v1
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: AhMyth
           path: ./AhMyth-Server/dist/
+          retention-days: 30

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Disable cleartext traffic to all domains by default -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <!-- Trust pre-installed CAs -->
+            <certificates src="system" />
+            <!-- Optionally add user-installed CAs for debugging (remove in production) -->
+            <!-- <certificates src="user" /> -->
+        </trust-anchors>
+    </base-config>
+
+    <!-- Example configuration for a specific domain (if you have a known C2 server) -->
+    <!-- Uncomment and modify if you have a fixed C2 domain -->
+    <!--
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">your-c2-domain.com</domain>
+        <pin-set expiration="2025-01-01">
+            <!-- Add pin here if using certificate pinning -->
+            <!-- <pin digest="SHA-256">base64-hash-of-public-key==</pin> -->
+        </pin-set>
+    </domain-config>
+    -->
+
+    <!-- Debug overrides - ONLY FOR DEVELOPMENT, REMOVE IN PRODUCTION -->
+    <debug-overrides>
+        <!-- Allow cleartext to localhost for development -->
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

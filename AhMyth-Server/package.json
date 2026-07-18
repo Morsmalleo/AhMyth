@@ -1,9 +1,9 @@
 {
     "main": "./app/main.js",
     "devDependencies": {
-        "electron": "^11.5.0",
-        "electron-builder": "^22.11.7",
-        "electron-packager": "^15.4.0"
+        "electron": "^28.0.0",
+        "electron-builder": "^24.13.3",
+        "electron-packager": "^18.3.0"
     },
     "license": "GNU GPLv3",
     "build": {
@@ -12,17 +12,17 @@
             "publisherName": "AhMyth",
             "icon": "build/icon.ico"
         },
-        "asarUnpack": "**/app/Factory/**/*"
+        "asarUnpack": "**/app/Factory/*"
     },
     "scripts": {
-        "start": "npx electron ./app",
+        "start": "electron ./app",
         "clean": "rm -rf ./dist",
         "build": "npm run build:linux && npm run build:win",
         "build:linux": "npm run build:linux32 && npm run build:linux64",
-        "build:linux32": "npx electron-builder --linux deb --ia32",
-        "build:linux64": "npx electron-builder --linux deb --x64",
+        "build:linux32": "electron-builder --linux deb --ia32",
+        "build:linux64": "electron-builder --linux deb --x64",
         "build:win": "npm run build:win32 && npm run build:win64",
-        "build:win32": "npx electron-builder --win --ia32",
-        "build:win64": "npx electron-builder --win --x64"
+        "build:win32": "electron-builder --win --ia32",
+        "build:win64": "electron-builder --win --x64"
     }
 }
