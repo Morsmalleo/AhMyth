@@ -13,22 +13,27 @@
 #
 
 # <div align=center>Disclaimer</div>
-I am not responsible for any harm that may happed due to misuse of this project, this project is soley being maintained for educational and informative purposes for people who wish to study obselete Android security and how easy it was to exploit it, and how some older payloads can still pose a threat to even newer android versions today.
+I am not responsible for any harm that may happed due to misuse of this project, this project is solely being maintained for educational and informative purposes for people who wish to study obsolete Android security and how easy it was to exploit it, and how some older payloads can still pose a threat to even newer android versions today.
 #
 
+# <div align="center">Support the Project<div>
 Give this repository a 💫 to support the project.
 
-This tool is recommended for professionals who know what they are doing.
+Watch 👁️ this repository if you wish to be notified of further updates and new releases.
+#
 
-Posting *Blank Issues*, *Blank or Improperly Filled out Issue Reports*, and *Posting Seperate Issues on other Peoples Issue Posts*, is not allowed and WILL result in a temporary ban from the repository, WITHOUT WARNING!
+# <div align="center">Repository Rules<div>
+- This tool is recommended for professionals who know what they are doing, but anyone is welcome to try it out as long as they follow the documentation properly.
 
-Read the following Sections before Posting Issues!
+- You must read the following Sections before Posting Issues about the project!
 
-- *Setup Instructions*
-- *User Manual*
-- *Troubleshoot Sections* 
-- *Issue Rules*
-- *Closed Issues*
+  - *Setup Instructions*
+  - *User Manual*
+  - *Troubleshoot Sections* 
+  - *Issue Rules*
+  - *Closed Issues*
+
+- Posting *Blank Issues*, *Blank or Improperly Filled out Issue Reports*, and *Posting Seperate Issues on other People's Issue Posts*, is not allowed and WILL result in a temporary ban from the repository, WITHOUT WARNING!
 #
 
 ## <div align="center">Contents</div>
