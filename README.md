@@ -13,7 +13,7 @@
 #
 
 # <div align=center>Disclaimer</div>
-I am not responsible for any harm that may happed due to misuse of this project, this project is solely being maintained for educational and informative purposes for people who wish to study obsolete Android security and how easy it was to exploit it, and how some older payloads can still pose a threat to even newer android versions today.
+I am not responsible for any harm that may happed due to misuse of this project, this project is solely being maintained for educational and informative purposes for people who wish to study obsolete Android security and how easy it was to exploit it, and how some older payloads can still pose a threat to even newer android versions today. However if I do spot misuse of this project, I'll rip it from public eye myself without hesitation or warning until People learn. I've spent years maintaining this project and I won't lose all my work due to project misuse.
 #
 
 # <div align="center">Support the Project<div>
