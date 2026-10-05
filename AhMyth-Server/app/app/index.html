@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta id="theme-source" name="theme" content="" />
 
     <title>AhMyth</title>
 
@@ -13,13 +14,14 @@
             window.module = module;
             module = undefined;
         }
+
     </script>
 
-
-    <script type="text/javascript" src="assets/js/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/lib/jquery-3.7.1.min.js"></script>
     <script type="text/javascript" src="../node_modules/fomantic-ui/dist/semantic.min.js"></script>
     <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
     <script type="text/javascript" src="assets/js/controllers/AppCtrl.js"></script>
+
     <!-- Insert this line after script imports -->
     <script>
         if (window.module) module = window.module;
@@ -35,14 +37,23 @@
         }
     </style>
 
+    <style>
+        #theme-source {
+            display: none;
+        }
+    </style>
+
 </head>
 
-<body ng-controller="AppCtrl" class="draggable">
-
-    <div class="ui top attached tabular menu">
-        <a class="item active notDraggable" data-tab="first"><i class="large eye icon"></i>Clients</a>
-        <a class="item notDraggable" data-tab="second"><i class="large green android icon"></i>APK Builder</a>
+<body ng-controller="AppCtrl" class="draggable dark">
+    <div class="ui top attached tabular menu border-bottom">
+        <a class="item active notDraggable border" data-tab="first"><i class="large eye icon"></i>Victims</a>
+        <a class="item notDraggable border" data-tab="second"><i class="large green android icon"></i>APK
+            Builder</a>
         <div class="ui right mini text menu notDraggable">
+            <button id="toggle-dark-mode" class="ui circular toggle button" style="font-size: 6px; height: 17px"
+                ng-click="switch()"></button>
+
             <button class=" ui circular orange button" ng-click="minimize()"
                 style="font-size: 6px;height: 17px"></button>
             <button class="ui circular green button" ng-click="maximize()" style="font-size: 6px;height: 17px"></button>
@@ -50,29 +61,30 @@
         </div>
     </div>
 
-    <div class="ui bottom attached tab segment active h60 notDraggable" data-tab="first">
-        <div class="ui grid h100">
+    <div class="ui bottom attached bg tab border segment active h60 notDraggable" data-tab="first">
+
+        <div class="ui bg grid h100">
             <div class="row h30">
                 <div class="column">
-                    <div class="ui horizontal segments">
-                        <div class="ui segment">
+                    <div class="ui horizontal border segments">
+                        <div class="ui bg segment">
                             <h2 class="ui left floated header">
                                 <img class="ui image" src="assets/img/VictimsLab.png">
-                                <div class="content">
-                                    LABORATORY
+                                <div class="content bg">
+                                    VICTIMS LAB
                                 </div>
                             </h2>
                         </div>
-                        <div class="ui center aligned segment">
+                        <div class="ui bg center aligned segment">
                             <div style="line-height: 70px">
                                 <div class="ui right floated labeled input">
-                                    <div class="ui label">
+                                    <div class="ui black label">
                                         Port
                                     </div>
-                                    <input type="text" ng-model="port" placeholder="Default is 42474">
+                                    <input type="text" ng-model="port" class="bg2" placeholder="Default is 42474">
                                 </div>
-                                <button ng-click="clearLogs(); Listen(port)"
-                                    class="ui labeled icon black button"><i class="terminal icon"></i>Listen</button>
+                                <button ng-click="clearLogs(); Listen(port)" class="ui labeled icon black button"><i
+                                        class="terminal icon"></i>Listen</button>
                                 <button ng-click="clearLogs(); StopListening(port)"
                                     class="ui labeled icon black button"><i class="terminal icon"></i>Stop</button>
                             </div>
@@ -82,7 +94,7 @@
             </div>
             <div class="row h75" style="overflow: scroll;">
                 <div class="column">
-                    <table class="ui table single line selectable">
+                    <table class="ui table bg single line selectable">
                         <thead>
                             <tr>
                                 <th></th>
@@ -90,45 +102,44 @@
                                 <th>Manuf.</th>
                                 <th>Model</th>
                                 <th>Release</th>
-                                <th>IP</th>
-                                <th>Port</th>
+                                <th>Client ID</th>
+                                <th>IP Address</th>
+                                <th>Remote Port</th>
                                 <th></th>
                             </tr>
                         </thead>
 
                         <tbody>
-
                             <tr ng-repeat="(key, victim) in victims">
-                                <td><a class="ui black ribbon label" ng-click="openLab(key)">Open The Lab</a></td>
-                                <td ng-if="victim.country != null"><i class="{{victim.country}} flag"></i></td>
+                                <td><a class="ui black ribbon label" ng-click="openLab(key)">Open The
+                                        Lab</a></td>
+                                <td ng-if="victim.country != null"><i class="{{victim.country}} flag"></i>
+                                </td>
                                 <td ng-if="victim.country == null"><i class="help circle icon"></i></td>
                                 <td ng-bind="victim.manf"></td>
                                 <td ng-bind="victim.model"></td>
                                 <td ng-bind="victim.release"></td>
+                                <td ng-bind="victim.clientId"></td>
                                 <td ng-bind="victim.ip"></td>
                                 <td ng-bind="victim.port"></td>
-                                <td></td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <div class="ui bottom attached tab segment h60 notDraggable" data-tab="second">
-        <div ng-include="'views/build.html'" class="full"></div>
+    <div class="ui bottom attached tab segment h60 notDraggable bg border" data-tab="second">
+        <div ng-include="'views/build.html'" class="full bg"></div>
     </div>
 
     <div class="ui bottom attached black message notDraggable" id="log">
         <div ng-repeat="log in logs" class="log">
-            <div class="w30" style="display: inline-block" ng-bind="log.date"></div>
-            <div class="w65" style="display: inline-block" ng-style="{'color':log.color}" ng-bind="log.msg"></div>
+            <div class="w30 " style="display: inline-block" ng-bind="log.date"></div>
+            <div class="w65 " style="display: inline-block" ng-style="{'color':log.color}" ng-bind="log.msg"></div>
         </div>
     </div>
-
 </body>
 
 </html>

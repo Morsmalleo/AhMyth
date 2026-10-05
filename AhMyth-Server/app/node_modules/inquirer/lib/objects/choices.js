@@ -1,19 +1,20 @@
 'use strict';
-var assert = require('assert');
-var _ = require('lodash');
-var Separator = require('./separator');
-var Choice = require('./choice');
+const assert = require('assert');
+const _ = {
+  filter: require('lodash/filter'),
+  map: require('lodash/map'),
+};
+const Separator = require('./separator');
+const Choice = require('./choice');
 
 /**
  * Choices collection
  * Collection of multiple `choice` object
- * @constructor
- * @param {Array} choices  All `choice` to keep in the collection
  */
-
 module.exports = class Choices {
+  /** @param {Array} choices  All `choice` to keep in the collection */
   constructor(choices, answers) {
-    this.choices = choices.map(val => {
+    this.choices = choices.map((val) => {
       if (val.type === 'separator') {
         if (!(val instanceof Separator)) {
           val = new Separator(val.line);
@@ -27,7 +28,7 @@ module.exports = class Choices {
 
     this.realChoices = this.choices
       .filter(Separator.exclude)
-      .filter(item => !item.disabled);
+      .filter((item) => !item.disabled);
 
     Object.defineProperty(this, 'length', {
       get() {
@@ -35,7 +36,7 @@ module.exports = class Choices {
       },
       set(val) {
         this.choices.length = val;
-      }
+      },
     });
 
     Object.defineProperty(this, 'realLength', {
@@ -44,7 +45,7 @@ module.exports = class Choices {
       },
       set() {
         throw new Error('Cannot set `realLength` of a Choices collection');
-      }
+      },
     });
   }
 
@@ -55,7 +56,7 @@ module.exports = class Choices {
    */
 
   getChoice(selector) {
-    assert(_.isNumber(selector));
+    assert(typeof selector === 'number');
     return this.realChoices[selector];
   }
 
@@ -66,7 +67,7 @@ module.exports = class Choices {
    */
 
   get(selector) {
-    assert(_.isNumber(selector));
+    assert(typeof selector === 'number');
     return this.choices[selector];
   }
 
@@ -91,26 +92,32 @@ module.exports = class Choices {
   }
 
   // Expose usual Array methods
-  indexOf() {
-    return this.choices.indexOf.apply(this.choices, arguments);
+  indexOf(...args) {
+    return this.choices.indexOf(...args);
   }
 
-  forEach() {
-    return this.choices.forEach.apply(this.choices, arguments);
+  forEach(...args) {
+    return this.choices.forEach(...args);
   }
 
-  filter() {
-    return this.choices.filter.apply(this.choices, arguments);
+  filter(...args) {
+    return this.choices.filter(...args);
+  }
+
+  reduce(...args) {
+    return this.choices.reduce(...args);
   }
 
   find(func) {
-    return _.find(this.choices, func);
+    return this.choices.find(func);
   }
 
-  push() {
-    var objs = _.map(arguments, val => new Choice(val));
-    this.choices.push.apply(this.choices, objs);
-    this.realChoices = this.choices.filter(Separator.exclude);
+  push(...args) {
+    const objs = args.map((val) => new Choice(val));
+    this.choices.push(...objs);
+    this.realChoices = this.choices
+      .filter(Separator.exclude)
+      .filter((item) => !item.disabled);
     return this.choices;
   }
 };

@@ -1,16 +1,18 @@
 'use strict';
-var _ = require('lodash');
-var util = require('./readline');
-var cliWidth = require('cli-width');
-var stripAnsi = require('strip-ansi');
-var stringWidth = require('string-width');
+const util = require('./readline');
+const cliWidth = require('cli-width');
+const wrapAnsi = require('wrap-ansi');
+const stripAnsi = require('strip-ansi');
+const stringWidth = require('string-width');
+const ora = require('ora');
 
 function height(content) {
   return content.split('\n').length;
 }
 
+/** @param {string} content */
 function lastLine(content) {
-  return _.last(content.split('\n'));
+  return content.split('\n').pop();
 }
 
 class ScreenManager {
@@ -22,7 +24,36 @@ class ScreenManager {
     this.rl = rl;
   }
 
-  render(content, bottomContent) {
+  renderWithSpinner(content, bottomContent) {
+    if (this.spinnerId) {
+      clearInterval(this.spinnerId);
+    }
+
+    let spinner;
+    let contentFunc;
+    let bottomContentFunc;
+
+    if (bottomContent) {
+      spinner = ora(bottomContent);
+      contentFunc = () => content;
+      bottomContentFunc = () => spinner.frame();
+    } else {
+      spinner = ora(content);
+      contentFunc = () => spinner.frame();
+      bottomContentFunc = () => '';
+    }
+
+    this.spinnerId = setInterval(
+      () => this.render(contentFunc(), bottomContentFunc(), true),
+      spinner.interval
+    );
+  }
+
+  render(content, bottomContent, spinning = false) {
+    if (this.spinnerId && !spinning) {
+      clearInterval(this.spinnerId);
+    }
+
     this.rl.output.unmute();
     this.clean(this.extraLinesUnderPrompt);
 
@@ -30,13 +61,13 @@ class ScreenManager {
      * Write message to screen and setPrompt to control backspace
      */
 
-    var promptLine = lastLine(content);
-    var rawPromptLine = stripAnsi(promptLine);
+    const promptLine = lastLine(content);
+    const rawPromptLine = stripAnsi(promptLine);
 
     // Remove the rl.line from our prompt. We can't rely on the content of
     // rl.line (mainly because of the password prompt), so just rely on it's
     // length.
-    var prompt = rawPromptLine;
+    let prompt = rawPromptLine;
     if (this.rl.line.length) {
       prompt = prompt.slice(0, -this.rl.line.length);
     }
@@ -44,8 +75,8 @@ class ScreenManager {
     this.rl.setPrompt(prompt);
 
     // SetPrompt will change cursor position, now we can get correct value
-    var cursorPos = this.rl._getCursorPos();
-    var width = this.normalizedCliWidth();
+    const cursorPos = this.rl._getCursorPos();
+    const width = this.normalizedCliWidth();
 
     content = this.forceLineReturn(content, width);
     if (bottomContent) {
@@ -59,7 +90,7 @@ class ScreenManager {
       content += '\n';
     }
 
-    var fullContent = content + (bottomContent ? '\n' + bottomContent : '');
+    const fullContent = content + (bottomContent ? '\n' + bottomContent : '');
     this.rl.output.write(fullContent);
 
     /**
@@ -68,8 +99,8 @@ class ScreenManager {
 
     // We need to consider parts of the prompt under the cursor as part of the bottom
     // content in order to correctly cleanup and re-render.
-    var promptLineUpDiff = Math.floor(rawPromptLine.length / width) - cursorPos.rows;
-    var bottomContentHeight =
+    const promptLineUpDiff = Math.floor(rawPromptLine.length / width) - cursorPos.rows;
+    const bottomContentHeight =
       promptLineUpDiff + (bottomContent ? height(bottomContent) : 0);
     if (bottomContentHeight > 0) {
       util.up(this.rl, bottomContentHeight);
@@ -113,29 +144,32 @@ class ScreenManager {
   }
 
   normalizedCliWidth() {
-    var width = cliWidth({
+    const width = cliWidth({
       defaultWidth: 80,
-      output: this.rl.output
+      output: this.rl.output,
     });
     return width;
   }
 
-  breakLines(lines, width) {
+  /**
+   * @param {string[]} lines
+   */
+  breakLines(lines, width = this.normalizedCliWidth()) {
     // Break lines who're longer than the cli width so we can normalize the natural line
     // returns behavior across terminals.
-    width = width || this.normalizedCliWidth();
-    var regex = new RegExp('(?:(?:\\033[[0-9;]*m)*.?){1,' + width + '}', 'g');
-    return lines.map(line => {
-      var chunk = line.match(regex);
-      // Last match is always empty
-      chunk.pop();
-      return chunk || '';
-    });
+    // re: trim: false; by default, `wrap-ansi` trims whitespace, which
+    // is not what we want.
+    // re: hard: true; by default', `wrap-ansi` does soft wrapping
+    return lines.map((line) =>
+      wrapAnsi(line, width, { trim: false, hard: true }).split('\n')
+    );
   }
 
-  forceLineReturn(content, width) {
-    width = width || this.normalizedCliWidth();
-    return _.flatten(this.breakLines(content.split('\n'), width)).join('\n');
+  /**
+   * @param {string} content
+   */
+  forceLineReturn(content, width = this.normalizedCliWidth()) {
+    return this.breakLines(content.split('\n'), width).flat().join('\n');
   }
 }
 

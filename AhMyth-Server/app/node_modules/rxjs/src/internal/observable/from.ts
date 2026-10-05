@@ -1,11 +1,11 @@
 import { Observable } from '../Observable';
-import { subscribeTo } from '../util/subscribeTo';
 import { ObservableInput, SchedulerLike, ObservedValueOf } from '../types';
 import { scheduled } from '../scheduled/scheduled';
+import { innerFrom } from './innerFrom';
 
 export function from<O extends ObservableInput<any>>(input: O): Observable<ObservedValueOf<O>>;
-/** @deprecated use {@link scheduled} instead. */
-export function from<O extends ObservableInput<any>>(input: O, scheduler: SchedulerLike): Observable<ObservedValueOf<O>>;
+/** @deprecated The `scheduler` parameter will be removed in v8. Use `scheduled`. Details: https://rxjs.dev/deprecations/scheduler-argument */
+export function from<O extends ObservableInput<any>>(input: O, scheduler: SchedulerLike | undefined): Observable<ObservedValueOf<O>>;
 
 /**
  * Creates an Observable from an Array, an array-like object, a Promise, an iterable object, or an Observable-like object.
@@ -22,7 +22,7 @@ export function from<O extends ObservableInput<any>>(input: O, scheduler: Schedu
  *
  * ## Examples
  *
- * ### Converts an array to an Observable
+ * Converts an array to an Observable
  *
  * ```ts
  * import { from } from 'rxjs';
@@ -38,13 +38,10 @@ export function from<O extends ObservableInput<any>>(input: O, scheduler: Schedu
  * // 30
  * ```
  *
- * ---
- *
- * ### Convert an infinite iterable (from a generator) to an Observable
+ * Convert an infinite iterable (from a generator) to an Observable
  *
  * ```ts
- * import { from } from 'rxjs';
- * import { take } from 'rxjs/operators';
+ * import { from, take } from 'rxjs';
  *
  * function* generateDoubles(seed) {
  *    let i = seed;
@@ -72,9 +69,7 @@ export function from<O extends ObservableInput<any>>(input: O, scheduler: Schedu
  * // 1536
  * ```
  *
- * ---
- *
- * ### With async scheduler
+ * With `asyncScheduler`
  *
  * ```ts
  * import { from, asyncScheduler } from 'rxjs';
@@ -89,8 +84,8 @@ export function from<O extends ObservableInput<any>>(input: O, scheduler: Schedu
  * console.log('end');
  *
  * // Logs:
- * // start
- * // end
+ * // 'start'
+ * // 'end'
  * // 10
  * // 20
  * // 30
@@ -103,16 +98,7 @@ export function from<O extends ObservableInput<any>>(input: O, scheduler: Schedu
  * an Array, an iterable, or an array-like object to be converted.
  * @param {SchedulerLike} An optional {@link SchedulerLike} on which to schedule the emission of values.
  * @return {Observable<T>}
- * @name from
- * @owner Observable
  */
 export function from<T>(input: ObservableInput<T>, scheduler?: SchedulerLike): Observable<T> {
-  if (!scheduler) {
-    if (input instanceof Observable) {
-      return input;
-    }
-    return new Observable<T>(subscribeTo(input));
-  } else {
-    return scheduled(input, scheduler);
-  }
+  return scheduler ? scheduled(input, scheduler) : innerFrom(input);
 }

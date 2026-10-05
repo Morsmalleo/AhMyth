@@ -1,9 +1,6 @@
-import {OperatorFunction, ObservableInput} from '../types';
+import { OperatorFunction, ObservableInput, ObservedValueOf } from '../types';
 import { switchMap } from './switchMap';
 import { identity } from '../util/identity';
-
-export function switchAll<T>(): OperatorFunction<ObservableInput<T>, T>;
-export function switchAll<R>(): OperatorFunction<any, R>;
 
 /**
  * Converts a higher-order Observable into a first-order Observable
@@ -22,44 +19,47 @@ export function switchAll<R>(): OperatorFunction<any, R>;
  * if there are any.
  *
  * ## Examples
+ *
  * Spawn a new interval observable for each click event, but for every new
- * click, cancel the previous interval and subscribe to the new one.
+ * click, cancel the previous interval and subscribe to the new one
  *
  * ```ts
- * import { fromEvent, interval } from 'rxjs';
- * import { switchAll, map, tap } from 'rxjs/operators';
+ * import { fromEvent, tap, map, interval, switchAll } from 'rxjs';
  *
  * const clicks = fromEvent(document, 'click').pipe(tap(() => console.log('click')));
- * const source = clicks.pipe(map((ev) => interval(1000)));
+ * const source = clicks.pipe(map(() => interval(1000)));
  *
- * source.pipe(
- *   switchAll()
- * ).subscribe(x => console.log(x));
+ * source
+ *   .pipe(switchAll())
+ *   .subscribe(x => console.log(x));
  *
  * // Output
  * // click
+ * // 0
  * // 1
  * // 2
  * // 3
- * // 4
  * // ...
  * // click
+ * // 0
  * // 1
  * // 2
- * // 3
  * // ...
  * // click
  * // ...
  * ```
  *
- * @see {@link combineAll}
+ * @see {@link combineLatestAll}
  * @see {@link concatAll}
- * @see {@link exhaust}
+ * @see {@link exhaustAll}
  * @see {@link switchMap}
  * @see {@link switchMapTo}
  * @see {@link mergeAll}
+ *
+ * @return A function that returns an Observable that converts a higher-order
+ * Observable into a first-order Observable producing values only from the most
+ * recent Observable sequence.
  */
-
-export function switchAll<T>(): OperatorFunction<ObservableInput<T>, T> {
+export function switchAll<O extends ObservableInput<any>>(): OperatorFunction<O, ObservedValueOf<O>> {
   return switchMap(identity);
 }

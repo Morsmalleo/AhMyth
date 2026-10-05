@@ -1,3 +1,7 @@
-export function isFunction(x: any): x is Function {
-  return typeof x === 'function';
+/**
+ * Returns true if the object is a function.
+ * @param value The value to check
+ */
+export function isFunction(value: any): value is (...args: any[]) => any {
+  return typeof value === 'function';
 }

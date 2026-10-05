@@ -1,9 +1,6 @@
-import { Operator } from '../Operator';
-import { Observable } from '../Observable';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
 import { ObservableInput, OperatorFunction } from '../types';
-import { SimpleOuterSubscriber, SimpleInnerSubscriber, innerSubscribe } from '../innerSubscribe';
+import { operate } from '../util/lift';
+import { mergeInternals } from './mergeInternals';
 
 /**
  * Applies an accumulator function over the source Observable where the
@@ -13,18 +10,44 @@ import { SimpleOuterSubscriber, SimpleInnerSubscriber, innerSubscribe } from '..
  * <span class="informal">It's like {@link scan}, but the Observables returned
  * by the accumulator are merged into the outer Observable.</span>
  *
+ * The first parameter of the `mergeScan` is an `accumulator` function which is
+ * being called every time the source Observable emits a value. `mergeScan` will
+ * subscribe to the value returned by the `accumulator` function and will emit
+ * values to the subscriber emitted by inner Observable.
+ *
+ * The `accumulator` function is being called with three parameters passed to it:
+ * `acc`, `value` and `index`. The `acc` parameter is used as the state parameter
+ * whose value is initially set to the `seed` parameter (the second parameter
+ * passed to the `mergeScan` operator).
+ *
+ * `mergeScan` internally keeps the value of the `acc` parameter: as long as the
+ * source Observable emits without inner Observable emitting, the `acc` will be
+ * set to `seed`. The next time the inner Observable emits a value, `mergeScan`
+ * will internally remember it and it will be passed to the `accumulator`
+ * function as `acc` parameter the next time source emits.
+ *
+ * The `value` parameter of the `accumulator` function is the value emitted by the
+ * source Observable, while the `index` is a number which represent the order of the
+ * current emission by the source Observable. It starts with 0.
+ *
+ * The last parameter to the `mergeScan` is the `concurrent` value which defaults
+ * to Infinity. It represents the maximum number of inner Observable subscriptions
+ * at a time.
+ *
  * ## Example
+ *
  * Count the number of click events
+ *
  * ```ts
- * import { fromEvent, of } from 'rxjs';
- * import { mapTo, mergeScan } from 'rxjs/operators';
+ * import { fromEvent, map, mergeScan, of } from 'rxjs';
  *
  * const click$ = fromEvent(document, 'click');
- * const one$ = click$.pipe(mapTo(1));
+ * const one$ = click$.pipe(map(() => 1));
  * const seed = 0;
  * const count$ = one$.pipe(
- *   mergeScan((acc, one) => of(acc + one), seed),
+ *   mergeScan((acc, one) => of(acc + one), seed)
  * );
+ *
  * count$.subscribe(x => console.log(x));
  *
  * // Results:
@@ -35,112 +58,36 @@ import { SimpleOuterSubscriber, SimpleInnerSubscriber, innerSubscribe } from '..
  * // ...and so on for each click
  * ```
  *
+ * @see {@link scan}
+ * @see {@link switchScan}
+ *
  * @param {function(acc: R, value: T): Observable<R>} accumulator
  * The accumulator function called on each source value.
  * @param seed The initial accumulation value.
- * @param {number} [concurrent=Number.POSITIVE_INFINITY] Maximum number of
+ * @param {number} [concurrent=Infinity] Maximum number of
  * input Observables being subscribed to concurrently.
- * @return {Observable<R>} An observable of the accumulated values.
- * @method mergeScan
- * @owner Observable
+ * @return A function that returns an Observable of the accumulated values.
  */
-export function mergeScan<T, R>(accumulator: (acc: R, value: T, index: number) => ObservableInput<R>,
-                                seed: R,
-                                concurrent: number = Number.POSITIVE_INFINITY): OperatorFunction<T, R> {
-  return (source: Observable<T>) => source.lift(new MergeScanOperator(accumulator, seed, concurrent));
-}
+export function mergeScan<T, R>(
+  accumulator: (acc: R, value: T, index: number) => ObservableInput<R>,
+  seed: R,
+  concurrent = Infinity
+): OperatorFunction<T, R> {
+  return operate((source, subscriber) => {
+    // The accumulated state.
+    let state = seed;
 
-export class MergeScanOperator<T, R> implements Operator<T, R> {
-  constructor(private accumulator: (acc: R, value: T, index: number) => ObservableInput<R>,
-              private seed: R,
-              private concurrent: number) {
-  }
-
-  call(subscriber: Subscriber<R>, source: any): any {
-    return source.subscribe(new MergeScanSubscriber(
-      subscriber, this.accumulator, this.seed, this.concurrent
-    ));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-export class MergeScanSubscriber<T, R> extends SimpleOuterSubscriber<T, R> {
-  private hasValue: boolean = false;
-  private hasCompleted: boolean = false;
-  private buffer: Observable<any>[] = [];
-  private active: number = 0;
-  protected index: number = 0;
-
-  constructor(destination: Subscriber<R>,
-              private accumulator: (acc: R, value: T, index: number) => ObservableInput<R>,
-              private acc: R,
-              private concurrent: number) {
-    super(destination);
-  }
-
-  protected _next(value: any): void {
-    if (this.active < this.concurrent) {
-      const index = this.index++;
-      const destination = this.destination;
-      let ish;
-      try {
-        const { accumulator } = this;
-        ish = accumulator(this.acc, value, index);
-      } catch (e) {
-        return destination.error!(e);
-      }
-      this.active++;
-      this._innerSub(ish);
-    } else {
-      this.buffer.push(value);
-    }
-  }
-
-  private _innerSub(ish: any): void {
-    const innerSubscriber = new SimpleInnerSubscriber(this);
-    const destination = this.destination as Subscription;
-    destination.add(innerSubscriber);
-    const innerSubscription = innerSubscribe(ish, innerSubscriber);
-    // The returned subscription will usually be the subscriber that was
-    // passed. However, interop subscribers will be wrapped and for
-    // unsubscriptions to chain correctly, the wrapper needs to be added, too.
-    if (innerSubscription !== innerSubscriber) {
-      destination.add(innerSubscription);
-    }
-  }
-
-  protected _complete(): void {
-    this.hasCompleted = true;
-    if (this.active === 0 && this.buffer.length === 0) {
-      if (this.hasValue === false) {
-        this.destination.next!(this.acc);
-      }
-      this.destination.complete!();
-    }
-    this.unsubscribe();
-  }
-
-  notifyNext(innerValue: R): void {
-    const { destination } = this;
-    this.acc = innerValue;
-    this.hasValue = true;
-    destination.next!(innerValue);
-  }
-
-  notifyComplete(): void {
-    const buffer = this.buffer;
-    this.active--;
-    if (buffer.length > 0) {
-      this._next(buffer.shift());
-    } else if (this.active === 0 && this.hasCompleted) {
-      if (this.hasValue === false) {
-        this.destination.next!(this.acc);
-      }
-      this.destination.complete!();
-    }
-  }
+    return mergeInternals(
+      source,
+      subscriber,
+      (value, index) => accumulator(state, value, index),
+      concurrent,
+      (value) => {
+        state = value;
+      },
+      false,
+      undefined,
+      () => (state = null!)
+    );
+  });
 }

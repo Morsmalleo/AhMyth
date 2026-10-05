@@ -1,9 +1,5 @@
-
 import { mergeAll } from './mergeAll';
-import { OperatorFunction, ObservableInput } from '../types';
-
-export function concatAll<T>(): OperatorFunction<ObservableInput<T>, T>;
-export function concatAll<R>(): OperatorFunction<any, R>;
+import { OperatorFunction, ObservableInput, ObservedValueOf } from '../types';
 
 /**
  * Converts a higher-order Observable into a first-order Observable by
@@ -12,7 +8,7 @@ export function concatAll<R>(): OperatorFunction<any, R>;
  * <span class="informal">Flattens an Observable-of-Observables by putting one
  * inner Observable after the other.</span>
  *
- * ![](concatAll.png)
+ * ![](concatAll.svg)
  *
  * Joins every Observable emitted by the source (a higher-order Observable), in
  * a serial fashion. It subscribes to each inner Observable only after the
@@ -30,13 +26,13 @@ export function concatAll<R>(): OperatorFunction<any, R>;
  * ## Example
  *
  * For each click event, tick every second from 0 to 3, with no concurrency
+ *
  * ```ts
- * import { fromEvent, interval } from 'rxjs';
- * import { map, take, concatAll } from 'rxjs/operators';
+ * import { fromEvent, map, interval, take, concatAll } from 'rxjs';
  *
  * const clicks = fromEvent(document, 'click');
  * const higherOrder = clicks.pipe(
- *   map(ev => interval(1000).pipe(take(4))),
+ *   map(() => interval(1000).pipe(take(4)))
  * );
  * const firstOrder = higherOrder.pipe(concatAll());
  * firstOrder.subscribe(x => console.log(x));
@@ -48,21 +44,19 @@ export function concatAll<R>(): OperatorFunction<any, R>;
  * // one click = 1000ms-> 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3
  * ```
  *
- * @see {@link combineAll}
+ * @see {@link combineLatestAll}
  * @see {@link concat}
  * @see {@link concatMap}
  * @see {@link concatMapTo}
- * @see {@link exhaust}
+ * @see {@link exhaustAll}
  * @see {@link mergeAll}
  * @see {@link switchAll}
  * @see {@link switchMap}
  * @see {@link zipAll}
  *
- * @return {Observable} An Observable emitting values from all the inner
- * Observables concatenated.
- * @method concatAll
- * @owner Observable
+ * @return A function that returns an Observable emitting values from all the
+ * inner Observables concatenated.
  */
-export function concatAll<T>(): OperatorFunction<ObservableInput<T>, T> {
-  return mergeAll<T>(1);
+export function concatAll<O extends ObservableInput<any>>(): OperatorFunction<O, ObservedValueOf<O>> {
+  return mergeAll(1);
 }

@@ -1,29 +1,22 @@
-import {  concat as concatStatic } from '../observable/concat';
-import { Observable } from '../Observable';
-import { ObservableInput, OperatorFunction, MonoTypeOperatorFunction, SchedulerLike } from '../types';
+import { ObservableInputTuple, OperatorFunction, SchedulerLike } from '../types';
+import { operate } from '../util/lift';
+import { concatAll } from './concatAll';
+import { popScheduler } from '../util/args';
+import { from } from '../observable/from';
 
-/* tslint:disable:max-line-length */
-/** @deprecated Deprecated in favor of static concat. */
-export function concat<T>(scheduler?: SchedulerLike): MonoTypeOperatorFunction<T>;
-/** @deprecated Deprecated in favor of static concat. */
-export function concat<T, T2>(v2: ObservableInput<T2>, scheduler?: SchedulerLike): OperatorFunction<T, T | T2>;
-/** @deprecated Deprecated in favor of static concat. */
-export function concat<T, T2, T3>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, scheduler?: SchedulerLike): OperatorFunction<T, T | T2 | T3>;
-/** @deprecated Deprecated in favor of static concat. */
-export function concat<T, T2, T3, T4>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, scheduler?: SchedulerLike): OperatorFunction<T, T | T2 | T3 | T4>;
-/** @deprecated Deprecated in favor of static concat. */
-export function concat<T, T2, T3, T4, T5>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, scheduler?: SchedulerLike): OperatorFunction<T, T | T2 | T3 | T4 | T5>;
-/** @deprecated Deprecated in favor of static concat. */
-export function concat<T, T2, T3, T4, T5, T6>(v2: ObservableInput<T2>, v3: ObservableInput<T3>, v4: ObservableInput<T4>, v5: ObservableInput<T5>, v6: ObservableInput<T6>, scheduler?: SchedulerLike): OperatorFunction<T, T | T2 | T3 | T4 | T5 | T6>;
-/** @deprecated Deprecated in favor of static concat. */
-export function concat<T>(...observables: Array<ObservableInput<T> | SchedulerLike>): MonoTypeOperatorFunction<T>;
-/** @deprecated Deprecated in favor of static concat. */
-export function concat<T, R>(...observables: Array<ObservableInput<any> | SchedulerLike>): OperatorFunction<T, R>;
-/* tslint:enable:max-line-length */
+/** @deprecated Replaced with {@link concatWith}. Will be removed in v8. */
+export function concat<T, A extends readonly unknown[]>(...sources: [...ObservableInputTuple<A>]): OperatorFunction<T, T | A[number]>;
+/** @deprecated Replaced with {@link concatWith}. Will be removed in v8. */
+export function concat<T, A extends readonly unknown[]>(
+  ...sourcesAndScheduler: [...ObservableInputTuple<A>, SchedulerLike]
+): OperatorFunction<T, T | A[number]>;
 
 /**
- * @deprecated Deprecated in favor of static {@link concat}.
+ * @deprecated Replaced with {@link concatWith}. Will be removed in v8.
  */
-export function concat<T, R>(...observables: Array<ObservableInput<any> | SchedulerLike>): OperatorFunction<T, R> {
-  return (source: Observable<T>) => source.lift.call(concatStatic(source, ...observables));
+export function concat<T, R>(...args: any[]): OperatorFunction<T, R> {
+  const scheduler = popScheduler(args);
+  return operate((source, subscriber) => {
+    concatAll()(from([source, ...args], scheduler)).subscribe(subscriber);
+  });
 }

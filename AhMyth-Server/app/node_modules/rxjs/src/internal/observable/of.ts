@@ -1,48 +1,26 @@
-import { SchedulerLike } from '../types';
-import { isScheduler } from '../util/isScheduler';
-import { fromArray } from './fromArray';
+import { SchedulerLike, ValueFromArray } from '../types';
 import { Observable } from '../Observable';
-import { scheduleArray } from '../scheduled/scheduleArray';
+import { popScheduler } from '../util/args';
+import { from } from './from';
 
-/* tslint:disable:max-line-length */
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T>(a: T, scheduler: SchedulerLike): Observable<T>;
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T, T2>(a: T, b: T2, scheduler: SchedulerLike): Observable<T | T2>;
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T, T2, T3>(a: T, b: T2, c: T3, scheduler: SchedulerLike): Observable<T | T2 | T3>;
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T, T2, T3, T4>(a: T, b: T2, c: T3, d: T4, scheduler: SchedulerLike): Observable<T | T2 | T3 | T4>;
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T, T2, T3, T4, T5>(a: T, b: T2, c: T3, d: T4, e: T5, scheduler: SchedulerLike): Observable<T | T2 | T3 | T4 | T5>;
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T, T2, T3, T4, T5, T6>(a: T, b: T2, c: T3, d: T4, e: T5, f: T6, scheduler: SchedulerLike): Observable<T | T2 | T3 | T4 | T5 | T6>;
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T, T2, T3, T4, T5, T6, T7>(a: T, b: T2, c: T3, d: T4, e: T5, f: T6, g: T7, scheduler: SchedulerLike):
-  Observable<T | T2 | T3 | T4 | T5 | T6 | T7>;
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T, T2, T3, T4, T5, T6, T7, T8>(a: T, b: T2, c: T3, d: T4, e: T5, f: T6, g: T7, h: T8, scheduler: SchedulerLike):
-  Observable<T | T2 | T3 | T4 | T5 | T6 | T7 | T8>;
-/** @deprecated use {@link scheduled} instead `scheduled([a, b, c], scheduler)` */
-export function of<T, T2, T3, T4, T5, T6, T7, T8, T9>(a: T, b: T2, c: T3, d: T4, e: T5, f: T6, g: T7, h: T8, i: T9, scheduler: SchedulerLike):
-  Observable<T | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9>;
-export function of<T>(...args: (T | SchedulerLike)[]): Observable<T>;
+// Devs are more likely to pass null or undefined than they are a scheduler
+// without accompanying values. To make things easier for (naughty) devs who
+// use the `strictNullChecks: false` TypeScript compiler option, these
+// overloads with explicit null and undefined values are included.
 
-// TODO(benlesh): Update the typings for this when we can switch to TS 3.x
-export function of<T>(a: T): Observable<T>;
-export function of<T, T2>(a: T, b: T2): Observable<T | T2>;
-export function of<T, T2, T3>(a: T, b: T2, c: T3): Observable<T | T2 | T3>;
-export function of<T, T2, T3, T4>(a: T, b: T2, c: T3, d: T4): Observable<T | T2 | T3 | T4>;
-export function of<T, T2, T3, T4, T5>(a: T, b: T2, c: T3, d: T4, e: T5): Observable<T | T2 | T3 | T4 | T5>;
-export function of<T, T2, T3, T4, T5, T6>(a: T, b: T2, c: T3, d: T4, e: T5, f: T6): Observable<T | T2 | T3 | T4 | T5 | T6>;
-export function of<T, T2, T3, T4, T5, T6, T7>(a: T, b: T2, c: T3, d: T4, e: T5, f: T6, g: T7):
-  Observable<T | T2 | T3 | T4 | T5 | T6 | T7>;
-export function of<T, T2, T3, T4, T5, T6, T7, T8>(a: T, b: T2, c: T3, d: T4, e: T5, f: T6, g: T7, h: T8):
-  Observable<T | T2 | T3 | T4 | T5 | T6 | T7 | T8>;
-export function of<T, T2, T3, T4, T5, T6, T7, T8, T9>(a: T, b: T2, c: T3, d: T4, e: T5, f: T6, g: T7, h: T8, i: T9):
-  Observable<T | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9>;
-export function of<T>(...args: T[]): Observable<T>;
-/* tslint:enable:max-line-length */
+export function of(value: null): Observable<null>;
+export function of(value: undefined): Observable<undefined>;
+
+/** @deprecated The `scheduler` parameter will be removed in v8. Use `scheduled`. Details: https://rxjs.dev/deprecations/scheduler-argument */
+export function of(scheduler: SchedulerLike): Observable<never>;
+/** @deprecated The `scheduler` parameter will be removed in v8. Use `scheduled`. Details: https://rxjs.dev/deprecations/scheduler-argument */
+export function of<A extends readonly unknown[]>(...valuesAndScheduler: [...A, SchedulerLike]): Observable<ValueFromArray<A>>;
+
+export function of(): Observable<never>;
+/** @deprecated Do not specify explicit type parameters. Signatures with type parameters that cannot be inferred will be removed in v8. */
+export function of<T>(): Observable<T>;
+export function of<T>(value: T): Observable<T>;
+export function of<A extends readonly unknown[]>(...values: A): Observable<ValueFromArray<A>>;
 
 /**
  * Converts the arguments to an observable sequence.
@@ -62,31 +40,34 @@ export function of<T>(...args: T[]): Observable<T>;
  * import { of } from 'rxjs';
  *
  * of(10, 20, 30)
- * .subscribe(
- *   next => console.log('next:', next),
- *   err => console.log('error:', err),
- *   () => console.log('the end'),
- * );
- * // result:
- * // 'next: 10'
- * // 'next: 20'
- * // 'next: 30'
+ *   .subscribe({
+ *     next: value => console.log('next:', value),
+ *     error: err => console.log('error:', err),
+ *     complete: () => console.log('the end'),
+ *   });
  *
+ * // Outputs
+ * // next: 10
+ * // next: 20
+ * // next: 30
+ * // the end
  * ```
  *
- * Emit the array `[1,2,3]`
+ * Emit the array `[1, 2, 3]`
  *
  * ```ts
  * import { of } from 'rxjs';
  *
- * of([1,2,3])
- * .subscribe(
- *   next => console.log('next:', next),
- *   err => console.log('error:', err),
- *   () => console.log('the end'),
- * );
- * // result:
- * // 'next: [1,2,3]'
+ * of([1, 2, 3])
+ *   .subscribe({
+ *     next: value => console.log('next:', value),
+ *     error: err => console.log('error:', err),
+ *     complete: () => console.log('the end'),
+ *   });
+ *
+ * // Outputs
+ * // next: [1, 2, 3]
+ * // the end
  * ```
  *
  * @see {@link from}
@@ -95,16 +76,8 @@ export function of<T>(...args: T[]): Observable<T>;
  * @param {...T} values A comma separated list of arguments you want to be emitted
  * @return {Observable} An Observable that emits the arguments
  * described above and then completes.
- * @method of
- * @owner Observable
  */
-
 export function of<T>(...args: Array<T | SchedulerLike>): Observable<T> {
-  let scheduler = args[args.length - 1] as SchedulerLike;
-  if (isScheduler(scheduler)) {
-    args.pop();
-    return scheduleArray(args as T[], scheduler);
-  } else {
-    return fromArray(args as T[]);
-  }
+  const scheduler = popScheduler(args);
+  return from(args as T[], scheduler);
 }

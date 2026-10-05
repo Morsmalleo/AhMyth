@@ -1,137 +1,210 @@
+/*  */
+/* -------------------------------General utility classes-------------------------------------*/
+.border { border: 1px solid black; }  /* Adds a black border around elements */
+.highlight { background-color: #9E9E9E; }  /* Highlights elements with a grey background */
+
+body, html { padding: 0px 10px; }  /* Adds 10px padding on the left and right */
+.nopadding { padding: 0px; }  /* Removes padding entirely */
+.log { font-size: 12px; font-family: Courier New, Courier, monospace; }  /* Styling for logs: Small font size for logs, Monospace font for logs */
+
+/* Draggable and non-draggable regions for Electron apps */
+.draggable { -webkit-app-region: drag; }  /* Allows this element to be dragged */
+.notDraggable { -webkit-app-region: no-drag; }  /* Prevents this element from being dragged */
+
+::-webkit-scrollbar { display: none; }/* Custom scrollbar styling (hidden) */
+/* -------------------------------------------------------------------------------------------*/
+
+/*---------------------Main Utilities---------------------*/
+/* Full container classes for height and width */
 .full {
+  height: 100%; /* Full height of the parent */
+  width: 100%;  /* Full width of the parent */
+}
+
+/* Height utility classes */
+.h5   { height: 5%;   }  /* 5% height of the parent */
+.h10  { height: 10%;  }  /* 10% height of the parent */
+.h15  { height: 15%;  }  /* 15% height of the parent */
+.h20  { height: 20%;  }  /* 20% height of the parent */
+.h25  { height: 25%;  }  /* 25% height of the parent */
+.h30  { height: 30%;  }  /* 30% height of the parent */
+.h35  { height: 35%;  }  /* 35% height of the parent */
+.h40  { height: 40%;  }  /* 40% height of the parent */
+.h45  { height: 45%;  }  /* 45% height of the parent */
+.h50  { height: 50%;  }  /* 50% height of the parent */
+.h55  { height: 55%;  }  /* 55% height of the parent */
+.h60  { height: 60%;  }  /* 60% height of the parent */
+.h65  { height: 65%;  }  /* 65% height of the parent */
+.h70  { height: 70%;  }  /* 70% height of the parent */
+.h75  { height: 75%;  }  /* 75% height of the parent */
+.h80  { height: 80%;  }  /* 80% height of the parent */
+.h85  { height: 85%;  }  /* 85% height of the parent */
+.h90  { height: 90%;  }  /* 90% height of the parent */
+.h95  { height: 95%;  }  /* 95% height of the parent */
+.h100 { height: 100%; }  /* Full height of the parent */
+
+/* Width utility classes */
+.w5   { width: 5%;   }  /* 5% width of the parent */
+.w10  { width: 10%;  }  /* 10% width of the parent */
+.w15  { width: 15%;  }  /* 15% width of the parent */
+.w20  { width: 20%;  }  /* 20% width of the parent */
+.w25  { width: 25%;  }  /* 25% width of the parent */
+.w30  { width: 30%;  }  /* 30% width of the parent */
+.w35  { width: 35%;  }  /* 35% width of the parent */
+.w40  { width: 40%;  }  /* 40% width of the parent */
+.w45  { width: 45%;  }  /* 45% width of the parent */
+.w50  { width: 50%;  }  /* 50% width of the parent */
+.w55  { width: 55%;  }  /* 55% width of the parent */
+.w60  { width: 60%;  }  /* 60% width of the parent */
+.w65  { width: 65%;  }  /* 65% width of the parent */
+.w70  { width: 70%;  }  /* 70% width of the parent */
+.w75  { width: 75%;  }  /* 75% width of the parent */
+.w80  { width: 80%;  }  /* 80% width of the parent */
+.w85  { width: 85%;  }  /* 85% width of the parent */
+.w90  { width: 90%;  }  /* 90% width of the parent */
+.w95  { width: 95%;  }  /* 95% width of the parent */
+.w100 { width: 100%; }  /* Full width of the parent */
+/*--------------------------------------------------------*/
+
+/*---------------------Lab Utilities---------------------*/
+
+/** Camera Utilities **/
+/* Adjusts the border height for `ui grid center aligned` element */
+.ui.grid.center.aligned.border {
+  max-height: 110%;
+  height: 108%;
+  border-radius: 4px
+}
+/* Ensures the border for the nested `ui image` element scales correctly */
+.ui.image.border {
+  position: relative;
+  width: 100%; 
   height: 100%;
-  width: 100%;
+  max-height: none;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 2px
 }
-
-.h100 {
+/* Adjusts the border of the `image-container` and `imageHolder` element to fill their container */
+.ui.image.border .image-container { 
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px
 }
-
-.h5 {
-  height: 5%;
-}
-
-.h10 {
-  height: 10%;
-}
-
-.h15 {
-  height: 15%;
-}
-
-.h90 {
-  height: 90%;
-}
-
-.h95 {
-  height: 95%;
-}
-
-::-webkit-scrollbar {
-  display: none;
-}
-
-.h20 {
-  height: 20%;
-}
-
-.h30 {
-  height: 30%;
-}
-
-.h25 {
-  height: 25%;
-}
-
-.h40 {
-  height: 40%;
-}
-
-.h50 {
-  height: 50%;
-}
-
-.h60 {
-  height: 60%;
-}
-
-.h65 {
-  height: 65%;
-}
-
-.h70 {
-  height: 70%;
-}
-
-.h75 {
-  height: 75%;
-}
-
-.h80 {
-  height: 80%;
-}
-
-.h85 {
-  height: 85%;
-}
-
-.w30 {
-  width: 30%;
-}
-
-.w40 {
-  width: 40%;
-}
-
-.w50 {
-  width: 50%;
-}
-
-.w60 {
-  width: 60%;
-}
-
-.w65 {
-  width: 65%;
-}
-
-.w70 {
-  width: 70%;
-}
-
-.w90 {
-  width: 90%;
-}
-
-.w100 {
+.ui.image.border .imageHolder {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
 }
 
-.border {
-  border: 1px solid black;
+/** SMS Manager Utilities **/
+#inboxParent, #sentParent {
+  overflow-y: auto;
+  height: 234px!important; /* Ensures consistent height */
+  min-height: 234px; /* Prevents shrinkage during reflow */
+  max-height: 234px; /* Limits the height to prevent overflow */
+}
+/*-------------------------------------------------------*/
+
+/* ---------------------Dark Theme Utities-------------------*/
+:root { color-scheme: light dark; }
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground: #11111b;
+    --background: #ffffff;
+    --background-color: rgb(241 245 249);
+  }
 }
 
-.highlight {
-  background-color: #9E9E9E;
+.dark .notify{
+  background-color: var(--background)!important;
+  color: var(--foreground)!important;
 }
 
-body, html {
-  padding: 0px 10px;
+@media (prefers-color-scheme: dark) {
+  .dark {
+    --background: #11111b;
+    --background-1: #313244;
+    --background-2: #585b70;
+    --foreground: #cdd6f4;
+    --border: #2f2f49;
+  }
+
+  .dark .black{ background-color: #2f2f49!important; }
+  .dark #log{ background-color: #181825!important; }
+
+  .dark .segment{
+    background-color: var(--background)!important;
+    color: var(--foreground)!important;
+  }
+  .dark .item, .menu, .draggable{
+    background-color: var(--background)!important;
+    color: var(--foreground)!important;
+  }
+  
+  .dark .table th{
+    background-color: var(--background-1)!important;
+    color: var(--foreground)!important;
+    border: 1px var(--border) solid!important;
+  }
+
+  .dark .table td{ color: var(--foreground)!important; }
+  .dark .table{ border: 1px var(--border) solid!important; }
+  .dark .checkbox label{ color: var(--foreground)!important }
+  .dark .label{ color: var(--foreground)!important; }
+  
+  .border{ border: 1px var(--border) solid!important; }
+  .border-bottom{ border-bottom: none!important; }
+  
+  .bg{ background-color: var(--background)!important; color: var(--foreground)!important; }
+  .bg1{ background-color: var(--background-1)!important; color: var(--foreground)!important; }
+  .bg2{ background-color: var(--background-2)!important; }
+  .bg2::placeholder{ color: #11111b!important; }
 }
 
-.nopadding {
-  padding: 0px;
+/* Container for slider effect */
+#toggle-dark-mode {
+  position: relative;
+  width: 40px; /* Width of the slider track */
+  height: 20px; /* Height of the slider track */
+  background-color: #ddd; /* Background color of the track */
+  border-radius: 10px; /* Rounded corners for the track */
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s; /* Transition for background color */
 }
 
-.log {
-  font-size: 12px;
-  font-family: Courier New, Courier, monospace
+/* Slider knob */
+#toggle-dark-mode::before {
+  content: "";
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 3px; /* Starting position of the knob */
+  width: 13px; /* Width of the knob */
+  height: 13px; /* Height of the knob */
+  background-color: #fff; /* Background color of the knob */
+  border-radius: 50%; /* Circular knob */
+  transition: transform 0.3s; /* Smooth sliding effect */
+  transform: translateY(-50%); /* Center vertically */
 }
 
-.draggable {
-  -webkit-app-region: drag;
+/* Active state - knob moves to the right */
+#toggle-dark-mode.active { background-color: #0015ff; /* Color when active */ }
+#toggle-dark-mode.active::before { transform: translateX(20px) translateY(-50%); /* Moves knob to the right and keeps it centered */ }
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
 }
 
-.notDraggable {
-  -webkit-app-region: no-drag;
-}
+body.dark-mode #toggle-dark-mode { background-color: #333; /* Track color in dark mode */ }
+body.dark-mode #toggle-dark-mode.active { background-color: #0015ff; /* Active track color in dark mode */ }
+/* -----------------------------------------------------------*/

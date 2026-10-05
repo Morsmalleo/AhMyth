@@ -3,15 +3,12 @@
  * Sticky bottom bar user interface
  */
 
-var through = require('through');
-var Base = require('./baseUI');
-var rlUtils = require('../utils/readline');
-var _ = require('lodash');
+const through = require('through');
+const Base = require('./baseUI');
+const rlUtils = require('../utils/readline');
 
 class BottomBar extends Base {
-  constructor(opt) {
-    opt = opt || {};
-
+  constructor(opt = {}) {
     super(opt);
 
     this.log = through(this.writeLog.bind(this));
@@ -77,15 +74,14 @@ class BottomBar extends Base {
 
   /**
    * Helper for writing message in Prompt
-   * @param {BottomBar} prompt  - The Prompt object that extends tty
    * @param {String} message - The message to be output
    */
   write(message) {
-    var msgLines = message.split(/\n/);
+    const msgLines = message.split(/\n/);
     this.height = msgLines.length;
 
     // Write message to screen and setPrompt to control backspace
-    this.rl.setPrompt(_.last(msgLines));
+    this.rl.setPrompt(msgLines[msgLines.length - 1]);
 
     if (this.rl.output.rows === 0 && this.rl.output.columns === 0) {
       /* When it's a tty through serial port there's no terminal info and the render will malfunction,

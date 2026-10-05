@@ -2,12 +2,13 @@
     <div class="ui grid center aligned h100">
         <div class="row h20">
             <div class="column">
-                <button class="ui labeled icon black button" ng-click="Refresh()"><i class="refresh icon"></i>Refresh</button>
+                <button class="ui labeled icon black button" ng-click="clearLogs(); Refresh()"><i
+                        class="refresh icon"></i>Refresh</button>
             </div>
         </div>
 
         <div class="row h80">
-            <div class="column h100">
+            <div class="column h100" style="height: 250px;">
                 <div class="h100" id="mapid"></div>
             </div>
         </div>

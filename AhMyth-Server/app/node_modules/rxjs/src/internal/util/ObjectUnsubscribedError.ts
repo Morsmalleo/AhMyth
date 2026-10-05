@@ -1,22 +1,14 @@
-export interface ObjectUnsubscribedError extends Error {
-}
+import { createErrorClass } from './createErrorClass';
+
+export interface ObjectUnsubscribedError extends Error {}
 
 export interface ObjectUnsubscribedErrorCtor {
-  new(): ObjectUnsubscribedError;
+  /**
+   * @deprecated Internal implementation detail. Do not construct error instances.
+   * Cannot be tagged as internal: https://github.com/ReactiveX/rxjs/issues/6269
+   */
+  new (): ObjectUnsubscribedError;
 }
-
-const ObjectUnsubscribedErrorImpl = (() => {
-  function ObjectUnsubscribedErrorImpl(this: any) {
-    Error.call(this);
-    this.message = 'object unsubscribed';
-    this.name = 'ObjectUnsubscribedError';
-    return this;
-  }
-
-  ObjectUnsubscribedErrorImpl.prototype = Object.create(Error.prototype);
-
-  return ObjectUnsubscribedErrorImpl;
-})();
 
 /**
  * An error thrown when an action is invalid because the object has been
@@ -27,4 +19,11 @@ const ObjectUnsubscribedErrorImpl = (() => {
  *
  * @class ObjectUnsubscribedError
  */
-export const ObjectUnsubscribedError: ObjectUnsubscribedErrorCtor = ObjectUnsubscribedErrorImpl as any;
+export const ObjectUnsubscribedError: ObjectUnsubscribedErrorCtor = createErrorClass(
+  (_super) =>
+    function ObjectUnsubscribedErrorImpl(this: any) {
+      _super(this);
+      this.name = 'ObjectUnsubscribedError';
+      this.message = 'object unsubscribed';
+    }
+);

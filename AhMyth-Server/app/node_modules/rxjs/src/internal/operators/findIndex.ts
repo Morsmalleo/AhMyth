@@ -1,6 +1,18 @@
 import { Observable } from '../Observable';
-import { FindValueOperator } from '../operators/find';
-import { OperatorFunction } from '../types';
+import { Falsy, OperatorFunction } from '../types';
+import { operate } from '../util/lift';
+import { createFind } from './find';
+
+export function findIndex<T>(predicate: BooleanConstructor): OperatorFunction<T, T extends Falsy ? -1 : number>;
+/** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+export function findIndex<T>(predicate: BooleanConstructor, thisArg: any): OperatorFunction<T, T extends Falsy ? -1 : number>;
+/** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+export function findIndex<T, A>(
+  predicate: (this: A, value: T, index: number, source: Observable<T>) => boolean,
+  thisArg: A
+): OperatorFunction<T, number>;
+export function findIndex<T>(predicate: (value: T, index: number, source: Observable<T>) => boolean): OperatorFunction<T, number>;
+
 /**
  * Emits only the index of the first value emitted by the source Observable that
  * meets some condition.
@@ -17,13 +29,18 @@ import { OperatorFunction } from '../types';
  * an error if a valid value is not found.
  *
  * ## Example
+ *
  * Emit the index of first click that happens on a DIV element
+ *
  * ```ts
- * import { fromEvent } from 'rxjs';
- * import { findIndex } from 'rxjs/operators';
+ * import { fromEvent, findIndex } from 'rxjs';
+ *
+ * const div = document.createElement('div');
+ * div.style.cssText = 'width: 200px; height: 200px; background: #09c;';
+ * document.body.appendChild(div);
  *
  * const clicks = fromEvent(document, 'click');
- * const result = clicks.pipe(findIndex(ev => ev.target.tagName === 'DIV'));
+ * const result = clicks.pipe(findIndex(ev => (<HTMLElement>ev.target).tagName === 'DIV'));
  * result.subscribe(x => console.log(x));
  * ```
  *
@@ -36,12 +53,12 @@ import { OperatorFunction } from '../types';
  * A function called with each item to test for condition matching.
  * @param {any} [thisArg] An optional argument to determine the value of `this`
  * in the `predicate` function.
- * @return {Observable} An Observable of the index of the first item that
- * matches the condition.
- * @method find
- * @owner Observable
+ * @return A function that returns an Observable that emits the index of the
+ * first item that matches the condition.
  */
-export function findIndex<T>(predicate: (value: T, index: number, source: Observable<T>) => boolean,
-                             thisArg?: any): OperatorFunction<T, number> {
-  return (source: Observable<T>) => source.lift(new FindValueOperator(predicate, source, true, thisArg)) as Observable<any>;
+export function findIndex<T>(
+  predicate: (value: T, index: number, source: Observable<T>) => boolean,
+  thisArg?: any
+): OperatorFunction<T, number> {
+  return operate(createFind(predicate, thisArg, 'index'));
 }

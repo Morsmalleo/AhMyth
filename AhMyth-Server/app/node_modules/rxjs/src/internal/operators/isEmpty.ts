@@ -1,13 +1,12 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
 import { OperatorFunction } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
 
 /**
- * Emits false if the input observable emits any values, or emits true if the
- * input observable completes without emitting any values.
+ * Emits `false` if the input Observable emits any values, or emits `true` if the
+ * input Observable completes without emitting any values.
  *
- * <span class="informal">Tells whether any values are emitted by an observable</span>
+ * <span class="informal">Tells whether any values are emitted by an Observable.</span>
  *
  * ![](isEmpty.png)
  *
@@ -24,77 +23,60 @@ import { OperatorFunction } from '../types';
  * ## Examples
  *
  * Emit `false` for a non-empty Observable
- * ```javascript
- * import { Subject } from 'rxjs';
- * import { isEmpty } from 'rxjs/operators';
+ *
+ * ```ts
+ * import { Subject, isEmpty } from 'rxjs';
  *
  * const source = new Subject<string>();
  * const result = source.pipe(isEmpty());
+ *
  * source.subscribe(x => console.log(x));
  * result.subscribe(x => console.log(x));
+ *
  * source.next('a');
  * source.next('b');
  * source.next('c');
  * source.complete();
  *
- * // Results in:
- * // a
+ * // Outputs
+ * // 'a'
  * // false
- * // b
- * // c
+ * // 'b'
+ * // 'c'
  * ```
  *
  * Emit `true` for an empty Observable
- * ```javascript
- * import { EMPTY } from 'rxjs';
- * import { isEmpty } from 'rxjs/operators';
+ *
+ * ```ts
+ * import { EMPTY, isEmpty } from 'rxjs';
  *
  * const result = EMPTY.pipe(isEmpty());
  * result.subscribe(x => console.log(x));
- * // Results in:
+ *
+ * // Outputs
  * // true
  * ```
  *
  * @see {@link count}
  * @see {@link EMPTY}
  *
- * @return {OperatorFunction<T, boolean>} An Observable of a boolean value indicating whether observable was empty or not
- * @method isEmpty
- * @owner Observable
+ * @return A function that returns an Observable that emits boolean value
+ * indicating whether the source Observable was empty or not.
  */
-
 export function isEmpty<T>(): OperatorFunction<T, boolean> {
-  return (source: Observable<T>) => source.lift(new IsEmptyOperator());
-}
-
-class IsEmptyOperator implements Operator<any, boolean> {
-  call (observer: Subscriber<boolean>, source: any): any {
-    return source.subscribe(new IsEmptySubscriber(observer));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class IsEmptySubscriber extends Subscriber<any> {
-  constructor(destination: Subscriber<boolean>) {
-    super(destination);
-  }
-
-  private notifyComplete(isEmpty: boolean): void {
-    const destination = this.destination;
-
-    destination.next(isEmpty);
-    destination.complete();
-  }
-
-  protected _next(value: boolean) {
-    this.notifyComplete(false);
-  }
-
-  protected _complete() {
-    this.notifyComplete(true);
-  }
+  return operate((source, subscriber) => {
+    source.subscribe(
+      createOperatorSubscriber(
+        subscriber,
+        () => {
+          subscriber.next(false);
+          subscriber.complete();
+        },
+        () => {
+          subscriber.next(true);
+          subscriber.complete();
+        }
+      )
+    );
+  });
 }

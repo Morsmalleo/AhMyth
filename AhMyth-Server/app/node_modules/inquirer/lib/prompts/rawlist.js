@@ -3,17 +3,20 @@
  * `rawlist` type prompt
  */
 
-var _ = require('lodash');
-var chalk = require('chalk');
-var { map, takeUntil } = require('rxjs/operators');
-var Base = require('./base');
-var Separator = require('../objects/separator');
-var observe = require('../utils/events');
-var Paginator = require('../utils/paginator');
+const chalk = require('chalk');
+const { map, takeUntil } = require('rxjs/operators');
+const Base = require('./base');
+const Separator = require('../objects/separator');
+const observe = require('../utils/events');
+const Paginator = require('../utils/paginator');
+const incrementListIndex = require('../utils/incrementListIndex');
 
 class RawListPrompt extends Base {
   constructor(questions, rl, answers) {
     super(questions, rl, answers);
+
+    this.hiddenLine = '';
+    this.lastKey = '';
 
     if (!this.opt.choices) {
       this.throwParamError('choices');
@@ -24,19 +27,19 @@ class RawListPrompt extends Base {
     this.selected = 0;
     this.rawDefault = 0;
 
-    _.extend(this.opt, {
-      validate: function(val) {
+    Object.assign(this.opt, {
+      validate(val) {
         return val != null;
-      }
+      },
     });
 
-    var def = this.opt.default;
-    if (_.isNumber(def) && def >= 0 && def < this.opt.choices.realLength) {
+    const def = this.opt.default;
+    if (typeof def === 'number' && def >= 0 && def < this.opt.choices.realLength) {
       this.selected = def;
       this.rawDefault = def;
-    } else if (!_.isNumber(def) && def != null) {
-      let index = _.findIndex(this.opt.choices.realChoices, ({ value }) => value === def);
-      let safeIndex = Math.max(index, 0);
+    } else if (typeof def !== 'number' && def != null) {
+      const index = this.opt.choices.realChoices.findIndex(({ value }) => value === def);
+      const safeIndex = Math.max(index, 0);
       this.selected = safeIndex;
       this.rawDefault = safeIndex;
     }
@@ -44,7 +47,8 @@ class RawListPrompt extends Base {
     // Make sure no default is set (so it won't be printed)
     this.opt.default = null;
 
-    this.paginator = new Paginator();
+    const shouldLoop = this.opt.loop === undefined ? true : this.opt.loop;
+    this.paginator = new Paginator(undefined, { isInfinite: shouldLoop });
   }
 
   /**
@@ -57,21 +61,22 @@ class RawListPrompt extends Base {
     this.done = cb;
 
     // Once user confirm (enter key)
-    var events = observe(this.rl);
-    var submit = events.line.pipe(map(this.getCurrentValue.bind(this)));
+    const events = observe(this.rl);
+    const submit = events.line.pipe(map(this.getCurrentValue.bind(this)));
 
-    var validation = this.handleSubmitEvents(submit);
+    const validation = this.handleSubmitEvents(submit);
     validation.success.forEach(this.onEnd.bind(this));
     validation.error.forEach(this.onError.bind(this));
 
+    events.normalizedUpKey
+      .pipe(takeUntil(validation.success))
+      .forEach(this.onUpKey.bind(this));
+    events.normalizedDownKey
+      .pipe(takeUntil(validation.success))
+      .forEach(this.onDownKey.bind(this));
     events.keypress
       .pipe(takeUntil(validation.success))
       .forEach(this.onKeypress.bind(this));
-    events.normalizedUpKey.pipe(takeUntil(events.line)).forEach(this.onUpKey.bind(this));
-    events.normalizedDownKey
-      .pipe(takeUntil(events.line))
-      .forEach(this.onDownKey.bind(this));
-
     // Init the prompt
     this.render();
 
@@ -85,18 +90,17 @@ class RawListPrompt extends Base {
 
   render(error) {
     // Render question
-    var message = this.getQuestion();
-    var bottomContent = '';
+    let message = this.getQuestion();
+    let bottomContent = '';
 
     if (this.status === 'answered') {
-      message += chalk.cyan(this.answer);
+      message += chalk.cyan(this.opt.choices.getChoice(this.selected).short);
     } else {
-      var choicesStr = renderChoices(this.opt.choices, this.selected);
+      const choicesStr = renderChoices(this.opt.choices, this.selected);
       message +=
         '\n' + this.paginator.paginate(choicesStr, this.selected, this.opt.pageSize);
       message += '\n  Answer: ';
     }
-
     message += this.rl.line;
 
     if (error) {
@@ -111,13 +115,16 @@ class RawListPrompt extends Base {
    */
 
   getCurrentValue(index) {
-    if (index == null || index === '') {
+    if (index == null) {
       index = this.rawDefault;
+    } else if (index === '') {
+      this.selected = this.selected === undefined ? -1 : this.selected;
+      index = this.selected;
     } else {
       index -= 1;
     }
 
-    var choice = this.opt.choices.getChoice(index);
+    const choice = this.opt.choices.getChoice(index);
     return choice ? choice.value : null;
   }
 
@@ -141,14 +148,20 @@ class RawListPrompt extends Base {
    */
 
   onKeypress() {
-    var index = this.rl.line.length ? Number(this.rl.line) - 1 : 0;
+    let index;
+
+    if (this.lastKey === 'arrow') {
+      index = this.hiddenLine.length ? Number(this.hiddenLine) - 1 : 0;
+    } else {
+      index = this.rl.line.length ? Number(this.rl.line) - 1 : 0;
+    }
+    this.lastKey = '';
 
     if (this.opt.choices.getChoice(index)) {
       this.selected = index;
     } else {
       this.selected = undefined;
     }
-
     this.render();
   }
 
@@ -174,11 +187,10 @@ class RawListPrompt extends Base {
    */
 
   onArrowKey(type) {
-    var index = this.rl.line.length ? Number(this.rl.line) - 1 : 0;
-    if (type === 'up') index = index === 0 ? this.opt.choices.length - 1 : index - 1;
-    else index = index === this.opt.choices.length - 1 ? 0 : index + 1;
-    this.rl.line = String(index + 1);
-    this.onKeypress();
+    this.selected = incrementListIndex(this.selected, type, this.opt) || 0;
+    this.hiddenLine = String(this.selected + 1);
+    this.rl.line = '';
+    this.lastKey = 'arrow';
   }
 }
 
@@ -189,11 +201,11 @@ class RawListPrompt extends Base {
  */
 
 function renderChoices(choices, pointer) {
-  var output = '';
-  var separatorOffset = 0;
+  let output = '';
+  let separatorOffset = 0;
 
-  choices.forEach(function(choice, i) {
-    output += '\n  ';
+  choices.forEach((choice, i) => {
+    output += output ? '\n  ' : '  ';
 
     if (choice.type === 'separator') {
       separatorOffset++;
@@ -201,8 +213,8 @@ function renderChoices(choices, pointer) {
       return;
     }
 
-    var index = i - separatorOffset;
-    var display = index + 1 + ') ' + choice.name;
+    const index = i - separatorOffset;
+    let display = index + 1 + ') ' + choice.name;
     if (index === pointer) {
       display = chalk.cyan(display);
     }

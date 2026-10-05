@@ -1,9 +1,8 @@
-import { Operator } from '../Operator';
-import { Observable } from '../Observable';
-import { Subscriber } from '../Subscriber';
-
-import { MonoTypeOperatorFunction, TeardownLogic } from '../types';
-import { innerSubscribe, SimpleInnerSubscriber, SimpleOuterSubscriber } from '../innerSubscribe';
+import { MonoTypeOperatorFunction, ObservableInput } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
+import { innerFrom } from '../observable/innerFrom';
+import { noop } from '../util/noop';
 
 /**
  * Emits the values emitted by the source Observable until a `notifier`
@@ -21,10 +20,11 @@ import { innerSubscribe, SimpleInnerSubscriber, SimpleOuterSubscriber } from '..
  * then `takeUntil` will pass all values.
  *
  * ## Example
+ *
  * Tick every second until the first click happens
+ *
  * ```ts
- * import { fromEvent, interval } from 'rxjs';
- * import { takeUntil } from 'rxjs/operators';
+ * import { interval, fromEvent, takeUntil } from 'rxjs';
  *
  * const source = interval(1000);
  * const clicks = fromEvent(document, 'click');
@@ -40,48 +40,12 @@ import { innerSubscribe, SimpleInnerSubscriber, SimpleOuterSubscriber } from '..
  * @param {Observable} notifier The Observable whose first emitted value will
  * cause the output Observable of `takeUntil` to stop emitting values from the
  * source Observable.
- * @return {Observable<T>} An Observable that emits the values from the source
- * Observable until such time as `notifier` emits its first value.
- * @method takeUntil
- * @owner Observable
+ * @return A function that returns an Observable that emits the values from the
+ * source Observable until `notifier` emits its first value.
  */
-export function takeUntil<T>(notifier: Observable<any>): MonoTypeOperatorFunction<T> {
-  return (source: Observable<T>) => source.lift(new TakeUntilOperator(notifier));
-}
-
-class TakeUntilOperator<T> implements Operator<T, T> {
-  constructor(private notifier: Observable<any>) {
-  }
-
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    const takeUntilSubscriber = new TakeUntilSubscriber(subscriber);
-    const notifierSubscription = innerSubscribe(this.notifier, new SimpleInnerSubscriber(takeUntilSubscriber));
-    if (notifierSubscription && !takeUntilSubscriber.seenValue) {
-      takeUntilSubscriber.add(notifierSubscription);
-      return source.subscribe(takeUntilSubscriber);
-    }
-    return takeUntilSubscriber;
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class TakeUntilSubscriber<T, R> extends SimpleOuterSubscriber<T, R> {
-  seenValue = false;
-
-  constructor(destination: Subscriber<any>, ) {
-    super(destination);
-  }
-
-  notifyNext(): void {
-    this.seenValue = true;
-    this.complete();
-  }
-
-  notifyComplete(): void {
-    // noop
-  }
+export function takeUntil<T>(notifier: ObservableInput<any>): MonoTypeOperatorFunction<T> {
+  return operate((source, subscriber) => {
+    innerFrom(notifier).subscribe(createOperatorSubscriber(subscriber, () => subscriber.complete(), noop));
+    !subscriber.closed && source.subscribe(subscriber);
+  });
 }

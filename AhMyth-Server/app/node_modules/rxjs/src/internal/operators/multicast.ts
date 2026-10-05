@@ -1,69 +1,98 @@
 import { Subject } from '../Subject';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
 import { Observable } from '../Observable';
-import { ConnectableObservable, connectableObservableDescriptor } from '../observable/ConnectableObservable';
-import { MonoTypeOperatorFunction, OperatorFunction, UnaryFunction, ObservedValueOf, ObservableInput } from '../types';
-
-/* tslint:disable:max-line-length */
-export function multicast<T>(subject: Subject<T>): UnaryFunction<Observable<T>, ConnectableObservable<T>>;
-export function multicast<T, O extends ObservableInput<any>>(subject: Subject<T>, selector: (shared: Observable<T>) => O): UnaryFunction<Observable<T>, ConnectableObservable<ObservedValueOf<O>>>;
-export function multicast<T>(subjectFactory: (this: Observable<T>) => Subject<T>): UnaryFunction<Observable<T>, ConnectableObservable<T>>;
-export function multicast<T, O extends ObservableInput<any>>(SubjectFactory: (this: Observable<T>) => Subject<T>, selector: (shared: Observable<T>) => O): OperatorFunction<T, ObservedValueOf<O>>;
-/* tslint:enable:max-line-length */
+import { ConnectableObservable } from '../observable/ConnectableObservable';
+import { OperatorFunction, UnaryFunction, ObservedValueOf, ObservableInput } from '../types';
+import { isFunction } from '../util/isFunction';
+import { connect } from './connect';
 
 /**
- * Returns an Observable that emits the results of invoking a specified selector on items
- * emitted by a ConnectableObservable that shares a single subscription to the underlying stream.
+ * An operator that creates a {@link ConnectableObservable}, that when connected,
+ * with the `connect` method, will use the provided subject to multicast the values
+ * from the source to all consumers.
  *
- * ![](multicast.png)
- *
- * @param {Function|Subject} subjectOrSubjectFactory - Factory function to create an intermediate subject through
- * which the source sequence's elements will be multicast to the selector function
- * or Subject to push source elements into.
- * @param {Function} [selector] - Optional selector function that can use the multicasted source stream
- * as many times as needed, without causing multiple subscriptions to the source stream.
- * Subscribers to the given source will receive all notifications of the source from the
- * time of the subscription forward.
- * @return {Observable} An Observable that emits the results of invoking the selector
- * on the items emitted by a `ConnectableObservable` that shares a single subscription to
- * the underlying stream.
- * @method multicast
- * @owner Observable
+ * @param subject The subject to multicast through.
+ * @return A function that returns a {@link ConnectableObservable}
+ * @deprecated Will be removed in v8. To create a connectable observable, use {@link connectable}.
+ * If you're using {@link refCount} after `multicast`, use the {@link share} operator instead.
+ * `multicast(subject), refCount()` is equivalent to
+ * `share({ connector: () => subject, resetOnError: false, resetOnComplete: false, resetOnRefCountZero: false })`.
+ * Details: https://rxjs.dev/deprecations/multicasting
  */
-export function multicast<T, R>(subjectOrSubjectFactory: Subject<T> | (() => Subject<T>),
-                                selector?: (source: Observable<T>) => Observable<R>): OperatorFunction<T, R> {
-  return function multicastOperatorFunction(source: Observable<T>): Observable<R> {
-    let subjectFactory: () => Subject<T>;
-    if (typeof subjectOrSubjectFactory === 'function') {
-      subjectFactory = <() => Subject<T>>subjectOrSubjectFactory;
-    } else {
-      subjectFactory = function subjectFactory() {
-        return <Subject<T>>subjectOrSubjectFactory;
-      };
-    }
+export function multicast<T>(subject: Subject<T>): UnaryFunction<Observable<T>, ConnectableObservable<T>>;
 
-    if (typeof selector === 'function') {
-      return source.lift(new MulticastOperator(subjectFactory, selector));
-    }
+/**
+ * Because this is deprecated in favor of the {@link connect} operator, and was otherwise poorly documented,
+ * rather than duplicate the effort of documenting the same behavior, please see documentation for the
+ * {@link connect} operator.
+ *
+ * @param subject The subject used to multicast.
+ * @param selector A setup function to setup the multicast
+ * @return A function that returns an observable that mirrors the observable returned by the selector.
+ * @deprecated Will be removed in v8. Use the {@link connect} operator instead.
+ * `multicast(subject, selector)` is equivalent to
+ * `connect(selector, { connector: () => subject })`.
+ * Details: https://rxjs.dev/deprecations/multicasting
+ */
+export function multicast<T, O extends ObservableInput<any>>(
+  subject: Subject<T>,
+  selector: (shared: Observable<T>) => O
+): OperatorFunction<T, ObservedValueOf<O>>;
 
-    const connectable: any = Object.create(source, connectableObservableDescriptor);
-    connectable.source = source;
-    connectable.subjectFactory = subjectFactory;
+/**
+ * An operator that creates a {@link ConnectableObservable}, that when connected,
+ * with the `connect` method, will use the provided subject to multicast the values
+ * from the source to all consumers.
+ *
+ * @param subjectFactory A factory that will be called to create the subject. Passing a function here
+ * will cause the underlying subject to be "reset" on error, completion, or refCounted unsubscription of
+ * the source.
+ * @return A function that returns a {@link ConnectableObservable}
+ * @deprecated Will be removed in v8. To create a connectable observable, use {@link connectable}.
+ * If you're using {@link refCount} after `multicast`, use the {@link share} operator instead.
+ * `multicast(() => new BehaviorSubject('test')), refCount()` is equivalent to
+ * `share({ connector: () => new BehaviorSubject('test') })`.
+ * Details: https://rxjs.dev/deprecations/multicasting
+ */
+export function multicast<T>(subjectFactory: () => Subject<T>): UnaryFunction<Observable<T>, ConnectableObservable<T>>;
 
-    return <ConnectableObservable<R>> connectable;
-  };
-}
+/**
+ * Because this is deprecated in favor of the {@link connect} operator, and was otherwise poorly documented,
+ * rather than duplicate the effort of documenting the same behavior, please see documentation for the
+ * {@link connect} operator.
+ *
+ * @param subjectFactory A factory that creates the subject used to multicast.
+ * @param selector A function to setup the multicast and select the output.
+ * @return A function that returns an observable that mirrors the observable returned by the selector.
+ * @deprecated Will be removed in v8. Use the {@link connect} operator instead.
+ * `multicast(subjectFactory, selector)` is equivalent to
+ * `connect(selector, { connector: subjectFactory })`.
+ * Details: https://rxjs.dev/deprecations/multicasting
+ */
+export function multicast<T, O extends ObservableInput<any>>(
+  subjectFactory: () => Subject<T>,
+  selector: (shared: Observable<T>) => O
+): OperatorFunction<T, ObservedValueOf<O>>;
 
-export class MulticastOperator<T, R> implements Operator<T, R> {
-  constructor(private subjectFactory: () => Subject<T>,
-              private selector: (source: Observable<T>) => Observable<R>) {
+/**
+ * @deprecated Will be removed in v8. Use the {@link connectable} observable, the {@link connect} operator or the
+ * {@link share} operator instead. See the overloads below for equivalent replacement examples of this operator's
+ * behaviors.
+ * Details: https://rxjs.dev/deprecations/multicasting
+ */
+export function multicast<T, R>(
+  subjectOrSubjectFactory: Subject<T> | (() => Subject<T>),
+  selector?: (source: Observable<T>) => Observable<R>
+): OperatorFunction<T, R> {
+  const subjectFactory = isFunction(subjectOrSubjectFactory) ? subjectOrSubjectFactory : () => subjectOrSubjectFactory;
+
+  if (isFunction(selector)) {
+    // If a selector function is provided, then we're a "normal" operator that isn't
+    // going to return a ConnectableObservable. We can use `connect` to do what we
+    // need to do.
+    return connect(selector, {
+      connector: subjectFactory,
+    });
   }
-  call(subscriber: Subscriber<R>, source: any): any {
-    const { selector } = this;
-    const subject = this.subjectFactory();
-    const subscription = selector(subject).subscribe(subscriber);
-    subscription.add(source.subscribe(subject));
-    return subscription;
-  }
+
+  return (source: Observable<T>) => new ConnectableObservable<any>(source, subjectFactory);
 }

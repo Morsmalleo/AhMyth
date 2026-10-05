@@ -1,18 +1,16 @@
-# <img src="docs_app/assets/Rx_Logo_S.png" alt="RxJS Logo" width="86" height="86"> RxJS: Reactive Extensions For JavaScript
+# <img src="docs_app/src/assets/images/logos/Rx_Logo_S.png" alt="RxJS Logo" width="86" height="86"> RxJS: Reactive Extensions For JavaScript
 
-[![CircleCI](https://circleci.com/gh/ReactiveX/rxjs/tree/6.x.svg?style=svg)](https://circleci.com/gh/ReactiveX/rxjs/tree/6.x)
-[![npm version](https://badge.fury.io/js/%40reactivex%2Frxjs.svg)](http://badge.fury.io/js/%40reactivex%2Frxjs)
+![CI](https://github.com/reactivex/rxjs/workflows/CI/badge.svg)
+[![npm version](https://badge.fury.io/js/rxjs.svg)](http://badge.fury.io/js/rxjs)
 [![Join the chat at https://gitter.im/Reactive-Extensions/RxJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Reactive-Extensions/RxJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-# RxJS 6 Stable
+# The Roadmap from RxJS 7 to 8
 
-### MIGRATION AND RELEASE INFORMATION:
+Curious what's next for RxJS? Follow along with [Issue 6367](https://github.com/ReactiveX/rxjs/issues/6367).
 
-Find out how to update to v6, **automatically update your TypeScript code**, and more!
+# RxJS 7
 
-- [Current home is MIGRATION.md](./docs_app/content/guide/v6/migration.md)
-
-### FOR V 5.X PLEASE GO TO [THE 5.0 BRANCH](https://github.com/ReactiveX/rxjs/tree/5.x)
+### FOR 6.X PLEASE GO TO [THE 6.x BRANCH](https://github.com/ReactiveX/rxjs/tree/6.x)
 
 Reactive Extensions Library for JavaScript. This is a rewrite of [Reactive-Extensions/RxJS](https://github.com/Reactive-Extensions/RxJS) and is the latest production-ready version of RxJS. This rewrite is meant to have better performance, better modularity, better debuggable call stacks, while staying mostly backwards compatible, with some breaking changes that reduce the API surface.
 
@@ -20,13 +18,15 @@ Reactive Extensions Library for JavaScript. This is a rewrite of [Reactive-Exten
 
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Contribution Guidelines](CONTRIBUTING.md)
-- [Maintainer Guidelines](doc_app/content/maintainer-guidelines.md)
+- [Maintainer Guidelines](docs_app/content/maintainer-guidelines.md)
 - [API Documentation](https://rxjs.dev/)
 
 ## Versions In This Repository
 
-- [master](https://github.com/ReactiveX/rxjs/commits/master) - This is all of the current, unreleased work, which is against v6 of RxJS right now
-- [stable](https://github.com/ReactiveX/rxjs/commits/stable) - This is the branch for the latest version you'd get if you do `npm install rxjs`
+- [master](https://github.com/ReactiveX/rxjs/commits/master) - This is all of the current work, which is against v7 of RxJS right now
+- [6.x](https://github.com/ReactiveX/rxjs/tree/6.x) - This is the branch for version 6.X
+
+Most PRs should be made to **master**.
 
 ## Important
 
@@ -36,15 +36,15 @@ By contributing or commenting on issues in this repository, whether you've read 
 
 ### ES6 via npm
 
-```sh
+```shell
 npm install rxjs
 ```
 
-It's recommended to pull in the Observable creation methods you need directly from `'rxjs'` as shown below with `range`. And you can pull in any operator you need from one spot, under `'rxjs/operators'`.
+It's recommended to pull in the Observable creation methods you need directly from `'rxjs'` as shown below with `range`.
+If you're using RxJS version 7.2 or above, you can pull in any operator you need from the same spot, `'rxjs'`.
 
 ```ts
-import { range } from "rxjs";
-import { map, filter } from "rxjs/operators";
+import { range, filter, map } from 'rxjs';
 
 range(1, 200)
   .pipe(
@@ -54,39 +54,31 @@ range(1, 200)
   .subscribe(x => console.log(x));
 ```
 
-Here, we're using the built-in `pipe` method on Observables to combine operators. See [pipeable operators](https://github.com/ReactiveX/rxjs/blob/master/doc/pipeable-operators.md) for more information.
+If you're using RxJS version below 7.2, you can pull in any operator you need from one spot, under `'rxjs/operators'`.
 
-### CommonJS via npm
+```ts
+import { range } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
-To install this library for CommonJS (CJS) usage, use the following command:
-
-```sh
-npm install rxjs
-```
-
-(Note: destructuring available in Node 8+)
-
-```js
-const { range } = require('rxjs');
-const { map, filter } = require('rxjs/operators');
-
-range(1, 200).pipe(
-  filter(x => x % 2 === 1),
-  map(x => x + x)
-).subscribe(x => console.log(x));
+range(1, 200)
+  .pipe(
+    filter(x => x % 2 === 1),
+    map(x => x + x)
+  )
+  .subscribe(x => console.log(x));
 ```
 
 ### CDN
 
 For CDN, you can use [unpkg](https://unpkg.com/):
 
-https://unpkg.com/rxjs/bundles/rxjs.umd.min.js
+[https://unpkg.com/rxjs@^7/dist/bundles/rxjs.umd.min.js](https://unpkg.com/rxjs@%5E7/dist/bundles/rxjs.umd.min.js)
 
 The global namespace for rxjs is `rxjs`:
 
 ```js
 const { range } = rxjs;
-const { map, filter } = rxjs.operators;
+const { filter, map } = rxjs.operators;
 
 range(1, 200)
   .pipe(
@@ -106,42 +98,10 @@ range(1, 200)
 
 ## Building/Testing
 
-- `npm run build_all` - builds everything
-- `npm test` - runs tests
-- `npm run test_no_cache` - run test with `ts-node` set to false
-
-## Performance Tests
-
-Run `npm run build_perf` or `npm run perf` to run the performance tests with `protractor`.
-
-Run `npm run perf_micro [operator]` to run micro performance test benchmarking operator.
+- `npm run compile` build everything
+- `npm test` run tests
+- `npm run dtslint` run dtslint tests
 
 ## Adding documentation
 
 We appreciate all contributions to the documentation of any type. All of the information needed to get the docs app up and running locally as well as how to contribute can be found in the [documentation directory](./docs_app).
-
-## Generating PNG marble diagrams
-
-The script `npm run tests2png` requires some native packages installed locally: `imagemagick`, `graphicsmagick`, and `ghostscript`.
-
-For Mac OS X with [Homebrew](http://brew.sh/):
-
-- `brew install imagemagick`
-- `brew install graphicsmagick`
-- `brew install ghostscript`
-- You may need to install the Ghostscript fonts manually:
-  - Download the tarball from the [gs-fonts project](https://sourceforge.net/projects/gs-fonts)
-  - `mkdir -p /usr/local/share/ghostscript && tar zxvf /path/to/ghostscript-fonts.tar.gz -C /usr/local/share/ghostscript`
-
-For Debian Linux:
-
-- `sudo add-apt-repository ppa:dhor/myway`
-- `apt-get install imagemagick`
-- `apt-get install graphicsmagick`
-- `apt-get install ghostscript`
-
-For Windows and other Operating Systems, check the download instructions here:
-
-- http://imagemagick.org
-- http://www.graphicsmagick.org
-- http://www.ghostscript.com/

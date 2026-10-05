@@ -14,7 +14,23 @@
 @rangeInvertedTextColor: @invertedSelectedTextColor;
 @rangeInvertedBoxShadow: none;
 
+@invertedArrowBackground: #2b2b2b;
+
 @adjacentTextColor: @mutedTextColor;
 @adjacentBackground: @subtleTransparentBlack;
 @adjacentInvertedTextColor: @invertedMutedTextColor;
 @adjacentInvertedBackground: @subtleTransparentWhite;
+
+@multiMonthMargin: -1rem;
+@multiMonthPadding: 0;
+
+@cellPadding: 0.5em;
+@cellLeftRightPadding: 0.1em;
+@cellHeaderTopPadding: 0.2em;
+@cellHeaderBottomPadding: 0.3em;
+
+@widthPrevNext: (100% / 7);
+@widthYearMonthMinute: 15em;
+@widthDay: 18em;
+@widthDayAndWeek: 22em;
+@widthHour: 20em;

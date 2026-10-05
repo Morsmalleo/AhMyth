@@ -1,143 +1,119 @@
-import { Operator } from '../Operator';
-import { Observable } from '../Observable';
 import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
-import { MonoTypeOperatorFunction, SubscribableOrPromise, TeardownLogic } from '../types';
-import { SimpleOuterSubscriber, innerSubscribe, SimpleInnerSubscriber } from '../innerSubscribe';
+import { MonoTypeOperatorFunction, ObservableInput } from '../types';
+import { operate } from '../util/lift';
+import { noop } from '../util/noop';
+import { createOperatorSubscriber } from './OperatorSubscriber';
+import { innerFrom } from '../observable/innerFrom';
 
 /**
- * Emits a value from the source Observable only after a particular time span
+ * Emits a notification from the source Observable only after a particular time span
  * determined by another Observable has passed without another source emission.
  *
  * <span class="informal">It's like {@link debounceTime}, but the time span of
  * emission silence is determined by a second Observable.</span>
  *
- * ![](debounce.png)
+ * ![](debounce.svg)
  *
- * `debounce` delays values emitted by the source Observable, but drops previous
- * pending delayed emissions if a new value arrives on the source Observable.
- * This operator keeps track of the most recent value from the source
+ * `debounce` delays notifications emitted by the source Observable, but drops previous
+ * pending delayed emissions if a new notification arrives on the source Observable.
+ * This operator keeps track of the most recent notification from the source
  * Observable, and spawns a duration Observable by calling the
- * `durationSelector` function. The value is emitted only when the duration
- * Observable emits a value or completes, and if no other value was emitted on
+ * `durationSelector` function. The notification is emitted only when the duration
+ * Observable emits a next notification, and if no other notification was emitted on
  * the source Observable since the duration Observable was spawned. If a new
- * value appears before the duration Observable emits, the previous value will
- * be dropped and will not be emitted on the output Observable.
+ * notification appears before the duration Observable emits, the previous notification will
+ * not be emitted and a new duration is scheduled from `durationSelector` is scheduled.
+ * If the completing event happens during the scheduled duration the last cached notification
+ * is emitted before the completion event is forwarded to the output observable.
+ * If the error event happens during the scheduled duration or after it only the error event is
+ * forwarded to the output observable. The cache notification is not emitted in this case.
  *
  * Like {@link debounceTime}, this is a rate-limiting operator, and also a
  * delay-like operator since output emissions do not necessarily occur at the
  * same time as they did on the source Observable.
  *
  * ## Example
+ *
  * Emit the most recent click after a burst of clicks
+ *
  * ```ts
- * import { fromEvent, interval } from 'rxjs';
- * import { debounce } from 'rxjs/operators';
+ * import { fromEvent, scan, debounce, interval } from 'rxjs';
  *
  * const clicks = fromEvent(document, 'click');
- * const result = clicks.pipe(debounce(() => interval(1000)));
+ * const result = clicks.pipe(
+ *   scan(i => ++i, 1),
+ *   debounce(i => interval(200 * i))
+ * );
  * result.subscribe(x => console.log(x));
  * ```
  *
  * @see {@link audit}
+ * @see {@link auditTime}
  * @see {@link debounceTime}
- * @see {@link delayWhen}
+ * @see {@link delay}
+ * @see {@link sample}
+ * @see {@link sampleTime}
  * @see {@link throttle}
+ * @see {@link throttleTime}
  *
- * @param {function(value: T): SubscribableOrPromise} durationSelector A function
+ * @param durationSelector A function
  * that receives a value from the source Observable, for computing the timeout
  * duration for each source value, returned as an Observable or a Promise.
- * @return {Observable} An Observable that delays the emissions of the source
- * Observable by the specified duration Observable returned by
+ * @return A function that returns an Observable that delays the emissions of
+ * the source Observable by the specified duration Observable returned by
  * `durationSelector`, and may drop some values if they occur too frequently.
- * @method debounce
- * @owner Observable
  */
-export function debounce<T>(durationSelector: (value: T) => SubscribableOrPromise<any>): MonoTypeOperatorFunction<T> {
-  return (source: Observable<T>) => source.lift(new DebounceOperator(durationSelector));
-}
+export function debounce<T>(durationSelector: (value: T) => ObservableInput<any>): MonoTypeOperatorFunction<T> {
+  return operate((source, subscriber) => {
+    let hasValue = false;
+    let lastValue: T | null = null;
+    // The subscriber/subscription for the current debounce, if there is one.
+    let durationSubscriber: Subscriber<any> | null = null;
 
-class DebounceOperator<T> implements Operator<T, T> {
-  constructor(private durationSelector: (value: T) => SubscribableOrPromise<any>) {
-  }
-
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new DebounceSubscriber(subscriber, this.durationSelector));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class DebounceSubscriber<T, R> extends SimpleOuterSubscriber<T, R> {
-  private value?: T;
-  private hasValue = false;
-  private durationSubscription?: Subscription;
-
-  constructor(destination: Subscriber<R>,
-              private durationSelector: (value: T) => SubscribableOrPromise<any>) {
-    super(destination);
-  }
-
-  protected _next(value: T): void {
-    try {
-      const result = this.durationSelector.call(this, value);
-
-      if (result) {
-        this._tryNext(value, result);
+    const emit = () => {
+      // Unsubscribe any current debounce subscription we have,
+      // we only cared about the first notification from it, and we
+      // want to clean that subscription up as soon as possible.
+      durationSubscriber?.unsubscribe();
+      durationSubscriber = null;
+      if (hasValue) {
+        // We have a value! Free up memory first, then emit the value.
+        hasValue = false;
+        const value = lastValue!;
+        lastValue = null;
+        subscriber.next(value);
       }
-    } catch (err) {
-      this.destination.error!(err);
-    }
-  }
+    };
 
-  protected _complete(): void {
-    this.emitValue();
-    this.destination.complete!();
-  }
-
-  private _tryNext(value: T, duration: SubscribableOrPromise<any>): void {
-    let subscription = this.durationSubscription;
-    this.value = value;
-    this.hasValue = true;
-    if (subscription) {
-      subscription.unsubscribe();
-      this.remove(subscription);
-    }
-
-    subscription = innerSubscribe(duration, new SimpleInnerSubscriber(this));
-    if (subscription && !subscription.closed) {
-      this.add(this.durationSubscription = subscription);
-    }
-  }
-
-  notifyNext(): void {
-    this.emitValue();
-  }
-
-  notifyComplete(): void {
-    this.emitValue();
-  }
-
-  emitValue(): void {
-    if (this.hasValue) {
-      const value = this.value;
-      const subscription = this.durationSubscription;
-      if (subscription) {
-        this.durationSubscription = undefined;
-        subscription.unsubscribe();
-        this.remove(subscription);
-      }
-      // This must be done *before* passing the value
-      // along to the destination because it's possible for
-      // the value to synchronously re-enter this operator
-      // recursively if the duration selector Observable
-      // emits synchronously
-      this.value = undefined;
-      this.hasValue = false;
-      super._next(value!);
-    }
-  }
+    source.subscribe(
+      createOperatorSubscriber(
+        subscriber,
+        (value: T) => {
+          // Cancel any pending debounce duration. We don't
+          // need to null it out here yet tho, because we're just going
+          // to create another one in a few lines.
+          durationSubscriber?.unsubscribe();
+          hasValue = true;
+          lastValue = value;
+          // Capture our duration subscriber, so we can unsubscribe it when we're notified
+          // and we're going to emit the value.
+          durationSubscriber = createOperatorSubscriber(subscriber, emit, noop);
+          // Subscribe to the duration.
+          innerFrom(durationSelector(value)).subscribe(durationSubscriber);
+        },
+        () => {
+          // Source completed.
+          // Emit any pending debounced values then complete
+          emit();
+          subscriber.complete();
+        },
+        // Pass all errors through to consumer
+        undefined,
+        () => {
+          // Finalization.
+          lastValue = durationSubscriber = null;
+        }
+      )
+    );
+  });
 }

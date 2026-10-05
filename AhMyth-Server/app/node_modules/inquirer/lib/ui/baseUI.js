@@ -1,7 +1,6 @@
 'use strict';
-var _ = require('lodash');
-var MuteStream = require('mute-stream');
-var readline = require('readline');
+const MuteStream = require('mute-stream');
+const readline = require('readline');
 
 /**
  * Base interface class other can inherits from
@@ -59,25 +58,35 @@ class UI {
   }
 }
 
-function setupReadlineOptions(opt) {
-  opt = opt || {};
+function setupReadlineOptions(opt = {}) {
+  // Inquirer 8.x:
+  // opt.skipTTYChecks = opt.skipTTYChecks === undefined ? opt.input !== undefined : opt.skipTTYChecks;
+  opt.skipTTYChecks = opt.skipTTYChecks === undefined ? true : opt.skipTTYChecks;
 
   // Default `input` to stdin
-  var input = opt.input || process.stdin;
+  const input = opt.input || process.stdin;
+
+  // Check if prompt is being called in TTY environment
+  // If it isn't return a failed promise
+  if (!opt.skipTTYChecks && !input.isTTY) {
+    const nonTtyError = new Error(
+      'Prompts can not be meaningfully rendered in non-TTY environments'
+    );
+    nonTtyError.isTtyError = true;
+    throw nonTtyError;
+  }
 
   // Add mute capabilities to the output
-  var ms = new MuteStream();
+  const ms = new MuteStream();
   ms.pipe(opt.output || process.stdout);
-  var output = ms;
+  const output = ms;
 
-  return _.extend(
-    {
-      terminal: true,
-      input: input,
-      output: output
-    },
-    _.omit(opt, ['input', 'output'])
-  );
+  return {
+    terminal: true,
+    ...opt,
+    input,
+    output,
+  };
 }
 
 module.exports = UI;

@@ -1,5 +1,13 @@
-import { SchedulerAction, SchedulerLike } from '../types';
+import { SchedulerLike } from '../types';
 import { Observable } from '../Observable';
+import { EMPTY } from './empty';
+
+export function range(start: number, count?: number): Observable<number>;
+
+/**
+ * @deprecated The `scheduler` parameter will be removed in v8. Use `range(start, count).pipe(observeOn(scheduler))` instead. Details: Details: https://rxjs.dev/deprecations/scheduler-argument
+ */
+export function range(start: number, count: number | undefined, scheduler: SchedulerLike): Observable<number>;
 
 /**
  * Creates an Observable that emits a sequence of numbers within a specified
@@ -15,15 +23,28 @@ import { Observable } from '../Observable';
  * an optional {@link SchedulerLike} to regulate those deliveries.
  *
  * ## Example
- * Emits the numbers 1 to 10</caption>
+ *
+ * Produce a range of numbers
+ *
  * ```ts
  * import { range } from 'rxjs';
  *
- * const numbers = range(1, 10);
- * numbers.subscribe(x => console.log(x));
+ * const numbers = range(1, 3);
+ *
+ * numbers.subscribe({
+ *   next: value => console.log(value),
+ *   complete: () => console.log('Complete!')
+ * });
+ *
+ * // Logs:
+ * // 1
+ * // 2
+ * // 3
+ * // 'Complete!'
  * ```
+ *
  * @see {@link timer}
- * @see {@link index/interval}
+ * @see {@link interval}
  *
  * @param {number} [start=0] The value of the first integer in the sequence.
  * @param {number} count The number of sequential integers to generate.
@@ -31,60 +52,43 @@ import { Observable } from '../Observable';
  * the emissions of the notifications.
  * @return {Observable} An Observable of numbers that emits a finite range of
  * sequential integers.
- * @static true
- * @name range
- * @owner Observable
  */
-export function range(start: number = 0,
-                      count?: number,
-                      scheduler?: SchedulerLike): Observable<number> {
-  return new Observable<number>(subscriber => {
-    if (count === undefined) {
-      count = start;
-      start = 0;
-    }
+export function range(start: number, count?: number, scheduler?: SchedulerLike): Observable<number> {
+  if (count == null) {
+    // If one argument was passed, it's the count, not the start.
+    count = start;
+    start = 0;
+  }
 
-    let index = 0;
-    let current = start;
+  if (count <= 0) {
+    // No count? We're going nowhere. Return EMPTY.
+    return EMPTY;
+  }
 
-    if (scheduler) {
-      return scheduler.schedule(dispatch, 0, {
-        index, count, start, subscriber
-      });
-    } else {
-      do {
-        if (index++ >= count) {
+  // Where the range should stop.
+  const end = count + start;
+
+  return new Observable(
+    scheduler
+      ? // The deprecated scheduled path.
+        (subscriber) => {
+          let n = start;
+          return scheduler.schedule(function () {
+            if (n < end) {
+              subscriber.next(n++);
+              this.schedule();
+            } else {
+              subscriber.complete();
+            }
+          });
+        }
+      : // Standard synchronous range.
+        (subscriber) => {
+          let n = start;
+          while (n < end && !subscriber.closed) {
+            subscriber.next(n++);
+          }
           subscriber.complete();
-          break;
         }
-        subscriber.next(current++);
-        if (subscriber.closed) {
-          break;
-        }
-      } while (true);
-    }
-
-    return undefined;
-  });
-}
-
-/** @internal */
-export function dispatch(this: SchedulerAction<any>, state: any) {
-  const { start, index, count, subscriber } = state;
-
-  if (index >= count) {
-    subscriber.complete();
-    return;
-  }
-
-  subscriber.next(start);
-
-  if (subscriber.closed) {
-    return;
-  }
-
-  state.index = index + 1;
-  state.start = start + 1;
-
-  this.schedule(state);
+  );
 }

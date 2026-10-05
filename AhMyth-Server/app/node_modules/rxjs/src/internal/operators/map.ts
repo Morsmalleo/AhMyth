@@ -1,7 +1,10 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
 import { OperatorFunction } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
+
+export function map<T, R>(project: (value: T, index: number) => R): OperatorFunction<T, R>;
+/** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+export function map<T, R, A>(project: (this: A, value: T, index: number) => R, thisArg: A): OperatorFunction<T, R>;
 
 /**
  * Applies a given `project` function to each value emitted by the source
@@ -18,13 +21,15 @@ import { OperatorFunction } from '../types';
  * Observable.
  *
  * ## Example
- * Map every click to the clientX position of that click
- * ```ts
- * import { fromEvent } from 'rxjs';
- * import { map } from 'rxjs/operators';
  *
- * const clicks = fromEvent(document, 'click');
+ * Map every click to the `clientX` position of that click
+ *
+ * ```ts
+ * import { fromEvent, map } from 'rxjs';
+ *
+ * const clicks = fromEvent<PointerEvent>(document, 'click');
  * const positions = clicks.pipe(map(ev => ev.clientX));
+ *
  * positions.subscribe(x => console.log(x));
  * ```
  *
@@ -37,55 +42,21 @@ import { OperatorFunction } from '../types';
  * subscription, starting from the number `0`.
  * @param {any} [thisArg] An optional argument to define what `this` is in the
  * `project` function.
- * @return {Observable<R>} An Observable that emits the values from the source
- * Observable transformed by the given `project` function.
- * @method map
- * @owner Observable
+ * @return A function that returns an Observable that emits the values from the
+ * source Observable transformed by the given `project` function.
  */
 export function map<T, R>(project: (value: T, index: number) => R, thisArg?: any): OperatorFunction<T, R> {
-  return function mapOperation(source: Observable<T>): Observable<R> {
-    if (typeof project !== 'function') {
-      throw new TypeError('argument is not a function. Are you looking for `mapTo()`?');
-    }
-    return source.lift(new MapOperator(project, thisArg));
-  };
-}
-
-export class MapOperator<T, R> implements Operator<T, R> {
-  constructor(private project: (value: T, index: number) => R, private thisArg: any) {
-  }
-
-  call(subscriber: Subscriber<R>, source: any): any {
-    return source.subscribe(new MapSubscriber(subscriber, this.project, this.thisArg));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class MapSubscriber<T, R> extends Subscriber<T> {
-  count: number = 0;
-  private thisArg: any;
-
-  constructor(destination: Subscriber<R>,
-              private project: (value: T, index: number) => R,
-              thisArg: any) {
-    super(destination);
-    this.thisArg = thisArg || this;
-  }
-
-  // NOTE: This looks unoptimized, but it's actually purposefully NOT
-  // using try/catch optimizations.
-  protected _next(value: T) {
-    let result: R;
-    try {
-      result = this.project.call(this.thisArg, value, this.count++);
-    } catch (err) {
-      this.destination.error(err);
-      return;
-    }
-    this.destination.next(result);
-  }
+  return operate((source, subscriber) => {
+    // The index of the value from the source. Used with projection.
+    let index = 0;
+    // Subscribe to the source, all errors and completions are sent along
+    // to the consumer.
+    source.subscribe(
+      createOperatorSubscriber(subscriber, (value: T) => {
+        // Call the projection function with the appropriate this context,
+        // and send the resulting value to the consumer.
+        subscriber.next(project.call(thisArg, value, index++));
+      })
+    );
+  });
 }

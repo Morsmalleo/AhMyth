@@ -1,39 +1,16 @@
 import { Observable } from '../Observable';
-import { ObservableInput, SchedulerLike, ObservedValueOf } from '../types';
-import { isScheduler } from '../util/isScheduler';
-import { of } from './of';
-import { from } from './from';
+import { ObservableInputTuple, SchedulerLike } from '../types';
 import { concatAll } from '../operators/concatAll';
+import { popScheduler } from '../util/args';
+import { from } from './from';
 
-/* tslint:disable:max-line-length */
-/** @deprecated Use {@link scheduled} and {@link concatAll} (e.g. `scheduled([o1, o2, o3], scheduler).pipe(concatAll())`) */
-export function concat<O1 extends ObservableInput<any>>(v1: O1, scheduler: SchedulerLike): Observable<ObservedValueOf<O1>>;
-/** @deprecated Use {@link scheduled} and {@link concatAll} (e.g. `scheduled([o1, o2, o3], scheduler).pipe(concatAll())`) */
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>>(v1: O1, v2: O2, scheduler: SchedulerLike): Observable<ObservedValueOf<O1> | ObservedValueOf<O2>>;
-/** @deprecated Use {@link scheduled} and {@link concatAll} (e.g. `scheduled([o1, o2, o3], scheduler).pipe(concatAll())`) */
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>>(v1: O1, v2: O2, v3: O3, scheduler: SchedulerLike): Observable<ObservedValueOf<O1> | ObservedValueOf<O2> | ObservedValueOf<O3>>;
-/** @deprecated Use {@link scheduled} and {@link concatAll} (e.g. `scheduled([o1, o2, o3], scheduler).pipe(concatAll())`) */
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>>(v1: O1, v2: O2, v3: O3, v4: O4, scheduler: SchedulerLike): Observable<ObservedValueOf<O1> | ObservedValueOf<O2> | ObservedValueOf<O3> | ObservedValueOf<O4>>;
-/** @deprecated Use {@link scheduled} and {@link concatAll} (e.g. `scheduled([o1, o2, o3], scheduler).pipe(concatAll())`) */
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, O5 extends ObservableInput<any>>(v1: O1, v2: O2, v3: O3, v4: O4, v5: O5, scheduler: SchedulerLike): Observable<ObservedValueOf<O1> | ObservedValueOf<O2> | ObservedValueOf<O3> | ObservedValueOf<O4> | ObservedValueOf<O5>>;
-/** @deprecated Use {@link scheduled} and {@link concatAll} (e.g. `scheduled([o1, o2, o3], scheduler).pipe(concatAll())`) */
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, O5 extends ObservableInput<any>, O6 extends ObservableInput<any>>(v1: O1, v2: O2, v3: O3, v4: O4, v5: O5, v6: O6, scheduler: SchedulerLike): Observable<ObservedValueOf<O1> | ObservedValueOf<O2> | ObservedValueOf<O3> | ObservedValueOf<O4> | ObservedValueOf<O5> | ObservedValueOf<O6>>;
+export function concat<T extends readonly unknown[]>(...inputs: [...ObservableInputTuple<T>]): Observable<T[number]>;
+export function concat<T extends readonly unknown[]>(
+  ...inputsAndScheduler: [...ObservableInputTuple<T>, SchedulerLike]
+): Observable<T[number]>;
 
-export function concat<O1 extends ObservableInput<any>>(v1: O1): Observable<ObservedValueOf<O1>>;
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>>(v1: O1, v2: O2): Observable<ObservedValueOf<O1> | ObservedValueOf<O2>>;
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>>(v1: O1, v2: O2, v3: O3): Observable<ObservedValueOf<O1> | ObservedValueOf<O2> | ObservedValueOf<O3>>;
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>>(v1: O1, v2: O2, v3: O3, v4: O4): Observable<ObservedValueOf<O1> | ObservedValueOf<O2> | ObservedValueOf<O3> | ObservedValueOf<O4>>;
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, O5 extends ObservableInput<any>>(v1: O1, v2: O2, v3: O3, v4: O4, v5: O5): Observable<ObservedValueOf<O1> | ObservedValueOf<O2> | ObservedValueOf<O3> | ObservedValueOf<O4> | ObservedValueOf<O5>>;
-export function concat<O1 extends ObservableInput<any>, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, O5 extends ObservableInput<any>, O6 extends ObservableInput<any>>(v1: O1, v2: O2, v3: O3, v4: O4, v5: O5, v6: O6): Observable<ObservedValueOf<O1> | ObservedValueOf<O2> | ObservedValueOf<O3> | ObservedValueOf<O4> | ObservedValueOf<O5> | ObservedValueOf<O6>>;
-export function concat<O extends ObservableInput<any>>(...observables: O[]): Observable<ObservedValueOf<O>>;
-/** @deprecated Use {@link scheduled} and {@link concatAll} (e.g. `scheduled([o1, o2, o3], scheduler).pipe(concatAll())`) */
-export function concat<O extends ObservableInput<any>>(...observables: (O | SchedulerLike)[]): Observable<ObservedValueOf<O>>;
-export function concat<R>(...observables: ObservableInput<any>[]): Observable<R>;
-/** @deprecated Use {@link scheduled} and {@link concatAll} (e.g. `scheduled([o1, o2, o3], scheduler).pipe(concatAll())`) */
-export function concat<R>(...observables: (ObservableInput<any> | SchedulerLike)[]): Observable<R>;
-/* tslint:enable:max-line-length */
 /**
- * Creates an output Observable which sequentially emits all values from given
+ * Creates an output Observable which sequentially emits all values from the first given
  * Observable and then moves on to the next.
  *
  * <span class="informal">Concatenates multiple Observables together by
@@ -70,10 +47,11 @@ export function concat<R>(...observables: (ObservableInput<any> | SchedulerLike)
  * you can always use {@link repeat}.
  *
  * ## Examples
- * ### Concatenate a timer counting from 0 to 3 with a synchronous sequence from 1 to 10
+ *
+ * Concatenate a timer counting from 0 to 3 with a synchronous sequence from 1 to 10
+ *
  * ```ts
- * import { concat, interval, range } from 'rxjs';
- * import { take } from 'rxjs/operators';
+ * import { interval, take, range, concat } from 'rxjs';
  *
  * const timer = interval(1000).pipe(take(4));
  * const sequence = range(1, 10);
@@ -84,10 +62,10 @@ export function concat<R>(...observables: (ObservableInput<any> | SchedulerLike)
  * // 0 -1000ms-> 1 -1000ms-> 2 -1000ms-> 3 -immediate-> 1 ... 10
  * ```
  *
- * ### Concatenate 3 Observables
+ * Concatenate 3 Observables
+ *
  * ```ts
- * import { concat, interval } from 'rxjs';
- * import { take } from 'rxjs/operators';
+ * import { interval, take, concat } from 'rxjs';
  *
  * const timer1 = interval(1000).pipe(take(10));
  * const timer2 = interval(2000).pipe(take(6));
@@ -103,26 +81,25 @@ export function concat<R>(...observables: (ObservableInput<any> | SchedulerLike)
  * // -500ms-> 0 -500ms-> 1 -500ms-> ... 9
  * ```
  *
- * ### Concatenate the same Observable to repeat it
+ * Concatenate the same Observable to repeat it
+ *
  * ```ts
- * import { concat, interval } from 'rxjs';
- * import { take } from 'rxjs/operators';
+ * import { interval, take, concat } from 'rxjs';
  *
  * const timer = interval(1000).pipe(take(2));
  *
  * concat(timer, timer) // concatenating the same Observable!
- * .subscribe(
- *   value => console.log(value),
- *   err => {},
- *   () => console.log('...and it is done!')
- * );
+ *   .subscribe({
+ *     next: value => console.log(value),
+ *     complete: () => console.log('...and it is done!')
+ *   });
  *
  * // Logs:
  * // 0 after 1s
  * // 1 after 2s
  * // 0 after 3s
  * // 1 after 4s
- * // "...and it is done!" also after 4s
+ * // '...and it is done!' also after 4s
  * ```
  *
  * @see {@link concatAll}
@@ -131,17 +108,8 @@ export function concat<R>(...observables: (ObservableInput<any> | SchedulerLike)
  * @see {@link startWith}
  * @see {@link endWith}
  *
- * @param {ObservableInput} input1 An input Observable to concatenate with others.
- * @param {ObservableInput} input2 An input Observable to concatenate with others.
- * More than one input Observables may be given as argument.
- * @param {SchedulerLike} [scheduler=null] An optional {@link SchedulerLike} to schedule each
- * Observable subscription on.
- * @return {Observable} All values of each passed Observable merged into a
- * single Observable, in order, in serial fashion.
- * @static true
- * @name concat
- * @owner Observable
+ * @param args Input Observables to concatenate.
  */
-export function concat<O extends ObservableInput<any>, R>(...observables: Array<O | SchedulerLike>): Observable<ObservedValueOf<O> | R> {
-  return concatAll<R>()(of(...observables));
+export function concat(...args: any[]): Observable<unknown> {
+  return concatAll()(from(args, popScheduler(args)));
 }

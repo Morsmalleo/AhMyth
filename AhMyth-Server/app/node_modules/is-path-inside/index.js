@@ -1,14 +1,12 @@
 'use strict';
-var path = require('path');
-var pathIsInside = require('path-is-inside');
+const path = require('path');
 
-module.exports = function (a, b) {
-	a = path.resolve(a);
-	b = path.resolve(b);
-
-	if (a === b) {
-		return false;
-	}
-
-	return pathIsInside(a, b);
+module.exports = (childPath, parentPath) => {
+	const relation = path.relative(parentPath, childPath);
+	return Boolean(
+		relation &&
+		relation !== '..' &&
+		!relation.startsWith(`..${path.sep}`) &&
+		relation !== path.resolve(childPath)
+	);
 };

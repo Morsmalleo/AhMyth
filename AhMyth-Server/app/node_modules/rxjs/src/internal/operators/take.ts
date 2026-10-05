@@ -1,9 +1,7 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { ArgumentOutOfRangeError } from '../util/ArgumentOutOfRangeError';
-import { empty } from '../observable/empty';
-import { Observable } from '../Observable';
-import { MonoTypeOperatorFunction, TeardownLogic } from '../types';
+import { MonoTypeOperatorFunction } from '../types';
+import { EMPTY } from '../observable/empty';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
 
 /**
  * Emits only the first `count` values emitted by the source Observable.
@@ -19,10 +17,11 @@ import { MonoTypeOperatorFunction, TeardownLogic } from '../types';
  * source completes.
  *
  * ## Example
+ *
  * Take the first 5 seconds of an infinite 1-second interval Observable
+ *
  * ```ts
- * import { interval } from 'rxjs';
- * import { take } from 'rxjs/operators';
+ * import { interval, take } from 'rxjs';
  *
  * const intervalCount = interval(1000);
  * const takeFive = intervalCount.pipe(take(5));
@@ -41,59 +40,32 @@ import { MonoTypeOperatorFunction, TeardownLogic } from '../types';
  * @see {@link takeWhile}
  * @see {@link skip}
  *
- * @throws {ArgumentOutOfRangeError} When using `take(i)`, it delivers an
- * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0`.
- *
- * @param {number} count The maximum number of `next` values to emit.
- * @return {Observable<T>} An Observable that emits only the first `count`
- * values emitted by the source Observable, or all of the values from the source
- * if the source emits fewer than `count` values.
- * @method take
- * @owner Observable
+ * @param count The maximum number of `next` values to emit.
+ * @return A function that returns an Observable that emits only the first
+ * `count` values emitted by the source Observable, or all of the values from
+ * the source if the source emits fewer than `count` values.
  */
 export function take<T>(count: number): MonoTypeOperatorFunction<T> {
-  return (source: Observable<T>) => {
-    if (count === 0) {
-      return empty();
-    } else {
-      return source.lift(new TakeOperator(count));
-    }
-  };
-}
-
-class TakeOperator<T> implements Operator<T, T> {
-  constructor(private total: number) {
-    if (this.total < 0) {
-      throw new ArgumentOutOfRangeError;
-    }
-  }
-
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new TakeSubscriber(subscriber, this.total));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class TakeSubscriber<T> extends Subscriber<T> {
-  private count: number = 0;
-
-  constructor(destination: Subscriber<T>, private total: number) {
-    super(destination);
-  }
-
-  protected _next(value: T): void {
-    const total = this.total;
-    const count = ++this.count;
-    if (count <= total) {
-      this.destination.next(value);
-      if (count === total) {
-        this.destination.complete();
-        this.unsubscribe();
-      }
-    }
-  }
+  return count <= 0
+    ? // If we are taking no values, that's empty.
+      () => EMPTY
+    : operate((source, subscriber) => {
+        let seen = 0;
+        source.subscribe(
+          createOperatorSubscriber(subscriber, (value) => {
+            // Increment the number of values we have seen,
+            // then check it against the allowed count to see
+            // if we are still letting values through.
+            if (++seen <= count) {
+              subscriber.next(value);
+              // If we have met or passed our allowed count,
+              // we need to complete. We have to do <= here,
+              // because re-entrant code will increment `seen` twice.
+              if (count <= seen) {
+                subscriber.complete();
+              }
+            }
+          })
+        );
+      });
 }

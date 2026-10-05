@@ -1,18 +1,24 @@
-<div class="ui {{load}} basic segment h100 " style="overflow-y:auto;overflow-x: auto;white-space:nowrap; height: 400px;">
-    <div class="ui grid center aligned h100">
+<div class="ui {{load}} basic segment h100" style="overflow-y:auto;overflow-x: auto;white-space:nowrap; height: 348px;">
+    <div class="ui grid center aligned border">
         <div class="row h20">
             <div class="sixteen wide column">
                 <select class="ui dropdown" ng-options="item.name for item in cameras" ng-model="selectedCam"></select>
-                <button class="ui labeled icon black button" ng-click="snap()"><i class="photo icon"></i>Snap</button>
+                <button class="ui labeled icon black button" ng-click="clearLogs(); snap()"><i
+                        class="photo icon"></i>Snap</button>
             </div>
         </div>
         <div class="row h80">
-            <div class="sixteen wide column h100" style="display: flex; justify-content: center;">
-                <div class="ui h100 image ">
-                    <a class="ui red ribbon label" ng-show="isSaveShown" ng-click="savePhoto()">
+            <div class="sixteen wide column h100">
+                <div class="ui image border">
+
+                    <a class="ui red ribbon label" ng-show="isSaveShown" ng-click="clearLogs(); savePhoto()">
                         <i class="save icon"></i> Save
                     </a>
-                    <img style="height: 100%;" src="./assets/img/imageHolder.png" ng-src="{{imgUrl}}"></img>
+
+                    <div class="image-container bg2">
+                        <img class="imageHolder" src="./assets/img/imageHolder.png" ng-src="{{imgUrl}}">
+                    </div>
+
                 </div>
             </div>
         </div>

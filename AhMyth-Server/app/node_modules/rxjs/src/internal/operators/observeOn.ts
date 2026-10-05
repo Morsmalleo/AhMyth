@@ -1,12 +1,10 @@
-import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
-import { Notification } from '../Notification';
-import { MonoTypeOperatorFunction, PartialObserver, SchedulerAction, SchedulerLike, TeardownLogic } from '../types';
+/** @prettier */
+import { MonoTypeOperatorFunction, SchedulerLike } from '../types';
+import { executeSchedule } from '../util/executeSchedule';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
 
 /**
- *
  * Re-emits all notifications from source Observable with specified scheduler.
  *
  * <span class="informal">Ensure a specific scheduler is used, from outside of an Observable.</span>
@@ -32,16 +30,20 @@ import { MonoTypeOperatorFunction, PartialObserver, SchedulerAction, SchedulerLi
  * for notification emissions in general.
  *
  * ## Example
- * Ensure values in subscribe are called just before browser repaint.
- * ```ts
- * import { interval } from 'rxjs';
- * import { observeOn } from 'rxjs/operators';
  *
- * const intervals = interval(10);                // Intervals are scheduled
- *                                                // with async scheduler by default...
+ * Ensure values in subscribe are called just before browser repaint
+ *
+ * ```ts
+ * import { interval, observeOn, animationFrameScheduler } from 'rxjs';
+ *
+ * const someDiv = document.createElement('div');
+ * someDiv.style.cssText = 'width: 200px;background: #09c';
+ * document.body.appendChild(someDiv);
+ * const intervals = interval(10);      // Intervals are scheduled
+ *                                      // with async scheduler by default...
  * intervals.pipe(
- *   observeOn(animationFrameScheduler),          // ...but we will observe on animationFrame
- * )                                              // scheduler to ensure smooth animation.
+ *   observeOn(animationFrameScheduler) // ...but we will observe on animationFrame
+ * )                                    // scheduler to ensure smooth animation.
  * .subscribe(val => {
  *   someDiv.style.height = val + 'px';
  * });
@@ -49,74 +51,20 @@ import { MonoTypeOperatorFunction, PartialObserver, SchedulerAction, SchedulerLi
  *
  * @see {@link delay}
  *
- * @param {SchedulerLike} scheduler Scheduler that will be used to reschedule notifications from source Observable.
- * @param {number} [delay] Number of milliseconds that states with what delay every notification should be rescheduled.
- * @return {Observable<T>} Observable that emits the same notifications as the source Observable,
- * but with provided scheduler.
- *
- * @method observeOn
- * @owner Observable
+ * @param scheduler Scheduler that will be used to reschedule notifications from source Observable.
+ * @param delay Number of milliseconds that states with what delay every notification should be rescheduled.
+ * @return A function that returns an Observable that emits the same
+ * notifications as the source Observable, but with provided scheduler.
  */
-export function observeOn<T>(scheduler: SchedulerLike, delay: number = 0): MonoTypeOperatorFunction<T> {
-  return function observeOnOperatorFunction(source: Observable<T>): Observable<T> {
-    return source.lift(new ObserveOnOperator(scheduler, delay));
-  };
-}
-
-export class ObserveOnOperator<T> implements Operator<T, T> {
-  constructor(private scheduler: SchedulerLike, private delay: number = 0) {
-  }
-
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new ObserveOnSubscriber(subscriber, this.scheduler, this.delay));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-export class ObserveOnSubscriber<T> extends Subscriber<T> {
-  /** @nocollapse */
-  static dispatch(this: SchedulerAction<ObserveOnMessage>, arg: ObserveOnMessage) {
-    const { notification, destination } = arg;
-    notification.observe(destination);
-    this.unsubscribe();
-  }
-
-  constructor(destination: Subscriber<T>,
-              private scheduler: SchedulerLike,
-              private delay: number = 0) {
-    super(destination);
-  }
-
-  private scheduleMessage(notification: Notification<any>): void {
-    const destination = this.destination as Subscription;
-    destination.add(this.scheduler.schedule(
-      ObserveOnSubscriber.dispatch,
-      this.delay,
-      new ObserveOnMessage(notification, this.destination)
-    ));
-  }
-
-  protected _next(value: T): void {
-    this.scheduleMessage(Notification.createNext(value));
-  }
-
-  protected _error(err: any): void {
-    this.scheduleMessage(Notification.createError(err));
-    this.unsubscribe();
-  }
-
-  protected _complete(): void {
-    this.scheduleMessage(Notification.createComplete());
-    this.unsubscribe();
-  }
-}
-
-export class ObserveOnMessage {
-  constructor(public notification: Notification<any>,
-              public destination: PartialObserver<any>) {
-  }
+export function observeOn<T>(scheduler: SchedulerLike, delay = 0): MonoTypeOperatorFunction<T> {
+  return operate((source, subscriber) => {
+    source.subscribe(
+      createOperatorSubscriber(
+        subscriber,
+        (value) => executeSchedule(subscriber, scheduler, () => subscriber.next(value), delay),
+        () => executeSchedule(subscriber, scheduler, () => subscriber.complete(), delay),
+        (err) => executeSchedule(subscriber, scheduler, () => subscriber.error(err), delay)
+      )
+    );
+  });
 }

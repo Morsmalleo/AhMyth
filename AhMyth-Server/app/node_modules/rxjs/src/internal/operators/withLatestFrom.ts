@@ -1,28 +1,16 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { OuterSubscriber } from '../OuterSubscriber';
-import { InnerSubscriber } from '../InnerSubscriber';
-import { subscribeToResult } from '../util/subscribeToResult';
-import { ObservableInput, OperatorFunction, ObservedValueOf } from '../types';
+import { OperatorFunction, ObservableInputTuple } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
+import { innerFrom } from '../observable/innerFrom';
+import { identity } from '../util/identity';
+import { noop } from '../util/noop';
+import { popResultSelector } from '../util/args';
 
-/* tslint:disable:max-line-length */
-export function withLatestFrom<T, R>(project: (v1: T) => R): OperatorFunction<T, R>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, R>(source2: O2, project: (v1: T, v2: ObservedValueOf<O2>) => R): OperatorFunction<T, R>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, R>(v2: O2, v3: O3, project: (v1: T, v2: ObservedValueOf<O2>, v3: ObservedValueOf<O3>) => R): OperatorFunction<T, R>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, R>(v2: O2, v3: O3, v4: O4, project: (v1: T, v2: ObservedValueOf<O2>, v3: ObservedValueOf<O3>, v4: ObservedValueOf<O4>) => R): OperatorFunction<T, R>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, O5 extends ObservableInput<any>, R>(v2: O2, v3: O3, v4: O4, v5: O5, project: (v1: T, v2: ObservedValueOf<O2>, v3: ObservedValueOf<O3>, v4: ObservedValueOf<O4>, v5: ObservedValueOf<O5>) => R): OperatorFunction<T, R>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, O5 extends ObservableInput<any>, O6 extends ObservableInput<any>, R>(v2: O2, v3: O3, v4: O4, v5: O5, v6: O6, project: (v1: T, v2: ObservedValueOf<O2>, v3: ObservedValueOf<O3>, v4: ObservedValueOf<O4>, v5: ObservedValueOf<O5>, v6: ObservedValueOf<O6>) => R): OperatorFunction<T, R>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>>(source2: O2): OperatorFunction<T, [T, ObservedValueOf<O2>]>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>>(v2: O2, v3: O3): OperatorFunction<T, [T, ObservedValueOf<O2>, ObservedValueOf<O3>]>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>>(v2: O2, v3: O3, v4: O4): OperatorFunction<T, [T, ObservedValueOf<O2>, ObservedValueOf<O3>, ObservedValueOf<O4>]>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, O5 extends ObservableInput<any>>(v2: O2, v3: O3, v4: O4, v5: O5): OperatorFunction<T, [T, ObservedValueOf<O2>, ObservedValueOf<O3>, ObservedValueOf<O4>, ObservedValueOf<O5>]>;
-export function withLatestFrom<T, O2 extends ObservableInput<any>, O3 extends ObservableInput<any>, O4 extends ObservableInput<any>, O5 extends ObservableInput<any>, O6 extends ObservableInput<any>>(v2: O2, v3: O3, v4: O4, v5: O5, v6: O6): OperatorFunction<T, [T, ObservedValueOf<O2>, ObservedValueOf<O3>, ObservedValueOf<O4>, ObservedValueOf<O5>, ObservedValueOf<O6>]>;
-export function withLatestFrom<T, R>(...observables: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): OperatorFunction<T, R>;
-export function withLatestFrom<T, R>(array: ObservableInput<any>[]): OperatorFunction<T, R>;
-export function withLatestFrom<T, R>(array: ObservableInput<any>[], project: (...values: Array<any>) => R): OperatorFunction<T, R>;
+export function withLatestFrom<T, O extends unknown[]>(...inputs: [...ObservableInputTuple<O>]): OperatorFunction<T, [T, ...O]>;
 
-/* tslint:enable:max-line-length */
+export function withLatestFrom<T, O extends unknown[], R>(
+  ...inputs: [...ObservableInputTuple<O>, (...value: [T, ...O]) => R]
+): OperatorFunction<T, R>;
 
 /**
  * Combines the source Observable with other Observables to create an Observable
@@ -42,10 +30,11 @@ export function withLatestFrom<T, R>(array: ObservableInput<any>[], project: (..
  * emit at least one value before the output Observable will emit a value.
  *
  * ## Example
+ *
  * On every click event, emit an array with the latest timer event plus the click event
+ *
  * ```ts
- * import { fromEvent, interval } from 'rxjs';
- * import { withLatestFrom } from 'rxjs/operators';
+ * import { fromEvent, interval, withLatestFrom } from 'rxjs';
  *
  * const clicks = fromEvent(document, 'click');
  * const timer = interval(1000);
@@ -62,94 +51,60 @@ export function withLatestFrom<T, R>(array: ObservableInput<any>[], project: (..
  * first parameter is a value from the source Observable. (e.g.
  * `a.pipe(withLatestFrom(b, c), map(([a1, b1, c1]) => a1 + b1 + c1))`). If this is not
  * passed, arrays will be emitted on the output Observable.
- * @return {Observable} An Observable of projected values from the most recent
- * values from each input Observable, or an array of the most recent values from
- * each input Observable.
- * @method withLatestFrom
- * @owner Observable
+ * @return A function that returns an Observable of projected values from the
+ * most recent values from each input Observable, or an array of the most
+ * recent values from each input Observable.
  */
-export function withLatestFrom<T, R>(...args: Array<ObservableInput<any> | ((...values: Array<any>) => R)>): OperatorFunction<T, R> {
-  return (source: Observable<T>) => {
-    let project: any;
-    if (typeof args[args.length - 1] === 'function') {
-      project = args.pop();
-    }
-    const observables = <Observable<any>[]>args;
-    return source.lift(new WithLatestFromOperator(observables, project));
-  };
-}
+export function withLatestFrom<T, R>(...inputs: any[]): OperatorFunction<T, R | any[]> {
+  const project = popResultSelector(inputs) as ((...args: any[]) => R) | undefined;
 
-class WithLatestFromOperator<T, R> implements Operator<T, R> {
-  constructor(private observables: Observable<any>[],
-              private project?: (...values: any[]) => Observable<R>) {
-  }
+  return operate((source, subscriber) => {
+    const len = inputs.length;
+    const otherValues = new Array(len);
+    // An array of whether or not the other sources have emitted. Matched with them by index.
+    // TODO: At somepoint, we should investigate the performance implications here, and look
+    // into using a `Set()` and checking the `size` to see if we're ready.
+    let hasValue = inputs.map(() => false);
+    // Flipped true when we have at least one value from all other sources and
+    // we are ready to start emitting values.
+    let ready = false;
 
-  call(subscriber: Subscriber<R>, source: any): any {
-    return source.subscribe(new WithLatestFromSubscriber(subscriber, this.observables, this.project));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class WithLatestFromSubscriber<T, R> extends OuterSubscriber<T, R> {
-  private values: any[];
-  private toRespond: number[] = [];
-
-  constructor(destination: Subscriber<R>,
-              private observables: Observable<any>[],
-              private project?: (...values: any[]) => Observable<R>) {
-    super(destination);
-    const len = observables.length;
-    this.values = new Array(len);
-
+    // Other sources. Note that here we are not checking `subscriber.closed`,
+    // this causes all inputs to be subscribed to, even if nothing can be emitted
+    // from them. This is an important distinction because subscription constitutes
+    // a side-effect.
     for (let i = 0; i < len; i++) {
-      this.toRespond.push(i);
+      innerFrom(inputs[i]).subscribe(
+        createOperatorSubscriber(
+          subscriber,
+          (value) => {
+            otherValues[i] = value;
+            if (!ready && !hasValue[i]) {
+              // If we're not ready yet, flag to show this observable has emitted.
+              hasValue[i] = true;
+              // Intentionally terse code.
+              // If all of our other observables have emitted, set `ready` to `true`,
+              // so we know we can start emitting values, then clean up the `hasValue` array,
+              // because we don't need it anymore.
+              (ready = hasValue.every(identity)) && (hasValue = null!);
+            }
+          },
+          // Completing one of the other sources has
+          // no bearing on the completion of our result.
+          noop
+        )
+      );
     }
 
-    for (let i = 0; i < len; i++) {
-      let observable = observables[i];
-      this.add(subscribeToResult<T, R>(this, observable, undefined, i));
-    }
-  }
-
-  notifyNext(_outerValue: T, innerValue: R,
-             outerIndex: number): void {
-    this.values[outerIndex] = innerValue;
-    const toRespond = this.toRespond;
-    if (toRespond.length > 0) {
-      const found = toRespond.indexOf(outerIndex);
-      if (found !== -1) {
-        toRespond.splice(found, 1);
-      }
-    }
-  }
-
-  notifyComplete() {
-    // noop
-  }
-
-  protected _next(value: T) {
-    if (this.toRespond.length === 0) {
-      const args = [value, ...this.values];
-      if (this.project) {
-        this._tryProject(args);
-      } else {
-        this.destination.next!(args);
-      }
-    }
-  }
-
-  private _tryProject(args: any[]) {
-    let result: any;
-    try {
-      result = this.project!.apply(this, args);
-    } catch (err) {
-      this.destination.error!(err);
-      return;
-    }
-    this.destination.next!(result);
-  }
+    // Source subscription
+    source.subscribe(
+      createOperatorSubscriber(subscriber, (value) => {
+        if (ready) {
+          // We have at least one value from the other sources. Go ahead and emit.
+          const values = [value, ...otherValues];
+          subscriber.next(project ? project(...values) : values);
+        }
+      })
+    );
+  });
 }

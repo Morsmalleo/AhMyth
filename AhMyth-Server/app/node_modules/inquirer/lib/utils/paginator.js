@@ -1,36 +1,56 @@
 'use strict';
 
-var _ = require('lodash');
-var chalk = require('chalk');
+const chalk = require('chalk');
 
 /**
- * The paginator keeps track of a pointer index in a list and returns
- * a subset of the choices if the list is too long.
+ * The paginator returns a subset of the choices if the list is too long.
  */
 
 class Paginator {
-  constructor(screen) {
-    this.pointer = 0;
+  /**
+   * @param {import("./screen-manager")} [screen]
+   * @param {{isInfinite?: boolean}} [options]
+   */
+  constructor(screen, options = {}) {
+    const { isInfinite = true } = options;
     this.lastIndex = 0;
     this.screen = screen;
+    this.isInfinite = isInfinite;
   }
 
   paginate(output, active, pageSize) {
     pageSize = pageSize || 7;
-    var middleOfList = Math.floor(pageSize / 2);
-    var lines = output.split('\n');
+    let lines = output.split('\n');
 
     if (this.screen) {
       lines = this.screen.breakLines(lines);
-      active = _.sum(lines.map(lineParts => lineParts.length).splice(0, active));
-      lines = _.flatten(lines);
+      active = lines
+        .map((lineParts) => lineParts.length)
+        .splice(0, active)
+        .reduce((a, b) => a + b, 0);
+      lines = lines.flat();
     }
 
     // Make sure there's enough lines to paginate
     if (lines.length <= pageSize) {
       return output;
     }
+    const visibleLines = this.isInfinite
+      ? this.getInfiniteLines(lines, active, pageSize)
+      : this.getFiniteLines(lines, active, pageSize);
+    this.lastIndex = active;
+    return (
+      visibleLines.join('\n') +
+      '\n' +
+      chalk.dim('(Move up and down to reveal more choices)')
+    );
+  }
 
+  getInfiniteLines(lines, active, pageSize) {
+    if (this.pointer === undefined) {
+      this.pointer = 0;
+    }
+    const middleOfList = Math.floor(pageSize / 2);
     // Move the pointer only when the user go down and limit it to the middle of the list
     if (
       this.pointer < middleOfList &&
@@ -40,14 +60,21 @@ class Paginator {
       this.pointer = Math.min(middleOfList, this.pointer + active - this.lastIndex);
     }
 
-    this.lastIndex = active;
-
     // Duplicate the lines so it give an infinite list look
-    var infinite = _.flatten([lines, lines, lines]);
-    var topIndex = Math.max(0, active + lines.length - this.pointer);
+    const infinite = [lines, lines, lines].flat();
+    const topIndex = Math.max(0, active + lines.length - this.pointer);
 
-    var section = infinite.splice(topIndex, pageSize).join('\n');
-    return section + '\n' + chalk.dim('(Move up and down to reveal more choices)');
+    return infinite.splice(topIndex, pageSize);
+  }
+
+  getFiniteLines(lines, active, pageSize) {
+    let topIndex = active - pageSize / 2;
+    if (topIndex < 0) {
+      topIndex = 0;
+    } else if (topIndex + pageSize > lines.length) {
+      topIndex = lines.length - pageSize;
+    }
+    return lines.splice(topIndex, pageSize);
   }
 }
 

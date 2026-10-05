@@ -1,8 +1,6 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
 import { ArgumentOutOfRangeError } from '../util/ArgumentOutOfRangeError';
 import { Observable } from '../Observable';
-import { MonoTypeOperatorFunction, TeardownLogic } from '../types';
+import { OperatorFunction } from '../types';
 import { filter } from './filter';
 import { throwIfEmpty } from './throwIfEmpty';
 import { defaultIfEmpty } from './defaultIfEmpty';
@@ -23,10 +21,11 @@ import { take } from './take';
  * `ArgumentOutOfRangeError` error.
  *
  * ## Example
+ *
  * Emit only the third click event
+ *
  * ```ts
- * import { fromEvent } from 'rxjs';
- * import { elementAt } from 'rxjs/operators';
+ * import { fromEvent, elementAt } from 'rxjs';
  *
  * const clicks = fromEvent(document, 'click');
  * const result = clicks.pipe(elementAt(2));
@@ -45,25 +44,25 @@ import { take } from './take';
  * @see {@link take}
  *
  * @throws {ArgumentOutOfRangeError} When using `elementAt(i)`, it delivers an
- * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0` or the
+ * ArgumentOutOfRangeError to the Observer's `error` callback if `i < 0` or the
  * Observable has completed before emitting the i-th `next` notification.
  *
  * @param {number} index Is the number `i` for the i-th source emission that has
  * happened since the subscription, starting from the number `0`.
  * @param {T} [defaultValue] The default value returned for missing indices.
- * @return {Observable} An Observable that emits a single item, if it is found.
- * Otherwise, will emit the default value if given. If not, then emits an error.
- * @method elementAt
- * @owner Observable
+ * @return A function that returns an Observable that emits a single item, if
+ * it is found. Otherwise, it will emit the default value if given. If not, it
+ * emits an error.
  */
-export function elementAt<T>(index: number, defaultValue?: T): MonoTypeOperatorFunction<T> {
-  if (index < 0) { throw new ArgumentOutOfRangeError(); }
+export function elementAt<T, D = T>(index: number, defaultValue?: D): OperatorFunction<T, T | D> {
+  if (index < 0) {
+    throw new ArgumentOutOfRangeError();
+  }
   const hasDefaultValue = arguments.length >= 2;
-  return (source: Observable<T>) => source.pipe(
-    filter((v, i) => i === index),
-    take(1),
-    hasDefaultValue
-      ? defaultIfEmpty(defaultValue)
-      : throwIfEmpty(() => new ArgumentOutOfRangeError()),
-  );
+  return (source: Observable<T>) =>
+    source.pipe(
+      filter((v, i) => i === index),
+      take(1),
+      hasDefaultValue ? defaultIfEmpty(defaultValue!) : throwIfEmpty(() => new ArgumentOutOfRangeError())
+    );
 }

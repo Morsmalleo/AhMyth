@@ -1,14 +1,14 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Observable } from '../Observable';
-import { OperatorFunction, MonoTypeOperatorFunction, TeardownLogic } from '../types';
+import { OperatorFunction, MonoTypeOperatorFunction, TruthyTypesOf } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
 
-/* tslint:disable:max-line-length */
-export function filter<T, S extends T>(predicate: (value: T, index: number) => value is S,
-                                       thisArg?: any): OperatorFunction<T, S>;
-export function filter<T>(predicate: (value: T, index: number) => boolean,
-                          thisArg?: any): MonoTypeOperatorFunction<T>;
-/* tslint:enable:max-line-length */
+/** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+export function filter<T, S extends T, A>(predicate: (this: A, value: T, index: number) => value is S, thisArg: A): OperatorFunction<T, S>;
+export function filter<T, S extends T>(predicate: (value: T, index: number) => value is S): OperatorFunction<T, S>;
+export function filter<T>(predicate: BooleanConstructor): OperatorFunction<T, TruthyTypesOf<T>>;
+/** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+export function filter<T, A>(predicate: (this: A, value: T, index: number) => boolean, thisArg: A): MonoTypeOperatorFunction<T>;
+export function filter<T>(predicate: (value: T, index: number) => boolean): MonoTypeOperatorFunction<T>;
 
 /**
  * Filter items emitted by the source Observable by only emitting those that
@@ -25,13 +25,18 @@ export function filter<T>(predicate: (value: T, index: number) => boolean,
  * function and only emits those values that yielded `true`.
  *
  * ## Example
+ *
  * Emit only click events whose target was a DIV element
+ *
  * ```ts
- * import { fromEvent } from 'rxjs';
- * import { filter } from 'rxjs/operators';
+ * import { fromEvent, filter } from 'rxjs';
+ *
+ * const div = document.createElement('div');
+ * div.style.cssText = 'width: 200px; height: 200px; background: #09c;';
+ * document.body.appendChild(div);
  *
  * const clicks = fromEvent(document, 'click');
- * const clicksOnDivs = clicks.pipe(filter(ev => ev.target.tagName === 'DIV'));
+ * const clicksOnDivs = clicks.pipe(filter(ev => (<HTMLElement>ev.target).tagName === 'DIV'));
  * clicksOnDivs.subscribe(x => console.log(x));
  * ```
  *
@@ -42,63 +47,29 @@ export function filter<T>(predicate: (value: T, index: number) => boolean,
  * @see {@link partition}
  * @see {@link skip}
  *
- * @param {function(value: T, index: number): boolean} predicate A function that
+ * @param predicate A function that
  * evaluates each value emitted by the source Observable. If it returns `true`,
  * the value is emitted, if `false` the value is not passed to the output
  * Observable. The `index` parameter is the number `i` for the i-th source
  * emission that has happened since the subscription, starting from the number
  * `0`.
- * @param {any} [thisArg] An optional argument to determine the value of `this`
+ * @param thisArg An optional argument to determine the value of `this`
  * in the `predicate` function.
- * @return {Observable} An Observable of values from the source that were
- * allowed by the `predicate` function.
- * @method filter
- * @owner Observable
+ * @return A function that returns an Observable that emits items from the
+ * source Observable that satisfy the specified `predicate`.
  */
-export function filter<T>(predicate: (value: T, index: number) => boolean,
-                          thisArg?: any): MonoTypeOperatorFunction<T> {
-  return function filterOperatorFunction(source: Observable<T>): Observable<T> {
-    return source.lift(new FilterOperator(predicate, thisArg));
-  };
-}
+export function filter<T>(predicate: (value: T, index: number) => boolean, thisArg?: any): MonoTypeOperatorFunction<T> {
+  return operate((source, subscriber) => {
+    // An index passed to our predicate function on each call.
+    let index = 0;
 
-class FilterOperator<T> implements Operator<T, T> {
-  constructor(private predicate: (value: T, index: number) => boolean,
-              private thisArg?: any) {
-  }
-
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new FilterSubscriber(subscriber, this.predicate, this.thisArg));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class FilterSubscriber<T> extends Subscriber<T> {
-
-  count: number = 0;
-
-  constructor(destination: Subscriber<T>,
-              private predicate: (value: T, index: number) => boolean,
-              private thisArg: any) {
-    super(destination);
-  }
-
-  // the try catch block below is left specifically for
-  // optimization and perf reasons. a tryCatcher is not necessary here.
-  protected _next(value: T) {
-    let result: any;
-    try {
-      result = this.predicate.call(this.thisArg, value, this.count++);
-    } catch (err) {
-      this.destination.error(err);
-      return;
-    }
-    if (result) {
-      this.destination.next(value);
-    }
-  }
+    // Subscribe to the source, all errors and completions are
+    // forwarded to the consumer.
+    source.subscribe(
+      // Call the predicate with the appropriate `this` context,
+      // if the predicate returns `true`, then send the value
+      // to the consumer.
+      createOperatorSubscriber(subscriber, (value) => predicate.call(thisArg, value, index++) && subscriber.next(value))
+    );
+  });
 }

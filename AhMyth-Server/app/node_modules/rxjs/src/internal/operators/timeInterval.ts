@@ -1,13 +1,9 @@
-
-import { Observable } from '../Observable';
-import { async } from '../scheduler/async';
+import { asyncScheduler } from '../scheduler/async';
 import { SchedulerLike, OperatorFunction } from '../types';
-import { scan } from './scan';
-import { defer } from '../observable/defer';
-import { map } from './map';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
 
 /**
- *
  * Emits an object containing the current value, and the time that has
  * passed between emitting the current value and the previous value, which is
  * calculated by using the provided `scheduler`'s `now()` method to retrieve
@@ -18,48 +14,44 @@ import { map } from './map';
  * <span class="informal">Convert an Observable that emits items into one that
  * emits indications of the amount of time elapsed between those emissions.</span>
  *
- * ![](timeinterval.png)
+ * ![](timeInterval.png)
  *
- * ## Examples
- * Emit inteval between current value with the last value
+ * ## Example
+ *
+ * Emit interval between current value with the last value
  *
  * ```ts
+ * import { interval, timeInterval } from 'rxjs';
+ *
  * const seconds = interval(1000);
  *
- * seconds.pipe(timeInterval())
- * .subscribe(
- *     value => console.log(value),
- *     err => console.log(err),
- * );
- *
- * seconds.pipe(timeout(900))
- * .subscribe(
- *     value => console.log(value),
- *     err => console.log(err),
- * );
+ * seconds
+ *   .pipe(timeInterval())
+ *   .subscribe(value => console.log(value));
  *
  * // NOTE: The values will never be this precise,
  * // intervals created with `interval` or `setInterval`
  * // are non-deterministic.
  *
- * // {value: 0, interval: 1000}
- * // {value: 1, interval: 1000}
- * // {value: 2, interval: 1000}
+ * // { value: 0, interval: 1000 }
+ * // { value: 1, interval: 1000 }
+ * // { value: 2, interval: 1000 }
  * ```
  *
  * @param {SchedulerLike} [scheduler] Scheduler used to get the current time.
- * @return {Observable<{ interval: number, value: T }>} Observable that emit infomation about value and interval
- * @method timeInterval
+ * @return A function that returns an Observable that emits information about
+ * value and interval.
  */
-export function timeInterval<T>(scheduler: SchedulerLike = async): OperatorFunction<T, TimeInterval<T>> {
-  return (source: Observable<T>) => defer(() => {
-    return source.pipe(
-      // TODO(benlesh): correct these typings.
-      scan(
-        ({ current }, value) => ({ value, current: scheduler.now(), last: current }),
-        { current: scheduler.now(), value: undefined,  last: undefined }
-      ) as any,
-      map<any, TimeInterval<T>>(({ current, last, value }) => new TimeInterval(value, current - last)),
+export function timeInterval<T>(scheduler: SchedulerLike = asyncScheduler): OperatorFunction<T, TimeInterval<T>> {
+  return operate((source, subscriber) => {
+    let last = scheduler.now();
+    source.subscribe(
+      createOperatorSubscriber(subscriber, (value) => {
+        const now = scheduler.now();
+        const interval = now - last;
+        last = now;
+        subscriber.next(new TimeInterval(value, interval));
+      })
     );
   });
 }
@@ -67,9 +59,9 @@ export function timeInterval<T>(scheduler: SchedulerLike = async): OperatorFunct
 // TODO(benlesh): make this an interface, export the interface, but not the implemented class,
 // there's no reason users should be manually creating this type.
 
-/**
- * @deprecated exposed API, use as interface only.
- */
 export class TimeInterval<T> {
+  /**
+   * @deprecated Internal implementation detail, do not construct directly. Will be made an interface in v8.
+   */
   constructor(public value: T, public interval: number) {}
 }

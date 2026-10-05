@@ -13,29 +13,32 @@ import { noop } from '../util/noop';
  * Subscriptions need to be manually disposed.
  *
  * ##  Example
- * ### Emit the number 7, then never emit anything else (not even complete)
+ *
+ * Emit the number 7, then never emit anything else (not even complete)
+ *
  * ```ts
- * import { NEVER } from 'rxjs';
- * import { startWith } from 'rxjs/operators';
+ * import { NEVER, startWith } from 'rxjs';
  *
- * function info() {
- *   console.log('Will not be called');
- * }
+ * const info = () => console.log('Will not be called');
+ *
  * const result = NEVER.pipe(startWith(7));
- * result.subscribe(x => console.log(x), info, info);
- *
+ * result.subscribe({
+ *   next: x => console.log(x),
+ *   error: info,
+ *   complete: info
+ * });
  * ```
  *
  * @see {@link Observable}
- * @see {@link index/EMPTY}
+ * @see {@link EMPTY}
  * @see {@link of}
  * @see {@link throwError}
  */
 export const NEVER = new Observable<never>(noop);
 
 /**
- * @deprecated Deprecated in favor of using {@link NEVER} constant.
+ * @deprecated Replaced with the {@link NEVER} constant. Will be removed in v8.
  */
-export function never () {
+export function never() {
   return NEVER;
 }

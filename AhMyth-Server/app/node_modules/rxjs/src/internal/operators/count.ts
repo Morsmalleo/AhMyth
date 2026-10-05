@@ -1,7 +1,6 @@
-import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Observer, OperatorFunction } from '../types';
-import { Subscriber } from '../Subscriber';
+import { OperatorFunction } from '../types';
+import { reduce } from './reduce';
+
 /**
  * Counts the number of emissions on the source and emits that number when the
  * source completes.
@@ -23,9 +22,9 @@ import { Subscriber } from '../Subscriber';
  * ## Examples
  *
  * Counts how many seconds have passed before the first click happened
+ *
  * ```ts
- * import { fromEvent, interval } from 'rxjs';
- * import { count, takeUntil } from 'rxjs/operators';
+ * import { interval, fromEvent, takeUntil, count } from 'rxjs';
  *
  * const seconds = interval(1000);
  * const clicks = fromEvent(document, 'click');
@@ -35,9 +34,9 @@ import { Subscriber } from '../Subscriber';
  * ```
  *
  * Counts how many odd numbers are there between 1 and 7
+ *
  * ```ts
- * import { range } from 'rxjs';
- * import { count } from 'rxjs/operators';
+ * import { range, count } from 'rxjs';
  *
  * const numbers = range(1, 7);
  * const result = numbers.pipe(count(i => i % 2 === 1));
@@ -50,72 +49,13 @@ import { Subscriber } from '../Subscriber';
  * @see {@link min}
  * @see {@link reduce}
  *
- * @param {function(value: T, i: number, source: Observable<T>): boolean} [predicate] A
- * boolean function to select what values are to be counted. It is provided with
- * arguments of:
- * - `value`: the value from the source Observable.
- * - `index`: the (zero-based) "index" of the value from the source Observable.
- * - `source`: the source Observable instance itself.
- * @return {Observable} An Observable of one number that represents the count as
- * described above.
- * @method count
- * @owner Observable
+ * @param predicate A function that is used to analyze the value and the index and
+ * determine whether or not to increment the count. Return `true` to increment the count,
+ * and return `false` to keep the count the same.
+ * If the predicate is not provided, every value will be counted.
+ * @return A function that returns an Observable that emits one number that
+ * represents the count of emissions.
  */
-
-export function count<T>(predicate?: (value: T, index: number, source: Observable<T>) => boolean): OperatorFunction<T, number> {
-  return (source: Observable<T>) => source.lift(new CountOperator(predicate, source));
-}
-
-class CountOperator<T> implements Operator<T, number> {
-  constructor(private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-              private source?: Observable<T>) {
-  }
-
-  call(subscriber: Subscriber<number>, source: any): any {
-    return source.subscribe(new CountSubscriber(subscriber, this.predicate, this.source));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class CountSubscriber<T> extends Subscriber<T> {
-  private count: number = 0;
-  private index: number = 0;
-
-  constructor(destination: Observer<number>,
-              private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-              private source?: Observable<T>) {
-    super(destination);
-  }
-
-  protected _next(value: T): void {
-    if (this.predicate) {
-      this._tryPredicate(value);
-    } else {
-      this.count++;
-    }
-  }
-
-  private _tryPredicate(value: T) {
-    let result: any;
-
-    try {
-      result = this.predicate(value, this.index++, this.source);
-    } catch (err) {
-      this.destination.error(err);
-      return;
-    }
-
-    if (result) {
-      this.count++;
-    }
-  }
-
-  protected _complete(): void {
-    this.destination.next(this.count);
-    this.destination.complete();
-  }
+export function count<T>(predicate?: (value: T, index: number) => boolean): OperatorFunction<T, number> {
+  return reduce((total, value, i) => (!predicate || predicate(value, i) ? total + 1 : total), 0);
 }

@@ -18,39 +18,43 @@ module.exports = options => {
 			return;
 		}
 
-		postcss(autoprefixer(options)).process(file.contents.toString(), {
-			map: file.sourceMap ? {annotation: false} : false,
-			from: file.path,
-			to: file.path
-		}).then(result => {
-			file.contents = Buffer.from(result.css);
+		(async () => {
+			try {
+				const result = await postcss(autoprefixer(options)).process(file.contents.toString(), {
+					map: file.sourceMap ? {annotation: false} : false,
+					from: file.path,
+					to: file.path
+				});
 
-			if (result.map && file.sourceMap) {
-				const map = result.map.toJSON();
-				map.file = file.relative;
-				map.sources = map.sources.map(() => file.relative);
-				applySourceMap(file, map);
+				file.contents = Buffer.from(result.css);
+
+				if (result.map && file.sourceMap) {
+					const map = result.map.toJSON();
+					map.file = file.relative;
+					map.sources = map.sources.map(() => file.relative);
+					applySourceMap(file, map);
+				}
+
+				const warnings = result.warnings();
+
+				if (warnings.length > 0) {
+					fancyLog('gulp-autoprefixer:', '\n  ' + warnings.join('\n  '));
+				}
+
+				setImmediate(callback, null, file);
+			} catch (error) {
+				const cssError = error.name === 'CssSyntaxError';
+
+				if (cssError) {
+					error.message += error.showSourceCode();
+				}
+
+				// Prevent stream unhandled exception from being suppressed by Promise
+				setImmediate(callback, new PluginError('gulp-autoprefixer', error, {
+					fileName: file.path,
+					showStack: !cssError
+				}));
 			}
-
-			const warnings = result.warnings();
-
-			if (warnings.length > 0) {
-				fancyLog('gulp-autoprefixer:', '\n  ' + warnings.join('\n  '));
-			}
-
-			setImmediate(callback, null, file);
-		}).catch(error => {
-			const cssError = error.name === 'CssSyntaxError';
-
-			if (cssError) {
-				error.message += error.showSourceCode();
-			}
-
-			// Prevent stream unhandled exception from being suppressed by Promise
-			setImmediate(callback, new PluginError('gulp-autoprefixer', error, {
-				fileName: file.path,
-				showStack: !cssError
-			}));
-		});
+		})();
 	});
 };

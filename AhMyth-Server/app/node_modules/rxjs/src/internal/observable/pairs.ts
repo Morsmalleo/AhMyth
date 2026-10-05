@@ -1,14 +1,33 @@
 import { Observable } from '../Observable';
-import { SchedulerAction, SchedulerLike } from '../types';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
+import { SchedulerLike } from '../types';
+import { from } from './from';
+
+/**
+ * @deprecated Use `from(Object.entries(obj))` instead. Will be removed in v8.
+ */
+export function pairs<T>(arr: readonly T[], scheduler?: SchedulerLike): Observable<[string, T]>;
+/**
+ * @deprecated Use `from(Object.entries(obj))` instead. Will be removed in v8.
+ */
+export function pairs<O extends Record<string, unknown>>(obj: O, scheduler?: SchedulerLike): Observable<[keyof O, O[keyof O]]>;
+/**
+ * @deprecated Use `from(Object.entries(obj))` instead. Will be removed in v8.
+ */
+export function pairs<T>(iterable: Iterable<T>, scheduler?: SchedulerLike): Observable<[string, T]>;
+/**
+ * @deprecated Use `from(Object.entries(obj))` instead. Will be removed in v8.
+ */
+export function pairs(
+  n: number | bigint | boolean | ((...args: any[]) => any) | symbol,
+  scheduler?: SchedulerLike
+): Observable<[never, never]>;
 
 /**
  * Convert an object into an Observable of `[key, value]` pairs.
  *
  * <span class="informal">Turn entries of an object into a stream.</span>
  *
- * <img src="./img/pairs.png" width="100%">
+ * ![](pairs.png)
  *
  * `pairs` takes an arbitrary object and returns an Observable that emits arrays. Each
  * emitted array has exactly two elements - the first is a key from the object
@@ -17,10 +36,13 @@ import { Subscription } from '../Subscription';
  * enumerable keys that are present on an object directly - not ones inherited
  * via prototype chain.
  *
- * By default these arrays are emitted synchronously. To change that you can
+ * By default, these arrays are emitted synchronously. To change that you can
  * pass a {@link SchedulerLike} as a second argument to `pairs`.
  *
- * @example <caption>Converts a javascript object to an Observable</caption>
+ * ## Example
+ *
+ * Converts an object to an Observable
+ *
  * ```ts
  * import { pairs } from 'rxjs';
  *
@@ -30,19 +52,22 @@ import { Subscription } from '../Subscription';
  *   baz: 78
  * };
  *
- * pairs(obj)
- * .subscribe(
- *   value => console.log(value),
- *   err => {},
- *   () => console.log('the end!')
- * );
+ * pairs(obj).subscribe({
+ *   next: value => console.log(value),
+ *   complete: () => console.log('Complete!')
+ * });
  *
  * // Logs:
- * // ["foo", 42],
- * // ["bar", 56],
- * // ["baz", 78],
- * // "the end!"
+ * // ['foo', 42]
+ * // ['bar', 56]
+ * // ['baz', 78]
+ * // 'Complete!'
  * ```
+ *
+ * ### Object.entries required
+ *
+ * In IE, you will need to polyfill `Object.entries` in order to use this.
+ * [MDN has a polyfill here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries)
  *
  * @param {Object} obj The object to inspect and turn into an
  * Observable sequence.
@@ -50,42 +75,8 @@ import { Subscription } from '../Subscription';
  * when resulting Observable will emit values.
  * @returns {(Observable<Array<string|T>>)} An observable sequence of
  * [key, value] pairs from the object.
+ * @deprecated Use `from(Object.entries(obj))` instead. Will be removed in v8.
  */
-export function pairs<T>(obj: Object, scheduler?: SchedulerLike): Observable<[string, T]> {
-  if (!scheduler) {
-    return new Observable<[string, T]>(subscriber => {
-      const keys = Object.keys(obj);
-      for (let i = 0; i < keys.length && !subscriber.closed; i++) {
-        const key = keys[i];
-        if (obj.hasOwnProperty(key)) {
-          subscriber.next([key, obj[key]]);
-        }
-      }
-      subscriber.complete();
-    });
-  } else {
-    return new Observable<[string, T]>(subscriber => {
-      const keys = Object.keys(obj);
-      const subscription = new Subscription();
-      subscription.add(
-        scheduler.schedule<{ keys: string[], index: number, subscriber: Subscriber<[string, T]>, subscription: Subscription, obj: Object }>
-          (dispatch, 0, { keys, index: 0, subscriber, subscription, obj }));
-      return subscription;
-    });
-  }
-}
-
-/** @internal */
-export function dispatch<T>(this: SchedulerAction<any>,
-                            state: { keys: string[], index: number, subscriber: Subscriber<[string, T]>, subscription: Subscription, obj: Object }) {
-  const { keys, index, subscriber, subscription, obj } = state;
-  if (!subscriber.closed) {
-    if (index < keys.length) {
-      const key = keys[index];
-      subscriber.next([key, obj[key]]);
-      subscription.add(this.schedule({ keys, index: index + 1, subscriber, subscription, obj }));
-    } else {
-      subscriber.complete();
-    }
-  }
+export function pairs(obj: any, scheduler?: SchedulerLike) {
+  return from(Object.entries(obj), scheduler as any);
 }

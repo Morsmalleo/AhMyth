@@ -1,12 +1,21 @@
 import { mergeMap } from './mergeMap';
 import { ObservableInput, OperatorFunction, ObservedValueOf } from '../types';
+import { isFunction } from '../util/isFunction';
 
 /* tslint:disable:max-line-length */
-export function concatMap<T, O extends ObservableInput<any>>(project: (value: T, index: number) =>  O): OperatorFunction<T, ObservedValueOf<O>>;
-/** @deprecated resultSelector no longer supported, use inner map instead */
-export function concatMap<T, O extends ObservableInput<any>>(project: (value: T, index: number) => O, resultSelector: undefined): OperatorFunction<T, ObservedValueOf<O>>;
-/** @deprecated resultSelector no longer supported, use inner map instead */
-export function concatMap<T, R, O extends ObservableInput<any>>(project: (value: T, index: number) =>  O, resultSelector: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R): OperatorFunction<T, R>;
+export function concatMap<T, O extends ObservableInput<any>>(
+  project: (value: T, index: number) => O
+): OperatorFunction<T, ObservedValueOf<O>>;
+/** @deprecated The `resultSelector` parameter will be removed in v8. Use an inner `map` instead. Details: https://rxjs.dev/deprecations/resultSelector */
+export function concatMap<T, O extends ObservableInput<any>>(
+  project: (value: T, index: number) => O,
+  resultSelector: undefined
+): OperatorFunction<T, ObservedValueOf<O>>;
+/** @deprecated The `resultSelector` parameter will be removed in v8. Use an inner `map` instead. Details: https://rxjs.dev/deprecations/resultSelector */
+export function concatMap<T, R, O extends ObservableInput<any>>(
+  project: (value: T, index: number) => O,
+  resultSelector: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R
+): OperatorFunction<T, R>;
 /* tslint:enable:max-line-length */
 
 /**
@@ -33,11 +42,11 @@ export function concatMap<T, R, O extends ObservableInput<any>>(project: (value:
  * to `1`.
  *
  * ## Example
+ *
  * For each click event, tick every second from 0 to 3, with no concurrency
  *
  * ```ts
- * import { fromEvent, interval } from 'rxjs';
- * import { concatMap, take } from 'rxjs/operators';
+ * import { fromEvent, concatMap, interval, take } from 'rxjs';
  *
  * const clicks = fromEvent(document, 'click');
  * const result = clicks.pipe(
@@ -62,16 +71,14 @@ export function concatMap<T, R, O extends ObservableInput<any>>(project: (value:
  * @param {function(value: T, ?index: number): ObservableInput} project A function
  * that, when applied to an item emitted by the source Observable, returns an
  * Observable.
- * @return {Observable} An Observable that emits the result of applying the
- * projection function (and the optional deprecated `resultSelector`) to each item emitted
- * by the source Observable and taking values from each projected inner
- * Observable sequentially.
- * @method concatMap
- * @owner Observable
+ * @return A function that returns an Observable that emits the result of
+ * applying the projection function (and the optional deprecated
+ * `resultSelector`) to each item emitted by the source Observable and taking
+ * values from each projected inner Observable sequentially.
  */
 export function concatMap<T, R, O extends ObservableInput<any>>(
   project: (value: T, index: number) => O,
   resultSelector?: (outerValue: T, innerValue: ObservedValueOf<O>, outerIndex: number, innerIndex: number) => R
-): OperatorFunction<T, ObservedValueOf<O>|R> {
-  return mergeMap(project, resultSelector, 1);
+): OperatorFunction<T, ObservedValueOf<O> | R> {
+  return isFunction(resultSelector) ? mergeMap(project, resultSelector, 1) : mergeMap(project, 1);
 }

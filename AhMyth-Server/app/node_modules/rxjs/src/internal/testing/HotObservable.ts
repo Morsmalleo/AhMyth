@@ -6,32 +6,31 @@ import { TestMessage } from './TestMessage';
 import { SubscriptionLog } from './SubscriptionLog';
 import { SubscriptionLoggable } from './SubscriptionLoggable';
 import { applyMixins } from '../util/applyMixins';
+import { observeNotification } from '../Notification';
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 export class HotObservable<T> extends Subject<T> implements SubscriptionLoggable {
   public subscriptions: SubscriptionLog[] = [];
   scheduler: Scheduler;
+  // @ts-ignore: Property has no initializer and is not definitely assigned
   logSubscribedFrame: () => number;
+  // @ts-ignore: Property has no initializer and is not definitely assigned
   logUnsubscribedFrame: (index: number) => void;
 
-  constructor(public messages: TestMessage[],
-              scheduler: Scheduler) {
+  constructor(public messages: TestMessage[], scheduler: Scheduler) {
     super();
     this.scheduler = scheduler;
   }
 
-  /** @deprecated This is an internal implementation detail, do not use. */
-  _subscribe(subscriber: Subscriber<any>): Subscription {
+  /** @internal */
+  protected _subscribe(subscriber: Subscriber<any>): Subscription {
     const subject: HotObservable<T> = this;
     const index = subject.logSubscribedFrame();
     const subscription = new Subscription();
-    subscription.add(new Subscription(() => {
-      subject.logUnsubscribedFrame(index);
-    }));
+    subscription.add(
+      new Subscription(() => {
+        subject.logUnsubscribedFrame(index);
+      })
+    );
     subscription.add(super._subscribe(subscriber));
     return subscription;
   }
@@ -40,14 +39,13 @@ export class HotObservable<T> extends Subject<T> implements SubscriptionLoggable
     const subject = this;
     const messagesLength = subject.messages.length;
     /* tslint:disable:no-var-keyword */
-    for (var i = 0; i < messagesLength; i++) {
+    for (let i = 0; i < messagesLength; i++) {
       (() => {
-        var message = subject.messages[i];
-   /* tslint:enable */
-        subject.scheduler.schedule(
-          () => { message.notification.observe(subject); },
-          message.frame
-        );
+        const { notification, frame } = subject.messages[i];
+        /* tslint:enable */
+        subject.scheduler.schedule(() => {
+          observeNotification(notification, subject);
+        }, frame);
       })();
     }
   }

@@ -6,27 +6,26 @@ import { SubscriptionLog } from './SubscriptionLog';
 import { SubscriptionLoggable } from './SubscriptionLoggable';
 import { applyMixins } from '../util/applyMixins';
 import { Subscriber } from '../Subscriber';
+import { observeNotification } from '../Notification';
 
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
 export class ColdObservable<T> extends Observable<T> implements SubscriptionLoggable {
   public subscriptions: SubscriptionLog[] = [];
   scheduler: Scheduler;
+  // @ts-ignore: Property has no initializer and is not definitely assigned
   logSubscribedFrame: () => number;
+  // @ts-ignore: Property has no initializer and is not definitely assigned
   logUnsubscribedFrame: (index: number) => void;
 
-  constructor(public messages: TestMessage[],
-              scheduler: Scheduler) {
+  constructor(public messages: TestMessage[], scheduler: Scheduler) {
     super(function (this: Observable<T>, subscriber: Subscriber<any>) {
       const observable: ColdObservable<T> = this as any;
       const index = observable.logSubscribedFrame();
       const subscription = new Subscription();
-      subscription.add(new Subscription(() => {
-        observable.logUnsubscribedFrame(index);
-      }));
+      subscription.add(
+        new Subscription(() => {
+          observable.logUnsubscribedFrame(index);
+        })
+      );
       observable.scheduleMessages(subscriber);
       return subscription;
     });
@@ -38,9 +37,14 @@ export class ColdObservable<T> extends Observable<T> implements SubscriptionLogg
     for (let i = 0; i < messagesLength; i++) {
       const message = this.messages[i];
       subscriber.add(
-        this.scheduler.schedule(({ message, subscriber }) => { message.notification.observe(subscriber); },
+        this.scheduler.schedule(
+          (state) => {
+            const { message: { notification }, subscriber: destination } = state!;
+            observeNotification(notification, destination);
+          },
           message.frame,
-          { message, subscriber })
+          { message, subscriber }
+        )
       );
     }
   }

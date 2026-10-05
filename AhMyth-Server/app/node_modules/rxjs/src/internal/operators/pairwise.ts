@@ -1,7 +1,6 @@
-import { Operator } from '../Operator';
-import { Observable } from '../Observable';
-import { Subscriber } from '../Subscriber';
 import { OperatorFunction } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
 
 /**
  * Groups pairs of consecutive emissions together and emits them as an array of
@@ -19,69 +18,44 @@ import { OperatorFunction } from '../types';
  * there is no previous value in that case.
  *
  * ## Example
- * On every click (starting from the second), emit the relative distance to the previous click
- * ```ts
- * import { fromEvent } from 'rxjs';
- * import { pairwise, map } from 'rxjs/operators';
  *
- * const clicks = fromEvent(document, 'click');
+ * On every click (starting from the second), emit the relative distance to the previous click
+ *
+ * ```ts
+ * import { fromEvent, pairwise, map } from 'rxjs';
+ *
+ * const clicks = fromEvent<PointerEvent>(document, 'click');
  * const pairs = clicks.pipe(pairwise());
  * const distance = pairs.pipe(
- *   map(pair => {
- *     const x0 = pair[0].clientX;
- *     const y0 = pair[0].clientY;
- *     const x1 = pair[1].clientX;
- *     const y1 = pair[1].clientY;
+ *   map(([first, second]) => {
+ *     const x0 = first.clientX;
+ *     const y0 = first.clientY;
+ *     const x1 = second.clientX;
+ *     const y1 = second.clientY;
  *     return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
- *   }),
+ *   })
  * );
+ *
  * distance.subscribe(x => console.log(x));
  * ```
  *
  * @see {@link buffer}
  * @see {@link bufferCount}
  *
- * @return {Observable<Array<T>>} An Observable of pairs (as arrays) of
+ * @return A function that returns an Observable of pairs (as arrays) of
  * consecutive values from the source Observable.
- * @method pairwise
- * @owner Observable
  */
 export function pairwise<T>(): OperatorFunction<T, [T, T]> {
-  return (source: Observable<T>) => source.lift(new PairwiseOperator());
-}
-
-class PairwiseOperator<T> implements Operator<T, [T, T]> {
-  call(subscriber: Subscriber<[T, T]>, source: any): any {
-    return source.subscribe(new PairwiseSubscriber(subscriber));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class PairwiseSubscriber<T> extends Subscriber<T> {
-  private prev: T;
-  private hasPrev: boolean = false;
-
-  constructor(destination: Subscriber<[T, T]>) {
-    super(destination);
-  }
-
-  _next(value: T): void {
-    let pair: [T, T] | undefined;
-
-    if (this.hasPrev) {
-      pair = [this.prev, value];
-    } else {
-      this.hasPrev = true;
-    }
-
-    this.prev = value;
-
-    if (pair) {
-      this.destination.next(pair);
-    }
-  }
+  return operate((source, subscriber) => {
+    let prev: T;
+    let hasPrev = false;
+    source.subscribe(
+      createOperatorSubscriber(subscriber, (value) => {
+        const p = prev;
+        prev = value;
+        hasPrev && subscriber.next([p, value]);
+        hasPrev = true;
+      })
+    );
+  });
 }

@@ -1,8 +1,7 @@
-import { Operator } from '../Operator';
-import { Observable } from '../Observable';
-import { Subscriber } from '../Subscriber';
 import { Notification } from '../Notification';
-import { OperatorFunction } from '../types';
+import { OperatorFunction, ObservableNotification } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
 
 /**
  * Represents all of the notifications from the source Observable as `next`
@@ -27,68 +26,48 @@ import { OperatorFunction } from '../types';
  * {@link dematerialize}.
  *
  * ## Example
+ *
  * Convert a faulty Observable to an Observable of Notifications
+ *
  * ```ts
- * import { of } from 'rxjs';
- * import { materialize, map } from 'rxjs/operators';
+ * import { of, materialize, map } from 'rxjs';
  *
  * const letters = of('a', 'b', 13, 'd');
- * const upperCase = letters.pipe(map(x => x.toUpperCase()));
+ * const upperCase = letters.pipe(map((x: any) => x.toUpperCase()));
  * const materialized = upperCase.pipe(materialize());
+ *
  * materialized.subscribe(x => console.log(x));
  *
  * // Results in the following:
- * // - Notification {kind: "N", value: "A", error: undefined, hasValue: true}
- * // - Notification {kind: "N", value: "B", error: undefined, hasValue: true}
- * // - Notification {kind: "E", value: undefined, error: TypeError:
- * //   x.toUpperCase is not a function at MapSubscriber.letters.map.x
- * //   [as project] (http://1…, hasValue: false}
+ * // - Notification { kind: 'N', value: 'A', error: undefined, hasValue: true }
+ * // - Notification { kind: 'N', value: 'B', error: undefined, hasValue: true }
+ * // - Notification { kind: 'E', value: undefined, error: TypeError { message: x.toUpperCase is not a function }, hasValue: false }
  * ```
  *
  * @see {@link Notification}
  * @see {@link dematerialize}
  *
- * @return {Observable<Notification<T>>} An Observable that emits
- * {@link Notification} objects that wrap the original emissions from the source
- * Observable with metadata.
- * @method materialize
- * @owner Observable
+ * @return A function that returns an Observable that emits
+ * {@link Notification} objects that wrap the original emissions from the
+ * source Observable with metadata.
  */
-export function materialize<T>(): OperatorFunction<T, Notification<T>> {
-  return function materializeOperatorFunction(source: Observable<T>) {
-    return source.lift(new MaterializeOperator());
-  };
-}
-
-class MaterializeOperator<T> implements Operator<T, Notification<T>> {
-  call(subscriber: Subscriber<Notification<T>>, source: any): any {
-    return source.subscribe(new MaterializeSubscriber(subscriber));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class MaterializeSubscriber<T> extends Subscriber<T> {
-  constructor(destination: Subscriber<Notification<T>>) {
-    super(destination);
-  }
-
-  protected _next(value: T) {
-    this.destination.next(Notification.createNext(value));
-  }
-
-  protected _error(err: any) {
-    const destination = this.destination;
-    destination.next(Notification.createError(err));
-    destination.complete();
-  }
-
-  protected _complete() {
-    const destination = this.destination;
-    destination.next(Notification.createComplete());
-    destination.complete();
-  }
+export function materialize<T>(): OperatorFunction<T, Notification<T> & ObservableNotification<T>> {
+  return operate((source, subscriber) => {
+    source.subscribe(
+      createOperatorSubscriber(
+        subscriber,
+        (value) => {
+          subscriber.next(Notification.createNext(value));
+        },
+        () => {
+          subscriber.next(Notification.createComplete());
+          subscriber.complete();
+        },
+        (err) => {
+          subscriber.next(Notification.createError(err));
+          subscriber.complete();
+        }
+      )
+    );
+  });
 }

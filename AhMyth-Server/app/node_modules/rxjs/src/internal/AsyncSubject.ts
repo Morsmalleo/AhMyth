@@ -1,6 +1,5 @@
 import { Subject } from './Subject';
 import { Subscriber } from './Subscriber';
-import { Subscription } from './Subscription';
 
 /**
  * A variant of Subject that only emits a value when it completes. It will emit
@@ -9,41 +8,34 @@ import { Subscription } from './Subscription';
  * @class AsyncSubject<T>
  */
 export class AsyncSubject<T> extends Subject<T> {
-  private value: T = null;
-  private hasNext: boolean = false;
-  private hasCompleted: boolean = false;
+  private _value: T | null = null;
+  private _hasValue = false;
+  private _isComplete = false;
 
-  /** @deprecated This is an internal implementation detail, do not use. */
-  _subscribe(subscriber: Subscriber<any>): Subscription {
-    if (this.hasError) {
-      subscriber.error(this.thrownError);
-      return Subscription.EMPTY;
-    } else if (this.hasCompleted && this.hasNext) {
-      subscriber.next(this.value);
+  /** @internal */
+  protected _checkFinalizedStatuses(subscriber: Subscriber<T>) {
+    const { hasError, _hasValue, _value, thrownError, isStopped, _isComplete } = this;
+    if (hasError) {
+      subscriber.error(thrownError);
+    } else if (isStopped || _isComplete) {
+      _hasValue && subscriber.next(_value!);
       subscriber.complete();
-      return Subscription.EMPTY;
     }
-    return super._subscribe(subscriber);
   }
 
   next(value: T): void {
-    if (!this.hasCompleted) {
-      this.value = value;
-      this.hasNext = true;
-    }
-  }
-
-  error(error: any): void {
-    if (!this.hasCompleted) {
-      super.error(error);
+    if (!this.isStopped) {
+      this._value = value;
+      this._hasValue = true;
     }
   }
 
   complete(): void {
-    this.hasCompleted = true;
-    if (this.hasNext) {
-      super.next(this.value);
+    const { _hasValue, _value, _isComplete } = this;
+    if (!_isComplete) {
+      this._isComplete = true;
+      _hasValue && super.next(_value!);
+      super.complete();
     }
-    super.complete();
   }
 }

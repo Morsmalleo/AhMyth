@@ -1,6 +1,5 @@
 import { Observable } from '../Observable';
 import { AsyncSubject } from '../AsyncSubject';
-import { multicast } from './multicast';
 import { ConnectableObservable } from '../observable/ConnectableObservable';
 import { UnaryFunction } from '../types';
 
@@ -19,36 +18,37 @@ import { UnaryFunction } from '../types';
  * ## Example
  *
  * ```ts
- * import { interval } from 'rxjs';
- * import { publishLast, tap, take } from 'rxjs/operators';
+ * import { ConnectableObservable, interval, publishLast, tap, take } from 'rxjs';
  *
- * const connectable =
- *   interval(1000)
- *     .pipe(
- *       tap(x => console.log("side effect", x)),
- *       take(3),
- *       publishLast());
+ * const connectable = <ConnectableObservable<number>>interval(1000)
+ *   .pipe(
+ *     tap(x => console.log('side effect', x)),
+ *     take(3),
+ *     publishLast()
+ *   );
  *
- * connectable.subscribe(
- *   x => console.log(  "Sub. A", x),
- *   err => console.log("Sub. A Error", err),
- *   () => console.log( "Sub. A Complete"));
+ * connectable.subscribe({
+ *   next: x => console.log('Sub. A', x),
+ *   error: err => console.log('Sub. A Error', err),
+ *   complete: () => console.log('Sub. A Complete')
+ * });
  *
- * connectable.subscribe(
- *   x => console.log(  "Sub. B", x),
- *   err => console.log("Sub. B Error", err),
- *   () => console.log( "Sub. B Complete"));
+ * connectable.subscribe({
+ *   next: x => console.log('Sub. B', x),
+ *   error: err => console.log('Sub. B Error', err),
+ *   complete: () => console.log('Sub. B Complete')
+ * });
  *
  * connectable.connect();
  *
  * // Results:
- * //    "side effect 0"
- * //    "side effect 1"
- * //    "side effect 2"
- * //    "Sub. A 2"
- * //    "Sub. B 2"
- * //    "Sub. A Complete"
- * //    "Sub. B Complete"
+ * // 'side effect 0'   - after one second
+ * // 'side effect 1'   - after two seconds
+ * // 'side effect 2'   - after three seconds
+ * // 'Sub. A 2'        - immediately after 'side effect 2'
+ * // 'Sub. B 2'
+ * // 'Sub. A Complete'
+ * // 'Sub. B Complete'
  * ```
  *
  * @see {@link ConnectableObservable}
@@ -56,12 +56,21 @@ import { UnaryFunction } from '../types';
  * @see {@link publishReplay}
  * @see {@link publishBehavior}
  *
- * @return {ConnectableObservable} An observable sequence that contains the elements of a
+ * @return A function that returns an Observable that emits elements of a
  * sequence produced by multicasting the source sequence.
- * @method publishLast
- * @owner Observable
+ * @deprecated Will be removed in v8. To create a connectable observable with an
+ * {@link AsyncSubject} under the hood, use {@link connectable}.
+ * `source.pipe(publishLast())` is equivalent to
+ * `connectable(source, { connector: () => new AsyncSubject(), resetOnDisconnect: false })`.
+ * If you're using {@link refCount} after `publishLast`, use the {@link share} operator instead.
+ * `source.pipe(publishLast(), refCount())` is equivalent to
+ * `source.pipe(share({ connector: () => new AsyncSubject(), resetOnError: false, resetOnComplete: false, resetOnRefCountZero: false }))`.
+ * Details: https://rxjs.dev/deprecations/multicasting
  */
-
 export function publishLast<T>(): UnaryFunction<Observable<T>, ConnectableObservable<T>> {
-  return (source: Observable<T>) => multicast(new AsyncSubject<T>())(source);
+  // Note that this has *never* supported a selector function like `publish` and `publishReplay`.
+  return (source) => {
+    const subject = new AsyncSubject<T>();
+    return new ConnectableObservable(source, () => subject);
+  };
 }

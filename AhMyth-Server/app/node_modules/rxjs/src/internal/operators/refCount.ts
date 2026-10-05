@@ -1,9 +1,8 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { Subscription } from '../Subscription';
-import { MonoTypeOperatorFunction, TeardownLogic } from '../types';
 import { ConnectableObservable } from '../observable/ConnectableObservable';
-import { Observable } from '../Observable';
+import { Subscription } from '../Subscription';
+import { MonoTypeOperatorFunction } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
 
 /**
  * Make a {@link ConnectableObservable} behave like a ordinary observable and automates the way
@@ -15,7 +14,7 @@ import { Observable } from '../Observable';
  * refCount has only a single subscription independently of the number of subscribers to the target
  * observable.
  *
- * Note that using the {@link share} operator is exactly the same as using the *publish* operator
+ * Note that using the {@link share} operator is exactly the same as using the `multicast(() => new Subject())` operator
  * (making the observable hot) and the *refCount* operator in a sequence.
  *
  * ![](refCount.png)
@@ -28,18 +27,17 @@ import { Observable } from '../Observable';
  * until you call its connect function.
  *
  * ```ts
- * import { interval } from 'rxjs';
- * import { tap, publish, refCount } from 'rxjs/operators';
+ * import { interval, tap, publish, refCount } from 'rxjs';
  *
  * // Turn the interval observable into a ConnectableObservable (hot)
  * const refCountInterval = interval(400).pipe(
- *   tap((num) => console.log(`refCount ${num}`)),
+ *   tap(num => console.log(`refCount ${ num }`)),
  *   publish(),
  *   refCount()
  * );
  *
  * const publishedInterval = interval(400).pipe(
- *   tap((num) => console.log(`publish ${num}`)),
+ *   tap(num => console.log(`publish ${ num }`)),
  *   publish()
  * );
  *
@@ -47,102 +45,75 @@ import { Observable } from '../Observable';
  * refCountInterval.subscribe();
  * // 'refCount 0' -----> 'refCount 1' -----> etc
  * // All subscriptions will receive the same value and the tap (and
- * // every other operator) before the publish operator will be executed
+ * // every other operator) before the `publish` operator will be executed
  * // only once per event independently of the number of subscriptions.
  *
  * publishedInterval.subscribe();
  * // Nothing happens until you call .connect() on the observable.
  * ```
  *
+ * @return A function that returns an Observable that automates the connection
+ * to ConnectableObservable.
  * @see {@link ConnectableObservable}
  * @see {@link share}
  * @see {@link publish}
+ * @deprecated Replaced with the {@link share} operator. How `share` is used
+ * will depend on the connectable observable you created just prior to the
+ * `refCount` operator.
+ * Details: https://rxjs.dev/deprecations/multicasting
  */
 export function refCount<T>(): MonoTypeOperatorFunction<T> {
-  return function refCountOperatorFunction(source: ConnectableObservable<T>): Observable<T> {
-    return source.lift(new RefCountOperator(source));
-  } as MonoTypeOperatorFunction<T>;
-}
+  return operate((source, subscriber) => {
+    let connection: Subscription | null = null;
 
-class RefCountOperator<T> implements Operator<T, T> {
-  constructor(private connectable: ConnectableObservable<T>) {
-  }
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
+    (source as any)._refCount++;
 
-    const { connectable } = this;
-    (<any> connectable)._refCount++;
+    const refCounter = createOperatorSubscriber(subscriber, undefined, undefined, undefined, () => {
+      if (!source || (source as any)._refCount <= 0 || 0 < --(source as any)._refCount) {
+        connection = null;
+        return;
+      }
 
-    const refCounter = new RefCountSubscriber(subscriber, connectable);
-    const subscription = source.subscribe(refCounter);
+      ///
+      // Compare the local RefCountSubscriber's connection Subscription to the
+      // connection Subscription on the shared ConnectableObservable. In cases
+      // where the ConnectableObservable source synchronously emits values, and
+      // the RefCountSubscriber's downstream Observers synchronously unsubscribe,
+      // execution continues to here before the RefCountOperator has a chance to
+      // supply the RefCountSubscriber with the shared connection Subscription.
+      // For example:
+      // ```
+      // range(0, 10).pipe(
+      //   publish(),
+      //   refCount(),
+      //   take(5),
+      // )
+      // .subscribe();
+      // ```
+      // In order to account for this case, RefCountSubscriber should only dispose
+      // the ConnectableObservable's shared connection Subscription if the
+      // connection Subscription exists, *and* either:
+      //   a. RefCountSubscriber doesn't have a reference to the shared connection
+      //      Subscription yet, or,
+      //   b. RefCountSubscriber's connection Subscription reference is identical
+      //      to the shared connection Subscription
+      ///
+
+      const sharedConnection = (source as any)._connection;
+      const conn = connection;
+      connection = null;
+
+      if (sharedConnection && (!conn || sharedConnection === conn)) {
+        sharedConnection.unsubscribe();
+      }
+
+      subscriber.unsubscribe();
+    });
+
+    source.subscribe(refCounter);
 
     if (!refCounter.closed) {
-      (<any> refCounter).connection = connectable.connect();
+      connection = (source as ConnectableObservable<T>).connect();
     }
-
-    return subscription;
-  }
-}
-
-class RefCountSubscriber<T> extends Subscriber<T> {
-
-  private connection: Subscription;
-
-  constructor(destination: Subscriber<T>,
-              private connectable: ConnectableObservable<T>) {
-    super(destination);
-  }
-
-  protected _unsubscribe() {
-
-    const { connectable } = this;
-    if (!connectable) {
-      this.connection = null;
-      return;
-    }
-
-    this.connectable = null;
-    const refCount = (<any> connectable)._refCount;
-    if (refCount <= 0) {
-      this.connection = null;
-      return;
-    }
-
-    (<any> connectable)._refCount = refCount - 1;
-    if (refCount > 1) {
-      this.connection = null;
-      return;
-    }
-
-    ///
-    // Compare the local RefCountSubscriber's connection Subscription to the
-    // connection Subscription on the shared ConnectableObservable. In cases
-    // where the ConnectableObservable source synchronously emits values, and
-    // the RefCountSubscriber's downstream Observers synchronously unsubscribe,
-    // execution continues to here before the RefCountOperator has a chance to
-    // supply the RefCountSubscriber with the shared connection Subscription.
-    // For example:
-    // ```
-    // range(0, 10).pipe(
-    //   publish(),
-    //   refCount(),
-    //   take(5),
-    // )
-    // .subscribe();
-    // ```
-    // In order to account for this case, RefCountSubscriber should only dispose
-    // the ConnectableObservable's shared connection Subscription if the
-    // connection Subscription exists, *and* either:
-    //   a. RefCountSubscriber doesn't have a reference to the shared connection
-    //      Subscription yet, or,
-    //   b. RefCountSubscriber's connection Subscription reference is identical
-    //      to the shared connection Subscription
-    ///
-    const { connection } = this;
-    const sharedConnection = (<any> connectable)._connection;
-    this.connection = null;
-
-    if (sharedConnection && (!connection || sharedConnection === connection)) {
-      sharedConnection.unsubscribe();
-    }
-  }
+  });
 }

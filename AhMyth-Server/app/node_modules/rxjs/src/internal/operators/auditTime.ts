@@ -1,4 +1,4 @@
-import { async } from '../scheduler/async';
+import { asyncScheduler } from '../scheduler/async';
 import { audit } from './audit';
 import { timer } from '../observable/timer';
 import { MonoTypeOperatorFunction, SchedulerLike } from '../types';
@@ -27,9 +27,9 @@ import { MonoTypeOperatorFunction, SchedulerLike } from '../types';
  * ## Example
  *
  * Emit clicks at a rate of at most one click per second
+ *
  * ```ts
- * import { fromEvent } from 'rxjs';
- * import { auditTime } from 'rxjs/operators';
+ * import { fromEvent, auditTime } from 'rxjs';
  *
  * const clicks = fromEvent(document, 'click');
  * const result = clicks.pipe(auditTime(1000));
@@ -47,11 +47,9 @@ import { MonoTypeOperatorFunction, SchedulerLike } from '../types';
  * by the optional `scheduler`.
  * @param {SchedulerLike} [scheduler=async] The {@link SchedulerLike} to use for
  * managing the timers that handle the rate-limiting behavior.
- * @return {Observable<T>} An Observable that performs rate-limiting of
+ * @return A function that returns an Observable that performs rate-limiting of
  * emissions from the source Observable.
- * @method auditTime
- * @owner Observable
  */
-export function auditTime<T>(duration: number, scheduler: SchedulerLike = async): MonoTypeOperatorFunction<T> {
+export function auditTime<T>(duration: number, scheduler: SchedulerLike = asyncScheduler): MonoTypeOperatorFunction<T> {
   return audit(() => timer(duration, scheduler));
 }

@@ -1,6 +1,6 @@
 import { Observable } from '../Observable';
-import { Unsubscribable, ObservableInput } from '../types';
-import { from } from './from'; // from from from! LAWL
+import { Unsubscribable, ObservableInput, ObservedValueOf } from '../types';
+import { innerFrom } from './innerFrom';
 import { EMPTY } from './empty';
 
 /**
@@ -31,30 +31,18 @@ import { EMPTY } from './empty';
  * @return {Observable<T>} An Observable that behaves the same as Observable returned by `observableFactory`, but
  * which - when completed, errored or unsubscribed - will also call `unsubscribe` on created resource object.
  */
-export function using<T>(resourceFactory: () => Unsubscribable | void,
-                         observableFactory: (resource: Unsubscribable | void) => ObservableInput<T> | void): Observable<T> {
-  return new Observable<T>(subscriber => {
-    let resource: Unsubscribable | void;
-
-    try {
-      resource = resourceFactory();
-    } catch (err) {
-      subscriber.error(err);
-      return undefined;
-    }
-
-    let result: ObservableInput<T> | void;
-    try {
-      result = observableFactory(resource);
-    } catch (err) {
-      subscriber.error(err);
-      return undefined;
-    }
-
-    const source = result ? from(result) : EMPTY;
-    const subscription = source.subscribe(subscriber);
+export function using<T extends ObservableInput<any>>(
+  resourceFactory: () => Unsubscribable | void,
+  observableFactory: (resource: Unsubscribable | void) => T | void
+): Observable<ObservedValueOf<T>> {
+  return new Observable<ObservedValueOf<T>>((subscriber) => {
+    const resource = resourceFactory();
+    const result = observableFactory(resource);
+    const source = result ? innerFrom(result) : EMPTY;
+    source.subscribe(subscriber);
     return () => {
-      subscription.unsubscribe();
+      // NOTE: Optional chaining did not work here.
+      // Related TS Issue: https://github.com/microsoft/TypeScript/issues/40818
       if (resource) {
         resource.unsubscribe();
       }

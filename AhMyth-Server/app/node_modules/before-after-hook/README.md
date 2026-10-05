@@ -3,9 +3,7 @@
 > asynchronous hooks for internal functionality
 
 [![npm downloads](https://img.shields.io/npm/dw/before-after-hook.svg)](https://www.npmjs.com/package/before-after-hook)
-[![Build Status](https://travis-ci.org/gr2m/before-after-hook.svg?branch=master)](https://travis-ci.org/gr2m/before-after-hook)
-[![Coverage Status](https://coveralls.io/repos/gr2m/before-after-hook/badge.svg?branch=master)](https://coveralls.io/r/gr2m/before-after-hook?branch=master)
-[![Greenkeeper badge](https://badges.greenkeeper.io/gr2m/before-after-hook.svg)](https://greenkeeper.io/)
+[![Test](https://github.com/gr2m/before-after-hook/actions/workflows/test.yml/badge.svg)](https://github.com/gr2m/before-after-hook/actions/workflows/test.yml)
 
 ## Usage
 

@@ -1,8 +1,27 @@
 import { not } from '../util/not';
-import { subscribeTo } from '../util/subscribeTo';
 import { filter } from '../operators/filter';
 import { ObservableInput } from '../types';
 import { Observable } from '../Observable';
+import { innerFrom } from './innerFrom';
+
+/** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+export function partition<T, U extends T, A>(
+  source: ObservableInput<T>,
+  predicate: (this: A, value: T, index: number) => value is U,
+  thisArg: A
+): [Observable<U>, Observable<Exclude<T, U>>];
+export function partition<T, U extends T>(
+  source: ObservableInput<T>,
+  predicate: (value: T, index: number) => value is U
+): [Observable<U>, Observable<Exclude<T, U>>];
+
+/** @deprecated Use a closure instead of a `thisArg`. Signatures accepting a `thisArg` will be removed in v8. */
+export function partition<T, A>(
+  source: ObservableInput<T>,
+  predicate: (this: A, value: T, index: number) => boolean,
+  thisArg: A
+): [Observable<T>, Observable<T>];
+export function partition<T>(source: ObservableInput<T>, predicate: (value: T, index: number) => boolean): [Observable<T>, Observable<T>];
 
 /**
  * Splits the source Observable into two, one with values that satisfy a
@@ -22,12 +41,14 @@ import { Observable } from '../Observable';
  * behaves like {@link filter} with the predicate negated.
  *
  * ## Example
+ *
  * Partition a set of numbers into odds and evens observables
+ *
  * ```ts
  * import { of, partition } from 'rxjs';
  *
  * const observableValues = of(1, 2, 3, 4, 5, 6);
- * const [evens$, odds$] = partition(observableValues, (value, index) => value % 2 === 0);
+ * const [evens$, odds$] = partition(observableValues, value => value % 2 === 0);
  *
  * odds$.subscribe(x => console.log('odds', x));
  * evens$.subscribe(x => console.log('evens', x));
@@ -57,11 +78,11 @@ import { Observable } from '../Observable';
  */
 export function partition<T>(
   source: ObservableInput<T>,
-  predicate: (value: T, index: number) => boolean,
+  predicate: (this: any, value: T, index: number) => boolean,
   thisArg?: any
 ): [Observable<T>, Observable<T>] {
-  return [
-    filter(predicate, thisArg)(new Observable<T>(subscribeTo(source))),
-    filter(not(predicate, thisArg) as any)(new Observable<T>(subscribeTo(source)))
-  ] as [Observable<T>, Observable<T>];
+  return [filter(predicate, thisArg)(innerFrom(source)), filter(not(predicate, thisArg))(innerFrom(source))] as [
+    Observable<T>,
+    Observable<T>
+  ];
 }

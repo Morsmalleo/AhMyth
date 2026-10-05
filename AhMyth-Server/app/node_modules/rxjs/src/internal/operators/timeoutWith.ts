@@ -1,143 +1,116 @@
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
 import { async } from '../scheduler/async';
-import { Observable } from '../Observable';
-import { isDate } from '../util/isDate';
-import { ObservableInput, OperatorFunction, SchedulerAction, SchedulerLike, TeardownLogic } from '../types';
-import { SimpleOuterSubscriber, innerSubscribe, SimpleInnerSubscriber } from '../innerSubscribe';
+import { isValidDate } from '../util/isDate';
+import { ObservableInput, OperatorFunction, SchedulerLike } from '../types';
+import { timeout } from './timeout';
 
-/* tslint:disable:max-line-length */
-export function timeoutWith<T, R>(due: number | Date, withObservable: ObservableInput<R>, scheduler?: SchedulerLike): OperatorFunction<T, T | R>;
-/* tslint:enable:max-line-length */
+/** @deprecated Replaced with {@link timeout}. Instead of `timeoutWith(someDate, a$, scheduler)`, use the configuration object
+ * `timeout({ first: someDate, with: () => a$, scheduler })`. Will be removed in v8. */
+export function timeoutWith<T, R>(dueBy: Date, switchTo: ObservableInput<R>, scheduler?: SchedulerLike): OperatorFunction<T, T | R>;
+/** @deprecated Replaced with {@link timeout}. Instead of `timeoutWith(100, a$, scheduler)`, use the configuration object
+ *  `timeout({ each: 100, with: () => a$, scheduler })`. Will be removed in v8. */
+export function timeoutWith<T, R>(waitFor: number, switchTo: ObservableInput<R>, scheduler?: SchedulerLike): OperatorFunction<T, T | R>;
 
 /**
+ * When the passed timespan elapses before the source emits any given value, it will unsubscribe from the source,
+ * and switch the subscription to another observable.
  *
- * Errors if Observable does not emit a value in given time span, in case of which
- * subscribes to the second Observable.
+ * <span class="informal">Used to switch to a different observable if your source is being slow.</span>
  *
- * <span class="informal">It's a version of `timeout` operator that let's you specify fallback Observable.</span>
+ * Useful in cases where:
  *
- * ![](timeoutWith.png)
+ * - You want to switch to a different source that may be faster.
+ * - You want to notify a user that the data stream is slow.
+ * - You want to emit a custom error rather than the {@link TimeoutError} emitted
+ *   by the default usage of {@link timeout}.
  *
- * `timeoutWith` is a variation of `timeout` operator. It behaves exactly the same,
- * still accepting as a first argument either a number or a Date, which control - respectively -
- * when values of source Observable should be emitted or when it should complete.
+ * If the first parameter is passed as Date and the time of the Date arrives before the first value arrives from the source,
+ * it will unsubscribe from the source and switch the subscription to another observable.
  *
- * The only difference is that it accepts a second, required parameter. This parameter
- * should be an Observable which will be subscribed when source Observable fails any timeout check.
- * So whenever regular `timeout` would emit an error, `timeoutWith` will instead start re-emitting
- * values from second Observable. Note that this fallback Observable is not checked for timeouts
- * itself, so it can emit values and complete at arbitrary points in time. From the moment of a second
- * subscription, Observable returned from `timeoutWith` simply mirrors fallback stream. When that
- * stream completes, it completes as well.
+ * <span class="informal">Use Date object to switch to a different observable if the first value doesn't arrive by a specific time.</span>
  *
- * Scheduler, which in case of `timeout` is provided as as second argument, can be still provided
- * here - as a third, optional parameter. It still is used to schedule timeout checks and -
- * as a consequence - when second Observable will be subscribed, since subscription happens
- * immediately after failing check.
+ * Can be used to set a timeout only for the first value, however it's recommended to use the {@link timeout} operator with
+ * the `first` configuration to get the same effect.
  *
- * ## Example
- * Add fallback observable
+ * ## Examples
+ *
+ * Fallback to a faster observable
+ *
  * ```ts
- * import { interval } from 'rxjs';
- * import { timeoutWith } from 'rxjs/operators';
+ * import { interval, timeoutWith } from 'rxjs';
  *
- * const seconds = interval(1000);
- * const minutes = interval(60 * 1000);
+ * const slow$ = interval(1000);
+ * const faster$ = interval(500);
  *
- * seconds.pipe(timeoutWith(900, minutes))
- *   .subscribe(
- *     value => console.log(value), // After 900ms, will start emitting `minutes`,
- *                                  // since first value of `seconds` will not arrive fast enough.
- *     err => console.log(err),     // Would be called after 900ms in case of `timeout`,
- *                                  // but here will never be called.
- *   );
+ * slow$
+ *   .pipe(timeoutWith(900, faster$))
+ *   .subscribe(console.log);
  * ```
  *
- * @param {number|Date} due Number specifying period within which Observable must emit values
- *                          or Date specifying before when Observable should complete
- * @param {Observable<T>} withObservable Observable which will be subscribed if source fails timeout check.
- * @param {SchedulerLike} [scheduler] Scheduler controlling when timeout checks occur.
- * @return {Observable<T>} Observable that mirrors behaviour of source or, when timeout check fails, of an Observable
- *                          passed as a second parameter.
- * @method timeoutWith
- * @owner Observable
+ * Emit your own custom timeout error
+ *
+ * ```ts
+ * import { interval, timeoutWith, throwError } from 'rxjs';
+ *
+ * class CustomTimeoutError extends Error {
+ *   constructor() {
+ *     super('It was too slow');
+ *     this.name = 'CustomTimeoutError';
+ *   }
+ * }
+ *
+ * const slow$ = interval(1000);
+ *
+ * slow$
+ *   .pipe(timeoutWith(900, throwError(() => new CustomTimeoutError())))
+ *   .subscribe({
+ *     error: err => console.error(err.message)
+ *   });
+ * ```
+ *
+ * @see {@link timeout}
+ *
+ * @param due When passed a number, used as the time (in milliseconds) allowed between each value from the source before timeout
+ * is triggered. When passed a Date, used as the exact time at which the timeout will be triggered if the first value does not arrive.
+ * @param withObservable The observable to switch to when timeout occurs.
+ * @param scheduler The scheduler to use with time-related operations within this operator. Defaults to {@link asyncScheduler}
+ * @return A function that returns an Observable that mirrors behaviour of the
+ * source Observable, unless timeout happens when it starts emitting values
+ * from the `ObservableInput` passed as a second parameter.
+ * @deprecated Replaced with {@link timeout}. Instead of `timeoutWith(100, a$, scheduler)`, use {@link timeout} with the configuration
+ * object: `timeout({ each: 100, with: () => a$, scheduler })`. Instead of `timeoutWith(someDate, a$, scheduler)`, use {@link timeout}
+ * with the configuration object: `timeout({ first: someDate, with: () => a$, scheduler })`. Will be removed in v8.
  */
-export function timeoutWith<T, R>(due: number | Date,
-                                  withObservable: ObservableInput<R>,
-                                  scheduler: SchedulerLike = async): OperatorFunction<T, T | R> {
-  return (source: Observable<T>) => {
-    let absoluteTimeout = isDate(due);
-    let waitFor = absoluteTimeout ? (+due - scheduler.now()) : Math.abs(<number>due);
-    return source.lift(new TimeoutWithOperator(waitFor, absoluteTimeout, withObservable, scheduler));
-  };
-}
+export function timeoutWith<T, R>(
+  due: number | Date,
+  withObservable: ObservableInput<R>,
+  scheduler?: SchedulerLike
+): OperatorFunction<T, T | R> {
+  let first: number | Date | undefined;
+  let each: number | undefined;
+  let _with: () => ObservableInput<R>;
+  scheduler = scheduler ?? async;
 
-class TimeoutWithOperator<T> implements Operator<T, T> {
-  constructor(private waitFor: number,
-              private absoluteTimeout: boolean,
-              private withObservable: ObservableInput<any>,
-              private scheduler: SchedulerLike) {
+  if (isValidDate(due)) {
+    first = due;
+  } else if (typeof due === 'number') {
+    each = due;
   }
 
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new TimeoutWithSubscriber(
-      subscriber, this.absoluteTimeout, this.waitFor, this.withObservable, this.scheduler
-    ));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class TimeoutWithSubscriber<T, R> extends SimpleOuterSubscriber<T, R> {
-
-  private action?: SchedulerAction<TimeoutWithSubscriber<T, R>>;
-
-  constructor(destination: Subscriber<T>,
-              private absoluteTimeout: boolean,
-              private waitFor: number,
-              private withObservable: ObservableInput<any>,
-              private scheduler: SchedulerLike) {
-    super(destination);
-    this.scheduleTimeout();
+  if (withObservable) {
+    _with = () => withObservable;
+  } else {
+    throw new TypeError('No observable provided to switch to');
   }
 
-  private static dispatchTimeout<T, R>(subscriber: TimeoutWithSubscriber<T, R>): void {
-    const { withObservable } = subscriber;
-    subscriber._unsubscribeAndRecycle();
-    subscriber.add(innerSubscribe(withObservable, new SimpleInnerSubscriber(subscriber)));
+  if (first == null && each == null) {
+    // Ensure timeout was provided at runtime.
+    throw new TypeError('No timeout provided.');
   }
 
-  private scheduleTimeout(): void {
-    const { action } = this;
-    if (action) {
-      // Recycle the action if we've already scheduled one. All the production
-      // Scheduler Actions mutate their state/delay time and return themeselves.
-      // VirtualActions are immutable, so they create and return a clone. In this
-      // case, we need to set the action reference to the most recent VirtualAction,
-      // to ensure that's the one we clone from next time.
-      this.action = (<SchedulerAction<TimeoutWithSubscriber<T, R>>> action.schedule(this, this.waitFor));
-    } else {
-      this.add(this.action = (<SchedulerAction<TimeoutWithSubscriber<T, R>>> this.scheduler.schedule<TimeoutWithSubscriber<T, R>>(
-        TimeoutWithSubscriber.dispatchTimeout as any, this.waitFor, this
-      )));
-    }
-  }
-
-  protected _next(value: T): void {
-    if (!this.absoluteTimeout) {
-      this.scheduleTimeout();
-    }
-    super._next(value);
-  }
-
-  /** @deprecated This is an internal implementation detail, do not use. */
-  _unsubscribe() {
-    this.action = undefined;
-    this.scheduler = null!;
-    this.withObservable = null!;
-  }
+  return timeout<T, ObservableInput<R>>({
+    first,
+    each,
+    scheduler,
+    with: _with,
+  });
 }

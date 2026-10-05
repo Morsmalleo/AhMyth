@@ -1,40 +1,75 @@
 import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
 import { EmptyError } from '../util/EmptyError';
 
-import { Observer, MonoTypeOperatorFunction, TeardownLogic } from '../types';
+import { MonoTypeOperatorFunction, OperatorFunction, TruthyTypesOf } from '../types';
+import { SequenceError } from '../util/SequenceError';
+import { NotFoundError } from '../util/NotFoundError';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
+
+export function single<T>(predicate: BooleanConstructor): OperatorFunction<T, TruthyTypesOf<T>>;
+export function single<T>(predicate?: (value: T, index: number, source: Observable<T>) => boolean): MonoTypeOperatorFunction<T>;
 
 /**
- * Returns an Observable that emits the single item emitted by the source Observable that matches a specified
- * predicate, if that Observable emits one such item. If the source Observable emits more than one such item or no
- * items, notify of an IllegalArgumentException or NoSuchElementException respectively. If the source Observable
- * emits items but none match the specified predicate then `undefined` is emitted.
+ * Returns an observable that asserts that only one value is
+ * emitted from the observable that matches the predicate. If no
+ * predicate is provided, then it will assert that the observable
+ * only emits one value.
  *
- * <span class="informal">Like {@link first}, but emit with error notification if there is more than one value.</span>
- * ![](single.png)
+ * In the event that the observable is empty, it will throw an
+ * {@link EmptyError}.
+ *
+ * In the event that two values are found that match the predicate,
+ * or when there are two values emitted and no predicate, it will
+ * throw a {@link SequenceError}
+ *
+ * In the event that no values match the predicate, if one is provided,
+ * it will throw a {@link NotFoundError}
  *
  * ## Example
- * emits 'error'
+ *
+ * Expect only `name` beginning with `'B'`
+ *
  * ```ts
- * import { range } from 'rxjs';
- * import { single } from 'rxjs/operators';
+ * import { of, single } from 'rxjs';
  *
- * const numbers = range(1,5).pipe(single());
- * numbers.subscribe(x => console.log('never get called'), e => console.log('error'));
- * // result
- * // 'error'
- * ```
+ * const source1 = of(
+ *  { name: 'Ben' },
+ *  { name: 'Tracy' },
+ *  { name: 'Laney' },
+ *  { name: 'Lily' }
+ * );
  *
- * emits 'undefined'
- * ```ts
- * import { range } from 'rxjs';
- * import { single } from 'rxjs/operators';
+ * source1
+ *   .pipe(single(x => x.name.startsWith('B')))
+ *   .subscribe(x => console.log(x));
+ * // Emits 'Ben'
  *
- * const numbers = range(1,5).pipe(single(x => x === 10));
- * numbers.subscribe(x => console.log(x));
- * // result
- * // 'undefined'
+ *
+ * const source2 = of(
+ *  { name: 'Ben' },
+ *  { name: 'Tracy' },
+ *  { name: 'Bradley' },
+ *  { name: 'Lincoln' }
+ * );
+ *
+ * source2
+ *   .pipe(single(x => x.name.startsWith('B')))
+ *   .subscribe({ error: err => console.error(err) });
+ * // Error emitted: SequenceError('Too many values match')
+ *
+ *
+ * const source3 = of(
+ *  { name: 'Laney' },
+ *  { name: 'Tracy' },
+ *  { name: 'Lily' },
+ *  { name: 'Lincoln' }
+ * );
+ *
+ * source3
+ *   .pipe(single(x => x.name.startsWith('B')))
+ *   .subscribe({ error: err => console.error(err) });
+ * // Error emitted: NotFoundError('No values match')
  * ```
  *
  * @see {@link first}
@@ -42,82 +77,41 @@ import { Observer, MonoTypeOperatorFunction, TeardownLogic } from '../types';
  * @see {@link findIndex}
  * @see {@link elementAt}
  *
- * @throws {EmptyError} Delivers an EmptyError to the Observer's `error`
+ * @throws {NotFoundError} Delivers an NotFoundError to the Observer's `error`
  * callback if the Observable completes before any `next` notification was sent.
+ * @throws {SequenceError} Delivers a SequenceError if more than one value is emitted that matches the
+ * provided predicate. If no predicate is provided, will deliver a SequenceError if more
+ * than one value comes from the source
  * @param {Function} predicate - A predicate function to evaluate items emitted by the source Observable.
- * @return {Observable<T>} An Observable that emits the single item emitted by the source Observable that matches
- * the predicate or `undefined` when no items match.
- *
- * @method single
- * @owner Observable
+ * @return A function that returns an Observable that emits the single item
+ * emitted by the source Observable that matches the predicate.
  */
 export function single<T>(predicate?: (value: T, index: number, source: Observable<T>) => boolean): MonoTypeOperatorFunction<T> {
-  return (source: Observable<T>) => source.lift(new SingleOperator(predicate, source));
-}
-
-class SingleOperator<T> implements Operator<T, T> {
-  constructor(private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-              private source?: Observable<T>) {
-  }
-
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new SingleSubscriber(subscriber, this.predicate, this.source));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class SingleSubscriber<T> extends Subscriber<T> {
-  private seenValue: boolean = false;
-  private singleValue: T;
-  private index: number = 0;
-
-  constructor(destination: Observer<T>,
-              private predicate?: (value: T, index: number, source: Observable<T>) => boolean,
-              private source?: Observable<T>) {
-    super(destination);
-  }
-
-  private applySingleValue(value: T): void {
-    if (this.seenValue) {
-      this.destination.error('Sequence contains more than one element');
-    } else {
-      this.seenValue = true;
-      this.singleValue = value;
-    }
-  }
-
-  protected _next(value: T): void {
-    const index = this.index++;
-
-    if (this.predicate) {
-      this.tryNext(value, index);
-    } else {
-      this.applySingleValue(value);
-    }
-  }
-
-  private tryNext(value: T, index: number): void {
-    try {
-      if (this.predicate(value, index, this.source)) {
-        this.applySingleValue(value);
-      }
-    } catch (err) {
-      this.destination.error(err);
-    }
-  }
-
-  protected _complete(): void {
-    const destination = this.destination;
-
-    if (this.index > 0) {
-      destination.next(this.seenValue ? this.singleValue : undefined);
-      destination.complete();
-    } else {
-      destination.error(new EmptyError);
-    }
-  }
+  return operate((source, subscriber) => {
+    let hasValue = false;
+    let singleValue: T;
+    let seenValue = false;
+    let index = 0;
+    source.subscribe(
+      createOperatorSubscriber(
+        subscriber,
+        (value) => {
+          seenValue = true;
+          if (!predicate || predicate(value, index++, source)) {
+            hasValue && subscriber.error(new SequenceError('Too many matching values'));
+            hasValue = true;
+            singleValue = value;
+          }
+        },
+        () => {
+          if (hasValue) {
+            subscriber.next(singleValue);
+            subscriber.complete();
+          } else {
+            subscriber.error(seenValue ? new NotFoundError('No matching values') : new EmptyError());
+          }
+        }
+      )
+    );
+  });
 }

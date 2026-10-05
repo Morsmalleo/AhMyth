@@ -4,7 +4,7 @@
  * A collection of common interactive command line user interfaces.
  */
 
-var inquirer = module.exports;
+const inquirer = module.exports;
 
 /**
  * Client interfaces
@@ -16,16 +16,21 @@ inquirer.Separator = require('./objects/separator');
 
 inquirer.ui = {
   BottomBar: require('./ui/bottom-bar'),
-  Prompt: require('./ui/prompt')
+  Prompt: require('./ui/prompt'),
 };
 
 /**
  * Create a new self-contained prompt module.
  */
-inquirer.createPromptModule = function(opt) {
-  var promptModule = function(questions) {
-    var ui = new inquirer.ui.Prompt(promptModule.prompts, opt);
-    var promise = ui.run(questions);
+inquirer.createPromptModule = function (opt) {
+  const promptModule = function (questions, answers) {
+    let ui;
+    try {
+      ui = new inquirer.ui.Prompt(promptModule.prompts, opt);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+    const promise = ui.run(questions, answers);
 
     // Monkey patch the UI on the promise object so
     // that it remains publicly accessible.
@@ -43,7 +48,7 @@ inquirer.createPromptModule = function(opt) {
    * @return {inquirer}
    */
 
-  promptModule.registerPrompt = function(name, prompt) {
+  promptModule.registerPrompt = function (name, prompt) {
     promptModule.prompts[name] = prompt;
     return this;
   };
@@ -52,7 +57,7 @@ inquirer.createPromptModule = function(opt) {
    * Register the defaults provider prompts
    */
 
-  promptModule.restoreDefaultPrompts = function() {
+  promptModule.restoreDefaultPrompts = function () {
     this.registerPrompt('list', require('./prompts/list'));
     this.registerPrompt('input', require('./prompts/input'));
     this.registerPrompt('number', require('./prompts/number'));
@@ -79,10 +84,10 @@ inquirer.createPromptModule = function(opt) {
 inquirer.prompt = inquirer.createPromptModule();
 
 // Expose helper functions on the top level for easiest usage by common users
-inquirer.registerPrompt = function(name, prompt) {
+inquirer.registerPrompt = function (name, prompt) {
   inquirer.prompt.registerPrompt(name, prompt);
 };
 
-inquirer.restoreDefaultPrompts = function() {
+inquirer.restoreDefaultPrompts = function () {
   inquirer.prompt.restoreDefaultPrompts();
 };

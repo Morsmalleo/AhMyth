@@ -1,3 +1,3 @@
 @echo off
-npm install electron@11.5.0
+npm install electron@29.2.0
 exit /b

@@ -1,7 +1,10 @@
-import { Observable } from '../Observable';
-import { Operator } from '../Operator';
-import { Subscriber } from '../Subscriber';
-import { MonoTypeOperatorFunction, TeardownLogic } from '../types';
+import { Falsy, MonoTypeOperatorFunction, OperatorFunction } from '../types';
+import { operate } from '../util/lift';
+import { createOperatorSubscriber } from './OperatorSubscriber';
+
+export function skipWhile<T>(predicate: BooleanConstructor): OperatorFunction<T, Extract<T, Falsy> extends never ? never : T>;
+export function skipWhile<T>(predicate: (value: T, index: number) => true): OperatorFunction<T, never>;
+export function skipWhile<T>(predicate: (value: T, index: number) => boolean): MonoTypeOperatorFunction<T>;
 
 /**
  * Returns an Observable that skips all items emitted by the source Observable as long as a specified condition holds
@@ -9,56 +12,49 @@ import { MonoTypeOperatorFunction, TeardownLogic } from '../types';
  *
  * ![](skipWhile.png)
  *
+ * Skips all the notifications with a truthy predicate. It will not skip the notifications when the predicate is falsy.
+ * It can also be skipped using index. Once the predicate is true, it will not be called again.
+ *
+ * ## Example
+ *
+ * Skip some super heroes
+ *
+ * ```ts
+ * import { from, skipWhile } from 'rxjs';
+ *
+ * const source = from(['Green Arrow', 'SuperMan', 'Flash', 'SuperGirl', 'Black Canary'])
+ * // Skip the heroes until SuperGirl
+ * const example = source.pipe(skipWhile(hero => hero !== 'SuperGirl'));
+ * // output: SuperGirl, Black Canary
+ * example.subscribe(femaleHero => console.log(femaleHero));
+ * ```
+ *
+ * Skip values from the array until index 5
+ *
+ * ```ts
+ * import { from, skipWhile } from 'rxjs';
+ *
+ * const source = from([1, 2, 3, 4, 5, 6, 7, 9, 10]);
+ * const example = source.pipe(skipWhile((_, i) => i !== 5));
+ * // output: 6, 7, 9, 10
+ * example.subscribe(value => console.log(value));
+ * ```
+ *
+ * @see {@link last}
+ * @see {@link skip}
+ * @see {@link skipUntil}
+ * @see {@link skipLast}
+ *
  * @param {Function} predicate - A function to test each item emitted from the source Observable.
- * @return {Observable<T>} An Observable that begins emitting items emitted by the source Observable when the
- * specified predicate becomes false.
- * @method skipWhile
- * @owner Observable
+ * @return A function that returns an Observable that begins emitting items
+ * emitted by the source Observable when the specified predicate becomes false.
  */
 export function skipWhile<T>(predicate: (value: T, index: number) => boolean): MonoTypeOperatorFunction<T> {
-  return (source: Observable<T>) => source.lift(new SkipWhileOperator(predicate));
-}
-
-class SkipWhileOperator<T> implements Operator<T, T> {
-  constructor(private predicate: (value: T, index: number) => boolean) {
-  }
-
-  call(subscriber: Subscriber<T>, source: any): TeardownLogic {
-    return source.subscribe(new SkipWhileSubscriber(subscriber, this.predicate));
-  }
-}
-
-/**
- * We need this JSDoc comment for affecting ESDoc.
- * @ignore
- * @extends {Ignored}
- */
-class SkipWhileSubscriber<T> extends Subscriber<T> {
-  private skipping: boolean = true;
-  private index: number = 0;
-
-  constructor(destination: Subscriber<T>,
-              private predicate: (value: T, index: number) => boolean) {
-    super(destination);
-  }
-
-  protected _next(value: T): void {
-    const destination = this.destination;
-    if (this.skipping) {
-      this.tryCallPredicate(value);
-    }
-
-    if (!this.skipping) {
-      destination.next(value);
-    }
-  }
-
-  private tryCallPredicate(value: T): void {
-    try {
-      const result = this.predicate(value, this.index++);
-      this.skipping = Boolean(result);
-    } catch (err) {
-      this.destination.error(err);
-    }
-  }
+  return operate((source, subscriber) => {
+    let taking = false;
+    let index = 0;
+    source.subscribe(
+      createOperatorSubscriber(subscriber, (value) => (taking || (taking = !predicate(value, index++))) && subscriber.next(value))
+    );
+  });
 }

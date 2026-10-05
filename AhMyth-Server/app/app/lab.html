@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta id="theme-source" name="theme" content="" />
+
     <title>Lab</title>
     <script>
         if (typeof module === 'object') {
@@ -13,7 +15,7 @@
     </script>
 
 
-    <script type="text/javascript" src="assets/js/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/lib/jquery-3.7.1.min.js"></script>
     <script type="text/javascript" src="../node_modules/fomantic-ui/dist/semantic.min.js"></script>
     <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
     <script type="text/javascript" src="../node_modules/angular-route/angular-route.min.js"></script>
@@ -40,15 +42,14 @@
 
 </head>
 
-<body ng-controller="LabCtrl" class="draggable">
-
-    <div class="ui grid h80">
+<body ng-controller="LabCtrl" class="draggable dark bg">
+    <div class="ui grid h80 bg">
         <div class="row h10">
-            <div class="sixteen wide column">
-                <div class="ui inverted mini text labeled icon menu">
+            <div class="sixteen wide column ">
+                <div class="ui inverted mini text labeled icon menu bg">
                     <a class="item">
                         <img src="assets/img/icon.png" /> </a>
-                    <div class="right  menu notDraggable">
+                    <div class="right menu notDraggable bg">
                         <button class="ui circular green button" ng-click="maximize()"
                             style="font-size: 6px;height: 17px"></button>
                         <button class="ui circular red button" ng-click="close()"
@@ -58,51 +59,45 @@
             </div>
         </div>
 
-        <div class="row h15 notDraggable">
-            <div class="sixteen wide column">
-                <div class="ui mini borderless labeled icon fluid seven item menu">
-                    <a class="item" ng-click="goToPage('camera')">
+        <div class="row h15 notDraggable bg">
+            <div class="sixteen wide border bg column">
+                <div class="ui mini borderless bg labeled icon fluid seven item menu">
+                    <a class="item" ng-click="clearLogs(); goToPage('camera');">
                         <i class="red photo icon"></i> Camera
                     </a>
-                    <a class="item" ng-click="goToPage('fileManager')">
+                    <a class="item" ng-click="clearLogs(); goToPage('fileManager');">
                         <i class=" teal folder icon "></i> File Manager
                     </a>
-                    <a class="item" ng-click="goToPage('mic')">
+                    <a class="item" ng-click="clearLogs(); goToPage('mic');">
                         <i class="blue unmute icon "></i> Mic
                     </a>
-                    <a class="item " ng-click="goToPage('location')">
+                    <a class="item " ng-click="clearLogs(); goToPage('location');">
                         <i class="violet marker icon "></i> Location
                     </a>
-                    <a class="item " ng-click="goToPage('contacts')">
+                    <a class="item " ng-click="clearLogs(); goToPage('contacts');">
                         <i class="purple users icon "></i> contacts
                     </a>
-                    <a class="item " ng-click="goToPage('smsManager')">
+                    <a class="item " ng-click="clearLogs(); goToPage('smsManager');">
                         <i class="grey talk outline icon "></i> SMS
                     </a>
-                    <a class="item " ng-click="goToPage('callsLogs')">
+                    <a class="item " ng-click="clearLogs(); goToPage('callsLogs');">
                         <i class="black call icon "></i> Calls Logs
                     </a>
                 </div>
 
             </div>
         </div>
-
-
-
-
-        <div class="row centered h75 notDraggable ">
+        <div class="row centered h75 notDraggable">
             <div class="sixteen wide column">
-                <div class="ui segment full">
-                    <div ng-view class="full">
+                <div class="ui segment full bg border" style="height: 375px">
+                    <div ng-view class="full bg">
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
     <div class="ui bottom attached black message notDraggable " id="logy" style="overflow: scroll;">
-        <div ng-repeat="log in logs " class="log ">
+        <div ng-repeat="log in logs" class="log">
             <div class="w30 " style="display: inline-block " ng-bind="log.date "></div>
             <div class="w65 " style="display: inline-block " ng-style="{ 'color':log.color} " ng-bind="log.msg "></div>
         </div>
